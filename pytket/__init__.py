@@ -12,9 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pytket._cpptket import Gates, Command, route, SquareGrid, QCommands, initial_placement
-from pytket._route_wrapper import route_circuit
-
+from pytket._cpptket import ( 
+    Gates,
+    Command,
+    route,
+    SquareGrid,
+    Architecture,
+    QCommands,
+    initial_placement
+)
+from pytket._route_wrapper import route_circuit, xmon2arc, route_circuit_xmon
 def rep(ob):
     st = str(ob.gate).replace('Gates.', '')
     if ob.is_parametrized():

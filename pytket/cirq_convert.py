@@ -17,8 +17,10 @@
 
 from typing import List, Generator, Iterator
 import cirq
-from pytket import SquareGrid, Command, Gates, QCommands
-
+from cirq.google import XmonDevice
+from cirq.devices import UnconstrainedDevice
+from pytket import SquareGrid, Command, Gates, QCommands, Architecture
+from pytket.qubits import sort_row_col
 
 cirq_common = cirq.ops.common_gates
 PI = 3.14159265359
@@ -37,13 +39,14 @@ cirq2coms_mapping = {
     cirq_common.X : Gates.X,
     cirq_common.Y : Gates.Y,
     cirq_common.Z : Gates.Z,
+    cirq_common.Rot11Gate : Gates.CPhase,
 }
-
 # reverse mapping for convenience
 coms2cirq_mapping = dict((reversed(item) for item in cirq2coms_mapping.items()))
 # spot special rotation gates
 special_rotations = (cirq_common.T, cirq_common.S, cirq_common.X, cirq_common.Y, cirq_common.Z)
-rotation_types = (cirq_common.RotXGate, cirq_common.RotYGate, cirq_common.RotZGate)
+rotation_types = (cirq_common.RotXGate, cirq_common.RotYGate, cirq_common.RotZGate, cirq_common.Rot11Gate)
+
 
 
 def get_grid_qubits(arc: SquareGrid, nodes: Iterator[int]) -> List[cirq.GridQubit]:
@@ -60,8 +63,7 @@ def get_grid_qubits(arc: SquareGrid, nodes: Iterator[int]) -> List[cirq.GridQubi
     return [cirq.GridQubit(*arc.qind_to_squind(i)) for i in nodes]
 
 
-
-def cirq2coms(circuit: cirq.Circuit, arc: SquareGrid) -> QCommands:
+def cirq2coms(circuit: cirq.Circuit, device: XmonDevice) -> QCommands:
     """Convert cirq circuit to QCommands object
     
     Arguments:
@@ -74,17 +76,30 @@ def cirq2coms(circuit: cirq.Circuit, arc: SquareGrid) -> QCommands:
     Returns:
         QCommands -- Output list of commands
     """
-
     qcoms = QCommands()
     for moment in circuit:
         for op in moment.operations:
+            if op.gate == cirq_common.ISWAP:
+                temp_list = list(op.gate.default_decompose(op.qubits))
+                temp_circuit = cirq.Circuit.from_ops()
+                for g in temp_list:
+                    temp_circuit.append(g)
+                qcdum = cirq2coms(temp_circuit,device)
+                for c in qcdum:
+                    qcoms.add_command(c)
+                continue
+            
             params = {}
             rot_typemap = {cirq_common.RotXGate: cirq_common.X, cirq_common.RotYGate: cirq_common.Y, cirq_common.RotZGate: cirq_common.Z}
             gate = op.gate
             gatetype = type(gate)
             if op.gate not in special_rotations and isinstance(op.gate, rotation_types):
                 if op.gate.half_turns == 1:
-                    gate = rot_typemap[gatetype]
+                    if op.gate == cirq_common.Rot11Gate:
+                        gate = gatetype
+                        params["angle"] = op.gate.half_turns*PI
+                    else:
+                        gate = rot_typemap[gatetype]
                 else:
                     gate = gatetype
                     params["angle"] = op.gate.half_turns*PI
@@ -92,12 +107,15 @@ def cirq2coms(circuit: cirq.Circuit, arc: SquareGrid) -> QCommands:
             if isinstance(gate, cirq_common.MeasurementGate):
                 gate = cirq_common.measure
             
-            qb_lst = (arc.squind_to_qind(q.row, q.col, 0) for q in op.qubits)
+            try:
+                qb_lst = [q.index for q in op.qubits]
+            except AttributeError as error: 
+                raise AttributeError("Qubit must be of IndexedQubit type.") from error
             
             try:
-                c = Command(*qb_lst, cirq2coms_mapping[gate])
-            except KeyError:
-                raise NotImplementedError("Operation not supported by sarisa: "+ str(op.gate))
+                c = Command(*(qb_lst+[cirq2coms_mapping[gate]]))
+            except KeyError as error:
+                raise NotImplementedError("Operation not supported by sarisa: "+ str(op.gate)) from error
             
             if "angle" in params:
                 c.set_parameter(params["angle"])
@@ -105,7 +123,7 @@ def cirq2coms(circuit: cirq.Circuit, arc: SquareGrid) -> QCommands:
             qcoms.add_command(c)
     return qcoms
 
-def coms2cirq(qcoms: QCommands, arc: SquareGrid) -> cirq.Circuit:
+def coms2cirq(qcoms: QCommands, device: XmonDevice) -> cirq.Circuit:
     """Convert QCommands object to cirq circuit.
     
     Arguments:
@@ -115,24 +133,27 @@ def coms2cirq(qcoms: QCommands, arc: SquareGrid) -> cirq.Circuit:
     Returns:
         cirq.Circuit -- Circuit translated from QCommands. 
     """
-
+    indexed_qubits = sort_row_col(device.qubits)
+    # def reverse_xmon_index(qb):
+    #     return indexed_qubits[qb.index]
+    
     oplst = []
-    qubit_map = {}
+    # qubit_map = {}
     for com in qcoms:
-        qindices = [arc.qind_to_squind(com.control)]
+        qubits = [indexed_qubits[com.control]]
         if com.is_two_qubit():
-            qindices.append(arc.qind_to_squind(com.target))
-        for qbs in qindices:
-            if qbs not in qubit_map:
-                qubit_map[qbs] = cirq.GridQubit(qbs[0], qbs[1])
+            qubits.append(indexed_qubits[com.target])
+        # for qbs in qubits:
+        #     if qbs not in qubit_map:
+        #         qubit_map[qbs] = cirq.GridQubit(qbs[0], qbs[1])
 
         cirqgate = coms2cirq_mapping[com.gate]
         if com.is_parametrized():
             halfturns = com.get_parameter()/PI
-            cirqop = cirqgate(half_turns=halfturns)(*[qubit_map[ind] for ind in qindices])
+            cirqop = cirqgate(half_turns=halfturns)(*qubits)
 
         else:
-            cirqop = cirqgate(*[qubit_map[ind] for ind in qindices])
+            cirqop = cirqgate(*qubits)
         oplst.append(cirqop)
 
     circuit = cirq.Circuit.from_ops(*oplst)
