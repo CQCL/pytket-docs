@@ -9,7 +9,7 @@ Note, installation from source does not work, you must use pip.
 
 See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. There is also a video introduction [here](https://www.youtube.com/watch?v=f4jhD4J3-W8). 
 
-*Support*
+**Support**
 Circuits composed of operations from [`cirq.ops.common_gates`](https://github.com/quantumlib/Cirq/blob/master/cirq/ops/common_gates.py) are currently supported. 
 <!-- * `H`
 * `X`
