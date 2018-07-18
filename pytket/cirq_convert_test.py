@@ -13,14 +13,22 @@
 # limitations under the License.
 
 from pytket.cirq_convert import SquareGrid, cirq2coms, coms2cirq, get_grid_qubits
-from pytket import route, initial_placement, route_circuit
+from pytket import route_circuit_xmon, route_circuit_arc
+from pytket.qubits import IndexedQubit
+
 import cirq
 import pytest
 import numpy as np
 
-def get_circuit(arc):
-    row_col = []
-    qubits = get_grid_qubits(arc, range(9))
+from cirq.value import Duration
+from cirq.google import XmonDevice
+
+def get_circuit():
+    # row_col = []
+    # qubits = get_grid_qubits(arc, range(9))
+    qubits = [IndexedQubit(i) for i in range(9)]
+
+    g = cirq.Rot11Gate(half_turns = 0.1)
     circ = cirq.Circuit.from_ops(
         cirq.H(qubits[0]),
         cirq.X(qubits[1]),
@@ -34,10 +42,35 @@ def get_circuit(arc):
         cirq.RotXGate(half_turns=0.1)(qubits[5]),
         cirq.RotYGate(half_turns=0.1)(qubits[6]),
         cirq.RotZGate(half_turns=0.1)(qubits[7]),
+        g(qubits[2],qubits[3]),
+        cirq.CZ(qubits[2],qubits[3]),
+        cirq.ISWAP(qubits[4],qubits[5]),
         cirq.measure_each(*qubits[3:-2])
     )
     return circ
 
+def get_match_circuit():
+    # row_col = []
+    # qubits = get_grid_qubits(arc, range(9))
+    qubits = [IndexedQubit(i) for i in range(9)]
+
+    g = cirq.Rot11Gate(half_turns = 0.1)
+    circ = cirq.Circuit.from_ops(
+        cirq.H(qubits[0]),
+        cirq.X(qubits[1]),
+        cirq.Y(qubits[2]),
+        cirq.Z(qubits[3]),
+        cirq.T(qubits[3]),
+        cirq.S(qubits[4]),
+        cirq.CNOT(qubits[1], qubits[4]),
+        cirq.CNOT(qubits[6], qubits[8]),
+        cirq.RotXGate(half_turns=0.1)(qubits[5]),
+        cirq.RotYGate(half_turns=0.1)(qubits[6]),
+        cirq.RotZGate(half_turns=0.1)(qubits[7]),
+        g(qubits[2],qubits[3]),
+        cirq.measure_each(*qubits[3:-2])
+    )
+    return circ
 
 def get_demo_circuit(arc):
     qubits = get_grid_qubits(arc, range(6))
@@ -81,10 +114,14 @@ def test_get_grid_qubits():
 def test_conversions():
     
     arc = SquareGrid(3, 3)
-    
-    circ = get_circuit(arc)
-    coms = cirq2coms(circ, arc)
-    assert str(circ) == str(coms2cirq(coms, arc))
+    qubits = [IndexedQubit(i) for i in range(9)]
+    device = XmonDevice(Duration(nanos=0), Duration(nanos=0),Duration(nanos=0), qubits=qubits)
+    circ = get_match_circuit()
+    coms = cirq2coms(circ)
+    assert str(circ) == str(coms2cirq(coms,qubits))
+    coms2cirq(cirq2coms(get_circuit()),qubits)
+
 
 if __name__ =='__main__':
     test_conversions()
+    test_get_grid_qubits()

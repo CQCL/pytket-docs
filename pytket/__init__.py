@@ -11,17 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Python Interface to CQC t|ket>
+"""
 
 from pytket._cpptket import ( 
     Gates,
     Command,
-    route,
     SquareGrid,
     Architecture,
-    QCommands,
-    initial_placement
+    QCommands
 )
-from pytket._route_wrapper import route_circuit, xmon2arc, route_circuit_xmon
+from pytket._route_wrapper import xmon2arc, route_circuit_xmon, route_circuit_arc
+
+#add ability to print gates
 def rep(ob):
     st = str(ob.gate).replace('Gates.', '')
     if ob.is_parametrized():
@@ -31,9 +33,11 @@ def rep(ob):
         st += " {t}".format(t=ob.target)
     return st
 
+# add ability to iterate through qcommands
 def getiter(ob):
     return ob.get_list().__iter__()
 
+#add ability to print Command
 def rep_qcoms(qcoms):
     st = ""
     for com in qcoms:
