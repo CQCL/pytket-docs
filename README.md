@@ -6,7 +6,9 @@ Pytket is a python module for interfacing with CQC t|ket>, a set of quantum prog
 #### Getting Started
 `pytket` is available for `python3.5` or higher, on Linux and Macos. Windows support is under development. <br>
 To install run
+
 ```pip install pytket```
+
 Note, installation from source does not work, you must use pip.
 
 See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. There is also a video introduction [here](https://www.youtube.com/watch?v=f4jhD4J3-W8). 
