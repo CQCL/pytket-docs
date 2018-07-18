@@ -1,4 +1,6 @@
 # pytket
+[![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
+
 Pytket is a python module for interfacing with CQC t|ket>, a set of quantum programming tools. This first version focusses on integration with Google [Cirq](https://www.github.com/quantumlib/cirq), and provides functionality to use Cirq circuits with t|ket> tools. 
 
 #### Getting Started
