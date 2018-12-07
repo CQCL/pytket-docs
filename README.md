@@ -12,7 +12,7 @@ To install run
 
 Note, installation from source will not work, you must use pip.
 
-See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket-docs/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. 
+See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. 
 
 Documentation of the soure code can be found at [pytket.readthedocs.io](https://pytket.readthedocs.io)
 
@@ -20,6 +20,7 @@ Documentation of the soure code can be found at [pytket.readthedocs.io](https://
 
 Cirq 0.4.0
     Circuits composed of operations from [`cirq.ops.common_gates`](https://github.com/quantumlib/Cirq/blob/master/cirq/ops/common_gates.py) are currently supported. 
+
 Qiskit
     Terra commit 259c10580d22122e739ed466d306dcd5adb2027f,
     Aqua commit dfc7dcf5834c12fcedb90e9ab6ccf526d69fa1f7,
