@@ -6,7 +6,11 @@
 
 #### Getting Started
 ``pytket`` is available for ``python3.5`` or higher, on Linux and Macos.
-To install run
+To install, download [requirements.txt](https://github.com/CQCL/pytket/blob/master/requirements.txt) and run
+
+``pip install -r requirements.txt``
+
+This will install the supported versions of Cirq (0.4.0) and Qiskit (Terra, Aqua, and Aqua-Chemistry). `pytket` can then be installed by running
 
 ``pip install pytket``
 
@@ -15,13 +19,3 @@ Note, installation from source will not work, you must use pip.
 See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. 
 
 Documentation of the soure code can be found at [pytket.readthedocs.io](https://pytket.readthedocs.io)
-
-**Support**
-
-Cirq 0.4.0
-    Circuits composed of operations from [`cirq.ops.common_gates`](https://github.com/quantumlib/Cirq/blob/master/cirq/ops/common_gates.py) are currently supported. 
-
-Qiskit
-    Terra commit 259c10580d22122e739ed466d306dcd5adb2027f,
-    Aqua commit dfc7dcf5834c12fcedb90e9ab6ccf526d69fa1f7,
-    Aqua-Chemistry commit 04a9f7e893fc2780ea0eb086c174918dc2214862
