@@ -6,7 +6,7 @@
 
 #### Getting Started
 ``pytket`` is available for ``python3.5`` or higher, on Linux and Macos.
-To install, download [requirements.txt](https://github.com/CQCL/pytket/blob/master/requirements.txt) and run
+To install, download [requirements.txt](https://raw.githubusercontent.com/CQCL/pytket/master/requirements.txt) and run
 
 ``pip install -r requirements.txt``
 
