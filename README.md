@@ -6,13 +6,11 @@
 
 #### Getting Started
 ``pytket`` is available for ``python3.5`` or higher, on Linux and Macos.
-To install, download [requirements.txt](https://raw.githubusercontent.com/CQCL/pytket/master/requirements.txt) and run
-
-``pip install -r requirements.txt``
-
-This will install the supported versions of Cirq (0.4.0) and Qiskit (Terra, Aqua, and Aqua-Chemistry). `pytket` can then be installed by running
+To install, run 
 
 ``pip install pytket``
+
+(we recommend using a fresh python environment).
 
 Note, installation from source will not work, you must use pip.
 

@@ -1,6 +1,6 @@
 import qiskit
 from qiskit.dagcircuit import DAGCircuit
-from qiskit.backends import BaseBackend
+from qiskit.providers import BaseBackend
 from qiskit.transpiler._basepasses import TransformationPass, BasePass
 from qiskit_aqua_cmd import Preferences
 

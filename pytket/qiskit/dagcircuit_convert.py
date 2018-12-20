@@ -17,9 +17,10 @@
 """
 
 import qiskit
-from qiskit import QuantumRegister, ClassicalRegister, Instruction, QuantumCircuit
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+from qiskit.circuit import Instruction
 from qiskit.dagcircuit import DAGCircuit
-from qiskit.mapper import Coupling
+from qiskit.mapper import CouplingMap
 from qiskit.converters import circuit_to_dag
 
 import sympy
@@ -371,6 +372,6 @@ def coupling2directed(coupling_map:List[List[int]]) -> DirectedGraph:
     
     :return: The tket architecture capturing the behaviour of the coupling map
     """
-    coupling = Coupling(Coupling.coupling_list2dict(coupling_map))
+    coupling = CouplingMap(couplinglist=coupling_map)
     return DirectedGraph(coupling_map,coupling.size())
     

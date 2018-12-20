@@ -31,7 +31,7 @@ from qiskit import QuantumCircuit, ClassicalRegister
 from pytket.chemistry.aqua.qse_subs import QseMatrices
 
 from qiskit_aqua import QuantumAlgorithm, AquaError, Operator
-from qiskit_aqua.algorithms.components.variational_forms import VariationalForm
+from qiskit_aqua.components.variational_forms import VariationalForm
 logger = logging.getLogger(__name__)
 logger = logging.getLogger('qiskit_aqua')
 
@@ -224,14 +224,17 @@ class QSE(QuantumAlgorithm):
 
         return h_terms, s_terms
 
-    def _solve(self):
+    def _solve(self, parallel=True):
         
         h_terms, s_terms = self._generate_terms()
         n_qubits = self._qse_operators.n_qubits
-        # h_qse_matrix = self._parallel_compute(h_terms, n_qubits)
-        # s_qse_matrix = self._parallel_compute(s_terms, n_qubits)
-        h_qse_matrix = self._linear_compute(h_terms, n_qubits)
-        s_qse_matrix = self._linear_compute(s_terms, n_qubits)
+        
+        if parallel:
+            h_qse_matrix = self._parallel_compute(h_terms, n_qubits)
+            s_qse_matrix = self._parallel_compute(s_terms, n_qubits)
+        else:
+            h_qse_matrix = self._linear_compute(h_terms, n_qubits)
+            s_qse_matrix = self._linear_compute(s_terms, n_qubits)
         
         eigvals, vectors = np.linalg.eig(np.matmul(np.linalg.pinv(s_qse_matrix),h_qse_matrix))
 

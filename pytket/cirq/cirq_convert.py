@@ -28,7 +28,7 @@ from .qubits import _indexed_qubits_from_circuit
 cirq_common = cirq.ops.common_gates
 
 # map cirq common gates to pytket gates
-_cirq2ops_mapping: Dict[cirq.ops.raw_types.Gate, OpType] = {
+_cirq2ops_mapping = {
     cirq_common.CNOT : OpType.CX,
     cirq_common.H : OpType.H,
     cirq_common.MeasurementGate : OpType.Measure,
