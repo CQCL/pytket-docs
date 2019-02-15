@@ -1,4 +1,7 @@
 pytket.chemistry
 ==================================
 .. automodule:: pytket.chemistry
-    :members: QSE, QseMatrices
+
+.. autoclass:: pytket.chemistry.QSE
+    :special-members: __init__
+    :members: _run, print_setting

@@ -1,4 +1,4 @@
-# Copyright 2018 Cambridge Quantum Computing
+# Copyright 2019 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -59,12 +59,12 @@ def _fresh_name(prefix="tk_c") :
     return prefix + str(_name_index)
 
 def dagcircuit_to_tk(dag:DAGCircuit, _BOX_UNKNOWN:bool=BOX_UNKNOWN, _DROP_CONDS:bool=DROP_CONDS) -> Circuit :
-    """Converts a qiskit.DAGCircuit into a t|ket> Circuit
-    Not all ops are supported.  Classical registers are supported only as 
-    the output of measurements.  Does not attempt to preserve the structure 
-    of the quantum registers; instead creates one big quantum register.
+    """Converts a :py:class:`qiskit.DAGCircuit` into a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit`.
+    Note that not all Qiskit operations are currently supported by pytket. Classical registers are supported only as 
+    the output of measurements. This does not attempt to preserve the structure 
+    of the quantum registers, instead creating one big quantum register.
 
-    :param dag: a circuit to be converted
+    :param dag: A circuit to be converted
 
     :return: The converted circuit
     """
@@ -140,8 +140,6 @@ def _node_converter(circuit, node, _BOX_UNKNOWN=BOX_UNKNOWN, _DROP_CONDS=DROP_CO
             ### Classical regsisters are inferred from the measurements only
             if node['name'] == "measure" :
                 return _make_measure_op(circuit, node)
-            elif node['name'] == "symrz" :
-                return circuit._get_op(OpType.SymbolicRz,1,1,node['op'].desc)
             else :
                 if len(node['cargs']) > 0 :
                     raise NotImplementedError("Classical arguments not supported for op type " + node['name'])
@@ -187,9 +185,7 @@ _known_ops = {
     "ccx" : OpType.CCX,
     "crz" : OpType.CRz,
     "cu1" : OpType.CU1,
-    "cu3" : OpType.CU3,    
-    "phase" : OpType.PhaseGadget,
-    "symrz" : OpType.SymbolicRz,
+    "cu3" : OpType.CU3,
     "measure" : OpType.Measure 
 }
 
@@ -261,8 +257,8 @@ def _read_qasm_file(filename) :
 
 def tk_to_dagcircuit(circ:Circuit,_qreg_name:str="q") -> DAGCircuit :
     """
-       Convert a t|ket> Circuit to a qiskit.DAGCircuit. Requires
-       that the Circuit only conatins OpTypes from the qelib set.
+       Convert a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` to a :py:class:`qiskit.DAGCircuit` . Requires
+       that the circuit only conatins :py:class:`OpType` s from the qelib set.
     
     :param circ: A circuit to be converted
 
@@ -271,9 +267,11 @@ def tk_to_dagcircuit(circ:Circuit,_qreg_name:str="q") -> DAGCircuit :
     dc = DAGCircuit()
     qreg = QuantumRegister(circ.n_qubits(), name=_qreg_name)
     dc.add_qreg(qreg)
-    grid = circ._get_routing_grid()
+    grid = circ._int_routing_grid()
     slices = _grid_to_slices(grid)
     qubits = _grid_to_qubits(grid, qreg)
+    in_boundary = circ._get_boundary()[0]
+    out_boundary = circ._get_boundary()[1]
     for s in slices :
         for v in s:
             o = circ._unsigned_to_op(v)
@@ -286,7 +284,13 @@ def tk_to_dagcircuit(circ:Circuit,_qreg_name:str="q") -> DAGCircuit :
                 ins = Instruction(name, list(map(_normalise_param_out, params)), qargs, cargs)
                 dc.apply_operation_back(ins ,qargs=qargs,
                                         cargs=cargs)
-    return dc 
+    tk2dg_outs = {}
+    for v in out_boundary:
+        tk2dg_outs[v] = dc.output_map[qubits[(v,0)]]
+    for i, v in enumerate(out_boundary):
+        dc.multi_graph.node[tk2dg_outs[v]]["wire"] = [qubits[(in_boundary[i],0)]]
+        dc.output_map[qubits[(in_boundary[i],0)]] = tk2dg_outs[v]
+    return dc
 
 def _grid_to_slices(grid):
     slices = []
@@ -303,7 +307,7 @@ def _grid_to_qubits(grid,qreg_name="q") :
     lut = {}
     for i in range(len(grid)) :
         for j in range(len(grid[i])) :
-            if grid[i][j][0]:
+            if grid[i][j][0] != -1:
                 lut[grid[i][j]] = (qreg_name,j)
     return lut
 
@@ -339,10 +343,10 @@ def _translate_ops(circ,v) :
 
     if o.get_type() == OpType.Measure :
         # this is a temporary hack - to be removed once tket supports classical wires.
-        cargs = eval(o.get_desc())
-        if not cargs :
-            creg = _fresh_name()
-            cargs = [(creg,i) for i in range(o.get_n_outputs())]
+        if o.get_desc():
+            cargs = eval(o.get_desc()) # TODO: tut tut tut. Who was this? *Looks at git blame* Me from 3 months ago was bad programmer
+        else:
+            cargs = None
     else : 
         cargs = []
     if DEBUG and name == "measure" :
@@ -361,16 +365,16 @@ def _extend_cregs(dc,cargs) :
                 dc._add_wire((reg,j+old_size),True)
 
 
-def coupling2directed(coupling_map:List[List[int]]) -> DirectedGraph:
+def coupling_to_arc(coupling_map:List[List[int]]) -> Architecture:
     """
-       Produces a tket Architecture corresponding to a (directed) coupling map,
+       Produces a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Architecture` corresponding to a (directed) coupling map,
        stating the pairs of qubits between which two-qubit interactions
        (e.g. CXs) can be applied.
 
     :param coupling_map: Pairs of indices where each pair [control, target]
        permits the use of CXs between them
     
-    :return: The tket architecture capturing the behaviour of the coupling map
+    :return: The :math:`\\mathrm{t|ket}\\rangle` :py:class:`Architecture` capturing the behaviour of the coupling map
     """
     coupling = CouplingMap(couplinglist=coupling_map)
     return DirectedGraph(coupling_map,coupling.size())

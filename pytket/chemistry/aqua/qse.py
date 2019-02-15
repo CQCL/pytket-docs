@@ -1,19 +1,16 @@
-# -*- coding: utf-8 -*-
-
-# Copyright 2018 IBM.
+# Copyright 2019 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# =============================================================================
 """
 Engine for the Quantum Subspace Expansion algorithm
 """
@@ -38,8 +35,8 @@ logger = logging.getLogger('qiskit_aqua')
 
 class QSE(QuantumAlgorithm):
     """
-    Class implementation for Quantum Subspace Expansion (QSE)
-    See Phys. Rev. A 95, 042308 (2017)
+    :py:class:`qiskit_aqua.QuantumAlgorithm` implementation for Quantum Subspace Expansion (QSE)
+    [See Phys. Rev. A 95, 042308 (2017)].
     """
 
     CONFIGURATION = {
@@ -82,12 +79,11 @@ class QSE(QuantumAlgorithm):
     def __init__(self, qse_operators:QseMatrices, operator_mode:str, var_form:VariationalForm,
                   opt_init_point:np.ndarray=None, aux_operators:List[Operator]=[]):
         """
-        Args:
-            qse_operators (QseMatrices): Qubit operator generator
-            operator_mode (str): operator mode, used for eval of operator
-            var_form (VariationalForm) : parametrized variational form.
-            opt_init_point (numpy.ndarray) : optimizer initial point.
-            aux_operators ([Operator]): Auxiliary operators to be evaluated at each eigenvalue
+        :param qse_operators: Qubit operator generator
+        :param operator_mode: Operator mode to be used for evaluation of the operator
+        :param var_form: Parametrized variational form
+        :param opt_init_point: Initial point for the optimisation
+        :param aux_operators: Auxiliary operators to be evaluated at each eigenvalue
         """
         super().__init__()
         self._qse_operators = qse_operators
@@ -120,9 +116,9 @@ class QSE(QuantumAlgorithm):
 
     def print_setting(self) -> str:
         """
-        Presents the QSE settings as a string
+        Presents the QSE settings as a string.
 
-        :return: The formatted setting of QSE
+        :return: The formatted settings of the QSE instance
         """
         ret = "\n"
         ret += "==================== Setting of {} ============================\n".format(self.configuration['name'])
@@ -134,11 +130,11 @@ class QSE(QuantumAlgorithm):
 
     def _energy_evaluation(self, operator):
         """
-        Evaluate energy of the current input circuit with respect to the given operator
+        Evaluate the energy of the current input circuit with respect to the given operator.
 
-        :arg operator: Hamiltonian of the system
+        :param operator: Hamiltonian of the system
 
-        :return: Energy of the hamiltonian.
+        :return: Energy of the Hamiltonian
         """
         if self._quantum_state is not None:
             input_circuit = self._quantum_state
@@ -261,9 +257,9 @@ class QSE(QuantumAlgorithm):
             aux_op_vals[0, :] = np.asarray(values)
             self._ret['aux_ops'] = aux_op_vals
 
-    def _run(self):
+    def _run(self) -> dict:
         """
-        Runs the algorithm to compute the H_ij eigenvalue
+        Runs the QSE algorithm to compute the eigenvalues of the Hamiltonian.
 
         :return: Dictionary of results
         """

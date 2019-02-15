@@ -6,10 +6,10 @@ from qiskit_aqua_cmd import Preferences
 
 from pytket._circuit import optimise_pre_routing, optimise_post_routing
 from pytket._routing import route
-from pytket.qiskit import dagcircuit_to_tk, tk_to_dagcircuit, coupling2directed
+from pytket.qiskit import dagcircuit_to_tk, tk_to_dagcircuit, coupling_to_arc
 
 class TketPass(TransformationPass):
-    """The tket compiler to be plugged in to the qiskit compilation sequence"""
+    """The :math:`\\mathrm{t|ket}\\rangle` compiler to be plugged in to the Qiskit compilation sequence"""
     filecount = 0
 
     def __init__(self,backend:BaseBackend, DROP_CONDS:bool=False,BOX_UNKNOWN:bool=True,name:str="T|KET>") :
@@ -37,11 +37,11 @@ class TketPass(TransformationPass):
         circlay = list(range(num_qubits))
 
         if coupling_map:
-            directed_arc = coupling2directed(coupling_map)
+            directed_arc = coupling_to_arc(coupling_map)
             # route_ibm fnction that takes directed Arc, returns dag with cnots etc. 
             print("Routing on coupling map: ", coupling_map)
             circ, circlay = route(circ,directed_arc)
-            circ._reorder_circuit_boundary(circlay[0])
+            circ.apply_boundary_map(circlay[0])
         
         # post route optimise
         optimise_post_routing(circ)
@@ -51,7 +51,7 @@ class TketPass(TransformationPass):
 
     def run(self, dag:DAGCircuit) -> DAGCircuit:
         """
-           Run one pass of optimisation on the circuit and route for the given backend
+           Run one pass of optimisation on the circuit and route for the given backend.
 
         :param dag: The circuit to optimise and route
 

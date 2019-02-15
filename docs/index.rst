@@ -1,31 +1,31 @@
-Pytket Documentation
+pytket Documentation
 ==================================
 
-`Pytket <https://www.github.com/CQCL/pytket>`_ is a python module for interfacing with CQC t|ket>, a set of quantum programming tools. We currently support circuits and device architectures from both Google Cirq (https://www.github.com/quantumlib/cirq) and Qiskit (https://qiskit.org), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
+`pytket <https://www.github.com/CQCL/pytket>`_ is a python module for interfacing with CQC :math:`\mathrm{t|ket}\rangle`, a set of quantum programming tools. We currently support circuits and device architectures from `Google Cirq <https://www.github.com/quantumlib/cirq>`_, `Qiskit <https://qiskit.org>`_, and the `Rigetti Forest SDK <http://rigetti.com/forest>`_ allowing the :math:`\mathrm{t|ket}\rangle` tools to be used in conjunction with projects on these platforms.
 
-**Getting Started**
+**Try it yourself**
 
-``pytket`` is available for ``python3.5`` or higher, on Linux and Macos.
-To install, download [requirements.txt](https://github.com/CQCL/pytket/blob/master/requirements.txt) and run
+pytket can be installed from PyPI by running ``pip install pytket`` from the command line. Note: attempting to install from source will not set up the required binaries for the :math:`\mathrm{t|ket}\rangle` compiler, so we recommend the PyPI installation.
 
-``pip install -r requirements.txt``
-
-This will install the supported versions of Cirq (0.4.0) and Qiskit (Terra, Aqua, and Aqua-Chemistry). `pytket` can then be installed by running
-
-``pip install pytket``
-
-Note, installation from source will not work, you must use pip.
-
-See `examples/cirq_routing_example.ipynb <https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb>`_ for a quick introduction to using `pytket`. 
+For a quick introduction to pytket and the :py:class:`Circuit` interface, head to :ref:`start`, or have a look at our jupyter notebooks (such as `examples/cirq_routing_example.ipynb <https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb>`_) for tutorials on routing, optimisation, and interfacing with other quantum SDKs.
 
 .. toctree::
-   :caption: Contents:
-   :maxdepth: 2
+    :caption: Contents:
+    :maxdepth: 1
 
-   circuit.rst
-   cirq.rst
-   qiskit.rst
-   chemistry.rst
+    getting_started.rst
+    changelog.rst
+
+.. toctree::
+    :caption: API Reference:
+    :maxdepth: 2
+
+    circuit.rst
+    routing.rst
+    cirq.rst
+    qiskit.rst
+    pyquil.rst
+    chemistry.rst
 
 Indices and tables
 ==================

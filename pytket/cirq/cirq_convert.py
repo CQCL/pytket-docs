@@ -1,4 +1,4 @@
-# Copyright 2018 Cambridge Quantum Computing
+# Copyright 2019 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -60,10 +60,10 @@ def _grid_to_qubits(grid):
     return lut
 
 def get_grid_qubits(arc: SquareGrid, nodes: Iterator[int]) -> List[cirq.GridQubit]:
-    """Get a list of GridQubits corresponding to the qubit nodes provided on arc
+    """Gets a list of :py:class:GridQubit` s corresponding to the qubit nodes provided on the given Architecture.
 
-       :param arc: architecture
-       :param nodes: iterator of node index values
+       :param arc: The grid Architecture
+       :param nodes: An iterator of node index values
 
        :return: The list of qubits
     """
@@ -71,13 +71,13 @@ def get_grid_qubits(arc: SquareGrid, nodes: Iterator[int]) -> List[cirq.GridQubi
     return [cirq.GridQubit(*arc.qind_to_squind(i)) for i in nodes]
 
 def cirq_to_tk(circuit: cirq.Circuit) -> Circuit:
-    """Convert cirq circuit to tket Circuit object
+    """Converts a Cirq :py:class:`Circuit` to a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` object.
     
-       :param circuit: Input circuit
+       :param circuit: The input Cirq :py:class:`Circuit`
 
-       :raises NotImplementedError: If a cirq circuit operation is not yet supported by pytket
+       :raises NotImplementedError: If the input contains a Cirq :py:class:`Circuit` operation which is not yet supported by pytket
 
-       :return: The converted circuit
+       :return: The :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` corresponding to the input circuit
     """
     qubit_list = _indexed_qubits_from_circuit(circuit)
     qid_to_num = {q : i for i, q in enumerate(qubit_list)}
@@ -103,21 +103,23 @@ def cirq_to_tk(circuit: cirq.Circuit) -> Circuit:
                 raise NotImplementedError("Operation not supported by tket: " + str(op.gate)) from error
             if isinstance(gate, _rotation_types):
                 o = tkcirc._get_op(optype,n_qubits,n_qubits,gate.exponent)
+            elif isinstance(gate, cirq_common.MeasurementGate) :
+                o = tkcirc._get_op(optype,n_qubits,n_qubits,gate.key)
             else:
                 o = tkcirc._get_op(optype)
-            tkcirc.add_instruction(o,qb_lst)
+            tkcirc._add_operation(o,qb_lst)
     return tkcirc
 
 def tk_to_cirq(tkcirc: Circuit, indexed_qubits: List[QubitId]) -> cirq.Circuit:
-    """Convert tket Circuit object to cirq circuit
+    """Converts a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` object to a Cirq :py:class:`Circuit`.
     
-    :param tkcirc: Input circuit
-    :param indexed_qubits: Map from tket qubit indices to QubitIds
+    :param tkcirc: The input :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit`
+    :param indexed_qubits: Map from :math:`\\mathrm{t|ket}\\rangle` qubit indices to Cirq :py:class:`QubitId` s
     
-    :return: Circuit translated from tkcirc
+    :return: The Cirq :py:class:`Circuit` corresponding to the input circuit
     """
 
-    grid = tkcirc._get_routing_grid()
+    grid = tkcirc._int_routing_grid()
     qubits = _grid_to_qubits(grid)
     oplst = []
     slices = []
@@ -146,7 +148,8 @@ def tk_to_cirq(tkcirc: Circuit, indexed_qubits: List[QubitId]) -> cirq.Circuit:
             if gatetype in _rotation_types:
                 cirqop = gatetype(exponent=params[0])(*qids)
             elif gatetype == cirq_common.MeasurementGate:
-                cirqop = cirq_common.measure(*qids)
+                for q in qids:
+                    cirqop = cirq_common.measure(q, key=op.get_desc())
             else:
                 cirqop = gatetype(*qids)
             oplst.append(cirqop)

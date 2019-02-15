@@ -1,4 +1,4 @@
-# Copyright 2018 Cambridge Quantum Computing
+# Copyright 2019 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,6 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Module for conversion between qiskit and tket primitives"""
-from .dagcircuit_convert import dagcircuit_to_tk, tk_to_dagcircuit, coupling2directed
+"""Module for conversion between IBM Qiskit and :math:`\\mathrm{t|ket}\\rangle` primitives."""
+from .dagcircuit_convert import dagcircuit_to_tk, tk_to_dagcircuit, coupling_to_arc
 from .tket_pass import TketPass

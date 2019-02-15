@@ -1,4 +1,4 @@
-# Copyright 2018 Cambridge Quantum Computing
+# Copyright 2019 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -53,12 +53,12 @@ def _sort_row_col(qubits: Iterator[GridQubit]) -> List[GridQubit]:
 
     return sorted(qubits, key=lambda x: (x.row, x.col))
 
-def xmon2arc(xmon: XmonDevice) -> Architecture:
-    """Generate an Architecture object for an XmonDevice
+def xmon_to_arc(xmon: XmonDevice) -> Architecture:
+    """Generates a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Architecture` object for a Cirq :py:class:`XmonDevice` .
     
     :param xmon: The device to convert
 
-    :return: The tket architecture corresponding to xmon
+    :return: The corresponding :math:`\\mathrm{t|ket}\\rangle` :py:class:`Architecture`
     """
 
     nodes = len(xmon.qubits)

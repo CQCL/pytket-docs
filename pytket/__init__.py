@@ -1,4 +1,4 @@
-# Copyright 2018 Cambridge Quantum Computing
+# Copyright 2019 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,4 +16,3 @@
 
 PI = 3.14159265359
 from pytket._circuit import Circuit
-from pytket._routing import Architecture

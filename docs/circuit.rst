@@ -1,6 +1,11 @@
-pytket.Circuit
+pytket._circuit
 ==================================
-.. autoclass:: pytket.Circuit
-   :members:
-   
-   .. automethod:: __init__
+.. automodule:: pytket._circuit
+    :members: optimise_pre_routing, optimise_post_routing
+
+.. toctree::
+   :caption: Contents:
+   :maxdepth: 2
+
+   circuit_class.rst
+   optype.rst

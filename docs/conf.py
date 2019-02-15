@@ -40,8 +40,10 @@ release = '0.1.0'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx_autodoc_annotation',
-    'sphinx.ext.intersphinx'
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -153,7 +155,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'pytket', 'pytket Documentation',
-     author, 'pytket', 'One line description of project.',
+     author, 'pytket', "Python API for CQC's t|ket> compiler",
      'Miscellaneous'),
 ]
 

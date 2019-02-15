@@ -1,4 +1,4 @@
-# Copyright 2018 Cambridge Quantum Computing
+# Copyright 2019 Cambridge Quantum Computing
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,6 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Module for conversion between cirq and tket primitives"""
+"""Module for conversion between Google Cirq and :math:`\\mathrm{t|ket}\\rangle` primitives."""
 from .cirq_convert import cirq_to_tk, tk_to_cirq, get_grid_qubits
-from .qubits import xmon2arc
+from .qubits import xmon_to_arc
