@@ -346,7 +346,7 @@ def _translate_ops(circ,v) :
         if o.get_desc():
             cargs = eval(o.get_desc()) # TODO: tut tut tut. Who was this? *Looks at git blame* Me from 3 months ago was bad programmer
         else:
-            cargs = None
+            cargs = [(ClassicalRegister(1,_fresh_name()),0)]
     else : 
         cargs = []
     if DEBUG and name == "measure" :

@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pytket'
-copyright = '2018, Cambridge Quantum Computing Ltd'
+copyright = '2019, Cambridge Quantum Computing Ltd'
 author = 'Cambridge Quantum Computing Ltd'
 
 # The short X.Y version
-version = '0.1.0'
+version = '0.1.3'
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+release = '0.1.3'
 
 
 # -- General configuration ---------------------------------------------------

@@ -7,7 +7,7 @@ from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
 from qiskit.quantum_info import Pauli
 
 # lib from Qiskit AQUA Chemistry
-from qiskit_aqua_chemistry import FermionicOperator
+from qiskit_chemistry import FermionicOperator
 
 # lib from optimizer and algorithm
 from qiskit_aqua.operator import Operator

@@ -39,7 +39,6 @@ class TketPass(TransformationPass):
         if coupling_map:
             directed_arc = coupling_to_arc(coupling_map)
             # route_ibm fnction that takes directed Arc, returns dag with cnots etc. 
-            print("Routing on coupling map: ", coupling_map)
             circ, circlay = route(circ,directed_arc)
             circ.apply_boundary_map(circlay[0])
         

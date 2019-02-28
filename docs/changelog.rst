@@ -1,6 +1,13 @@
 Changelog
 ==================================
 
+0.1.3 (March 2019)
+------------------
+Updates:
+
+* Qiskit support updated for Terra 0.7.3, Aqua 0.4.1, and Chemistry 0.4.2
+* Bug fixes in routing
+
 0.1.2 (February 2019)
 ---------------------
 New Features:
