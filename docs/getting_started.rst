@@ -5,7 +5,7 @@ Getting Started
 
 The :math:`\mathrm{t|ket}\rangle` compiler is a powerful tool for optimising and manipulating platform-agnostic quantum circuits, focussed on enabling superior performance on NISQ (Noisy Intermediate-Scale Quantum) devices. The pytket package provides an API for interacting with :math:`\mathrm{t|ket}\rangle` and transpiling to and from other popular quantum circuit specifications.
 
-We recommend using a Python 3.5+ environment when possible. Install pytket from PyPI using:
+We recommend using a Python 3.6+ environment when possible. Install pytket from PyPI using:
 
 ::
 
