@@ -8,6 +8,7 @@ New Features:
 * Interface to many new optimisation passes, allowing for custom passes
 * Circuit compilation using symbolic parameters
 * New interface to routing
+* Enabled noise modeling in the AerBackend module
 
 Updates:
 
