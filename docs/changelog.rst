@@ -1,5 +1,31 @@
 Changelog
 ==================================
+0.2.0 (June 2019)
+------------------
+New Features:
+
+* Support for circuits and simulation using ProjectQ (0.4.2)
+* Interface to many new optimisation passes, allowing for custom passes
+* Circuit compilation using symbolic parameters
+* New interface to routing
+
+Updates:
+
+* Qiskit support updated for Qiskit 0.10.1 and Chemistry 0.5
+* Chemistry package has been removed, to be part of the separate Eumen package
+* Bug fixes and performance improvements to routing
+
+0.1.5 (April 2019)
+------------------
+New Features:
+
+* Enabled conversions from 4x4 unitary matrices to 2 qubit circuit
+
+0.1.4 (April 2019)
+------------------
+Updates:
+
+* Bug fix patch for routing and performance improvements
 
 0.1.3 (March 2019)
 ------------------
