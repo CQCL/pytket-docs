@@ -15,6 +15,13 @@ Updates:
 * Chemistry package has been removed, to be part of the separate Eumen package
 * Bug fixes and performance improvements to routing
 
+0.1.6 (April 2019)
+------------------
+Updates:
+
+* Routing can return SWAP gates rather than decomposing to CNOTs
+* Decomposition and routing bug fixes
+
 0.1.5 (April 2019)
 ------------------
 New Features:
