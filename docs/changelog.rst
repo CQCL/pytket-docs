@@ -12,8 +12,8 @@ New Features:
 
 Updates:
 
-* Qiskit support updated for Qiskit 0.10.1 and Chemistry 0.5
-* Chemistry package has been removed, to be part of the separate Eumen package
+* Qiskit support updated for Qiskit 0.10.1 and Qiskit Chemistry 0.5
+* Pytket Chemistry module has been removed, to be part of the separate Eumen package
 * Bug fixes and performance improvements to routing
 
 0.1.6 (April 2019)
