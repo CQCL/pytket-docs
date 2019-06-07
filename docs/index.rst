@@ -1,7 +1,7 @@
 pytket Documentation
 ==================================
 
-`pytket <https://www.github.com/CQCL/pytket>`_ is a python module for interfacing with CQC :math:`\mathrm{t|ket}\rangle`, a set of quantum programming tools. We currently support circuits and device architectures from `Google Cirq <https://www.github.com/quantumlib/cirq>`_, `Qiskit <https://qiskit.org>`_, and the `Rigetti Forest SDK <http://rigetti.com/forest>`_ allowing the :math:`\mathrm{t|ket}\rangle` tools to be used in conjunction with projects on these platforms.
+`pytket <https://www.github.com/CQCL/pytket>`_ is a python module for interfacing with CQC :math:`\mathrm{t|ket}\rangle`, a set of quantum programming tools. We currently support circuits and device architectures from `Google Cirq <https://www.github.com/quantumlib/cirq>`_, `IBM's Qiskit <https://qiskit.org>`_, `ProjectQ <https://github.com/ProjectQ-Framework/ProjectQ>`_ and the `Rigetti Forest SDK <http://rigetti.com/forest>`_, allowing the :math:`\mathrm{t|ket}\rangle` tools to be used in conjunction with projects on these platforms.
 
 **Try it yourself**
 
@@ -25,7 +25,7 @@ For a quick introduction to pytket and the :py:class:`Circuit` interface, head t
     cirq.rst
     qiskit.rst
     pyquil.rst
-    chemistry.rst
+    projectq.rst
 
 Indices and tables
 ==================

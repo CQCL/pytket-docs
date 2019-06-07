@@ -5,13 +5,21 @@ Getting Started
 
 The :math:`\mathrm{t|ket}\rangle` compiler is a powerful tool for optimising and manipulating platform-agnostic quantum circuits, focussed on enabling superior performance on NISQ (Noisy Intermediate-Scale Quantum) devices. The pytket package provides an API for interacting with :math:`\mathrm{t|ket}\rangle` and transpiling to and from other popular quantum circuit specifications.
 
-We recommend using a Python 3.5+ environment when possible. Install pytket from PyPI using:
+We recommend using a Python 3.6+ environment when possible. Install pytket from PyPI using:
 
 ::
 
     pip install pytket
 
 This will install the :math:`\mathrm{t|ket}\rangle` compiler binaries as well as the pytket package. For those using an older version of pytket, keep up to date by installing with the ``--upgrade`` flag for additional features and bug fixes.
+
+There are separate packages for managing the interoperability between pytket and other quantum software packages which can also be installed via PyPI:
+
+* ``pytket_cirq``
+* ``pytket_projectq``
+* ``pytket_pyquil``
+* ``pytket_pyzx``
+* ``pytket_qiskit``
 
 The :py:class:`Circuit` Class
 -----------------------------
@@ -36,7 +44,7 @@ We can add measurements onto qubits to observe their state.
     c.Measure(0)
     c.Measure(1)
 
-We assume all measurements are made in the computational (Z) basis - others can be performed by adding the appropriate change-of-basis operation before the measurement. By default, measurement results for qubit :math:`i` are written to bit :math:`i` in an anonymous classical register. When transpiling to another quantum SDK (e.g. Qiskit), a single classical register is created, collating all measurement results. The measurement can also be sent to a named classical register using ``c.Measure(0,"RegName")``. :math:`\mathrm{t|ket}\rangle` does not currently support manipulation of the classical information or clasically-controlled gates. In general, it is not assumed that measurements destroy the qubits, so it is possible to add operations after a measurement.
+We assume all measurements are made in the computational (Z) basis - others can be performed by adding the appropriate change-of-basis operation before the measurement. By default, measurement results for qubit :math:`i` are written to bit :math:`i` in an anonymous classical register. When transpiling to another quantum SDK (e.g. Qiskit), a single classical register is created, collating all measurement results. The measurement can also be sent to a named classical register using ``c.Measure(0,"RegName")``. :math:`\mathrm{t|ket}\rangle` does not currently support manipulation of the classical information or classically-controlled gates.
 
 Some more advanced circuit construction features exist, such as the ability to construct the inverse circuit for any pure circuit (i.e. when it has no measurements).
 
@@ -58,50 +66,50 @@ When constructing larger circuits, it is often useful to define small subroutine
     c.H(0)
     c.append(c_sub)
 
-``c.append(c_sub)`` will copy ``c_sub`` into ``c``, and attach the input for qubit :math:`i` in ``c_sub`` to the output for qubit :math:`i` in ``c``. Suppose, instead, that we wanted to attach ``c_sub`` to ``c`` in the other direction, with qubit 0 of ``c_sub`` applied to qubit 1 of ``c``. We can use ``apply_boundary_map`` to modify the circuit boundary (a map from the qubit index to the corresponding input and output of the circuit), effectively permuting the qubits of ``c_sub``.
-
-::
-
-    c_sub.apply_boundary_map([1,0]) # renames qubit 0/1 to 1/0
-    c.append(c_sub) # this now connets the circuits in the other orientation
-
-This demonstrates some of the main ways of interacting directly with :py:class:`Circuit` objects. Further information can be found in the API reference for the :py:class:`Circuit` class.
+``c.append(c_sub)`` will copy ``c_sub`` into ``c``, and attach the input for qubit :math:`i` in ``c_sub`` to the output for qubit :math:`i` in ``c``. Further information on how to interact directly with :py:class:`Circuit` objects can be found in the API reference for the :py:class:`Circuit` class.
 
 Compilation
 -----------
 In classical computing, a compiler is required to translate from a high-level language (e.g. C++) to the instruction set of the target machine (e.g. RISC-V). During this process, the program is automatically optimised to reduce the number of instructions, memory consumption, energy consumption, etc. The same needs exist in quantum computing to take a circuit description and enable it to run on a given simulator, hardware device, or cloud system (such as the IBM Quantum Experience or Rigetti's Quantum Cloud Service).
 
 pytket is a retargetable compiler, with the ability to accept and produce circuits for any of the following:
+
 * Google Cirq
 * IBM Qiskit
 * OpenQASM (via Qiskit)
 * Rigetti pyQuil
+* ProjectQ compilation engines
+* PyZX
 
 This translation facility allows, for example, circuits generated by the variational forms in Qiskit Aqua to be run on Rigetti QCS.
 
 However, near-term quantum devices do not currently provide the nice abstraction of a "perfect" machine - they are troubled by imperfect fidelity of operations, gradual decoherence over time, and restricted qubit-adjacency only allowing two-qubit gates between specific positions on the architecture.
 
-This problem of heterogeneous architectures can be solved within a quantum compiler by placement and routing procedures. This takes the adjacency grap of the architecture's qubits (the coupling map) and identifies a good mapping from the qubits of the circuit to the positions on the device to make it possible to perform as many of the two-qubit operations as possible. The circuit is then modified by introducing swaps and reversing the orientation of directed two-qubit operations when necessary to completely fit the circuit to the architectural constraints.
+In pytket, there is a distinction between circuits for a perfect machine (the :py:class:`Circuit` class) and those that have been configured to conform to a specific device's constraints (the :py:class:`PhysicalCircuit` class). From a structural perspective, they are both simply collections of gates applied to some qubits, but they have different interpretations - :py:class:`Circuit` objects are device independent and qubit indexing refers to the logical qubits, whereas the :py:class:`PhysicalCircuit` gates act on physical qubits, indexed according to the numbering of the :py:class:`Architecture` nodes.
 
-These are both performed simultaneously during a call to ``pytket._routing.route``. This takes a :py:class:`Circuit` object and an :py:class`Architecture` object (encapsulating the set of architectural constraints of a particular device, such as the number of qubits available and the coupling map). More on the :py:class:`Architecture` class can be found in the API Reference.
+One such architectural constraint is the problem of qubit connectivity on heterogeneous architectures which can be solved by a quantum compiler with placement and routing procedures. This takes the adjacency graph of the architecture's qubits (the coupling map) and identifies a good mapping from the qubits of the circuit to the positions on the device to make it possible to perform as many of the two-qubit operations as possible. The circuit is then modified by introducing swaps to rearrange the logical qubits such that any multi-qubit operations occur between neighbouring physical qubits.
+
+These are both performed simultaneously during a call to ``pytket._routing.route``. This takes a :py:class:`Circuit` object and an :py:class:`Architecture` object (encapsulating the coupling map of the device). More on the :py:class:`Architecture` class can be found in the API Reference.
 
 ::
 
     from pytket._routing import route, Architecture
     arc = Architecture([(0,1), (1,2), (2,3)], 4)
-    routed_circuit, qmap = route(circuit, arc)
-    routed_circuit.apply_boundary_map(qmap[0])
+    routed_circuit = route(circuit, arc)
+    routed_circuit.decompose_SWAP_to_CX()
+    routed_circuit.redirect_CX_gates(arc)
 
-The ``route`` method outputs a circuit that is tailored to ``arc``. It is important to note that the placement mapping is identified but not applied during ``route``. Instead, the output ``qmap`` is a pair of boundary maps specifying the permutations from the original qubit positions in ``circuit`` to [0] the initial qubit positions on the device, and [1] the positions of the qubits at the end of the circuit. These are required to actually perform the placmeent (e.g. by ``apply_boundary_map``) and for reordering measurement outcomes (the need for this can be avoided if the measurements are written to uniquely named classical registers).
+The ``route`` method outputs a :py:class:`PhysicalCircuit` that is tailored to ``arc``. The output circuit will be semantically identical to the original logical circuit but will only have multi-qubit gates between pairs of nodes in the coupling map. The map between the logical qubits and the physical nodes they live on will change throughout the :py:class:`PhysicalCircuit`. However, any measurement operations will still map logical qubits to the same classical registers, so the qubit permutations will not affect the readouts from the device.
 
-Routing typically sacrifices circuit size/depth (from inserting swaps) to satisfy device constraints. Sadly, the problems of decoherence and imperfect fidelities mean that physical devices will accumulate noise proportional to the size/depth of the circuit being run. :math:`\mathrm{t|ket}\rangle` provides some optimisation passes to rewrite parts of the circuit to produce an equivalent one with fewer operations/less depth. Some of the rewrite rules may not preserve the architectural constraints considered during routing, so we provide a powerful ``optimise_pre_routing`` pass, and a safe ``optimise_post_routing`` pass to get as much reduction as possible.
+Routing typically sacrifices circuit size/depth (from inserting swaps) to satisfy device constraints. Sadly, the problems of decoherence and imperfect fidelities mean that physical devices will accumulate noise proportional to the size/depth of the circuit being run. :math:`\mathrm{t|ket}\rangle` provides some optimisation passes to rewrite parts of the circuit to produce an equivalent one with fewer operations/less depth. Some of the rewrite rules may not preserve the architectural constraints considered during routing, so we provide a safe ``OptimisePostRouting`` pass as well as a selection of more powerful :py:class:`Transform` passes which exploit common structures in quantum circuits.
 
 ::
 
-    from pytket._circuit import optimise_pre_routing, optimise_post_routing
-    optimise_pre_routing(circuit)
-    routed_circuit, qmap = route(circuit, arc)
-    routed_circuit.apply_boundary_map(qmap[0])
-    optimise_post_routing(routed_circuit)
+    from pytket._transform import Transform
+    Transform.OptimisePhaseGadgets(circuit)
+    routed_circuit = route(circuit, arc)
+    routed_circuit.decompose_SWAP_to_CX()
+    routed_circuit.redirect_CX_gates(arc)
+    Transform.OptimisePostRouting(routed_circuit)
 
 To see these in action, take a look at the jupyter notebooks on the pytket GitHub repository.
