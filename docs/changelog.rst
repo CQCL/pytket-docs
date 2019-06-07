@@ -5,6 +5,7 @@ Changelog
 New Features:
 
 * Support for circuits and simulation using ProjectQ (0.4.2)
+* Support for conversion to and from PyZX (https://github.com/Quantomatic/pyzx)
 * Interface to many new optimisation passes, allowing for custom passes
 * Circuit compilation using symbolic parameters
 * New interface to routing
