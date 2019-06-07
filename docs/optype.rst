@@ -3,7 +3,7 @@ pytket._circuit.OpType
 .. currentmodule:: pytket._circuit.OpType
 .. class:: pytket._circuit.OpType
 
-    Enum for available operations compatible with :math:`\mathrm{t|ket}\rangle` :py:class:`Circuit` s.
+    Enum for available operations compatible with the :math:`\mathrm{t|ket}\rangle` :py:class:`Circuit` class.
 
     .. rubric:: Values
     .. autosummary::
