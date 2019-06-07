@@ -10,7 +10,7 @@ To install, run
 
 ``pip install pytket``
 
-Note: attempting to install from source will not set up the required binaries for the :math:`\mathrm{t|ket}\rangle` compiler, so we recommend the PyPI installation.
+Note: attempting to install from source will not set up the required binaries for the t|ket> compiler, so we recommend the PyPI installation.
 
 See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. 
 
