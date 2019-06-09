@@ -12,6 +12,11 @@ To install, run
 
 Note: attempting to install from source will not set up the required binaries for the t|ket> compiler, so we recommend the PyPI installation.
 
+To use pytket in conjunction with other platforms you must download an additional separate module for each.
+To install pytket's interface with CirQ, run
+
+``pip install pytket_cirq``
+
 See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. 
 
 Documentation of the soure code can be found at [pytket.readthedocs.io](https://pytket.readthedocs.io)
