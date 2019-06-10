@@ -1,5 +1,13 @@
 Changelog
 ==================================
+0.2.1 (June 2019)
+------------------
+Updates:
+
+* Extra support for appending Circuits from Matrices and Exponents
+* More docs and examples
+* Fixed bugs in backends
+
 0.2.0 (June 2019)
 ------------------
 New Features:
