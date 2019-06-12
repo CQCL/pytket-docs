@@ -17,6 +17,6 @@ To install pytket's interface with CirQ, run
 
 ``pip install pytket_cirq``
 
-See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. 
+See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. When viewing our examples, github has a bug where it occasionally can't render Jupyter notebooks properly. To bypass this, you can either clone the repo and open the examples in Jupyter yourself (this is recommended! You can play around with them), or you can enter the corresponding URL into https://nbviewer.jupyter.org and view examples there.
 
-Documentation of the soure code can be found at [pytket.readthedocs.io](https://pytket.readthedocs.io)
+Documentation of the source code can be found at [pytket.readthedocs.io](https://pytket.readthedocs.io)
