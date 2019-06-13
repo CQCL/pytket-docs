@@ -12,11 +12,29 @@ To install, run
 
 Note: attempting to install from source will not set up the required binaries for the t|ket> compiler, so we recommend the PyPI installation.
 
+See the [Getting Started](https://pytket.readthedocs.io/en/latest/getting_started.html) page for a quick introduction to using `pytket`. 
+
+**Documentation** can be found at [pytket.readthedocs.io](https://pytket.readthedocs.io)
+
+To get more in depth on features, see the [examples](https://github.com/CQCL/pytket/blob/master/examples).
+
+#### Interfaces
 To use pytket in conjunction with other platforms you must download an additional separate module for each.
-To install pytket's interface with CirQ, run
+This can be done from pip, or from source, as they binaries are included with the core `pytket` package.
 
-``pip install pytket_cirq``
+For each subpackage:
 
-See [examples/cirq_routing_example.ipynb](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) for a quick introduction to using `pytket`. When viewing our examples, github has a bug where it occasionally can't render Jupyter notebooks properly. To bypass this, you can either clone the repo and open the examples in Jupyter yourself (this is recommended! You can play around with them), or you can enter the corresponding URL into https://nbviewer.jupyter.org and view examples there.
+Qiskit: ``pip install pytket-qiskit`` 
 
-Documentation of the source code can be found at [pytket.readthedocs.io](https://pytket.readthedocs.io)
+Cirq: ``pip install pytket-cirq``
+
+PyQuil: ``pip install pytket-pyquil``
+
+ProjectQ: ``pip install pytket-projectq``
+
+PyZX: ``pip install pytket-pyzx`` 
+
+Note:this will need a separate install of `pyzx` from [source](https://github.com/Quantomatic/pyzx).
+
+
+
