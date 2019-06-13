@@ -11,6 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Module for conversion between IBM Qiskit and :math:`\\mathrm{t|ket}\\rangle` primitives."""
-from .dagcircuit_convert import dagcircuit_to_tk, tk_to_dagcircuit
-from .tket_pass import TketPass
+"""Extensions for qiskit aqua developed by CQC"""
+from .qse import QSE
+from .qse_subs import QseMatrices

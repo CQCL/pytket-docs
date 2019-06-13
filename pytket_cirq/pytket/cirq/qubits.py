@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Qubit methods/classes for integration of cirq and tket
+"""Qubit methods/classes for integration of cirq and :math:`\\mathrm{t|ket}\\rangle`
 """
 from typing import List, Iterator
 

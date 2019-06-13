@@ -13,6 +13,7 @@
 # limitations under the License.
 
 from abc import ABC, abstractmethod
+from pytket._circuit import Circuit
 from pytket.backends.measurements import pauli_measurement
 import numpy as np
 
@@ -26,19 +27,26 @@ class Backend(ABC) :
         pass
     
     @abstractmethod
-    def run(self, circuit, shots) :
+    def run(self, circuit:Circuit, shots:int, fit_to_constraints=True) -> np.ndarray :
+        """Run the circuit on the backend and return results, optionally fitting the circuit to the constraints of the backend.
+        
+        :param circuit: The circuit to run
+        :type circuit: Circuit
+        :param shots: Number of shots (repeats) to run
+        :type shots: int
+        :param fit_to_constraints: Compile the circuit to meet the contstraints of the backend, defaults to True
+        :type fit_to_constraints: bool, optional
+        :return: Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 corresponding to |0> or 1 corresponding to |1>
+        :rtype: numpy.ndarray
         """
-        Returns table showing results for each shot
-        Rows are shots, columns are qubits/measurements (column i corresponds to bit i in the classical register)
-        Each cell is the readout from each measurement, with 0 being |0> and 1 for |1>
-        """
+        
         pass
     
     def get_pauli_expectation_value(self, state_circuit, pauli, shots=1000) :
         """
         Calculates expectation value for pauli term by preparing basis change circuit and measuring
         """
-        if len(pauli) == 0 :
+        if not pauli:
             return 1
         measured_circ = state_circuit.copy()
         pauli_measurement(pauli, measured_circ)
