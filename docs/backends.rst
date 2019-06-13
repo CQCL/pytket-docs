@@ -1,7 +1,7 @@
 pytket.backends
 ==================================
 .. automodule:: pytket.backends
-    :members:
+    :members: backend
 .. toctree::
    :caption: Specific Backends:
    :maxdepth: 2
@@ -9,5 +9,6 @@ pytket.backends
    ibm_backend.rst
    projectq_backend.rst
 
-.. automodule:: pytket.backends.backend
+.. autoclass:: Backend
+    :special-members:
     :members:

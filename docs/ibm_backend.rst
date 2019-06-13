@@ -1,9 +1,6 @@
 pytket.backends.ibm
 ==================================
 
-.. automodule:: pytket.backends.ibm.aer
+.. automodule:: pytket.backends.ibm
     :special-members:
-    :members:
-.. automodule:: pytket.backends.ibm.ibm
-    :special-members:
-    :members:
+    :members: IBMQBackend, AerBackend, AerStateBackend
