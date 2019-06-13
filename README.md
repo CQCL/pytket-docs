@@ -4,7 +4,7 @@
 
 `pytket` is a python module for interfacing with CQC t|ket>, a set of quantum programming tools. We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ) and Rigetti [pyQuil](http://rigetti.com/forest), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
 
-#### Getting Started
+### Getting Started
 ``pytket`` is available for ``python3.6`` or higher, on Linux and MacOS.
 To install, run 
 
@@ -18,7 +18,7 @@ See the [Getting Started](https://pytket.readthedocs.io/en/latest/getting_starte
 
 To get more in depth on features, see the [examples](https://github.com/CQCL/pytket/blob/master/examples).
 
-#### Interfaces
+### Interfaces
 To use pytket in conjunction with other platforms you must download an additional separate module for each.
 This can be done from pip, or from source, as they binaries are included with the core `pytket` package.
 
