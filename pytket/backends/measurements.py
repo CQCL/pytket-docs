@@ -17,8 +17,13 @@ from typing import Iterable, Tuple
 from pytket import Circuit
 
 def pauli_measurement(pauli_string:Iterable[Tuple[int,str]], circ:Circuit) :
-    """
-    Appends measurement instructions to a given circuit, measuring each qubit in a given basis
+    """Appends measurement instructions to a given circuit, measuring each qubit in a given basis
+
+    
+    :param pauli_string: The pauli operator to measure, as tuples of pauli name and qubit.
+    :type pauli_string: Iterable[Tuple[int,str]]
+    :param circ: Circuit to add measurement to.
+    :type circ: Circuit
     """
     measured_qbs = []
     for qb_idx, p in pauli_string:
@@ -34,11 +39,23 @@ def pauli_measurement(pauli_string:Iterable[Tuple[int,str]], circ:Circuit) :
 
 
 def bin_str_2_table(strings:Iterable[str]) -> np.ndarray:
+    """Convert string of measurements to shot table
+    
+    :param strings: List of strings, one per shot
+    :type strings: Iterable[str]
+    :return: Shot table, one row per shot, columns in qubit order.
+    :rtype: np.ndarray
+    """
     # infer number of qubits from first space separated bit string
-    n_qubits = int((len(strings[0])-1)/2) + 1
+    start_string = strings[0]
+    n_qubits = len(start_string.replace(' ', ''))
     output = np.zeros((len(strings), n_qubits), dtype=int)
 
     for index, string in enumerate(strings):
-        output[index] = np.fromstring(string, dtype=int, sep=' ')
+        count = 0
+        for sub in string.split(' '):
+            ln = len(sub)
+            output[index, count:count+ln] = np.array(list(sub), dtype=int)
+            count += ln
     output = np.fliplr(output)
     return output

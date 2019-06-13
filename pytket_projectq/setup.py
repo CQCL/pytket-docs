@@ -2,7 +2,7 @@ import setuptools
 from setuptools import setup
 
 def find_pytket_subpackages():
-    locations = [('pytket', 'pytket')]
+    locations = [('pytket', 'pytket'), ('pytket/backends', 'pytket.backends')]
     pkg_list = []
 
     for location, prefix in locations:
@@ -15,7 +15,7 @@ def find_pytket_subpackages():
 
 setup(
     name='pytket_projectq',
-    version='0.1',
+    version='0.1.2',
     author='Alexander Cowtan',
     author_email='alexander.cowtan@cambridgequantum.com',
     python_requires='>=3.6',
@@ -25,7 +25,7 @@ setup(
     packages = find_pytket_subpackages(),
     install_requires = [
         'pytket >=0.2.0',
-        'projectq == 0.4.2'
+        'projectq >= 0.4.2'
     ],
     classifiers=[
         "Environment :: Console",

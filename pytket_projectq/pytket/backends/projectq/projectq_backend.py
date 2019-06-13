@@ -56,7 +56,7 @@ class ProjectQBackend(Backend) :
         All(Measure) | qureg
         return state #list of complex numbers
 
-    def run(self, circuit:Circuit, shots:int, fit_to_constraints=True) :
+    def run(self, circuit:Circuit, shots:int, fit_to_constraints=True) -> np.ndarray:
         state = self.get_state(circuit, fit_to_constraints)
         fwd = ForwarderEngine(self._backend)
         eng = MainEngine(backend=self._backend,engine_list=[fwd])
@@ -78,5 +78,9 @@ class ProjectQBackend(Backend) :
         return np.vdot(state,pauli_op.dot(state))
 
     def get_operator_expectation_value(self, state_circuit, operator, shots=10000) -> float:
+        """
+        Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations
+        Note: This method is significantly faster using the ProjectQBackend than the AerStateBackend.
+        """
         #turn operator into QubitOperator object
         return projectq_expectation_value(state_circuit,operator)

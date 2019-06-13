@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 """Methods to allow conversion between pyzx and t|ket> data types
 """
 
@@ -36,7 +37,6 @@ _tk_to_pyzx_gates = {OpType.Rz: "ZPhase",
                     OpType.CZ: "CZ",
                     OpType.H: "HAD",
                     OpType.SWAP: "SWAP",
-                    OpType.CCX: "TOF"
                     }
 
 _pyzx_to_tk_gates = dict((reversed(item) for item in _tk_to_pyzx_gates.items()))
@@ -44,6 +44,13 @@ _pyzx_to_tk_gates = dict((reversed(item) for item in _tk_to_pyzx_gates.items()))
 _parameterised_gates = {OpType.Rz, OpType.Rx}
 
 def tk_to_pyzx(tkcircuit:Union[Circuit,PhysicalCircuit]) -> pyzxCircuit:
+    """
+    Convert a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` to a :py:class:`pyzx.Circuit`.
+    
+    :param prog: A circuit to be converted
+
+    :return: The converted circuit
+    """
     c = pyzxCircuit(tkcircuit.n_qubits)
     for command in tkcircuit:
         op = command.op
@@ -64,6 +71,15 @@ def tk_to_pyzx(tkcircuit:Union[Circuit,PhysicalCircuit]) -> pyzxCircuit:
     return c
 
 def pyzx_to_tk(pyzx_circ:pyzxCircuit) -> Circuit:
+    """
+    Convert a :py:class:`pyzx.Circuit` to a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` .
+    All PyZX basic gate operations are currently supported by pytket. Run `pyzx_circuit_name.to_basic_gates()`
+    before conversion.
+    
+    :param prog: A circuit to be converted
+
+    :return: The converted circuit
+    """
     c = Circuit(pyzx_circ.qubits)
     for g in pyzx_circ.gates:
         if not g.name in _pyzx_to_tk_gates:

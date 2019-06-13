@@ -15,21 +15,41 @@
 from qiskit import Aer
 from qiskit.converters import dag_to_circuit
 from qiskit.compiler import assemble
+from qiskit.providers.aer.noise import NoiseModel
 
 from pytket.backends import Backend
 from pytket.qiskit import tk_to_dagcircuit
 from pytket.backends.measurements import bin_str_2_table
+from pytket._circuit import Circuit
 from pytket._transform import Transform
 from pytket._simulation import pauli_tensor_matrix, operator_matrix
 
 import numpy as np
 
 class AerBackend(Backend) :
-    def __init__(self, noise_model=None) :
+    def __init__(self, noise_model:NoiseModel=None) :
+        """Backend for running simulations on Qiskit Aer Qasm simulator.
+        
+        :param noise_model: Noise model to use in simulation, defaults to None.
+        :type noise_model: NoiseModel, optional
+        """
         self._backend = Aer.get_backend('qasm_simulator')
         self.noise_model = noise_model
     
-    def run(self, circuit, shots, fit_to_constraints=True, seed=None) :
+    def run(self, circuit:Circuit, shots:int, fit_to_constraints=True, seed:int=None) -> np.ndarray:
+        """Run a circuit on Qiskit Aer Qasm simulator.
+        
+        :param circuit: The circuit to run
+        :type circuit: Circuit
+        :param shots: Number of shots (repeats) to run
+        :type shots: int
+        :param fit_to_constraints: Compile the circuit to meet the contstraints of the backend, defaults to True
+        :type fit_to_constraints: bool, optional
+        :param seed: random seed to for simulator
+        :type seed: int
+        :return: Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 corresponding to |0> or 1 corresponding to |1>
+        :rtype: numpy.ndarray
+        """
         c = circuit.copy()
         if fit_to_constraints :
             Transform.RebaseToQiskit().apply(c)
@@ -44,6 +64,13 @@ class AerStateBackend(Backend) :
         self._backend = Aer.get_backend('statevector_simulator')
     
     def get_state(self, circuit, fit_to_constraints=True) :
+        """
+        Calculate the statevector for a circuit.
+
+
+        :param circuit: circuit to calculate
+        :return: complex numpy array of statevector
+        """
         c = circuit.copy()
         if fit_to_constraints :
             Transform.RebaseToQiskit().apply(c)
@@ -62,6 +89,10 @@ class AerStateBackend(Backend) :
         return np.vdot(state, pauli_op.dot(state))
     
     def get_operator_expectation_value(self, state_circuit, operator, shots=1000) :
+        """
+        Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations
+        Note: This method is significantly faster using the ProjectQBackend than the AerStateBackend.
+        """
         state = self.get_state(state_circuit)
         n_qubits = state_circuit.n_qubits
         op_as_lists = [(list(p),c) for p,c in operator.terms.items()]

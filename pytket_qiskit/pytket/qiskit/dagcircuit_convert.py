@@ -340,18 +340,3 @@ def _extend_cregs(dc,cargs) :
             dc.cregs[reg].size = idx+1
             for j in range(idx+1 - old_size) : 
                 dc._add_wire((reg,j+old_size),True)
-
-
-def coupling_to_arc(coupling_map:List[List[int]]) -> Architecture:
-    """
-       Produces a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Architecture` corresponding to a (directed) coupling map,
-       stating the pairs of qubits between which two-qubit interactions
-       (e.g. CXs) can be applied.
-
-    :param coupling_map: Pairs of indices where each pair [control, target]
-       permits the use of CXs between them
-    
-    :return: The :math:`\\mathrm{t|ket}\\rangle` :py:class:`Architecture` capturing the behaviour of the coupling map
-    """
-    return Architecture(coupling_map)
-    

@@ -105,8 +105,11 @@ def get_pq_command_from_tk_command(command:Command, engine:MainEngine, container
 
 def tk_to_projectq(engine:MainEngine,qureg:Qureg,circuit:Union[Circuit,PhysicalCircuit])->None:
     """
-    A method to convert a tket Circuit to a series of ProjectQ commands
-    in a register in an engine
+    Given a ProjectQ Qureg in an Engine, converts a :math:`\\mathrm{t|ket}\\rangle` Circuit to a series of ProjectQ Commands on this Qureg.
+
+    :param prog: A ProjectQ MainEngine
+    :param prog: A ProjectQ Qureg in this MainEngine
+    :param prog: A :math:`\\mathrm{t|ket}\\rangle` Circuit
     """
     for command in circuit:
         cmd = get_pq_command_from_tk_command(command,engine,qureg)
@@ -189,22 +192,51 @@ class tketBackendEngine(BasicEngine):
     """
 
     def __init__(self):
+        """
+        Initialize the tketBackendEngine.
+
+        Initializes local Circuit to an empty Circuit.
+        """
         BasicEngine.__init__(self)
         self._circuit = Circuit()
 
     @property
     def circuit(self):
+        """
+        Returns:
+            The :math:`\\mathrm{t|ket}\\rangle` Circuit from the engine.
+        
+        Raises:
+            Exception:
+            If the Circuit has no gates, assumes user forgot to flush engines.
+        """
         if self._circuit.n_gates==0:
             raise Exception("Circuit has no gates. Have you flushed your engine?")
         return self._circuit
     
     def is_available(self,cmd):
+        """
+        Ask the next engine whether a command is available, i.e.,
+        whether it can be executed by the next engine(s).
+
+        Args:
+            cmd (Command): Command for which to check availability.
+
+        Returns:
+            True if the command can be executed.
+
+        Raises:
+            LastEngineException: 
+            If is_last_engine is True but is_available is not implemented.
+        """
         try:
             return BasicEngine.is_available(self, cmd)
         except LastEngineException:
             return True
 
     def receive(self, command_list):
+        """ Process commands from a list and append to local Circuit. 
+        """
         for cmd in command_list:
             _handle_gate(cmd,self)
 
@@ -221,9 +253,8 @@ class tketBackendEngine(BasicEngine):
 
 class tketOptimiser(BasicEngine):
     """
-    A projectq BasicEngine designed to translate from projectq commands
-    to tket Circuits, optimise them, and then return other projectq commands.
-    The optimisation passes have been left out, as the interface to tket
+    A ProjectQ BasicEngine designed to translate from ProjectQ commands
+    to tket Circuits, optimise them, and then return other ProjectQ commands.
     """
     def __init__(self):
         BasicEngine.__init__(self)
@@ -231,6 +262,11 @@ class tketOptimiser(BasicEngine):
         self._qubit_dictionary = dict()
 
     def receive(self, command_list):
+        """
+        Receives a list of commands and appends to local Circuit. If a flush gate is received, 
+        optimises the Circuit using a default Transform pass and then sends the commands from
+        this optimised Circuit into the next engine.
+        """
         for cmd in command_list:
             if cmd.gate == pqo.FlushGate(): #flush gate --> optimize and then flush
                 cmd_list = self._optimise()

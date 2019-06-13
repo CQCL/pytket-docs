@@ -4,8 +4,8 @@ from qiskit.providers import BaseBackend
 from qiskit.transpiler.basepasses import TransformationPass, BasePass
 
 from pytket._transform import Transform
-from pytket._routing import route
-from pytket.qiskit import dagcircuit_to_tk, tk_to_dagcircuit, coupling_to_arc
+from pytket._routing import route, Architecture
+from pytket.qiskit import dagcircuit_to_tk, tk_to_dagcircuit
 
 class TketPass(TransformationPass):
     """The :math:`\\mathrm{t|ket}\\rangle` compiler to be plugged in to the Qiskit compilation sequence"""
@@ -36,7 +36,7 @@ class TketPass(TransformationPass):
         circlay = list(range(num_qubits))
 
         if coupling_map:
-            directed_arc = coupling_to_arc(coupling_map)
+            directed_arc =  Architecture(coupling_map)
             # route_ibm fnction that takes directed Arc, returns dag with cnots etc. 
             circ, circlay = route(circ,directed_arc)
             circ.apply_boundary_map(circlay[0])
