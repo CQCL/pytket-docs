@@ -1,5 +1,11 @@
 Changelog
 ==================================
+0.2.2 (June 2019)
+------------------
+Updates:
+
+* Minor bug fixes, examples and documentation
+
 0.2.1 (June 2019)
 ------------------
 Updates:
