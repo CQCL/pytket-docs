@@ -6,8 +6,8 @@ pytket.backends
    :caption: Specific Backends:
    :maxdepth: 2
 
-    projectq_backend.rst
-    
+
+
 .. autoclass:: Backend
     :special-members:
     :members:
