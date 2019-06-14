@@ -112,8 +112,7 @@ setup(
     license="Apache 2.0",
     packages=setuptools.find_packages(),
     install_requires=[
-        'scipy ~=1.1.0',
-        'sympy ~=1.3',
+        'sympy >=1.3',
         'numpy'
     ],
     ext_modules=extensions,
