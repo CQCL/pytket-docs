@@ -47,7 +47,7 @@ class AerBackend(Backend) :
         :type fit_to_constraints: bool, optional
         :param seed: random seed to for simulator
         :type seed: int
-        :return: Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 corresponding to |0> or 1 corresponding to |1>
+        :return: Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1, corresponding to qubit basis states.
         :rtype: numpy.ndarray
         """
         c = circuit.copy()

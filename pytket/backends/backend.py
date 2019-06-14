@@ -36,7 +36,7 @@ class Backend(ABC) :
         :type shots: int
         :param fit_to_constraints: Compile the circuit to meet the contstraints of the backend, defaults to True
         :type fit_to_constraints: bool, optional
-        :return: Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 corresponding to |0> or 1 corresponding to |1>
+        :return: Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.
         :rtype: numpy.ndarray
         """
         

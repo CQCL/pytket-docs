@@ -102,14 +102,15 @@ def get_pq_command_from_tk_command(command:Command, engine:MainEngine, container
 
         return cmd
 
-
-def tk_to_projectq(engine:MainEngine,qureg:Qureg,circuit:Union[Circuit,PhysicalCircuit])->None:
-    """
-    Given a ProjectQ Qureg in an Engine, converts a :math:`\\mathrm{t|ket}\\rangle` Circuit to a series of ProjectQ Commands on this Qureg.
-
-    :param prog: A ProjectQ MainEngine
-    :param prog: A ProjectQ Qureg in this MainEngine
-    :param prog: A :math:`\\mathrm{t|ket}\\rangle` Circuit
+def tk_to_projectq(engine:MainEngine,qureg:Qureg,circuit:Union[Circuit,PhysicalCircuit]) -> None :
+    """Given a ProjectQ Qureg in an Engine, converts a Circuit to a series of ProjectQ Commands on this Qureg.
+    
+    :param engine: A ProjectQ MainEngine
+    :type engine: MainEngine
+    :param qureg: A ProjectQ Qureg in this MainEngine
+    :type qureg: Qureg
+    :param circuit: A tket Circuit
+    :type circuit: Union[Circuit,PhysicalCircuit]
     """
     for command in circuit:
         cmd = get_pq_command_from_tk_command(command,engine,qureg)
