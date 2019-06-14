@@ -26,6 +26,8 @@ For a quick introduction to pytket and the :py:class:`Circuit` interface, head t
     cirq.rst
     qiskit.rst
     pyquil.rst
+    projectq.rst
+    projectq_backend.rst
     pyzx.rst
 
 Indices and tables
