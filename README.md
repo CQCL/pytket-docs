@@ -37,4 +37,3 @@ PyZX: ``pip install pytket-pyzx``
 Note:this will need a separate install of `pyzx` from [source](https://github.com/Quantomatic/pyzx).
 
 
-
