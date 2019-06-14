@@ -20,7 +20,7 @@ try :
     from pytket.backends.ibm import IBMQBackend, AerBackend, AerStateBackend
 except ImportError :
     pass 
-try :
-    from pytket.backends.projectq import ProjectQBackend
-except ImportError :
-    pass 
+# try :
+#     from pytket.backends.projectq import ProjectQBackend
+# except ImportError :
+#     pass 

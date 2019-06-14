@@ -23,11 +23,9 @@ For a quick introduction to pytket and the :py:class:`Circuit` interface, head t
     circuit.rst
     routing.rst
     transform.rst
-    backends.rst
     cirq.rst
     qiskit.rst
     pyquil.rst
-    projectq.rst
     pyzx.rst
 
 Indices and tables
