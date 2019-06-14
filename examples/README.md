@@ -13,6 +13,6 @@ Here you can find notebooks showing features and example usage of pytket.
 
 [tket_benchmarking](https://github.com/CQCL/pytket/blob/master/examples/tket_benchmarking.ipynb) - Run IBM benchmark circuits, from [arxiv:1902:08091](https://arxiv.org/abs/1902.08091).
 
-[transform_example](https://github.com/CQCL/pytket/blob/master/examples/transform_example.ipynb) - Transform and circuit optimisation interface. 
+[transform_example](https://github.com/CQCL/pytket/blob/master/examples/transform_example.ipynb) - Transform and circuit optimisation interface, along with examples of conversion to and from each framework. 
 
 [backends_example](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) - Running circuits on our allowed backends
