@@ -71,9 +71,11 @@ Note:this will need a separate install of ``pyzx`` from `source`_.
     circuit.rst
     routing.rst
     transform.rst
+    backends.rst
     cirq.rst
     qiskit.rst
     pyquil.rst
+    projectq.rst
     pyzx.rst
 
 Indices and tables

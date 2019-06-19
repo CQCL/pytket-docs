@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket.backends.ibm &mdash; pytket 0.2.2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pytket 0.2.2 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pytket</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>pytket.backends.ibm</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/ibm_backend.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pytket.backends.ibm">
+<span id="pytket-backends-ibm"></span><h1>pytket.backends.ibm<a class="headerlink" href="#module-pytket.backends.ibm" title="Permalink to this headline">¶</a></h1>
+<p>Backends for connecting to IBM devices and simulators directly from pytket</p>
+<dl class="class">
+<dt id="pytket.backends.ibm.IBMQBackend">
+<em class="property">class </em><code class="descclassname">pytket.backends.ibm.</code><code class="descname">IBMQBackend</code><span class="sig-paren">(</span><em>backend_name: str</em>, <em>monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pytket.backends.ibm.IBMQBackend.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>backend_name: str</em>, <em>monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>A backend for running circuits on remote IBMQ devices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>backend_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name of ibmq device. e.g. <cite>ibmqx4</cite>, <cite>ibmq_16_melbourne</cite>.</li>
+<li><strong>monitor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Use IBM job monitor, defaults to True</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – If no IBMQ account has been set up.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.ibm.IBMQBackend.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>circuit: pytket._circuit.Circuit</em>, <em>shots: int</em>, <em>fit_to_constraints: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the circuit on the backend and return results, optionally fitting the circuit to the constraints of the backend.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</li>
+<li><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run</li>
+<li><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.backends.ibm.AerBackend">
+<em class="property">class </em><code class="descclassname">pytket.backends.ibm.</code><code class="descname">AerBackend</code><span class="sig-paren">(</span><em>noise_model: qiskit.providers.aer.noise.noise_model.NoiseModel = None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pytket.backends.ibm.AerBackend.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>noise_model: qiskit.providers.aer.noise.noise_model.NoiseModel = None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Backend for running simulations on Qiskit Aer Qasm simulator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>noise_model</strong> (<em>NoiseModel</em><em>, </em><em>optional</em>) – Noise model to use in simulation, defaults to None.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.ibm.AerBackend.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>circuit: pytket._circuit.Circuit</em>, <em>shots: int</em>, <em>fit_to_constraints=True</em>, <em>seed: int = None</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerBackend.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a circuit on Qiskit Aer Qasm simulator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</li>
+<li><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run</li>
+<li><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the contstraints of the backend, defaults to True</li>
+<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – random seed to for simulator</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1, corresponding to qubit basis states.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.backends.ibm.AerStateBackend">
+<em class="property">class </em><code class="descclassname">pytket.backends.ibm.</code><code class="descname">AerStateBackend</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pytket.backends.ibm.AerStateBackend.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.ibm.AerStateBackend.get_operator_expectation_value">
+<code class="descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>operator</em>, <em>shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations
+Note: This method is significantly faster using the ProjectQBackend than the AerStateBackend.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.ibm.AerStateBackend.get_pauli_expectation_value">
+<code class="descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>pauli</em>, <em>shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates expectation value for pauli term by preparing basis change circuit and measuring</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.ibm.AerStateBackend.get_state">
+<code class="descname">get_state</code><span class="sig-paren">(</span><em>circuit</em>, <em>fit_to_constraints=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the statevector for a circuit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>circuit</strong> – circuit to calculate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">complex numpy array of statevector</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.ibm.AerStateBackend.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>circuit</em>, <em>shots</em>, <em>fit_to_constraints=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the circuit on the backend and return results, optionally fitting the circuit to the constraints of the backend.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</li>
+<li><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run</li>
+<li><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

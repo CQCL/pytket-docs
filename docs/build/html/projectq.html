@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket.projectq &mdash; pytket 0.2.2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pytket 0.2.2 documentation" href="index.html"/>
+        <link rel="next" title="pytket.pyzx" href="pyzx.html"/>
+        <link rel="prev" title="pytket.pyquil" href="pyquil.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pytket</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>pytket.projectq</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/projectq.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pytket.projectq">
+<span id="pytket-projectq"></span><h1>pytket.projectq<a class="headerlink" href="#module-pytket.projectq" title="Permalink to this headline">¶</a></h1>
+<p>Module for conversion between ProjectQ and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
+<dl class="class">
+<dt id="pytket.projectq.tketBackendEngine">
+<em class="property">class </em><code class="descclassname">pytket.projectq.</code><code class="descname">tketBackendEngine</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine" title="Permalink to this definition">¶</a></dt>
+<dd><p>A projectq backend designed to translate from projectq commands
+to tket Circuits</p>
+<dl class="method">
+<dt id="pytket.projectq.tketBackendEngine.is_available">
+<code class="descname">is_available</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask the next engine whether a command is available, i.e.,
+whether it can be executed by the next engine(s).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>cmd (Command): Command for which to check availability.</dd>
+<dt>Returns:</dt>
+<dd>True if the command can be executed.</dd>
+<dt>Raises:</dt>
+<dd>LastEngineException: 
+If is_last_engine is True but is_available is not implemented.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.projectq.tketBackendEngine.receive">
+<code class="descname">receive</code><span class="sig-paren">(</span><em>command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process commands from a list and append to local Circuit.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytket.projectq.tketBackendEngine.circuit">
+<code class="descname">circuit</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine.circuit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd>The <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> Circuit from the engine.</dd>
+<dt>Raises:</dt>
+<dd>Exception:
+If the Circuit has no gates, assumes user forgot to flush engines.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.projectq.tketOptimiser">
+<em class="property">class </em><code class="descclassname">pytket.projectq.</code><code class="descname">tketOptimiser</code><a class="headerlink" href="#pytket.projectq.tketOptimiser" title="Permalink to this definition">¶</a></dt>
+<dd><p>A ProjectQ BasicEngine designed to translate from ProjectQ commands
+to tket Circuits, optimise them, and then return other ProjectQ commands.</p>
+<dl class="method">
+<dt id="pytket.projectq.tketOptimiser.receive">
+<code class="descname">receive</code><span class="sig-paren">(</span><em>command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receives a list of commands and appends to local Circuit. If a flush gate is received, 
+optimises the Circuit using a default Transform pass and then sends the commands from
+this optimised Circuit into the next engine.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.projectq.tk_to_projectq">
+<code class="descclassname">pytket.projectq.</code><code class="descname">tk_to_projectq</code><span class="sig-paren">(</span><em>engine: projectq.cengines._main.MainEngine, qureg: projectq.types._qubit.Qureg, circuit: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a ProjectQ Qureg in an Engine, converts a Circuit to a series of ProjectQ Commands on this Qureg.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>engine</strong> (<em>MainEngine</em>) – A ProjectQ MainEngine</li>
+<li><strong>qureg</strong> (<em>Qureg</em>) – A ProjectQ Qureg in this MainEngine</li>
+<li><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a><em>,</em><a class="reference internal" href="routing.html#pytket._routing.PhysicalCircuit" title="pytket._routing.PhysicalCircuit"><em>PhysicalCircuit</em></a><em>]</em>) – A tket Circuit</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pyzx.html" class="btn btn-neutral float-right" title="pytket.pyzx" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pyquil.html" class="btn btn-neutral" title="pytket.pyquil" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

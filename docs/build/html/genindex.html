@@ -93,9 +93,11 @@
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
 </ul>
 
@@ -145,12 +147,14 @@
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
  | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -177,6 +181,14 @@
 </li>
         <li><a href="routing.html#pytket._routing.SquareGrid.__init__">(pytket._routing.SquareGrid method)</a>
 </li>
+        <li><a href="backends.html#pytket.backends.Backend.__init__">(pytket.backends.Backend method)</a>
+</li>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.AerBackend.__init__">(pytket.backends.ibm.AerBackend method)</a>
+</li>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.AerStateBackend.__init__">(pytket.backends.ibm.AerStateBackend method)</a>
+</li>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.IBMQBackend.__init__">(pytket.backends.ibm.IBMQBackend method)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -198,8 +210,12 @@
 </li>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.add_operation">add_operation() (pytket._circuit.Circuit method)</a>
 </li>
+      <li><a href="ibm_backend.html#pytket.backends.ibm.AerBackend">AerBackend (class in pytket.backends.ibm)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ibm_backend.html#pytket.backends.ibm.AerStateBackend">AerStateBackend (class in pytket.backends.ibm)</a>
+</li>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.append">append() (pytket._circuit.Circuit method)</a>
 </li>
       <li><a href="transform.html#pytket._transform.Transform.apply">apply() (pytket._transform.Transform method)</a>
@@ -209,19 +225,29 @@
   </ul></td>
 </tr></table>
 
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="backends.html#pytket.backends.Backend">Backend (class in pytket.backends)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="circuit_class.html#pytket._circuit.Circuit">Circuit (class in pytket._circuit)</a>
 </li>
+      <li><a href="projectq.html#pytket.projectq.tketBackendEngine.circuit">circuit (pytket.projectq.tketBackendEngine attribute)</a>
+</li>
       <li><a href="cirq.html#pytket.cirq.cirq_to_tk">cirq_to_tk() (in module pytket.cirq)</a>
 </li>
       <li><a href="circuit.html#pytket._circuit.Command">Command (class in pytket._circuit)</a>
 </li>
-      <li><a href="transform.html#pytket._transform.Transform.CommuteRzRxThroughCX">CommuteRzRxThroughCX() (pytket._transform.Transform method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="transform.html#pytket._transform.Transform.CommuteRzRxThroughCX">CommuteRzRxThroughCX() (pytket._transform.Transform method)</a>
+</li>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.copy">copy() (pytket._circuit.Circuit method)</a>
 </li>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.CRz">CRz() (pytket._circuit.Circuit method)</a>
@@ -286,9 +312,27 @@
         <li><a href="routing.html#pytket._routing.PhysicalCircuit.get_commands">(pytket._routing.PhysicalCircuit method)</a>
 </li>
       </ul></li>
+      <li><a href="cirq.html#pytket.cirq.get_grid_qubits">get_grid_qubits() (in module pytket.cirq)</a>
+</li>
+      <li><a href="backends.html#pytket.backends.Backend.get_operator_expectation_value">get_operator_expectation_value() (pytket.backends.Backend method)</a>
+
+      <ul>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.AerStateBackend.get_operator_expectation_value">(pytket.backends.ibm.AerStateBackend method)</a>
+</li>
+        <li><a href="projectq_backend.html#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value">(pytket.backends.projectq.ProjectQBackend method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cirq.html#pytket.cirq.get_grid_qubits">get_grid_qubits() (in module pytket.cirq)</a>
+      <li><a href="backends.html#pytket.backends.Backend.get_pauli_expectation_value">get_pauli_expectation_value() (pytket.backends.Backend method)</a>
+
+      <ul>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.AerStateBackend.get_pauli_expectation_value">(pytket.backends.ibm.AerStateBackend method)</a>
+</li>
+        <li><a href="projectq_backend.html#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value">(pytket.backends.projectq.ProjectQBackend method)</a>
+</li>
+      </ul></li>
+      <li><a href="ibm_backend.html#pytket.backends.ibm.AerStateBackend.get_state">get_state() (pytket.backends.ibm.AerStateBackend method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -297,6 +341,18 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.H">H() (pytket._circuit.Circuit method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ibm_backend.html#pytket.backends.ibm.IBMQBackend">IBMQBackend (class in pytket.backends.ibm)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="projectq.html#pytket.projectq.tketBackendEngine.is_available">is_available() (pytket.projectq.tketBackendEngine method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -372,6 +428,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="routing.html#pytket._routing.PhysicalCircuit">PhysicalCircuit (class in pytket._routing)</a>
 </li>
+      <li><a href="projectq_backend.html#pytket.backends.projectq.ProjectQBackend">ProjectQBackend (class in pytket.backends.projectq)</a>
+</li>
       <li><a href="pyquil.html#pytket.pyquil.pyquil_to_tk">pyquil_to_tk() (in module pytket.pyquil)</a>
 </li>
       <li><a href="circuit.html#module-pytket._circuit">pytket._circuit (module)</a>
@@ -380,11 +438,19 @@
 </li>
       <li><a href="routing.html#module-pytket._routing">pytket._routing (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="transform.html#module-pytket._transform">pytket._transform (module)</a>
 </li>
+      <li><a href="backends.html#module-pytket.backends">pytket.backends (module)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ibm_backend.html#module-pytket.backends.ibm">pytket.backends.ibm (module)</a>
+</li>
+      <li><a href="projectq_backend.html#module-pytket.backends.projectq">pytket.backends.projectq (module)</a>
+</li>
       <li><a href="cirq.html#module-pytket.cirq">pytket.cirq (module)</a>
+</li>
+      <li><a href="projectq.html#module-pytket.projectq">pytket.projectq (module)</a>
 </li>
       <li><a href="pyquil.html#module-pytket.pyquil">pytket.pyquil (module)</a>
 </li>
@@ -426,22 +492,40 @@
 </li>
       <li><a href="transform.html#pytket._transform.Transform.RebaseToRzRx">RebaseToRzRx() (pytket._transform.Transform method)</a>
 </li>
+      <li><a href="projectq.html#pytket.projectq.tketBackendEngine.receive">receive() (pytket.projectq.tketBackendEngine method)</a>
+
+      <ul>
+        <li><a href="projectq.html#pytket.projectq.tketOptimiser.receive">(pytket.projectq.tketOptimiser method)</a>
+</li>
+      </ul></li>
       <li><a href="routing.html#pytket._routing.PhysicalCircuit.redirect_CX_gates">redirect_CX_gates() (pytket._routing.PhysicalCircuit method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="transform.html#pytket._transform.Transform.ReduceSingles">ReduceSingles() (pytket._transform.Transform method)</a>
 </li>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.remove_blank_wires">remove_blank_wires() (pytket._circuit.Circuit method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="transform.html#pytket._transform.Transform.RemoveRedundancies">RemoveRedundancies() (pytket._transform.Transform method)</a>
 </li>
       <li><a href="transform.html#pytket._transform.Transform.repeat">repeat() (pytket._transform.Transform method)</a>
 </li>
       <li><a href="routing.html#pytket._routing.route">route() (in module pytket._routing)</a>
 </li>
-      <li><a href="qiskit.html#pytket.qiskit.TketPass.run">run() (pytket.qiskit.TketPass method)</a>
+      <li><a href="backends.html#pytket.backends.Backend.run">run() (pytket.backends.Backend method)</a>
+
+      <ul>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.AerBackend.run">(pytket.backends.ibm.AerBackend method)</a>
 </li>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.AerStateBackend.run">(pytket.backends.ibm.AerStateBackend method)</a>
+</li>
+        <li><a href="ibm_backend.html#pytket.backends.ibm.IBMQBackend.run">(pytket.backends.ibm.IBMQBackend method)</a>
+</li>
+        <li><a href="projectq_backend.html#pytket.backends.projectq.ProjectQBackend.run">(pytket.backends.projectq.ProjectQBackend method)</a>
+</li>
+        <li><a href="qiskit.html#pytket.qiskit.TketPass.run">(pytket.qiskit.TketPass method)</a>
+</li>
+      </ul></li>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.Rx">Rx() (pytket._circuit.Circuit method)</a>
 </li>
       <li><a href="circuit_class.html#pytket._circuit.Circuit.Ry">Ry() (pytket._circuit.Circuit method)</a>
@@ -482,11 +566,17 @@
 </li>
       <li><a href="qiskit.html#pytket.qiskit.tk_to_dagcircuit">tk_to_dagcircuit() (in module pytket.qiskit)</a>
 </li>
+      <li><a href="projectq.html#pytket.projectq.tk_to_projectq">tk_to_projectq() (in module pytket.projectq)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="pyquil.html#pytket.pyquil.tk_to_pyquil">tk_to_pyquil() (in module pytket.pyquil)</a>
 </li>
       <li><a href="pyzx.html#pytket.pyzx.tk_to_pyzx">tk_to_pyzx() (in module pytket.pyzx)</a>
+</li>
+      <li><a href="projectq.html#pytket.projectq.tketBackendEngine">tketBackendEngine (class in pytket.projectq)</a>
+</li>
+      <li><a href="projectq.html#pytket.projectq.tketOptimiser">tketOptimiser (class in pytket.projectq)</a>
 </li>
       <li><a href="qiskit.html#pytket.qiskit.TketPass">TketPass (class in pytket.qiskit)</a>
 </li>

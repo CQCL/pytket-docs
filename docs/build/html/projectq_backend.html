@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Module Index &mdash; pytket 0.2.2 documentation</title>
+  <title>pytket.backends.projectq &mdash; pytket 0.2.2 documentation</title>
   
 
   
@@ -33,10 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pytket 0.2.2 documentation" href="index.html"/>
- 
-
-
+    <link rel="top" title="pytket 0.2.2 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -123,7 +120,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -131,9 +128,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Python Module Index</li>
+    <li>pytket.backends.projectq</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+            <a href="_sources/projectq_backend.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -143,79 +142,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  <div class="section" id="module-pytket.backends.projectq">
+<span id="pytket-backends-projectq"></span><h1>pytket.backends.projectq<a class="headerlink" href="#module-pytket.backends.projectq" title="Permalink to this headline">¶</a></h1>
+<p>Backend for utilising the ProjectQ simulator directly from pytket</p>
+<dl class="class">
+<dt id="pytket.backends.projectq.ProjectQBackend">
+<em class="property">class </em><code class="descclassname">pytket.backends.projectq.</code><code class="descname">ProjectQBackend</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value">
+<code class="descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>operator</em>, <em>shots=10000</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations
+Note: This method is significantly faster using the ProjectQBackend than the AerStateBackend.</p>
+</dd></dl>
 
-   <h1>Python Module Index</h1>
+<dl class="method">
+<dt id="pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value">
+<code class="descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>pauli</em>, <em>shots=10000</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates expectation value for pauli term by preparing basis change circuit and measuring</p>
+</dd></dl>
 
-   <div class="modindex-jumpbox">
-   <a href="#cap-p"><strong>p</strong></a>
-   </div>
+<dl class="method">
+<dt id="pytket.backends.projectq.ProjectQBackend.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>circuit: pytket._circuit.Circuit</em>, <em>shots: int</em>, <em>fit_to_constraints=True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the circuit on the backend and return results, optionally fitting the circuit to the constraints of the backend.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</li>
+<li><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run</li>
+<li><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-p"><td></td><td>
-       <strong>p</strong></td><td></td></tr>
-     <tr>
-       <td><img src="_static/minus.png" class="toggler"
-              id="toggle-1" style="display: none" alt="-" /></td>
-       <td>
-       <code class="xref">pytket</code></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="circuit.html#module-pytket._circuit"><code class="xref">pytket._circuit</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="routing.html#module-pytket._routing"><code class="xref">pytket._routing</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="transform.html#module-pytket._transform"><code class="xref">pytket._transform</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="backends.html#module-pytket.backends"><code class="xref">pytket.backends</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="ibm_backend.html#module-pytket.backends.ibm"><code class="xref">pytket.backends.ibm</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="projectq_backend.html#module-pytket.backends.projectq"><code class="xref">pytket.backends.projectq</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="cirq.html#module-pytket.cirq"><code class="xref">pytket.cirq</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="projectq.html#module-pytket.projectq"><code class="xref">pytket.projectq</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="pyquil.html#module-pytket.pyquil"><code class="xref">pytket.pyquil</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="pyzx.html#module-pytket.pyzx"><code class="xref">pytket.pyzx</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="qiskit.html#module-pytket.qiskit"><code class="xref">pytket.qiskit</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+</dd></dl>
+
+</div>
 
 
            </div>
