@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket Documentation &mdash; pytket 0.2.0 documentation</title>
+  <title>pytket &mdash; pytket 0.2.2 documentation</title>
   
 
   
@@ -33,7 +33,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pytket 0.2.0 documentation" href="#"/>
+    <link rel="top" title="pytket 0.2.2 documentation" href="#"/>
         <link rel="next" title="Getting Started" href="getting_started.html"/> 
 
   
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.2.2
               </div>
             
           
@@ -127,7 +127,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
       
-    <li>pytket Documentation</li>
+    <li>pytket</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -141,12 +141,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pytket-documentation">
-<h1>pytket Documentation<a class="headerlink" href="#pytket-documentation" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://www.github.com/CQCL/pytket">pytket</a> is a python module for interfacing with CQC <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span>, a set of quantum programming tools. We currently support circuits and device architectures from <a class="reference external" href="https://www.github.com/quantumlib/cirq">Google Cirq</a>, <a class="reference external" href="https://qiskit.org">IBM’s Qiskit</a>, <a class="reference external" href="https://github.com/ProjectQ-Framework/ProjectQ">ProjectQ</a>, <a class="reference external" href="https://github.com/Quantomatic/pyzx">PyZX</a>, and the <a class="reference external" href="http://rigetti.com/forest">Rigetti Forest SDK</a>, allowing the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> tools to be used in conjunction with projects on these platforms.</p>
-<p><strong>Try it yourself</strong></p>
-<p>pytket can be installed from PyPI by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket</span></code> from the command line. Note: attempting to install from source will not set up the required binaries for the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> compiler, so we recommend the PyPI installation.</p>
-<p>For a quick introduction to pytket and the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> interface, head to <a class="reference internal" href="getting_started.html#start"><span class="std std-ref">Getting Started</span></a>, or have a look at our jupyter notebooks (such as <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb">examples/cirq_routing_example.ipynb</a>) for tutorials on routing, optimisation, and interfacing with other quantum SDKs.</p>
+  <div class="section" id="pytket">
+<h1>pytket<a class="headerlink" href="#pytket" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> is a python module for interfacing with CQC t|ket&gt;, a set of
+quantum programming tools. We currently support circuits and device
+architectures from Google <a class="reference external" href="https://www.github.com/quantumlib/cirq">Cirq</a>, IBM <a class="reference external" href="https://qiskit.org">Qiskit</a>, <a class="reference external" href="https://github.com/Quantomatic/pyzx">Pyzx</a>, <a class="reference external" href="https://github.com/ProjectQ-Framework/ProjectQ">ProjectQ</a>
+and Rigetti <a class="reference external" href="http://rigetti.com/forest">pyQuil</a>, allowing the t|ket&gt; tools to be used in
+conjunction with projects on these platforms.</p>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> is available for <code class="docutils literal notranslate"><span class="pre">python3.6</span></code> or higher, on Linux and MacOS.
+To install, run</p>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket</span></code></p>
+<p>Note: attempting to install from source will not set up the required
+binaries for the t|ket&gt; compiler, so we recommend the PyPI installation.</p>
+<p>See the <a class="reference external" href="getting_started.html">Getting Started</a> page for a quick introduction to using
+<code class="docutils literal notranslate"><span class="pre">pytket</span></code>.</p>
+<p>To get more in depth on features, see the <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples">examples</a>.</p>
+</div>
+<div class="section" id="interfaces">
+<h2>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this headline">¶</a></h2>
+<p>To use pytket in conjunction with other platforms you must download an
+additional separate module for each. This can be done from pip, or from
+source, as they binaries are included with the core <code class="docutils literal notranslate"><span class="pre">pytket</span></code> package.</p>
+<p>For each subpackage:</p>
+<p>Qiskit: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-qiskit</span></code></p>
+<p>Cirq: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-cirq</span></code></p>
+<p>PyQuil: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-pyquil</span></code></p>
+<p>ProjectQ: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-projectq</span></code></p>
+<p>PyZX: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-pyzx</span></code></p>
+<p>Note:this will need a separate install of <code class="docutils literal notranslate"><span class="pre">pyzx</span></code> from <a class="reference external" href="https://github.com/Quantomatic/pyzx">source</a>.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -169,6 +193,7 @@
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
 </ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -219,7 +244,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.2.0',
+            VERSION:'0.2.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
