@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket._circuit.Circuit &mdash; pytket 0.2.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="pytket 0.2.0 documentation" href="index.html"/>
+        <link rel="up" title="pytket._circuit" href="circuit.html"/>
+        <link rel="next" title="pytket._circuit.OpType" href="optype.html"/>
+        <link rel="prev" title="pytket._circuit" href="circuit.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="circuit.html">pytket._circuit</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pytket._circuit.Circuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optype.html">pytket._circuit.OpType</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pytket</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="circuit.html">pytket._circuit</a> &raquo;</li>
+      
+    <li>pytket._circuit.Circuit</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/circuit_class.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pytket-circuit-circuit">
+<h1>pytket._circuit.Circuit<a class="headerlink" href="#pytket-circuit-circuit" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects provide an abstraction of quantum circuits. They consist of a set of qubits/quantum wires and a collection of operations applied to them in a given order. These wires have open inputs and outputs, rather than assuming any fixed input state.
+An introduction to using the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class is given in getting_started.rst</p>
+<dl class="class">
+<dt id="pytket._circuit.Circuit">
+<em class="property">class </em><code class="descclassname">pytket._circuit.</code><code class="descname">Circuit</code><a class="headerlink" href="#pytket._circuit.Circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulates a quantum circuit using a DAG representation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytket</span> <span class="k">import</span> <span class="n">Circuit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># Create a circuit with 4 qubits</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Apply a gate to qubit 0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># Angles of rotation are expressed in half-turns (i.e. 0.5 means PI/2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="pytket._circuit.Circuit.CRz">
+<code class="descname">CRz</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.CRz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>CRz(self: pytket._circuit.Circuit, control_qubit: int, target_qubit: int, angle: float) -&gt; None</li>
+</ol>
+<p>Appends a CRz gate with a given angle (specified in half-turns) on the wires for the specified control and target qubits.</p>
+<ol class="arabic simple" start="2">
+<li>CRz(self: pytket._circuit.Circuit, control_qubit: int, target_qubit: int, angle: Expression) -&gt; None</li>
+</ol>
+<p>Appends a CRz gate with a symbolic angle (specified in half-turns) on the wires for the specified control and target qubits.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.CX">
+<code class="descname">CX</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>control_qubit: int</em>, <em>target_qubit: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.CX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a CX gate on the wires for the specified control and target qubits.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.CZ">
+<code class="descname">CZ</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>control_qubit: int</em>, <em>target_qubit: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.CZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a CZ gate on the wires for the specified control and target qubits.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.H">
+<code class="descname">H</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.H" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a Hadamard gate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Measure">
+<code class="descname">Measure</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.Measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>Measure(self: pytket._circuit.Circuit, qbit_index: int) -&gt; None</li>
+</ol>
+<p>Appends a single-qubit Measurement in the computational basis.</p>
+<ol class="arabic simple" start="2">
+<li>Measure(self: pytket._circuit.Circuit, qbit_index: int, creg: str) -&gt; None</li>
+</ol>
+<p>Appends a single=qubit Measurement in the computational basis, with the result saved in a named register.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Rx">
+<code class="descname">Rx</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.Rx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>Rx(self: pytket._circuit.Circuit, qbit_index: int, angle: float) -&gt; None</li>
+</ol>
+<p>Appends an Rx gate with a given angle (specified in half-turns).</p>
+<ol class="arabic simple" start="2">
+<li>Rx(self: pytket._circuit.Circuit, qbit_index: int, angle: Expression) -&gt; None</li>
+</ol>
+<p>Appends an Rx gate with a symbolic angle (specified in half-turns).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Ry">
+<code class="descname">Ry</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.Ry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>Ry(self: pytket._circuit.Circuit, qbit_index: int, angle: float) -&gt; None</li>
+</ol>
+<p>Appends an Ry gate with a given angle (specified in half-turns).</p>
+<ol class="arabic simple" start="2">
+<li>Ry(self: pytket._circuit.Circuit, qbit_index: int, angle: Expression) -&gt; None</li>
+</ol>
+<p>Appends an Ry gate with a symbolic angle (specified in half-turns).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Rz">
+<code class="descname">Rz</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.Rz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>Rz(self: pytket._circuit.Circuit, qbit_index: int, angle: float) -&gt; None</li>
+</ol>
+<p>Appends an Rz gate with a given angle (specified in half-turns).</p>
+<ol class="arabic simple" start="2">
+<li>Rz(self: pytket._circuit.Circuit, qbit_index: int, angle: Expression) -&gt; None</li>
+</ol>
+<p>Appends an Rz gate with a symbolic angle (specified in half-turns).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.S">
+<code class="descname">S</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.S" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends an S gate (equivalent to Rz(-,0.5)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Sdg">
+<code class="descname">Sdg</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.Sdg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends an S-dagger gate (equivalent to Rz(-,-0.5)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.T">
+<code class="descname">T</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a T gate (equivalent to Rz(-,0.25)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Tdg">
+<code class="descname">Tdg</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.Tdg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a T-dagger gate (equivalent to Rz(-,-0.25)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.X">
+<code class="descname">X</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.X" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends an X gate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Y">
+<code class="descname">Y</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.Y" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a Y gate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.Z">
+<code class="descname">Z</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>qbit_index: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.Z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a Z gate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.ZZPhase">
+<code class="descname">ZZPhase</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.ZZPhase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>ZZPhase(self: pytket._circuit.Circuit, qubit0: int, qubit1: int, angle: float) -&gt; None</li>
+</ol>
+<p>Appends a ZZ gate with a given angle (specified in half-turns) on the wires for the specified two qubits.</p>
+<ol class="arabic simple" start="2">
+<li>ZZPhase(self: pytket._circuit.Circuit, qubit0: int, qubit1: int, angle: Expression) -&gt; None</li>
+</ol>
+<p>Appends a ZZ gate with a symbolic angle (specified in half-turns) on the wires for the specified two qubits.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>__init__(self: pytket._circuit.Circuit) -&gt; None</li>
+</ol>
+<p>Constructs a circuit with a completely empty DAG.</p>
+<ol class="arabic simple" start="2">
+<li>__init__(self: pytket._circuit.Circuit, n_qubits: int) -&gt; None</li>
+</ol>
+<p>Constructs a circuit with a given number of qubits/blank wires.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_blank_wires</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is equivalent to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_qubits</strong> – The number of qubits in the circuit</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="3">
+<li>__init__(self: pytket._circuit.Circuit, arg0: str) -&gt; None</li>
+</ol>
+<p>Constructs a circuit from a tkc file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.__iter__">
+<code class="descname">__iter__</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; iterator<a class="headerlink" href="#pytket._circuit.Circuit.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterate through the circuit, a Command at a time.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#pytket._circuit.Circuit.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.__rshift__">
+<code class="descname">__rshift__</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>arg0: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket._circuit.Circuit.__rshift__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new Circuit, corresponding to the sequential composition of the given Circuits. Inputs and Outputs are unified according to the boundary maps.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.add_blank_wires">
+<code class="descname">add_blank_wires</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>number: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.add_blank_wires" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a number of Input-Output pairs to the DAG, i.e. adds new qubits to the circuit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.add_circuit">
+<code class="descname">add_circuit</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit, circuit: pytket._circuit.Circuit, qubits: List[int]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.add_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-place sequential composition of circuits, appending a copy of the argument onto the end of the circuit. Connects qubits with the same behaviour as <cite>add_operation</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>circuit</strong> – The circuit to be appended to the end of <code class="docutils literal notranslate"><span class="pre">self</span></code></li>
+<li><strong>qubits</strong> – The qubits to append the circuit to</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.add_operation">
+<code class="descname">add_operation</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit, type: pytket._circuit.OpType, qubits: List[int]</em><span class="sig-paren">)</span> &#x2192; capsule<a class="headerlink" href="#pytket._circuit.Circuit.add_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a single (non-parameterised) operation to the end of the circuit on some particular qubits. The number of qubits specified must match the arity of the operation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_operation</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># equivalent to c.H(0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_operation</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># equivalent to c.CX(0,1)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>type</strong> – The type of operation to add</li>
+<li><strong>qubits</strong> – The list of indices for the qubits to which the operation is applied</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.append">
+<code class="descname">append</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>circuit: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-place sequential composition of circuits, appending a copy of the argument onto the end of the circuit. Inputs and Outputs are unified according to the qubit ordering.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>circuit</strong> – The circuit to be appended to the end of <code class="docutils literal notranslate"><span class="pre">self</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket._circuit.Circuit.copy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An identical copy of the circuit</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.dagger">
+<code class="descname">dagger</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket._circuit.Circuit.dagger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a pure circuit (i.e. without any measurements), produces a new circuit for the inverse/adjoint operation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A new <a class="reference internal" href="#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> corresponding to the inverse operation</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.depth">
+<code class="descname">depth</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#pytket._circuit.Circuit.depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the longest path through the DAG.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth</span><span class="p">()</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The circuit depth</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.depth_by_type">
+<code class="descname">depth_by_type</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>type: pytket._circuit.OpType</em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#pytket._circuit.Circuit.depth_by_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the depth of the circuit with respect to a given operation type, e.g. CX-depth.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type</strong> – The operation type of interest</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The circuit depth with respect to operations matching <code class="docutils literal notranslate"><span class="pre">type</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.get_commands">
+<code class="descname">get_commands</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; List[pytket._circuit.Command]<a class="headerlink" href="#pytket._circuit.Circuit.get_commands" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of all the Commands in the circuit.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.measure_all">
+<code class="descname">measure_all</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.measure_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a measure gate to all qubits.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.n_gates_of_type">
+<code class="descname">n_gates_of_type</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>type: pytket._circuit.OpType</em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#pytket._circuit.Circuit.n_gates_of_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of vertices in the dag of a given operation type.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type</strong> – The operation type to search for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The number of operations matching <code class="docutils literal notranslate"><span class="pre">type</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.remove_blank_wires">
+<code class="descname">remove_blank_wires</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.remove_blank_wires" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes any Input-Output pairs in the DAG with no intervening operations, i.e. removes untouched qubits from the circuit. This may occur when optimisations recognise that the operations on a qubit reduce to the identity, or when routing adds wires to “fill out” the architecture.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket._circuit.Circuit.symbol_substitution">
+<code class="descname">symbol_substitution</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.symbol_substitution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>symbol_substitution(self: pytket._circuit.Circuit, symbol_map: Dict[Symbol, Expression]) -&gt; None</li>
+</ol>
+<p>In-place substitution for symbolic expressions; iterates through each parameterised gate and performs the substitution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>symbol_map</strong> – A map from SymPy symbols to SymPy expressions</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="2">
+<li>symbol_substitution(self: pytket._circuit.Circuit, symbol_map: Dict[Symbol, float]) -&gt; None</li>
+</ol>
+<p>In-place substitution for symbolic expressions; iterates through each parameterised gate and performs the substitution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>symbol_map</strong> – A map from SymPy symbols to SymPy expressions</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytket._circuit.Circuit.n_gates">
+<code class="descname">n_gates</code><a class="headerlink" href="#pytket._circuit.Circuit.n_gates" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of gates in the Circuit</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pytket._circuit.Circuit.n_qubits">
+<code class="descname">n_qubits</code><a class="headerlink" href="#pytket._circuit.Circuit.n_qubits" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The number of qubits in the circuit</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="optype.html" class="btn btn-neutral float-right" title="pytket._circuit.OpType" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="circuit.html" class="btn btn-neutral" title="pytket._circuit" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
