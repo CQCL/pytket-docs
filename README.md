@@ -11,7 +11,7 @@ To install, run
 
 Note: attempting to install from source will not set up the required binaries for the t|ket> compiler, so we recommend the PyPI installation.
 
-See the [Getting Started](https://pytket.readthedocs.io/en/latest/getting_started.html) page for a quick introduction to using `pytket`. 
+See the [Getting Started](https://cqcl.github.io/pytket/build/html/getting_started.html) page for a quick introduction to using `pytket`. 
 
 **Documentation** can be found at [cqcl.github.io/pytket](https://cqcl.github.io/pytket)
 
