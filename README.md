@@ -19,7 +19,7 @@ To get more in depth on features, see the [examples](https://github.com/CQCL/pyt
 
 ### Interfaces
 To use pytket in conjunction with other platforms you must download an additional separate module for each.
-This can be done from pip, or from source, as they binaries are included with the core `pytket` package.
+This can be done from pip, or from source, as the binaries are included with the core `pytket` package.
 
 For each subpackage:
 
