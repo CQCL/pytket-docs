@@ -15,7 +15,7 @@ def find_pytket_subpackages():
 
 setup(
     name='pytket_cirq',
-    version='0.1',
+    version='0.1.1',
     author='Will Simmons',
     author_email='will.simmons@cambridgequantum.com',
     python_requires='>=3.6',

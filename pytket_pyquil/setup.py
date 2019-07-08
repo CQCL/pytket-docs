@@ -2,7 +2,7 @@ import setuptools
 from setuptools import setup
 
 def find_pytket_subpackages():
-    locations = [('pytket', 'pytket')]
+    locations = [('pytket', 'pytket'), ('pytket/backends', 'pytket.backends')]
     pkg_list = []
 
     for location, prefix in locations:
@@ -15,7 +15,7 @@ def find_pytket_subpackages():
 
 setup(
     name='pytket_pyquil',
-    version='0.1',
+    version='0.1.1',
     author='Will Simmons',
     author_email='will.simmons@cambridgequantum.com',
     python_requires='>=3.6',
@@ -25,7 +25,7 @@ setup(
     packages = find_pytket_subpackages(),
     install_requires = [
         'pytket >=0.2.0',
-        'pyquil ~=2.3.0'
+        'pyquil ~=2.8.0'
     ],
     classifiers=[
         "Environment :: Console",

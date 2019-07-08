@@ -33,7 +33,9 @@ def projectq_expectation_value(circuit:Circuit,hamiltonian:QubitOperator) -> flo
     fwd = ForwarderEngine(ProjectQback)
     eng = MainEngine(backend=ProjectQback,engine_list=[fwd])
     qureg = eng.allocate_qureg(circuit.n_qubits)
-    tk_to_projectq(eng,qureg,circuit)
+    c = circuit.copy()
+    Transform.RebaseToProjectQ().apply(c)
+    tk_to_projectq(eng,qureg,c)
     eng.flush()
     energy = eng.backend.get_expectation_value(hamiltonian,qureg)
     All(Measure) | qureg

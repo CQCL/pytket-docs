@@ -34,7 +34,7 @@ class Backend(ABC) :
         :type circuit: Circuit
         :param shots: Number of shots (repeats) to run
         :type shots: int
-        :param fit_to_constraints: Compile the circuit to meet the contstraints of the backend, defaults to True
+        :param fit_to_constraints: Compile the circuit to meet the constraints of the backend, defaults to True
         :type fit_to_constraints: bool, optional
         :return: Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.
         :rtype: numpy.ndarray
@@ -64,3 +64,16 @@ class Backend(ABC) :
         for pauli, coeff in operator.terms.items() :
             energy += coeff*self.get_pauli_expectation_value(state_circuit, pauli, shots)
         return energy
+    
+    def get_counts(self, circuit, shots, fit_to_constraints=True) :
+        """
+        Run the circuit on the backend and accumulate the results into a summary of counts
+
+        :param circuit: The circuit to run
+        :param shots: Number of shots (repeats) to run
+        :param fit_to_constraints: Compile the circuit to meet the constraints of the backend, defaults to True
+        :return: Dictionary mapping bitvectors of results to number of times that result was observed (zero counts are omitted)
+        """
+        shot_table = self.run(circuit, shots, fit_to_constraints)
+        shots, counts = np.unique(shot_table, axis=0, return_counts=True)
+        return {tuple(s):c for s, c in zip(shots, counts)}

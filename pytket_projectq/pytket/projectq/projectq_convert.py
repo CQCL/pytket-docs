@@ -156,7 +156,7 @@ def _add_single_qubit_op_to_circuit(cmd:ProjectQCommand,circ:Circuit):
         raise Exception("singleq gate " + str(cmd.gate) + " has " + str(get_control_count(cmd)) + " control qubits")
     else:
         if type(cmd.gate) in (pqo.Rx,pqo.Ry,pqo.Rz):
-            op = circ._get_op(OpType=_pq_to_tk_singleqs[type(cmd.gate)],n_inputs=1,n_outputs=1,param=cmd.gate.angle/PI)
+            op = circ._get_op(OpType=_pq_to_tk_singleqs[type(cmd.gate)],param=cmd.gate.angle/PI)
         else:
             op = circ._get_op(OpType=_pq_to_tk_singleqs[type(cmd.gate)])
         if (qubit_no >= circ.n_qubits):
@@ -179,7 +179,7 @@ def _add_multi_qubit_op_to_circuit(cmd:ProjectQCommand,circ:Circuit):
                 new_qubits.append(q)
         n_qubits = len(cmd.all_qubits)
         if (type(cmd.gate) == pqo.CRz):
-            op = circ._get_op(OpType=_pq_to_tk_multiqs[type(cmd.gate)],n_inputs=n_qubits,n_outputs=n_qubits,param=cmd.gate.angle/PI)
+            op = circ._get_op(OpType=_pq_to_tk_multiqs[type(cmd.gate)],param=cmd.gate.angle/PI)
         else:
             op = circ._get_op(OpType=_pq_to_tk_multiqs[type(cmd.gate)])
         qubit_nos = [qb.id for qr in cmd.all_qubits for qb in qr]

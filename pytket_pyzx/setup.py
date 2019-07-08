@@ -15,7 +15,7 @@ def find_pytket_subpackages():
 
 setup(
     name='pytket_pyzx',
-    version='0.1',
+    version='0.1.1',
     author='Alexander Cowtan',
     author_email='alexander.cowtan@cambridgequantum.com',
     python_requires='>=3.6',

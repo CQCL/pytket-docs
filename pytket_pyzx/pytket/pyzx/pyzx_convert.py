@@ -93,9 +93,9 @@ def pyzx_to_tk(pyzx_circ:pyzxCircuit) -> Circuit:
             qbs = [getattr(g,'target')]
 
         if (hasattr(g,"printphase") and op_type in _parameterised_gates):
-            op = c._get_op(OpType=op_type,n_inputs=num_qubits,n_outputs=num_qubits,param=float(g.phase))
+            op = c._get_op(OpType=op_type,param=float(g.phase))
         else:
-            op = c._get_op(OpType=op_type,n_inputs=num_qubits,n_outputs=num_qubits,parameters=[])
+            op = c._get_op(OpType=op_type,parameters=[])
 
         c._add_operation(Op=op,qubits=qbs)
     return c

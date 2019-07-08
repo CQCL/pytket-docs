@@ -123,17 +123,17 @@ def cirq_to_tk(circuit: cirq.Circuit) -> Circuit:
                     raise NotImplementedError("Operation not supported by tket: " + str(op.gate)) from error
                 o = tkcirc._get_op(optype)
             elif isinstance(gate, cirq_common.MeasurementGate) :
-                o = tkcirc._get_op(OpType.Measure,n_qubits,n_qubits,gate.key)
+                o = tkcirc._get_op(OpType.Measure,gate.key)
             elif isinstance(gate, cirq.PhasedXPowGate) :
                 pe = gate.phase_exponent
                 e = gate.exponent
-                o = tkcirc._get_op(OpType.PhasedX,1,1,[e,pe])
+                o = tkcirc._get_op(OpType.PhasedX,[e,pe])
             else:
                 try:
                     optype = _cirq2ops_mapping[gatetype]
                 except KeyError as error:
                     raise NotImplementedError("Operation not supported by tket: " + str(op.gate)) from error
-                o = tkcirc._get_op(optype,n_qubits,n_qubits,gate.exponent)
+                o = tkcirc._get_op(optype,gate.exponent)
             tkcirc._add_operation(o,qb_lst)
     return tkcirc
 
@@ -156,12 +156,11 @@ def tk_to_cirq(tkcirc: Union[Circuit,PhysicalCircuit], indexed_qubits: List[Qid]
             gatetype = _ops2cirq_mapping[optype]
         except KeyError as error:
             raise NotImplementedError("Cannot convert tket Op to cirq gate: " + op.get_name()) from error
-        n_qubits = op.get_n_inputs()
         qids = []
         for qbit in command.qubits:
             qids.append(indexed_qubits[qbit])
         if optype == OpType.Measure:
-            cirqop = cirq_common.measure(qids[0], key=op.get_desc())
+            cirqop = cirq_common.measure(qids[0],key=op.get_desc())
         else:
             params = op.get_params()
             if len(params)==0 :

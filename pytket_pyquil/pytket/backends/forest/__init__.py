@@ -11,16 +11,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Backends for connecting to devices and simulators directly from pytket"""
-
-__path__ = __import__('pkgutil').extend_path(__path__, __name__)
-
-from .backend import Backend
-try :
-    from pytket.backends.ibm import IBMQBackend, AerBackend, AerStateBackend
-except ImportError :
-    pass 
-try :
-    from pytket.backends.projectq import ProjectQBackend
-except ImportError :
-    pass 
+"""Backends for connecting to devices and simulators from the Rigetti Forest platform directly from pytket"""
+from .forest import ForestBackend, ForestStateBackend

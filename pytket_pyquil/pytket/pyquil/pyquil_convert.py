@@ -71,7 +71,7 @@ def pyquil_to_tk(prog: Program) -> Circuit:
                 tkc.add_operation(optype, [q.index for q in i.qubits])
             else:
                 params = [p/PI for p in i.params]
-                op = tkc._get_op(optype,len(i.qubits),len(i.qubits),params)
+                op = tkc._get_op(optype,params)
                 tkc._add_operation(op, [q.index for q in i.qubits])
         elif isinstance(i, Measurement):
             if not i.classical_reg:
@@ -80,7 +80,7 @@ def pyquil_to_tk(prog: Program) -> Circuit:
             if reg_name and reg_name != reg.name:
                 raise NotImplementedError("Program has multiple classical registers: ", reg_name, reg.name)
             reg_name = reg.name
-            op = tkc._get_op(OpType.Measure,1,1,str(reg.offset))
+            op = tkc._get_op(OpType.Measure,str(reg.offset))
             tkc._add_operation(op, [i.qubit.index])
         elif isinstance(i, Declare):
             continue
@@ -108,7 +108,12 @@ def tk_to_pyquil(circ: Union[Circuit,PhysicalCircuit]) -> Program:
         if optype == OpType.Input or optype == OpType.Output:
             continue
         elif optype == OpType.Measure:
-            p += Measurement(Qubit(command.qubits[0]), ro[int(op.get_desc())])
+            reg = op.get_desc()
+            if str.isnumeric(reg) :
+                reg = int(reg)
+            else :
+                reg = command.qubits[0]
+            p += Measurement(Qubit(command.qubits[0]), ro[reg])
             continue
         try:
             gatetype = _known_quil_gate_rev[optype]

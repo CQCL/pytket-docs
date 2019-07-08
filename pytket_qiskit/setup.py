@@ -18,7 +18,7 @@ def find_pytket_subpackages():
 
 setup(
     name='pytket_qiskit',
-    version='0.1.2',
+    version='0.1.4',
     author='Will Simmons',
     author_email='will.simmons@cambridgequantum.com',
     python_requires='>=3.6',

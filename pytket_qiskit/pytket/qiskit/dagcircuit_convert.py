@@ -218,28 +218,24 @@ def _normalise_param_in(p) :
             return p
 
 def _make_one_param_op (circuit, node) :
-    arity = len(node.qargs)
     param = _normalise_param_in(node.op.params[0])
-    return circuit._get_op(_known_ops[type(node.op)],arity,arity,param)
+    return circuit._get_op(_known_ops[type(node.op)],param)
 
 def _make_multi_param_op (circuit, node) :
-    arity = len(node.qargs)
     params = list(map(_normalise_param_in, node.op.params))
-    return circuit._get_op(_known_ops[type(node.op)],arity,arity,params)
+    return circuit._get_op(_known_ops[type(node.op)],params)
 
 def _make_measure_op (circuit, node ) :
-    n = len(node.qargs)
     if DEBUG : 
         print("made " + str(node.cargs))
-    return circuit._get_op(OpType.Measure,n,n,str(node.cargs))
+    return circuit._get_op(OpType.Measure,str(node.cargs))
     
 
 def _make_box_node(circuit, node) :
     if DEBUG : 
         print("WARNING : Don't know how to handle node : " + str(node))
-        print("WARNING : Making a box instead")     
-    n = len(node.qargs)
-    return circuit._get_op(OpType.Box,n,n,node.name)
+        print("WARNING : Making a box instead")   
+    return circuit._get_op(OpType.Box,node.name)
 
 
 def _read_qasm_file(filename) :

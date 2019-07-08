@@ -36,26 +36,3 @@ def pauli_measurement(pauli_string:Iterable[Tuple[int,str]], circ:Circuit) :
 
     for idx in measured_qbs:
         circ.Measure(idx)
-
-
-def bin_str_2_table(strings:Iterable[str]) -> np.ndarray:
-    """Convert string of measurements to shot table
-    
-    :param strings: List of strings, one per shot
-    :type strings: Iterable[str]
-    :return: Shot table, one row per shot, columns in qubit order.
-    :rtype: np.ndarray
-    """
-    # infer number of qubits from first space separated bit string
-    start_string = strings[0]
-    n_qubits = len(start_string.replace(' ', ''))
-    output = np.zeros((len(strings), n_qubits), dtype=int)
-
-    for index, string in enumerate(strings):
-        count = 0
-        for sub in string.split(' '):
-            ln = len(sub)
-            output[index, count:count+ln] = np.array(list(sub), dtype=int)
-            count += ln
-    output = np.fliplr(output)
-    return output
