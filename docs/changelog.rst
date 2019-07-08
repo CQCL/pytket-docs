@@ -1,5 +1,18 @@
 Changelog
 ==================================
+0.2.3 (July 2019)
+------------------
+New Features:
+
+* Decomposition `Transform` for controlled gates
+
+Updates:
+
+* Exposed additional gate types into Pytket
+* Fixed bug in `add_circuit`
+* Fixed routing bug
+* Made `run` behaviour more sensible for backends
+
 0.2.2 (June 2019)
 ------------------
 Updates:
@@ -76,7 +89,7 @@ Updates:
 New Features:
 
 * Support for circuits and architectures from IBM Qiskit (0.7)
-* ``pytket.qiskit.TketPass`` allows pytket to be plugged in to the Qiskit compilation stack to take advantage of :math:`\mathrm{t|ket}\rangle`'s routing and optimisations
+* ``pytket.qiskit.TketPass`` allows pytket to be plugged in to the Qiskit compilation stack to take advantage of t|ket>'s routing and optimisations
 * New Chemistry package featuring an implementation of the Quantum Subspace Expansion to work within or alongside Qiskit Aqua (0.4)
 * Optimisation passes introduced for powerful circuit rewriting before routing, and safe rewriting after routing
 
