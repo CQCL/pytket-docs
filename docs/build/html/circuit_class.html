@@ -187,6 +187,12 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 </dd></dl>
 
 <dl class="method">
+<dt id="pytket._circuit.Circuit.CY">
+<code class="descname">CY</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>control_qubit: int</em>, <em>target_qubit: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.CY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a CY gate on the wires for the specified control and target qubits.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytket._circuit.Circuit.CZ">
 <code class="descname">CZ</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit</em>, <em>control_qubit: int</em>, <em>target_qubit: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket._circuit.Circuit.CZ" title="Permalink to this definition">¶</a></dt>
 <dd><p>Appends a CZ gate on the wires for the specified control and target qubits.</p>
@@ -387,8 +393,12 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 
 <dl class="method">
 <dt id="pytket._circuit.Circuit.add_operation">
-<code class="descname">add_operation</code><span class="sig-paren">(</span><em>self: pytket._circuit.Circuit, type: pytket._circuit.OpType, qubits: List[int]</em><span class="sig-paren">)</span> &#x2192; capsule<a class="headerlink" href="#pytket._circuit.Circuit.add_operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Appends a single (non-parameterised) operation to the end of the circuit on some particular qubits. The number of qubits specified must match the arity of the operation.</p>
+<code class="descname">add_operation</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._circuit.Circuit.add_operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>add_operation(self: pytket._circuit.Circuit, type: pytket._circuit.OpType, qubits: List[int]) -&gt; capsule</li>
+</ol>
+<p>Appends a single (non-parameterised) operation to the end of the circuit on some particular qubits. The number of qubits specified must match the arity of the operation.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_operation</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># equivalent to c.H(0)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_operation</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># equivalent to c.CX(0,1)</span>
 </pre></div>
@@ -405,6 +415,22 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 </tr>
 </tbody>
 </table>
+<ol class="arabic simple" start="2">
+<li>add_operation(self: pytket._circuit.Circuit, type: pytket._circuit.OpType, angle: Expression, qubits: List[int]) -&gt; capsule</li>
+</ol>
+<p>Appends a single operation, parameterised with an expression corresponding to halfturns, to the end of circuit on some particular qubits.</p>
+<ol class="arabic simple" start="3">
+<li>add_operation(self: pytket._circuit.Circuit, type: pytket._circuit.OpType, angle: float, qubits: List[int]) -&gt; capsule</li>
+</ol>
+<p>Appends a single operation, parameterised with a double corresponding to halfturns, to the end of circuit on some particular qubits.</p>
+<ol class="arabic simple" start="4">
+<li>add_operation(self: pytket._circuit.Circuit, type: pytket._circuit.OpType, angles: List[Expression], qubits: List[int]) -&gt; capsule</li>
+</ol>
+<p>Appends a single operation, parameterised with a vector of expressions corresponding to halfturns, to the end of circuit on some particular qubits.</p>
+<ol class="arabic simple" start="5">
+<li>add_operation(self: pytket._circuit.Circuit, type: pytket._circuit.OpType, angles: List[float], qubits: List[int]) -&gt; capsule</li>
+</ol>
+<p>Appends a single operation, parameterised with a vector of doubles corresponding to halfturns, to the end of circuit on some particular qubits.</p>
 </dd></dl>
 
 <dl class="method">

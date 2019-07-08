@@ -170,6 +170,28 @@ can run quantum circuits and produce a per-shot output</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pytket.backends.Backend.get_counts">
+<code class="descname">get_counts</code><span class="sig-paren">(</span><em>circuit</em>, <em>shots</em>, <em>fit_to_constraints=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the circuit on the backend and accumulate the results into a summary of counts</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>circuit</strong> – The circuit to run</li>
+<li><strong>shots</strong> – Number of shots (repeats) to run</li>
+<li><strong>fit_to_constraints</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Dictionary mapping bitvectors of results to number of times that result was observed (zero counts are omitted)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytket.backends.Backend.get_operator_expectation_value">
 <code class="descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>operator</em>, <em>shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations</p>
