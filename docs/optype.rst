@@ -27,9 +27,15 @@ pytket._circuit.OpType
         CY
         CZ
         CH
+        CCX
         CRz
         CU1
         CU3
+        CnX
+        CnRy
+        XXPhase
+        YYPhase
+        ZZPhase
         SWAP
         ISWAP
         Measure

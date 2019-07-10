@@ -12,7 +12,7 @@ from os.path import expanduser, join
 
 from distutils.version import LooseVersion
 import io
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 
 # As of Python 3.6, CCompiler has a `has_flag` method.
