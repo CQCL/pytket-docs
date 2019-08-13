@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
     <link rel="prev" title="pytket" href="index.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -187,16 +190,16 @@
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects provide an abstraction of quantum circuits. They consist of a set of qubits/quantum wires and a collection of operations applied to them in a given order. These wires have open inputs and outputs, rather than assuming any fixed input state.</p>
 <p>We can start by building a circuit with some blank wires and add some instructions.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="k">import</span> <span class="n">Circuit</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Breaking this down: <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">Circuit(2)</span></code> creates a new circuit with two qubits. Each qubit is identified by its numerical index, ranging from 0 to (no. of qubits)-1. <code class="docutils literal notranslate"><span class="pre">c.H(0)</span></code> applies a Hadamard gate to qubit 0. Instructions are always added to the end of the circuit. Rotational gates can be parameterised by the angle of rotation, specified in half-turns - for example <code class="docutils literal notranslate"><span class="pre">c.Rz(0,</span> <span class="pre">0.25)</span></code> adds a Z rotation by PI*0.25 radians. Multi-qubit operations will take an ordered sequence of qubit indices, such as <code class="docutils literal notranslate"><span class="pre">c.CX(1,0)</span></code> applying a CX gate with the control on qubit 1 and the target on qubit 0.</p>
-<p>We can add measurements onto qubits to observe their state.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<p>Breaking this down: <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">Circuit(2,2)</span></code> creates a new circuit with two qubits and two bits. Each qubit is identified by its numerical index, ranging from 0 to (no. of qubits)-1. <code class="docutils literal notranslate"><span class="pre">c.H(0)</span></code> applies a Hadamard gate to qubit 0. Instructions are always added to the end of the circuit. Rotational gates can be parameterised by the angle of rotation, specified in half-turns - for example <code class="docutils literal notranslate"><span class="pre">c.Rz(0,</span> <span class="pre">0.25)</span></code> adds a Z rotation by PI*0.25 radians. Multi-qubit operations will take an ordered sequence of qubit indices, such as <code class="docutils literal notranslate"><span class="pre">c.CX(1,0)</span></code> applying a CX gate with the control on qubit 1 and the target on qubit 0.</p>
+<p>We can add measurements onto qubits to observe their state and store the result in a given bit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We assume all measurements are made in the computational (Z) basis - others can be performed by adding the appropriate change-of-basis operation before the measurement. By default, measurement results for qubit <span class="math notranslate nohighlight">\(i\)</span> are written to bit <span class="math notranslate nohighlight">\(i\)</span> in an anonymous classical register. When transpiling to another quantum SDK (e.g. Qiskit), a single classical register is created, collating all measurement results. The measurement can also be sent to a named classical register using <code class="docutils literal notranslate"><span class="pre">c.Measure(0,&quot;RegName&quot;)</span></code>. <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> does not currently support manipulation of the classical information or classically-controlled gates.</p>
@@ -267,7 +270,7 @@
         <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="pytket" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="pytket" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -293,27 +296,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

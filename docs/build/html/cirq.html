@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.qiskit" href="qiskit.html" />
     <link rel="prev" title="pytket.backends.projectq" href="projectq_backend.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -187,23 +190,17 @@
 
 <dl class="function">
 <dt id="pytket.cirq.tk_to_cirq">
-<code class="descclassname">pytket.cirq.</code><code class="descname">tk_to_cirq</code><span class="sig-paren">(</span><em>tkcirc: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit], indexed_qubits: List[cirq.ops.raw_types.Qid]</em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pytket.cirq.</code><code class="descname">tk_to_cirq</code><span class="sig-paren">(</span><em>tkcirc: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit], indexed_qubits: List[cirq.ops.raw_types.Qid] = None</em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object to a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
-</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tkcirc</strong> – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></li>
-<li><strong>indexed_qubits</strong> – Map from <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> qubit indices to Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Qid</span></code> s</li>
-</ul>
-</td>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tkcirc</strong> – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</td>
 </tr>
 </tbody>
 </table>
@@ -217,13 +214,16 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>arc</strong> (<a class="reference internal" href="routing.html#pytket._routing.SquareGrid" title="pytket._routing.SquareGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">SquareGrid</span></code></a>) – The grid Architecture</li>
-<li><strong>nodes</strong> – An iterator of node index values</li>
+<li><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a>) – An iterator of node index values</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The list of qubits</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The list of qubits</p>
 </td>
 </tr>
 </tbody>
@@ -261,7 +261,7 @@
         <a href="qiskit.html" class="btn btn-neutral float-right" title="pytket.qiskit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="projectq_backend.html" class="btn btn-neutral" title="pytket.backends.projectq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="projectq_backend.html" class="btn btn-neutral float-left" title="pytket.backends.projectq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -287,27 +287,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

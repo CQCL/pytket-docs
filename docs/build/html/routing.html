@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket._transform" href="transform.html" />
     <link rel="prev" title="pytket._circuit.OpType" href="optype.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -167,10 +170,30 @@
 <p>The _routing module provides access to the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <cite>Architecture</cite> structure and methods for modifying circuits to satisfy the architectural constraints. This module is provided in binary form during the PyPI installation.</p>
 <dl class="function">
 <dt id="pytket._routing.route">
-<code class="descclassname">pytket._routing.</code><code class="descname">route</code><span class="sig-paren">(</span><em>input_circuit: pytket._circuit.Circuit</em>, <em>architecture: pytket._routing.Architecture</em><span class="sig-paren">)</span> &#x2192; pytket._routing.PhysicalCircuit<a class="headerlink" href="#pytket._routing.route" title="Permalink to this definition">¶</a></dt>
-<dd><p>Routes the circuit subject to the connectivity of input architecture. 
+<code class="descclassname">pytket._routing.</code><code class="descname">route</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket._routing.route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li>route(input_circuit: pytket._circuit.Circuit, architecture: pytket._routing.Architecture) -&gt; pytket._routing.PhysicalCircuit</li>
+</ol>
+<p>Routes the circuit subject to the connectivity of input architecture, performing automatic initial mapping. 
 :param input_circuit: The circuit to be routed
 :param architecture: A representation of the qubit connectivity constraints of the device
+:return: A circuit mapped to the architecture, qubits referring to qubit labelling of the architecture.</p>
+<ol class="arabic simple" start="2">
+<li>route(input_circuit: pytket._circuit.Circuit, architecture: pytket._routing.Architecture, initial_map: Dict[pytket._circuit.Qubit, int]) -&gt; pytket._routing.PhysicalCircuit</li>
+</ol>
+<p>Routes the circuit subject to the connectivity of input architecture, given initial mapping. 
+:param input_circuit: The circuit to be routed
+:param architecture: A representation of the qubit connectivity constraints of the device
+:param initial_map: A map from logical qubit to architectural node number, provide to define initial mapping.
+:return: A circuit mapped to the architecture, qubits referring to qubit labelling of the architecture.</p>
+<ol class="arabic simple" start="3">
+<li>route(input_circuit: pytket._circuit.Circuit, architecture: pytket._routing.Architecture, initial_map: Dict[int, int]) -&gt; pytket._routing.PhysicalCircuit</li>
+</ol>
+<p>Routes the circuit subject to the connectivity of input architecture, given initial mapping. 
+:param input_circuit: The circuit to be routed
+:param architecture: A representation of the qubit connectivity constraints of the device
+:param initial_map: A map from logical qubit to architectural node number, provide to define initial mapping.
 :return: A circuit mapped to the architecture, qubits referring to qubit labelling of the architecture.</p>
 </dd></dl>
 
@@ -406,7 +429,7 @@
         <a href="transform.html" class="btn btn-neutral float-right" title="pytket._transform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="optype.html" class="btn btn-neutral" title="pytket._circuit.OpType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="optype.html" class="btn btn-neutral float-left" title="pytket._circuit.OpType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -432,27 +455,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

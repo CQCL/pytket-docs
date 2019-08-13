@@ -30,19 +30,19 @@ We can start by building a circuit with some blank wires and add some instructio
 ::
 
     from pytket import Circuit
-    c = Circuit(2)
+    c = Circuit(2,2)
     c.H(0)
     c.Rz(0, 0.25)
     c.CX(1,0)
 
-Breaking this down: ``c = Circuit(2)`` creates a new circuit with two qubits. Each qubit is identified by its numerical index, ranging from 0 to (no. of qubits)-1. ``c.H(0)`` applies a Hadamard gate to qubit 0. Instructions are always added to the end of the circuit. Rotational gates can be parameterised by the angle of rotation, specified in half-turns - for example ``c.Rz(0, 0.25)`` adds a Z rotation by PI*0.25 radians. Multi-qubit operations will take an ordered sequence of qubit indices, such as ``c.CX(1,0)`` applying a CX gate with the control on qubit 1 and the target on qubit 0.
+Breaking this down: ``c = Circuit(2,2)`` creates a new circuit with two qubits and two bits. Each qubit is identified by its numerical index, ranging from 0 to (no. of qubits)-1. ``c.H(0)`` applies a Hadamard gate to qubit 0. Instructions are always added to the end of the circuit. Rotational gates can be parameterised by the angle of rotation, specified in half-turns - for example ``c.Rz(0, 0.25)`` adds a Z rotation by PI*0.25 radians. Multi-qubit operations will take an ordered sequence of qubit indices, such as ``c.CX(1,0)`` applying a CX gate with the control on qubit 1 and the target on qubit 0.
 
-We can add measurements onto qubits to observe their state.
+We can add measurements onto qubits to observe their state and store the result in a given bit.
 
 ::
 
-    c.Measure(0)
-    c.Measure(1)
+    c.Measure(0,0)
+    c.Measure(1,1)
 
 We assume all measurements are made in the computational (Z) basis - others can be performed by adding the appropriate change-of-basis operation before the measurement. By default, measurement results for qubit :math:`i` are written to bit :math:`i` in an anonymous classical register. When transpiling to another quantum SDK (e.g. Qiskit), a single classical register is created, collating all measurement results. The measurement can also be sent to a named classical register using ``c.Measure(0,"RegName")``. :math:`\mathrm{t|ket}\rangle` does not currently support manipulation of the classical information or classically-controlled gates.
 

@@ -1,5 +1,20 @@
 Changelog
 ==================================
+0.3.0 (August 2019)
+-------------------
+New Features:
+
+* More options for circuit routing, including noise-aware allocation of qubits
+* Basic support for generating circuits with classical conditions and multiple registers
+* ForestBackend for running circuits on Rigett's QVM simulators and QCS
+* AerUnitaryBackend for inspecting the full unitary of a circuit
+* Chaining gate commands
+
+Updates:
+
+* Simplified conversions for pytket_qiskit, going straight to/from QuantumCircuit rather than DAGCircuit
+* CSWAP gate added
+
 0.2.3 (July 2019)
 ------------------
 New Features:
