@@ -13,4 +13,4 @@
 # limitations under the License.
 """Backends for connecting to IBM devices and simulators directly from pytket"""
 from .ibm import IBMQBackend
-from .aer import AerBackend, AerStateBackend
+from .aer import AerBackend, AerStateBackend, AerUnitaryBackend

@@ -15,13 +15,12 @@
 import itertools
 import qiskit
 from typing import Tuple, Iterable
-from qiskit.converters import dag_to_circuit
 from qiskit import IBMQ, QuantumCircuit
 from qiskit.compiler import assemble
 from qiskit.tools.monitor import job_monitor
 
 from pytket.backends import Backend
-from pytket.qiskit import tk_to_dagcircuit
+from pytket.qiskit import tk_to_qiskit
 from pytket._routing import route, Architecture
 from pytket._transform import Transform
 from pytket._circuit import Circuit
@@ -59,8 +58,7 @@ def _routed_ibmq_circuit(circuit:Circuit, arc: Architecture) -> QuantumCircuit:
     physical_c.decompose_SWAP_to_CX()
     physical_c.redirect_CX_gates(arc)
     Transform.OptimisePostRouting().apply(physical_c)
-    dag = tk_to_dagcircuit(physical_c)
-    qc = dag_to_circuit(dag)
+    qc = tk_to_qiskit(physical_c)
 
     return qc
 
@@ -90,8 +88,7 @@ class IBMQBackend(Backend) :
         if fit_to_constraints:
             qc = _routed_ibmq_circuit(circuit, self.architecture)
         else:
-            dag = tk_to_dagcircuit(circuit)
-            qc = dag_to_circuit(dag)
+            qc = tk_to_qiskit(circuit)
         valid, measures = _qiskit_circ_valid(qc, self.coupling)
         if not valid:
             raise RuntimeWarning("QuantumCircuit does not pass validity test, will likely fail on remote backend.")
@@ -124,8 +121,7 @@ class IBMQBackend(Backend) :
         if fit_to_constraints:
             qc = _routed_ibmq_circuit(circuit, self.architecture)
         else:
-            dag = tk_to_dagcircuit(circuit)
-            qc = dag_to_circuit(dag)
+            qc = tk_to_qiskit(circuit)
         valid, measures = _qiskit_circ_valid(qc, self.coupling)
         if not valid:
             raise RuntimeWarning("QuantumCircuit does not pass validity test, will likely fail on remote backend.")

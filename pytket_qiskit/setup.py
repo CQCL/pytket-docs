@@ -18,17 +18,18 @@ def find_pytket_subpackages():
 
 setup(
     name='pytket_qiskit',
-    version='0.1.4',
+    version='0.2.0',
     author='Will Simmons',
     author_email='will.simmons@cambridgequantum.com',
     python_requires='>=3.6',
     url='https://github.com/CQCL/pytket',
     description='Extension for pytket, providing translation to and from the Qiskit framework',
+    long_description= open('README.md').read(),
     license='Apache 2.0',
     packages = find_pytket_subpackages(),
     install_requires = [
         'pytket >=0.2.0',
-        'qiskit ~=0.10.1',
+        'qiskit >=0.10.1',
         'qiskit-chemistry ~=0.5',
         'matplotlib ~=2.2'
     ],

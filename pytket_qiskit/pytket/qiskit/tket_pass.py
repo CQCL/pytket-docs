@@ -2,10 +2,11 @@ import qiskit
 from qiskit.dagcircuit import DAGCircuit
 from qiskit.providers import BaseBackend
 from qiskit.transpiler.basepasses import TransformationPass, BasePass
+from qiskit.converters import circuit_to_dag, dag_to_circuit
 
 from pytket._transform import Transform
 from pytket._routing import route, Architecture
-from pytket.qiskit import dagcircuit_to_tk, tk_to_dagcircuit
+from pytket.qiskit import qiskit_to_tk, tk_to_qiskit
 
 class TketPass(TransformationPass):
     """The :math:`\\mathrm{t|ket}\\rangle` compiler to be plugged in to the Qiskit compilation sequence"""
@@ -56,9 +57,11 @@ class TketPass(TransformationPass):
         :return: The modified circuit
         """
 
-        circ = dagcircuit_to_tk(dag, _DROP_CONDS=self.DROP_CONDS,_BOX_UNKNOWN=self.BOX_UNKNOWN)
+        qc = dag_to_circuit(dag)
+        circ = qiskit_to_tk(qc)
         circ, circlay = self.process_circ(circ)
-        newdag = tk_to_dagcircuit(circ)
+        qc = tk_to_qiskit(circ)
+        newdag = circuit_to_dag(qc)
         newdag.name = dag.name 
         finlay = dict()
         for i, qi in enumerate(circlay):

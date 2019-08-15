@@ -13,12 +13,11 @@
 # limitations under the License.
 
 from qiskit import Aer
-from qiskit.converters import dag_to_circuit
 from qiskit.compiler import assemble
 from qiskit.providers.aer.noise import NoiseModel
 
 from pytket.backends import Backend
-from pytket.qiskit import tk_to_dagcircuit
+from pytket.qiskit import tk_to_qiskit
 from pytket.backends.ibm.ibm import _convert_bin_str
 from pytket._circuit import Circuit
 from pytket._transform import Transform
@@ -53,8 +52,7 @@ class AerBackend(Backend) :
         c = circuit.copy()
         if fit_to_constraints :
             Transform.RebaseToQiskit().apply(c)
-        dag = tk_to_dagcircuit(c)
-        qc = dag_to_circuit(dag)
+        qc = tk_to_qiskit(c)
         qobj = assemble(qc, shots=shots, seed_simulator=seed, memory=True)
         job = self._backend.run(qobj, noise_model=self.noise_model)
         shot_list = job.result().get_memory(qc)
@@ -73,8 +71,7 @@ class AerBackend(Backend) :
         c = circuit.copy()
         if fit_to_constraints :
             Transform.RebaseToQiskit().apply(c)
-        dag = tk_to_dagcircuit(c)
-        qc = dag_to_circuit(dag)
+        qc = tk_to_qiskit(c)
         qobj = assemble(qc, shots=shots, seed_simulator=seed)
         job = self._backend.run(qobj, noise_model=self.noise_model)
         counts = job.result().get_counts(qc)
@@ -95,8 +92,7 @@ class AerStateBackend(Backend) :
         c = circuit.copy()
         if fit_to_constraints :
             Transform.RebaseToQiskit().apply(c)
-        dag = tk_to_dagcircuit(c)
-        qc = dag_to_circuit(dag)
+        qc = tk_to_qiskit(c)
         qobj = assemble(qc)
         job = self._backend.run(qobj)
         return np.asarray(job.result().get_statevector(qc, decimals=16))
@@ -119,3 +115,28 @@ class AerStateBackend(Backend) :
         op_as_lists = [(list(p),c) for p,c in operator.terms.items()]
         op = operator_matrix(op_as_lists, n_qubits)
         return np.vdot(state, op.dot(state))
+
+class AerUnitaryBackend(Backend) :
+    def __init__(self) :
+        self._backend = Aer.get_backend('unitary_simulator')
+
+    def run(self, circuit, shots, fit_to_constraints=True) :
+        raise Exception("Aer Unitary Backend cannot currently generate shots. Use `get_unitary` instead.")
+
+    def get_unitary(self, circuit, fit_to_constraints=True) :
+        """
+        Obtains the unitary for a given quantum circuit
+        
+        :param circuit: The circuit to inspect
+        :type circuit: Circuit
+        :param fit_to_constraints: Forces the circuit to be decomposed into the correct gate set, defaults to True
+        :type fit_to_constraints: bool, optional
+        :return: The unitary of the circuit. Qubits are ordered with qubit 0 as the least significant qubit
+        """
+        c = circuit.copy()
+        if fit_to_constraints :
+            Transform.RebaseToQiskit().apply(c)
+        qc = tk_to_qiskit(c)
+        qobj = assemble(qc)
+        job = self._backend.run(qobj)
+        return job.result().get_unitary(qc)
