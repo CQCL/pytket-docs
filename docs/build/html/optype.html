@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket._circuit.OpType &mdash; pytket 0.2.3 documentation</title>
+  <title>pytket._circuit.OpType &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -176,7 +176,7 @@
 <p>Enum for available operations compatible with the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class.</p>
 <dl class="class">
 <dt id="pytket._circuit.OpType">
-<em class="property">class </em><code class="descclassname">pytket._circuit.</code><code class="descname">OpType</code><a class="headerlink" href="#pytket._circuit.OpType" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket._circuit.</code><code class="sig-name descname">OpType</code><a class="headerlink" href="#pytket._circuit.OpType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enum for available operations compatible with <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> s.</p>
 <p>Members:</p>
 <blockquote>
@@ -195,7 +195,7 @@
 <p>Rz : <span class="math notranslate nohighlight">\(Rz(\alpha)\)</span> := <span class="math notranslate nohighlight">\(e^{- \frac{i\alpha Z}{2}}\)</span></p>
 <p>U1 : <span class="math notranslate nohighlight">\(U1(\lambda)\)</span> := <span class="math notranslate nohighlight">\(Rz(\lambda)\)</span>, up to global phase. U-gates are used by IBM. See <a class="reference external" href="https://github.com/Qiskit/qiskit-tutorials/blob/master/qiskit/terra/summary_of_quantum_operations.ipynb">https://github.com/Qiskit/qiskit-tutorials/blob/master/qiskit/terra/summary_of_quantum_operations.ipynb</a> for more information on U-gates.</p>
 <p>U2 : <span class="math notranslate nohighlight">\(U2(\phi, \lambda)\)</span> := <span class="math notranslate nohighlight">\(Rz(\phi)Ry(\frac{\mathrm{\pi}}{2})Rz(\lambda)\)</span>, defined by matrix multiplication, up to global phase.</p>
-<p>U3 : <span class="math notranslate nohighlight">\(U3(\theta, \phi, \lambda)\)</span> := <span class="math notranslate nohighlight">\(Rz(\phi)Ry(\theta)Rz(\lambda)\)</span>, up to global phase.</p>
+<p>U3 : <span class="math notranslate nohighlight">\(U3(\theta, \phi, \lambda)\)</span> := <span class="math notranslate nohighlight">\(U1(\phi)Ry(\theta)U1(\lambda)\)</span>, up to global phase.</p>
 <p>CX : <span class="math notranslate nohighlight">\(CX\)</span> := Controlled <span class="math notranslate nohighlight">\(X\)</span> gate</p>
 <p>CY : <span class="math notranslate nohighlight">\(CY\)</span> := Controlled <span class="math notranslate nohighlight">\(Y\)</span> gate</p>
 <p>CZ : <span class="math notranslate nohighlight">\(CZ\)</span> := Controlled <span class="math notranslate nohighlight">\(Z\)</span> gate</p>
@@ -219,9 +219,9 @@
 <p>CnRy : <span class="math notranslate nohighlight">\(CnRy(\alpha)\)</span> := n-controlled <span class="math notranslate nohighlight">\(Ry(\alpha)\)</span> gate.</p>
 <p>CnX : <span class="math notranslate nohighlight">\(CnX\)</span> := n-controlled <span class="math notranslate nohighlight">\(X\)</span> gate.</p>
 </div></blockquote>
-<dl class="attribute">
+<dl class="method">
 <dt id="pytket._circuit.OpType.name">
-<code class="descname">name</code><a class="headerlink" href="#pytket._circuit.OpType.name" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket._circuit.OpType.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>(self: handle) -&gt; str</p>
 </dd></dl>
 

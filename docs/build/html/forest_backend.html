@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.backends.forest &mdash; pytket 0.2.3 documentation</title>
+  <title>pytket.backends.forest &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -177,48 +177,40 @@
 <p>Backends for connecting to devices and simulators from the Rigetti Forest platform directly from pytket</p>
 <dl class="class">
 <dt id="pytket.backends.forest.ForestBackend">
-<em class="property">class </em><code class="descclassname">pytket.backends.forest.</code><code class="descname">ForestBackend</code><span class="sig-paren">(</span><em>qc_name</em>, <em>simulator=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.forest.</code><code class="sig-name descname">ForestBackend</code><span class="sig-paren">(</span><em class="sig-param">qc_name</em>, <em class="sig-param">simulator=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="pytket.backends.forest.ForestBackend.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>qc_name</em>, <em>simulator=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">qc_name</em>, <em class="sig-param">simulator=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running simulations on the Rigetti QVM or a QCS device</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>qc_name</strong> – The name of the particular QuantumComputer to use. See the pyQuil docs for more details.</li>
-<li><strong>simulator</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to simulate the architecture or try to connect to a physical device</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qc_name</strong> – The name of the particular QuantumComputer to use. See the pyQuil docs for more details.</p></li>
+<li><p><strong>simulator</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to simulate the architecture or try to connect to a physical device</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.backends.forest.ForestBackend.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>circuit: pytket._circuit.Circuit</em>, <em>shots: int</em>, <em>fit_to_constraints: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.forest.ForestBackend.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket._circuit.Circuit</em>, <em class="sig-param">shots: int</em>, <em class="sig-param">fit_to_constraints: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.forest.ForestBackend.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a circuit on the Rigetti QVM or a QCS device.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>) – The circuit to run</li>
-<li><strong>shots</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Number of shots (repeats) to run</li>
-<li><strong>fit_to_constraints</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>) – The circuit to run</p></li>
+<li><p><strong>shots</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Number of shots (repeats) to run</p></li>
+<li><p><strong>fit_to_constraints</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Compile the circuit to meet the constraints of the backend, defaults to True</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1, corresponding to qubit basis states.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1, corresponding to qubit basis states.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

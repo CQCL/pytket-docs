@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.cirq &mdash; pytket 0.2.3 documentation</title>
+  <title>pytket.cirq &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -170,82 +170,76 @@
 <p>Module for conversion between Google Cirq and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
 <dl class="function">
 <dt id="pytket.cirq.cirq_to_tk">
-<code class="descclassname">pytket.cirq.</code><code class="descname">cirq_to_tk</code><span class="sig-paren">(</span><em>circuit: cirq.circuits.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">cirq_to_tk</code><span class="sig-paren">(</span><em class="sig-param">circuit: cirq.circuits.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>circuit</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>) – The input Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.7)"><strong>NotImplementedError</strong></a> – If the input contains a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> operation which is not yet supported by pytket</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>circuit</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>) – The input Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.7)"><strong>NotImplementedError</strong></a> – If the input contains a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> operation which is not yet supported by pytket</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.cirq.tk_to_cirq">
-<code class="descclassname">pytket.cirq.</code><code class="descname">tk_to_cirq</code><span class="sig-paren">(</span><em>tkcirc: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit], indexed_qubits: List[cirq.ops.raw_types.Qid] = None</em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">tk_to_cirq</code><span class="sig-paren">(</span><em class="sig-param">tkcirc: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit], indexed_qubits: List[cirq.ops.raw_types.Qid] = None</em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object to a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tkcirc</strong> – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>tkcirc</strong> – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.cirq.get_grid_qubits">
-<code class="descclassname">pytket.cirq.</code><code class="descname">get_grid_qubits</code><span class="sig-paren">(</span><em>arc: pytket._routing.SquareGrid, nodes: Iterator[int]</em><span class="sig-paren">)</span> &#x2192; List[cirq.devices.grid_qubit.GridQubit]<a class="headerlink" href="#pytket.cirq.get_grid_qubits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">get_grid_qubits</code><span class="sig-paren">(</span><em class="sig-param">arc: pytket._routing.SquareGrid, nodes: Iterator[int]</em><span class="sig-paren">)</span> &#x2192; List[cirq.devices.grid_qubit.GridQubit]<a class="headerlink" href="#pytket.cirq.get_grid_qubits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets a list of :py:class:GridQubit` s corresponding to the qubit nodes provided on the given Architecture.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>arc</strong> (<a class="reference internal" href="routing.html#pytket._routing.SquareGrid" title="pytket._routing.SquareGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">SquareGrid</span></code></a>) – The grid Architecture</li>
-<li><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a>) – An iterator of node index values</li>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>arc</strong> (<a class="reference internal" href="routing.html#pytket._routing.SquareGrid" title="pytket._routing.SquareGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">SquareGrid</span></code></a>) – The grid Architecture</p></li>
+<li><p><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code></a>) – An iterator of node index values</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The list of qubits</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The list of qubits</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.cirq.xmon_to_arc">
-<code class="descclassname">pytket.cirq.</code><code class="descname">xmon_to_arc</code><span class="sig-paren">(</span><em>xmon: cirq.google.xmon_device.XmonDevice</em><span class="sig-paren">)</span> &#x2192; pytket._routing.Architecture<a class="headerlink" href="#pytket.cirq.xmon_to_arc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">xmon_to_arc</code><span class="sig-paren">(</span><em class="sig-param">xmon: cirq.google.xmon_device.XmonDevice</em><span class="sig-paren">)</span> &#x2192; pytket._routing.Architecture<a class="headerlink" href="#pytket.cirq.xmon_to_arc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> object for a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code> .</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="routing.html#pytket._routing.Architecture" title="pytket._routing.Architecture"><code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xmon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code>) – The device to convert</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The corresponding <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="routing.html#pytket._routing.Architecture" title="pytket._routing.Architecture"><code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></a></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>xmon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code>) – The device to convert</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The corresponding <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
