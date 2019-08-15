@@ -50,9 +50,9 @@ class ForestBackend(Backend) :
         """
         c = circuit.copy()
         if fit_to_constraints :
-            phys_c = route(c, self._architecture)
-            phys_c.decompose_SWAP_to_CX()
-            Transform.OptimisePostRouting().apply(phys_c)
+            c = route(c, self._architecture)
+            c.decompose_SWAP_to_CX()
+            Transform.OptimisePostRouting().apply(c)
             Transform.RebaseToQuil().apply(c)
         p = tk_to_pyquil(c)
         p.wrap_in_numshots_loop(shots)

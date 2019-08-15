@@ -23,7 +23,8 @@ from collections import namedtuple
 
 from pytket._circuit import Circuit, Op, OpType
 from pytket._routing import PhysicalCircuit
-from pytket import PI
+
+from sympy import pi
 
 from typing import Union
 
@@ -40,8 +41,8 @@ _known_quil_gate = {
     "CZ" : OpType.CZ,
     "CNOT" : OpType.CX,
     "CCNOT" : OpType.CCX,
-    "CPHASE" : OpType.CRz,
-    "PHASE" : OpType.Rz,
+    "CPHASE" : OpType.CU1,
+    "PHASE" : OpType.U1,
     "SWAP" : OpType.SWAP
 }
 
@@ -56,34 +57,30 @@ def pyquil_to_tk(prog: Program) -> Circuit:
 
     :return: The converted circuit
     """
-    reg_name = None
     qubits = prog.get_qubits()
     n_qubits = max(qubits) + 1
     tkc = Circuit(n_qubits)
+    qreg = tkc.q_regs["q"]
+    cregmap = {}
     for i in prog.instructions:
         if isinstance(i, Gate):
-            name = i.name
             try:
-                optype = _known_quil_gate[name]
+                optype = _known_quil_gate[i.name]
             except KeyError as error:
                 raise NotImplementedError("Operation not supported by tket: " + str(i)) from error
-            if len(i.params) == 0:
-                tkc.add_operation(optype, [q.index for q in i.qubits])
-            else:
-                params = [p/PI for p in i.params]
-                op = tkc._get_op(optype,params)
-                tkc._add_operation(op, [q.index for q in i.qubits])
+            qubits = [qreg[q.index] for q in i.qubits]
+            params = [p/pi for p in i.params]
+            tkc.add_gate(optype, params, qubits, [])
         elif isinstance(i, Measurement):
-            if not i.classical_reg:
-                raise NotImplementedError("Program has no defined classical register for measurement on qubit: ", i.qubits[0])
-            reg = i.classical_reg
-            if reg_name and reg_name != reg.name:
-                raise NotImplementedError("Program has multiple classical registers: ", reg_name, reg.name)
-            reg_name = reg.name
-            op = tkc._get_op(OpType.Measure,str(reg.offset))
-            tkc._add_operation(op, [i.qubit.index])
+            qubit = qreg[i.qubit.index]
+            reg = cregmap[i.classical_reg.name]
+            bit = reg[i.classical_reg.offset]
+            tkc.add_measure(qubit, bit)
         elif isinstance(i, Declare):
-            continue
+            if i.memory_type is not 'BIT' :
+                raise NotImplementedError("Cannot handle memory of type " + i.memory_type)
+            new_reg = tkc.add_c_register(i.name, i.memory_size)
+            cregmap.update({i.name : new_reg})
         elif isinstance(i, Pragma):
             continue
         elif isinstance(i, Halt):
@@ -92,39 +89,46 @@ def pyquil_to_tk(prog: Program) -> Circuit:
             raise NotImplementedError("Pyquil instruction is not a gate: " + str(i))
     return tkc
 
-def tk_to_pyquil(circ: Union[Circuit,PhysicalCircuit]) -> Program:
+def tk_to_pyquil(tkcirc: Union[Circuit,PhysicalCircuit], active_reset:bool=False) -> Program:
     """
        Convert a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` to a :py:class:`pyquil.Program` .
     
-    :param circ: A circuit to be converted
+    :param tkcirc: A circuit to be converted
 
     :return: The converted circuit
     """
+    circ = tkcirc
+    if isinstance(tkcirc, PhysicalCircuit) :
+        circ = tkcirc._get_circuit()
     p = Program()
-    ro = p.declare('ro', 'BIT', circ.n_qubits)
+    if len(circ.q_regs) != 1 :
+        raise NotImplementedError("Cannot convert circuit with multiple quantum registers to PyQuil")
+    cregmap = {}
+    for _, reg in circ.c_regs.items() :
+        if reg.size() == 0 :
+            continue
+        name = reg.name
+        if name == 'c' :
+            name = 'ro'
+        quil_reg = p.declare(name, 'BIT', reg.size())
+        cregmap.update({reg : quil_reg})
+    if active_reset :
+        p.reset()
     for command in circ:
         op = command.op
+        qubits = [Qubit(qb.index) for qb in command.qubits]
         optype = op.get_type()
-        if optype == OpType.Input or optype == OpType.Output:
-            continue
-        elif optype == OpType.Measure:
-            reg = op.get_desc()
-            if str.isnumeric(reg) :
-                reg = int(reg)
-            else :
-                reg = command.qubits[0]
-            p += Measurement(Qubit(command.qubits[0]), ro[reg])
+        if optype == OpType.Measure :
+            bits = [cregmap[b.reg][b.index] for b in command.bits]
+            p += Measurement(*qubits, *bits)
             continue
         try:
             gatetype = _known_quil_gate_rev[optype]
         except KeyError as error:
             raise NotImplementedError("Cannot convert tket Op to pyquil gate: " + op.get_name()) from error
-        params = []
-        for par in op.get_params():
-            try:
-                params.append(par.evalf()*PI)
-            except:
-                params.append(par*PI)
-        g = Gate(gatetype, params, [Qubit(q) for q in command.qubits])
+        if len(command.controls) != 0 :
+            raise NotImplementedError("Cannot convert conditional gates from tket to PyQuil")
+        params = [float((p * pi).evalf()) for p in op.get_params()]
+        g = Gate(gatetype, params, qubits)
         p += g
     return p
