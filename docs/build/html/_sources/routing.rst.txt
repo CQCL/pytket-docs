@@ -1,7 +1,8 @@
 pytket._routing
 ==================================
 .. automodule:: pytket._routing
-    :members: route
+    :members: route, line_placement, noise_aware_placement
+    
 
 .. autoclass:: pytket._routing.Architecture
     :special-members: __init__
