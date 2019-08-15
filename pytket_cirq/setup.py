@@ -15,12 +15,13 @@ def find_pytket_subpackages():
 
 setup(
     name='pytket_cirq',
-    version='0.1.1',
+    version='0.1.2',
     author='Will Simmons',
     author_email='will.simmons@cambridgequantum.com',
     python_requires='>=3.6',
     url='https://github.com/CQCL/pytket',
     description='Extension for pytket, providing translation to and from the Cirq framework',
+    long_description= open('README.md').read(),
     license='Apache 2.0',
     packages = find_pytket_subpackages(),
     install_requires = [

@@ -20,10 +20,11 @@ import cirq
 from cirq.google import XmonDevice
 from cirq.devices import UnconstrainedDevice
 from cirq import Qid, LineQubit, GridQubit
-from pytket import PI
-from pytket._circuit import Circuit, Op, OpType
+from cirq.ops import NamedQubit
+from pytket._circuit import Circuit, Op, OpType, Qubit
 from pytket._routing import SquareGrid, Architecture, PhysicalCircuit
 from .qubits import _indexed_qubits_from_circuit
+from sympy import pi, Expr
 
 cirq_common = cirq.ops.common_gates
 cirq_pauli = cirq.ops.pauli_gates
@@ -70,8 +71,6 @@ _constant_gates = (cirq_common.CNOT,
     cirq_common.CZ)
 _rotation_types = (cirq_common.XPowGate, cirq_common.YPowGate, cirq_common.ZPowGate, cirq_common.CZPowGate, cirq_common.ISwapPowGate, cirq.ops.parity_gates.ZZPowGate,cirq.ops.parity_gates.XXPowGate,cirq.ops.parity_gates.YYPowGate)
 
-
-
 def get_grid_qubits(arc: SquareGrid, nodes: Iterator[int]) -> List[cirq.GridQubit]:
     """Gets a list of :py:class:GridQubit` s corresponding to the qubit nodes provided on the given Architecture.
 
@@ -93,15 +92,16 @@ def cirq_to_tk(circuit: cirq.Circuit) -> Circuit:
        :return: The :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` corresponding to the input circuit
     """
     qubit_list = _indexed_qubits_from_circuit(circuit)
-    qid_to_num = {q : i for i, q in enumerate(qubit_list)}
     n_qubits = len(circuit.all_qubits())
     tkcirc = Circuit(n_qubits)
+    qreg = tkcirc.q_regs["q"]
+    qmap = {q : qreg[i] for i, q in enumerate(qubit_list)}
     for moment in circuit:
         for op in moment.operations:
             gate = op.gate
             gatetype = type(gate)
 
-            qb_lst = [qid_to_num[q] for q in op.qubits]
+            qb_lst = [qmap[q] for q in op.qubits]
 
             n_qubits = len(op.qubits)
 
@@ -121,27 +121,29 @@ def cirq_to_tk(circuit: cirq.Circuit) -> Circuit:
                     optype = _cirq2ops_mapping[gate]
                 except KeyError as error:
                     raise NotImplementedError("Operation not supported by tket: " + str(op.gate)) from error
-                o = tkcirc._get_op(optype)
+                params = []
             elif isinstance(gate, cirq_common.MeasurementGate) :
-                o = tkcirc._get_op(OpType.Measure,gate.key)
+                creg = tkcirc.add_c_register(gate.key, 1)
+                tkcirc.add_measure(*qb_lst, creg[0])
+                continue
             elif isinstance(gate, cirq.PhasedXPowGate) :
+                optype = OpType.PhasedX
                 pe = gate.phase_exponent
                 e = gate.exponent
-                o = tkcirc._get_op(OpType.PhasedX,[e,pe])
+                params = [e, pe]
             else:
                 try:
                     optype = _cirq2ops_mapping[gatetype]
                 except KeyError as error:
                     raise NotImplementedError("Operation not supported by tket: " + str(op.gate)) from error
-                o = tkcirc._get_op(optype,gate.exponent)
-            tkcirc._add_operation(o,qb_lst)
+                params = [gate.exponent]
+            tkcirc.add_gate(optype, params, qb_lst, [])
     return tkcirc
 
-def tk_to_cirq(tkcirc: Union[Circuit,PhysicalCircuit], indexed_qubits: List[Qid]) -> cirq.Circuit:
+def tk_to_cirq(tkcirc: Union[Circuit,PhysicalCircuit], indexed_qubits: List[Qid] = None) -> cirq.Circuit:
     """Converts a :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit` object to a Cirq :py:class:`Circuit`.
     
     :param tkcirc: The input :math:`\\mathrm{t|ket}\\rangle` :py:class:`Circuit`
-    :param indexed_qubits: Map from :math:`\\mathrm{t|ket}\\rangle` qubit indices to Cirq :py:class:`Qid` s
     
     :return: The Cirq :py:class:`Circuit` corresponding to the input circuit
     """
@@ -150,17 +152,16 @@ def tk_to_cirq(tkcirc: Union[Circuit,PhysicalCircuit], indexed_qubits: List[Qid]
     for command in tkcirc:
         op = command.op
         optype = op.get_type()
-        if optype == OpType.Input or optype == OpType.Output:
-            continue
         try:
             gatetype = _ops2cirq_mapping[optype]
         except KeyError as error:
-            raise NotImplementedError("Cannot convert tket Op to cirq gate: " + op.get_name()) from error
-        qids = []
-        for qbit in command.qubits:
-            qids.append(indexed_qubits[qbit])
+            raise NotImplementedError("Cannot convert tket Op to Cirq gate: " + op.get_name()) from error
+        if len(command.controls) != 0 :
+            raise NotImplementedError("Cannot convert conditional gate to Cirq")
+        qids = [_convert_qubit(qbit, indexed_qubits) for qbit in command.qubits]
         if optype == OpType.Measure:
-            cirqop = cirq_common.measure(qids[0],key=op.get_desc())
+            bit = command.bits[0]
+            cirqop = cirq_common.measure(qids[0],key=bit.reg.name)
         else:
             params = op.get_params()
             if len(params)==0 :
@@ -172,3 +173,11 @@ def tk_to_cirq(tkcirc: Union[Circuit,PhysicalCircuit], indexed_qubits: List[Qid]
         oplst.append(cirqop)
 
     return cirq.Circuit.from_ops(*oplst)
+
+def _convert_qubit(qb: Qubit, indexed_qubits: List[Qid]) -> cirq.Qid :
+    if qb.reg.name == "q" :
+        if indexed_qubits :
+            return indexed_qubits[qb.index]
+        return LineQubit(qb.index)
+    else :
+        return NamedQubit(qb.__repr__())
