@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; pytket 0.2.3 documentation</title>
+  <title>Changelog &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket._circuit" href="circuit.html" />
     <link rel="prev" title="Getting Started" href="getting_started.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +61,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -86,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#august-2019">0.3.0 (August 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#july-2019">0.2.3 (July 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#june-2019">0.2.2 (June 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">0.2.1 (June 2019)</a></li>
@@ -177,120 +181,136 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="august-2019">
+<h2>0.3.0 (August 2019)<a class="headerlink" href="#august-2019" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>More options for circuit routing, including noise-aware allocation of qubits</p></li>
+<li><p>Basic support for generating circuits with classical conditions and multiple registers</p></li>
+<li><p>ForestBackend for running circuits on Rigett’s QVM simulators and QCS</p></li>
+<li><p>AerUnitaryBackend for inspecting the full unitary of a circuit</p></li>
+<li><p>Chaining gate commands</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Simplified conversions for pytket_qiskit, going straight to/from QuantumCircuit rather than DAGCircuit</p></li>
+<li><p>CSWAP gate added</p></li>
+</ul>
+</div>
 <div class="section" id="july-2019">
 <h2>0.2.3 (July 2019)<a class="headerlink" href="#july-2019" title="Permalink to this headline">¶</a></h2>
 <p>New Features:</p>
 <ul class="simple">
-<li>Decomposition <cite>Transform</cite> for controlled gates</li>
+<li><p>Decomposition <cite>Transform</cite> for controlled gates</p></li>
 </ul>
 <p>Updates:</p>
 <ul class="simple">
-<li>Exposed additional gate types into Pytket</li>
-<li>Fixed bug in <cite>add_circuit</cite></li>
-<li>Fixed routing bug</li>
-<li>Made <cite>run</cite> behaviour more sensible for backends</li>
+<li><p>Exposed additional gate types into Pytket</p></li>
+<li><p>Fixed bug in <cite>add_circuit</cite></p></li>
+<li><p>Fixed routing bug</p></li>
+<li><p>Made <cite>run</cite> behaviour more sensible for backends</p></li>
 </ul>
 </div>
 <div class="section" id="june-2019">
 <h2>0.2.2 (June 2019)<a class="headerlink" href="#june-2019" title="Permalink to this headline">¶</a></h2>
 <p>Updates:</p>
 <ul class="simple">
-<li>Minor bug fixes, examples and documentation</li>
+<li><p>Minor bug fixes, examples and documentation</p></li>
 </ul>
 </div>
 <div class="section" id="id1">
 <h2>0.2.1 (June 2019)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>Updates:</p>
 <ul class="simple">
-<li>Extra support for appending Circuits from Matrices and Exponents</li>
-<li>More docs and examples</li>
-<li>Fixed bugs in backends</li>
+<li><p>Extra support for appending Circuits from Matrices and Exponents</p></li>
+<li><p>More docs and examples</p></li>
+<li><p>Fixed bugs in backends</p></li>
 </ul>
 </div>
 <div class="section" id="id2">
 <h2>0.2.0 (June 2019)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>New Features:</p>
 <ul class="simple">
-<li>Support for circuits and simulation using ProjectQ (0.4.2)</li>
-<li>Support for conversion to and from PyZX (<a class="reference external" href="https://github.com/Quantomatic/pyzx">https://github.com/Quantomatic/pyzx</a>)</li>
-<li>Interface to many new optimisation passes, allowing for custom passes</li>
-<li>Circuit compilation using symbolic parameters</li>
-<li>New interface to routing</li>
-<li>Enabled noise modeling in the AerBackend module</li>
+<li><p>Support for circuits and simulation using ProjectQ (0.4.2)</p></li>
+<li><p>Support for conversion to and from PyZX (<a class="reference external" href="https://github.com/Quantomatic/pyzx">https://github.com/Quantomatic/pyzx</a>)</p></li>
+<li><p>Interface to many new optimisation passes, allowing for custom passes</p></li>
+<li><p>Circuit compilation using symbolic parameters</p></li>
+<li><p>New interface to routing</p></li>
+<li><p>Enabled noise modeling in the AerBackend module</p></li>
 </ul>
 <p>Updates:</p>
 <ul class="simple">
-<li>Qiskit support updated for Qiskit 0.10.1 and Qiskit Chemistry 0.5</li>
-<li>Pytket Chemistry module has been removed, to be part of the separate Eumen package</li>
-<li>Bug fixes and performance improvements to routing</li>
+<li><p>Qiskit support updated for Qiskit 0.10.1 and Qiskit Chemistry 0.5</p></li>
+<li><p>Pytket Chemistry module has been removed, to be part of the separate Eumen package</p></li>
+<li><p>Bug fixes and performance improvements to routing</p></li>
 </ul>
 </div>
 <div class="section" id="april-2019">
 <h2>0.1.6 (April 2019)<a class="headerlink" href="#april-2019" title="Permalink to this headline">¶</a></h2>
 <p>Updates:</p>
 <ul class="simple">
-<li>Routing can return SWAP gates rather than decomposing to CNOTs</li>
-<li>Decomposition and routing bug fixes</li>
+<li><p>Routing can return SWAP gates rather than decomposing to CNOTs</p></li>
+<li><p>Decomposition and routing bug fixes</p></li>
 </ul>
 </div>
 <div class="section" id="id3">
 <h2>0.1.5 (April 2019)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>New Features:</p>
 <ul class="simple">
-<li>Enabled conversions from 4x4 unitary matrices to 2 qubit circuit</li>
+<li><p>Enabled conversions from 4x4 unitary matrices to 2 qubit circuit</p></li>
 </ul>
 </div>
 <div class="section" id="id4">
 <h2>0.1.4 (April 2019)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>Updates:</p>
 <ul class="simple">
-<li>Bug fix patch for routing and performance improvements</li>
+<li><p>Bug fix patch for routing and performance improvements</p></li>
 </ul>
 </div>
 <div class="section" id="march-2019">
 <h2>0.1.3 (March 2019)<a class="headerlink" href="#march-2019" title="Permalink to this headline">¶</a></h2>
 <p>Updates:</p>
 <ul class="simple">
-<li>Qiskit support updated for Terra 0.7.3, Aqua 0.4.1, and Chemistry 0.4.2</li>
-<li>Bug fixes in routing</li>
+<li><p>Qiskit support updated for Terra 0.7.3, Aqua 0.4.1, and Chemistry 0.4.2</p></li>
+<li><p>Bug fixes in routing</p></li>
 </ul>
 </div>
 <div class="section" id="february-2019">
 <h2>0.1.2 (February 2019)<a class="headerlink" href="#february-2019" title="Permalink to this headline">¶</a></h2>
 <p>New Features:</p>
 <ul class="simple">
-<li>Support for circuits from Rigetti pyQuil (2.3)</li>
-<li>New interface for constructing and analysing circuits in pytket directly</li>
-<li>Named classical registers for measurements</li>
+<li><p>Support for circuits from Rigetti pyQuil (2.3)</p></li>
+<li><p>New interface for constructing and analysing circuits in pytket directly</p></li>
+<li><p>Named classical registers for measurements</p></li>
 </ul>
 <p>Updates:</p>
 <ul class="simple">
-<li>Documentation and tutorial improvements</li>
-<li>Bug fixes in routing and optimisations</li>
-<li>Minor API changes for notational consistency</li>
+<li><p>Documentation and tutorial improvements</p></li>
+<li><p>Bug fixes in routing and optimisations</p></li>
+<li><p>Minor API changes for notational consistency</p></li>
 </ul>
 </div>
 <div class="section" id="december-2018">
 <h2>0.1.0 (December 2018)<a class="headerlink" href="#december-2018" title="Permalink to this headline">¶</a></h2>
 <p>New Features:</p>
 <ul class="simple">
-<li>Support for circuits and architectures from IBM Qiskit (0.7)</li>
-<li><code class="docutils literal notranslate"><span class="pre">pytket.qiskit.TketPass</span></code> allows pytket to be plugged in to the Qiskit compilation stack to take advantage of t|ket&gt;’s routing and optimisations</li>
-<li>New Chemistry package featuring an implementation of the Quantum Subspace Expansion to work within or alongside Qiskit Aqua (0.4)</li>
-<li>Optimisation passes introduced for powerful circuit rewriting before routing, and safe rewriting after routing</li>
+<li><p>Support for circuits and architectures from IBM Qiskit (0.7)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket.qiskit.TketPass</span></code> allows pytket to be plugged in to the Qiskit compilation stack to take advantage of t|ket&gt;’s routing and optimisations</p></li>
+<li><p>New Chemistry package featuring an implementation of the Quantum Subspace Expansion to work within or alongside Qiskit Aqua (0.4)</p></li>
+<li><p>Optimisation passes introduced for powerful circuit rewriting before routing, and safe rewriting after routing</p></li>
 </ul>
 <p>Updates:</p>
 <ul class="simple">
-<li>Cirq functionality supports Cirq 0.4</li>
-<li>Refactoring into modules</li>
+<li><p>Cirq functionality supports Cirq 0.4</p></li>
+<li><p>Refactoring into modules</p></li>
 </ul>
 </div>
 <div class="section" id="july-2018">
 <h2>0.0.1 (July 2018)<a class="headerlink" href="#july-2018" title="Permalink to this headline">¶</a></h2>
 <p>New Features:</p>
 <ul class="simple">
-<li>Support for circuits and architectures from Google Cirq (0.3)</li>
-<li>Routing and placement procedures available for manipulating circuits to satisfy device specifications</li>
+<li><p>Support for circuits and architectures from Google Cirq (0.3)</p></li>
+<li><p>Routing and placement procedures available for manipulating circuits to satisfy device specifications</p></li>
 </ul>
 </div>
 </div>
@@ -306,7 +326,7 @@
         <a href="circuit.html" class="btn btn-neutral float-right" title="pytket._circuit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="getting_started.html" class="btn btn-neutral" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -332,27 +352,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

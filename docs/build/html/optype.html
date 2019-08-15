@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket._circuit.OpType &mdash; pytket 0.2.3 documentation</title>
+  <title>pytket._circuit.OpType &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket._routing" href="routing.html" />
     <link rel="prev" title="pytket._circuit.Circuit" href="circuit_class.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +61,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -173,7 +176,7 @@
 <p>Enum for available operations compatible with the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class.</p>
 <dl class="class">
 <dt id="pytket._circuit.OpType">
-<em class="property">class </em><code class="descclassname">pytket._circuit.</code><code class="descname">OpType</code><a class="headerlink" href="#pytket._circuit.OpType" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket._circuit.</code><code class="sig-name descname">OpType</code><a class="headerlink" href="#pytket._circuit.OpType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enum for available operations compatible with <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> s.</p>
 <p>Members:</p>
 <blockquote>
@@ -192,7 +195,7 @@
 <p>Rz : <span class="math notranslate nohighlight">\(Rz(\alpha)\)</span> := <span class="math notranslate nohighlight">\(e^{- \frac{i\alpha Z}{2}}\)</span></p>
 <p>U1 : <span class="math notranslate nohighlight">\(U1(\lambda)\)</span> := <span class="math notranslate nohighlight">\(Rz(\lambda)\)</span>, up to global phase. U-gates are used by IBM. See <a class="reference external" href="https://github.com/Qiskit/qiskit-tutorials/blob/master/qiskit/terra/summary_of_quantum_operations.ipynb">https://github.com/Qiskit/qiskit-tutorials/blob/master/qiskit/terra/summary_of_quantum_operations.ipynb</a> for more information on U-gates.</p>
 <p>U2 : <span class="math notranslate nohighlight">\(U2(\phi, \lambda)\)</span> := <span class="math notranslate nohighlight">\(Rz(\phi)Ry(\frac{\mathrm{\pi}}{2})Rz(\lambda)\)</span>, defined by matrix multiplication, up to global phase.</p>
-<p>U3 : <span class="math notranslate nohighlight">\(U3(\theta, \phi, \lambda)\)</span> := <span class="math notranslate nohighlight">\(Rz(\phi)Ry(\theta)Rz(\lambda)\)</span>, up to global phase.</p>
+<p>U3 : <span class="math notranslate nohighlight">\(U3(\theta, \phi, \lambda)\)</span> := <span class="math notranslate nohighlight">\(U1(\phi)Ry(\theta)U1(\lambda)\)</span>, up to global phase.</p>
 <p>CX : <span class="math notranslate nohighlight">\(CX\)</span> := Controlled <span class="math notranslate nohighlight">\(X\)</span> gate</p>
 <p>CY : <span class="math notranslate nohighlight">\(CY\)</span> := Controlled <span class="math notranslate nohighlight">\(Y\)</span> gate</p>
 <p>CZ : <span class="math notranslate nohighlight">\(CZ\)</span> := Controlled <span class="math notranslate nohighlight">\(Z\)</span> gate</p>
@@ -202,6 +205,7 @@
 <p>CU3 : <span class="math notranslate nohighlight">\(CU3(\theta, \phi, \lambda)\)</span> := Controlled <span class="math notranslate nohighlight">\(U3(\theta, \phi, \lambda)\)</span> gate. Similar rules apply.</p>
 <p>CCX : <span class="math notranslate nohighlight">\(CCX\)</span> := Toffoli gate</p>
 <p>SWAP : <span class="math notranslate nohighlight">\(SWAP\)</span> := swap two qubits</p>
+<p>CSWAP : <span class="math notranslate nohighlight">\(CSWAP\)</span> := Controlled swap gate</p>
 <p>Input : Not for end users</p>
 <p>Output : Not for end users</p>
 <p>noop : Identity gate. These gates are not permanent and are automatically stripped by the compiler.</p>
@@ -215,9 +219,9 @@
 <p>CnRy : <span class="math notranslate nohighlight">\(CnRy(\alpha)\)</span> := n-controlled <span class="math notranslate nohighlight">\(Ry(\alpha)\)</span> gate.</p>
 <p>CnX : <span class="math notranslate nohighlight">\(CnX\)</span> := n-controlled <span class="math notranslate nohighlight">\(X\)</span> gate.</p>
 </div></blockquote>
-<dl class="attribute">
+<dl class="method">
 <dt id="pytket._circuit.OpType.name">
-<code class="descname">name</code><a class="headerlink" href="#pytket._circuit.OpType.name" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket._circuit.OpType.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>(self: handle) -&gt; str</p>
 </dd></dl>
 
@@ -236,7 +240,7 @@
         <a href="routing.html" class="btn btn-neutral float-right" title="pytket._routing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="circuit_class.html" class="btn btn-neutral" title="pytket._circuit.Circuit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="circuit_class.html" class="btn btn-neutral float-left" title="pytket._circuit.Circuit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -262,27 +266,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

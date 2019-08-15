@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.pyzx &mdash; pytket 0.2.3 documentation</title>
+  <title>pytket.pyzx &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -17,33 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="pytket.projectq" href="projectq.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -57,7 +60,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -166,40 +169,38 @@
 <p>Module for conversion between PyZX and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
 <dl class="function">
 <dt id="pytket.pyzx.tk_to_pyzx">
-<code class="descclassname">pytket.pyzx.</code><code class="descname">tk_to_pyzx</code><span class="sig-paren">(</span><em>tkcircuit: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit]</em><span class="sig-paren">)</span> &#x2192; pyzx.circuit.Circuit<a class="headerlink" href="#pytket.pyzx.tk_to_pyzx" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.pyzx.</code><code class="sig-name descname">tk_to_pyzx</code><span class="sig-paren">(</span><em class="sig-param">tkcircuit: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit]</em><span class="sig-paren">)</span> &#x2192; pyzx.circuit.Circuit<a class="headerlink" href="#pytket.pyzx.tk_to_pyzx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prog</strong> – A circuit to be converted</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The converted circuit</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>prog</strong> – A circuit to be converted</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The converted circuit</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.pyzx.pyzx_to_tk">
-<code class="descclassname">pytket.pyzx.</code><code class="descname">pyzx_to_tk</code><span class="sig-paren">(</span><em>pyzx_circ: pyzx.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket.pyzx.pyzx_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.pyzx.</code><code class="sig-name descname">pyzx_to_tk</code><span class="sig-paren">(</span><em class="sig-param">pyzx_circ: pyzx.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket.pyzx.pyzx_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code> to a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> .
 All PyZX basic gate operations are currently supported by pytket. Run <cite>pyzx_circuit_name.to_basic_gates()</cite>
 before conversion.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prog</strong> – A circuit to be converted</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The converted circuit</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><p><strong>prog</strong> – A circuit to be converted</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The converted circuit</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -213,7 +214,7 @@ before conversion.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="projectq.html" class="btn btn-neutral" title="pytket.projectq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="projectq.html" class="btn btn-neutral float-left" title="pytket.projectq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -239,27 +240,16 @@ before conversion.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

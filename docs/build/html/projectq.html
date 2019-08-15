@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.projectq &mdash; pytket 0.2.3 documentation</title>
+  <title>pytket.projectq &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.pyzx" href="pyzx.html" />
     <link rel="prev" title="pytket.pyquil" href="pyquil.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +61,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -167,40 +170,40 @@
 <p>Module for conversion between ProjectQ and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
 <dl class="class">
 <dt id="pytket.projectq.tketBackendEngine">
-<em class="property">class </em><code class="descclassname">pytket.projectq.</code><code class="descname">tketBackendEngine</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tketBackendEngine</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>A projectq backend designed to translate from projectq commands
 to tket Circuits</p>
 <dl class="method">
 <dt id="pytket.projectq.tketBackendEngine.is_available">
-<code class="descname">is_available</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_available</code><span class="sig-paren">(</span><em class="sig-param">cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ask the next engine whether a command is available, i.e.,
 whether it can be executed by the next engine(s).</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>cmd (Command): Command for which to check availability.</dd>
-<dt>Returns:</dt>
-<dd>True if the command can be executed.</dd>
-<dt>Raises:</dt>
-<dd>LastEngineException: 
-If is_last_engine is True but is_available is not implemented.</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>cmd (Command): Command for which to check availability.</p>
+</dd>
+<dt>Returns:</dt><dd><p>True if the command can be executed.</p>
+</dd>
+<dt>Raises:</dt><dd><p>LastEngineException: 
+If is_last_engine is True but is_available is not implemented.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.projectq.tketBackendEngine.receive">
-<code class="descname">receive</code><span class="sig-paren">(</span><em>command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param">command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process commands from a list and append to local Circuit.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="pytket.projectq.tketBackendEngine.circuit">
-<code class="descname">circuit</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine.circuit" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Returns:</dt>
-<dd>The <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> Circuit from the engine.</dd>
-<dt>Raises:</dt>
-<dd>Exception:
-If the Circuit has no gates, assumes user forgot to flush engines.</dd>
+<em class="property">property </em><code class="sig-name descname">circuit</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine.circuit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns:</dt><dd><p>The <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> Circuit from the engine.</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception:
+If the Circuit has no gates, assumes user forgot to flush engines.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -208,12 +211,12 @@ If the Circuit has no gates, assumes user forgot to flush engines.</dd>
 
 <dl class="class">
 <dt id="pytket.projectq.tketOptimiser">
-<em class="property">class </em><code class="descclassname">pytket.projectq.</code><code class="descname">tketOptimiser</code><a class="headerlink" href="#pytket.projectq.tketOptimiser" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tketOptimiser</code><a class="headerlink" href="#pytket.projectq.tketOptimiser" title="Permalink to this definition">¶</a></dt>
 <dd><p>A ProjectQ BasicEngine designed to translate from ProjectQ commands
 to tket Circuits, optimise them, and then return other ProjectQ commands.</p>
 <dl class="method">
 <dt id="pytket.projectq.tketOptimiser.receive">
-<code class="descname">receive</code><span class="sig-paren">(</span><em>command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param">command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receives a list of commands and appends to local Circuit. If a flush gate is received, 
 optimises the Circuit using a default Transform pass and then sends the commands from
 this optimised Circuit into the next engine.</p>
@@ -223,21 +226,17 @@ this optimised Circuit into the next engine.</p>
 
 <dl class="function">
 <dt id="pytket.projectq.tk_to_projectq">
-<code class="descclassname">pytket.projectq.</code><code class="descname">tk_to_projectq</code><span class="sig-paren">(</span><em>engine: projectq.cengines._main.MainEngine, qureg: projectq.types._qubit.Qureg, circuit: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tk_to_projectq</code><span class="sig-paren">(</span><em class="sig-param">engine: projectq.cengines._main.MainEngine, qureg: projectq.types._qubit.Qureg, circuit: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a ProjectQ Qureg in an Engine, converts a Circuit to a series of ProjectQ Commands on this Qureg.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>engine</strong> (<em>MainEngine</em>) – A ProjectQ MainEngine</li>
-<li><strong>qureg</strong> (<em>Qureg</em>) – A ProjectQ Qureg in this MainEngine</li>
-<li><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a><em>,</em><a class="reference internal" href="routing.html#pytket._routing.PhysicalCircuit" title="pytket._routing.PhysicalCircuit"><em>PhysicalCircuit</em></a><em>]</em>) – A tket Circuit</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>engine</strong> (<em>MainEngine</em>) – A ProjectQ MainEngine</p></li>
+<li><p><strong>qureg</strong> (<em>Qureg</em>) – A ProjectQ Qureg in this MainEngine</p></li>
+<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a><em>,</em><a class="reference internal" href="routing.html#pytket._routing.PhysicalCircuit" title="pytket._routing.PhysicalCircuit"><em>PhysicalCircuit</em></a><em>]</em>) – A tket Circuit</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -253,7 +252,7 @@ this optimised Circuit into the next engine.</p>
         <a href="pyzx.html" class="btn btn-neutral float-right" title="pytket.pyzx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="pyquil.html" class="btn btn-neutral" title="pytket.pyquil" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="pyquil.html" class="btn btn-neutral float-left" title="pytket.pyquil" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -279,27 +278,16 @@ this optimised Circuit into the next engine.</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

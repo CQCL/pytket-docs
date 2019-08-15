@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.backends.projectq &mdash; pytket 0.2.3 documentation</title>
+  <title>pytket.backends.projectq &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.cirq" href="cirq.html" />
     <link rel="prev" title="pytket.backends.ibm" href="ibm_backend.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +61,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.3.0
               </div>
             
           
@@ -93,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="backends.html">pytket.backends</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="forest_backend.html">pytket.backends.forest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ibm_backend.html">pytket.backends.ibm</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pytket.backends.projectq</a></li>
 </ul>
@@ -173,43 +177,39 @@
 <p>Backend for utilising the ProjectQ simulator directly from pytket</p>
 <dl class="class">
 <dt id="pytket.backends.projectq.ProjectQBackend">
-<em class="property">class </em><code class="descclassname">pytket.backends.projectq.</code><code class="descname">ProjectQBackend</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.projectq.</code><code class="sig-name descname">ProjectQBackend</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value">
-<code class="descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>operator</em>, <em>shots=10000</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit</em>, <em class="sig-param">operator</em>, <em class="sig-param">shots=10000</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations
 Note: This method is significantly faster using the ProjectQBackend than the AerStateBackend.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value">
-<code class="descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>pauli</em>, <em>shots=10000</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit</em>, <em class="sig-param">pauli</em>, <em class="sig-param">shots=10000</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates expectation value for pauli term by preparing basis change circuit and measuring</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>circuit: pytket._circuit.Circuit</em>, <em>shots: int</em>, <em>fit_to_constraints=True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket._circuit.Circuit</em>, <em class="sig-param">shots: int</em>, <em class="sig-param">fit_to_constraints=True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the circuit on the backend and return results, optionally fitting the circuit to the constraints of the backend.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</li>
-<li><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run</li>
-<li><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
+<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run</p></li>
+<li><p><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -227,7 +227,7 @@ Note: This method is significantly faster using the ProjectQBackend than the Aer
         <a href="cirq.html" class="btn btn-neutral float-right" title="pytket.cirq" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ibm_backend.html" class="btn btn-neutral" title="pytket.backends.ibm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ibm_backend.html" class="btn btn-neutral float-left" title="pytket.backends.ibm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -253,27 +253,16 @@ Note: This method is significantly faster using the ProjectQBackend than the Aer
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
