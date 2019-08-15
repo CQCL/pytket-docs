@@ -21,8 +21,7 @@ try:
 except ImportError:
     raise ImportError("Could not find PyZX. You must install PyZX from https://github.com/Quantomatic/pyzx")
 
-from pytket import PI
-from pytket._circuit import OpType, Op, Circuit
+from pytket._circuit import OpType, Circuit
 from pytket._routing import PhysicalCircuit
 
 from typing import Union
@@ -51,13 +50,15 @@ def tk_to_pyzx(tkcircuit:Union[Circuit,PhysicalCircuit]) -> pyzxCircuit:
 
     :return: The converted circuit
     """
+    if not tkcircuit.is_simple:
+        raise Exception("Cannot convert a non-simple tket Circuit to PyZX")
     c = pyzxCircuit(tkcircuit.n_qubits)
     for command in tkcircuit:
         op = command.op
         if not op.get_type() in _tk_to_pyzx_gates:
             raise Exception("Cannot parse tket gate: " + str(op))
         gate_string = _tk_to_pyzx_gates[op.get_type()]
-        qbs = command.qubits
+        qbs = [q.index for q in command.qubits]
         n_params = len(op.get_params())
         if (n_params==0):
             c.add_gate(gate_string, *qbs)
@@ -86,10 +87,8 @@ def pyzx_to_tk(pyzx_circ:pyzxCircuit) -> Circuit:
             raise Exception("Cannot parse PyZX gate of type " + g.name + "into tket Circuit")
         op_type = _pyzx_to_tk_gates[g.name]
         if (hasattr(g,'control')):
-            num_qubits = 2
             qbs = [getattr(g,'control'),getattr(g,'target')]
         else: 
-            num_qubits = 1
             qbs = [getattr(g,'target')]
 
         if (hasattr(g,"printphase") and op_type in _parameterised_gates):
