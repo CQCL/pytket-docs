@@ -35,4 +35,4 @@ def pauli_measurement(pauli_string:Iterable[Tuple[int,str]], circ:Circuit) :
             circ.H(qb_idx)
 
     for idx in measured_qbs:
-        circ.Measure(idx)
+        circ.Measure(idx, idx)

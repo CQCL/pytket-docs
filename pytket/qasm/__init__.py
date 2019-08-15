@@ -11,11 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Python Interface to CQC t|ket>
-"""
+"""Parser from OPENQASM to :math:`\\mathrm{t|ket}\\rangle` Circuits"""
 
-from pytket._circuit import Circuit, OpType
-from pytket._routing import route, Architecture
-from pytket._transform import Transform 
-from pytket.qasm import circuit_from_qasm, circuit_to_qasm
 __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+
+from .qasm import circuit_from_qasm, circuit_to_qasm
