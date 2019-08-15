@@ -23,11 +23,11 @@ from projectq.meta import get_control_count
 from projectq.ops._command import Command as ProjectQCommand, apply_command
 from projectq.types._qubit import Qureg
 
-from pytket import PI
 from pytket._circuit import OpType, Op, Circuit, Command
 from pytket._routing import PhysicalCircuit
 from pytket._transform import Transform
 
+import numpy as np
 from typing import Union
 
 _pq_to_tk_singleqs = {pqo.XGate: OpType.X,
@@ -64,7 +64,7 @@ _ALLOWED_GATES = {**_pq_to_tk_singleqs,**_pq_to_tk_multiqs,**_OTHER_KNOWN_GATES}
 _tk_to_pq_singleqs = dict((reversed(item) for item in _pq_to_tk_singleqs.items()))
 _tk_to_pq_multiqs = dict((reversed(item) for item in _pq_to_tk_multiqs.items()))
 
-def get_pq_command_from_tk_command(command:Command, engine:MainEngine, container):
+def _get_pq_command_from_tk_command(command:Command, engine:MainEngine, container):
         op = command.op
         optype = op.get_type()
         controlled = False
@@ -82,14 +82,14 @@ def get_pq_command_from_tk_command(command:Command, engine:MainEngine, container
             if len(params)!=1:
                 raise Exception("A Rotation Gate has " + len(params) + " parameters")
             try:
-                gate = gatetype(params[0].evalf()*PI)
+                gate = gatetype(params[0].evalf()*np.pi)
             except:
-                gate = gatetype(params[0]*PI)
+                gate = gatetype(params[0]*np.pi)
         elif issubclass(gatetype,pqo.BasicGate):
             gate = gatetype()
         else:
             raise Exception("Gate of type: " + str(gatetype) + " cannot be converted")
-        qubs = command.qubits
+        qubs = [q.index for q in command.qubits]
         if controlled:
             target = container[qubs[-1]]
             qubs.pop()
@@ -112,8 +112,10 @@ def tk_to_projectq(engine:MainEngine,qureg:Qureg,circuit:Union[Circuit,PhysicalC
     :param circuit: A tket Circuit
     :type circuit: Union[Circuit,PhysicalCircuit]
     """
+    if not circuit.is_simple:
+        raise Exception("Cannot currently convert non-simple circuits to ProjectQ")
     for command in circuit:
-        cmd = get_pq_command_from_tk_command(command,engine,qureg)
+        cmd = _get_pq_command_from_tk_command(command,engine,qureg)
         apply_command(cmd)
 
 
@@ -156,7 +158,7 @@ def _add_single_qubit_op_to_circuit(cmd:ProjectQCommand,circ:Circuit):
         raise Exception("singleq gate " + str(cmd.gate) + " has " + str(get_control_count(cmd)) + " control qubits")
     else:
         if type(cmd.gate) in (pqo.Rx,pqo.Ry,pqo.Rz):
-            op = circ._get_op(OpType=_pq_to_tk_singleqs[type(cmd.gate)],param=cmd.gate.angle/PI)
+            op = circ._get_op(OpType=_pq_to_tk_singleqs[type(cmd.gate)],param=cmd.gate.angle/np.pi)
         else:
             op = circ._get_op(OpType=_pq_to_tk_singleqs[type(cmd.gate)])
         if (qubit_no >= circ.n_qubits):
@@ -177,9 +179,8 @@ def _add_multi_qubit_op_to_circuit(cmd:ProjectQCommand,circ:Circuit):
             if (qubit_no>=circ.n_qubits):
                 circ.add_blank_wires(1+qubit_no-circ.n_qubits)
                 new_qubits.append(q)
-        n_qubits = len(cmd.all_qubits)
         if (type(cmd.gate) == pqo.CRz):
-            op = circ._get_op(OpType=_pq_to_tk_multiqs[type(cmd.gate)],param=cmd.gate.angle/PI)
+            op = circ._get_op(OpType=_pq_to_tk_multiqs[type(cmd.gate)],param=cmd.gate.angle/np.pi)
         else:
             op = circ._get_op(OpType=_pq_to_tk_multiqs[type(cmd.gate)])
         qubit_nos = [qb.id for qr in cmd.all_qubits for qb in qr]
@@ -294,7 +295,7 @@ class tketOptimiser(BasicEngine):
         if self._circuit.n_gates==0:
             return cmd_list
         for command in self._circuit:
-            cmd = get_pq_command_from_tk_command(command,self.main_engine,self._qubit_dictionary)
+            cmd = _get_pq_command_from_tk_command(command,self.main_engine,self._qubit_dictionary)
             cmd_list.append(cmd)
         return cmd_list
 

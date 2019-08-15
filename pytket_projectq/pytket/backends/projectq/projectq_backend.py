@@ -20,7 +20,7 @@ from projectq import MainEngine
 from projectq.ops import *
 from projectq.backends import *
 
-from pytket._circuit import Circuit
+from pytket._circuit import Circuit, OpType
 from pytket._transform import Transform
 from pytket._simulation import pauli_tensor_matrix
 from pytket.backends import Backend
@@ -59,18 +59,27 @@ class ProjectQBackend(Backend) :
         return state #list of complex numbers
 
     def run(self, circuit:Circuit, shots:int, fit_to_constraints=True) -> np.ndarray:
-        state = self.get_state(circuit, fit_to_constraints)
+        qbs_to_measure = set()
+        for com in circuit:
+            if com.op.get_type() == OpType.Measure:
+                qbs_to_measure.add(com.qubits[0].index)
+
+        c = circuit.copy()
+        if fit_to_constraints :
+            Transform.RebaseToProjectQ().apply(c)
         fwd = ForwarderEngine(self._backend)
         eng = MainEngine(backend=self._backend,engine_list=[fwd])
-        qb_results = []
-        qureg = eng.allocate_qureg(circuit.n_qubits)
 
+        qb_results = []
         for _ in range(shots):
-            self._backend.set_wavefunction(state,qureg)
+            qureg = eng.allocate_qureg(c.n_qubits)
+            tk_to_projectq(eng,qureg,c)
+            results = []
+            for qb in qbs_to_measure:
+                results.append(int(qureg[qb]))
+            qb_results.append(results)
             All(Measure) | qureg
             eng.flush()
-            results = (list(map(int,qureg)))
-            qb_results.append(results)
         
         return np.asarray(qb_results)
 
@@ -86,3 +95,4 @@ class ProjectQBackend(Backend) :
         """
         #turn operator into QubitOperator object
         return projectq_expectation_value(state_circuit,operator)
+
