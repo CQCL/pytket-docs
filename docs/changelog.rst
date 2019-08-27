@@ -9,6 +9,7 @@ New Features:
 * ForestBackend for running circuits on Rigett's QVM simulators and QCS
 * AerUnitaryBackend for inspecting the full unitary of a circuit
 * Chaining gate commands
+* Primitive QASM<->Circuit (import and export)
 
 Updates:
 
