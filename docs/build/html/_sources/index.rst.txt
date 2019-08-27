@@ -69,6 +69,7 @@ Note:this will need a separate install of ``pyzx`` from `source`_.
     :maxdepth: 2
 
     circuit.rst
+    qasm.rst
     routing.rst
     transform.rst
     backends.rst

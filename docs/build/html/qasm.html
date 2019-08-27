@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.backends.forest &mdash; pytket 0.3.0 documentation</title>
+  <title>pytket.qasm &mdash; pytket 0.3.0 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pytket.backends.ibm" href="ibm_backend.html" />
-    <link rel="prev" title="pytket.backends" href="backends.html" /> 
+    <link rel="next" title="pytket._routing" href="routing.html" />
+    <link rel="prev" title="pytket._circuit.OpType" href="optype.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -90,15 +90,10 @@
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.qasm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="backends.html">pytket.backends</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">pytket.backends.forest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ibm_backend.html">pytket.backends.ibm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="projectq_backend.html">pytket.backends.projectq</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
@@ -149,15 +144,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="backends.html">pytket.backends</a> &raquo;</li>
-        
-      <li>pytket.backends.forest</li>
+      <li>pytket.qasm</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/forest_backend.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/qasm.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -170,55 +163,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pytket.backends.forest">
-<span id="pytket-backends-forest"></span><h1>pytket.backends.forest<a class="headerlink" href="#module-pytket.backends.forest" title="Permalink to this headline">¶</a></h1>
-<p>Backends for connecting to devices and simulators from the Rigetti Forest platform directly from pytket</p>
-<dl class="class">
-<dt id="pytket.backends.forest.ForestBackend">
-<em class="property">class </em><code class="descclassname">pytket.backends.forest.</code><code class="descname">ForestBackend</code><span class="sig-paren">(</span><em>qc_name</em>, <em>simulator=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="pytket.backends.forest.ForestBackend.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>qc_name</em>, <em>simulator=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Backend for running simulations on the Rigetti QVM or a QCS device</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>qc_name</strong> – The name of the particular QuantumComputer to use. See the pyQuil docs for more details.</li>
-<li><strong>simulator</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to simulate the architecture or try to connect to a physical device</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+  <div class="section" id="pytket-qasm">
+<h1>pytket.qasm<a class="headerlink" href="#pytket-qasm" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects can be converted to and from OpenQASM, although we do not support all operations.
+In particular, we do not currently support:</p>
+<ol class="arabic simple">
+<li>Custom gates (including importing from libraries other than qelib1)</li>
+<li>Ability to interpret gates acting on a whole register in the OpenQASM style</li>
+</ol>
+<p>Any pytket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> that is exported to this format should be valid for importing again as a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, making this a convenient file format
+to save your <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects.</p>
+<p>However, we do support symbolic parameters of gates, both on import and export.</p>
+<span class="target" id="module-pytket.qasm"></span><p>Parser from OPENQASM to <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> Circuits</p>
+<dl class="function">
+<dt id="pytket.qasm.circuit_from_qasm">
+<code class="descclassname">pytket.qasm.</code><code class="descname">circuit_from_qasm</code><span class="sig-paren">(</span><em>input_file: str</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket.qasm.circuit_from_qasm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to generate a tket Circuit from a qasm file</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="pytket.backends.forest.ForestBackend.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>circuit: pytket._circuit.Circuit</em>, <em>shots: int</em>, <em>fit_to_constraints: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.forest.ForestBackend.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run a circuit on the Rigetti QVM or a QCS device.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>) – The circuit to run</li>
-<li><strong>shots</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – Number of shots (repeats) to run</li>
-<li><strong>fit_to_constraints</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
-</ul>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1, corresponding to qubit basis states.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<dl class="function">
+<dt id="pytket.qasm.circuit_to_qasm">
+<code class="descclassname">pytket.qasm.</code><code class="descname">circuit_to_qasm</code><span class="sig-paren">(</span><em>circ: pytket._circuit.Circuit</em>, <em>output_file: str</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.qasm.circuit_to_qasm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method to generate a qasm file from a tket Circuit</p>
 </dd></dl>
 
 </div>
@@ -231,10 +197,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ibm_backend.html" class="btn btn-neutral float-right" title="pytket.backends.ibm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="routing.html" class="btn btn-neutral float-right" title="pytket._routing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="backends.html" class="btn btn-neutral" title="pytket.backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="optype.html" class="btn btn-neutral" title="pytket._circuit.OpType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

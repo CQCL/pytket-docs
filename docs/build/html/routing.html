@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -22,28 +24,21 @@
 
   
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="pytket 0.3.0 documentation" href="index.html"/>
-        <link rel="next" title="pytket._transform" href="transform.html"/>
-        <link rel="prev" title="pytket._circuit.OpType" href="optype.html"/> 
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pytket._transform" href="transform.html" />
+    <link rel="prev" title="pytket.qasm" href="qasm.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +79,10 @@
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -92,6 +90,7 @@
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket._routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
@@ -111,34 +110,54 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">pytket</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>pytket._routing</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>pytket._routing</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/routing.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -178,13 +197,13 @@
 
 <dl class="function">
 <dt id="pytket._routing.line_placement">
-<code class="descclassname">pytket._routing.</code><code class="descname">line_placement</code><span class="sig-paren">(</span><em>arg0: pytket._circuit.Circuit</em>, <em>arg1: pytket._routing.Architecture</em><span class="sig-paren">)</span> &#x2192; pytket._routing.QubitMap<a class="headerlink" href="#pytket._routing.line_placement" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pytket._routing.</code><code class="descname">line_placement</code><span class="sig-paren">(</span><em>input_circuit: pytket._circuit.Circuit</em>, <em>architecture: pytket._routing.Architecture</em><span class="sig-paren">)</span> &#x2192; pytket._routing.QubitMap<a class="headerlink" href="#pytket._routing.line_placement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a simple mapping of a subset of qubits on to the architecture nodes.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket._routing.noise_aware_placement">
-<code class="descclassname">pytket._routing.</code><code class="descname">noise_aware_placement</code><span class="sig-paren">(</span><em>arg0: pytket._circuit.Circuit, arg1: pytket._routing.Architecture, arg2: List[Tuple[int, pytket._circuit.OpType, float]], arg3: List[Tuple[Tuple[int, int], pytket._circuit.OpType, float]]</em><span class="sig-paren">)</span> &#x2192; List[pytket._routing.QubitMap]<a class="headerlink" href="#pytket._routing.noise_aware_placement" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pytket._routing.</code><code class="descname">noise_aware_placement</code><span class="sig-paren">(</span><em>input_circuit: pytket._circuit.Circuit, architecture: pytket._routing.Architecture, single_qubit_fidelities: List[Tuple[int, pytket._circuit.OpType, float]], two_qubit__fidelities: List[Tuple[Tuple[int, int], pytket._circuit.OpType, float]]</em><span class="sig-paren">)</span> &#x2192; List[pytket._routing.QubitMap]<a class="headerlink" href="#pytket._routing.noise_aware_placement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a list of potential mappings of a subset of qubits on to the architecture nodes, based on noise parameters.</p>
 </dd></dl>
 
@@ -411,15 +430,16 @@
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="transform.html" class="btn btn-neutral float-right" title="pytket._transform" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="transform.html" class="btn btn-neutral float-right" title="pytket._transform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="optype.html" class="btn btn-neutral" title="pytket._circuit.OpType" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="qasm.html" class="btn btn-neutral" title="pytket.qasm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -428,11 +448,11 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Cambridge Quantum Computing Ltd.
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -447,36 +467,25 @@
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.3.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
