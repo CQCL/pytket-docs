@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
     <link rel="prev" title="pytket" href="index.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -85,7 +88,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-circuit-class">The <code class="docutils literal notranslate"><span class="pre">Circuit</span></code> Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-circuit-class">The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#compilation">Compilation</a></li>
 </ul>
 </li>
@@ -177,11 +180,11 @@
 <p>This will install the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> compiler binaries as well as the pytket package. For those using an older version of pytket, keep up to date by installing with the <code class="docutils literal notranslate"><span class="pre">--upgrade</span></code> flag for additional features and bug fixes.</p>
 <p>There are separate packages for managing the interoperability between pytket and other quantum software packages which can also be installed via PyPI:</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">pytket_cirq</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">pytket_projectq</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">pytket_pyquil</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">pytket_pyzx</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">pytket_qiskit</span></code></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket_cirq</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket_projectq</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket_pyquil</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket_pyzx</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket_qiskit</span></code></p></li>
 </ul>
 <div class="section" id="the-circuit-class">
 <h2>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Class<a class="headerlink" href="#the-circuit-class" title="Permalink to this headline">¶</a></h2>
@@ -224,12 +227,12 @@
 <p>In classical computing, a compiler is required to translate from a high-level language (e.g. C++) to the instruction set of the target machine (e.g. RISC-V). During this process, the program is automatically optimised to reduce the number of instructions, memory consumption, energy consumption, etc. The same needs exist in quantum computing to take a circuit description and enable it to run on a given simulator, hardware device, or cloud system (such as the IBM Quantum Experience or Rigetti’s Quantum Cloud Service).</p>
 <p>pytket is a retargetable compiler, with the ability to accept and produce circuits for any of the following:</p>
 <ul class="simple">
-<li>Google Cirq</li>
-<li>IBM Qiskit</li>
-<li>OpenQASM (via Qiskit)</li>
-<li>Rigetti pyQuil</li>
-<li>ProjectQ compilation engines</li>
-<li>PyZX</li>
+<li><p>Google Cirq</p></li>
+<li><p>IBM Qiskit</p></li>
+<li><p>OpenQASM (via Qiskit)</p></li>
+<li><p>Rigetti pyQuil</p></li>
+<li><p>ProjectQ compilation engines</p></li>
+<li><p>PyZX</p></li>
 </ul>
 <p>This translation facility allows, for example, circuits generated by the variational forms in Qiskit Aqua to be run on Rigetti QCS.</p>
 <p>However, near-term quantum devices do not currently provide the nice abstraction of a “perfect” machine - they are troubled by imperfect fidelity of operations, gradual decoherence over time, and restricted qubit-adjacency only allowing two-qubit gates between specific positions on the architecture.</p>
@@ -253,7 +256,7 @@
 <span class="n">Transform</span><span class="o">.</span><span class="n">OptimisePostRouting</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">routed_circuit</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>To see these in action, take a look at the jupyter notebooks on the <a class="reference external" href="http://github.com/CQCL/pytket/examples">pytket GitHub repository</a>.</p>
+<p>To see these in action, take a look at the jupyter notebooks on the <a class="reference external" href="http://github.com/CQCL/pytket/tree/master/examples">pytket GitHub repository</a>.</p>
 </div>
 </div>
 
@@ -268,7 +271,7 @@
         <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="pytket" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="pytket" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -294,27 +297,16 @@
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

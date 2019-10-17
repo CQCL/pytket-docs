@@ -17,34 +17,37 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.backends.forest" href="forest_backend.html" />
     <link rel="prev" title="pytket._transform" href="transform.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -181,102 +184,69 @@
 </div>
 <dl class="class">
 <dt id="pytket.backends.Backend">
-<em class="property">class </em><code class="descclassname">pytket.backends.</code><code class="descname">Backend</code><a class="headerlink" href="#pytket.backends.Backend" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.</code><code class="sig-name descname">Backend</code><a class="headerlink" href="#pytket.backends.Backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>This abstract class defines the structure of a backend as something that
 can run quantum circuits and produce a per-shot output</p>
 <dl class="method">
 <dt id="pytket.backends.Backend.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.__init__" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.backends.Backend.get_counts">
-<code class="descname">get_counts</code><span class="sig-paren">(</span><em>circuit</em>, <em>shots</em>, <em>fit_to_constraints=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_counts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit</em>, <em class="sig-param">shots</em>, <em class="sig-param">fit_to_constraints=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the circuit on the backend and accumulate the results into a summary of counts</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>circuit</strong> – The circuit to run</li>
-<li><strong>shots</strong> – Number of shots (repeats) to run</li>
-<li><strong>fit_to_constraints</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The circuit to run</p></li>
+<li><p><strong>shots</strong> – Number of shots (repeats) to run</p></li>
+<li><p><strong>fit_to_constraints</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Compile the circuit to meet the constraints of the backend, defaults to True</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Dictionary mapping bitvectors of results to number of times that result was observed (zero counts are omitted)</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary mapping bitvectors of results to number of times that result was observed (zero counts are omitted)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.backends.Backend.get_operator_expectation_value">
-<code class="descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>operator</em>, <em>shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit</em>, <em class="sig-param">operator</em>, <em class="sig-param">shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.backends.Backend.get_pauli_expectation_value">
-<code class="descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em>state_circuit</em>, <em>pauli</em>, <em>shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit</em>, <em class="sig-param">pauli</em>, <em class="sig-param">shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates expectation value for pauli term by preparing basis change circuit and measuring</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.backends.Backend.run">
-<code class="descname">run</code><span class="sig-paren">(</span><em>circuit: pytket._circuit.Circuit</em>, <em>shots: int</em>, <em>fit_to_constraints=True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.run" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket._circuit.Circuit</em>, <em class="sig-param">shots: int</em>, <em class="sig-param">fit_to_constraints=True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the circuit on the backend and return results, optionally fitting the circuit to the constraints of the backend.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</li>
-<li><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run</li>
-<li><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
+<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of shots (repeats) to run</p></li>
+<li><p><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.backends.Backend.run_batch">
-<code class="descname">run_batch</code><span class="sig-paren">(</span><em>circuits: Iterable[pytket._circuit.Circuit], shots: int, fit_to_constraints: bool = True</em><span class="sig-paren">)</span> &#x2192; Iterable[numpy.ndarray]<a class="headerlink" href="#pytket.backends.Backend.run_batch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs several circuits on the backend at once</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>circuits</strong> (<em>List</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a><em>]</em>) – The list of circuits to run</li>
-<li><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of shots (repeats) to run per circuit</li>
-<li><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">List of shot tables. Index i contains the table of shot results for the ith circuit</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">List[np.ndarray]</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pytket.backends.Backend.__weakref__">
-<code class="descname">__weakref__</code><a class="headerlink" href="#pytket.backends.Backend.__weakref__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#pytket.backends.Backend.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
@@ -295,7 +265,7 @@ can run quantum circuits and produce a per-shot output</p>
         <a href="forest_backend.html" class="btn btn-neutral float-right" title="pytket.backends.forest" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="transform.html" class="btn btn-neutral" title="pytket._transform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="transform.html" class="btn btn-neutral float-left" title="pytket._transform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -321,27 +291,16 @@ can run quantum circuits and produce a per-shot output</p>
   
 
 
-  
-
-    
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -112,4 +112,4 @@ Routing typically sacrifices circuit size/depth (from inserting swaps) to satisf
     routed_circuit.redirect_CX_gates(arc)
     Transform.OptimisePostRouting().apply(routed_circuit)
 
-To see these in action, take a look at the jupyter notebooks on the `pytket GitHub repository <http://github.com/CQCL/pytket/examples>`_.
+To see these in action, take a look at the jupyter notebooks on the `pytket GitHub repository <http://github.com/CQCL/pytket/tree/master/examples>`_.
