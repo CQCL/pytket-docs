@@ -70,7 +70,7 @@ def xmon_to_arc(xmon: XmonDevice) -> Architecture:
         forward_neighbours = filter(lambda x: indexed_qubits.index(x)>indexed_qubits.index(qb), neighbours)
         for x in forward_neighbours:
             pairs.append((indexed_qubits.index(qb), indexed_qubits.index(x)))
-    return Architecture(pairs, nodes)
+    return Architecture(pairs)
 
 def _indexed_qubits_from_circuit(circuit : cirq.Circuit) -> List[Qid]:
     qubit_list = list(circuit.all_qubits())
