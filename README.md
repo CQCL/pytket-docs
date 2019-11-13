@@ -42,9 +42,7 @@ Copyright 2019 Cambridge Quantum Computing
 Licensed under a Non-Commercial Use Software Licence (the "Licence");
 you may not use this product except in compliance with the Licence.
 You may obtain a copy of the Licence in the LICENCE file accompanying
-these documents or at:
-
-    https://cqcl.github.io/pytket/build/html/licence.html
+these documents or view them [here](https://cqcl.github.io/pytket/build/html/licence.html).
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the Licence is distributed on an "AS IS" BASIS,
