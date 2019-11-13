@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; pytket 0.3.0 documentation</title>
+  <title>Getting Started &mdash; pytket 0.4.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.4.0
               </div>
             
           
@@ -93,19 +93,26 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
             
@@ -238,8 +245,8 @@
 <p>However, near-term quantum devices do not currently provide the nice abstraction of a “perfect” machine - they are troubled by imperfect fidelity of operations, gradual decoherence over time, and restricted qubit-adjacency only allowing two-qubit gates between specific positions on the architecture.</p>
 <p>In pytket, there is a distinction between circuits for a perfect machine (the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class) and those that have been configured to conform to a specific device’s constraints (the <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalCircuit</span></code> class). From a structural perspective, they are both simply collections of gates applied to some qubits, but they have different interpretations - <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects are device independent and qubit indexing refers to the logical qubits, whereas the <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalCircuit</span></code> gates act on physical qubits, indexed according to the numbering of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> nodes.</p>
 <p>One such architectural constraint is the problem of qubit connectivity on heterogeneous architectures which can be solved by a quantum compiler with placement and routing procedures. This takes the adjacency graph of the architecture’s qubits (the coupling map) and identifies a good mapping from the qubits of the circuit to the positions on the device to make it possible to perform as many of the two-qubit operations as possible. The circuit is then modified by introducing swaps to rearrange the logical qubits such that any multi-qubit operations occur between neighbouring physical qubits.</p>
-<p>These are both performed simultaneously during a call to <code class="docutils literal notranslate"><span class="pre">pytket._routing.route</span></code>. This takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object and an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> object (encapsulating the coupling map of the device). More on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> class can be found in the API Reference.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket._routing</span> <span class="k">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">Architecture</span>
+<p>These are both performed simultaneously during a call to <code class="docutils literal notranslate"><span class="pre">pytket.routing.route</span></code>. This takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object and an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> object (encapsulating the coupling map of the device). More on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> class can be found in the API Reference.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.routing</span> <span class="k">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">Architecture</span>
 <span class="n">arc</span> <span class="o">=</span> <span class="n">Architecture</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)],</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">routed_circuit</span> <span class="o">=</span> <span class="n">route</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arc</span><span class="p">)</span>
 <span class="n">routed_circuit</span><span class="o">.</span><span class="n">decompose_SWAP_to_CX</span><span class="p">()</span>
@@ -248,7 +255,7 @@
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">route</span></code> method outputs a <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalCircuit</span></code> that is tailored to <code class="docutils literal notranslate"><span class="pre">arc</span></code>. The output circuit will be semantically identical to the original logical circuit but will only have multi-qubit gates between pairs of nodes in the coupling map. The map between the logical qubits and the physical nodes they live on will change throughout the <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalCircuit</span></code>. However, any measurement operations will still map logical qubits to the same classical registers, so the qubit permutations will not affect the readouts from the device.</p>
 <p>Routing typically sacrifices circuit size/depth (from inserting swaps) to satisfy device constraints. Sadly, the problems of decoherence and imperfect fidelities mean that physical devices will accumulate noise proportional to the size/depth of the circuit being run. <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> provides some optimisation passes to rewrite parts of the circuit to produce an equivalent one with fewer operations/less depth. Some of the rewrite rules may not preserve the architectural constraints considered during routing, so we provide a safe <code class="docutils literal notranslate"><span class="pre">OptimisePostRouting</span></code> pass as well as a selection of more powerful <code class="xref py py-class docutils literal notranslate"><span class="pre">Transform</span></code> passes which exploit common structures in quantum circuits.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket._transform</span> <span class="k">import</span> <span class="n">Transform</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.transform</span> <span class="k">import</span> <span class="n">Transform</span>
 <span class="n">Transform</span><span class="o">.</span><span class="n">OptimisePhaseGadgets</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
 <span class="n">routed_circuit</span> <span class="o">=</span> <span class="n">route</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arc</span><span class="p">)</span>
 <span class="n">routed_circuit</span><span class="o">.</span><span class="n">decompose_SWAP_to_CX</span><span class="p">()</span>

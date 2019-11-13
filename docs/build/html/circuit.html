@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket._circuit &mdash; pytket 0.3.0 documentation</title>
+  <title>pytket.circuit &mdash; pytket 0.4.0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pytket._circuit.Circuit" href="circuit_class.html" />
-    <link rel="prev" title="Changelog" href="changelog.html" /> 
+    <link rel="next" title="pytket.circuit.Circuit" href="circuit_class.html" />
+    <link rel="prev" title="pytket.backends.projectq" href="projectq_backend.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.4.0
               </div>
             
           
@@ -89,23 +89,30 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket._circuit</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="circuit_class.html">pytket._circuit.Circuit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optype.html">pytket._circuit.OpType</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.circuit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="circuit_class.html">pytket.circuit.Circuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optype.html">pytket.circuit.OpType</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
             
@@ -151,7 +158,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>pytket._circuit</li>
+      <li>pytket.circuit</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,76 +178,18 @@
            <div itemprop="articleBody">
             
   <div class="section" id="pytket-circuit">
-<h1>pytket._circuit<a class="headerlink" href="#pytket-circuit" title="Permalink to this headline">¶</a></h1>
+<h1>pytket.circuit<a class="headerlink" href="#pytket-circuit" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Classes:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="circuit_class.html">pytket._circuit.Circuit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="optype.html">pytket._circuit.OpType</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_class.html">pytket.circuit.Circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optype.html">pytket.circuit.OpType</a></li>
 </ul>
 </div>
-<span class="target" id="module-pytket._circuit"></span><p>The _circuit module provides an API to interact with the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <cite>Circuit</cite> data structure. This module is provided in binary form during the PyPI installation.</p>
-<dl class="class">
-<dt id="pytket._circuit.Command">
-<em class="property">class </em><code class="sig-prename descclassname">pytket._circuit.</code><code class="sig-name descname">Command</code><a class="headerlink" href="#pytket._circuit.Command" title="Permalink to this definition">¶</a></dt>
-<dd><p>A single quantum command in the circuit, defined by the Op and qubits it acts on.</p>
-<dl class="method">
-<dt id="pytket._circuit.Command.bits">
-<em class="property">property </em><code class="sig-name descname">bits</code><a class="headerlink" href="#pytket._circuit.Command.bits" title="Permalink to this definition">¶</a></dt>
-<dd><p>The bits written to by the command.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket._circuit.Command.controls">
-<em class="property">property </em><code class="sig-name descname">controls</code><a class="headerlink" href="#pytket._circuit.Command.controls" title="Permalink to this definition">¶</a></dt>
-<dd><p>The bits controlling the command.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket._circuit.Command.op">
-<em class="property">property </em><code class="sig-name descname">op</code><a class="headerlink" href="#pytket._circuit.Command.op" title="Permalink to this definition">¶</a></dt>
-<dd><p>Operation for this command.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket._circuit.Command.qubits">
-<em class="property">property </em><code class="sig-name descname">qubits</code><a class="headerlink" href="#pytket._circuit.Command.qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>The qubits the command acts on.</p>
-</dd></dl>
-
-</dd></dl>
-
+<span class="target" id="module-pytket.circuit"></span><p>The circuit module provides an API to interact with the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> data structure. This module is provided in binary form during the PyPI installation.</p>
 <dl class="function">
-<dt id="pytket._circuit.unitary_to_2qb_circuit">
-<code class="sig-prename descclassname">pytket._circuit.</code><code class="sig-name descname">unitary_to_2qb_circuit</code><span class="sig-paren">(</span><em class="sig-param">matrix: numpy.ndarray[complex128[4, 4]]</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket._circuit.unitary_to_2qb_circuit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a 4x4 unitary matrix to a minimal two-qubit circuit (with respect to CX count) up to global phase.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>matrix</strong> – The unitary matrix for the desired operation</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The new circuit</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pytket._circuit.exponent_to_2qb_circuit">
-<code class="sig-prename descclassname">pytket._circuit.</code><code class="sig-name descname">exponent_to_2qb_circuit</code><span class="sig-paren">(</span><em class="sig-param">matrix: numpy.ndarray[complex128[4, 4]]</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket._circuit.exponent_to_2qb_circuit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given a 4x4 matrix <span class="math notranslate nohighlight">\(H\)</span>, returns a two-qubit circuit representing <span class="math notranslate nohighlight">\(e^{iH}\)</span> up to global phase.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>matrix</strong> – The matrix <span class="math notranslate nohighlight">\(H\)</span></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The new circuit</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pytket._circuit.fresh_symbol">
-<code class="sig-prename descclassname">pytket._circuit.</code><code class="sig-name descname">fresh_symbol</code><span class="sig-paren">(</span><em class="sig-param">preferred: str = 'a'</em><span class="sig-paren">)</span> &#x2192; Symbol<a class="headerlink" href="#pytket._circuit.fresh_symbol" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.circuit.fresh_symbol">
+<code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">fresh_symbol</code><span class="sig-paren">(</span><em class="sig-param">preferred: str = 'a'</em><span class="sig-paren">)</span> &#x2192; Symbol<a class="headerlink" href="#pytket.circuit.fresh_symbol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given some preferred symbol, this finds an appropriate suffix that will guarantee it has not yet been used in the current python session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -250,6 +199,272 @@
 <dd class="field-even"><p>A new sympy symbol object</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.Command">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">Command</code><a class="headerlink" href="#pytket.circuit.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>A single quantum command in the circuit, defined by the Op and qubits it acts on.</p>
+<dl class="method">
+<dt id="pytket.circuit.Command.bits">
+<em class="property">property </em><code class="sig-name descname">bits</code><a class="headerlink" href="#pytket.circuit.Command.bits" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bits written to by the command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Command.conditions">
+<em class="property">property </em><code class="sig-name descname">conditions</code><a class="headerlink" href="#pytket.circuit.Command.conditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The bits controlling the command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Command.op">
+<em class="property">property </em><code class="sig-name descname">op</code><a class="headerlink" href="#pytket.circuit.Command.op" title="Permalink to this definition">¶</a></dt>
+<dd><p>Operation for this command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Command.qubits">
+<em class="property">property </em><code class="sig-name descname">qubits</code><a class="headerlink" href="#pytket.circuit.Command.qubits" title="Permalink to this definition">¶</a></dt>
+<dd><p>The qubits the command acts on.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.UnitID">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">UnitID</code><a class="headerlink" href="#pytket.circuit.UnitID" title="Permalink to this definition">¶</a></dt>
+<dd><p>A handle to a computational unit (e.g. qubit, bit)</p>
+<dl class="method">
+<dt id="pytket.circuit.UnitID.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.UnitID.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.circuit.UnitID, name: str) -&gt; None</p></li>
+</ol>
+<p>Constructs a named id (i.e. corresponding to a singleton register)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> – The readable name for the id</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.circuit.UnitID, name: str, index: int) -&gt; None</p></li>
+</ol>
+<p>Constructs an indexed id (i.e. corresponding to an element in a linear register)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The readable name for the register</p></li>
+<li><p><strong>index</strong> – The numerical index</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>__init__(self: pytket.circuit.UnitID, name: str, row: int, col: int) -&gt; None</p></li>
+</ol>
+<p>Constructs a doubly-indexed id (i.e. corresponding to an element in a grid register)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The readable name for the register</p></li>
+<li><p><strong>row</strong> – The row index</p></li>
+<li><p><strong>col</strong> – The column index</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="4">
+<li><p>__init__(self: pytket.circuit.UnitID, name: str, index: List[int]) -&gt; None</p></li>
+</ol>
+<p>Constructs an id with an arbitrary-dimensional index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The readable name for the register</p></li>
+<li><p><strong>index</strong> – The index vector</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.CircBox">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">CircBox</code><a class="headerlink" href="#pytket.circuit.CircBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user-defined operation specified by a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>.</p>
+<dl class="method">
+<dt id="pytket.circuit.CircBox.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.CircBox</em>, <em class="sig-param">arg0: pytket.circuit.Op</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.circuit.CircBox.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.CircBox.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.CircBox</em>, <em class="sig-param">circ: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.circuit.CircBox.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.CircBox.get_circuit">
+<code class="sig-name descname">get_circuit</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.CircBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.circuit.CircBox.get_circuit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.CircBox.get_type">
+<code class="sig-name descname">get_type</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.CircBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.OpType<a class="headerlink" href="#pytket.circuit.CircBox.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.Unitary1qBox">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">Unitary1qBox</code><a class="headerlink" href="#pytket.circuit.Unitary1qBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user-defined one-qubit operation specified by a unitary matrix.</p>
+<dl class="method">
+<dt id="pytket.circuit.Unitary1qBox.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary1qBox</em>, <em class="sig-param">arg0: pytket.circuit.Op</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.circuit.Unitary1qBox.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary1qBox.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary1qBox, m: numpy.ndarray[complex128[2, 2]]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.circuit.Unitary1qBox.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a unitary matrix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary1qBox.get_circuit">
+<code class="sig-name descname">get_circuit</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary1qBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.circuit.Unitary1qBox.get_circuit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary1qBox.get_matrix">
+<code class="sig-name descname">get_matrix</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary1qBox</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray[complex128[2, 2]]<a class="headerlink" href="#pytket.circuit.Unitary1qBox.get_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary1qBox.get_type">
+<code class="sig-name descname">get_type</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary1qBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.OpType<a class="headerlink" href="#pytket.circuit.Unitary1qBox.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.Unitary2qBox">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">Unitary2qBox</code><a class="headerlink" href="#pytket.circuit.Unitary2qBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user-defined two-qubit operation specified by a (little-endian) unitary matrix.</p>
+<dl class="method">
+<dt id="pytket.circuit.Unitary2qBox.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary2qBox</em>, <em class="sig-param">arg0: pytket.circuit.Op</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.circuit.Unitary2qBox.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary2qBox.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary2qBox, m: numpy.ndarray[complex128[4, 4]]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.circuit.Unitary2qBox.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a unitary matrix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary2qBox.get_circuit">
+<code class="sig-name descname">get_circuit</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary2qBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.circuit.Unitary2qBox.get_circuit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary2qBox.get_matrix">
+<code class="sig-name descname">get_matrix</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary2qBox</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray[complex128[4, 4]]<a class="headerlink" href="#pytket.circuit.Unitary2qBox.get_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Unitary2qBox.get_type">
+<code class="sig-name descname">get_type</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Unitary2qBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.OpType<a class="headerlink" href="#pytket.circuit.Unitary2qBox.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.ExpBox">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">ExpBox</code><a class="headerlink" href="#pytket.circuit.ExpBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user-defined two-qubit operation whose corresponding unitary matrix is the exponential of a user-defined hermitian matrix.</p>
+<dl class="method">
+<dt id="pytket.circuit.ExpBox.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.ExpBox</em>, <em class="sig-param">arg0: pytket.circuit.Op</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.circuit.ExpBox.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.ExpBox.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.ExpBox, A: numpy.ndarray[complex128[4, 4]], t: float</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.circuit.ExpBox.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct <span class="math notranslate nohighlight">\(e^{itA}\)</span> from a hermitian matrix <span class="math notranslate nohighlight">\(A\)</span> and a parameter <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.ExpBox.get_circuit">
+<code class="sig-name descname">get_circuit</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.ExpBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.circuit.ExpBox.get_circuit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.ExpBox.get_type">
+<code class="sig-name descname">get_type</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.ExpBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.OpType<a class="headerlink" href="#pytket.circuit.ExpBox.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.PauliExpBox">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">PauliExpBox</code><a class="headerlink" href="#pytket.circuit.PauliExpBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>An operation defined as the exponential of a tensor of Pauli operations and a (possibly symbolic) phase parameter.</p>
+<dl class="method">
+<dt id="pytket.circuit.PauliExpBox.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.PauliExpBox</em>, <em class="sig-param">arg0: pytket.circuit.Op</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.circuit.PauliExpBox.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.PauliExpBox.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.PauliExpBox, paulis: List[pytket.circuit.Pauli], t: Expression</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.circuit.PauliExpBox.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct <span class="math notranslate nohighlight">\(e^{-\frac12 i \pi t \sigma_0 \otimes \sigma_1 \otimes \cdots}\)</span> from Pauli operators <span class="math notranslate nohighlight">\(\sigma_i \in \{I,X,Y,Z\}\)</span> and a parameter <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.PauliExpBox.get_circuit">
+<code class="sig-name descname">get_circuit</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.PauliExpBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.circuit.PauliExpBox.get_circuit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.PauliExpBox.get_type">
+<code class="sig-name descname">get_type</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.PauliExpBox</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.OpType<a class="headerlink" href="#pytket.circuit.PauliExpBox.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.circuit.CustomGateDef">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">CustomGateDef</code><a class="headerlink" href="#pytket.circuit.CustomGateDef" title="Permalink to this definition">¶</a></dt>
+<dd><p>A custom unitary gate definition, given as a composition of other gates</p>
+<dl class="method">
+<dt id="pytket.circuit.CustomGateDef.define">
+<code class="sig-name descname">define</code><span class="sig-paren">(</span><em class="sig-param">name: str, circ: pytket.circuit.Circuit, args: List[Symbol]</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.CustomGateDef<a class="headerlink" href="#pytket.circuit.CustomGateDef.define" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a new custom gate as a composite of other gates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Readable name for the new gate</p></li>
+<li><p><strong>circ</strong> – The definition of the gate as a Circuit</p></li>
+<li><p><strong>args</strong> – Symbols to be encapsulated as arguments of the custom gate</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.CustomGateDef.arity">
+<em class="property">property </em><code class="sig-name descname">arity</code><a class="headerlink" href="#pytket.circuit.CustomGateDef.arity" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of real parameters for the gate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.CustomGateDef.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket.circuit.CustomGateDef.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The readable name of the gate</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -262,10 +477,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="circuit_class.html" class="btn btn-neutral float-right" title="pytket._circuit.Circuit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="circuit_class.html" class="btn btn-neutral float-right" title="pytket.circuit.Circuit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="changelog.html" class="btn btn-neutral float-left" title="Changelog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="projectq_backend.html" class="btn btn-neutral float-left" title="pytket.backends.projectq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

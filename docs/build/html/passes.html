@@ -1,0 +1,502 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket.passes &mdash; pytket 0.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pytket.predicates" href="predicates.html" />
+    <link rel="prev" title="pytket.device" href="device.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>pytket.passes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/passes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pytket.passes">
+<span id="pytket-passes"></span><h1>pytket.passes<a class="headerlink" href="#module-pytket.passes" title="Permalink to this headline">¶</a></h1>
+<p>Module exposing various types of compiler pass.</p>
+<dl class="class">
+<dt id="pytket.passes.BasePass">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">BasePass</code><a class="headerlink" href="#pytket.passes.BasePass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for passes.</p>
+<dl class="method">
+<dt id="pytket.passes.BasePass.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.passes.BasePass</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.passes.BasePass.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.passes.BasePass.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.passes.BasePass.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>apply(self: pytket.passes.BasePass, compilation_unit: pytket.predicates.CompilationUnit, safety_mode: pytket.passes.SafetyMode = SafetyMode.Default) -&gt; bool</p></li>
+</ol>
+<p>Apply to a <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code>. Return true if and only if the pass modified the circuit.</p>
+<ol class="arabic simple" start="2">
+<li><p>apply(self: pytket.passes.BasePass, circuit: pytket.circuit.Circuit) -&gt; bool</p></li>
+</ol>
+<p>Apply to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place. Return true if and only if the pass modified the circuit.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.passes.RepeatPass">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RepeatPass</code><a class="headerlink" href="#pytket.passes.RepeatPass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeat a pass until it has no effect.</p>
+<dl class="method">
+<dt id="pytket.passes.RepeatPass.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.passes.RepeatPass</em>, <em class="sig-param">compilation_pass: pytket.passes.BasePass</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.passes.RepeatPass.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a compilation pass.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.passes.RepeatUntilSatisfiedPass">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RepeatUntilSatisfiedPass</code><a class="headerlink" href="#pytket.passes.RepeatUntilSatisfiedPass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeat a compilation pass until a predicate on the circuit is satisfied.</p>
+<dl class="method">
+<dt id="pytket.passes.RepeatUntilSatisfiedPass.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.passes.RepeatUntilSatisfiedPass.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.passes.RepeatUntilSatisfiedPass, compilation_pass: pytket.passes.BasePass, predicate: pytket.predicates.Predicate) -&gt; None</p></li>
+</ol>
+<p>Construct from a compilation pass and a predicate.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.passes.RepeatUntilSatisfiedPass, compilation_pass: pytket.passes.BasePass, check_function: Callable[[pytket.circuit.Circuit], bool]) -&gt; None</p></li>
+</ol>
+<p>Construct from a compilation pass and a user-defined function from <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to <cite>bool</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.passes.RepeatWithMetricPass">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RepeatWithMetricPass</code><a class="headerlink" href="#pytket.passes.RepeatWithMetricPass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeat a compilation pass until the given metric stops decreasing.</p>
+<dl class="method">
+<dt id="pytket.passes.RepeatWithMetricPass.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.passes.RepeatWithMetricPass, compilation_pass: pytket.passes.BasePass, metric: Callable[[pytket.circuit.Circuit], int]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.passes.RepeatWithMetricPass.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a compilation pass and a metric function.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.passes.SafetyMode">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SafetyMode</code><a class="headerlink" href="#pytket.passes.SafetyMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Members:</p>
+<p>Audit</p>
+<p>Default</p>
+<dl class="method">
+<dt id="pytket.passes.SafetyMode.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.passes.SafetyMode</em>, <em class="sig-param">arg0: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.passes.SafetyMode.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.passes.SafetyMode.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket.passes.SafetyMode.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(self: handle) -&gt; str</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.passes.SequencePass">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SequencePass</code><a class="headerlink" href="#pytket.passes.SequencePass" title="Permalink to this definition">¶</a></dt>
+<dd><p>A sequence of compilation passes.</p>
+<dl class="method">
+<dt id="pytket.passes.SequencePass.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.passes.SequencePass, pass_list: List[pytket.passes.BasePass]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.passes.SequencePass.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a list of compilation passes arranged in order of application.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.CliffordSimp">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">CliffordSimp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.CliffordSimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a circuit consisting of CX and single-qubit gates to one containing CX, Z, X, S, V, U1, U2 and U3 gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.CommuteThroughMultis">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">CommuteThroughMultis</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.CommuteThroughMultis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves single-qubit operations past multi-qubit operations that they commute with, towards the front of the circuit.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.DecomposeArbitrarilyControlledGates">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">DecomposeArbitrarilyControlledGates</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.DecomposeArbitrarilyControlledGates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decomposes CnX and CnRy gates into Ry, CX, H, T and Tdg gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.DecomposeBoxes">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">DecomposeBoxes</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.DecomposeBoxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces all boxes by their decomposition into circuits.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.DecomposeMultiQubitsIBM">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">DecomposeMultiQubitsIBM</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.DecomposeMultiQubitsIBM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all multi-qubit gates into CX and single-qubit gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.DecomposeSingleQubitsIBM">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">DecomposeSingleQubitsIBM</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.DecomposeSingleQubitsIBM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all single-qubit gates into U1, U2 and U3 gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.OptimiseCliffordsZX">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">OptimiseCliffordsZX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.OptimiseCliffordsZX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simplifies a Clifford circuit by applying rewrite rules to a ZX representation of the circuit.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.OptimisePhaseGadgets">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">OptimisePhaseGadgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.OptimisePhaseGadgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthesises phase gadgets and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.PauliSimp">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">PauliSimp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.PauliSimp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthesises Pauli gadgets and optimises using the method described in <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebaseCirq">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseCirq</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseCirq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to CZ, PhasedX and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebaseHQS">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseHQS</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseHQS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to HQS_2q, PhasedX and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebaseIBM">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseIBM</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseIBM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to CX, U1, U2 and U3 gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebaseProjectQ">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseProjectQ</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseProjectQ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to SWAP, CRz, CX, CZ, H, X, Y, Z, S, T, V, Rx, Ry and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebasePyZX">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebasePyZX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebasePyZX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to SWAP, CX, CZ, H, X, Z, S, T, Rx and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebaseQuil">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseQuil</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseQuil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to CZ, Rx and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebaseTket">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseTket</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseTket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to CX and tk1.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RebaseUMD">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseUMD</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseUMD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all gates to XXPhase, PhasedX and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.RemoveRedundancies">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RemoveRedundancies</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RemoveRedundancies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes gate-inverse pairs, merges rotations, removes identity rotations, and removes redundant gates before measurement. Does not add any new gate types.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.SynthesiseHQS">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SynthesiseHQS</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.SynthesiseHQS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimises and converts a circuit consisting of CX and single-qubit gates into one containing only HQS_2q, PhasedX and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.SynthesiseIBM">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SynthesiseIBM</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.SynthesiseIBM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimises and converts all gates to CX, U1, U2 and U3 gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.SynthesiseOQC">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SynthesiseOQC</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.SynthesiseOQC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimises and converts all gates to Rx, Ry and EntangleOQC.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.SynthesiseUMD">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SynthesiseUMD</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.SynthesiseUMD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimises and converts all gates to XXPhase, PhasedX and Rz.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.USquashIBM">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">USquashIBM</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.USquashIBM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Squash U1, U2 and U3 gates by converting to them to Rz-Ry-Rz sequences and back. The only single-qubit gates in the resulting circuit are U1 and U3.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_decompose_routing_gates_to_cxs_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_decompose_routing_gates_to_cxs_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em>, <em class="sig-param">respect_direction: bool = False</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_decompose_routing_gates_to_cxs_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to decompose SWAP and BRIDGE gates to CX gates, constraining connectivity to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>, optionally taking the directedness of the connectivity graph into account.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_directed_cx_routing_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_directed_cx_routing_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_directed_cx_routing_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to route a circuit and decompose SWAP and BRIDGE gates to directed CX gates according to a target <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> connectivity. Also redirect existing CX gates if necessary.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_rebase_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_rebase_pass</code><span class="sig-paren">(</span><em class="sig-param">multiqs: Set[pytket.circuit.OpType], cx_replacement: pytket.circuit.Circuit, singleqs: Set[pytket.circuit.OpType], tk1_replacement: Callable[[Expression, Expression, Expression], pytket.circuit.Circuit]</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_rebase_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a custom rebase pass. This pass:
+(1) decomposes multi-qubit gates not in the set of gate types <cite>multiqs</cite> to CX gates;
+(2) if CX is not in <cite>multiqs</cite>, replaces CX gates with <cite>cx_replacement</cite>;
+(3) converts any single-qubit gates not in the gate type set <cite>singleqs</cite> to the form <span class="math notranslate nohighlight">\(\mathrm{Rz}(a)\mathrm{Rx}(b)\mathrm{Rz}(c)\)</span> (in matrix-multiplication order, i.e. reverse order in the circuit);
+(4) applies the <cite>tk1_replacement</cite> function to each of these triples <span class="math notranslate nohighlight">\((a,b,c)\)</span> to generate replacement circuits.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_routing_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_routing_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_routing_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to route to the connectivity graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>. Edge direction is ignored.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_user_defined_swap_decomp_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_user_defined_swap_decomp_pass</code><span class="sig-paren">(</span><em class="sig-param">replacement_circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_user_defined_swap_decomp_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to replace all SWAP gates with a given circuit.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="predicates.html" class="btn btn-neutral float-right" title="pytket.predicates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="device.html" class="btn btn-neutral float-left" title="pytket.device" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

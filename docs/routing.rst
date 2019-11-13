@@ -1,15 +1,12 @@
-pytket._routing
+pytket.routing
 ==================================
-.. automodule:: pytket._routing
-    :members: route, line_placement, noise_aware_placement
+.. automodule:: pytket.routing
+    :members: route, line_placement, graph_placement, noise_aware_placement
     
 
-.. autoclass:: pytket._routing.Architecture
+.. autoclass:: pytket.routing.Architecture
     :special-members: __init__
 
-.. autoclass:: pytket._routing.PhysicalCircuit
-    :members:
-
-.. autoclass:: pytket._routing.SquareGrid
+.. autoclass:: pytket.routing.SquareGrid
     :special-members: __init__
     :members:

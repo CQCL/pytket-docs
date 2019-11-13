@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket.predicates &mdash; pytket 0.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pytket.qasm" href="qasm.html" />
+    <link rel="prev" title="pytket.passes" href="passes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>pytket.predicates</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/predicates.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pytket.predicates">
+<span id="pytket-predicates"></span><h1>pytket.predicates<a class="headerlink" href="#module-pytket.predicates" title="Permalink to this headline">¶</a></h1>
+<p>Module exposing the predicates and tools needed for compiler passes.</p>
+<dl class="class">
+<dt id="pytket.predicates.CliffordCircuitPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">CliffordCircuitPredicate</code><a class="headerlink" href="#pytket.predicates.CliffordCircuitPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has only Clifford gates.</p>
+<dl class="method">
+<dt id="pytket.predicates.CliffordCircuitPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.CliffordCircuitPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.CliffordCircuitPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.CompilationUnit">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">CompilationUnit</code><a class="headerlink" href="#pytket.predicates.CompilationUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class comprises a circuit and the predicates that the circuit is required to satisfy, for example to run on a backend.</p>
+<dl class="method">
+<dt id="pytket.predicates.CompilationUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.predicates.CompilationUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.predicates.CompilationUnit, circuit: pytket.circuit.Circuit) -&gt; None</p></li>
+</ol>
+<p>Construct from a circuit, with no predicates.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.predicates.CompilationUnit, circuit: pytket.circuit.Circuit, predicates: List[pytket.predicates.Predicate]) -&gt; None</p></li>
+</ol>
+<p>Construct from a circuit and some required predicates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.predicates.CompilationUnit.check_all_predicates">
+<code class="sig-name descname">check_all_predicates</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.CompilationUnit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.predicates.CompilationUnit.check_all_predicates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether all predicates are satisfied.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.predicates.CompilationUnit.circuit">
+<em class="property">property </em><code class="sig-name descname">circuit</code><a class="headerlink" href="#pytket.predicates.CompilationUnit.circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the circuit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.predicates.CompilationUnit.final_map">
+<em class="property">property </em><code class="sig-name descname">final_map</code><a class="headerlink" href="#pytket.predicates.CompilationUnit.final_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the map from the original qubits to their corresponding qubits at the end of the current circuit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.predicates.CompilationUnit.initial_map">
+<em class="property">property </em><code class="sig-name descname">initial_map</code><a class="headerlink" href="#pytket.predicates.CompilationUnit.initial_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the map from the original qubits to the corresponding qubits at the start of the current circuit.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.ConnectivityPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">ConnectivityPredicate</code><a class="headerlink" href="#pytket.predicates.ConnectivityPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit satisfies a given connectivity graph. The graph is always considered to be undirected.</p>
+<dl class="method">
+<dt id="pytket.predicates.ConnectivityPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.predicates.ConnectivityPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.predicates.ConnectivityPredicate, architecture: pytket.routing.Architecture) -&gt; None</p></li>
+</ol>
+<p>Construct from an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.predicates.ConnectivityPredicate, device: pytket.device.Device) -&gt; None</p></li>
+</ol>
+<p>Construct from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.DirectednessPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">DirectednessPredicate</code><a class="headerlink" href="#pytket.predicates.DirectednessPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit satisfies a given connectivity graph. The graph is always considered to be directed.</p>
+<dl class="method">
+<dt id="pytket.predicates.DirectednessPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.predicates.DirectednessPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.predicates.DirectednessPredicate, architecture: pytket.routing.Architecture) -&gt; None</p></li>
+</ol>
+<p>Construct from an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.predicates.DirectednessPredicate, device: pytket.device.Device) -&gt; None</p></li>
+</ol>
+<p>Construct from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.GateSetPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">GateSetPredicate</code><a class="headerlink" href="#pytket.predicates.GateSetPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that the circuit contains only gates from a given set.</p>
+<dl class="method">
+<dt id="pytket.predicates.GateSetPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.GateSetPredicate, allowed_types: Set[pytket.circuit.OpType]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.GateSetPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a set of gate types.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.MaxTwoQubitGatesPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">MaxTwoQubitGatesPredicate</code><a class="headerlink" href="#pytket.predicates.MaxTwoQubitGatesPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has no gates with more than two input wires.</p>
+<dl class="method">
+<dt id="pytket.predicates.MaxTwoQubitGatesPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.MaxTwoQubitGatesPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.MaxTwoQubitGatesPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.NoClassicalBitsPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">NoClassicalBitsPredicate</code><a class="headerlink" href="#pytket.predicates.NoClassicalBitsPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has no classical wires.</p>
+<dl class="method">
+<dt id="pytket.predicates.NoClassicalBitsPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.NoClassicalBitsPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.NoClassicalBitsPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.NoClassicalControlPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">NoClassicalControlPredicate</code><a class="headerlink" href="#pytket.predicates.NoClassicalControlPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has no classical controls.</p>
+<dl class="method">
+<dt id="pytket.predicates.NoClassicalControlPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.NoClassicalControlPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.NoClassicalControlPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.NoFastFeedforwardPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">NoFastFeedforwardPredicate</code><a class="headerlink" href="#pytket.predicates.NoFastFeedforwardPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has no fast feedforward.</p>
+<dl class="method">
+<dt id="pytket.predicates.NoFastFeedforwardPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.NoFastFeedforwardPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.NoFastFeedforwardPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.NoWireSwapsPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">NoWireSwapsPredicate</code><a class="headerlink" href="#pytket.predicates.NoWireSwapsPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has no wire swaps.</p>
+<dl class="method">
+<dt id="pytket.predicates.NoWireSwapsPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.NoWireSwapsPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.NoWireSwapsPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.Predicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">Predicate</code><a class="headerlink" href="#pytket.predicates.Predicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>A predicate that may be satisfied by a circuit.</p>
+<dl class="method">
+<dt id="pytket.predicates.Predicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.Predicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.Predicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pytket.predicates.Predicate.implies">
+<code class="sig-name descname">implies</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.Predicate</em>, <em class="sig-param">other: pytket.predicates.Predicate</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.predicates.Predicate.implies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether this predicate implies another predicate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.predicates.Predicate.verify">
+<code class="sig-name descname">verify</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.Predicate</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.predicates.Predicate.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify whether a circuit satisfies the predicate.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.UserDefinedPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">UserDefinedPredicate</code><a class="headerlink" href="#pytket.predicates.UserDefinedPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>User-defined predicate.</p>
+<dl class="method">
+<dt id="pytket.predicates.UserDefinedPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.UserDefinedPredicate, check_function: Callable[[pytket.circuit.Circuit], bool]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.UserDefinedPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a user-defined function from <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to <cite>bool</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="qasm.html" class="btn btn-neutral float-right" title="pytket.qasm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="passes.html" class="btn btn-neutral float-left" title="pytket.passes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

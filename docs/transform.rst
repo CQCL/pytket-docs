@@ -1,4 +1,7 @@
-pytket._transform
+pytket.transform
 ==================================
-.. automodule:: pytket._transform
+.. automodule:: pytket.transform
+
+.. autoclass:: pytket.transform.Transform
+    :special-members:
     :members:

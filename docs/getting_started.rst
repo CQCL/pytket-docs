@@ -89,11 +89,11 @@ In pytket, there is a distinction between circuits for a perfect machine (the :p
 
 One such architectural constraint is the problem of qubit connectivity on heterogeneous architectures which can be solved by a quantum compiler with placement and routing procedures. This takes the adjacency graph of the architecture's qubits (the coupling map) and identifies a good mapping from the qubits of the circuit to the positions on the device to make it possible to perform as many of the two-qubit operations as possible. The circuit is then modified by introducing swaps to rearrange the logical qubits such that any multi-qubit operations occur between neighbouring physical qubits.
 
-These are both performed simultaneously during a call to ``pytket._routing.route``. This takes a :py:class:`Circuit` object and an :py:class:`Architecture` object (encapsulating the coupling map of the device). More on the :py:class:`Architecture` class can be found in the API Reference.
+These are both performed simultaneously during a call to ``pytket.routing.route``. This takes a :py:class:`Circuit` object and an :py:class:`Architecture` object (encapsulating the coupling map of the device). More on the :py:class:`Architecture` class can be found in the API Reference.
 
 ::
 
-    from pytket._routing import route, Architecture
+    from pytket.routing import route, Architecture
     arc = Architecture([(0,1), (1,2), (2,3)], 4)
     routed_circuit = route(circuit, arc)
     routed_circuit.decompose_SWAP_to_CX()
@@ -105,7 +105,7 @@ Routing typically sacrifices circuit size/depth (from inserting swaps) to satisf
 
 ::
 
-    from pytket._transform import Transform
+    from pytket.transform import Transform
     Transform.OptimisePhaseGadgets(circuit)
     routed_circuit = route(circuit, arc)
     routed_circuit.decompose_SWAP_to_CX()

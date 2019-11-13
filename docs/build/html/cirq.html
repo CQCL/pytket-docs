@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.cirq &mdash; pytket 0.3.0 documentation</title>
+  <title>pytket.cirq &mdash; pytket 0.4.0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pytket.qiskit" href="qiskit.html" />
-    <link rel="prev" title="pytket.backends.projectq" href="projectq_backend.html" /> 
+    <link rel="next" title="pytket.projectq" href="projectq.html" />
+    <link rel="prev" title="pytket.utils" href="utils.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.4.0
               </div>
             
           
@@ -89,19 +89,26 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
             
@@ -171,11 +178,11 @@
 <p>Module for conversion between Google Cirq and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
 <dl class="function">
 <dt id="pytket.cirq.cirq_to_tk">
-<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">cirq_to_tk</code><span class="sig-paren">(</span><em class="sig-param">circuit: cirq.circuits.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket._circuit.Circuit<a class="headerlink" href="#pytket.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">cirq_to_tk</code><span class="sig-paren">(</span><em class="sig-param">circuit: cirq.circuits.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></p>
 </dd>
 <dt class="field-even">Parameters</dt>
 <dd class="field-even"><p><strong>circuit</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>) – The input Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
@@ -191,14 +198,14 @@
 
 <dl class="function">
 <dt id="pytket.cirq.tk_to_cirq">
-<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">tk_to_cirq</code><span class="sig-paren">(</span><em class="sig-param">tkcirc: Union[pytket._circuit.Circuit, pytket._routing.PhysicalCircuit], indexed_qubits: List[cirq.ops.raw_types.Qid] = None</em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">tk_to_cirq</code><span class="sig-paren">(</span><em class="sig-param">tkcirc: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object to a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
 </dd>
 <dt class="field-even">Parameters</dt>
-<dd class="field-even"><p><strong>tkcirc</strong> – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+<dd class="field-even"><p><strong>tkcirc</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>) – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</p>
@@ -207,35 +214,18 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="pytket.cirq.get_grid_qubits">
-<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">get_grid_qubits</code><span class="sig-paren">(</span><em class="sig-param">arc: pytket._routing.SquareGrid, nodes: Iterator[int]</em><span class="sig-paren">)</span> &#x2192; List[cirq.devices.grid_qubit.GridQubit]<a class="headerlink" href="#pytket.cirq.get_grid_qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets a list of :py:class:GridQubit` s corresponding to the qubit nodes provided on the given Architecture.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>arc</strong> (<a class="reference internal" href="routing.html#pytket._routing.SquareGrid" title="pytket._routing.SquareGrid"><code class="xref py py-class docutils literal notranslate"><span class="pre">SquareGrid</span></code></a>) – The grid Architecture</p></li>
-<li><p><strong>nodes</strong> – An iterator of node index values</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The list of qubits</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pytket.cirq.xmon_to_arc">
-<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">xmon_to_arc</code><span class="sig-paren">(</span><em class="sig-param">xmon: cirq.google.xmon_device.XmonDevice</em><span class="sig-paren">)</span> &#x2192; pytket._routing.Architecture<a class="headerlink" href="#pytket.cirq.xmon_to_arc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> object for a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code> .</p>
+<dt id="pytket.cirq.xmon_to_device">
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">xmon_to_device</code><span class="sig-paren">(</span><em class="sig-param">xmon: cirq.google.xmon_device.XmonDevice</em><span class="sig-paren">)</span> &#x2192; pytket.device.Device<a class="headerlink" href="#pytket.cirq.xmon_to_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> object for a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code> .</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="routing.html#pytket._routing.Architecture" title="pytket._routing.Architecture"><code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a></p>
 </dd>
 <dt class="field-even">Parameters</dt>
 <dd class="field-even"><p><strong>xmon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code>) – The device to convert</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The corresponding <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></p>
+<dd class="field-odd"><p>The corresponding <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -250,10 +240,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="qiskit.html" class="btn btn-neutral float-right" title="pytket.qiskit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="projectq.html" class="btn btn-neutral float-right" title="pytket.projectq" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="projectq_backend.html" class="btn btn-neutral float-left" title="pytket.backends.projectq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="utils.html" class="btn btn-neutral float-left" title="pytket.utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

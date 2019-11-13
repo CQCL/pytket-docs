@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.backends &mdash; pytket 0.3.0 documentation</title>
+  <title>pytket.backends &mdash; pytket 0.4.0 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.backends.forest" href="forest_backend.html" />
-    <link rel="prev" title="pytket._transform" href="transform.html" /> 
+    <link rel="prev" title="Open Source Attribution" href="opensource.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.4.0
               </div>
             
           
@@ -89,24 +89,31 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket._circuit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket._routing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket._transform</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.backends</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="forest_backend.html">pytket.backends.forest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ibm_backend.html">pytket.backends.ibm</a></li>
 <li class="toctree-l2"><a class="reference internal" href="projectq_backend.html">pytket.backends.projectq</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
             
@@ -184,59 +191,80 @@
 </div>
 <dl class="class">
 <dt id="pytket.backends.Backend">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.</code><code class="sig-name descname">Backend</code><a class="headerlink" href="#pytket.backends.Backend" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.</code><code class="sig-name descname">Backend</code><span class="sig-paren">(</span><em class="sig-param">shots: bool = False</em>, <em class="sig-param">counts: bool = False</em>, <em class="sig-param">state: bool = False</em>, <em class="sig-param">unitary: bool = False</em>, <em class="sig-param">expectation: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>This abstract class defines the structure of a backend as something that
-can run quantum circuits and produce a per-shot output</p>
+can run quantum circuits and produce output as at least one of shots,
+counts, state, or unitary</p>
 <dl class="method">
 <dt id="pytket.backends.Backend.__init__">
-<em class="property">abstract </em><code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">shots: bool = False</em>, <em class="sig-param">counts: bool = False</em>, <em class="sig-param">state: bool = False</em>, <em class="sig-param">unitary: bool = False</em>, <em class="sig-param">expectation: bool = False</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pytket.backends.Backend.get_counts">
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit</em>, <em class="sig-param">shots</em>, <em class="sig-param">fit_to_constraints=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run the circuit on the backend and accumulate the results into a summary of counts</p>
+<dt id="pytket.backends.Backend.compile_circuit">
+<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.backends.Backend.compile_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the default_compilation_pass to a circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> – The circuit to run</p></li>
-<li><p><strong>shots</strong> – Number of shots (repeats) to run</p></li>
-<li><p><strong>fit_to_constraints</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Compile the circuit to meet the constraints of the backend, defaults to True</p></li>
-</ul>
+<dd class="field-odd"><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to compile.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dictionary mapping bitvectors of results to number of times that result was observed (zero counts are omitted)</p>
+<dd class="field-even"><p>The compiled circuit, ready to run.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">Circuit</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="pytket.backends.Backend.get_operator_expectation_value">
-<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit</em>, <em class="sig-param">operator</em>, <em class="sig-param">shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates expectation value for an OpenFermion QubitOperator by summing over pauli expectations</p>
+<dt id="pytket.backends.Backend.empty_cache">
+<em class="property">abstract </em><code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.empty_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manually empty the result cache on the backend.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pytket.backends.Backend.get_pauli_expectation_value">
-<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit</em>, <em class="sig-param">pauli</em>, <em class="sig-param">shots=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates expectation value for pauli term by preparing basis change circuit and measuring</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.backends.Backend.run">
-<em class="property">abstract </em><code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket._circuit.Circuit</em>, <em class="sig-param">shots: int</em>, <em class="sig-param">fit_to_constraints=True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run the circuit on the backend and return results, optionally fitting the circuit to the constraints of the backend.</p>
+<dt id="pytket.backends.Backend.get_counts">
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.Backend.get_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the circuit on the backend and accumulate the shot results into a summary of counts. This will fail if the circuit does not match the device’s requirements.
+If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned, regardless of the number of shots requested here.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket._circuit.Circuit" title="pytket._circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
-<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of shots (repeats) to run</p></li>
-<li><p><strong>fit_to_constraints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Compile the circuit to meet the constraints of the backend, defaults to True</p></li>
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to run.</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate.</p></li>
+<li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Seed to set for simulations. None is to be used for quantum hardware or when a seed is not needed. Defaults to None</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
+<li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Table of shot results, each row is a shot, columns are ordered by qubit ordering. Values are 0 or 1 corresponding to qubit basis states.</p>
+<dd class="field-even"><p>Dictionary mapping observed readouts to the number of times observed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, ..],<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.Backend.get_shots">
+<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.get_shots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the circuit on the backend and returns a table of the shots. This will fail if the circuit does not match the device’s requirements.
+If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned, regardless of the number of shots requested here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to run.</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate.</p></li>
+<li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Seed to set for simulations. None is to be used for quantum hardware or when a seed is not needed. Defaults to None</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
+<li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Table of shot results. Each row is a single shot, with columns ordered by classical bit order. Entries are 0 or 1 corresponding to qubit basis states.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
@@ -244,10 +272,109 @@ can run quantum circuits and produce a per-shot output</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="pytket.backends.Backend.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#pytket.backends.Backend.__weakref__" title="Permalink to this definition">¶</a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
+<dl class="method">
+<dt id="pytket.backends.Backend.get_state">
+<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the statevector for a circuit. Statevectors <span class="math notranslate nohighlight">\([a_{00}, a_{01}, a_{10}, a_{11}]\)</span> are little-endian, so <span class="math notranslate nohighlight">\(a_{01}\)</span> is the amplitude when qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|1\right&gt;\)</span> and qubit q[1] is in state <span class="math notranslate nohighlight">\(\left|0\right&gt;\)</span>.
+If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to simulate.</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
+<li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Full statevector with little-endian encoding.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.Backend.get_unitary">
+<code class="sig-name descname">get_unitary</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.get_unitary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the unitary matrix for a given circuit.
+If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to simulate.</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
+<li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Unitary matrix with little-endian encoding.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.Backend.process_circuits">
+<em class="property">abstract </em><code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param">circuits: Iterable[pytket.circuit.Circuit], n_shots: Optional[int] = None, seed: Optional[int] = None, valid_check: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.Backend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit circuits to the backend for running. The results will be stored in the backend’s result cache to be retrieved by the corresponding get_&lt;data&gt; method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuits</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used for state/unitary simulators. Defaults to None.</p></li>
+<li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Seed to set for simulations. None is to be used for quantum hardware or when a seed is not needed. Defaults to None</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required predicates to run on the backend. Defaults to True</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.Backend.valid_circuit">
+<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.backends.Backend.valid_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the circuit satisfies all of required_predicates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to check.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Whether or not all of required_predicates are satisfied.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.Backend.default_compilation_pass">
+<em class="property">abstract property </em><code class="sig-name descname">default_compilation_pass</code><a class="headerlink" href="#pytket.backends.Backend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>A suggested compilation pass that will guarantee the resulting circuit will be suitable to run on this backend with as few preconditions as possible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Compilation pass guaranteeing required predicates.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">BasePass</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.backends.Backend.required_predicates">
+<em class="property">abstract property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.Backend.required_predicates" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minimum set of predicates that a circuit must satisfy before it can be successfully run on this backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Required predicates.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="predicates.html#pytket.predicates.Predicate" title="pytket.predicates.Predicate">Predicate</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -265,7 +392,7 @@ can run quantum circuits and produce a per-shot output</p>
         <a href="forest_backend.html" class="btn btn-neutral float-right" title="pytket.backends.forest" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="transform.html" class="btn btn-neutral float-left" title="pytket._transform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="opensource.html" class="btn btn-neutral float-left" title="Open Source Attribution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

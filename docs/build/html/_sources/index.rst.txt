@@ -44,6 +44,21 @@ PyZX: ``pip install pytket-pyzx``
 
 Note:this will need a separate install of ``pyzx`` from `source`_.
 
+LICENCE
+~~~~~~~
+
+Copyright 2019 Cambridge Quantum Computing
+
+Licensed under a Non-Commercial Use Software Licence (the "Licence");
+you may not use this product except in compliance with the Licence.
+You may view a copy of the Licence on the `LICENCE`_ page.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the Licence is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the Licence for the specific language governing permissions and
+limitations under the Licence, but note it is strictly for non-commercial use.
+
 .. _Cirq: https://www.github.com/quantumlib/cirq
 .. _Qiskit: https://qiskit.org
 .. _Pyzx: https://github.com/Quantomatic/pyzx
@@ -52,6 +67,7 @@ Note:this will need a separate install of ``pyzx`` from `source`_.
 .. _Getting Started: getting_started.html
 .. _examples: https://github.com/CQCL/pytket/blob/master/examples
 .. _source: https://github.com/Quantomatic/pyzx
+.. _LICENCE: licence.html
 
 .. |PyPI version| image:: https://badge.fury.io/py/pytket.svg
    :target: https://badge.fury.io/py/pytket
@@ -63,21 +79,28 @@ Note:this will need a separate install of ``pyzx`` from `source`_.
 
     getting_started.rst
     changelog.rst
+    licence.rst
+    opensource.rst
 
 .. toctree::
     :caption: API Reference:
     :maxdepth: 2
 
+    backends.rst
     circuit.rst
+    device.rst
+    passes.rst
+    predicates.rst
     qasm.rst
+    quipper.rst
     routing.rst
     transform.rst
-    backends.rst
+    utils.rst
     cirq.rst
-    qiskit.rst
-    pyquil.rst
     projectq.rst
+    pyquil.rst
     pyzx.rst
+    qiskit.rst
 
 Indices and tables
 ==================
