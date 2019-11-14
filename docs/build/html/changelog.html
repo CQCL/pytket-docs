@@ -89,6 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#november-2019">0.4.0 (November 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#august-2019">0.3.0 (August 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#july-2019">0.2.3 (July 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#june-2019">0.2.2 (June 2019)</a></li>
@@ -189,6 +190,34 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="november-2019">
+<h2>0.4.0 (November 2019)<a class="headerlink" href="#november-2019" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Contractural compilation passes with guarantees on how they transform circuits that satisfy their preconditions. This provides a uniform interface for optimisations, routing, and other stages of compilation</p></li>
+<li><p>New “Box” gate types for encapsulating high-level structures (arbitrary subcircuits, parametrised composite gate definitions, unitaries, Pauli operators)</p></li>
+<li><p>Simpler and more flexible structure for registers and names of qubits/bits, allowing for non-contiguous and multi-dimensional indices (referring to individual units, linear registers, grids, etc.)</p></li>
+<li><p>Latex diagram output using Quantikz</p></li>
+<li><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> class to build on top of <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> with error and timing information</p></li>
+<li><p>Initial and final maps tracked throughout the entire compilation procedure using the <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code> wrapper</p></li>
+<li><p>Import circuits from Quipper source files</p></li>
+<li><p>Utility methods for processing data from Backends</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>All Backends refactored for more consistent interfaces, separation of data processing, and introducing batch circuit processing when possible</p></li>
+<li><p>Routing improved to use distributed CX (BRIDGE) gates in addition to SWAP insertion</p></li>
+<li><p>Cost function for noise-aware allocation of qubits improved to consider more sources of noise</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> objects can be specified with arbitrary node names, using the same <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> objects and qubits/bits</p></li>
+<li><p>Removed the <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalCircuit</span></code> class in preference of just using <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects</p></li>
+<li><p>Generalised and sped up the gate commutation pass</p></li>
+<li><p>Optimisation for redundant gate removal now removes diagonal gates before measurements</p></li>
+<li><p>Support for custom gate definitions in QASM input</p></li>
+<li><p>Support for a greater fragment of sympy expressions in gate parameters</p></li>
+<li><p>Stability improvements and bug fixes</p></li>
+<li><p>Updated documentation and additional examples</p></li>
+</ul>
+</div>
 <div class="section" id="august-2019">
 <h2>0.3.0 (August 2019)<a class="headerlink" href="#august-2019" title="Permalink to this headline">¶</a></h2>
 <p>New Features:</p>

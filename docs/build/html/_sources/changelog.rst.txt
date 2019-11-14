@@ -1,5 +1,32 @@
 Changelog
 ==================================
+0.4.0 (November 2019)
+---------------------
+New Features:
+
+* Contractural compilation passes with guarantees on how they transform circuits that satisfy their preconditions. This provides a uniform interface for optimisations, routing, and other stages of compilation
+* New "Box" gate types for encapsulating high-level structures (arbitrary subcircuits, parametrised composite gate definitions, unitaries, Pauli operators)
+* Simpler and more flexible structure for registers and names of qubits/bits, allowing for non-contiguous and multi-dimensional indices (referring to individual units, linear registers, grids, etc.)
+* Latex diagram output using Quantikz
+* The :py:class:`Device` class to build on top of :py:class:`Architecture` with error and timing information
+* Initial and final maps tracked throughout the entire compilation procedure using the :py:class:`CompilationUnit` wrapper
+* Import circuits from Quipper source files
+* Utility methods for processing data from Backends
+
+Updates:
+
+* All Backends refactored for more consistent interfaces, separation of data processing, and introducing batch circuit processing when possible
+* Routing improved to use distributed CX (BRIDGE) gates in addition to SWAP insertion
+* Cost function for noise-aware allocation of qubits improved to consider more sources of noise
+* :py:class:`Architecture` objects can be specified with arbitrary node names, using the same :py:class:`UnitID` objects and qubits/bits
+* Removed the :py:class:`PhysicalCircuit` class in preference of just using :py:class:`Circuit` objects
+* Generalised and sped up the gate commutation pass
+* Optimisation for redundant gate removal now removes diagonal gates before measurements
+* Support for custom gate definitions in QASM input
+* Support for a greater fragment of sympy expressions in gate parameters
+* Stability improvements and bug fixes
+* Updated documentation and additional examples
+
 0.3.0 (August 2019)
 -------------------
 New Features:

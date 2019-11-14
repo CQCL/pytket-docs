@@ -1,7 +1,11 @@
 pytket
 ======
 
-``pytket`` is a python module for interfacing with CQC t|ket>, a set of
+.. image:: CQCLogo.png
+   :width: 120px
+   :align: right
+
+``pytket`` is a python module for interfacing with `CQC`_ t|ket>, a set of
 quantum programming tools. We currently support circuits and device
 architectures from Google `Cirq`_, IBM `Qiskit`_, `Pyzx`_, `ProjectQ`_
 and Rigetti `pyQuil`_, allowing the t|ket> tools to be used in
@@ -68,6 +72,7 @@ limitations under the Licence, but note it is strictly for non-commercial use.
 .. _examples: https://github.com/CQCL/pytket/blob/master/examples
 .. _source: https://github.com/Quantomatic/pyzx
 .. _LICENCE: licence.html
+.. _CQC: https://cambridgequantum.com
 
 .. |PyPI version| image:: https://badge.fury.io/py/pytket.svg
    :target: https://badge.fury.io/py/pytket
