@@ -209,6 +209,130 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="pytket.device.Device.get_average_error">
+<code class="sig-name descname">get_average_error</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_average_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>get_average_error(self: pytket.device.Device, node: pytket.circuit.UnitID) -&gt; Optional[float]</p></li>
+</ol>
+<p>Returns averaged error for all single qubit primitives for Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> – Node gate error is averaged for</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>get_average_error(self: pytket.device.Device, edge: Tuple[pytket.circuit.UnitID, pytket.circuit.UnitID]) -&gt; Optional[float]</p></li>
+</ol>
+<p>Returns averaged error for all multi qubit primitives for Edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>edge</strong> – Edge gate error is averaged for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_coupling">
+<code class="sig-name descname">get_coupling</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em><span class="sig-paren">)</span> &#x2192; List[Tuple[pytket.circuit.UnitID, pytket.circuit.UnitID]]<a class="headerlink" href="#pytket.device.Device.get_coupling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the coupling map of the Device as UnitIDs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_error">
+<code class="sig-name descname">get_error</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>get_error(self: pytket.device.Device, gate: pytket.circuit.OpType, node: pytket.circuit.UnitID) -&gt; float</p></li>
+</ol>
+<p>Returns stored error for given OpType and Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> – OpType (gate) of error to be found</p></li>
+<li><p><strong>node</strong> – Node gate is ran on</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>get_error(self: pytket.device.Device, gate: pytket.circuit.OpType, edge: Tuple[pytket.circuit.UnitID, pytket.circuit.UnitID]) -&gt; float</p></li>
+</ol>
+<p>Returns stored error for given OpType and Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> – OpType (gate) of error to be found</p></li>
+<li><p><strong>edge</strong> – Edge gate is ran on</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_frequency">
+<code class="sig-name descname">get_frequency</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.UnitID</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns stored frequency for given Node.</p>
+<p>:param node frequency is found for</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_gate_time">
+<code class="sig-name descname">get_gate_time</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_gate_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>get_gate_time(self: pytket.device.Device, gate: pytket.circuit.OpType, node: pytket.circuit.UnitID) -&gt; float</p></li>
+</ol>
+<p>Returns stored gate execution time for given OpType and Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>OpType</strong> – gate (gate) of execution time to be found</p></li>
+<li><p><strong>node</strong> – Node gate is ran on</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>get_gate_time(self: pytket.device.Device, gate: pytket.circuit.OpType, edge: Tuple[pytket.circuit.UnitID, pytket.circuit.UnitID]) -&gt; float</p></li>
+</ol>
+<p>Returns stored gate execution time for given OpType and Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>OpType</strong> – gate (gate) of execution time to be found</p></li>
+<li><p><strong>edge</strong> – Edge gate is ran on</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_nodes">
+<code class="sig-name descname">get_nodes</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em><span class="sig-paren">)</span> &#x2192; List[pytket.circuit.UnitID]<a class="headerlink" href="#pytket.device.Device.get_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of all nodes of Device.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_readout_error">
+<code class="sig-name descname">get_readout_error</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.UnitID</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_readout_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns stored readout error for given Node.</p>
+<p>:param node readout error is found for</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_t1_time">
+<code class="sig-name descname">get_t1_time</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.UnitID</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_t1_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns stored t1 time for given Node.</p>
+<p>:param node t1 time is found for</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.device.Device.get_t2_time">
+<code class="sig-name descname">get_t2_time</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.UnitID</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_t2_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns stored t2 time for given Node.</p>
+<p>:param node t2 time is found for</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytket.device.Device.architecture">
 <em class="property">property </em><code class="sig-name descname">architecture</code><a class="headerlink" href="#pytket.device.Device.architecture" title="Permalink to this definition">¶</a></dt>
 <dd><p>The underlying connectivity graph of the device</p>

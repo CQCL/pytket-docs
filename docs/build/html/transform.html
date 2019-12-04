@@ -245,7 +245,7 @@
 
 <dl class="method">
 <dt id="pytket.transform.Transform.DecomposeSWAPtoCX">
-<code class="sig-name descname">DecomposeSWAPtoCX</code><span class="sig-paren">(</span><em class="sig-param">arc: pytket.routing.Architecture = &lt;tket::Architecture nodes=0&gt;</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeSWAPtoCX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeSWAPtoCX</code><span class="sig-paren">(</span><em class="sig-param">arc: pytket.routing.Architecture = &lt;tket::Architecture</em>, <em class="sig-param">nodes=0&gt;</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeSWAPtoCX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposes all SWAP gates into triples of CX gates. If the SWAP is adjacent to a CX, it will prefer to insert in the direction that allows for gate cancellation. If an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> is provided, this will prefer to insert the CXs such that fewer need redirecting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -257,31 +257,30 @@
 <dl class="method">
 <dt id="pytket.transform.Transform.KAKDecomposition">
 <code class="sig-name descname">KAKDecomposition</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.KAKDecomposition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identifies two-qubit subcircuits with more than 3 CXs and reduces them via the KAK/Cartan decomposition, using the method detailed in arxiv:cond-mat/0609750. The replacement subcircuits use CX, U3, S, Sdg, Rz, Ry gates.</p>
+<dd><p>Identifies two-qubit subcircuits with more than 3 CXs and reduces them via the KAK/Cartan decomposition, using the method detailed in <a class="reference external" href="https://arxiv.org/abs/cond-mat/0609750">https://arxiv.org/abs/cond-mat/0609750</a>. The replacement subcircuits use CX, U3, S, Sdg, Rz, Ry gates.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.transform.Transform.OptimiseCliffords">
-<code class="sig-name descname">OptimiseCliffords</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimiseCliffords" title="Permalink to this definition">¶</a></dt>
-<dd><p>An optimisation pass that performs a number of rewrite rules for simplifying Clifford gate sequences, similar to Duncan &amp; Fagan (arxiv:1901.09476). Given a circuit with CXs and any single-qubit gates, produces a circuit with Z, X, S, V, U1, U2, U3, CX gates. This will not preserve CX placement or orientation and may introduce implicit wire swaps.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.transform.Transform.OptimiseCliffordsZX">
-<code class="sig-name descname">OptimiseCliffordsZX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimiseCliffordsZX" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given an entirely Clifford circuit, attempts to optimise the circuit by converting to and from a ZX Diagram (see arxiv:1902.03178 and arxiv:1904.04735).</p>
+<code class="sig-name descname">OptimiseCliffords</code><span class="sig-paren">(</span><em class="sig-param">allow_swaps: bool = True</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimiseCliffords" title="Permalink to this definition">¶</a></dt>
+<dd><p>An optimisation pass that performs a number of rewrite rules for simplifying Clifford gate sequences, similar to Duncan &amp; Fagan (<a class="reference external" href="https://arxiv.org/abs/1901.10114">https://arxiv.org/abs/1901.10114</a>). Given a circuit with CXs and any single-qubit gates, produces a circuit with Z, X, S, V, U1, U2, U3, CX gates. This will not preserve CX placement or orientation and may introduce implicit wire swaps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>allow_swaps</strong> – dictates whether the rewriting will disregard CX placement or orientation and introduce wire swaps.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.transform.Transform.OptimisePauliGadgets">
 <code class="sig-name descname">OptimisePauliGadgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimisePauliGadgets" title="Permalink to this definition">¶</a></dt>
-<dd><p>An optimisation pass that identifies the Pauli gadgets corresponding to any non-Clifford rotations and synthesises them pairwise (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah arxiv:1906.01734). Results use Z, X, S, V, U1, U2, U3, CX gates.</p>
+<dd><p>An optimisation pass that identifies the Pauli gadgets corresponding to any non-Clifford rotations and synthesises them pairwise (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>). Results use Z, X, S, V, U1, U2, U3, CX gates.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pytket.transform.Transform.OptimisePhaseGadgets">
 <code class="sig-name descname">OptimisePhaseGadgets</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimisePhaseGadgets" title="Permalink to this definition">¶</a></dt>
-<dd><p>An optimisation pass that starts by identifying subcircuits corresponding to phase gadgets (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah arxiv:1906.01734) and resynthesises them in a balanced-tree form, followed by applying OptimisePostRouting. Results use U1, U2, U3, CX gates. This will not preserve CX placement or orientation.</p>
+<dd><p>An optimisation pass that starts by identifying subcircuits corresponding to phase gadgets (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>) and resynthesises them in a balanced-tree form, followed by applying OptimisePostRouting. Results use U1, U2, U3, CX gates. This will not preserve CX placement or orientation.</p>
 </dd></dl>
 
 <dl class="method">

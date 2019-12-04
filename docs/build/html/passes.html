@@ -277,12 +277,6 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="pytket.passes.CliffordSimp">
-<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">CliffordSimp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.CliffordSimp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a circuit consisting of CX and single-qubit gates to one containing CX, Z, X, S, V, U1, U2 and U3 gates.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="pytket.passes.CommuteThroughMultis">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">CommuteThroughMultis</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.CommuteThroughMultis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Moves single-qubit operations past multi-qubit operations that they commute with, towards the front of the circuit.</p>
@@ -313,9 +307,21 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="pytket.passes.OptimiseCliffordsZX">
-<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">OptimiseCliffordsZX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.OptimiseCliffordsZX" title="Permalink to this definition">¶</a></dt>
-<dd><p>Simplifies a Clifford circuit by applying rewrite rules to a ZX representation of the circuit.</p>
+<dt id="pytket.passes.FlattenRegisters">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">FlattenRegisters</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.FlattenRegisters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges all quantum and classical registers into their respective default registers with contiguous indexing.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.FullPeepholeOptimise">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">FullPeepholeOptimise</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.FullPeepholeOptimise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs full (and slow) peephole optimisation and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.KAKDecomposition">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">KAKDecomposition</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.KAKDecomposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>An optimisation pass that performs a Cartan/KAK Decomposition for 2 qubit gate sequences, well explained in Robert Tucci (<a class="reference external" href="https://arxiv.org/abs/quant-ph/0507171">https://arxiv.org/abs/quant-ph/0507171</a>). Given a circuit with CXs, SWAPs and any single-qubit gates, produces a circuit with the same gates. This will not preserve CX orientation.</p>
 </dd></dl>
 
 <dl class="function">
@@ -339,7 +345,7 @@
 <dl class="function">
 <dt id="pytket.passes.RebaseHQS">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">RebaseHQS</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.RebaseHQS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts all gates to HQS_2q, PhasedX and Rz.</p>
+<dd><p>Converts all gates to ZZMax, PhasedX and Rz.</p>
 </dd></dl>
 
 <dl class="function">
@@ -387,19 +393,13 @@
 <dl class="function">
 <dt id="pytket.passes.SynthesiseHQS">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SynthesiseHQS</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.SynthesiseHQS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Optimises and converts a circuit consisting of CX and single-qubit gates into one containing only HQS_2q, PhasedX and Rz.</p>
+<dd><p>Optimises and converts a circuit consisting of CX and single-qubit gates into one containing only ZZMax, PhasedX and Rz.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.passes.SynthesiseIBM">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SynthesiseIBM</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.SynthesiseIBM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Optimises and converts all gates to CX, U1, U2 and U3 gates.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="pytket.passes.SynthesiseOQC">
-<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">SynthesiseOQC</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.SynthesiseOQC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Optimises and converts all gates to Rx, Ry and EntangleOQC.</p>
 </dd></dl>
 
 <dl class="function">
@@ -415,15 +415,74 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="pytket.passes.gen_clifford_simp_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_clifford_simp_pass</code><span class="sig-paren">(</span><em class="sig-param">allow_swaps: bool = True</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_clifford_simp_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>An optimisation pass that performs a number of rewrite rules for simplifying Clifford gate sequences, similar to Duncan &amp; Fagan (<a class="reference external" href="https://arxiv.org/abs/1901.10114">https://arxiv.org/abs/1901.10114</a>). Given a circuit with CXs and any single-qubit gates, produces a circuit with Z, X, S, V, U1, U2, U3, CX gates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>allow_swaps</strong> – dictates whether the rewriting will disregard CX placement or orientation and introduce wire swaps.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="pytket.passes.gen_decompose_routing_gates_to_cxs_pass">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_decompose_routing_gates_to_cxs_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em>, <em class="sig-param">respect_direction: bool = False</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_decompose_routing_gates_to_cxs_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a pass to decompose SWAP and BRIDGE gates to CX gates, constraining connectivity to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>, optionally taking the directedness of the connectivity graph into account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> – The device to use for connectivity information.</p></li>
+<li><p><strong>respect_direction</strong> – Optionally takes the directedness of the connectivity graph into account.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_default_mapping_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_default_mapping_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_default_mapping_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to relabel :py:class:’Circuit’ Qubits to :py:class:’Device’ Nodes, and then route to the connectivity graph of a :py:class: ‘Device’. Edge direction is ignored. Placement used is GraphPlacement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – The Device to use for connectivity information.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.passes.gen_directed_cx_routing_pass">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_directed_cx_routing_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_directed_cx_routing_pass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass to route a circuit and decompose SWAP and BRIDGE gates to directed CX gates according to a target <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> connectivity. Also redirect existing CX gates if necessary.</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – The device to use for connectivity information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_full_mapping_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_full_mapping_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em>, <em class="sig-param">placer: pytket.routing.Placement</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_full_mapping_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to relabel :py:class:’Circuit’ Qubits to :py:class:’Device’ Nodes, and then route to the connectivity graph of a :py:class:’Device’. Edge direction is ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> – The Device to use for connectivity information.</p></li>
+<li><p><strong>placer</strong> – The Placement used for relabelling.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pytket.passes.gen_placement_pass">
+<code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_placement_pass</code><span class="sig-paren">(</span><em class="sig-param">placer: pytket.routing.Placement</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_placement_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to relabel :py:class:’Circuit’ Qubits to :py:class:’Device’ Nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>placer</strong> – The Placement used for relabelling.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -434,18 +493,37 @@
 (2) if CX is not in <cite>multiqs</cite>, replaces CX gates with <cite>cx_replacement</cite>;
 (3) converts any single-qubit gates not in the gate type set <cite>singleqs</cite> to the form <span class="math notranslate nohighlight">\(\mathrm{Rz}(a)\mathrm{Rx}(b)\mathrm{Rz}(c)\)</span> (in matrix-multiplication order, i.e. reverse order in the circuit);
 (4) applies the <cite>tk1_replacement</cite> function to each of these triples <span class="math notranslate nohighlight">\((a,b,c)\)</span> to generate replacement circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>multiqs</strong> – The allowed multi-qubit operations in the rebased circuit.</p></li>
+<li><p><strong>cx_replacement</strong> – The equivalent circuit to replace a CX gate in the desired basis.</p></li>
+<li><p><strong>singleqs</strong> – The allowed single-qubit operations in the rebased circuit.</p></li>
+<li><p><strong>tk1_replacement</strong> – A function which, given the parameters of an Rz(a)Rx(b)Rz(c) triple, returns an equivalent circuit in the desired basis.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.passes.gen_routing_pass">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_routing_pass</code><span class="sig-paren">(</span><em class="sig-param">device: pytket.device.Device</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_routing_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a pass to route to the connectivity graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>. Edge direction is ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – The device to use for connectivity information.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pytket.passes.gen_user_defined_swap_decomp_pass">
 <code class="sig-prename descclassname">pytket.passes.</code><code class="sig-name descname">gen_user_defined_swap_decomp_pass</code><span class="sig-paren">(</span><em class="sig-param">replacement_circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.passes.BasePass<a class="headerlink" href="#pytket.passes.gen_user_defined_swap_decomp_pass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass to replace all SWAP gates with a given circuit.</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>replacement_circuit</strong> – An equivalent circuit to replace a SWAP gate with in the desired basis.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
