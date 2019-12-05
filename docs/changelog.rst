@@ -4,14 +4,14 @@ Changelog
 ---------------------
 New Features:
 
-* New classes for placement of logical qubits from :py:class:'Circuit' to physical qubits from :py:class:'Device' or :py:class:'Architecture'
+* New classes for placement of logical qubits from :py:class:`Circuit` to physical qubits from :py:class:`Device` or :py:class:`Architecture`
 
 Updates:
 
 * Updated documentation and additional examples
 * OptimiseCliffordsZX pass removed, FullPeepholeOptimise pass added
-* New architectures added, including :py:class:'SquareGrid', py::class:'HexagonalGrid', py::class:'RingArch', py::class:'TriangularGrid' and py::class:'CyclicButterfly'
-* Device information from :py:class:'Device' can now be returned
+* New architectures added, including :py:class:`SquareGrid`, :py:class:`HexagonalGrid`, :py:class:`RingArch`, :py:class:`TriangularGrid` and :py:class:`CyclicButterfly`
+* Device information from :py:class:`Device` can now be returned
 * Stability improvements and bug fixes
 
 0.4.0 (November 2019)
