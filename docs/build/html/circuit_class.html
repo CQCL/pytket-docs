@@ -681,7 +681,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <li><p>add_expbox(self: pytket.circuit.Circuit, expbox: tket::ExpBox, qubit_0: int, qubit_1: int) -&gt; pytket.circuit.Circuit</p></li>
 </ol>
 <p>Append an <a class="reference internal" href="circuit.html#pytket.circuit.ExpBox" title="pytket.circuit.ExpBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpBox</span></code></a> to the circuit.</p>
-<p>The representation is little-endian.</p>
+<p>The matrix representation is ILO-BE.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -695,7 +695,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <li><p>add_expbox(self: pytket.circuit.Circuit, expbox: tket::ExpBox, qubit_0: pytket.circuit.UnitID, qubit_1: pytket.circuit.UnitID) -&gt; pytket.circuit.Circuit</p></li>
 </ol>
 <p>Append an <a class="reference internal" href="circuit.html#pytket.circuit.ExpBox" title="pytket.circuit.ExpBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExpBox</span></code></a> to the circuit.</p>
-<p>The representation is little-endian.</p>
+<p>The matrix representation is ILO-BE.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -868,7 +868,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <li><p>add_unitary2qbox(self: pytket.circuit.Circuit, unitarybox: tket::Unitary2qBox, qubit_0: int, qubit_1: int) -&gt; pytket.circuit.Circuit</p></li>
 </ol>
 <p>Append a <a class="reference internal" href="circuit.html#pytket.circuit.Unitary2qBox" title="pytket.circuit.Unitary2qBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary2qBox</span></code></a> to the circuit.</p>
-<p>The representation is little-endian.</p>
+<p>The matrix representation is ILO-BE.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -882,7 +882,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <li><p>add_unitary2qbox(self: pytket.circuit.Circuit, unitarybox: tket::Unitary2qBox, qubit_0: pytket.circuit.UnitID, qubit_1: pytket.circuit.UnitID) -&gt; pytket.circuit.Circuit</p></li>
 </ol>
 <p>Append a <a class="reference internal" href="circuit.html#pytket.circuit.Unitary2qBox" title="pytket.circuit.Unitary2qBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary2qBox</span></code></a> to the circuit.</p>
-<p>The representation is little-endian.</p>
+<p>The matrix representation is ILO-BE.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1079,6 +1079,12 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 </dd></dl>
 
 <dl class="method">
+<dt id="pytket.circuit.Circuit.bit_readout">
+<em class="property">property </em><code class="sig-name descname">bit_readout</code><a class="headerlink" href="#pytket.circuit.Circuit.bit_readout" title="Permalink to this definition">¶</a></dt>
+<dd><p>A map from bit to its (left-to-right) index in readouts from backends (following the increasing lexicographic order convention)</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytket.circuit.Circuit.bits">
 <em class="property">property </em><code class="sig-name descname">bits</code><a class="headerlink" href="#pytket.circuit.Circuit.bits" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of all classical bit ids in the circuit</p>
@@ -1108,6 +1114,12 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <dd class="field-odd"><p>The number of qubits in the circuit</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pytket.circuit.Circuit.qubit_readout">
+<em class="property">property </em><code class="sig-name descname">qubit_readout</code><a class="headerlink" href="#pytket.circuit.Circuit.qubit_readout" title="Permalink to this definition">¶</a></dt>
+<dd><p>A map from qubit to its (left-to-right) index in readouts from backends</p>
 </dd></dl>
 
 <dl class="method">

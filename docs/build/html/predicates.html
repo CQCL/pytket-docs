@@ -253,6 +253,18 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="pytket.predicates.DefaultRegisterPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">DefaultRegisterPredicate</code><a class="headerlink" href="#pytket.predicates.DefaultRegisterPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit only uses the default quantum and classical registers.</p>
+<dl class="method">
+<dt id="pytket.predicates.DefaultRegisterPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.DefaultRegisterPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.DefaultRegisterPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="pytket.predicates.DirectednessPredicate">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">DirectednessPredicate</code><a class="headerlink" href="#pytket.predicates.DirectednessPredicate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Predicate asserting that a circuit satisfies a given connectivity graph. The graph is always considered to be directed.</p>
@@ -280,6 +292,18 @@
 <dt id="pytket.predicates.GateSetPredicate.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.GateSetPredicate, allowed_types: Set[pytket.circuit.OpType]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.GateSetPredicate.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct from a set of gate types.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.MaxNQubitsPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">MaxNQubitsPredicate</code><a class="headerlink" href="#pytket.predicates.MaxNQubitsPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has at most n qubits.</p>
+<dl class="method">
+<dt id="pytket.predicates.MaxNQubitsPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.MaxNQubitsPredicate</em>, <em class="sig-param">arg0: int</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.MaxNQubitsPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor.</p>
 </dd></dl>
 
 </dd></dl>
@@ -340,6 +364,30 @@
 <dt id="pytket.predicates.NoWireSwapsPredicate.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.predicates.NoWireSwapsPredicate</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.predicates.NoWireSwapsPredicate.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pytket.predicates.PlacementPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.predicates.</code><code class="sig-name descname">PlacementPredicate</code><a class="headerlink" href="#pytket.predicates.PlacementPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicate asserting that a circuit has been acted on by some Placement object.</p>
+<dl class="method">
+<dt id="pytket.predicates.PlacementPredicate.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.predicates.PlacementPredicate.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.predicates.PlacementPredicate, architecture: pytket.routing.Architecture) -&gt; None</p></li>
+</ol>
+<p>Construct from an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.predicates.PlacementPredicate, device: pytket.device.Device) -&gt; None</p></li>
+</ol>
+<p>Construct from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>.</p>
+<ol class="arabic simple" start="3">
+<li><p>__init__(self: pytket.predicates.PlacementPredicate, nodes: Set[pytket.circuit.UnitID]) -&gt; None</p></li>
+</ol>
+<p>Construct from a set of Node.</p>
 </dd></dl>
 
 </dd></dl>

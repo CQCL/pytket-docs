@@ -212,7 +212,7 @@
 
 <dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.get_counts">
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit, n_shots: Optional[int], seed: Optional[int] = None, valid_check: bool = True, remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.get_counts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit, n_shots: Optional[int], seed: Optional[int] = None, valid_check: bool = True, remove_from_cache: bool = True, basis: pytket.circuit.BasisOrder = BasisOrder.ilo</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the circuit on the backend and accumulate the shot results into a summary of counts. This will fail if the circuit does not match the device’s requirements.
 If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned, regardless of the number of shots requested here.</p>
 <dl class="field-list simple">
@@ -223,6 +223,7 @@ If results for the circuit are already in the backend’s cache from running pro
 <li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Seed to set for simulations. None is to be used for quantum hardware or when a seed is not needed. Defaults to None</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
 <li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+<li><p><strong>basis</strong> (<em>BasisOrder</em><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and DLO (decreasing lexicographic order) for column ordering. Defaults to BasisOrder.ilo.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -236,7 +237,7 @@ If results for the circuit are already in the backend’s cache from running pro
 
 <dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.get_shots">
-<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.get_shots" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em>, <em class="sig-param">basis: pytket.circuit.BasisOrder = BasisOrder.ilo</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.get_shots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the circuit on the backend and returns a table of the shots. This will fail if the circuit does not match the device’s requirements.
 If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned, regardless of the number of shots requested here.</p>
 <dl class="field-list simple">
@@ -247,10 +248,11 @@ If results for the circuit are already in the backend’s cache from running pro
 <li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Seed to set for simulations. None is to be used for quantum hardware or when a seed is not needed. Defaults to None</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
 <li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+<li><p><strong>basis</strong> (<em>BasisOrder</em><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and DLO (decreasing lexicographic order) for column ordering. Defaults to BasisOrder.ilo.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Table of shot results. Each row is a single shot, with columns ordered by classical bit order. Entries are 0 or 1 corresponding to qubit basis states.</p>
+<dd class="field-even"><p>Table of shot results. Each row is a single shot, with columns ordered by classical bit order (according to <cite>basis</cite>). Entries are 0 or 1 corresponding to qubit basis states.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
@@ -326,7 +328,7 @@ If results for the circuit are already in the backend’s cache from running pro
 
 <dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.get_counts">
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_counts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em>, <em class="sig-param">basis: pytket.circuit.BasisOrder = BasisOrder.ilo</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the circuit on the backend and accumulate the shot results into a summary of counts. This will fail if the circuit does not match the device’s requirements.
 If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned, regardless of the number of shots requested here.</p>
 <dl class="field-list simple">
@@ -337,6 +339,7 @@ If results for the circuit are already in the backend’s cache from running pro
 <li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Seed to set for simulations. None is to be used for quantum hardware or when a seed is not needed. Defaults to None</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
 <li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+<li><p><strong>basis</strong> (<em>BasisOrder</em><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and DLO (decreasing lexicographic order) for column ordering. Defaults to BasisOrder.ilo.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -350,7 +353,7 @@ If results for the circuit are already in the backend’s cache from running pro
 
 <dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.get_shots">
-<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_shots" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">n_shots: Optional[int] = None</em>, <em class="sig-param">seed: Optional[int] = None</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em>, <em class="sig-param">basis: pytket.circuit.BasisOrder = BasisOrder.ilo</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_shots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run the circuit on the backend and returns a table of the shots. This will fail if the circuit does not match the device’s requirements.
 If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned, regardless of the number of shots requested here.</p>
 <dl class="field-list simple">
@@ -361,10 +364,11 @@ If results for the circuit are already in the backend’s cache from running pro
 <li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Seed to set for simulations. None is to be used for quantum hardware or when a seed is not needed. Defaults to None</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
 <li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+<li><p><strong>basis</strong> (<em>BasisOrder</em><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and DLO (decreasing lexicographic order) for column ordering. Defaults to BasisOrder.ilo.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Table of shot results. Each row is a single shot, with columns ordered by classical bit order. Entries are 0 or 1 corresponding to qubit basis states.</p>
+<dd class="field-even"><p>Table of shot results. Each row is a single shot, with columns ordered by classical bit order (according to <cite>basis</cite>). Entries are 0 or 1 corresponding to qubit basis states.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>numpy.ndarray</p>
@@ -435,7 +439,7 @@ If results for the circuit are already in the backend’s cache from running pro
 
 <dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.get_state">
-<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_state" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em>, <em class="sig-param">basis: pytket.circuit.BasisOrder = BasisOrder.ilo</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the statevector for a circuit. Statevectors <span class="math notranslate nohighlight">\([a_{00}, a_{01}, a_{10}, a_{11}]\)</span> are little-endian, so <span class="math notranslate nohighlight">\(a_{01}\)</span> is the amplitude when qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|1\right&gt;\)</span> and qubit q[1] is in state <span class="math notranslate nohighlight">\(\left|0\right&gt;\)</span>.
 If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned.</p>
 <dl class="field-list simple">
@@ -444,10 +448,11 @@ If results for the circuit are already in the backend’s cache from running pro
 <li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to simulate.</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
 <li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+<li><p><strong>basis</strong> (<em>BasisOrder</em><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of bit ids, big-endian) and DLO-BE (decreasing lexicographic order, big-endian) for column ordering. Defaults to BasisOrder.ilo.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Full statevector with little-endian encoding.</p>
+<dd class="field-even"><p>Full statevector in encoding given by <cite>basis</cite>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray</p>
@@ -518,7 +523,7 @@ If results for the circuit are already in the backend’s cache from running pro
 
 <dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.get_unitary">
-<code class="sig-name descname">get_unitary</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_unitary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_unitary</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">valid_check: bool = True</em>, <em class="sig-param">remove_from_cache: bool = True</em>, <em class="sig-param">basis: pytket.circuit.BasisOrder = BasisOrder.ilo</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the unitary matrix for a given circuit.
 If results for the circuit are already in the backend’s cache from running process_circuits, those will be returned.</p>
 <dl class="field-list simple">
@@ -527,10 +532,11 @@ If results for the circuit are already in the backend’s cache from running pro
 <li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to simulate.</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True.</p></li>
 <li><p><strong>remove_from_cache</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Remove the circuit’s results from the backend’s cache. Defaults to True.</p></li>
+<li><p><strong>basis</strong> (<em>BasisOrder</em><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of bit ids, big-endian) and DLO-BE (decreasing lexicographic order, big-endian) for column ordering. Defaults to BasisOrder.ilo.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Unitary matrix with little-endian encoding.</p>
+<dd class="field-even"><p>Unitary matrix with encoding given by <cite>basis</cite>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray</p>
