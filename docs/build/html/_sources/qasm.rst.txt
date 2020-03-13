@@ -12,5 +12,5 @@ to save your :py:class:`Circuit` objects.
 However, we do support symbolic parameters of gates, both on import and export.
 
 .. automodule:: pytket.qasm
-    :members: circuit_from_qasm, circuit_to_qasm
+    :members: circuit_from_qasm, circuit_to_qasm, circuit_from_qasm_str, circuit_to_qasm_str
     :private-members: QASMParser

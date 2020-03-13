@@ -1,5 +1,15 @@
 Changelog
 ==================================
+0.4.2 (March 2020)
+---------------------
+New Features:
+
+* Support for Honeywell devices via the ``pytket_honeywell`` extension module and the :ref:`HoneywellBackend<hwell>` class. 
+
+Updates:
+
+* ``pytket.qasm`` now supports multiple headers and string I/O
+
 0.4.1 (December 2019)
 ---------------------
 New Features:

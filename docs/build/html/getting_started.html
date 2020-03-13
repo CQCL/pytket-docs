@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; pytket 0.4.0 documentation</title>
+  <title>Getting Started &mdash; pytket 0.4.2 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4
               </div>
             
           
@@ -198,7 +198,7 @@
 <h2>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Class<a class="headerlink" href="#the-circuit-class" title="Permalink to this headline">¶</a></h2>
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects provide an abstraction of quantum circuits. They consist of a set of qubits/quantum wires and a collection of operations applied to them in a given order. These wires have open inputs and outputs, rather than assuming any fixed input state.</p>
 <p>We can start by building a circuit with some blank wires and add some instructions.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="k">import</span> <span class="n">Circuit</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -247,8 +247,8 @@
 <p>In pytket, the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class is used the main representation of any circuit during compilation, all the way from the logical circuit the programmer designs for an unrestricted abstract machine, to the final circuit that conforms to all constraints of the target device. Each of the device constraints are captured by a <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code>, which asserts that a circuit satisfies a given property. Every optimisation or step of the compilation chain (“Pass”) can guarantee that certain <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s will be satisfied, potentially at the cost of invalidating others.</p>
 <p>One such architectural constraint is the problem of qubit connectivity on heterogeneous architectures which can be solved by a quantum compiler with placement and routing procedures. This takes the adjacency graph of the architecture’s qubits (the coupling map) and identifies a good mapping from the qubits of the circuit to the positions on the device to make it possible to perform as many of the two-qubit operations as possible. The circuit is then modified by introducing swaps to rearrange the logical qubits such that any multi-qubit operations occur between neighbouring physical qubits.</p>
 <p>These tasks are both performed by applying pytket’s routing pass. <code class="docutils literal notranslate"><span class="pre">pytket.passes.gen_routing_pass</span></code> takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> object (encapsulating the coupling map of the device, in addition to error and timing information) and produces a compiler pass that can be applied to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to guarantee that they conform to the required qubit connectivity graph. We can build a basic device from an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> which specifies only the connectivity graph. More on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> classes can be found in the API Reference.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="k">import</span> <span class="n">Architecture</span><span class="p">,</span> <span class="n">CompilationUnit</span><span class="p">,</span> <span class="n">Device</span>
-<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="k">import</span> <span class="n">gen_routing_pass</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Architecture</span><span class="p">,</span> <span class="n">CompilationUnit</span><span class="p">,</span> <span class="n">Device</span>
+<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">gen_routing_pass</span>
 <span class="n">arc</span> <span class="o">=</span> <span class="n">Architecture</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)])</span>
 <span class="n">dev</span> <span class="o">=</span> <span class="n">Device</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
 <span class="n">route_pass</span> <span class="o">=</span> <span class="n">gen_routing_pass</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
@@ -264,7 +264,7 @@
 <p>The compiled circuit is semantically identical to the original logical circuit but will now only have multi-qubit gates between pairs of nodes in the coupling map. The map between the logical qubits and the physical nodes they live on will change throughout the resulting circuit due to the inserted swaps. However, any measurement operations will still map logical qubits to the same classical bits, so the qubit permutations will not affect any readouts from the device.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code> is a wrapper for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class which tracks key properties throughout compilation. For example, the <code class="docutils literal notranslate"><span class="pre">initial_map</span></code> and <code class="docutils literal notranslate"><span class="pre">final_map</span></code> give the mappings from the original qubits of the logical circuit to their corresponding locations at the beginning or the end of the compiled circuit. This allows us to inspect where <code class="docutils literal notranslate"><span class="pre">route_pass</span></code> allocated the logical qubits on the device, or which qubits to append gates to if we wish to extend the circuit.</p>
 <p>Routing typically sacrifices circuit size/depth (from inserting swaps) to satisfy device constraints. Sadly, the problems of decoherence and imperfect fidelities mean that physical devices will accumulate noise proportional to the size/depth of the circuit being run. <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> provides a selection of optimisation passes to rewrite parts of the circuit to produce an equivalent one with fewer operations/less depth, including some recommended sequences for ease of use. <code class="docutils literal notranslate"><span class="pre">SynthesiseIBM</span></code> is one such sequence to compile into the standard gate set for IBM Q devices (U1, U2, U3, CX), designed to preserve qubit connectivity and gate directedness, making it safe to apply after routing.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="k">import</span> <span class="n">SynthesiseIBM</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">SynthesiseIBM</span>
 <span class="n">SynthesiseIBM</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cu</span><span class="p">)</span>
 </pre></div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.circuit.Circuit &mdash; pytket 0.4.0 documentation</title>
+  <title>pytket.circuit.Circuit &mdash; pytket 0.4.2 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4
               </div>
             
           
@@ -187,7 +187,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <dt id="pytket.circuit.Circuit">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">Circuit</code><a class="headerlink" href="#pytket.circuit.Circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encapsulates a quantum circuit using a DAG representation.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytket</span> <span class="k">import</span> <span class="n">Circuit</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># Create a circuit with 4 qubits</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Apply a gate to qubit 0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Angles of rotation are expressed in half-turns (i.e. 0.5 means PI/2)</span>
@@ -505,12 +505,12 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <li><p>__init__(self: pytket.circuit.Circuit, n_qubits: int) -&gt; None</p></li>
 </ol>
 <p>Constructs a circuit with a given number of qubits/blank wires.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_blank_wires</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>is equivalent to</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -715,7 +715,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <li><p>add_gate(self: pytket.circuit.Circuit, type: pytket.circuit.OpType, qubits: List[int], conditions: List[int] = []) -&gt; pytket.circuit.Circuit</p></li>
 </ol>
 <p>Appends a single (non-parameterised) gate to the end of the circuit on some particular qubits from the default register (‘q’). The number of qubits specified must match the arity of the gate.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># equivalent to c.H(0)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># equivalent to c.H(0)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># equivalent to c.CX(0,1)</span>
 </pre></div>
 </div>
@@ -930,7 +930,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <dt id="pytket.circuit.Circuit.depth">
 <code class="sig-name descname">depth</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#pytket.circuit.Circuit.depth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the length of the longest path through the DAG.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth</span><span class="p">()</span>
 <span class="go">0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -951,7 +951,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <dt id="pytket.circuit.Circuit.depth_by_type">
 <code class="sig-name descname">depth_by_type</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Circuit</em>, <em class="sig-param">type: pytket.circuit.OpType</em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#pytket.circuit.Circuit.depth_by_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the depth of the circuit with respect to a given operation type, e.g. CX-depth.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
@@ -994,7 +994,7 @@ An introduction to using the <code class="xref py py-class docutils literal notr
 <dt id="pytket.circuit.Circuit.n_gates_of_type">
 <code class="sig-name descname">n_gates_of_type</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.circuit.Circuit</em>, <em class="sig-param">type: pytket.circuit.OpType</em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#pytket.circuit.Circuit.n_gates_of_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the number of vertices in the dag of a given operation type.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>

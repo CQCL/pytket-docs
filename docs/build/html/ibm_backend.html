@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.backends.ibm &mdash; pytket 0.4.0 documentation</title>
+  <title>pytket.backends.ibm &mdash; pytket 0.4.2 documentation</title>
   
 
   
@@ -21,11 +21,11 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4.0
+                0.4
               </div>
             
           
@@ -185,16 +185,18 @@
 <p>Backends for connecting to IBM devices and simulators directly from pytket</p>
 <dl class="class">
 <dt id="pytket.backends.ibm.IBMQBackend">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">IBMQBackend</code><span class="sig-paren">(</span><em class="sig-param">backend_name: str</em>, <em class="sig-param">hub: Optional[str] = None</em>, <em class="sig-param">monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">IBMQBackend</code><span class="sig-paren">(</span><em class="sig-param">backend_name: str</em>, <em class="sig-param">hub: Optional[str] = None</em>, <em class="sig-param">group: Optional[str] = None</em>, <em class="sig-param">project: Optional[str] = None</em>, <em class="sig-param">monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">backend_name: str</em>, <em class="sig-param">hub: Optional[str] = None</em>, <em class="sig-param">monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">backend_name: str</em>, <em class="sig-param">hub: Optional[str] = None</em>, <em class="sig-param">group: Optional[str] = None</em>, <em class="sig-param">project: Optional[str] = None</em>, <em class="sig-param">monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>A backend for running circuits on remote IBMQ devices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>backend_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Name of the IBMQ device, e.g. <cite>ibmqx4</cite>, <cite>ibmq_16_melbourne</cite>.</p></li>
 <li><p><strong>hub</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Name of the IBMQ hub to use for the provider. If None, just uses the first hub found. Defaults to None.</p></li>
+<li><p><strong>group</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Name of the IBMQ group to use for the provider. Defaults to None.</p></li>
+<li><p><strong>project</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Name of the IBMQ project to use for the provider. Defaults to None.</p></li>
 <li><p><strong>monitor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Use the IBM job monitor. Defaults to True.</p></li>
 </ul>
 </dd>
