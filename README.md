@@ -37,7 +37,7 @@ Note:this will need a separate install of `pyzx` from [source](https://github.co
 
 ### LICENCE
 
-Copyright 2019 Cambridge Quantum Computing
+Copyright 2019 - 2020 Cambridge Quantum Computing
 
 Licensed under a Non-Commercial Use Software Licence (the "Licence");
 you may not use this product except in compliance with the Licence.

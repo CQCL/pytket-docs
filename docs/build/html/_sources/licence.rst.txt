@@ -1,7 +1,7 @@
 LICENCE
 =======
 
-Copyright 2019 Cambridge Quantum Computing
+Copyright 2019 - 2020 Cambridge Quantum Computing
 
 NON-COMMERCIAL USE SOFTWARE LICENCE AGREEMENT
 

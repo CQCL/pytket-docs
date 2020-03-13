@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pytket'
-copyright = '2019, Cambridge Quantum Computing Ltd'
+copyright = '2019 - 2020, Cambridge Quantum Computing Ltd'
 author = 'Cambridge Quantum Computing Ltd'
 
 # The short X.Y version
