@@ -1,7 +1,7 @@
 pytket.routing
 ==================================
 .. automodule:: pytket.routing
-    :members: route, line_placement, graph_placement, noise_aware_placement
+    :members: route, LinePlacement, GraphPlacement, NoiseAwarePlacement, place_with_map
     
 
 .. autoclass:: pytket.routing.Architecture

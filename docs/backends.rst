@@ -9,6 +9,7 @@ pytket.backends
    forest_backend.rst
    ibm_backend.rst
    projectq_backend.rst
+   honeywell_backend.rst
 
 .. autoclass:: Backend
    :special-members:
