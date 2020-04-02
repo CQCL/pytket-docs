@@ -4,7 +4,7 @@ Here you can find notebooks showing features and example usage of pytket.
 
 *Note: When viewing our examples, github has a bug where it occasionally can't render Jupyter notebooks properly. To bypass this, you can either clone the repo and open the examples in Jupyter yourself (this is recommended! You can play around with them), or you can enter the corresponding URL into https://nbviewer.jupyter.org and view examples there.*
 
-[backends_example](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) - Running circuits on our allowed backends
+[backends_example](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) - Running circuits on our allowed backends.
 
 [circuit_generation_example](https://github.com/CQCL/pytket/blob/master/examples/circuit_generation_example.ipynb) - Advance methods for circuit generation in pytket.
 
@@ -15,8 +15,6 @@ Here you can find notebooks showing features and example usage of pytket.
 [expectation_value_example](https://github.com/CQCL/pytket/blob/master/examples/expectation_value_example.ipynb) - Calculating expectation values of Hamiltonian operators using pytket.
 
 [Forest_portability_example](https://github.com/CQCL/pytket/blob/master/examples/Forest_portability_example.ipynb) - Porting code between different quantum software development platforms using pytket.
-
-[pyquil_example](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) - PyQuil interface and leveraging features across platforms.
 
 [routing_example](https://github.com/CQCL/pytket/blob/master/examples/routing_example.ipynb) - Mapping quantum circuits to quantum devices. Includes placement and routing.
 
