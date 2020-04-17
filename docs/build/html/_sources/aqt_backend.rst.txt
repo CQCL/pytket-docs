@@ -1,33 +1,27 @@
-pytket-pyquil
-=============
+pytket-aqt
+==========
 
 | ```pytket`` <https://cqcl.github.io/pytket>`__ is a Python module for
   interfacing
 | with CQC t\|ket>, a set of quantum programming tools.
 
-| Rigetti's `pyQuil <http://rigetti.com/forest>`__ is a library for
-  generating
-| programs in the Quil language and running them on the Forest platform.
-
-| ``pytket_pyquil`` is an extension to ``pytket`` that allows ``pytket``
+| ``pytket_aqt`` is an extension to ``pytket`` that allows ``pytket``
   circuits to be
-| run on Rigetti backends and simulators, as well as conversion to and
-  from pyQuil
-| representations.
+| executed on AQT's quantum devices and simulators.
 
 Getting started
 ---------------
 
-| ``pytket_pyquil`` is available for Python 3.6, 3.7 and 3.8, on Linux
-  and MacOS. To
+| ``pytket_aqt`` is available for Python 3.6, 3.7 and 3.8, on Linux and
+  MacOS. To
 | install, run:
 
-``pip install pytket_pyquil``
+``pip install pytket_aqt``
 
 LICENCE
 -------
 
-Copyright 2019-2020 Cambridge Quantum Computing
+Copyright 2020 Cambridge Quantum Computing
 
 | Licensed under a Non-Commercial Use Software Licence (the "Licence");
   you may
@@ -47,9 +41,15 @@ Copyright 2019-2020 Cambridge Quantum Computing
   Licence, but
 | note it is strictly for non-commercial use.
 
-pytket.backends.forest
+pytket.backends.aqt
 ==================================
 
-.. automodule:: pytket.backends.forest
+.. automodule:: pytket.backends.aqt
     :special-members:
-    :members: ForestBackend, ForestStateBackend
+    :members: AQTBackend
+
+pytket.aqt
+~~~~~~~~~~~~~~~~~
+
+.. automodule:: pytket.aqt
+    :members: tk_to_aqt

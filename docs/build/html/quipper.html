@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.quipper &mdash; pytket 0.4.2 documentation</title>
+  <title>pytket.quipper &mdash; pytket 0.5.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4
+                0.5
               </div>
             
           
@@ -89,6 +89,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
@@ -104,10 +105,13 @@
 <li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html#module-pytket.cirq">pytket.cirq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
@@ -176,16 +180,16 @@
   <div class="section" id="module-pytket.quipper">
 <span id="pytket-quipper"></span><h1>pytket.quipper<a class="headerlink" href="#module-pytket.quipper" title="Permalink to this headline">¶</a></h1>
 <p>Parser from Quipper ASCII to <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> circuits</p>
-<dl class="function">
+<dl class="py function">
 <dt id="pytket.quipper.circuit_from_quipper">
-<code class="sig-prename descclassname">pytket.quipper.</code><code class="sig-name descname">circuit_from_quipper</code><span class="sig-paren">(</span><em class="sig-param">input_file: str</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.quipper.circuit_from_quipper" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.quipper.</code><code class="sig-name descname">circuit_from_quipper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_file</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><a class="headerlink" href="#pytket.quipper.circuit_from_quipper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a pytket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> given a program in Quipper ASCII format.
 Limitations (due to current limitations of <cite>pytket</cite>):</p>
 <ul class="simple">
 <li><p>Subroutines must be defined over the full set of qubits.</p></li>
 <li><p>Global phases are ignored.</p></li>
 <li><p>Only limited support for controlled gates (depending on the gate type).</p></li>
-<li><p>No support for ‘QInit’ and ‘QTerm’. All qubits must run from the begining 
+<li><p>No support for ‘QInit’ and ‘QTerm’. All qubits must run from the begining
 to the end of the circuit.</p></li>
 <li><p>No support for the legacy keywords (‘QNot’, ‘QMultinot’, ‘QHad’, ‘QSwap’,
 ‘QW’). These are now represented in Quipper as types of ‘QGate’.</p></li>
@@ -227,7 +231,7 @@ or ‘DTerm’.</p></li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019 - 2020, Cambridge Quantum Computing Ltd
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
 
     </p>
   </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.projectq &mdash; pytket 0.4.2 documentation</title>
+  <title>pytket.projectq &mdash; pytket 0.5.0 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.pyquil" href="pyquil.html" />
-    <link rel="prev" title="pytket.cirq" href="cirq.html" /> 
+    <link rel="prev" title="pytket-cirq" href="cirq.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4
+                0.5
               </div>
             
           
@@ -89,6 +89,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
@@ -104,10 +105,13 @@
 <li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html#module-pytket.cirq">pytket.cirq</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
@@ -176,14 +180,14 @@
   <div class="section" id="module-pytket.projectq">
 <span id="pytket-projectq"></span><h1>pytket.projectq<a class="headerlink" href="#module-pytket.projectq" title="Permalink to this headline">¶</a></h1>
 <p>Module for conversion between ProjectQ and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="pytket.projectq.tketBackendEngine">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tketBackendEngine</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>A projectq backend designed to translate from projectq commands
 to tket Circuits</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.projectq.tketBackendEngine.is_available">
-<code class="sig-name descname">is_available</code><span class="sig-paren">(</span><em class="sig-param">cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_available</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ask the next engine whether a command is available, i.e.,
 whether it can be executed by the next engine(s).</p>
 <dl class="field-list simple">
@@ -199,13 +203,13 @@ whether it can be executed by the next engine(s).</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.projectq.tketBackendEngine.receive">
-<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param">command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process commands from a list and append to local Circuit.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.projectq.tketBackendEngine.circuit">
 <em class="property">property </em><code class="sig-name descname">circuit</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine.circuit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -220,14 +224,14 @@ whether it can be executed by the next engine(s).</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="pytket.projectq.tketOptimiser">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tketOptimiser</code><a class="headerlink" href="#pytket.projectq.tketOptimiser" title="Permalink to this definition">¶</a></dt>
 <dd><p>A ProjectQ BasicEngine designed to translate from ProjectQ commands
 to tket Circuits, optimise them, and then return other ProjectQ commands.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.projectq.tketOptimiser.receive">
-<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param">command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receives a list of commands and appends to local Circuit. If a flush gate is received,
 optimises the Circuit using a default Transform pass and then sends the commands from
 this optimised Circuit into the next engine.</p>
@@ -235,9 +239,9 @@ this optimised Circuit into the next engine.</p>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pytket.projectq.tk_to_projectq">
-<code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tk_to_projectq</code><span class="sig-paren">(</span><em class="sig-param">engine: projectq.cengines._main.MainEngine</em>, <em class="sig-param">qureg: projectq.types._qubit.Qureg</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">ignore_measures: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tk_to_projectq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">engine</span><span class="p">:</span> <span class="n">projectq.cengines._main.MainEngine</span></em>, <em class="sig-param"><span class="n">qureg</span><span class="p">:</span> <span class="n">projectq.types._qubit.Qureg</span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">ignore_measures</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a ProjectQ Qureg in an Engine, converts a Circuit to a series of ProjectQ Commands on this Qureg.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -263,7 +267,7 @@ this optimised Circuit into the next engine.</p>
         <a href="pyquil.html" class="btn btn-neutral float-right" title="pytket.pyquil" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cirq.html" class="btn btn-neutral float-left" title="pytket.cirq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cirq.html" class="btn btn-neutral float-left" title="pytket-cirq" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -272,7 +276,7 @@ this optimised Circuit into the next engine.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019 - 2020, Cambridge Quantum Computing Ltd
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
 
     </p>
   </div>

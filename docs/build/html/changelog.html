@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; pytket 0.4.2 documentation</title>
+  <title>Changelog &mdash; pytket 0.5.0 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="LICENCE" href="licence.html" />
+    <link rel="next" title="Installation Troubleshooting" href="install.html" />
     <link rel="prev" title="Getting Started" href="getting_started.html" /> 
 </head>
 
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4
+                0.5
               </div>
             
           
@@ -89,7 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#march-2020">0.4.2 (March 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#april-2020">0.5.2 (April 2020)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#december-2019">0.4.1 (December 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#november-2019">0.4.0 (November 2019)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#august-2019">0.3.0 (August 2019)</a></li>
@@ -106,6 +106,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#july-2018">0.0.1 (July 2018)</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
@@ -121,10 +122,13 @@
 <li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html#module-pytket.cirq">pytket.cirq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
@@ -192,15 +196,38 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="march-2020">
-<h2>0.4.2 (March 2020)<a class="headerlink" href="#march-2020" title="Permalink to this headline">¶</a></h2>
-<p>New Features:</p>
+<div class="section" id="april-2020">
+<h2>0.5.2 (April 2020)<a class="headerlink" href="#april-2020" title="Permalink to this headline">¶</a></h2>
+<p>Major New Features:</p>
 <ul class="simple">
-<li><p>Support for Honeywell devices via the <code class="docutils literal notranslate"><span class="pre">pytket_honeywell</span></code> extension module and the <a class="reference internal" href="honeywell_backend.html#hwell"><span class="std std-ref">HoneywellBackend</span></a> class.</p></li>
+<li><p>Routing, gate decomposition, and basic optimisations can work around conditional gates and mid-circuit measurements</p></li>
+<li><p>New high-level optimisation routine for Trotterised Hamiltonians</p></li>
+<li><p>Measurement reduction via Pauli term diagonalisation</p></li>
+<li><p>Inspection of the status of circuit execution on asynchronous backends</p></li>
+<li><p>Error mitigation facilities via the SPAM method</p></li>
+<li><p>Introduction of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Program</span></code> class for specifying routines with classical control flow</p></li>
+</ul>
+<p>Minor New Features:</p>
+<ul class="simple">
+<li><p>Improved error messages when circuits cannot be run on a backend</p></li>
+<li><p>Generalised <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.depth_by_type()</span></code> to allow sets of gate types</p></li>
+<li><p>A selection of optimisation passes are parametrised by pattern for decomposing into CXs</p></li>
+<li><p>New <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> subclass, <code class="xref py py-class docutils literal notranslate"><span class="pre">FullyConnected</span></code>, added</p></li>
+<li><p>New gates added: <cite>OpType.ESWAP</cite> and <cite>OpType.FSim</cite></p></li>
+<li><p>Additional utility methods for permuting qubits of statevectors</p></li>
+<li><p>Inspection of any implicit permutations within the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> dag structure</p></li>
+<li><p>Inspection of free symbols in a circuit</p></li>
+<li><p>Inspection of detailed gate errors from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></p></li>
+<li><p>Additional methods for parsing/producing QASM through strings and streams</p></li>
+<li><p>Ability to enable internal logs</p></li>
 </ul>
 <p>Updates:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pytket.qasm</span></code> now supports multiple headers and string I/O</p></li>
+<li><p>Cleaner addition of conditions to gates via kwargs</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> objects are specialised into either <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> objects, with more natural constructors</p></li>
+<li><p>Renamed many passes to give a uniform naming convention</p></li>
+<li><p>Stability improvements and bug fixes</p></li>
+<li><p>Updated documentation and additional examples</p></li>
 </ul>
 </div>
 <div class="section" id="december-2019">
@@ -208,6 +235,7 @@
 <p>New Features:</p>
 <ul class="simple">
 <li><p>New classes for placement of logical qubits from <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to physical qubits from <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></p></li>
+<li><p>Data from backends can be returned in either increasing lexicographical order of (qu)bit identifiers (the familiar ordering used in most textbooks) or decreasing order (popular with other quantum software platforms) using the <code class="xref py py-class docutils literal notranslate"><span class="pre">BasisOrder</span></code> enum</p></li>
 </ul>
 <p>Updates:</p>
 <ul class="simple">
@@ -389,7 +417,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="licence.html" class="btn btn-neutral float-right" title="LICENCE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Installation Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -401,7 +429,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019 - 2020, Cambridge Quantum Computing Ltd
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
 
     </p>
   </div>

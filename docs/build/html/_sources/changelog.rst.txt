@@ -1,20 +1,44 @@
 Changelog
 ==================================
-0.4.2 (March 2020)
----------------------
-New Features:
+0.5.2 (April 2020)
+------------------
+Major New Features:
 
-* Support for Honeywell devices via the ``pytket_honeywell`` extension module and the :ref:`HoneywellBackend<hwell>` class. 
+* Routing, gate decomposition, and basic optimisations can work around conditional gates and mid-circuit measurements
+* New high-level optimisation routine for Trotterised Hamiltonians
+* Measurement reduction via Pauli term diagonalisation
+* Inspection of the status of circuit execution on asynchronous backends
+* Error mitigation facilities via the SPAM method
+* Introduction of the :py:class:`Program` class for specifying routines with classical control flow
+
+Minor New Features:
+
+* Improved error messages when circuits cannot be run on a backend
+* Generalised :py:meth:`Circuit.depth_by_type` to allow sets of gate types
+* A selection of optimisation passes are parametrised by pattern for decomposing into CXs
+* New :py:class:`Architecture` subclass, :py:class:`FullyConnected`, added
+* New gates added: `OpType.ESWAP` and `OpType.FSim`
+* Additional utility methods for permuting qubits of statevectors
+* Inspection of any implicit permutations within the :py:class:`Circuit` dag structure
+* Inspection of free symbols in a circuit
+* Inspection of detailed gate errors from a :py:class:`Device`
+* Additional methods for parsing/producing QASM through strings and streams
+* Ability to enable internal logs
 
 Updates:
 
-* ``pytket.qasm`` now supports multiple headers and string I/O
+* Cleaner addition of conditions to gates via kwargs
+* :py:class:`UnitID` objects are specialised into either :py:class:`Qubit` or :py:class:`Bit` objects, with more natural constructors
+* Renamed many passes to give a uniform naming convention
+* Stability improvements and bug fixes
+* Updated documentation and additional examples
 
 0.4.1 (December 2019)
 ---------------------
 New Features:
 
 * New classes for placement of logical qubits from :py:class:`Circuit` to physical qubits from :py:class:`Device` or :py:class:`Architecture`
+* Data from backends can be returned in either increasing lexicographical order of (qu)bit identifiers (the familiar ordering used in most textbooks) or decreasing order (popular with other quantum software platforms) using the :py:class:`BasisOrder` enum
 
 Updates:
 

@@ -1,0 +1,56 @@
+Installation Troubleshooting
+==================================
+
+General Installation Instructions
+------------------------------------------
+To install the core ``pytket`` package, run
+
+``pip install pytket``
+
+If the ``pip`` command is linked to a Python 2 distribution, you will need to replace it with ``pip3`` and use ``python3`` for running your code, or use ``python -m pip``.
+
+The additional modules ``pytket_X`` (where ``X`` is ``qiskit``, ``pyquil``, etc.) can be installed in the same way, as
+
+``pip install pytket_X``
+
+You can update your installation to the most recent version using
+
+``pip install --upgrade pytket``
+
+
+Frequently Asked Questions
+--------------------------
+
+Is there a build of ``pytket`` for my system?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The non-commercial version of ``pytket`` and all additional modules available through PyPI are built to work on Linux and MacOS with Python versions 3.6, 3.7, or 3.8, and ``pip`` version 19.0.0+.
+
+
+But I run Windows! How can I use ``pytket``?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+We plan to support Windows distributions in the future. In the mean time, you can use the Linux builds through the Windows Subsystem for Linux (WSL), virtual machines or docker containers.
+
+
+``pytket`` installed but modules mentioned in the docs could not be found. Why?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Some of the modules concerning interaction with another software package (e.g. ``qiskit``, ``pyquil``, etc.) need to be installed separately.
+
+Otherwise, this may be that the version of ``pytket`` you obtained is not the most recent version released. We only publish our docs for the most recent version of ``pytket``.
+
+
+When I ran ``pip install pytket``, I could only get an old version. What gives?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+At a couple of points in the development of the software, we had to increase the system requirements. Obtaining an old version from PyPI is likely the result of that being the most recent version compliant with your system.
+
+If you received version 0.3.0, it is likely that you are using an old version of ``pip`` that cannot accept the more recent Linux builds. Try running ``pip install --upgrade pip`` to upgrade it to the most recent version and upgrade ``pytket``.
+
+
+When I ran ``pip install pytket``, I receive "ERROR: No matching distribution found for qiskit-aqua-chemistry~=0.4.0 (from pytket)". What does this mean?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This is likely because you are using a Python 3.5 distribution. The last version of ``pytket`` supporting this is 0.1.1, which had dependencies on packages that have since been removed from PyPI. Please use a supported Python version.
+
+
+I've tried the recommended actions here and it still won't work! What can I do?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Our `examples repository <http://github.com/CQCL/pytket>`_ on GitHub has an issue tracker for current issues. You might find others who have had similar problems there. If not, feel free to add an issue describing your problem and our dev team will try to diagnose it and get back to you as soon as possible.

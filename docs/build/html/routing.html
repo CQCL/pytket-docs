@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.routing &mdash; pytket 0.4.2 documentation</title>
+  <title>pytket.routing &mdash; pytket 0.5.0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.4
+                0.5
               </div>
             
           
@@ -89,6 +89,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
@@ -104,10 +105,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket.cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cirq.html#module-pytket.cirq">pytket.cirq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
@@ -175,239 +179,14 @@
             
   <div class="section" id="module-pytket.routing">
 <span id="pytket-routing"></span><h1>pytket.routing<a class="headerlink" href="#module-pytket.routing" title="Permalink to this headline">¶</a></h1>
-<p>The routing module provides access to the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <a class="reference internal" href="#pytket.routing.Architecture" title="pytket.routing.Architecture"><code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></a> structure and methods for modifying circuits to satisfy the architectural constraints. It also provides acess to the :py:class:’Placement’ constructors for relabelling Circuit qubits and has some methods for routing circuits. This module is provided in binary form during the PyPI installation.</p>
-<dl class="class">
-<dt id="pytket.routing.LinePlacement">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">LinePlacement</code><a class="headerlink" href="#pytket.routing.LinePlacement" title="Permalink to this definition">¶</a></dt>
-<dd><p>The LinePlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
-<dl class="method">
-<dt id="pytket.routing.LinePlacement.get_placement_map">
-<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.LinePlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.routing.QubitMap<a class="headerlink" href="#pytket.routing.LinePlacement.get_placement_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a QubitMap object that is Device appropriate for the given Circuit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The circuit a map is designed for.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.LinePlacement.get_placement_maps">
-<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.LinePlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; List[pytket.routing.QubitMap]<a class="headerlink" href="#pytket.routing.LinePlacement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of QubitMap objects that are Device appropriate for the given Circuit. Each QubitMap is estimated to given a similar SWAP overheard after routing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The circuit the maps are designed for.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.LinePlacement.place">
-<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.LinePlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.routing.LinePlacement.place" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’, using LinePlacement method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The Circuit being relabelled.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.LinePlacement.place_with_map">
-<code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">qmap: pytket.routing.QubitMap</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.routing.LinePlacement.place_with_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> – The circuit being relabelled</p></li>
-<li><p><strong>qmap</strong> – The QubitMap the Circuit is relabelled to.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pytket.routing.GraphPlacement">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">GraphPlacement</code><a class="headerlink" href="#pytket.routing.GraphPlacement" title="Permalink to this definition">¶</a></dt>
-<dd><p>The GraphPlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
-<dl class="method">
-<dt id="pytket.routing.GraphPlacement.get_placement_map">
-<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.GraphPlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.routing.QubitMap<a class="headerlink" href="#pytket.routing.GraphPlacement.get_placement_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a QubitMap object that is Device appropriate for the given Circuit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The circuit a map is designed for.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.GraphPlacement.get_placement_maps">
-<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.GraphPlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; List[pytket.routing.QubitMap]<a class="headerlink" href="#pytket.routing.GraphPlacement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of QubitMap objects that are Device appropriate for the given Circuit. Each QubitMap is estimated to given a similar SWAP overheard after routing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The circuit the maps are designed for.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.GraphPlacement.modify_config">
-<code class="sig-name descname">modify_config</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.GraphPlacement</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.routing.GraphPlacement.modify_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overides default Placement parameters to given values. 
-:param **kwargs: Parameters for placement: (int)depth_limit=5, (int)max_interaction_edges=edges in the device graph, (int)max_matches=10000, (int)contraction_ratio=10.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.GraphPlacement.place">
-<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.GraphPlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.routing.GraphPlacement.place" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’, using GraphPlacement method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The Circuit being relabelled.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.GraphPlacement.place_with_map">
-<code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">qmap: pytket.routing.QubitMap</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.routing.GraphPlacement.place_with_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> – The circuit being relabelled</p></li>
-<li><p><strong>qmap</strong> – The QubitMap the Circuit is relabelled to.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pytket.routing.NoiseAwarePlacement">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">NoiseAwarePlacement</code><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement" title="Permalink to this definition">¶</a></dt>
-<dd><p>The NoiseAwarePlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
-<dl class="method">
-<dt id="pytket.routing.NoiseAwarePlacement.get_placement_map">
-<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.NoiseAwarePlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.routing.QubitMap<a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.get_placement_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a QubitMap object that is Device appropriate for the given Circuit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The circuit a map is designed for.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.NoiseAwarePlacement.get_placement_maps">
-<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.NoiseAwarePlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; List[pytket.routing.QubitMap]<a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of QubitMap objects that are Device appropriate for the given Circuit. Each QubitMap is estimated to given a similar SWAP overheard after routing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The circuit the maps are designed for.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.NoiseAwarePlacement.modify_config">
-<code class="sig-name descname">modify_config</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.NoiseAwarePlacement</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.modify_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overides default Placement parameters to given values. 
-:param **kwargs: Parameters for placement: (int)depth_limit=5, (int)max_interaction_edges=edges in the device graph, (int)max_matches=10000, (int)contraction_ratio=10.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.NoiseAwarePlacement.place">
-<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.NoiseAwarePlacement</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.place" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’, using LinePlacement method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> – The Circuit being relabelled.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="pytket.routing.NoiseAwarePlacement.place_with_map">
-<code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">qmap: pytket.routing.QubitMap</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.place_with_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> – The circuit being relabelled</p></li>
-<li><p><strong>qmap</strong> – The QubitMap the Circuit is relabelled to.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="pytket.routing.route">
-<code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">route</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.route" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overloaded function.</p>
-<ol class="arabic simple">
-<li><p>route(circuit: pytket.circuit.Circuit, architecture: pytket.routing.Architecture, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs) -&gt; pytket.circuit.Circuit</p></li>
-</ol>
-<p>Routes the circuit subject to the connectivity of the input architecture, given configuration settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> – The circuit to be routed.</p></li>
-<li><p><strong>architecture</strong> – A representation of the qubit connectivity constraints of the device.</p></li>
-<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=2, (int)bridge_interactions=1, (float)bridge_exponent=0, (RoutingMethod)routing_method = RoutingMethod.base.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The routed circuit.</p>
-</dd>
-</dl>
-<ol class="arabic simple" start="2">
-<li><p>route(circuit: pytket.circuit.Circuit, device: tket::Device, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs) -&gt; pytket.circuit.Circuit</p></li>
-</ol>
-<p>Routes the circuit subject to the connectivity of the input architecture, given configuration settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> – The circuit to be routed.</p></li>
-<li><p><strong>device</strong> – A representation of the qubit connectivity constraints and fidelity information of the device.</p></li>
-<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=2, (int)bridge_interactions=1, (float)bridge_exponent=0, (RoutingMethod)routing_method = RoutingMethod.base.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The routed circuit.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pytket.routing.place_with_map">
-<code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">qmap: pytket.routing.QubitMap</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.routing.place_with_map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Relabels Circuit Qubits to QubitMap provided. If provided QubitMap is partial, remaining Circuit Qubits are left ‘unplaced’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> – The Circuit being relabelled.</p></li>
-<li><p><strong>qmap</strong> – QubitMap object for Circuit.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="class">
+<p>The routing module provides access to the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <a class="reference internal" href="#pytket.routing.Architecture" title="pytket.routing.Architecture"><code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></a> structure and methods for modifying circuits to satisfy the architectural constraints. It also provides acess to the <a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement"><code class="xref py py-class docutils literal notranslate"><span class="pre">Placement</span></code></a> constructors for relabelling Circuit qubits and has some methods for routing circuits. This module is provided in binary form during the PyPI installation.</p>
+<dl class="py class">
 <dt id="pytket.routing.Architecture">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">Architecture</code><a class="headerlink" href="#pytket.routing.Architecture" title="Permalink to this definition">¶</a></dt>
 <dd><p>The base architecture class, describing the connectivity of qubits on a device.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.routing.Architecture.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.Architecture.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.Architecture.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.routing.Architecture, connections: List[Tuple[int, int]]) -&gt; None</p></li>
@@ -419,7 +198,7 @@
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>__init__(self: pytket.routing.Architecture, connections: List[Tuple[pytket.circuit.UnitID, pytket.circuit.UnitID]]) -&gt; None</p></li>
+<li><p>__init__(self: pytket.routing.Architecture, connections: List[Tuple[pytket.circuit.Node, pytket.circuit.Node]]) -&gt; None</p></li>
 </ol>
 <p>The constructor for an architecture with connectivity between qubits.</p>
 <dl class="field-list simple">
@@ -429,18 +208,395 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt id="pytket.routing.Architecture.coupling">
+<em class="property">property </em><code class="sig-name descname">coupling</code><a class="headerlink" href="#pytket.routing.Architecture.coupling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the coupling map of the Architecture as UnitIDs.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py method">
+<dt id="pytket.routing.Architecture.nodes">
+<em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#pytket.routing.Architecture.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all nodes of architecture as UnitID objects.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.CyclicButterfly">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">CyclicButterfly</code><a class="headerlink" href="#pytket.routing.CyclicButterfly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Architecture class for a cyclic butterfly graph of given dimension.</p>
+<dl class="py method">
+<dt id="pytket.routing.CyclicButterfly.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.CyclicButterfly" title="pytket.routing.CyclicButterfly">pytket.routing.CyclicButterfly</a></span></em>, <em class="sig-param"><span class="n">dimension</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.CyclicButterfly.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor for CyclicButterfly graph with some undirected connectivity between qubits.</p>
+<p>:param dimension</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.FullyConnected">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">FullyConnected</code><a class="headerlink" href="#pytket.routing.FullyConnected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Architecture class for number of qubits connected to every other qubit.</p>
+<dl class="py method">
+<dt id="pytket.routing.FullyConnected.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.FullyConnected" title="pytket.routing.FullyConnected">pytket.routing.FullyConnected</a></span></em>, <em class="sig-param"><span class="n">nodes</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.FullyConnected.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The constructor for a FullyConnected Architecture with some undirected connectivity between qubits.</p>
+<p>:param number of qubits</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.GraphPlacement">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">GraphPlacement</code><a class="headerlink" href="#pytket.routing.GraphPlacement" title="Permalink to this definition">¶</a></dt>
+<dd><p>The GraphPlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
+<dl class="py method">
+<dt id="pytket.routing.GraphPlacement.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.GraphPlacement</em>, <em class="sig-param">device: tket::Device</em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.GraphPlacement.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The constructor for a GraphPlacement object. The Device object contains an architecture which details connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – A Device object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.GraphPlacement.get_placement_map">
+<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement">pytket.routing.GraphPlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; pytket.routing.QubitMap<a class="headerlink" href="#pytket.routing.GraphPlacement.get_placement_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a QubitMap object that is Device appropriate for the given Circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit a map is designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.GraphPlacement.get_placement_maps">
+<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement">pytket.routing.GraphPlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pytket.routing.QubitMap<span class="p">]</span><a class="headerlink" href="#pytket.routing.GraphPlacement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of QubitMap objects that are Device appropriate for the given Circuit. Each QubitMap is estimated to given a similar SWAP overheard after routing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit the maps are designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.GraphPlacement.modify_config">
+<code class="sig-name descname">modify_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement">pytket.routing.GraphPlacement</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.GraphPlacement.modify_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overides default Placement parameters to given values. 
+:param **kwargs: Parameters for placement: (int)depth_limit=5, (int)max_interaction_edges=edges in the device graph, (int)max_matches=10000, (int)contraction_ratio=10.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.GraphPlacement.place">
+<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement">pytket.routing.GraphPlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.GraphPlacement.place" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’, using GraphPlacement method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The Circuit being relabelled.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.GraphPlacement.place_with_map">
+<code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">qmap</span><span class="p">:</span> <span class="n">pytket.routing.QubitMap</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.GraphPlacement.place_with_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The circuit being relabelled</p></li>
+<li><p><strong>qmap</strong> – The QubitMap the Circuit is relabelled to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.HexagonalGrid">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">HexagonalGrid</code><a class="headerlink" href="#pytket.routing.HexagonalGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Architecture class for qubits arranged in a hexagonal grid lattice of given rows, length and layers</p>
+<dl class="py method">
+<dt id="pytket.routing.HexagonalGrid.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.HexagonalGrid.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.routing.HexagonalGrid, n_rows: int, ;en: int) -&gt; None</p></li>
+</ol>
+<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
+<li><p><strong>len</strong> – The length of each row in the grid</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.routing.HexagonalGrid, n_rows: int, len: int, n_layers: int) -&gt; None</p></li>
+</ol>
+<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
+<li><p><strong>n_columns</strong> – The length of each row in the grid</p></li>
+<li><p><strong>n_layers</strong> – The number of layers of grids</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.LinePlacement">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">LinePlacement</code><a class="headerlink" href="#pytket.routing.LinePlacement" title="Permalink to this definition">¶</a></dt>
+<dd><p>The LinePlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
+<dl class="py method">
+<dt id="pytket.routing.LinePlacement.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.LinePlacement</em>, <em class="sig-param">device: tket::Device</em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.LinePlacement.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The constructor for a LinePlacement object. The Device object contains an architecture which details connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – A Device object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.LinePlacement.get_placement_map">
+<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.LinePlacement" title="pytket.routing.LinePlacement">pytket.routing.LinePlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; pytket.routing.QubitMap<a class="headerlink" href="#pytket.routing.LinePlacement.get_placement_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a QubitMap object that is Device appropriate for the given Circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit a map is designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.LinePlacement.get_placement_maps">
+<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.LinePlacement" title="pytket.routing.LinePlacement">pytket.routing.LinePlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pytket.routing.QubitMap<span class="p">]</span><a class="headerlink" href="#pytket.routing.LinePlacement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of QubitMap objects that are Device appropriate for the given Circuit. Each QubitMap is estimated to given a similar SWAP overheard after routing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit the maps are designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.LinePlacement.place">
+<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.LinePlacement" title="pytket.routing.LinePlacement">pytket.routing.LinePlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.LinePlacement.place" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’, using LinePlacement method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The Circuit being relabelled.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.LinePlacement.place_with_map">
+<code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">qmap</span><span class="p">:</span> <span class="n">pytket.routing.QubitMap</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.LinePlacement.place_with_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The circuit being relabelled</p></li>
+<li><p><strong>qmap</strong> – The QubitMap the Circuit is relabelled to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.NoiseAwarePlacement">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">NoiseAwarePlacement</code><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement" title="Permalink to this definition">¶</a></dt>
+<dd><p>The NoiseAwarePlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
+<dl class="py method">
+<dt id="pytket.routing.NoiseAwarePlacement.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.NoiseAwarePlacement</em>, <em class="sig-param">device: tket::Device</em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The constructor for a LinePlacement object. The Device object contains an architecture which details connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – A Device object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.NoiseAwarePlacement.get_placement_map">
+<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement">pytket.routing.NoiseAwarePlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; pytket.routing.QubitMap<a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.get_placement_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a QubitMap object that is Device appropriate for the given Circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit a map is designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.NoiseAwarePlacement.get_placement_maps">
+<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement">pytket.routing.NoiseAwarePlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pytket.routing.QubitMap<span class="p">]</span><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of QubitMap objects that are Device appropriate for the given Circuit. Each QubitMap is estimated to given a similar SWAP overheard after routing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit the maps are designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.NoiseAwarePlacement.modify_config">
+<code class="sig-name descname">modify_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement">pytket.routing.NoiseAwarePlacement</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.modify_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overides default Placement parameters to given values. 
+:param **kwargs: Parameters for placement: (int)depth_limit=5, (int)max_interaction_edges=edges in the device graph, (int)max_matches=10000, (int)contraction_ratio=10.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.NoiseAwarePlacement.place">
+<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement">pytket.routing.NoiseAwarePlacement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.place" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’, using LinePlacement method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The Circuit being relabelled.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.NoiseAwarePlacement.place_with_map">
+<code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">qmap</span><span class="p">:</span> <span class="n">pytket.routing.QubitMap</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.place_with_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The circuit being relabelled</p></li>
+<li><p><strong>qmap</strong> – The QubitMap the Circuit is relabelled to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.Placement">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">Placement</code><a class="headerlink" href="#pytket.routing.Placement" title="Permalink to this definition">¶</a></dt>
+<dd><p>The base Placement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
+<dl class="py method">
+<dt id="pytket.routing.Placement.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.Placement</em>, <em class="sig-param">device: tket::Device</em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.Placement.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The constructor for a Placement object. The Device object contains an architecture which details connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>device</strong> – A Device object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.Placement.get_placement_map">
+<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement">pytket.routing.Placement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; pytket.routing.QubitMap<a class="headerlink" href="#pytket.routing.Placement.get_placement_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a QubitMap object that is Device appropriate for the given Circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit a map is designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.Placement.get_placement_maps">
+<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement">pytket.routing.Placement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pytket.routing.QubitMap<span class="p">]</span><a class="headerlink" href="#pytket.routing.Placement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of QubitMap objects that are Device appropriate for the given Circuit. Each QubitMap is estimated to given a similar SWAP overheard after routing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit the maps are designed for.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.Placement.place">
+<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement">pytket.routing.Placement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.Placement.place" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’. For base Placement, all Qubits and labelled ‘unplaced’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The Circuit being relabelled.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.Placement.place_with_map">
+<code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">qmap</span><span class="p">:</span> <span class="n">pytket.routing.QubitMap</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.routing.Placement.place_with_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The circuit being relabelled</p></li>
+<li><p><strong>qmap</strong> – The QubitMap the Circuit is relabelled to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.RingArch">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">RingArch</code><a class="headerlink" href="#pytket.routing.RingArch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Architecture class for number of qubits arranged in a ring.</p>
+<dl class="py method">
+<dt id="pytket.routing.RingArch.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.RingArch" title="pytket.routing.RingArch">pytket.routing.RingArch</a></span></em>, <em class="sig-param"><span class="n">nodes</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.RingArch.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The constructor for a RingArchitecture with some undirected connectivity between qubits.</p>
+<p>:param number of qubits</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.RoutingMethod">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">RoutingMethod</code><a class="headerlink" href="#pytket.routing.RoutingMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Members:</p>
+<p>base : Default cost function for selecting SWAP networks to insert</p>
+<p>noise : Noise-sensitive cost function for selecting SWAP networks to insert</p>
+<dl class="py method">
+<dt id="pytket.routing.RoutingMethod.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.RoutingMethod" title="pytket.routing.RoutingMethod">pytket.routing.RoutingMethod</a></span></em>, <em class="sig-param"><span class="n">arg0</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.RoutingMethod.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pytket.routing.RoutingMethod.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket.routing.RoutingMethod.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(self: handle) -&gt; str</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="pytket.routing.SquareGrid">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">SquareGrid</code><a class="headerlink" href="#pytket.routing.SquareGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for qubits arranged in a square lattice of given number of rows and columns. Qubits are arranged with qubits values increasing first along rows then along columns i.e. for a 3 x 3 grid:</p>
 <p>0 1 2</p>
 <p>3 4 5</p>
 <p>6 7 8</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.routing.SquareGrid.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.SquareGrid.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.SquareGrid.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.routing.SquareGrid, n_rows: int, n_columns: int) -&gt; None</p></li>
@@ -469,9 +625,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.routing.SquareGrid.qind_to_squind">
-<code class="sig-name descname">qind_to_squind</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.SquareGrid</em>, <em class="sig-param">index: int</em><span class="sig-paren">)</span> &#x2192; Tuple[int, int]<a class="headerlink" href="#pytket.routing.SquareGrid.qind_to_squind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">qind_to_squind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.SquareGrid" title="pytket.routing.SquareGrid">pytket.routing.SquareGrid</a></span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span><a class="headerlink" href="#pytket.routing.SquareGrid.qind_to_squind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a single qubit index to a (row,column) index for a square grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -483,9 +639,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.routing.SquareGrid.squind_to_qind">
-<code class="sig-name descname">squind_to_qind</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.routing.SquareGrid</em>, <em class="sig-param">row: int</em>, <em class="sig-param">column: int</em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#pytket.routing.SquareGrid.squind_to_qind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">squind_to_qind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.SquareGrid" title="pytket.routing.SquareGrid">pytket.routing.SquareGrid</a></span></em>, <em class="sig-param"><span class="n">row</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">column</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><a class="headerlink" href="#pytket.routing.SquareGrid.squind_to_qind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a (row,column) index for a square grid to a single qubit index</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -500,6 +656,131 @@
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.routing.TriangularGrid">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">TriangularGrid</code><a class="headerlink" href="#pytket.routing.TriangularGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Architecture class for qubits arranged in a triangular grid lattice of given rows, length and layers</p>
+<dl class="py method">
+<dt id="pytket.routing.TriangularGrid.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.TriangularGrid.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.routing.TriangularGrid, n_rows: int, n_cols: int) -&gt; None</p></li>
+</ol>
+<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
+<li><p><strong>len</strong> – The length of each row in the grid</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.routing.TriangularGrid, n_rows: int, len: int, n_layers: int) -&gt; None</p></li>
+</ol>
+<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
+<li><p><strong>n_columns</strong> – The length of each row in the grid</p></li>
+<li><p><strong>n_layers</strong> – The number of layers of grids</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.routing.convert_index_mapping">
+<code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">convert_index_mapping</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.convert_index_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>convert_index_mapping(circuit: pytket.circuit.Circuit, arc: pytket.routing.Architecture, index_map: Dict[int, int]) -&gt; pytket.routing.QubitMap</p></li>
+</ol>
+<p>Converts user-specified mappings from indexed qubit to indexed architecture node to use the more general <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> type expected for routing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit qubits are assigned from.</p>
+</dd>
+<dt class="field-even">Param</dt>
+<dd class="field-even"><p>arc: The Architecture nodes are assigned from.</p>
+</dd>
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>index_map: The map of unsigned indices to be transformed.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>convert_index_mapping(circuit: pytket.circuit.Circuit, device: tket::Device, index_map: Dict[int, int]) -&gt; pytket.routing.QubitMap</p></li>
+</ol>
+<p>Converts user-specified mappings from indexed qubit to indexed architecture node to use the more general <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> type expected for routing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> – The circuit qubits are assigned from.</p>
+</dd>
+<dt class="field-even">Param</dt>
+<dd class="field-even"><p>device: The Device nodes are assigned from.</p>
+</dd>
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>index_map: The map of unsigned indices to be transformed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.routing.place_with_map">
+<code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">qmap</span><span class="p">:</span> <span class="n">pytket.routing.QubitMap</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.routing.place_with_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabels Circuit Qubits to QubitMap provided. If provided QubitMap is partial, remaining Circuit Qubits are left ‘unplaced’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The Circuit being relabelled.</p></li>
+<li><p><strong>qmap</strong> – QubitMap object for Circuit.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.routing.route">
+<code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">route</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>route(circuit: pytket.circuit.Circuit, architecture: pytket.routing.Architecture, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs) -&gt; pytket.circuit.Circuit</p></li>
+</ol>
+<p>Routes the circuit subject to the connectivity of the input architecture, given configuration settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The circuit to be routed.</p></li>
+<li><p><strong>architecture</strong> – A representation of the qubit connectivity constraints of the device.</p></li>
+<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0, (RoutingMethod)routing_method = RoutingMethod.base.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The routed circuit.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>route(circuit: pytket.circuit.Circuit, device: tket::Device, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs) -&gt; pytket.circuit.Circuit</p></li>
+</ol>
+<p>Routes the circuit subject to the connectivity of the input architecture, given configuration settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> – The circuit to be routed.</p></li>
+<li><p><strong>device</strong> – A representation of the qubit connectivity constraints and fidelity information of the device.</p></li>
+<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0, (RoutingMethod)routing_method = RoutingMethod.base.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The routed circuit.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -524,7 +805,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019 - 2020, Cambridge Quantum Computing Ltd
+        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
