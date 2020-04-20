@@ -112,6 +112,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-pytket.backends.projectq">pytket.backends.projectq</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qsharp_backend.html">pytket-qsharp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qsharp_backend.html#pytket-backends-qsharp">pytket.backends.qsharp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.resulthandle">pytket.backends.resulthandle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.backendresult">pytket.backends.backendresult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.status">pytket.backends.status</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -199,73 +202,52 @@
             
   <div class="section" id="pytket-projectq">
 <h1>pytket-projectq<a class="headerlink" href="#pytket-projectq" title="Permalink to this headline">¶</a></h1>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">`pytket</span></code> &lt;<a class="reference external" href="https://cqcl.github.io/pytket">https://cqcl.github.io/pytket</a>&gt;`__ is a Python module for
-interfacing</div>
-<div class="line">with CQC t|ket&gt;, a set of quantum programming tools.</div>
-</div>
-<div class="line-block">
-<div class="line"><a class="reference external" href="https://github.com/ProjectQ-Framework/ProjectQ">ProjectQ</a> is an
-open-source</div>
-<div class="line">library for quantum circuit compilation and simulation.</div>
-</div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pytket_projectq</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows
-<code class="docutils literal notranslate"><span class="pre">pytket</span></code> circuits to</div>
-<div class="line">be run on ProjectQ simulators, as well as conversion to the ProjectQ</div>
-<div class="line">representation.</div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">`pytket</span></code> &lt;<a class="reference external" href="https://cqcl.github.io/pytket">https://cqcl.github.io/pytket</a>&gt;`__ is a Python module for
+interfacing with CQC t|ket&gt;, a set of quantum programming tools.</p>
+<p><a class="reference external" href="https://github.com/ProjectQ-Framework/ProjectQ">ProjectQ</a> is an
+open-source library for quantum circuit compilation and simulation.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pytket_projectq</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows <code class="docutils literal notranslate"><span class="pre">pytket</span></code>
+circuits to be run on ProjectQ simulators, as well as conversion to the
+ProjectQ representation.</p>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pytket_projectq</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux
-and MacOS.</div>
-<div class="line">To install, run:</div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">pytket_projectq</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux
+and MacOS. To install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket_projectq</span></code></p>
 </div>
 <div class="section" id="licence">
 <h2>LICENCE<a class="headerlink" href="#licence" title="Permalink to this headline">¶</a></h2>
 <p>Copyright 2019-2020 Cambridge Quantum Computing</p>
-<div class="line-block">
-<div class="line">Licensed under a Non-Commercial Use Software Licence (the “Licence”);
-you may</div>
-<div class="line">not use this product except in compliance with the Licence. You may
-obtain a</div>
-<div class="line">copy of the Licence in the LICENCE file accompanying these documents
-or view</div>
-<div class="line">them <a class="reference external" href="https://cqcl.github.io/pytket/build/html/licence.html">here</a>.</div>
-</div>
-<div class="line-block">
-<div class="line">Unless required by applicable law or agreed to in writing, software
-distributed</div>
-<div class="line">under the Licence is distributed on an “AS IS” BASIS, WITHOUT
-WARRANTIES OR</div>
-<div class="line">CONDITIONS OF ANY KIND, either express or implied. See the Licence for
-the</div>
-<div class="line">specific language governing permissions and limitations under the
-Licence, but</div>
-<div class="line">note it is strictly for non-commercial use.</div>
-</div>
+<p>Licensed under a Non-Commercial Use Software Licence (the “Licence”);
+you may not use this product except in compliance with the Licence. You
+may obtain a copy of the Licence in the LICENCE file accompanying these
+documents or view them
+<a class="reference external" href="https://cqcl.github.io/pytket/build/html/licence.html">here</a>.</p>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the Licence is distributed on an “AS IS” BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the Licence for the specific language governing permissions and
+limitations under the Licence, but note it is strictly for
+non-commercial use.</p>
 </div>
 </div>
 <div class="section" id="module-pytket.backends.projectq">
 <span id="pytket-backends-projectq"></span><h1>pytket.backends.projectq<a class="headerlink" href="#module-pytket.backends.projectq" title="Permalink to this headline">¶</a></h1>
 <p>Backend for utilising the ProjectQ simulator directly from pytket</p>
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.backends.projectq.ProjectQBackend">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.backends.projectq.</code><code class="sig-name descname">ProjectQBackend</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running statevector simulations on the ProjectQ simulator.</p>
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value">
-<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">QubitOperator</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit</em>, <em class="sig-param">operator: QubitOperator</em>, <em class="sig-param">valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit with respect to the operator using the built-in ProjectQ functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -284,9 +266,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value">
-<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit, pauli: Iterable[Tuple[int, str]], valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit using the built-in ProjectQ functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -305,14 +287,14 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pytket.backends.resulthandle.ResultHandle<span class="p">]</span><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param">circuits: Iterable[pytket.circuit.Circuit], n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; List[pytket.backends.resulthandle.ResultHandle]<a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>See <a class="reference internal" href="backends.html#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.backends.Backend.process_circuits()</span></code></a>.
 Supported kwargs: <cite>seed</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.default_compilation_pass">
 <em class="property">property </em><code class="sig-name descname">default_compilation_pass</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
@@ -328,7 +310,7 @@ possible.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.device">
 <em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
@@ -343,7 +325,7 @@ object contains information about gate errors and device architecture.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.projectq.ProjectQBackend.required_predicates">
 <em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can

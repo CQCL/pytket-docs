@@ -180,13 +180,13 @@
   <div class="section" id="module-pytket.transform">
 <span id="pytket-transform"></span><h1>pytket.transform<a class="headerlink" href="#module-pytket.transform" title="Permalink to this headline">¶</a></h1>
 <p>Python API module for interfacing with <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> c++ implemented functions and modules. Exports class Transform</p>
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.transform.Transform">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.transform.</code><code class="sig-name descname">Transform</code><a class="headerlink" href="#pytket.transform.Transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>An in-place transformation of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.CommuteSQThroughSWAP">
-<code class="sig-name descname">CommuteSQThroughSWAP</code><span class="sig-paren">(</span><em class="sig-param">device: tket::Device</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.CommuteSQThroughSWAP" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">CommuteSQThroughSWAP</code><span class="sig-paren">(</span><em class="sig-param">device: tket::Device</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.CommuteSQThroughSWAP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Commutes single qubit gates through SWAP gates, leaving them on the physical qubit wtih best fidelity for given gate type. Assumes the circuit is already mapped onto the architecture.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -195,33 +195,33 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.CommuteThroughMultis">
-<code class="sig-name descname">CommuteThroughMultis</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.CommuteThroughMultis" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">CommuteThroughMultis</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.CommuteThroughMultis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies a collection of commutation rules to move single qubit operations past multiqubit operations they commute with, towards the front of the circuit.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.DecomposeBRIDGE">
-<code class="sig-name descname">DecomposeBRIDGE</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.DecomposeBRIDGE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeBRIDGE</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeBRIDGE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposes all BRIDGE gates into CX gates.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.DecomposeBoxes">
-<code class="sig-name descname">DecomposeBoxes</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.DecomposeBoxes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeBoxes</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeBoxes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposes all Boxed operations into elementary gates.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.DecomposeCCX">
-<code class="sig-name descname">DecomposeCCX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.DecomposeCCX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeCCX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeCCX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposes all 3-qubit Toffoli (CCX) gates into Clifford+T gates.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.DecomposeCXDirected">
-<code class="sig-name descname">DecomposeCXDirected</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arc</span><span class="p">:</span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture">pytket.routing.Architecture</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.DecomposeCXDirected" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeCXDirected</code><span class="sig-paren">(</span><em class="sig-param">arc: pytket.routing.Architecture</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeCXDirected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decompose CX gates to H+CX to match the direction of the CXs to edges of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> <cite>arc</cite>. Assumes the circuit already satisfies the connectivity of <cite>arc</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -230,15 +230,15 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.DecomposeControlledRys">
-<code class="sig-name descname">DecomposeControlledRys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.DecomposeControlledRys" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeControlledRys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeControlledRys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposes all arbitrarily-quantum-controlled Rys into CX and Ry gates.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.DecomposeSWAP">
-<code class="sig-name descname">DecomposeSWAP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.DecomposeSWAP" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeSWAP</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeSWAP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposes all SWAP gates to provided replacement circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -247,9 +247,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.DecomposeSWAPtoCX">
-<code class="sig-name descname">DecomposeSWAPtoCX</code><span class="sig-paren">(</span><em class="sig-param">arc: pytket.routing.Architecture = &lt;tket::Architecture</em>, <em class="sig-param">nodes=0&gt;</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.DecomposeSWAPtoCX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DecomposeSWAPtoCX</code><span class="sig-paren">(</span><em class="sig-param">arc: pytket.routing.Architecture = &lt;tket::Architecture</em>, <em class="sig-param">nodes=0&gt;</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.DecomposeSWAPtoCX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decomposes all SWAP gates into triples of CX gates. If the SWAP is adjacent to a CX, it will prefer to insert in the direction that allows for gate cancellation. If an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> is provided, this will prefer to insert the CXs such that fewer need redirecting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -258,15 +258,15 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.KAKDecomposition">
-<code class="sig-name descname">KAKDecomposition</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.KAKDecomposition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">KAKDecomposition</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.KAKDecomposition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies two-qubit subcircuits with more than 3 CXs and reduces them via the KAK/Cartan decomposition, using the method detailed in <a class="reference external" href="https://arxiv.org/abs/cond-mat/0609750">https://arxiv.org/abs/cond-mat/0609750</a>. The replacement subcircuits use CX, U3, S, Sdg, Rz, Ry gates.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.OptimiseCliffords">
-<code class="sig-name descname">OptimiseCliffords</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">allow_swaps</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.OptimiseCliffords" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">OptimiseCliffords</code><span class="sig-paren">(</span><em class="sig-param">allow_swaps: bool = True</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimiseCliffords" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optimisation pass that performs a number of rewrite rules for simplifying Clifford gate sequences, similar to Duncan &amp; Fagan (<a class="reference external" href="https://arxiv.org/abs/1901.10114">https://arxiv.org/abs/1901.10114</a>). Given a circuit with CXs and any single-qubit gates, produces a circuit with Z, X, S, V, U1, U2, U3, CX gates. This will not preserve CX placement or orientation and may introduce implicit wire swaps.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -275,99 +275,99 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.OptimisePauliGadgets">
-<code class="sig-name descname">OptimisePauliGadgets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cx_config</span><span class="p">:</span> <span class="n">pytket.transform.CXConfigType</span> <span class="o">=</span> <span class="default_value">CXConfigType.Snake</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.OptimisePauliGadgets" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">OptimisePauliGadgets</code><span class="sig-paren">(</span><em class="sig-param">cx_config: pytket.transform.CXConfigType = CXConfigType.Snake</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimisePauliGadgets" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optimisation pass that identifies the Pauli gadgets corresponding to any non-Clifford rotations and synthesises them pairwise (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>). Results use Z, X, S, V, U1, U2, U3, CX gates.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.OptimisePhaseGadgets">
-<code class="sig-name descname">OptimisePhaseGadgets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cx_config</span><span class="p">:</span> <span class="n">pytket.transform.CXConfigType</span> <span class="o">=</span> <span class="default_value">CXConfigType.Snake</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.OptimisePhaseGadgets" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">OptimisePhaseGadgets</code><span class="sig-paren">(</span><em class="sig-param">cx_config: pytket.transform.CXConfigType = CXConfigType.Snake</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimisePhaseGadgets" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optimisation pass that starts by identifying subcircuits corresponding to phase gadgets (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>) and resynthesises them in a balanced-tree form, followed by applying OptimisePostRouting. Results use U1, U2, U3, CX gates. This will not preserve CX placement or orientation.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.OptimisePostRouting">
-<code class="sig-name descname">OptimisePostRouting</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.OptimisePostRouting" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">OptimisePostRouting</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.OptimisePostRouting" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fast optimisation pass, performing basic simplifications. Works on any circuit, giving the result in U1, U2, U3, CX gates. If all multi-qubit gates are CXs, then this preserves their placement and orientation, so it is safe to perform after routing.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RebaseToCirq">
-<code class="sig-name descname">RebaseToCirq</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RebaseToCirq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RebaseToCirq</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RebaseToCirq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rebase from any gate set into PhasedX, Rz, CZ.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RebaseToCliffordSingles">
-<code class="sig-name descname">RebaseToCliffordSingles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RebaseToCliffordSingles" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RebaseToCliffordSingles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RebaseToCliffordSingles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identify Clifford-angle rotations (from U1, U2, U3, Rx, Ry, Rz), replacing them with Z, X, S, V gates. Any non-Clifford rotations will stay as they are.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RebaseToProjectQ">
-<code class="sig-name descname">RebaseToProjectQ</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RebaseToProjectQ" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RebaseToProjectQ</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RebaseToProjectQ" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rebase from any gate set into the gate set supported by ProjectQ (Rx, Ry, Rz, X, Y, Z, S, T, V, H, CX, CZ, CRz, SWAP).</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RebaseToPyZX">
-<code class="sig-name descname">RebaseToPyZX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RebaseToPyZX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RebaseToPyZX</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RebaseToPyZX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rebase from any gate set into the gate set supported by PyZX (Rx, Rz, X, Z, S, T, H, CX, CZ, SWAP).</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RebaseToQiskit">
-<code class="sig-name descname">RebaseToQiskit</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RebaseToQiskit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RebaseToQiskit</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RebaseToQiskit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rebase from any gate set into U1, U2, U3, CX.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RebaseToQuil">
-<code class="sig-name descname">RebaseToQuil</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RebaseToQuil" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RebaseToQuil</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RebaseToQuil" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rebase from any gate set into Rx, Rz, CZ.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RebaseToRzRx">
-<code class="sig-name descname">RebaseToRzRx</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RebaseToRzRx" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RebaseToRzRx</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RebaseToRzRx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rebase single qubit gates into Rz, Rx.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.ReduceSingles">
-<code class="sig-name descname">ReduceSingles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.ReduceSingles" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ReduceSingles</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.ReduceSingles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reduces any sequence of single qubit rotations into a single U1/U3 gate.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.RemoveRedundancies">
-<code class="sig-name descname">RemoveRedundancies</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.RemoveRedundancies" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">RemoveRedundancies</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.RemoveRedundancies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies a collection of simple optimisations, such as removing gate-inverse pairs, merging similar rotation gates, and removing identity gates. Preserves the gate set and any placement/orientation of multi-qubit gates.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.SynthesisePauliGraph">
-<code class="sig-name descname">SynthesisePauliGraph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">synth_strat</span><span class="p">:</span> <span class="n">pytket.transform.PauliSynthStrat</span> <span class="o">=</span> <span class="default_value">PauliSynthStrat.Sets</span></em>, <em class="sig-param"><span class="n">cx_config</span><span class="p">:</span> <span class="n">pytket.transform.CXConfigType</span> <span class="o">=</span> <span class="default_value">CXConfigType.Snake</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.SynthesisePauliGraph" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">SynthesisePauliGraph</code><span class="sig-paren">(</span><em class="sig-param">synth_strat: pytket.transform.PauliSynthStrat = PauliSynthStrat.Sets</em>, <em class="sig-param">cx_config: pytket.transform.CXConfigType = CXConfigType.Snake</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.SynthesisePauliGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synthesises Pauli Graphs.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.UCCSynthesis">
-<code class="sig-name descname">UCCSynthesis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">synth_strat</span><span class="p">:</span> <span class="n">pytket.transform.PauliSynthStrat</span> <span class="o">=</span> <span class="default_value">PauliSynthStrat.Sets</span></em>, <em class="sig-param"><span class="n">cx_config</span><span class="p">:</span> <span class="n">pytket.transform.CXConfigType</span> <span class="o">=</span> <span class="default_value">CXConfigType.Snake</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.UCCSynthesis" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">UCCSynthesis</code><span class="sig-paren">(</span><em class="sig-param">synth_strat: pytket.transform.PauliSynthStrat = PauliSynthStrat.Sets</em>, <em class="sig-param">cx_config: pytket.transform.CXConfigType = CXConfigType.Snake</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.UCCSynthesis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synthesises UCC circuits in the form that Term Sequencing provides them.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.transform.Transform.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.__rshift__">
-<code class="sig-name descname">__rshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a></span></em>, <em class="sig-param"><span class="n">arg0</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.__rshift__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__rshift__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.transform.Transform</em>, <em class="sig-param">arg0: pytket.transform.Transform</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.__rshift__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composes two Transforms together in sequence.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">&gt;&gt;</span> <span class="n">b</span>
 </pre></div>
@@ -378,9 +378,9 @@
 </div>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.apply">
-<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.transform.Transform.apply" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.transform.Transform</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.transform.Transform.apply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs the transformation on the circuit in place.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -392,9 +392,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.repeat">
-<code class="sig-name descname">repeat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.repeat" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">repeat</code><span class="sig-paren">(</span><em class="sig-param">transform: pytket.transform.Transform</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.repeat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies a given Transform repeatedly to a circuit until no further changes are made (i.e. it no longer returns <code class="docutils literal notranslate"><span class="pre">True</span></code>). <a class="reference internal" href="#pytket.transform.Transform.apply" title="pytket.transform.Transform.apply"><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply()</span></code></a> will return <code class="docutils literal notranslate"><span class="pre">True</span></code> if at least one run returned <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -406,9 +406,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.sequence">
-<code class="sig-name descname">sequence</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sequence</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.sequence" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sequence</code><span class="sig-paren">(</span><em class="sig-param">sequence: List[pytket.transform.Transform]</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.sequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composes a list of Transforms together in sequence. The <a class="reference internal" href="#pytket.transform.Transform.apply" title="pytket.transform.Transform.apply"><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply()</span></code></a> method will return <code class="docutils literal notranslate"><span class="pre">True</span></code> if ANY of the individual Transforms returned <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -420,9 +420,9 @@
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.transform.Transform.while_repeat">
-<code class="sig-name descname">while_repeat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">condition</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a></span></em>, <em class="sig-param"><span class="n">body</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform">pytket.transform.Transform</a><a class="headerlink" href="#pytket.transform.Transform.while_repeat" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">while_repeat</code><span class="sig-paren">(</span><em class="sig-param">condition: pytket.transform.Transform</em>, <em class="sig-param">body: pytket.transform.Transform</em><span class="sig-paren">)</span> &#x2192; pytket.transform.Transform<a class="headerlink" href="#pytket.transform.Transform.while_repeat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Repeatedly applies the <cite>condition</cite> Transform until it returns <code class="docutils literal notranslate"><span class="pre">False</span></code>, running <cite>body</cite> in between each <cite>condition</cite> application. Intuitively, this corresponds to “WHILE <cite>condition</cite> DO <cite>body</cite>”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

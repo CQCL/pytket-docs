@@ -183,62 +183,41 @@
             
   <div class="section" id="pytket-pyzx">
 <h1>pytket-pyzx<a class="headerlink" href="#pytket-pyzx" title="Permalink to this headline">¶</a></h1>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">`pytket</span></code> &lt;<a class="reference external" href="https://cqcl.github.io/pytket">https://cqcl.github.io/pytket</a>&gt;`__ is a Python module for
-interfacing</div>
-<div class="line">with CQC t|ket&gt;, a set of quantum programming tools.</div>
-</div>
-<div class="line-block">
-<div class="line"><a class="reference external" href="https://github.com/Quantomatic/pyzx">PyZX</a> is an open-source
-Python library for</div>
-<div class="line">automated rewriting and optimisation of quantum circuits using the</div>
-<div class="line"><a class="reference external" href="http://zxcalculus.com/">ZX-calculus</a>.</div>
-</div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pytket_pyzx</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows conversion
-to and from</div>
-<div class="line">PyZX representations.</div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">`pytket</span></code> &lt;<a class="reference external" href="https://cqcl.github.io/pytket">https://cqcl.github.io/pytket</a>&gt;`__ is a Python module for
+interfacing with CQC t|ket&gt;, a set of quantum programming tools.</p>
+<p><a class="reference external" href="https://github.com/Quantomatic/pyzx">PyZX</a> is an open-source Python
+library for automated rewriting and optimisation of quantum circuits
+using the <a class="reference external" href="http://zxcalculus.com/">ZX-calculus</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pytket_pyzx</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows conversion to
+and from PyZX representations.</p>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pytket_pyzx</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux and
-MacOS. To</div>
-<div class="line">install, run:</div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">pytket_pyzx</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux and
+MacOS. To install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket_pyzx</span></code></p>
 </div>
 <div class="section" id="licence">
 <h2>LICENCE<a class="headerlink" href="#licence" title="Permalink to this headline">¶</a></h2>
 <p>Copyright 2019-2020 Cambridge Quantum Computing</p>
-<div class="line-block">
-<div class="line">Licensed under a Non-Commercial Use Software Licence (the “Licence”);
-you may</div>
-<div class="line">not use this product except in compliance with the Licence. You may
-obtain a</div>
-<div class="line">copy of the Licence in the LICENCE file accompanying these documents
-or view</div>
-<div class="line">them <a class="reference external" href="https://cqcl.github.io/pytket/build/html/licence.html">here</a>.</div>
-</div>
-<div class="line-block">
-<div class="line">Unless required by applicable law or agreed to in writing, software
-distributed</div>
-<div class="line">under the Licence is distributed on an “AS IS” BASIS, WITHOUT
-WARRANTIES OR</div>
-<div class="line">CONDITIONS OF ANY KIND, either express or implied. See the Licence for
-the</div>
-<div class="line">specific language governing permissions and limitations under the
-Licence, but</div>
-<div class="line">note it is strictly for non-commercial use.</div>
-</div>
+<p>Licensed under a Non-Commercial Use Software Licence (the “Licence”);
+you may not use this product except in compliance with the Licence. You
+may obtain a copy of the Licence in the LICENCE file accompanying these
+documents or view them
+<a class="reference external" href="https://cqcl.github.io/pytket/build/html/licence.html">here</a>.</p>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the Licence is distributed on an “AS IS” BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the Licence for the specific language governing permissions and
+limitations under the Licence, but note it is strictly for
+non-commercial use.</p>
 </div>
 </div>
 <div class="section" id="module-pytket.pyzx">
 <span id="id1"></span><h1>pytket.pyzx<a class="headerlink" href="#module-pytket.pyzx" title="Permalink to this headline">¶</a></h1>
 <p>Module for conversion between PyZX and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
-<dl class="py function">
+<dl class="function">
 <dt id="pytket.pyzx.tk_to_pyzx">
-<code class="sig-prename descclassname">pytket.pyzx.</code><code class="sig-name descname">tk_to_pyzx</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcircuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; pyzx.circuit.Circuit<a class="headerlink" href="#pytket.pyzx.tk_to_pyzx" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.pyzx.</code><code class="sig-name descname">tk_to_pyzx</code><span class="sig-paren">(</span><em class="sig-param">tkcircuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pyzx.circuit.Circuit<a class="headerlink" href="#pytket.pyzx.tk_to_pyzx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -253,9 +232,9 @@ Licence, but</div>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="pytket.pyzx.pyzx_to_tk">
-<code class="sig-prename descclassname">pytket.pyzx.</code><code class="sig-name descname">pyzx_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pyzx_circ</span><span class="p">:</span> <span class="n">pyzx.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><a class="headerlink" href="#pytket.pyzx.pyzx_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.pyzx.</code><code class="sig-name descname">pyzx_to_tk</code><span class="sig-paren">(</span><em class="sig-param">pyzx_circ: pyzx.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.pyzx.pyzx_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code> to a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> .
 All PyZX basic gate operations are currently supported by pytket. Run <cite>pyzx_circuit_name.to_basic_gates()</cite>
 before conversion.</p>

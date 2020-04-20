@@ -180,14 +180,14 @@
   <div class="section" id="module-pytket.projectq">
 <span id="pytket-projectq"></span><h1>pytket.projectq<a class="headerlink" href="#module-pytket.projectq" title="Permalink to this headline">¶</a></h1>
 <p>Module for conversion between ProjectQ and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.projectq.tketBackendEngine">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tketBackendEngine</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>A projectq backend designed to translate from projectq commands
 to tket Circuits</p>
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.projectq.tketBackendEngine.is_available">
-<code class="sig-name descname">is_available</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">is_available</code><span class="sig-paren">(</span><em class="sig-param">cmd</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ask the next engine whether a command is available, i.e.,
 whether it can be executed by the next engine(s).</p>
 <dl class="field-list simple">
@@ -203,13 +203,13 @@ whether it can be executed by the next engine(s).</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.projectq.tketBackendEngine.receive">
-<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param">command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process commands from a list and append to local Circuit.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.projectq.tketBackendEngine.circuit">
 <em class="property">property </em><code class="sig-name descname">circuit</code><a class="headerlink" href="#pytket.projectq.tketBackendEngine.circuit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -224,14 +224,14 @@ whether it can be executed by the next engine(s).</p>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.projectq.tketOptimiser">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tketOptimiser</code><a class="headerlink" href="#pytket.projectq.tketOptimiser" title="Permalink to this definition">¶</a></dt>
 <dd><p>A ProjectQ BasicEngine designed to translate from ProjectQ commands
 to tket Circuits, optimise them, and then return other ProjectQ commands.</p>
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.projectq.tketOptimiser.receive">
-<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command_list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param">command_list</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receives a list of commands and appends to local Circuit. If a flush gate is received,
 optimises the Circuit using a default Transform pass and then sends the commands from
 this optimised Circuit into the next engine.</p>
@@ -239,9 +239,9 @@ this optimised Circuit into the next engine.</p>
 
 </dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="pytket.projectq.tk_to_projectq">
-<code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tk_to_projectq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">engine</span><span class="p">:</span> <span class="n">projectq.cengines._main.MainEngine</span></em>, <em class="sig-param"><span class="n">qureg</span><span class="p">:</span> <span class="n">projectq.types._qubit.Qureg</span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">ignore_measures</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.projectq.</code><code class="sig-name descname">tk_to_projectq</code><span class="sig-paren">(</span><em class="sig-param">engine: projectq.cengines._main.MainEngine</em>, <em class="sig-param">qureg: projectq.types._qubit.Qureg</em>, <em class="sig-param">circuit: pytket.circuit.Circuit</em>, <em class="sig-param">ignore_measures: bool = False</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a ProjectQ Qureg in an Engine, converts a Circuit to a series of ProjectQ Commands on this Qureg.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

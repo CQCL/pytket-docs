@@ -112,6 +112,9 @@
 <li class="toctree-l2"><a class="reference internal" href="projectq_backend.html#module-pytket.backends.projectq">pytket.backends.projectq</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qsharp_backend.html">pytket-qsharp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="qsharp_backend.html#pytket-backends-qsharp">pytket.backends.qsharp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.resulthandle">pytket.backends.resulthandle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.backendresult">pytket.backends.backendresult</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.status">pytket.backends.status</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -199,67 +202,45 @@
             
   <div class="section" id="pytket-qiskit">
 <h1>pytket-qiskit<a class="headerlink" href="#pytket-qiskit" title="Permalink to this headline">¶</a></h1>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">`pytket</span></code> &lt;<a class="reference external" href="https://cqcl.github.io/pytket">https://cqcl.github.io/pytket</a>&gt;`__ is a Python module for
-interfacing</div>
-<div class="line">with CQC t|ket&gt;, a set of quantum programming tools.</div>
-</div>
-<div class="line-block">
-<div class="line">IBM’s <a class="reference external" href="https://qiskit.org">Qiskit</a> is an open-source framework for
-quantum</div>
-<div class="line">computation, ranging from high-level algorithms to low-level circuit</div>
-<div class="line">representations, simulation and access to the <a class="reference external" href="https://www.research.ibm.com/ibm-q/">IBM Q
-Experience</a> devices.</div>
-</div>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pytket_qiskit</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows <code class="docutils literal notranslate"><span class="pre">pytket</span></code>
-circuits to be</div>
-<div class="line">run on IBM backends and simulators, as well as conversion to and from
-Qiskit</div>
-<div class="line">representations.</div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">`pytket</span></code> &lt;<a class="reference external" href="https://cqcl.github.io/pytket">https://cqcl.github.io/pytket</a>&gt;`__ is a Python module for
+interfacing with CQC t|ket&gt;, a set of quantum programming tools.</p>
+<p>IBM’s <a class="reference external" href="https://qiskit.org">Qiskit</a> is an open-source framework for
+quantum computation, ranging from high-level algorithms to low-level
+circuit representations, simulation and access to the <a class="reference external" href="https://www.research.ibm.com/ibm-q/">IBM Q
+Experience</a> devices.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pytket_qiskit</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows <code class="docutils literal notranslate"><span class="pre">pytket</span></code>
+circuits to be run on IBM backends and simulators, as well as conversion
+to and from Qiskit representations.</p>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line"><code class="docutils literal notranslate"><span class="pre">pytket_qiskit</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux
-and MacOS. To</div>
-<div class="line">install, run:</div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">pytket_qiskit</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux and
+MacOS. To install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket_qiskit</span></code></p>
 </div>
 <div class="section" id="licence">
 <h2>LICENCE<a class="headerlink" href="#licence" title="Permalink to this headline">¶</a></h2>
 <p>Copyright 2019-2020 Cambridge Quantum Computing</p>
-<div class="line-block">
-<div class="line">Licensed under a Non-Commercial Use Software Licence (the “Licence”);
-you may</div>
-<div class="line">not use this product except in compliance with the Licence. You may
-obtain a</div>
-<div class="line">copy of the Licence in the LICENCE file accompanying these documents
-or view</div>
-<div class="line">them <a class="reference external" href="https://cqcl.github.io/pytket/build/html/licence.html">here</a>.</div>
-</div>
-<div class="line-block">
-<div class="line">Unless required by applicable law or agreed to in writing, software
-distributed</div>
-<div class="line">under the Licence is distributed on an “AS IS” BASIS, WITHOUT
-WARRANTIES OR</div>
-<div class="line">CONDITIONS OF ANY KIND, either express or implied. See the Licence for
-the</div>
-<div class="line">specific language governing permissions and limitations under the
-Licence, but</div>
-<div class="line">note it is strictly for non-commercial use.</div>
-</div>
+<p>Licensed under a Non-Commercial Use Software Licence (the “Licence”);
+you may not use this product except in compliance with the Licence. You
+may obtain a copy of the Licence in the LICENCE file accompanying these
+documents or view them
+<a class="reference external" href="https://cqcl.github.io/pytket/build/html/licence.html">here</a>.</p>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the Licence is distributed on an “AS IS” BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the Licence for the specific language governing permissions and
+limitations under the Licence, but note it is strictly for
+non-commercial use.</p>
 </div>
 </div>
 <div class="section" id="pytket-backends-ibm">
 <h1>pytket.backends.ibm<a class="headerlink" href="#pytket-backends-ibm" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.backends.ibm.IBMQBackend">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">IBMQBackend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">hub</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">group</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">project</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">monitor</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">IBMQBackend</code><span class="sig-paren">(</span><em class="sig-param">backend_name: str</em>, <em class="sig-param">hub: Optional[str] = None</em>, <em class="sig-param">group: Optional[str] = None</em>, <em class="sig-param">project: Optional[str] = None</em>, <em class="sig-param">monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">hub</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">group</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">project</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">monitor</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">backend_name: str</em>, <em class="sig-param">hub: Optional[str] = None</em>, <em class="sig-param">group: Optional[str] = None</em>, <em class="sig-param">project: Optional[str] = None</em>, <em class="sig-param">monitor: bool = True</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>A backend for running circuits on remote IBMQ devices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -277,28 +258,28 @@ Licence, but</div>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.get_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>See <a class="reference internal" href="backends.html#pytket.backends.Backend.get_result" title="pytket.backends.Backend.get_result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.backends.Backend.get_result()</span></code></a>.
 Supported kwargs: <cite>timeout</cite>, <cite>wait</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pytket.backends.resulthandle.ResultHandle<span class="p">]</span><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param">circuits: Iterable[pytket.circuit.Circuit], n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; List[pytket.backends.resulthandle.ResultHandle]<a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>See <a class="reference internal" href="backends.html#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.backends.Backend.process_circuits()</span></code></a>.
 Supported kwargs: none.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.default_compilation_pass">
 <em class="property">property </em><code class="sig-name descname">default_compilation_pass</code><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
@@ -314,7 +295,7 @@ possible.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.device">
 <em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
@@ -329,7 +310,7 @@ object contains information about gate errors and device architecture.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.IBMQBackend.required_predicates">
 <em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.ibm.IBMQBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can
@@ -346,12 +327,12 @@ be successfully run on this backend.</p>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.backends.ibm.AerBackend">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">AerBackend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">noise_model</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>qiskit.providers.aer.noise.noise_model.NoiseModel<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">AerBackend</code><span class="sig-paren">(</span><em class="sig-param">noise_model: Optional[qiskit.providers.aer.noise.noise_model.NoiseModel] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">noise_model</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>qiskit.providers.aer.noise.noise_model.NoiseModel<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">noise_model: Optional[qiskit.providers.aer.noise.noise_model.NoiseModel] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running simulations on the Qiskit Aer QASM simulator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -360,16 +341,16 @@ be successfully run on this backend.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.AerBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.AerBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.compile_circuit">
-<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.ibm.AerBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.backends.ibm.AerBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the default_compilation_pass to a circuit in place.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -378,27 +359,35 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.empty_cache">
-<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.ibm.AerBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.backends.ibm.AerBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Manually empty the result cache on the backend.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.get_counts">
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">, </span>pytket.backends.resulthandle.ResultHandle<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, …], int]<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain a summary of results, accumulating the shots for each result from an experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for a processed circuit to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be run and immediately returned. This will fail if the circuit does not match the device’s requirements.</p>
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], n_shots: Optional[int] = None, basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a summary of results, accumulating the shots for each result from an
+experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for a processed circuit
+to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be
+run and immediately returned. This will fail if the circuit does not match the
+device’s requirements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><em>ResultHandle</em><em>]</em>) – The circuit to run, or results to retrieve</p></li>
+<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a><em>]</em>) – The circuit to run, or results to retrieve</p></li>
 <li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
-<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and DLO (decreasing lexicographic order) for column ordering. Defaults to BasisOrder.ilo.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
+DLO (decreasing lexicographic order) for column ordering. Defaults to
+BasisOrder.ilo.</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
+required predicates before running. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support counts retrieval</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support counts
+retrieval</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Dictionary mapping observed readouts to the number of times observed.</p>
@@ -409,9 +398,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.get_operator_expectation_value">
-<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">QubitOperator</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit</em>, <em class="sig-param">operator: QubitOperator</em>, <em class="sig-param">valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit with respect to the operator using the built-in Aer snapshot functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -430,9 +419,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.get_pauli_expectation_value">
-<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit, pauli: Iterable[Tuple[int, str]], valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit using the built-in Aer snapshot functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -451,9 +440,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a BackendResult corresponding to the handle.</p>
 <p>Use keyword arguments to specify parameters to be used in retrieving results.
 See specific Backend derived class for available parameters, from the following
@@ -464,35 +453,44 @@ list:</p>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>handle</strong> (<em>ResultHandle</em>) – handle to results</p>
+<dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – handle to results</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Results corresponding to handle.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>BackendResult</p>
+<dd class="field-odd"><p><a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">BackendResult</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.get_shots">
-<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">, </span>pytket.backends.resulthandle.ResultHandle<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_shots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain the table of shots from an experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for a processed circuit to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be run and immediately returned. This will fail if the circuit does not match the device’s requirements.</p>
+<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], n_shots: Optional[int] = None, basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerBackend.get_shots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the table of shots from an experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>
+for a processed circuit to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>
+to be run and immediately returned. This will fail if the circuit does not match
+the device’s requirements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><em>ResultHandle</em><em>]</em>) – The circuit to run, or results to retrieve</p></li>
+<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a><em>]</em>) – The circuit to run, or results to retrieve</p></li>
 <li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
-<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and DLO (decreasing lexicographic order) for column ordering. Defaults to BasisOrder.ilo.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
+DLO (decreasing lexicographic order) for column ordering. Defaults to
+BasisOrder.ilo.</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
+required predicates before running. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support shot table retrieval</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support shot
+table retrieval</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Table of shot results. Each row is a single shot, with columns ordered by classical bit order (according to <cite>basis</cite>). Entries are 0 or 1 corresponding to qubit basis states.</p>
+<dd class="field-odd"><p>Table of shot results. Each row is a single shot, with columns ordered
+by classical bit order (according to <cite>basis</cite>). Entries are 0 or 1
+corresponding to qubit basis states.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>np.ndarray</p>
@@ -500,13 +498,13 @@ list:</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.pop_result">
-<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">, </span>Any<span class="p">]</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend.pop_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#pytket.backends.ibm.AerBackend.pop_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove cache entry corresponding to handle from the cache and return.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>handle</strong> (<em>ResultHandle</em>) – ResultHandle object</p>
+<dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – ResultHandle object</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Cache entry corresponding to handle</p>
@@ -517,16 +515,22 @@ list:</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
+<dt id="pytket.backends.ibm.AerBackend.process_circuit">
+<code class="sig-name descname">process_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit, n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; pytket.backends.resulthandle.ResultHandle<a class="headerlink" href="#pytket.backends.ibm.AerBackend.process_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit a single circuit to the backend for running. See <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>pytket.backends.resulthandle.ResultHandle<span class="p">]</span><a class="headerlink" href="#pytket.backends.ibm.AerBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param">circuits: Iterable[pytket.circuit.Circuit], n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; List[pytket.backends.resulthandle.ResultHandle]<a class="headerlink" href="#pytket.backends.ibm.AerBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>See <a class="reference internal" href="backends.html#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.backends.Backend.process_circuits()</span></code></a>.
 Supported kwargs: <cite>seed</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.valid_circuit">
-<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.backends.ibm.AerBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.backends.ibm.AerBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the circuit satisfies all of required_predicates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -541,7 +545,7 @@ Supported kwargs: <cite>seed</cite>.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.default_compilation_pass">
 <em class="property">property </em><code class="sig-name descname">default_compilation_pass</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
@@ -557,7 +561,7 @@ possible.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.device">
 <em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
@@ -572,14 +576,14 @@ object contains information about gate errors and device architecture.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.persistent_handles">
 <em class="property">property </em><code class="sig-name descname">persistent_handles</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.persistent_handles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether the backend produces <cite>ResultHandle</cite> objects that can be reused with other
 instances of the backend class.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.required_predicates">
 <em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can
@@ -594,31 +598,31 @@ be successfully run on this backend.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.supports_counts">
 <em class="property">property </em><code class="sig-name descname">supports_counts</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.supports_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support counts result retrieval via <cite>get_counts</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.supports_expectation">
 <em class="property">property </em><code class="sig-name descname">supports_expectation</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.supports_expectation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support expectation value calculation for operators.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.supports_shots">
 <em class="property">property </em><code class="sig-name descname">supports_shots</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.supports_shots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support shot result retrieval via <cite>get_shots</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.supports_state">
 <em class="property">property </em><code class="sig-name descname">supports_state</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.supports_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support statevector retrieval via <cite>get_state</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerBackend.supports_unitary">
 <em class="property">property </em><code class="sig-name descname">supports_unitary</code><a class="headerlink" href="#pytket.backends.ibm.AerBackend.supports_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support unitary retrieval via <cite>get_unitary</cite>.</p>
@@ -626,25 +630,25 @@ be successfully run on this backend.</p>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.backends.ibm.AerStateBackend">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">AerStateBackend</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running simulations on the Qiskit Aer Statevector simulator.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.compile_circuit">
-<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the default_compilation_pass to a circuit in place.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -653,15 +657,15 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.empty_cache">
-<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Manually empty the result cache on the backend.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.get_operator_expectation_value">
-<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">QubitOperator</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit</em>, <em class="sig-param">operator: QubitOperator</em>, <em class="sig-param">valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit with respect to the operator using the built-in Aer snapshot functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -680,9 +684,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.get_pauli_expectation_value">
-<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit, pauli: Iterable[Tuple[int, str]], valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit using the built-in Aer snapshot functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -701,9 +705,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a BackendResult corresponding to the handle.</p>
 <p>Use keyword arguments to specify parameters to be used in retrieving results.
 See specific Backend derived class for available parameters, from the following
@@ -714,34 +718,45 @@ list:</p>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>handle</strong> (<em>ResultHandle</em>) – handle to results</p>
+<dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – handle to results</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Results corresponding to handle.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>BackendResult</p>
+<dd class="field-odd"><p><a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">BackendResult</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.get_state">
-<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">, </span>pytket.backends.resulthandle.ResultHandle<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain a statevector from a simulation. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for a processed circuit to retrieve data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be run and immediately returned. This will fail if the circuit does not match the simulator’s requirements.</p>
+<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a statevector from a simulation. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>
+for a processed circuit to retrieve data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>
+to be run and immediately returned. This will fail if the circuit does not match
+the simulator’s requirements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><em>ResultHandle</em><em>]</em>) – The circuit to run, or results to retrieve</p></li>
-<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of bit ids, big-endian) and DLO-BE (decreasing lexicographic order, big-endian) for ordering the coefficients. Defaults to BasisOrder.ilo.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the required predicates before running. Defaults to True</p></li>
+<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a><em>]</em>) – The circuit to run, or results to retrieve</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of bit ids,
+big-endian) and DLO-BE (decreasing lexicographic order, big-endian) for
+ordering the coefficients. Defaults to BasisOrder.ilo.</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
+required predicates before running. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support statevector retrieval</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support
+statevector retrieval</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A big-endian statevector for the circuit in the encoding given by <cite>basis</cite>; e.g. <span class="math notranslate nohighlight">\([a_{00}, a_{01}, a_{10}, a_{11}]\)</span> where <span class="math notranslate nohighlight">\(a_{01}\)</span> is the amplitude of the <span class="math notranslate nohighlight">\(\left|01\right&gt;\)</span> state (in ILO, this means qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|0\right&gt;\)</span> and q[1] is in state <span class="math notranslate nohighlight">\(\left|1\right&gt;\)</span>, and the reverse in DLO)</p>
+<dd class="field-odd"><p>A big-endian statevector for the circuit in the encoding given by
+<cite>basis</cite>; e.g. <span class="math notranslate nohighlight">\([a_{00}, a_{01}, a_{10}, a_{11}]\)</span> where <span class="math notranslate nohighlight">\(a_{01}\)</span>
+is the amplitude of the <span class="math notranslate nohighlight">\(\left|01\right&gt;\)</span> state (in ILO, this means
+qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|0\right&gt;\)</span> and q[1] is in state
+<span class="math notranslate nohighlight">\(\left|1\right&gt;\)</span>, and the reverse in DLO)</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>np.ndarray</p>
@@ -749,13 +764,13 @@ list:</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.pop_result">
-<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">, </span>Any<span class="p">]</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.pop_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.pop_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove cache entry corresponding to handle from the cache and return.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>handle</strong> (<em>ResultHandle</em>) – ResultHandle object</p>
+<dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – ResultHandle object</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Cache entry corresponding to handle</p>
@@ -766,9 +781,15 @@ list:</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
+<dt id="pytket.backends.ibm.AerStateBackend.process_circuit">
+<code class="sig-name descname">process_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit, n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; pytket.backends.resulthandle.ResultHandle<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.process_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit a single circuit to the backend for running. See <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param">circuits: Iterable[pytket.circuit.Circuit], n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit circuits to the backend for running. The results will be stored
 in the backend’s result cache to be retrieved by the corresponding
 get_&lt;data&gt; method.</p>
@@ -784,7 +805,8 @@ list:</p>
 <li><p><strong>circuits</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
 <li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
 for state/unitary simulators. Defaults to None.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required predicates to run on the backend. Defaults to True</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
+predicates to run on the backend. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -792,14 +814,14 @@ for state/unitary simulators. Defaults to None.</p></li>
 the same order as the circuits.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[ResultHandle]</p>
+<dd class="field-odd"><p>List[<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">ResultHandle</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.valid_circuit">
-<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the circuit satisfies all of required_predicates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -814,7 +836,7 @@ the same order as the circuits.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.default_compilation_pass">
 <em class="property">property </em><code class="sig-name descname">default_compilation_pass</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
@@ -830,7 +852,7 @@ possible.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.device">
 <em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
@@ -845,14 +867,14 @@ object contains information about gate errors and device architecture.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.persistent_handles">
 <em class="property">property </em><code class="sig-name descname">persistent_handles</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.persistent_handles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether the backend produces <cite>ResultHandle</cite> objects that can be reused with other
 instances of the backend class.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.required_predicates">
 <em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can
@@ -867,31 +889,31 @@ be successfully run on this backend.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.supports_counts">
 <em class="property">property </em><code class="sig-name descname">supports_counts</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.supports_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support counts result retrieval via <cite>get_counts</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.supports_expectation">
 <em class="property">property </em><code class="sig-name descname">supports_expectation</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.supports_expectation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support expectation value calculation for operators.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.supports_shots">
 <em class="property">property </em><code class="sig-name descname">supports_shots</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.supports_shots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support shot result retrieval via <cite>get_shots</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.supports_state">
 <em class="property">property </em><code class="sig-name descname">supports_state</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.supports_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support statevector retrieval via <cite>get_state</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerStateBackend.supports_unitary">
 <em class="property">property </em><code class="sig-name descname">supports_unitary</code><a class="headerlink" href="#pytket.backends.ibm.AerStateBackend.supports_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support unitary retrieval via <cite>get_unitary</cite>.</p>
@@ -899,25 +921,25 @@ be successfully run on this backend.</p>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="pytket.backends.ibm.AerUnitaryBackend">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.backends.ibm.</code><code class="sig-name descname">AerUnitaryBackend</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running simulations on the Qiskit Aer Unitary simulator.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; pytket.backends.status.CircuitStatus<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.compile_circuit">
-<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the default_compilation_pass to a circuit in place.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -926,15 +948,15 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.empty_cache">
-<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Manually empty the result cache on the backend.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.get_operator_expectation_value">
-<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">QubitOperator</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit</em>, <em class="sig-param">operator: QubitOperator</em>, <em class="sig-param">valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit with respect to the operator using the built-in Aer snapshot functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -953,9 +975,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.get_pauli_expectation_value">
-<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param">state_circuit: pytket.circuit.Circuit, pauli: Iterable[Tuple[int, str]], valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; complex<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit using the built-in Aer snapshot functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -974,9 +996,9 @@ corresponding to the ResultHandle</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; pytket.backends.backendresult.BackendResult<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a BackendResult corresponding to the handle.</p>
 <p>Use keyword arguments to specify parameters to be used in retrieving results.
 See specific Backend derived class for available parameters, from the following
@@ -987,47 +1009,49 @@ list:</p>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>handle</strong> (<em>ResultHandle</em>) – handle to results</p>
+<dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – handle to results</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Results corresponding to handle.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>BackendResult</p>
+<dd class="field-odd"><p><a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">BackendResult</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.get_unitary">
-<code class="sig-name descname">get_unitary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">, </span>pytket.backends.resulthandle.ResultHandle<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_unitary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_unitary</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.get_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the unitary matrix for a circuit, or return unitary from
 handle to previously processed circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><em>ResultHandle</em><em>]</em>) – Circuit to execute or ResultHandle to fetch results for.</p></li>
-<li><p><strong>basis</strong> – Toggle between ILO-BE (increasing lexicographic order of</p></li>
+<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a><em>]</em>) – Circuit to execute or ResultHandle to fetch results for.</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of
+bit ids, big-endian) and DLO-BE (decreasing lexicographic order,
+big-endian) for column ordering. Defaults to BasisOrder.ilo.</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of
+the required predicates before running. Defaults to True.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Full statevector in encoding given by <cite>basis</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
 </dl>
-<p>bit ids, big-endian) and DLO-BE (decreasing lexicographic order,
-big-endian) for column ordering. Defaults to BasisOrder.ilo.
-:type basis: BasisOrder, optional
-:param valid_check: Explicitly check that the circuit satisfies all of
-the required predicates before running. Defaults to True.
-:type valid_check: bool, optional
-:return: Full statevector in encoding given by <cite>basis</cite>.
-:rtype: np.ndarray</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.pop_result">
-<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n">pytket.backends.resulthandle.ResultHandle</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">, </span>Any<span class="p">]</span><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.pop_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param">handle: pytket.backends.resulthandle.ResultHandle</em><span class="sig-paren">)</span> &#x2192; Dict[str, Any]<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.pop_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove cache entry corresponding to handle from the cache and return.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>handle</strong> (<em>ResultHandle</em>) – ResultHandle object</p>
+<dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – ResultHandle object</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Cache entry corresponding to handle</p>
@@ -1038,9 +1062,15 @@ the required predicates before running. Defaults to True.
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
+<dt id="pytket.backends.ibm.AerUnitaryBackend.process_circuit">
+<code class="sig-name descname">process_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit, n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; pytket.backends.resulthandle.ResultHandle<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.process_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit a single circuit to the backend for running. See <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param">circuits: Iterable[pytket.circuit.Circuit], n_shots: Optional[int] = None, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit circuits to the backend for running. The results will be stored
 in the backend’s result cache to be retrieved by the corresponding
 get_&lt;data&gt; method.</p>
@@ -1056,7 +1086,8 @@ list:</p>
 <li><p><strong>circuits</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
 <li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
 for state/unitary simulators. Defaults to None.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required predicates to run on the backend. Defaults to True</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
+predicates to run on the backend. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1064,14 +1095,14 @@ for state/unitary simulators. Defaults to None.</p></li>
 the same order as the circuits.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[ResultHandle]</p>
+<dd class="field-odd"><p>List[<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">ResultHandle</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.valid_circuit">
-<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param">circuit: pytket.circuit.Circuit</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the circuit satisfies all of required_predicates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1086,7 +1117,7 @@ the same order as the circuits.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.default_compilation_pass">
 <em class="property">property </em><code class="sig-name descname">default_compilation_pass</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
@@ -1102,7 +1133,7 @@ possible.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.device">
 <em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
@@ -1117,14 +1148,14 @@ object contains information about gate errors and device architecture.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.persistent_handles">
 <em class="property">property </em><code class="sig-name descname">persistent_handles</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.persistent_handles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether the backend produces <cite>ResultHandle</cite> objects that can be reused with other
 instances of the backend class.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.required_predicates">
 <em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can
@@ -1139,31 +1170,31 @@ be successfully run on this backend.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.supports_counts">
 <em class="property">property </em><code class="sig-name descname">supports_counts</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.supports_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support counts result retrieval via <cite>get_counts</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.supports_expectation">
 <em class="property">property </em><code class="sig-name descname">supports_expectation</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.supports_expectation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support expectation value calculation for operators.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.supports_shots">
 <em class="property">property </em><code class="sig-name descname">supports_shots</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.supports_shots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support shot result retrieval via <cite>get_shots</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.supports_state">
 <em class="property">property </em><code class="sig-name descname">supports_state</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.supports_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support statevector retrieval via <cite>get_state</cite>.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="pytket.backends.ibm.AerUnitaryBackend.supports_unitary">
 <em class="property">property </em><code class="sig-name descname">supports_unitary</code><a class="headerlink" href="#pytket.backends.ibm.AerUnitaryBackend.supports_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support unitary retrieval via <cite>get_unitary</cite>.</p>
