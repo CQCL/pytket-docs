@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket-qsharp &mdash; pytket 0.5.0 documentation</title>
+  <title>pytket-qsharp &mdash; pytket 0.5.2 documentation</title>
   
 
   
@@ -300,10 +300,15 @@ corresponding to the ResultHandle</p>
 <dt id="pytket.backends.qsharp.QsharpSimulatorBackend.get_counts">
 <code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], n_shots: Optional[int] = None, basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.qsharp.QsharpSimulatorBackend.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain a summary of results, accumulating the shots for each result from an
-experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for a processed circuit
-to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be
-run and immediately returned. This will fail if the circuit does not match the
-device’s requirements.</p>
+experiment. Can either accept a
+<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> for a processed circuit
+to retrieve the data from the backend’s cache, or a
+<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
+will fail if the circuit does not match the device’s requirements.</p>
+<p>Calling this method with a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> is deprecated:
+please use a <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> instead. In
+particular, <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> must be used
+after a call to <a class="reference internal" href="#pytket.backends.qsharp.QsharpSimulatorBackend.process_circuits" title="pytket.backends.qsharp.QsharpSimulatorBackend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -356,10 +361,14 @@ list:</p>
 <dl class="method">
 <dt id="pytket.backends.qsharp.QsharpSimulatorBackend.get_shots">
 <code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], n_shots: Optional[int] = None, basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.qsharp.QsharpSimulatorBackend.get_shots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain the table of shots from an experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>
-for a processed circuit to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>
-to be run and immediately returned. This will fail if the circuit does not match
-the device’s requirements.</p>
+<dd><p>Obtain the table of shots from an experiment. Can either accept a <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> for a processed circuit
+to retrieve the data from the backend’s cache, or a
+<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
+will fail if the circuit does not match the device’s requirements.</p>
+<p>Calling this method with a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> is deprecated:
+please use a <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> instead. In
+particular, <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> must be used
+after a call to <a class="reference internal" href="#pytket.backends.qsharp.QsharpSimulatorBackend.process_circuits" title="pytket.backends.qsharp.QsharpSimulatorBackend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -557,10 +566,15 @@ corresponding to the ResultHandle</p>
 <dt id="pytket.backends.qsharp.QsharpToffoliSimulatorBackend.get_counts">
 <code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], n_shots: Optional[int] = None, basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, ...], int]<a class="headerlink" href="#pytket.backends.qsharp.QsharpToffoliSimulatorBackend.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain a summary of results, accumulating the shots for each result from an
-experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for a processed circuit
-to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be
-run and immediately returned. This will fail if the circuit does not match the
-device’s requirements.</p>
+experiment. Can either accept a
+<a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> for a processed circuit
+to retrieve the data from the backend’s cache, or a
+<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
+will fail if the circuit does not match the device’s requirements.</p>
+<p>Calling this method with a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> is deprecated:
+please use a <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> instead. In
+particular, <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> must be used
+after a call to <a class="reference internal" href="#pytket.backends.qsharp.QsharpToffoliSimulatorBackend.process_circuits" title="pytket.backends.qsharp.QsharpToffoliSimulatorBackend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -613,10 +627,14 @@ list:</p>
 <dl class="method">
 <dt id="pytket.backends.qsharp.QsharpToffoliSimulatorBackend.get_shots">
 <code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param">circuit: Union[pytket.circuit.Circuit, pytket.backends.resulthandle.ResultHandle], n_shots: Optional[int] = None, basis: pytket.circuit.BasisOrder = BasisOrder.ilo, valid_check: bool = True, **kwargs: Union[int, float, None]</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.qsharp.QsharpToffoliSimulatorBackend.get_shots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Obtain the table of shots from an experiment. Can either accept a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>
-for a processed circuit to retrieve the data from the backend’s cache, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>
-to be run and immediately returned. This will fail if the circuit does not match
-the device’s requirements.</p>
+<dd><p>Obtain the table of shots from an experiment. Can either accept a <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> for a processed circuit
+to retrieve the data from the backend’s cache, or a
+<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
+will fail if the circuit does not match the device’s requirements.</p>
+<p>Calling this method with a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> is deprecated:
+please use a <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> instead. In
+particular, <a class="reference internal" href="backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> must be used
+after a call to <a class="reference internal" href="#pytket.backends.qsharp.QsharpToffoliSimulatorBackend.process_circuits" title="pytket.backends.qsharp.QsharpToffoliSimulatorBackend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

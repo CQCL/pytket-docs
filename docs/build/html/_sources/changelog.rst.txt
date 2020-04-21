@@ -30,9 +30,15 @@ Updates:
 * Cleaner addition of conditions to gates via kwargs
 * :py:class:`UnitID` objects are specialised into either :py:class:`Qubit` or :py:class:`Bit` objects, with more natural constructors
 * Renamed many passes to give a uniform naming convention
+* Getters on :py:class:`Architecture`, :py:class:`Device`, :py:class:`GateError`, and :py:class:`GateErrorContainer` made into readonly properties
+* Backend-specific runtime arguments (e.g. simulator seeds) are now passed in via kwargs
 * Stability improvements and bug fixes
 * Updated documentation and additional examples
 * Python 3.8 support
+
+Deprecations:
+
+* Calling :py:meth:`get_counts`, :py:meth:`get_shots` or :py:meth:`get_state` on a :py:class:`Backend` object with a :py:class:`Circuit` argument is deprecated in favour of :py:class:`ResultHandle`.
 
 New supported backends:
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; pytket 0.5.0 documentation</title>
+  <title>Changelog &mdash; pytket 0.5.2 documentation</title>
   
 
   
@@ -226,9 +226,15 @@
 <li><p>Cleaner addition of conditions to gates via kwargs</p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> objects are specialised into either <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> objects, with more natural constructors</p></li>
 <li><p>Renamed many passes to give a uniform naming convention</p></li>
+<li><p>Getters on <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GateError</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">GateErrorContainer</span></code> made into readonly properties</p></li>
+<li><p>Backend-specific runtime arguments (e.g. simulator seeds) are now passed in via kwargs</p></li>
 <li><p>Stability improvements and bug fixes</p></li>
 <li><p>Updated documentation and additional examples</p></li>
 <li><p>Python 3.8 support</p></li>
+</ul>
+<p>Deprecations:</p>
+<ul class="simple">
+<li><p>Calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_counts()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_shots()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_state()</span></code> on a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> object with a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> argument is deprecated in favour of <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>.</p></li>
 </ul>
 <p>New supported backends:</p>
 <ul class="simple">
