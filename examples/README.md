@@ -1,15 +1,39 @@
 # pytket Examples
 
-Here you can find notebooks showing features and example usage of pytket.
+Here you can find notebooks showing features and example usage of `pytket`. We
+recommend that you clone the repo and open the examples in Jupyter (and play
+around with them) yourself.
 
-*Note: When viewing our examples, github has a bug where it occasionally can't render Jupyter notebooks properly. To bypass this, you can either clone the repo and open the examples in Jupyter yourself (this is recommended! You can play around with them), or you can enter the corresponding URL into https://nbviewer.jupyter.org and view examples there.*
+[circuit_analysis_example](https://github.com/CQCL/pytket/blob/master/examples/circuit_analysis_example.ipynb) -
+Basic methods of analysis and visualisation of circuits.
 
-[cirq_routing_example](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) - Cirq interface and routing.
+[circuit_generation_example](https://github.com/CQCL/pytket/blob/master/examples/circuit_generation_example.ipynb) -
+More advanced methods of circuit generation.
 
-[pyquil_example](https://github.com/CQCL/pytket/blob/master/examples/cirq_routing_example.ipynb) - PyQuil interface and leveraging features across platforms.
+[symbolics_example](https://github.com/CQCL/pytket/blob/master/examples/symbolics_example.ipynb) -
+Constructing and using circuits with symbolic parameters.
 
-[symbolics_example](https://github.com/CQCL/pytket/blob/master/examples/symbolics_example.ipynb) - Constructing and using circuits with symbolic parameters.
+[compilation_example](https://github.com/CQCL/pytket/blob/master/examples/compilation_example.ipynb) -
+Compilation passes and how to combine and apply them.
 
-[transform_example](https://github.com/CQCL/pytket/blob/master/examples/transform_example.ipynb) - Transform and circuit optimisation interface, along with examples of conversion to and from each framework.
+[backends_example](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) -
+How to run circuits on different backends.
 
-[backends_example](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) - Running circuits on our allowed backends
+[routing_example](https://github.com/CQCL/pytket/blob/master/examples/routing_example.ipynb) -
+An introduction to routing, using Cirq to construct examples.
+
+[conditional_gate_example](https://github.com/CQCL/pytket/blob/master/examples/conditional_gate_example.ipynb) -
+Mid-circuit measurements and classical control.
+
+[expectation_value_example](https://github.com/CQCL/pytket/blob/master/examples/expectation_value_example.ipynb) -
+Computing expectation values of Hamiltonians.
+
+[Forest_portability_example](https://github.com/CQCL/pytket/blob/master/examples/Forest_portability_example.ipynb) -
+Examples illustrating portability between different backends.
+
+[measurement_reduction_example](https://github.com/CQCL/pytket/blob/master/examples/measurement_reduction_example.ipynb) -
+Advanced methods for reducing the number of circuits required for measurement.
+
+[spam_example](https://github.com/CQCL/pytket/blob/master/examples/spam_example.ipynb) -
+Calibration and correction of state preparation and measurement in the presence of noise.
+
