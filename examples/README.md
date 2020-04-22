@@ -2,7 +2,10 @@
 
 Here you can find notebooks showing features and example usage of `pytket`. We
 recommend that you clone the repo and open the examples in Jupyter (and play
-around with them) yourself.
+around with them) yourself. 
+
+You can also run all the examples below, and try out all pytket code (including extensions) in your
+browser using Binder:  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/master?filepath=examples)
 
 [circuit_analysis_example](https://github.com/CQCL/pytket/blob/master/examples/circuit_analysis_example.ipynb) -
 Basic methods of analysis and visualisation of circuits.
@@ -36,4 +39,3 @@ Advanced methods for reducing the number of circuits required for measurement.
 
 [spam_example](https://github.com/CQCL/pytket/blob/master/examples/spam_example.ipynb) -
 Calibration and correction of state preparation and measurement in the presence of noise.
-

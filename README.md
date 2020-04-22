@@ -1,5 +1,6 @@
 # pytket
 [![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/master?filepath=examples)
 
 `pytket` is a python module for interfacing with CQC t|ket>, a set of quantum programming tools. We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum) and Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
 
