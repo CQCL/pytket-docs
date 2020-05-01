@@ -88,8 +88,9 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#the-circuit-class">The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#compilation">Compilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#designing-a-quantum-circuit">Designing a Quantum Circuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-on-a-backend">Running on a Backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#compilation-the-missing-link">Compilation – The Missing Link</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -203,83 +204,143 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">pytket_qsharp</span></code></p></li>
 </ul>
 <p>All of these are licensed under a <a class="reference external" href="licence.html">Non-Commercial Use Software Licence</a>.</p>
-<div class="section" id="the-circuit-class">
-<h2>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Class<a class="headerlink" href="#the-circuit-class" title="Permalink to this headline">¶</a></h2>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects provide an abstraction of quantum circuits. They consist of a set of qubits/quantum wires and a collection of operations applied to them in a given order. These wires have open inputs and outputs, rather than assuming any fixed input state.</p>
-<p>We can start by building a circuit with some blank wires and add some instructions.</p>
+<div class="section" id="designing-a-quantum-circuit">
+<h2>Designing a Quantum Circuit<a class="headerlink" href="#designing-a-quantum-circuit" title="Permalink to this headline">¶</a></h2>
+<p>The quantum circuit is an abstraction of computation using quantum resources, designed by initialising a system into a fixed state, then mutating it via sequences of instructions/gates.</p>
+<p>The native circuit interface built into <code class="docutils literal notranslate"><span class="pre">pytket</span></code> allows us to build circuits and use them directly.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># define a circuit with 2 qubits and 2 bits</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>           <span class="c1"># add a Hadamard gate to qubit 0</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>    <span class="c1"># add an Rz gate of angle 0.25*pi to qubit 0</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>        <span class="c1"># add a CX gate with control qubit 1 and target qubit 0</span>
+<span class="n">c</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>  <span class="c1"># measure qubits 0 and 1, recording the results in bits 0 and 1</span>
 </pre></div>
 </div>
-<p>Breaking this down: <code class="docutils literal notranslate"><span class="pre">c</span> <span class="pre">=</span> <span class="pre">Circuit(2,2)</span></code> creates a new circuit with two qubits and two bits. Each qubit is identified by its numerical index, ranging from 0 to (no. of qubits)-1. <code class="docutils literal notranslate"><span class="pre">c.H(0)</span></code> applies a Hadamard gate to qubit 0. Instructions are always added to the end of the circuit. Rotational gates can be parameterised by the angle of rotation, specified in half-turns - for example <code class="docutils literal notranslate"><span class="pre">c.Rz(0.25,</span> <span class="pre">0)</span></code> adds a Z rotation by <span class="math notranslate nohighlight">\(\frac{\pi}{4}\)</span> radians. Multi-qubit operations will take an ordered sequence of qubit indices, such as <code class="docutils literal notranslate"><span class="pre">c.CX(1,0)</span></code> applying a CX gate with the control on qubit 1 and the target on qubit 0.</p>
-<p>We can add measurements onto qubits to observe their state and store the result in a given bit.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<p>Building directly in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> provides many handy shortcuts and higher-level components for circuits, including custom gate definitions, circuit composition, gates with symbolic parameters, and conditional gates. These are explored in detail in the <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples/circuit_generation_example.ipynb">circuit generation</a>, <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples/conditional_gate_example.ipynb">conditional gate</a> and <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples/symbolics_example.ipynb">symbolic circuit</a> examples.</p>
+<p>On the other hand, <code class="docutils literal notranslate"><span class="pre">pytket</span></code>’s flexibility of interface allows you to take circuits defined in a number of languages, including raw source code languages such as OpenQASM and Quipper, or embedded python frameworks such as Qiskit and Cirq.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.qasm</span> <span class="kn">import</span> <span class="n">circuit_from_qasm</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">circuit_from_qasm</span><span class="p">(</span><span class="s2">&quot;my_qasm_file.qasm&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>We assume all measurements are made in the computational (Z) basis - others can be performed by adding the appropriate change-of-basis operation before the measurement. By default, bits are also referenced by their indices in an anonymous classical register. When transpiling to another quantum SDK (e.g. Qiskit), a single classical register is created, collating all measurement results.</p>
-<p>Some more advanced circuit construction features exist, such as the ability to construct the inverse circuit for any pure circuit (i.e. when it has no measurements).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c_dg</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">dagger</span><span class="p">()</span>
+<p>Or, if an extension module like <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code> is installed,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">()</span>
+<span class="c1"># ...</span>
+<span class="kn">from</span> <span class="nn">pytket.qiskit</span> <span class="kn">import</span> <span class="n">qiskit_to_tk</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">qiskit_to_tk</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>When constructing larger circuits, it is often useful to define small subroutines which can be applied multiple times. We can use this idea in pytket with circuit appending:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c_sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">c_sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">c_sub</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">1.25</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">c_sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">c_sub</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</div>
+<div class="section" id="running-on-a-backend">
+<h2>Running on a Backend<a class="headerlink" href="#running-on-a-backend" title="Permalink to this headline">¶</a></h2>
+<p>Designing a circuit is good, but our real goal is to run them on a quantum device. <code class="docutils literal notranslate"><span class="pre">pytket</span></code> presents a uniform interface for a number of hardware devices from several providers, as well as a selection of simulators. Many of the extension modules for <code class="docutils literal notranslate"><span class="pre">pytket</span></code> include <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> classes, which can be used interchangeably.</p>
+<p>On quantum hardware, the observable outputs of the circuit are the final states of the classical registers. These are returned via a shot table – a table of outcomes where the columns correspond to the individual classical bits, and each row is the result from a single run of the circuit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="c1"># ...</span>
+<span class="kn">from</span> <span class="nn">pytket.backends.forest</span> <span class="kn">import</span> <span class="n">ForestBackend</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">ForestBackend</span><span class="p">(</span><span class="s2">&quot;Aspen-4-4Q-A&quot;</span><span class="p">)</span>
+<span class="c1"># ...</span>
+<span class="kn">from</span> <span class="nn">pytket.backends.aqt</span> <span class="kn">import</span> <span class="n">AQTBackend</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">AQTBackend</span><span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="s2">&quot;sim&quot;</span><span class="p">)</span>
+<span class="c1"># ...</span>
+<span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>        <span class="c1"># performs the minimal compilation to satisfy the device/simulator constraints</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>   <span class="c1"># run the circuit 10 times</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_shots</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="c1"># retrieve and return the readouts</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>If the ordering of results is not needed, the <code class="docutils literal notranslate"><span class="pre">get_counts</span></code> method instead returns a summary of the frequencies of each result.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">5</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>All of these are stochastically sampled. Whilst this is how the real devices run, it is more convenient to have a complete description of the state of the system when testing that your circuit design was correctly implemented. Some simulators allow you to inspect the final statevector when a pure quantum circuit (one without any measurements) is run on the initial state <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span>. This makes it easy to test running our circuit design on some test input state.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">initial_state</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>      <span class="c1"># Initialise the system in 1/sqrt(2) (|011&gt; + |101&gt;)</span>
+<span class="n">initial_state</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">initial_state</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">initial_state</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">initial_state</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_sub</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_sub</span><span class="p">)</span>
+<span class="n">increment</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">increment</span><span class="o">.</span><span class="n">CCX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">increment</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">increment</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">initial_state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">final_state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">increment</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">AerStateBackend</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
+<span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">initial_state</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">([</span><span class="n">initial_state</span><span class="p">,</span> <span class="n">final_state</span><span class="p">])</span>
+<span class="n">s0</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">handles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>    <span class="c1"># Check that the initial state is 1/sqrt(2) (|011&gt; + |101&gt;)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s0</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>             <span class="c1"># Round to ignore floating-point error in simulation</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">handles</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>    <span class="c1"># Check that the incrementer has mapped this to 1/sqrt(2) (|100&gt; + |110&gt;)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">c.append(c_sub)</span></code> will copy <code class="docutils literal notranslate"><span class="pre">c_sub</span></code> into <code class="docutils literal notranslate"><span class="pre">c</span></code>, and attach the input for qubit <span class="math notranslate nohighlight">\(i\)</span> in <code class="docutils literal notranslate"><span class="pre">c_sub</span></code> to the output for qubit <span class="math notranslate nohighlight">\(i\)</span> in <code class="docutils literal notranslate"><span class="pre">c</span></code>. Further information on how to interact directly with <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects can be found in the API reference for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.</span>        <span class="o">+</span><span class="mf">0.</span><span class="n">j</span> <span class="mf">0.</span>        <span class="o">+</span><span class="mf">0.</span><span class="n">j</span> <span class="mf">0.</span>        <span class="o">+</span><span class="mf">0.</span><span class="n">j</span> <span class="mf">0.70710678</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span>
+ <span class="mf">0.</span>        <span class="o">+</span><span class="mf">0.</span><span class="n">j</span> <span class="mf">0.70710678</span><span class="o">+</span><span class="mf">0.</span><span class="n">j</span> <span class="mf">0.</span>        <span class="o">+</span><span class="mf">0.</span><span class="n">j</span> <span class="mf">0.</span>        <span class="o">+</span><span class="mf">0.</span><span class="n">j</span><span class="p">]</span>
+<span class="p">[</span> <span class="mf">0.</span> <span class="o">-</span><span class="mf">0.</span><span class="n">j</span>  <span class="o">-</span><span class="mf">0.</span> <span class="o">+</span><span class="mf">0.</span><span class="n">j</span>   <span class="mf">0.</span> <span class="o">+</span><span class="mf">0.</span><span class="n">j</span>   <span class="mf">0.</span> <span class="o">-</span><span class="mf">0.</span><span class="n">j</span>   <span class="mf">0.5</span><span class="o">-</span><span class="mf">0.5</span><span class="n">j</span>  <span class="mf">0.</span> <span class="o">+</span><span class="mf">0.</span><span class="n">j</span>   <span class="mf">0.5</span><span class="o">-</span><span class="mf">0.5</span><span class="n">j</span>
+ <span class="o">-</span><span class="mf">0.</span> <span class="o">+</span><span class="mf">0.</span><span class="n">j</span> <span class="p">]</span>
+</pre></div>
 </div>
-<div class="section" id="compilation">
-<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
-<p>In classical computing, a compiler is required to translate from a high-level language (e.g. C++) to the instruction set of the target machine (e.g. RISC-V). During this process, the program is automatically optimised to reduce the number of instructions, memory consumption, energy consumption, etc. The same needs exist in quantum computing to take a circuit description and enable it to run on a given simulator, hardware device, or cloud system (such as the IBM Quantum Experience or Rigetti’s Quantum Cloud Service).</p>
-<p>Pytket is a retargetable compiler, with the ability to accept and produce circuits in a range of formats, including:</p>
-<ul class="simple">
-<li><p>Google Cirq</p></li>
-<li><p>IBM Qiskit</p></li>
-<li><p>OpenQASM</p></li>
-<li><p>Rigetti pyQuil</p></li>
-<li><p>ProjectQ compilation engines</p></li>
-<li><p>PyZX</p></li>
-</ul>
-<p>This translation facility allows, for example, circuits generated by the variational forms in Qiskit Aqua to be run on Rigetti QCS.</p>
-<p>However, near-term quantum devices do not currently provide the nice abstraction of a “perfect” machine - they are troubled by imperfect fidelity of operations, gradual decoherence over time, and restricted qubit-adjacency only allowing two-qubit gates between specific positions on the architecture.</p>
-<p>In pytket, the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class is used as the main representation of any circuit during compilation, all the way from the logical circuit the programmer designs for an unrestricted abstract machine, to the final circuit that conforms to all constraints of the target device. Each of the device constraints is captured by a <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code>, which asserts that a circuit satisfies a given property. Every optimisation or step of the compilation chain (“Pass”) can guarantee that certain <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s will be satisfied, potentially at the cost of invalidating others.</p>
-<p>One such architectural constraint is the problem of qubit connectivity on heterogeneous architectures, which can be solved by a quantum compiler with placement and routing procedures. This takes the adjacency graph of the architecture’s qubits (the coupling map) and identifies a good mapping from the qubits of the circuit to the positions on the device to make it possible to perform as many of the two-qubit operations as possible. The circuit is then modified by introducing swaps to rearrange the logical qubits so that any multi-qubit operations occur between neighbouring physical qubits.</p>
-<p>These tasks are both performed by applying pytket’s routing pass. <a class="reference internal" href="passes.html#pytket.passes.RoutingPass" title="pytket.passes.RoutingPass"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.passes.RoutingPass()</span></code></a> takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> object (encapsulating the coupling map of the device, in addition to error and timing information) and produces a compiler pass that can be applied to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to guarantee that they conform to the required qubit connectivity graph. We can build a basic device from an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> which specifies only the connectivity graph. More on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> classes can be found in the API Reference.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.routing</span> <span class="kn">import</span> <span class="n">Architecture</span>
-<span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">CompilationUnit</span>
-<span class="kn">from</span> <span class="nn">pytket.device</span> <span class="kn">import</span> <span class="n">Device</span>
-<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RoutingPass</span>
-<span class="n">arc</span> <span class="o">=</span> <span class="n">Architecture</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)])</span>
-<span class="n">dev</span> <span class="o">=</span> <span class="n">Device</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span>
-<span class="n">route_pass</span> <span class="o">=</span> <span class="n">RoutingPass</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
-
-<span class="n">cu</span> <span class="o">=</span> <span class="n">CompilationUnit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
-<span class="n">route_pass</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cu</span><span class="p">)</span>
-
-<span class="n">compiled_circ</span> <span class="o">=</span> <span class="n">cu</span><span class="o">.</span><span class="n">circuit</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">cu</span><span class="o">.</span><span class="n">initial_map</span><span class="p">)</span>
+<p>Given that global phase of a quantum system is unobservable (it can never affect the evolution of the system or measurent outcomes), these are the correct states we were looking for.</p>
+<p>We look in more detail at the supported backends and their features in the <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb">backends example</a>.</p>
+</div>
+<div class="section" id="compilation-the-missing-link">
+<h2>Compilation – The Missing Link<a class="headerlink" href="#compilation-the-missing-link" title="Permalink to this headline">¶</a></h2>
+<p>In the previous section, we saw how <code class="docutils literal notranslate"><span class="pre">pytket</span></code> presents a uniform interface for all device and simulator backends. This is designed to help make the user development more flexible, allowing seamless switching between simulators for testing and many different types of quantum hardware for real experiments.</p>
+<p>In reality, this hides a lot of the complexity of running quantum circuits. Each simulator or device can work very differently under the hood, requiring circuits to be transformed into specific formats before being submitted. This can include restrictions on the universal gate set natively provided, the connectivity of the qubits, and what class of measurements are permitted (none, only at the end of the circuit, or mid-circuit via destructive/non-destructive measurement). Pushing these restrictions onto the user means that only experts in quantum circuit design and device characterisation can get the best results.</p>
+<p>Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> object is aware of the requirements of the underlying system and can test whether or not a circuit already satisfies them:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># ...</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">b</span><span class="o">.</span><span class="n">valid_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not ready to run&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If our circuit does not meet all the requirements of the device then it needs to be rewritten in some manner. Fortunately, most of these rewrites can be performed automtically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code>’s compiler passes. Each elementary pass aims to either rewrite the circuit to conform to a particular constraint, or optimise the circuit by finding an equivalent realisation of the same operation that has a lower resource cost. For example, if the qubits of the circuit have already been allocated onto the physical qubits of the device, the <code class="xref py py-class docutils literal notranslate"><span class="pre">RoutingPass</span></code> will add additional gates to permute the qubits so that the circuit satisfies the device connectivity.</p>
+<p>Since the backend constraints are known, we have included a default sequence of compiler passes to solve each of the constraints in turn. We already saw the <code class="docutils literal notranslate"><span class="pre">compile_circuit</span></code> method on the backends which applies this to a circuit.</p>
+<p>However, if you want fine-grained control over the compilation performed, each compiler pass is exposed for you to invoke directly. For example, the <code class="docutils literal notranslate"><span class="pre">PauliSimp</span></code> pass for resynthesising circuits to reduce the gate count is designed to work well for Trotterised Hamiltonian circuits. We can apply this to our circuit using the <code class="docutils literal notranslate"><span class="pre">apply</span></code> method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">PauliSimp</span>
+<span class="n">PauliSimp</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that applying optimisation passes will change the circuit structure and possibly invalidate the constraints of the backend, so the order of application is important. In general, we recommend starting with more intensive optimisations, then compiling to solve for the constraints, and then running some lighter optimisations (which preserve the constraints) to tidy up any redundancies introduced during the compilation. We can achieve this by composing the <code class="docutils literal notranslate"><span class="pre">PauliSimp</span></code> pass with the default pass from the backend.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">SequencePass</span>
+<span class="n">comp_pass</span> <span class="o">=</span> <span class="n">SequencePass</span><span class="p">([</span><span class="n">PauliSimp</span><span class="p">(),</span> <span class="n">b</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">])</span>
+<span class="n">comp_pass</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>During the compilation procedure, there may be large structural and interface changes to the circuit. In particular, the identifiers for qubits and bits may change as the logical qubits are placed onto the physical qubits of the device, and the classical data may be reordered to match the target data model. The <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code> class can wrap up a circuit to record extra information relating to the compilation procedure.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">CompilationUnit</span>
+<span class="n">cu</span> <span class="o">=</span> <span class="n">CompilationUnit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">comp_pass</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cu</span><span class="p">)</span>
+<span class="n">final_circuit</span> <span class="o">=</span> <span class="n">cu</span><span class="o">.</span><span class="n">circuit</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">cu</span><span class="o">.</span><span class="n">final_map</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The compiled circuit is semantically identical to the original logical circuit but will now only have multi-qubit gates between pairs of nodes in the coupling map. The map between the logical qubits and the physical nodes they live on will change throughout the resulting circuit due to the inserted swaps. However, any measurement operations will still map logical qubits to the same classical bits, so the qubit permutations will not affect any readouts from the device.</p>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code> is a wrapper for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class which tracks key properties throughout compilation. For example, the <code class="docutils literal notranslate"><span class="pre">initial_map</span></code> and <code class="docutils literal notranslate"><span class="pre">final_map</span></code> give the mappings from the original qubits of the logical circuit to their corresponding locations at the beginning or the end of the compiled circuit. This allows us to inspect where <code class="docutils literal notranslate"><span class="pre">route_pass</span></code> allocated the logical qubits on the device, or which qubits to append gates to if we wish to extend the circuit.</p>
-<p>Routing typically sacrifices circuit size and depth (from inserting swaps) to satisfy device constraints. Sadly, the problems of decoherence and imperfect fidelities mean that physical devices will accumulate noise proportional to the size and depth of the circuit being run. <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> provides a selection of optimisation passes to rewrite parts of the circuit to produce an equivalent one with fewer operations or lower depth, including some recommended sequences for ease of use. <code class="docutils literal notranslate"><span class="pre">SynthesiseIBM</span></code> is one such sequence to compile into the standard gate set for IBM Q devices (U1, U2, U3, CX), designed to preserve qubit connectivity and gate directedness, making it safe to apply after routing.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">SynthesiseIBM</span>
-<span class="n">SynthesiseIBM</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">cu</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
 </pre></div>
 </div>
-<p>To see these in action, take a look at the jupyter notebooks on the <a class="reference external" href="http://github.com/CQCL/pytket/tree/master/examples">pytket GitHub repository</a>.</p>
+<p>Some constraints are not possible to solve automatically and hence are still presented to the user. These relate to the computational model and what is fundamentally supported in terms of measurements, classical data, and control flow. For example, statevector simulators like the <code class="xref py py-class docutils literal notranslate"><span class="pre">AerStateBackend</span></code> give a deterministic result for pure quantum circuits, so cannot typically run circuits containing measurements or conditional gates. Since these gates are often crucial to the correctness of a quantum program, there is no faithful way to eliminate them from the circuit. Hence if <code class="docutils literal notranslate"><span class="pre">valid_circuit</span></code> returns <code class="docutils literal notranslate"><span class="pre">False</span></code> after compilation, this may require manual edits to the circuit design.</p>
 </div>
 </div>
 

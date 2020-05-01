@@ -19,22 +19,46 @@ To install, run
 
 ``pip install pytket``
 
-Note: attempting to install from source will not set up the required
-binaries for the t|ket> compiler, so we recommend the PyPI installation.
+To use ``pytket``, you can simply import the appropriate modules into your python code or in an interactive Python notebook. We can build circuits directly using the ``pytket`` interface by creating a blank circuit and adding gates in the order we want to apply them.
 
-See the `Getting Started`_ page for a quick introduction to using
-``pytket``.
+::
 
-To get more in depth on features, see the `examples`_.
+    from pytket import Circuit
+    c = Circuit(2,2) # define a circuit with 2 qubits and 2 bits
+    c.H(0)           # add a Hadamard gate to qubit 0
+    c.Rz(0.25, 0)    # add an Rz gate of angle 0.25*pi to qubit 0
+    c.CX(1,0)        # add a CX gate with control qubit 1 and target qubit 0
+    c.measure_all()  # measure qubits 0 and 1, recording the results in bits 0 and 1
 
-Interfaces
+Some of the extension modules define :py:class:`Backend` s, allowing the circuits to be run on simulators or real quantum hardware. For example, ``pytket-qiskit`` grants access to the :py:class:`AerBackend` simulator which can sample from measurements.
+
+::
+
+    from pytket.backends.ibm import AerBackend
+    b = AerBackend()                # connect to the backend
+    b.compile_circuit(c)            # compile the circuit to satisfy the backend's requirements
+    handle = b.process_circuit(c, 100)  # submit the job to run the circuit 100 times
+    counts = b.get_counts(handle)   # retrieve and summarise the results
+    print(counts)
+
+This prints out a summary of readouts (the final values of the classical bits) and their frequencies.
+
+::
+    
+    {(0, 0): 49, (1, 0): 51}
+
+See the `Getting Started`_ page for a basic tutorial on using
+``pytket``. To get more in depth on features, see the `examples`_.
+
+Extensions
 ~~~~~~~~~~
 
 To use pytket in conjunction with other platforms you must download an
-additional separate module for each. This can be done from pip, or from
-source, as they binaries are included with the core ``pytket`` package.
+additional separate module for each. Each one of these adds either some new 
+methods to the ``pytket`` package to convert between the circuit 
+representations, or some new backends to submit circuits to within ``pytket``. 
 
-For each subpackage:
+For each extension module:
 
 Qiskit: ``pip install pytket-qiskit``
 

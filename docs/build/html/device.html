@@ -182,13 +182,13 @@
   <div class="section" id="module-pytket.device">
 <span id="pytket-device"></span><h1>pytket.device<a class="headerlink" href="#module-pytket.device" title="Permalink to this headline">¶</a></h1>
 <p>The device module provides access to the <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <a class="reference internal" href="#pytket.device.Device" title="pytket.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a> structure and methods for providing gate errors amongst other device information. This module is provided in binary form during the PyPI installation.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="pytket.device.Device">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.device.</code><code class="sig-name descname">Device</code><a class="headerlink" href="#pytket.device.Device" title="Permalink to this definition">¶</a></dt>
 <dd><p>The base device class, describing gate errors and other device information for qubits and edges.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.device.Device, node_errors: Dict[pytket.circuit.Node, pytket.device.GateErrorContainer], edge_errors: Dict[Tuple[pytket.circuit.Node, pytket.circuit.Node], pytket.device.GateErrorContainer], architecture: pytket.routing.Architecture) -&gt; None</p></li>
@@ -214,9 +214,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.get_average_error">
-<code class="sig-name descname">get_average_error</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_average_error" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_average_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_average_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>get_average_error(self: pytket.device.Device, node: pytket.circuit.Node) -&gt; Optional[float]</p></li>
@@ -238,9 +238,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.get_error">
-<code class="sig-name descname">get_error</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_error" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>get_error(self: pytket.device.Device, gate: pytket.circuit.OpType, node: pytket.circuit.Node) -&gt; float</p></li>
@@ -268,16 +268,16 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.get_frequency">
-<code class="sig-name descname">get_frequency</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.Node</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_frequency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em>, <em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="headerlink" href="#pytket.device.Device.get_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored frequency for given Node.</p>
 <p>:param node frequency is found for</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.get_gate_time">
-<code class="sig-name descname">get_gate_time</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_gate_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_gate_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_gate_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>get_gate_time(self: pytket.device.Device, gate: pytket.circuit.OpType, node: pytket.circuit.Node) -&gt; float</p></li>
@@ -305,52 +305,52 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.get_readout_error">
-<code class="sig-name descname">get_readout_error</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.Node</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_readout_error" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_readout_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em>, <em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="headerlink" href="#pytket.device.Device.get_readout_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored readout error for given Node.</p>
 <p>:param node readout error is found for</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.get_t1_time">
-<code class="sig-name descname">get_t1_time</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.Node</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_t1_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_t1_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em>, <em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="headerlink" href="#pytket.device.Device.get_t1_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored t1 time for given Node.</p>
 <p>:param node t1 time is found for</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.get_t2_time">
-<code class="sig-name descname">get_t2_time</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.Device</em>, <em class="sig-param">node: pytket.circuit.Node</em><span class="sig-paren">)</span> &#x2192; Optional[float]<a class="headerlink" href="#pytket.device.Device.get_t2_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_t2_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em>, <em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="headerlink" href="#pytket.device.Device.get_t2_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored t2 time for given Node.</p>
 <p>:param node t2 time is found for</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.architecture">
 <em class="property">property </em><code class="sig-name descname">architecture</code><a class="headerlink" href="#pytket.device.Device.architecture" title="Permalink to this definition">¶</a></dt>
 <dd><p>The underlying connectivity graph of the device</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.coupling">
 <em class="property">property </em><code class="sig-name descname">coupling</code><a class="headerlink" href="#pytket.device.Device.coupling" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coupling map of the Device as UnitIDs.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.errors_by_link">
 <em class="property">property </em><code class="sig-name descname">errors_by_link</code><a class="headerlink" href="#pytket.device.Device.errors_by_link" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the list of pairs of links and gate error containers</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.errors_by_node">
 <em class="property">property </em><code class="sig-name descname">errors_by_node</code><a class="headerlink" href="#pytket.device.Device.errors_by_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the list of pairs of nodes and gate error containers</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.Device.nodes">
 <em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#pytket.device.Device.nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a vector of all nodes of Device.</p>
@@ -358,13 +358,13 @@
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="pytket.device.GateError">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.device.</code><code class="sig-name descname">GateError</code><a class="headerlink" href="#pytket.device.GateError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Container for error rate and time of a single gate.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateError.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.GateError</em>, <em class="sig-param">error: float</em>, <em class="sig-param">time: float</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.device.GateError.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.GateError" title="pytket.device.GateError">pytket.device.GateError</a></span></em>, <em class="sig-param"><span class="n">error</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.GateError.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor for a struct containing gate error rate and run time for a single gate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -376,13 +376,13 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateError.error">
 <em class="property">property </em><code class="sig-name descname">error</code><a class="headerlink" href="#pytket.device.GateError.error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored error rate of associated gate, in range [0,1].</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateError.time">
 <em class="property">property </em><code class="sig-name descname">time</code><a class="headerlink" href="#pytket.device.GateError.time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored duration of gate in nanoseconds.</p>
@@ -390,13 +390,13 @@
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="pytket.device.GateErrorContainer">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.device.</code><code class="sig-name descname">GateErrorContainer</code><a class="headerlink" href="#pytket.device.GateErrorContainer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Container for gate errors for a single node or edge, contains a map between supported gate types and a struct containing information on error and time.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.GateErrorContainer.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.GateErrorContainer.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.device.GateErrorContainer, arg0: Set[pytket.circuit.OpType]) -&gt; None</p></li>
@@ -413,9 +413,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.add_error">
-<code class="sig-name descname">add_error</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.GateErrorContainer, new_error: Tuple[pytket.circuit.OpType, pytket.device.GateError]</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.device.GateErrorContainer.add_error" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.GateErrorContainer" title="pytket.device.GateErrorContainer">pytket.device.GateErrorContainer</a></span></em>, <em class="sig-param"><span class="n">new_error</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span><a class="reference internal" href="optype.html#pytket.circuit.OpType" title="pytket.circuit.OpType">pytket.circuit.OpType</a><span class="p">, </span><a class="reference internal" href="#pytket.device.GateError" title="pytket.device.GateError">pytket.device.GateError</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.GateErrorContainer.add_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a new error to container.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -424,9 +424,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.add_frequency">
-<code class="sig-name descname">add_frequency</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.GateErrorContainer</em>, <em class="sig-param">frequency: float</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.device.GateErrorContainer.add_frequency" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_frequency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.GateErrorContainer" title="pytket.device.GateErrorContainer">pytket.device.GateErrorContainer</a></span></em>, <em class="sig-param"><span class="n">frequency</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.GateErrorContainer.add_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a frequency for this node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -435,9 +435,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.add_readout">
-<code class="sig-name descname">add_readout</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.GateErrorContainer</em>, <em class="sig-param">readout_error: float</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.device.GateErrorContainer.add_readout" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_readout</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.GateErrorContainer" title="pytket.device.GateErrorContainer">pytket.device.GateErrorContainer</a></span></em>, <em class="sig-param"><span class="n">readout_error</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.GateErrorContainer.add_readout" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a readout error for this node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -446,9 +446,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.add_t1_time">
-<code class="sig-name descname">add_t1_time</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.GateErrorContainer</em>, <em class="sig-param">time: float</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.device.GateErrorContainer.add_t1_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_t1_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.GateErrorContainer" title="pytket.device.GateErrorContainer">pytket.device.GateErrorContainer</a></span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.GateErrorContainer.add_t1_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a t1 time for this node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -457,9 +457,9 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.add_t2_time">
-<code class="sig-name descname">add_t2_time</code><span class="sig-paren">(</span><em class="sig-param">self: pytket.device.GateErrorContainer</em>, <em class="sig-param">time: float</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#pytket.device.GateErrorContainer.add_t2_time" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">add_t2_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.GateErrorContainer" title="pytket.device.GateErrorContainer">pytket.device.GateErrorContainer</a></span></em>, <em class="sig-param"><span class="n">time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.GateErrorContainer.add_t2_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a t2 time for this node.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -468,37 +468,37 @@
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.frequency">
 <em class="property">property </em><code class="sig-name descname">frequency</code><a class="headerlink" href="#pytket.device.GateErrorContainer.frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a frequency in GHz for this node if it has been set.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.readout">
 <em class="property">property </em><code class="sig-name descname">readout</code><a class="headerlink" href="#pytket.device.GateErrorContainer.readout" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a readout error in range [0,1] for this node if it has been set.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.supported_gate_errors">
 <em class="property">property </em><code class="sig-name descname">supported_gate_errors</code><a class="headerlink" href="#pytket.device.GateErrorContainer.supported_gate_errors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns <a class="reference internal" href="#pytket.device.GateError" title="pytket.device.GateError"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateError</span></code></a> by associated OpType for supported OpType.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.supported_gates">
 <em class="property">property </em><code class="sig-name descname">supported_gates</code><a class="headerlink" href="#pytket.device.GateErrorContainer.supported_gates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve OpTypes supported by Node associated with this GateErrorContainer.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.t1_time">
 <em class="property">property </em><code class="sig-name descname">t1_time</code><a class="headerlink" href="#pytket.device.GateErrorContainer.t1_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a t1 time in microseconds for this node if it has been set.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pytket.device.GateErrorContainer.t2_time">
 <em class="property">property </em><code class="sig-name descname">t2_time</code><a class="headerlink" href="#pytket.device.GateErrorContainer.t2_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a t2 time in microseconds for this node if it has been set.</p>
