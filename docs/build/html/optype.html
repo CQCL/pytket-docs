@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.circuit.OpType &mdash; pytket 0.5.2 documentation</title>
+  <title>pytket.circuit.OpType &mdash; pytket 0.5.5 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pytket.device" href="device.html" />
+    <link rel="next" title="pytket.pauli" href="pauli.html" />
     <link rel="prev" title="pytket.circuit.Circuit" href="circuit_class.html" /> 
 </head>
 
@@ -101,6 +101,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pytket.circuit.OpType</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
@@ -117,7 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html#id1">pytket.pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
@@ -235,7 +236,7 @@
 <p>Unitary2qBox : Represents an arbitrary two-qubit unitary operation by its matrix</p>
 <p>ExpBox : A two-qubit operation corresponding to a unitary matrix defined as the exponential <span class="math notranslate nohighlight">\(e^{itA}\)</span> of an arbitrary 4x4 hermitian matrix <span class="math notranslate nohighlight">\(A\)</span>.</p>
 <p>PauliExpBox : An operation defined as the exponential <span class="math notranslate nohighlight">\(e^{-\frac{i\pi\alpha}{2} P}\)</span> of a tensor <span class="math notranslate nohighlight">\(P\)</span> of Pauli operations.</p>
-<p>Custom : <span class="math notranslate nohighlight">\((\alpha, \beta, \ldots) \mapsto\)</span> A user-defined operation, based on a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> <span class="math notranslate nohighlight">\(C\)</span> with parameters <span class="math notranslate nohighlight">\(\alpha, \beta, \ldots\)</span> substituted in place of bound symbolic variables in <span class="math notranslate nohighlight">\(C\)</span>, as defined by the <a class="reference internal" href="circuit.html#pytket.circuit.CustomGateDef" title="pytket.circuit.CustomGateDef"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGateDef</span></code></a>.</p>
+<p>Custom : <span class="math notranslate nohighlight">\((\alpha, \beta, \ldots) \mapsto\)</span> A user-defined operation, based on a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> <span class="math notranslate nohighlight">\(C\)</span> with parameters <span class="math notranslate nohighlight">\(\alpha, \beta, \ldots\)</span> substituted in place of bound symbolic variables in <span class="math notranslate nohighlight">\(C\)</span>, as defined by the <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGateDef</span></code>.</p>
 <p>ConditionalGate : An operation to be applied conditionally on the value of some classical register</p>
 <p>ISWAP : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{\frac{i\pi \alpha}{4} (X \otimes X + Y \otimes Y)}\)</span></p>
 <p>XXPhase : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{- \frac{i \pi \alpha}{2} (X \otimes X)}\)</span></p>
@@ -246,7 +247,9 @@
 <p>CnX : n-controlled X gate.</p>
 <p>ZZMax : <span class="math notranslate nohighlight">\(e^{-\frac{i\pi}{4}(Z \otimes Z)}\)</span>, a maximally entangling ZZPhase</p>
 <p>ESWAP : <span class="math notranslate nohighlight">\(\alpha \mapsto e^{-\frac12 i\pi\alpha \cdot \mathrm{SWAP}} = \left[ \begin{array}{cccc} e^{-\frac12 i \pi\alpha} &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; \cos\frac{\pi\alpha}{2} &amp; -i\sin\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; -i\sin\frac{\pi\alpha}{2} &amp; \cos\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; e^{-\frac12 i \pi\alpha} \end{array} \right]\)</span></p>
-<p>FSim : <span class="math notranslate nohighlight">\((\alpha, \beta) \mapsto \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; \cos\frac{\pi\alpha}{2} &amp; -i\sin\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; -i\sin\frac{\pi\alpha}{2} &amp; \cos\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; e^{-i\pi\beta} \end{array} \right]\)</span> (with <span class="math notranslate nohighlight">\(\alpha = 1\)</span> and <span class="math notranslate nohighlight">\(\beta = \frac16\)</span> this is the ‘Sycamore gate’)</p>
+<p>FSim : <span class="math notranslate nohighlight">\((\alpha, \beta) \mapsto \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; \cos \pi\alpha &amp; -i\sin \pi\alpha &amp; 0 \\ 0 &amp; -i\sin \pi\alpha &amp; \cos \pi\alpha &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; e^{-i\pi\beta} \end{array} \right]\)</span></p>
+<p>Sycamore : <span class="math notranslate nohighlight">\(\mathrm{FSim}(\frac12, \frac16)\)</span></p>
+<p>ISWAPMax : <span class="math notranslate nohighlight">\(\mathrm{ISWAP}(1) = \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; i &amp; 0 \\ 0 &amp; i &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \end{array} \right]\)</span></p>
 </div></blockquote>
 <dl class="py method">
 <dt id="pytket.circuit.OpType.name">
@@ -266,7 +269,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="device.html" class="btn btn-neutral float-right" title="pytket.device" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pauli.html" class="btn btn-neutral float-right" title="pytket.pauli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="circuit_class.html" class="btn btn-neutral float-left" title="pytket.circuit.Circuit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

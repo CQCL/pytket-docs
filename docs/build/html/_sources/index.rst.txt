@@ -44,7 +44,7 @@ Some of the extension modules define :py:class:`Backend` s, allowing the circuit
 This prints out a summary of readouts (the final values of the classical bits) and their frequencies.
 
 ::
-    
+
     {(0, 0): 49, (1, 0): 51}
 
 See the `Getting Started`_ page for a basic tutorial on using
@@ -54,9 +54,9 @@ Extensions
 ~~~~~~~~~~
 
 To use pytket in conjunction with other platforms you must download an
-additional separate module for each. Each one of these adds either some new 
-methods to the ``pytket`` package to convert between the circuit 
-representations, or some new backends to submit circuits to within ``pytket``. 
+additional separate module for each. Each one of these adds either some new
+methods to the ``pytket`` package to convert between the circuit
+representations, or some new backends to submit circuits to within ``pytket``.
 
 For each extension module:
 
@@ -75,6 +75,11 @@ Honeywell: ``pip install pytket-honeywell``
 QSharp: ``pip install pytket-qsharp``
 
 PyZX: ``pip install pytket-pyzx``
+
+Submodule names
+~~~~~~~~~~~~~~~
+
+The ``pytket._tket`` submodule provides, through its various submodules, access to the native library that is at the core of ``pytket``. For example, ``pytket._tket.device`` provides device-related classes. The ``_tket`` part of the name can always be omitted when importing (e.g. one can just do ``from pytket.device import Device``), though it is included in the API documentation. Other submodules (such as ``pytket.utils``) are pure Python.
 
 LICENCE
 ~~~~~~~
@@ -125,6 +130,7 @@ limitations under the Licence, but note it is strictly for non-commercial use.
 
     backends.rst
     circuit.rst
+    pauli.rst
     device.rst
     passes.rst
     predicates.rst

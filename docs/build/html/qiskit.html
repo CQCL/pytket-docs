@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.qiskit &mdash; pytket 0.5.2 documentation</title>
+  <title>pytket.qiskit &mdash; pytket 0.5.5 documentation</title>
   
 
   
@@ -96,6 +96,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
@@ -112,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html#id1">pytket.pyzx</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.qiskit</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-pytket.qiskit.tket_pass">pytket.qiskit.tket_pass</a></li>
 </ul>
@@ -186,7 +187,7 @@
 <p>Module for conversion between IBM Qiskit and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
 <dl class="py function">
 <dt id="pytket.qiskit.qiskit_to_tk">
-<code class="sig-prename descclassname">pytket.qiskit.</code><code class="sig-name descname">qiskit_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qcirc</span><span class="p">:</span> <span class="n">qiskit.circuit.quantumcircuit.QuantumCircuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><a class="headerlink" href="#pytket.qiskit.qiskit_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.qiskit.</code><code class="sig-name descname">qiskit_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qcirc</span><span class="p">:</span> <span class="n">qiskit.circuit.quantumcircuit.QuantumCircuit</span></em><span class="sig-paren">)</span> &#x2192; pytket._tket.circuit.Circuit<a class="headerlink" href="#pytket.qiskit.qiskit_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.QuantumCircuit</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -203,7 +204,7 @@
 
 <dl class="py function">
 <dt id="pytket.qiskit.tk_to_qiskit">
-<code class="sig-prename descclassname">pytket.qiskit.</code><code class="sig-name descname">tk_to_qiskit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcirc</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; qiskit.circuit.quantumcircuit.QuantumCircuit<a class="headerlink" href="#pytket.qiskit.tk_to_qiskit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.qiskit.</code><code class="sig-name descname">tk_to_qiskit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcirc</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; qiskit.circuit.quantumcircuit.QuantumCircuit<a class="headerlink" href="#pytket.qiskit.tk_to_qiskit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert back</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -220,7 +221,7 @@
 
 <dl class="py function">
 <dt id="pytket.qiskit.process_device">
-<code class="sig-prename descclassname">pytket.qiskit.</code><code class="sig-name descname">process_device</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">qiskit.providers.basebackend.BaseBackend</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a><a class="headerlink" href="#pytket.qiskit.process_device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.qiskit.</code><code class="sig-name descname">process_device</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">qiskit.providers.basebackend.BaseBackend</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="device.html#pytket._tket.device.Device" title="pytket._tket.device.Device">pytket._tket.device.Device</a><a class="headerlink" href="#pytket.qiskit.process_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.BaseBackend</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -230,7 +231,7 @@
 <dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> containing device information</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">Device</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="device.html#pytket._tket.device.Device" title="pytket._tket.device.Device">Device</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,7 +240,7 @@
 <span id="pytket-qiskit-tket-pass"></span><h2>pytket.qiskit.tket_pass<a class="headerlink" href="#module-pytket.qiskit.tket_pass" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pytket.qiskit.tket_pass.TketPass">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.qiskit.tket_pass.</code><code class="sig-name descname">TketPass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">qiskit.providers.basebackend.BaseBackend</span></em>, <em class="sig-param"><span class="n">tket_pass</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.qiskit.tket_pass.TketPass" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.qiskit.tket_pass.</code><code class="sig-name descname">TketPass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">qiskit.providers.basebackend.BaseBackend</span></em>, <em class="sig-param"><span class="n">tket_pass</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="passes.html#pytket._tket.passes.BasePass" title="pytket._tket.passes.BasePass">pytket._tket.passes.BasePass</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.qiskit.tket_pass.TketPass" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> compiler to be plugged in to the Qiskit compilation sequence</p>
 <dl class="py method">
 <dt id="pytket.qiskit.tket_pass.TketPass.run">

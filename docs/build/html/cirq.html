@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket-cirq &mdash; pytket 0.5.2 documentation</title>
+  <title>pytket-cirq &mdash; pytket 0.5.5 documentation</title>
   
 
   
@@ -97,6 +97,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
 <li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
@@ -117,7 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyzx.html#id1">pytket.pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
 </ul>
 
@@ -240,11 +241,11 @@ Licence, but</div>
 <p>Module for conversion between Google Cirq and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
 <dl class="py function">
 <dt id="pytket.cirq.cirq_to_tk">
-<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">cirq_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">cirq.circuits.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><a class="headerlink" href="#pytket.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">cirq_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">cirq.circuits.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; pytket._tket.circuit.Circuit<a class="headerlink" href="#pytket.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
 </dd>
 <dt class="field-even">Parameters</dt>
 <dd class="field-even"><p><strong>circuit</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>) – The input Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
@@ -260,14 +261,14 @@ Licence, but</div>
 
 <dl class="py function">
 <dt id="pytket.cirq.tk_to_cirq">
-<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">tk_to_cirq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcirc</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">tk_to_cirq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcirc</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object to a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
 </dd>
 <dt class="field-even">Parameters</dt>
-<dd class="field-even"><p><strong>tkcirc</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>) – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+<dd class="field-even"><p><strong>tkcirc</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>) – The input <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> corresponding to the input circuit</p>
@@ -277,11 +278,11 @@ Licence, but</div>
 
 <dl class="py function">
 <dt id="pytket.cirq.process_device">
-<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">process_device</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xmon</span><span class="p">:</span> <span class="n">cirq.google.devices.xmon_device.XmonDevice</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a><a class="headerlink" href="#pytket.cirq.process_device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pytket.cirq.</code><code class="sig-name descname">process_device</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xmon</span><span class="p">:</span> <span class="n">cirq.google.devices.xmon_device.XmonDevice</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="device.html#pytket._tket.device.Device" title="pytket._tket.device.Device">pytket._tket.device.Device</a><a class="headerlink" href="#pytket.cirq.process_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> object for a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code> .</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="device.html#pytket._tket.device.Device" title="pytket._tket.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a></p>
 </dd>
 <dt class="field-even">Parameters</dt>
 <dd class="field-even"><p><strong>xmon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code>) – The device to convert</p>
