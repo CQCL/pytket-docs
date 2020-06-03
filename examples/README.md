@@ -34,8 +34,11 @@ Computing expectation values of Hamiltonians.
 [Forest_portability_example](https://github.com/CQCL/pytket/blob/master/examples/Forest_portability_example.ipynb) -
 Examples illustrating portability between different backends.
 
-[measurement_reduction_example](https://github.com/CQCL/pytket/blob/master/examples/measurement_reduction_example.ipynb) -
-Advanced methods for reducing the number of circuits required for measurement.
+[measurement_reduction_example](https://github.com/CQCL/pytket/blob/master/examples/measurement_reduction_example.ipynb)
+- Advanced methods for reducing the number of circuits required for
+measurement.
+
+[ansatz_sequence_example](https://github.com/CQCL/pytket/blob/master/examples/ansatz_sequence_example.ipynb) - Advanced methods for synthesising an ansatz circuit from Trotterised Hamiltonians.
 
 [spam_example](https://github.com/CQCL/pytket/blob/master/examples/spam_example.ipynb) -
 Calibration and correction of state preparation and measurement in the presence of noise.
