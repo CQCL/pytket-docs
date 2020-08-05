@@ -1,0 +1,49 @@
+pytket-qiskit
+==================================
+
+IBM's `Qiskit <https://qiskit.org>`_ is an open-source framework for quantum
+computation, ranging from high-level algorithms to low-level circuit
+representations, simulation and access to the `IBMQ <https://www.research.ibm.com/ibm-q/>`_ Experience devices.
+
+``pytket-qiskit`` is an extension to ``pytket`` that allows ``pytket`` circuits to be
+run on IBM backends and simulators, as well as conversion to and from Qiskit
+representations.
+
+``pytket-qiskit`` is available for Python 3.6, 3.7 and 3.8, on Linux and MacOS. To
+install, run:
+
+``pip install pytket-qiskit``
+
+pytket.backends.ibm
+~~~~~~~~~~~~~~~~~~~
+
+.. autoclass:: pytket.backends.ibm.IBMQBackend
+    :special-members:
+    :members:
+
+.. autoclass:: pytket.backends.ibm.AerBackend
+    :special-members: __init__
+    :inherited-members:
+    :members:
+    :exclude-members: get_state, get_unitary
+
+.. autoclass:: pytket.backends.ibm.AerStateBackend
+    :special-members: __init__
+    :inherited-members:
+    :members:
+    :exclude-members: get_counts, get_shots, get_unitary
+
+.. autoclass:: pytket.backends.ibm.AerUnitaryBackend
+    :special-members: __init__
+    :inherited-members:
+    :members:
+    :exclude-members: get_counts, get_shots, get_state
+
+pytket.qiskit
+~~~~~~~~~~~~~
+
+.. automodule:: pytket.qiskit
+    :members: qiskit_to_tk, tk_to_qiskit, process_device
+
+.. automodule:: pytket.qiskit.tket_pass
+    :members: TketPass

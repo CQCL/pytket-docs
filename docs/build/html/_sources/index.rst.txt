@@ -11,9 +11,6 @@ architectures from Google `Cirq`_, IBM `Qiskit`_, `AQT`_, `Honeywell`_,
 `QSharp`_, `Pyzx`_, `ProjectQ`_ and Rigetti `pyQuil`_, allowing the t|ket> tools
 to be used in conjunction with projects on these platforms.
 
-Getting Started
-~~~~~~~~~~~~~~~
-
 ``pytket`` is available for Python 3.6, 3.7 and 3.8, on Linux and MacOS.
 To install, run
 
@@ -96,6 +93,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the Licence for the specific language governing permissions and
 limitations under the Licence, but note it is strictly for non-commercial use.
 
+How to cite
+~~~~~~~~~~~
+
+If you wish to cite tket in any academic publications, we generally recommend citing our `software overview paper <https://doi.org/10.1088/2058-9565/ab8e92>`_ for most cases.
+
+If your work is on the topic of specific compilation tasks, it may be more appropriate to cite one of our other papers:
+
+- `"On the qubit routing problem" <https://doi.org/10.4230/LIPIcs.TQC.2019.5>`_ for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
+- `"Phase Gadget Synthesis for Shallow Circuits" <https://doi.org/10.4204/EPTCS.318.13>`_ for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.
+- `"A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz" <https://arxiv.org/abs/2007.10515>`_ for sequencing of terms in Trotterisation and Pauli diagonalisation.
+
+We are also keen for others to benchmark their compilation techniques against us. We recommend checking our `benchmark repository <https://github.com/CQCL/tket_benchmarking>`_ for examples on how to run basic benchmarks with the latest version of ``pytket``. Please list the release version of ``pytket`` with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
+
 .. _Cirq: https://www.github.com/quantumlib/cirq
 .. _Qiskit: https://qiskit.org
 .. _AQT: https://www.aqt.eu/services/
@@ -114,6 +124,7 @@ limitations under the Licence, but note it is strictly for non-commercial use.
    :target: https://badge.fury.io/py/pytket
 .. |Documentation Status| image:: https://readthedocs.org/projects/pytket/badge/?version=latest
    :target: https://pytket.readthedocs.io/en/latest/?badge=latest
+
 .. toctree::
     :caption: Contents:
     :maxdepth: 1
@@ -142,11 +153,19 @@ limitations under the Licence, but note it is strictly for non-commercial use.
     transform.rst
     utils.rst
     logging.rst
-    cirq.rst
-    projectq.rst
-    pyquil.rst
-    pyzx.rst
-    qiskit.rst
+
+.. toctree::
+    :caption: Specific extensions:
+    :maxdepth: 2
+
+    extensions/aqt.rst
+    extensions/cirq.rst
+    extensions/honeywell.rst
+    extensions/projectq.rst
+    extensions/pyquil.rst
+    extensions/pyzx.rst
+    extensions/qiskit.rst
+    extensions/qsharp.rst
 
 Indices and tables
 ==================

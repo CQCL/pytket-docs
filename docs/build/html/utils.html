@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,15 +30,11 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.logging" href="logging.html" />
@@ -51,7 +52,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> pytket
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
           
 
           
@@ -78,6 +79,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -112,18 +114,23 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket-cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html#module-pytket.cirq">pytket.cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html#id1">pytket.pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -162,7 +169,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>pytket.utils</li>
     
@@ -186,89 +193,6 @@
   <div class="section" id="module-pytket.utils">
 <span id="pytket-utils"></span><h1>pytket.utils<a class="headerlink" href="#module-pytket.utils" title="Permalink to this headline">¶</a></h1>
 <p>Utility functions for performing high-level procedures in pytket</p>
-<dl class="py function">
-<dt id="pytket.utils.expectation_from_shots">
-<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">expectation_from_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shot_table</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><a class="headerlink" href="#pytket.utils.expectation_from_shots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimates the expectation value of a circuit from its shots.
-Computes the parity of ‘1’s across all bits to determine a +1 or -1 contribution from each row, and returns the average.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>shot_table</strong> (<em>np.ndarray</em>) – The table of shots to interpret.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The expectation value in the range [-1, 1].</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pytket.utils.expectation_from_counts">
-<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">expectation_from_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">counts</span><span class="p">:</span> <span class="n">Dict[Tuple[int, …], int]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><a class="headerlink" href="#pytket.utils.expectation_from_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimates the expectation value of a circuit from shot counts.
-Computes the parity of ‘1’s across all bits to determine a +1 or -1 contribution from each readout, and returns the weighted average.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>counts</strong> (<em>Dict</em><em>[</em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>..</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – Counts of each measurement outcome observed.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The expectation value in the range [-1, 1].</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pytket.utils.get_pauli_expectation_value">
-<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n"><a class="reference internal" href="pauli.html#pytket._tket.pauli.QubitPauliString" title="pytket._tket.pauli.QubitPauliString">pytket._tket.pauli.QubitPauliString</a></span></em>, <em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.utils.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimates the expectation value of the given circuit with respect to the Pauli term by preparing measurements in the appropriate basis, running on the backend and interpreting the counts/statevector</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – Circuit that generates the desired state <span class="math notranslate nohighlight">\(\left|\psi\right&gt;\)</span>.</p></li>
-<li><p><strong>pauli</strong> (<a class="reference internal" href="pauli.html#pytket._tket.pauli.QubitPauliString" title="pytket._tket.pauli.QubitPauliString"><em>QubitPauliString</em></a>) – Pauli operator</p></li>
-<li><p><strong>backend</strong> (<a class="reference internal" href="backends.html#pytket.backends.Backend" title="pytket.backends.Backend"><em>Backend</em></a>) – pytket backend to run circuit on.</p></li>
-<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run if backend supports shots/counts. Set to None to calculate using statevector if supported by the backend. Defaults to None</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><span class="math notranslate nohighlight">\(\left&lt;\psi | P | \psi \right&gt;\)</span></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pytket.utils.get_operator_expectation_value">
-<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">pytket.utils.operators.QubitPauliOperator</span></em>, <em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">partition_strat</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat">pytket._tket.partition.PauliPartitionStrat</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colour_method</span><span class="p">:</span> <span class="n"><a class="reference internal" href="partition.html#pytket._tket.partition.GraphColourMethod" title="pytket._tket.partition.GraphColourMethod">pytket._tket.partition.GraphColourMethod</a></span> <span class="o">=</span> <span class="default_value">GraphColourMethod.LargestFirst</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.utils.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimates the expectation value of the given circuit with respect to the operator based on its individual Pauli terms.
-If the QubitPauliOperator has symbolic values the expectation value will also be symbolic.
-The input circuit must belong to the default qubit register and have contiguous qubit ordering.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state_circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – Circuit that generates the desired state <span class="math notranslate nohighlight">\(\left|\psi\right&gt;\)</span></p></li>
-<li><p><strong>operator</strong> (<a class="reference internal" href="#pytket.utils.QubitPauliOperator" title="pytket.utils.QubitPauliOperator"><em>QubitPauliOperator</em></a>) – Operator <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
-<li><p><strong>backend</strong> (<a class="reference internal" href="backends.html#pytket.backends.Backend" title="pytket.backends.Backend"><em>Backend</em></a>) – pytket backend to run circuit on.</p></li>
-<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run if backend supports shots/counts. None will force the backend to give the full state if available. Defaults to None</p></li>
-<li><p><strong>partition_strat</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat"><em>PauliPartitionStrat</em></a><em>]</em><em>, </em><em>optional</em>) – If retrieving shots, can perform measurement reduction using a chosen strategy</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><span class="math notranslate nohighlight">\(\left&lt;\psi | H | \psi \right&gt;\)</span></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt id="pytket.utils.append_pauli_measurement">
 <code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">append_pauli_measurement</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pauli_string</span><span class="p">:</span> <span class="n"><a class="reference internal" href="pauli.html#pytket._tket.pauli.QubitPauliString" title="pytket._tket.pauli.QubitPauliString">pytket._tket.pauli.QubitPauliString</a></span></em>, <em class="sig-param"><span class="n">circ</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.utils.append_pauli_measurement" title="Permalink to this definition">¶</a></dt>
@@ -296,6 +220,152 @@ The input circuit must belong to the default qubit register and have contiguous 
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>Dict[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, ..], <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.utils.expectation_from_counts">
+<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">expectation_from_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">counts</span><span class="p">:</span> <span class="n">Dict[Tuple[int, …], int]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><a class="headerlink" href="#pytket.utils.expectation_from_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates the expectation value of a circuit from shot counts.
+Computes the parity of ‘1’s across all bits to determine a +1 or -1 contribution from each readout, and returns the weighted average.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>counts</strong> (<em>Dict</em><em>[</em><em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>..</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em>) – Counts of each measurement outcome observed.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The expectation value in the range [-1, 1].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.utils.expectation_from_shots">
+<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">expectation_from_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shot_table</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><a class="headerlink" href="#pytket.utils.expectation_from_shots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates the expectation value of a circuit from its shots.
+Computes the parity of ‘1’s across all bits to determine a +1 or -1 contribution from each row, and returns the average.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>shot_table</strong> (<em>np.ndarray</em>) – The table of shots to interpret.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The expectation value in the range [-1, 1].</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.utils.gen_term_sequence_circuit">
+<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">gen_term_sequence_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">pytket.utils.operators.QubitPauliOperator</span></em>, <em class="sig-param"><span class="n">reference_state</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">partition_strat</span><span class="p">:</span> <span class="n"><a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat">pytket._tket.partition.PauliPartitionStrat</a></span> <span class="o">=</span> <span class="default_value">PauliPartitionStrat.CommutingSets</span></em>, <em class="sig-param"><span class="n">colour_method</span><span class="p">:</span> <span class="n"><a class="reference internal" href="partition.html#pytket._tket.partition.GraphColourMethod" title="pytket._tket.partition.GraphColourMethod">pytket._tket.partition.GraphColourMethod</a></span> <span class="o">=</span> <span class="default_value">GraphColourMethod.Lazy</span></em><span class="sig-paren">)</span> &#x2192; pytket._tket.circuit.Circuit<a class="headerlink" href="#pytket.utils.gen_term_sequence_circuit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sequences QubitPauliOperator terms to generate a circuit made of CircBoxes.
+Each CircBox contains a sequence of PauliExpBox objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>operator</strong> (<a class="reference internal" href="#pytket.utils.QubitPauliOperator" title="pytket.utils.QubitPauliOperator"><em>QubitPauliOperator</em></a>) – The operator terms to sequence</p></li>
+<li><p><strong>reference_state</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – reference state to add sequenced terms to.</p></li>
+<li><p><strong>partition_strat</strong> (<a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat"><em>PauliPartitionStrat</em></a><em>, </em><em>optional</em>) – a Partition strategy</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.utils.get_operator_expectation_value">
+<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">pytket.utils.operators.QubitPauliOperator</span></em>, <em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">partition_strat</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat">pytket._tket.partition.PauliPartitionStrat</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colour_method</span><span class="p">:</span> <span class="n"><a class="reference internal" href="partition.html#pytket._tket.partition.GraphColourMethod" title="pytket._tket.partition.GraphColourMethod">pytket._tket.partition.GraphColourMethod</a></span> <span class="o">=</span> <span class="default_value">GraphColourMethod.LargestFirst</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.utils.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates the expectation value of the given circuit with respect to the operator based on its individual Pauli terms.
+If the QubitPauliOperator has symbolic values the expectation value will also be symbolic.
+The input circuit must belong to the default qubit register and have contiguous qubit ordering.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – Circuit that generates the desired state <span class="math notranslate nohighlight">\(\left|\psi\right&gt;\)</span></p></li>
+<li><p><strong>operator</strong> (<a class="reference internal" href="#pytket.utils.QubitPauliOperator" title="pytket.utils.QubitPauliOperator"><em>QubitPauliOperator</em></a>) – Operator <span class="math notranslate nohighlight">\(H\)</span>.</p></li>
+<li><p><strong>backend</strong> (<a class="reference internal" href="backends.html#pytket.backends.Backend" title="pytket.backends.Backend"><em>Backend</em></a>) – pytket backend to run circuit on.</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run if backend supports shots/counts. None will force the backend to give the full state if available. Defaults to None</p></li>
+<li><p><strong>partition_strat</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat"><em>PauliPartitionStrat</em></a><em>]</em><em>, </em><em>optional</em>) – If retrieving shots, can perform measurement reduction using a chosen strategy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\(\left&lt;\psi | H | \psi \right&gt;\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.utils.get_pauli_expectation_value">
+<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n"><a class="reference internal" href="pauli.html#pytket._tket.pauli.QubitPauliString" title="pytket._tket.pauli.QubitPauliString">pytket._tket.pauli.QubitPauliString</a></span></em>, <em class="sig-param"><span class="n">backend</span><span class="p">:</span> <span class="n">Backend</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.utils.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates the expectation value of the given circuit with respect to the Pauli term by preparing measurements in the appropriate basis, running on the backend and interpreting the counts/statevector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state_circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – Circuit that generates the desired state <span class="math notranslate nohighlight">\(\left|\psi\right&gt;\)</span>.</p></li>
+<li><p><strong>pauli</strong> (<a class="reference internal" href="pauli.html#pytket._tket.pauli.QubitPauliString" title="pytket._tket.pauli.QubitPauliString"><em>QubitPauliString</em></a>) – Pauli operator</p></li>
+<li><p><strong>backend</strong> (<a class="reference internal" href="backends.html#pytket.backends.Backend" title="pytket.backends.Backend"><em>Backend</em></a>) – pytket backend to run circuit on.</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run if backend supports shots/counts. Set to None to calculate using statevector if supported by the backend. Defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><span class="math notranslate nohighlight">\(\left&lt;\psi | P | \psi \right&gt;\)</span></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.utils.permute_basis_indexing">
+<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">permute_basis_indexing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">permutation</span><span class="p">:</span> <span class="n">Tuple[int, …]</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.utils.permute_basis_indexing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Rearranges the first dimensions of an array (statevector or unitary)</dt><dd><p>according to a permutation of the bit indices in the binary representation
+of row indices.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>np.ndarray</em>) – Original unitary matrix</p></li>
+<li><p><strong>permutation</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>..</em><em>]</em>) – Map from current qubit index (big-endian) to its new position, encoded as a list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Updated unitary matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.utils.permute_qubits_in_statevector">
+<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">permute_qubits_in_statevector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">permutation</span><span class="p">:</span> <span class="n">Tuple[int, …]</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.utils.permute_qubits_in_statevector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rearranges a statevector according to a permutation of the qubit indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> (<em>np.ndarray</em>) – Original statevector.</p></li>
+<li><p><strong>permutation</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>..</em><em>]</em>) – Map from current qubit index (big-endian) to its new position, encoded as a list.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Updated statevector.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -335,72 +405,9 @@ computational basis. Ignores probabilities lower than 1e-10.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt id="pytket.utils.permute_qubits_in_statevector">
-<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">permute_qubits_in_statevector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">permutation</span><span class="p">:</span> <span class="n">Tuple[int, …]</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.utils.permute_qubits_in_statevector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rearranges a statevector according to a permutation of the qubit indices.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>state</strong> (<em>np.ndarray</em>) – Original statevector.</p></li>
-<li><p><strong>permutation</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>..</em><em>]</em>) – Map from current qubit index (big-endian) to its new position, encoded as a list.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Updated statevector.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pytket.utils.permute_basis_indexing">
-<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">permute_basis_indexing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">matrix</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">permutation</span><span class="p">:</span> <span class="n">Tuple[int, …]</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.utils.permute_basis_indexing" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Rearranges the first dimensions of an array (statevector or unitary)</dt><dd><p>according to a permutation of the bit indices in the binary representation
-of row indices.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>matrix</strong> (<em>np.ndarray</em>) – Original unitary matrix</p></li>
-<li><p><strong>permutation</strong> (<em>Tuple</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>..</em><em>]</em>) – Map from current qubit index (big-endian) to its new position, encoded as a list</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Updated unitary matrix</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pytket.utils.gen_term_sequence_circuit">
-<code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">gen_term_sequence_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">pytket.utils.operators.QubitPauliOperator</span></em>, <em class="sig-param"><span class="n">reference_state</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">partition_strat</span><span class="p">:</span> <span class="n"><a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat">pytket._tket.partition.PauliPartitionStrat</a></span> <span class="o">=</span> <span class="default_value">PauliPartitionStrat.CommutingSets</span></em>, <em class="sig-param"><span class="n">colour_method</span><span class="p">:</span> <span class="n"><a class="reference internal" href="partition.html#pytket._tket.partition.GraphColourMethod" title="pytket._tket.partition.GraphColourMethod">pytket._tket.partition.GraphColourMethod</a></span> <span class="o">=</span> <span class="default_value">GraphColourMethod.Lazy</span></em><span class="sig-paren">)</span> &#x2192; pytket._tket.circuit.Circuit<a class="headerlink" href="#pytket.utils.gen_term_sequence_circuit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sequences QubitPauliOperator terms to generate a circuit made of CircBoxes.
-Each CircBox contains a sequence of PauliExpBox objects.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
-</dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>operator</strong> (<a class="reference internal" href="#pytket.utils.QubitPauliOperator" title="pytket.utils.QubitPauliOperator"><em>QubitPauliOperator</em></a>) – The operator terms to sequence</p></li>
-<li><p><strong>reference_state</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – reference state to add sequenced terms to.</p></li>
-<li><p><strong>partition_strat</strong> (<a class="reference internal" href="partition.html#pytket._tket.partition.PauliPartitionStrat" title="pytket._tket.partition.PauliPartitionStrat"><em>PauliPartitionStrat</em></a><em>, </em><em>optional</em>) – a Partition strategy</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py class">
 <dt id="pytket.utils.OutcomeArray">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">OutcomeArray</code><a class="headerlink" href="#pytket.utils.OutcomeArray" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.utils.</code><code class="sig-name descname">OutcomeArray</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_array</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.utils.OutcomeArray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Array of measured outcomes from qubits. Derived class of <cite>numpy.ndarray</cite>.</p>
 <p>Bitwise outcomes are compressed into unsigned 8-bit integers, each
 representing up to 8 qubit measurements. Each row is a repeat measurement.</p>
@@ -827,11 +834,19 @@ point number) below a tolerance, and optionally round to an integer.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -842,7 +857,6 @@ point number) below a tolerance, and optionally round to an integer.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

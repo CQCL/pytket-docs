@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -25,15 +30,11 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting Started" href="getting_started.html" /> 
@@ -50,7 +51,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> pytket
+            <a href="#" class="icon icon-home" alt="Documentation Home"> pytket
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -108,18 +110,23 @@
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket-cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html#module-pytket.cirq">pytket.cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html#id1">pytket.pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -158,7 +165,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
       <li>pytket</li>
     
@@ -187,8 +194,6 @@ quantum programming tools. We currently support circuits and device
 architectures from Google <a class="reference external" href="https://www.github.com/quantumlib/cirq">Cirq</a>, IBM <a class="reference external" href="https://qiskit.org">Qiskit</a>, <a class="reference external" href="https://www.aqt.eu/services/">AQT</a>, <a class="reference external" href="https://www.honeywell.com/en-us/company/quantum">Honeywell</a>,
 <a class="reference external" href="https://docs.microsoft.com/en-us/quantum/">QSharp</a>, <a class="reference external" href="https://github.com/Quantomatic/pyzx">Pyzx</a>, <a class="reference external" href="https://github.com/ProjectQ-Framework/ProjectQ">ProjectQ</a> and Rigetti <a class="reference external" href="http://rigetti.com/forest">pyQuil</a>, allowing the t|ket&gt; tools
 to be used in conjunction with projects on these platforms.</p>
-<div class="section" id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux and MacOS.
 To install, run</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket</span></code></p>
@@ -216,7 +221,6 @@ To install, run</p>
 </div>
 <p>See the <a class="reference external" href="getting_started.html">Getting Started</a> page for a basic tutorial on using
 <code class="docutils literal notranslate"><span class="pre">pytket</span></code>. To get more in depth on features, see the <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples">examples</a>.</p>
-</div>
 <div class="section" id="extensions">
 <h2>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h2>
 <p>To use pytket in conjunction with other platforms you must download an
@@ -248,6 +252,17 @@ distributed under the Licence is distributed on an “AS IS” BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the Licence for the specific language governing permissions and
 limitations under the Licence, but note it is strictly for non-commercial use.</p>
+</div>
+<div class="section" id="how-to-cite">
+<h2>How to cite<a class="headerlink" href="#how-to-cite" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to cite tket in any academic publications, we generally recommend citing our <a class="reference external" href="https://doi.org/10.1088/2058-9565/ab8e92">software overview paper</a> for most cases.</p>
+<p>If your work is on the topic of specific compilation tasks, it may be more appropriate to cite one of our other papers:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.4230/LIPIcs.TQC.2019.5">“On the qubit routing problem”</a> for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).</p></li>
+<li><p><a class="reference external" href="https://doi.org/10.4204/EPTCS.318.13">“Phase Gadget Synthesis for Shallow Circuits”</a> for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2007.10515">“A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz”</a> for sequencing of terms in Trotterisation and Pauli diagonalisation.</p></li>
+</ul>
+<p>We are also keen for others to benchmark their compilation techniques against us. We recommend checking our <a class="reference external" href="https://github.com/CQCL/tket_benchmarking">benchmark repository</a> for examples on how to run basic benchmarks with the latest version of <code class="docutils literal notranslate"><span class="pre">pytket</span></code>. Please list the release version of <code class="docutils literal notranslate"><span class="pre">pytket</span></code> with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -262,18 +277,6 @@ limitations under the Licence, but note it is strictly for non-commercial use.</
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="aqt_backend.html">pytket-aqt</a></li>
-<li class="toctree-l2"><a class="reference internal" href="aqt_backend.html#module-pytket.backends.aqt">pytket.backends.aqt</a></li>
-<li class="toctree-l2"><a class="reference internal" href="forest_backend.html">pytket-pyquil</a></li>
-<li class="toctree-l2"><a class="reference internal" href="forest_backend.html#module-pytket.backends.forest">pytket.backends.forest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="honeywell_backend.html">pytket-honeywell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="honeywell_backend.html#module-pytket.backends.honeywell">pytket.backends.honeywell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ibm_backend.html">pytket-qiskit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ibm_backend.html#pytket-backends-ibm">pytket.backends.ibm</a></li>
-<li class="toctree-l2"><a class="reference internal" href="projectq_backend.html">pytket-projectq</a></li>
-<li class="toctree-l2"><a class="reference internal" href="projectq_backend.html#pytket-backends-projectq">pytket.backends.projectq</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qsharp_backend.html">pytket-qsharp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qsharp_backend.html#pytket-backends-qsharp">pytket.backends.qsharp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.resulthandle">pytket.backends.resulthandle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.backendresult">pytket.backends.backendresult</a></li>
 <li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.status">pytket.backends.status</a></li>
@@ -299,22 +302,47 @@ limitations under the Licence, but note it is strictly for non-commercial use.</
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html">pytket-cirq</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cirq.html#getting-started">Getting started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cirq.html#licence">LICENCE</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/aqt.html#module-pytket.backends.aqt">pytket.backends.aqt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions/aqt.html#module-pytket.aqt">pytket.aqt</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="cirq.html#module-pytket.cirq">pytket.cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket.projectq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyquil.html">pytket.pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyzx.html#getting-started">Getting started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyzx.html#licence">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/cirq.html#module-pytket.cirq">pytket.cirq</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="pyzx.html#id1">pytket.pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qiskit.html">pytket.qiskit</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="qiskit.html#module-pytket.qiskit.tket_pass">pytket.qiskit.tket_pass</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/honeywell.html#module-pytket.backends.honeywell">pytket.backends.honeywell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions/honeywell.html#module-pytket.honeywell">pytket.honeywell</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/projectq.html#module-pytket.backends.projectq">pytket.backends.projectq</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions/projectq.html#module-pytket.projectq">pytket.projectq</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/pyquil.html#module-pytket.backends.forest">pytket.backends.forest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions/pyquil.html#module-pytket.pyquil">pytket.pyquil</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/pyzx.html#module-pytket.pyzx">pytket.pyzx</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/qiskit.html#pytket-backends-ibm">pytket.backends.ibm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions/qiskit.html#module-pytket.qiskit">pytket.qiskit</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extensions/qsharp.html#pytket-backends-qsharp">pytket.backends.qsharp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extensions/qsharp.html#module-pytket.qsharp">pytket.qsharp</a></li>
 </ul>
 </li>
 </ul>
@@ -348,11 +376,19 @@ limitations under the Licence, but note it is strictly for non-commercial use.</
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -363,7 +399,6 @@ limitations under the Licence, but note it is strictly for non-commercial use.</
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
