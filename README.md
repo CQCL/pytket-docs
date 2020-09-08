@@ -1,10 +1,14 @@
 # pytket
+
 [![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/master?filepath=examples)
 
-`pytket` is a python module for interfacing with CQC t|ket>, a set of quantum programming tools. We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum) and Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
+`pytket` is a python module for interfacing with CQC t|ket>, a set of quantum programming tools.
+
+This repo contains API documentation and example notebooks to get you started using `pytket`. It does not contain source code.
 
 ## Getting Started
+
 ``pytket`` is available for ``python3.6`` or higher, on Linux and MacOS.
 To install, ensure that you have `pip` version 19 or above, and run
 
@@ -19,8 +23,11 @@ See the [Getting Started](https://cqcl.github.io/pytket/build/html/getting_start
 To get more in depth on features, see the [examples](https://github.com/CQCL/pytket/blob/master/examples).
 
 ## Interfaces
+
+We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum) and Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
+
 To use `pytket` in conjunction with other platforms you must download an additional separate module for each.
-This can be done from `pip`, or from source, as the binaries are included with the core `pytket` package.
+This can be done from `pip`.
 
 For each subpackage:
 
@@ -32,8 +39,6 @@ For each subpackage:
 * AQT: ``pip install pytket-aqt``
 * Honeywell: ``pip install pytket-honeywell``
 * Q#: ``pip install pytket-qsharp``
-
-A command-line interface `tket` is also included in this repo, enabling basic compilation and running of circuits on any installed backends. Type `tket -h` for help.
 
 ## LICENCE
 
