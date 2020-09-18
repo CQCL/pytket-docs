@@ -24,7 +24,7 @@ To get more in depth on features, see the [examples](https://github.com/CQCL/pyt
 
 ## Interfaces
 
-We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum) and Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
+We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum), Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), Amazon [Braket](https://aws.amazon.com/braket/), and [Qulacs](http://docs.qulacs.org/en/latest/#), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
 
 To use `pytket` in conjunction with other platforms you must download an additional separate module for each.
 This can be done from `pip`.
@@ -39,6 +39,8 @@ For each subpackage:
 * AQT: ``pip install pytket-aqt``
 * Honeywell: ``pip install pytket-honeywell``
 * Q#: ``pip install pytket-qsharp``
+* Braket: ``pip install pytket-braket``
+* Qulacs: ``pip install pytket-qulacs``
 
 ## LICENCE
 
