@@ -9,7 +9,7 @@ This repo contains API documentation and example notebooks to get you started us
 
 ## Getting Started
 
-``pytket`` is available for ``python3.6`` or higher, on Linux and MacOS.
+``pytket`` is available for ``python3.6`` or higher, on Linux, MacOS and Windows.
 To install, ensure that you have `pip` version 19 or above, and run
 
 ``pip install pytket``
