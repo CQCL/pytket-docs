@@ -5,16 +5,21 @@ pytket
    :width: 120px
    :align: right
 
-``pytket`` is a python module for interfacing with `CQC`_ t|ket>, a set of
-quantum programming tools. We currently support circuits and device
-architectures from Google `Cirq`_, IBM `Qiskit`_, `AQT`_, `Honeywell`_,
-`QSharp`_, `Pyzx`_, `ProjectQ`_ and Rigetti `pyQuil`_, allowing the t|ket> tools
+``pytket`` is a python module for interfacing with `CQC`_ tket, a set of quantum
+programming tools. We currently support circuits and device architectures from
+Google `Cirq`_, IBM `Qiskit`_, `AQT`_, `Honeywell`_, Amazon `Braket`_,
+`QSharp`_, `Pyzx`_, `ProjectQ`_ and Rigetti `pyQuil`_, allowing the tket tools
 to be used in conjunction with projects on these platforms.
 
-``pytket`` is available for Python 3.6, 3.7 and 3.8, on Linux and MacOS.
+``pytket`` is available for Python 3.6, 3.7 and 3.8, on Linux, MacOS and Windows.
 To install, run
 
 ``pip install pytket``
+
+.. note::   There is a `known issue <https://github.com/CQCL/pytket/issues/24>`_
+    with symbolic circuits on Windows, which is under investigation. Until this
+    is fixed we do not recommend running pytket on Windows if you are using
+    symbolics.
 
 To use ``pytket``, you can simply import the appropriate modules into your python code or in an interactive Python notebook. We can build circuits directly using the ``pytket`` interface by creating a blank circuit and adding gates in the order we want to apply them.
 
@@ -69,14 +74,28 @@ AQT: ``pip install pytket-aqt``
 
 Honeywell: ``pip install pytket-honeywell``
 
+Braket: ``pip install pytket-braket``
+
 QSharp: ``pip install pytket-qsharp``
 
 PyZX: ``pip install pytket-pyzx``
 
-Submodule names
-~~~~~~~~~~~~~~~
+Qulacs: ``pip install pytket-qulacs``
 
-The ``pytket._tket`` submodule provides, through its various submodules, access to the native library that is at the core of ``pytket``. For example, ``pytket._tket.device`` provides device-related classes. The ``_tket`` part of the name can always be omitted when importing (e.g. one can just do ``from pytket.device import Device``), though it is included in the API documentation. Other submodules (such as ``pytket.utils``) are pure Python.
+.. IonQ: ``pip install pytket-ionq``
+
+How to cite
+~~~~~~~~~~~
+
+If you wish to cite tket in any academic publications, we generally recommend citing our `software overview paper <https://doi.org/10.1088/2058-9565/ab8e92>`_ for most cases.
+
+If your work is on the topic of specific compilation tasks, it may be more appropriate to cite one of our other papers:
+
+- `"On the qubit routing problem" <https://doi.org/10.4230/LIPIcs.TQC.2019.5>`_ for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
+- `"Phase Gadget Synthesis for Shallow Circuits" <https://doi.org/10.4204/EPTCS.318.13>`_ for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.
+- `"A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz" <https://arxiv.org/abs/2007.10515>`_ for sequencing of terms in Trotterisation and Pauli diagonalisation.
+
+We are also keen for others to benchmark their compilation techniques against us. We recommend checking our `benchmark repository <https://github.com/CQCL/tket_benchmarking>`_ for examples on how to run basic benchmarks with the latest version of ``pytket``. Please list the release version of ``pytket`` with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
 
 LICENCE
 ~~~~~~~
@@ -93,32 +112,22 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the Licence for the specific language governing permissions and
 limitations under the Licence, but note it is strictly for non-commercial use.
 
-How to cite
-~~~~~~~~~~~
-
-If you wish to cite tket in any academic publications, we generally recommend citing our `software overview paper <https://doi.org/10.1088/2058-9565/ab8e92>`_ for most cases.
-
-If your work is on the topic of specific compilation tasks, it may be more appropriate to cite one of our other papers:
-
-- `"On the qubit routing problem" <https://doi.org/10.4230/LIPIcs.TQC.2019.5>`_ for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
-- `"Phase Gadget Synthesis for Shallow Circuits" <https://doi.org/10.4204/EPTCS.318.13>`_ for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.
-- `"A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz" <https://arxiv.org/abs/2007.10515>`_ for sequencing of terms in Trotterisation and Pauli diagonalisation.
-
-We are also keen for others to benchmark their compilation techniques against us. We recommend checking our `benchmark repository <https://github.com/CQCL/tket_benchmarking>`_ for examples on how to run basic benchmarks with the latest version of ``pytket``. Please list the release version of ``pytket`` with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
-
 .. _Cirq: https://www.github.com/quantumlib/cirq
 .. _Qiskit: https://qiskit.org
 .. _AQT: https://www.aqt.eu/services/
 .. _Honeywell: https://www.honeywell.com/en-us/company/quantum
+.. _Braket: https://aws.amazon.com/braket/
 .. _QSharp: https://docs.microsoft.com/en-us/quantum/
 .. _Pyzx: https://github.com/Quantomatic/pyzx
 .. _ProjectQ: https://github.com/ProjectQ-Framework/ProjectQ
 .. _pyQuil: http://rigetti.com/forest
+.. _Qulacs: https://docs.qulacs.org/en/latest/index.html
 .. _Getting Started: getting_started.html
 .. _examples: https://github.com/CQCL/pytket/blob/master/examples
 .. _source: https://github.com/Quantomatic/pyzx
 .. _LICENCE: licence.html
 .. _CQC: https://cambridgequantum.com
+.. .. _IonQ: https://ionq.com/
 
 .. |PyPI version| image:: https://badge.fury.io/py/pytket.svg
    :target: https://badge.fury.io/py/pytket
@@ -134,6 +143,16 @@ We are also keen for others to benchmark their compilation techniques against us
     install.rst
     licence.rst
     opensource.rst
+
+.. toctree::
+    :caption: User Manual:
+    :maxdepth: 2
+
+    manual_intro.rst
+    manual_circuit.rst
+    manual_backend.rst
+    manual_compiler.rst
+    manual_noise.rst
 
 .. toctree::
     :caption: API Reference:
@@ -159,6 +178,7 @@ We are also keen for others to benchmark their compilation techniques against us
     :maxdepth: 2
 
     extensions/aqt.rst
+    extensions/braket.rst
     extensions/cirq.rst
     extensions/honeywell.rst
     extensions/projectq.rst
@@ -166,6 +186,8 @@ We are also keen for others to benchmark their compilation techniques against us
     extensions/pyzx.rst
     extensions/qiskit.rst
     extensions/qsharp.rst
+    extensions/qulacs.rst
+..    extensions/ionq.rst
 
 Indices and tables
 ==================

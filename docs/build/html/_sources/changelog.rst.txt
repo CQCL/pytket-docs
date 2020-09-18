@@ -1,5 +1,85 @@
 Changelog
 ==================================
+
+0.6.0 (September 2020)
+----------------------
+
+Major New Features:
+
+* Windows support
+* Phase-aware circuits
+* New box type for applying quantum controls to arbitrary quantum operations
+* New ``tailoring`` module containing tools for noise tailoring
+* Circuit transpose method
+* Optimization levels for default backend compilation passes
+* New serialization methods for circuits and results
+* New online user manual
+
+Minor New Features:
+
+* New gate type ``OpType.PhasedISWAP``
+* Expectations of non-Hermitian operators (when supported by backend)
+* Greater control over graph-colouring algorithms
+* Improved Clifford simplification
+* Retrieval of gate set from ``GateSetPredicate``
+* New ``Backend.cancel`` method
+* New ``name`` attribute for circuits.
+* Backends can be wrapped as Qiskit backends for use in Qiskit software.
+* IBMQEmulatorBackend added to emulate IBMQBackend behaviour, with simulator execution.
+
+New supported backends:
+
+* Devices and simulators from Amazon Braket (via separate ``pytket-braket``
+  module)
+* Qulacs simulator (via separate ``pytket-qulacs`` module)
+
+.. * IonQ devices (via separate ``pytket-ionq`` module)
+
+API changes:
+
+* Retrieval of shots, counts, state and unitary directly from ``ResultHandle``
+  is no longer supported: either use ``Backend.get_shots(Circuit)`` or
+  ``Backend.get_result(ResultHandle).get_shots()`` (etc).
+* ``Backend.default_compilation_pass`` is no longer a property but a method.
+* ``QubitMap`` is replaced by a Python dictionary.
+* Bit ordering of `condition_value` for conditionals now follows QASM convention 
+  (opposite to before, now `[0, 1]` corresponds to value 2). 
+
+Bugfixes:
+
+* Various small bug fixes
+
+Known issues:
+
+* There is an `issue <https://github.com/CQCL/pytket/issues/24>`_ with the use
+  of symbolic circuits on Windows, causing memory access violations in some
+  circumstances.
+
+Compatible extension versions:
+
+* ``pytket-aqt``: 0.3.0
+* ``pytket-braket``: 0.2.0
+* ``pytket-cirq``: 0.5.0
+* ``pytket-honeywell``: 0.4.0
+* ``pytket-projectq``: 0.5.0
+* ``pytket-pyquil``: 0.6.0
+* ``pytket-pyzx``: 0.5.0
+* ``pytket-qiskit``: 0.6.0
+* ``pytket-qsharp``: 0.6.0
+* ``pytket-qulacs``: 0.3.0
+
+.. * ``pytket-ionq``: 0.1.0
+
+0.5.7 (August 2020)
+-------------------
+Number of bugs fixed including:
+
+
+* ``OpType.Reset`` added to QASM conversion
+* Bugfix for ``CnX`` with n=4, n=5
+* Correct Node IDS for ``FullyConnected`` Architecture.
+
+
 0.5.5 (June 2020)
 -----------------
 Major New Features:
@@ -48,7 +128,7 @@ Minor New Features:
 
 * Improved error messages when circuits cannot be run on a backend
 * Generalised :py:meth:`Circuit.depth_by_type` to allow sets of gate types
-* A selection of optimisation passes are parametrised by pattern for decomposing into CXs
+* A selection of optimisation passes are parameterised by pattern for decomposing into CXs
 * New :py:class:`Architecture` subclass, :py:class:`FullyConnected`, added
 * New gates added: `OpType.ESWAP` and `OpType.FSim`
 * Additional utility methods for permuting qubits of statevectors
@@ -63,7 +143,7 @@ Updates:
 * Cleaner addition of conditions to gates via kwargs
 * :py:class:`UnitID` objects are specialised into either :py:class:`Qubit` or :py:class:`Bit` objects, with more natural constructors
 * Renamed many passes to give a uniform naming convention
-* Getters on :py:class:`Architecture`, :py:class:`Device`, :py:class:`GateError`, and :py:class:`GateErrorContainer` made into readonly properties
+* Getters on :py:class:`Architecture`, :py:class:`Device`, :py:class:`GateError`, and :py:class:`QubitErrorContainer` made into readonly properties
 * Backend-specific runtime arguments (e.g. simulator seeds) are now passed in via kwargs
 * Stability improvements and bug fixes
 * Updated documentation and additional examples
@@ -100,7 +180,7 @@ Updates:
 New Features:
 
 * Contractural compilation passes with guarantees on how they transform circuits that satisfy their preconditions. This provides a uniform interface for optimisations, routing, and other stages of compilation
-* New "Box" gate types for encapsulating high-level structures (arbitrary subcircuits, parametrised composite gate definitions, unitaries, Pauli operators)
+* New "Box" gate types for encapsulating high-level structures (arbitrary subcircuits, parameterised composite gate definitions, unitaries, Pauli operators)
 * Simpler and more flexible structure for registers and names of qubits/bits, allowing for non-contiguous and multi-dimensional indices (referring to individual units, linear registers, grids, etc.)
 * Latex diagram output using Quantikz
 * The :py:class:`Device` class to build on top of :py:class:`Architecture` with error and timing information
@@ -227,7 +307,7 @@ Updates:
 New Features:
 
 * Support for circuits and architectures from IBM Qiskit (0.7)
-* ``pytket.qiskit.TketPass`` allows pytket to be plugged in to the Qiskit compilation stack to take advantage of t|ket>'s routing and optimisations
+* ``pytket.qiskit.TketPass`` allows pytket to be plugged in to the Qiskit compilation stack to take advantage of tket's routing and optimisations
 * New Chemistry package featuring an implementation of the Quantum Subspace Expansion to work within or alongside Qiskit Aqua (0.4)
 * Optimisation passes introduced for powerful circuit rewriting before routing, and safe rewriting after routing
 

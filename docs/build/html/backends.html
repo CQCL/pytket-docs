@@ -1,18 +1,15 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.backends &mdash; pytket 0.5.5 documentation</title>
+  <title>pytket.backends &mdash; pytket 0.6.0 documentation</title>
   
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
@@ -20,9 +17,7 @@
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -30,15 +25,22 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.circuit" href="circuit.html" />
-    <link rel="prev" title="Open Source Attribution" href="opensource.html" /> 
+    <link rel="prev" title="Noise and the Quantum Circuit Model" href="manual_noise.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -52,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+            <a href="index.html" class="icon icon-home"> pytket
           
 
           
@@ -62,7 +64,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -79,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -94,6 +95,14 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
@@ -120,6 +129,7 @@
 <p class="caption"><span class="caption-text">Specific extensions:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
@@ -127,12 +137,12 @@
 <li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
 </ul>
 
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -171,7 +181,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>pytket.backends</li>
     
@@ -208,6 +218,20 @@ counts, state, or unitary</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pytket.backends.Backend.cancel">
+<code class="sig-name descname">cancel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.Backend.cancel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cancel a job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – handle to job</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend does not support job cancellation</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pytket.backends.Backend.circuit_status">
 <em class="property">abstract </em><code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.status.CircuitStatus" title="pytket.backends.status.CircuitStatus">pytket.backends.status.CircuitStatus</a><a class="headerlink" href="#pytket.backends.Backend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
@@ -216,11 +240,41 @@ corresponding to the ResultHandle</p>
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.compile_circuit">
-<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.Backend.compile_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.Backend.compile_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the default_compilation_pass to a circuit in place.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to compile.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to compile.</p></li>
+<li><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
+compilation. Level 0 just solves the device constraints without
+optimising. Level 1 additionally performs some light optimisations.
+Level 2 adds more intensive optimisations that can increase compilation
+time for large circuits. Defaults to 1.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.backends.Backend.default_compilation_pass">
+<em class="property">abstract </em><code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.backends.Backend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>A suggested compilation pass that will guarantee the resulting circuit
+will be suitable to run on this backend with as few preconditions as
+possible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
+compilation. Level 0 just solves the device constraints without
+optimising. Level 1 additionally performs some light optimisations.
+Level 2 adds more intensive optimisations that can increase compilation
+time for large circuits. Defaults to 1.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Compilation pass guaranteeing required predicates.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">BasePass</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -233,25 +287,17 @@ corresponding to the ResultHandle</p>
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.get_counts">
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n">BasisOrder</span> <span class="o">=</span> <span class="default_value">'BasisOrder.ilo'</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">'True'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">KwargTypes</span></em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, …], int]<a class="headerlink" href="#pytket.backends.Backend.get_counts" title="Permalink to this definition">¶</a></dt>
-<dt>
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">ResultHandle</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n">BasisOrder</span> <span class="o">=</span> <span class="default_value">'BasisOrder.ilo'</span></em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, …], int]</dt>
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, …], int]<a class="headerlink" href="#pytket.backends.Backend.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain a summary of results, accumulating the shots for each result from an
-experiment. Can either accept a
-<a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> for a processed circuit
-to retrieve the data from the backend’s cache, or a
+experiment. Accepts a
 <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
 will fail if the circuit does not match the device’s requirements.</p>
-<p>Calling this method with a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> is deprecated:
-please use a <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> instead. In
-particular, <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> must be used
-after a call to <a class="reference internal" href="#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a><em>]</em>) – The circuit to run, or results to retrieve</p></li>
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
 <li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
-<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket._tket.circuit.BasisOrder" title="pytket._tket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
 DLO (decreasing lexicographic order) for column ordering. Defaults to
 BasisOrder.ilo.</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
@@ -273,7 +319,7 @@ retrieval</p>
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><a class="headerlink" href="#pytket.backends.Backend.get_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><a class="headerlink" href="#pytket.backends.Backend.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a BackendResult corresponding to the handle.</p>
 <p>Use keyword arguments to specify parameters to be used in retrieving results.
 See specific Backend derived class for available parameters, from the following
@@ -296,24 +342,32 @@ list:</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pytket.backends.Backend.get_results">
+<code class="sig-name descname">get_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handles</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.Backend.get_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return results corresponding to handles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>handles</strong> – Iterable of handles</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of results</p>
+</dd>
+</dl>
+<p>Keyword arguments are as for <cite>get_result</cite>, and apply to all jobs.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pytket.backends.Backend.get_shots">
-<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n">BasisOrder</span> <span class="o">=</span> <span class="default_value">'BasisOrder.ilo'</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">'True'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">KwargTypes</span></em><span class="sig-paren">)</span> &#x2192; np.ndarray<a class="headerlink" href="#pytket.backends.Backend.get_shots" title="Permalink to this definition">¶</a></dt>
-<dt>
-<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">ResultHandle</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'None'</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n">BasisOrder</span> <span class="o">=</span> <span class="default_value">'BasisOrder.ilo'</span></em><span class="sig-paren">)</span> &#x2192; np.ndarray</dt>
-<dd><p>Obtain the table of shots from an experiment. Can either accept a <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> for a processed circuit
-to retrieve the data from the backend’s cache, or a
+<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.get_shots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain the table of shots from an experiment. Accepts a
 <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
 will fail if the circuit does not match the device’s requirements.</p>
-<p>Calling this method with a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> is deprecated:
-please use a <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> instead. In
-particular, <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> must be used
-after a call to <a class="reference internal" href="#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a><em>]</em>) – The circuit to run, or results to retrieve</p></li>
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
 <li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
-<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket._tket.circuit.BasisOrder" title="pytket._tket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
 DLO (decreasing lexicographic order) for column ordering. Defaults to
 BasisOrder.ilo.</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
@@ -337,23 +391,15 @@ corresponding to qubit basis states.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.get_state">
-<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">Circuit</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n">BasisOrder</span> <span class="o">=</span> <span class="default_value">'BasisOrder.ilo'</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">'True'</span></em><span class="sig-paren">)</span> &#x2192; np.ndarray<a class="headerlink" href="#pytket.backends.Backend.get_state" title="Permalink to this definition">¶</a></dt>
-<dt>
-<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">ResultHandle</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n">BasisOrder</span> <span class="o">=</span> <span class="default_value">'BasisOrder.ilo'</span></em><span class="sig-paren">)</span> &#x2192; np.ndarray</dt>
-<dd><p>Obtain a statevector from a simulation. Can either accept a
-<a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> for a processed circuit
-to retrieve data from the backend’s cache, or a
+<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.Backend.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a statevector from a simulation. Accepts a
 <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
 will fail if the circuit does not match the simulator’s requirements.</p>
-<p>Calling this method with a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> is deprecated:
-please use a <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> instead. In
-particular, <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code></a> must be used
-after a call to <a class="reference internal" href="#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuit</strong> (<em>Union</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>, </em><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a><em>]</em>) – The circuit to run, or results to retrieve</p></li>
-<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket._tket.circuit.BasisOrder" title="pytket._tket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of bit ids,
+<li><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of bit ids,
 big-endian) and DLO-BE (decreasing lexicographic order, big-endian) for
 ordering the coefficients. Defaults to BasisOrder.ilo.</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
@@ -379,30 +425,30 @@ qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|0\righ
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.pop_result">
-<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">, </span>Any<span class="p">]</span><a class="headerlink" href="#pytket.backends.Backend.pop_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.backends.Backend.pop_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove cache entry corresponding to handle from the cache and return.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – ResultHandle object</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Cache entry corresponding to handle</p>
+<dd class="field-even"><p>Cache entry corresponding to handle, if it was present</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Any</p>
+<dd class="field-odd"><p>Optional[ResultCache]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.process_circuit">
-<code class="sig-name descname">process_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><a class="headerlink" href="#pytket.backends.Backend.process_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><a class="headerlink" href="#pytket.backends.Backend.process_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit a single circuit to the backend for running. See <a class="reference internal" href="#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.process_circuits">
-<em class="property">abstract </em><code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>pytket._tket.circuit.Circuit<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.Backend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<em class="property">abstract </em><code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>pytket.circuit.Circuit<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.Backend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit circuits to the backend for running. The results will be stored
 in the backend’s result cache to be retrieved by the corresponding
 get_&lt;data&gt; method.</p>
@@ -434,7 +480,7 @@ the same order as the circuits.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.Backend.valid_circuit">
-<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket._tket.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.backends.Backend.valid_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.backends.Backend.valid_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the circuit satisfies all of required_predicates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -450,17 +496,16 @@ the same order as the circuits.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.Backend.default_compilation_pass">
-<em class="property">abstract property </em><code class="sig-name descname">default_compilation_pass</code><a class="headerlink" href="#pytket.backends.Backend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
-<dd><p>A suggested compilation pass that will guarantee the resulting circuit
-will be suitable to run on this backend with as few preconditions as
-possible.</p>
+<dt id="pytket.backends.Backend.characterisation">
+<em class="property">property </em><code class="sig-name descname">characterisation</code><a class="headerlink" href="#pytket.backends.Backend.characterisation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the characterisation targeted by the backend if it exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Compilation pass guaranteeing required predicates.</p>
+<dd class="field-odd"><p>The characterisation that this backend targets if it exists. The characterisation
+object contains device-specific information such as gate error rates.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="passes.html#pytket._tket.passes.BasePass" title="pytket._tket.passes.BasePass">BasePass</a></p>
+<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -475,7 +520,7 @@ possible.</p>
 object contains information about gate errors and device architecture.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Optional[<a class="reference internal" href="device.html#pytket._tket.device.Device" title="pytket._tket.device.Device">Device</a>]</p>
+<dd class="field-even"><p>Optional[<a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">Device</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -503,7 +548,7 @@ be successfully run on this backend.</p>
 <dd class="field-odd"><p>Required predicates.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[<a class="reference internal" href="predicates.html#pytket._tket.predicates.Predicate" title="pytket._tket.predicates.Predicate">Predicate</a>]</p>
+<dd class="field-even"><p>List[<a class="reference internal" href="predicates.html#pytket.predicates.Predicate" title="pytket.predicates.Predicate">Predicate</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -577,7 +622,7 @@ to determine this.</p>
 <p><cite>BackendResult</cite> class and associated methods.</p>
 <dl class="py class">
 <dt id="pytket.backends.backendresult.BackendResult">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.backendresult.</code><code class="sig-name descname">BackendResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">q_bits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Qubit" title="pytket._tket.circuit.Qubit">pytket._tket.circuit.Qubit</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">c_bits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Bit" title="pytket._tket.circuit.Bit">pytket._tket.circuit.Bit</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">counts</span><span class="p">:</span> <span class="n">Counter<span class="p">[</span>pytket.utils.outcomearray.OutcomeArray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shots</span><span class="p">:</span> <span class="n">pytket.utils.outcomearray.OutcomeArray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">unitary</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.backendresult.</code><code class="sig-name descname">BackendResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">q_bits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">c_bits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">counts</span><span class="p">:</span> <span class="n">Counter<span class="p">[</span>pytket.utils.outcomearray.OutcomeArray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shots</span><span class="p">:</span> <span class="n">pytket.utils.outcomearray.OutcomeArray</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">unitary</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encapsulate generic results from pytket Backend instances.</p>
 <p>Results can either be measured (shots or counts), or ideal simulations in
 the form of statevector or unitary arrays. For measured results, a map of
@@ -589,8 +634,8 @@ corresponds to bitwise encoding 011, and a mapping {Qubit(2): 0} tells us
 the 0 in the bitwise encoding corresponds to Qubit(2)).</p>
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_bitlist">
-<code class="sig-name descname">get_bitlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Bit" title="pytket._tket.circuit.Bit">pytket._tket.circuit.Bit</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_bitlist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return sorted list of Bits.</p>
+<code class="sig-name descname">get_bitlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_bitlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of Bits in internal storage order.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><strong>AttributeError</strong></a> – No Bits in BackendResult.</p>
@@ -599,18 +644,23 @@ the 0 in the bitwise encoding corresponds to Qubit(2)).</p>
 <dd class="field-even"><p>Sorted list of Bits.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="circuit.html#pytket._tket.circuit.Bit" title="pytket._tket.circuit.Bit">Bit</a>]</p>
+<dd class="field-odd"><p>List[<a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">Bit</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_counts">
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Bit" title="pytket._tket.circuit.Bit">pytket._tket.circuit.Bit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Counter<span class="p">[</span>pytket.utils.outcomearray.OutcomeArray<span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_counts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em><span class="sig-paren">)</span> &#x2192; Counter<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return counts of outcomes if available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket._tket.circuit.Bit" title="pytket._tket.circuit.Bit"><em>Bit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – ordered subset of Bits, returns all results by default, defaults to None</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit"><em>Bit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – ordered subset of Bits, returns all results by default, defaults to None</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisOrder</span></code></a>) – Toggle between ILO (increasing lexicographic order of bit ids) and
+DLO (decreasing lexicographic order) for column ordering if cbits is None.
+Defaults to BasisOrder.ilo.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>InvalidResultType</strong> – Counts are not available</p>
@@ -619,14 +669,14 @@ the 0 in the bitwise encoding corresponds to Qubit(2)).</p>
 <dd class="field-odd"><p>Counts of outcomes</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Counter[<a class="reference internal" href="utils.html#pytket.utils.OutcomeArray" title="pytket.utils.OutcomeArray">OutcomeArray</a>]</p>
+<dd class="field-even"><p>Counter[Tuple(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>)]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_distribution">
-<code class="sig-name descname">get_distribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">units</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.UnitID" title="pytket._tket.circuit.UnitID">pytket._tket.circuit.UnitID</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>pytket.utils.outcomearray.OutcomeArray<span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_distribution" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_distribution</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">units</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.UnitID" title="pytket.circuit.UnitID">pytket.circuit.UnitID</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_distribution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate an exact or approximate probability distribution over outcomes.</p>
 <p>If the exact statevector is known, the exact probability distribution is
 returned. Otherwise, if measured results are available the distribution
@@ -635,8 +685,8 @@ is estimated from these results.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_qbitlist">
-<code class="sig-name descname">get_qbitlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Qubit" title="pytket._tket.circuit.Qubit">pytket._tket.circuit.Qubit</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_qbitlist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return sorted list of Qubits.</p>
+<code class="sig-name descname">get_qbitlist</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_qbitlist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of Qubits in internal storage order.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><strong>AttributeError</strong></a> – No Qubits in BackendResult.</p>
@@ -645,22 +695,25 @@ is estimated from these results.</p>
 <dd class="field-even"><p>Sorted list of Qubits.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="circuit.html#pytket._tket.circuit.Qubit" title="pytket._tket.circuit.Qubit">Qubit</a>]</p>
+<dd class="field-odd"><p>List[<a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">Qubit</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">request_ids</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.UnitID" title="pytket._tket.circuit.UnitID">pytket._tket.circuit.UnitID</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.backendresult.StoredResult" title="pytket.backends.backendresult.StoredResult">pytket.backends.backendresult.StoredResult</a><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">request_ids</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.UnitID" title="pytket.circuit.UnitID">pytket.circuit.UnitID</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.backendresult.StoredResult" title="pytket.backends.backendresult.StoredResult">pytket.backends.backendresult.StoredResult</a><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve all results, optionally according to a specified UnitID ordering or subset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>request_ids</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket._tket.circuit.UnitID" title="pytket._tket.circuit.UnitID"><em>UnitID</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – Ordered set of UnitIDs (Qubit, Bit) for which to
-retrieve results, defaults to None</p>
+<dd class="field-odd"><p><strong>request_ids</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.UnitID" title="pytket.circuit.UnitID"><em>UnitID</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – Ordered set of either Qubits or Bits for which to
+retrieve results, defaults to None in which case all results are returned.
+For statevector/unitary results some permutation of all qubits must be requested.
+For measured results (shots/counts), some subset of the relevant bits must be requested.</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – Requested UnitIds (request_ids) contain a mixture of qubits and bits.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – Classical bits not set.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – Requested (Qu)Bit not in result.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – “Qubits not set.”</p></li>
@@ -679,31 +732,42 @@ qubits can be requested.</p></li>
 
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_shots">
-<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Bit" title="pytket._tket.circuit.Bit">pytket._tket.circuit.Bit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; pytket.utils.outcomearray.OutcomeArray<a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_shots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return shots in an OutcomeArray if available.</p>
+<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_shots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return shots if available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket._tket.circuit.Bit" title="pytket._tket.circuit.Bit"><em>Bit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – ordered subset of Bits, returns all results by default, defaults to None</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit"><em>Bit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – ordered subset of Bits, returns all results by default, defaults to None</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisOrder</span></code></a>) – Toggle between ILO (increasing lexicographic order of bit ids) and
+DLO (decreasing lexicographic order) for column ordering if cbits is None.
+Defaults to BasisOrder.ilo.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>InvalidResultType</strong> – Shot results are not available</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>OutcomeArray of shots</p>
+<dd class="field-odd"><p>2D array of readouts, each row a separate outcome and each column a bit value.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="utils.html#pytket.utils.OutcomeArray" title="pytket.utils.OutcomeArray">OutcomeArray</a></p>
+<dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
+<p>The order of the columns follows the order of <cite>cbits</cite>, if provided.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_state">
-<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Qubit" title="pytket._tket.circuit.Qubit">pytket._tket.circuit.Qubit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_state" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return statevector if available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>qbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket._tket.circuit.Qubit" title="pytket._tket.circuit.Qubit"><em>Qubit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – permutation of Qubits, defaults to None</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><em>Qubit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – permutation of Qubits, defaults to None</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisOrder</span></code></a>) – Toggle between ILO (increasing lexicographic order of qubit ids)
+and DLO (decreasing lexicographic order) for column ordering if qbits is
+None. Defaults to BasisOrder.ilo.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>InvalidResultType</strong> – Statevector not available</p>
@@ -719,11 +783,16 @@ qubits can be requested.</p></li>
 
 <dl class="py method">
 <dt id="pytket.backends.backendresult.BackendResult.get_unitary">
-<code class="sig-name descname">get_unitary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket._tket.circuit.Qubit" title="pytket._tket.circuit.Qubit">pytket._tket.circuit.Qubit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_unitary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_unitary</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qbits</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Sequence<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return unitary if available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>qbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket._tket.circuit.Qubit" title="pytket._tket.circuit.Qubit"><em>Qubit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – permutation of Qubits, defaults to None</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qbits</strong> (<em>Optional</em><em>[</em><em>Sequence</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><em>Qubit</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – permutation of Qubits, defaults to None</p></li>
+<li><p><strong>basis</strong> (<a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisOrder</span></code></a>) – Toggle between ILO (increasing lexicographic order of qubit ids)
+and DLO (decreasing lexicographic order) for column ordering if qbits is
+None. Defaults to BasisOrder.ilo.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>InvalidResultType</strong> – Statevector not available</p>
@@ -737,33 +806,45 @@ qubits can be requested.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt id="pytket.backends.backendresult.BackendResult.contains_measured_results">
+<em class="property">property </em><code class="sig-name descname">contains_measured_results</code><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.contains_measured_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether measured type results (shots or counts) are stored</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.backends.backendresult.BackendResult.contains_state_results">
+<em class="property">property </em><code class="sig-name descname">contains_state_results</code><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.contains_state_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether state type results (state vector or unitary) are stored</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt id="pytket.backends.backendresult.StoredResult">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.backendresult.</code><code class="sig-name descname">StoredResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">counts</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Counter<span class="p">[</span>pytket.utils.outcomearray.OutcomeArray<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pytket.utils.outcomearray.OutcomeArray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">state</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>numpy.ndarray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">unitary</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>numpy.ndarray<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.backendresult.StoredResult" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.backendresult.</code><code class="sig-name descname">StoredResult</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>NamedTuple with optional fields for all result types.</p>
-<dl class="py method">
+<dl class="py attribute">
 <dt id="pytket.backends.backendresult.StoredResult.counts">
-<em class="property">property </em><code class="sig-name descname">counts</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.counts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">counts</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="pytket.backends.backendresult.StoredResult.shots">
-<em class="property">property </em><code class="sig-name descname">shots</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.shots" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">shots</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.shots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="pytket.backends.backendresult.StoredResult.state">
-<em class="property">property </em><code class="sig-name descname">state</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.state" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">state</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 2</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="pytket.backends.backendresult.StoredResult.unitary">
-<em class="property">property </em><code class="sig-name descname">unitary</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.unitary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">unitary</code><a class="headerlink" href="#pytket.backends.backendresult.StoredResult.unitary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 3</p>
 </dd></dl>
 
@@ -775,17 +856,17 @@ qubits can be requested.</p></li>
 <p>Status classes for circuits submitted to backends.</p>
 <dl class="py class">
 <dt id="pytket.backends.status.CircuitStatus">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.status.</code><code class="sig-name descname">CircuitStatus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">status</span><span class="p">:</span> <span class="n">pytket.backends.status.StatusEnum</span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.status.CircuitStatus" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.status.</code><code class="sig-name descname">CircuitStatus</code><a class="headerlink" href="#pytket.backends.status.CircuitStatus" title="Permalink to this definition">¶</a></dt>
 <dd><p>The status of a circuit along with optional long description, for example an error message.</p>
-<dl class="py method">
+<dl class="py attribute">
 <dt id="pytket.backends.status.CircuitStatus.message">
-<em class="property">property </em><code class="sig-name descname">message</code><a class="headerlink" href="#pytket.backends.status.CircuitStatus.message" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">message</code><a class="headerlink" href="#pytket.backends.status.CircuitStatus.message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="py attribute">
 <dt id="pytket.backends.status.CircuitStatus.status">
-<em class="property">property </em><code class="sig-name descname">status</code><a class="headerlink" href="#pytket.backends.status.CircuitStatus.status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">status</code><a class="headerlink" href="#pytket.backends.status.CircuitStatus.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for field number 0</p>
 </dd></dl>
 
@@ -805,7 +886,7 @@ qubits can be requested.</p></li>
         <a href="circuit.html" class="btn btn-neutral float-right" title="pytket.circuit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="opensource.html" class="btn btn-neutral float-left" title="Open Source Attribution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="manual_noise.html" class="btn btn-neutral float-left" title="Noise and the Quantum Circuit Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -814,19 +895,11 @@ qubits can be requested.</p></li>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -837,6 +910,7 @@ qubits can be requested.</p></li>
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {
