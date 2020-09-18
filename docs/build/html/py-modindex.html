@@ -1,18 +1,15 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Module Index &mdash; pytket 0.5.5 documentation</title>
+  <title>Python Module Index &mdash; pytket 0.6.0 documentation</title>
   
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
@@ -20,9 +17,7 @@
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -30,11 +25,18 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
  
@@ -53,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+            <a href="index.html" class="icon icon-home"> pytket
           
 
           
@@ -63,7 +65,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -80,7 +82,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -95,6 +96,14 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul>
@@ -116,6 +125,7 @@
 <p class="caption"><span class="caption-text">Specific extensions:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
@@ -123,12 +133,12 @@
 <li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
 </ul>
 
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -167,7 +177,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Python Module Index</li>
     
@@ -204,57 +214,52 @@
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="circuit.html#module-pytket._tket.circuit"><code class="xref">pytket._tket.circuit</code></a></td><td>
+       <a href="circuit.html#module-pytket.circuit"><code class="xref">pytket.circuit</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="device.html#module-pytket._tket.device"><code class="xref">pytket._tket.device</code></a></td><td>
+       <a href="device.html#module-pytket.device"><code class="xref">pytket.device</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="logging.html#module-pytket._tket.logging"><code class="xref">pytket._tket.logging</code></a></td><td>
+       <a href="logging.html#module-pytket.logging"><code class="xref">pytket.logging</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="partition.html#module-pytket._tket.partition"><code class="xref">pytket._tket.partition</code></a></td><td>
+       <a href="partition.html#module-pytket.partition"><code class="xref">pytket.partition</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="passes.html#module-pytket._tket.passes"><code class="xref">pytket._tket.passes</code></a></td><td>
+       <a href="passes.html#module-pytket.passes"><code class="xref">pytket.passes</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="pauli.html#module-pytket._tket.pauli"><code class="xref">pytket._tket.pauli</code></a></td><td>
+       <a href="pauli.html#module-pytket.pauli"><code class="xref">pytket.pauli</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="predicates.html#module-pytket._tket.predicates"><code class="xref">pytket._tket.predicates</code></a></td><td>
+       <a href="predicates.html#module-pytket.predicates"><code class="xref">pytket.predicates</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="program.html#module-pytket._tket.program"><code class="xref">pytket._tket.program</code></a></td><td>
+       <a href="program.html#module-pytket.program"><code class="xref">pytket.program</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="routing.html#module-pytket._tket.routing"><code class="xref">pytket._tket.routing</code></a></td><td>
+       <a href="routing.html#module-pytket.routing"><code class="xref">pytket.routing</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="transform.html#module-pytket._tket.transform"><code class="xref">pytket._tket.transform</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="extensions/aqt.html#module-pytket.aqt"><code class="xref">pytket.aqt</code></a></td><td>
+       <a href="transform.html#module-pytket.transform"><code class="xref">pytket.transform</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
@@ -274,12 +279,22 @@
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="extensions/braket.html#module-pytket.backends.braket"><code class="xref">pytket.backends.braket</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="extensions/pyquil.html#module-pytket.backends.forest"><code class="xref">pytket.backends.forest</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
        <a href="extensions/honeywell.html#module-pytket.backends.honeywell"><code class="xref">pytket.backends.honeywell</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="extensions/ionq.html#module-pytket.backends.ionq"><code class="xref">pytket.backends.ionq</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
@@ -300,11 +315,6 @@
        <td></td>
        <td>&#160;&#160;&#160;
        <a href="extensions/cirq.html#module-pytket.cirq"><code class="xref">pytket.cirq</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="extensions/honeywell.html#module-pytket.honeywell"><code class="xref">pytket.honeywell</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
@@ -349,6 +359,11 @@
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="extensions/qulacs.html#module-pytket.qulacs"><code class="xref">pytket.qulacs</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="utils.html#module-pytket.utils"><code class="xref">pytket.utils</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
@@ -369,19 +384,11 @@
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2019, Cambridge Quantum Computing Ltd
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -392,6 +399,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

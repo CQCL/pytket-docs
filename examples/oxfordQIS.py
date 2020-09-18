@@ -1,3 +1,6 @@
+## EXAMPLE FILE FOR THE OXFORD QIS WORKSHOP FROM 22 FEB 2020
+## THIS IS WRITTEN TO WORK WITH PYTKET v0.4.1 AND WILL NOT BE UPDATED IN FUTURE
+
 from pytket.circuit import Circuit, PauliExpBox, Pauli
 from pytket.predicates import CompilationUnit
 from pytket.passes import DecomposeBoxes, PauliSimp, SequencePass

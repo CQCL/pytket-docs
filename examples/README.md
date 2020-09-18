@@ -7,6 +7,8 @@ around with them) yourself.
 You can also run all the examples below, and try out all pytket code (including extensions) in your
 browser using Binder:  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/master?filepath=examples)
 
+## Feature Examples
+
 [circuit_analysis_example](https://github.com/CQCL/pytket/blob/master/examples/circuit_analysis_example.ipynb) -
 Basic methods of analysis and visualisation of circuits.
 
@@ -22,6 +24,9 @@ Compilation passes and how to combine and apply them.
 [backends_example](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) -
 How to run circuits on different backends.
 
+[comparing_simulators](https://github.com/CQCL/pytket/blob/master/examples/comparing_simulators.ipynb) -
+An overview of the differences between each of the simulators supported by `pytket`.
+
 [routing_example](https://github.com/CQCL/pytket/blob/master/examples/routing_example.ipynb) -
 An introduction to routing, using Cirq to construct examples.
 
@@ -31,9 +36,6 @@ Mid-circuit measurements and classical control.
 [expectation_value_example](https://github.com/CQCL/pytket/blob/master/examples/expectation_value_example.ipynb) -
 Computing expectation values of Hamiltonians.
 
-[Forest_portability_example](https://github.com/CQCL/pytket/blob/master/examples/Forest_portability_example.ipynb) -
-Examples illustrating portability between different backends.
-
 [measurement_reduction_example](https://github.com/CQCL/pytket/blob/master/examples/measurement_reduction_example.ipynb)
 - Advanced methods for reducing the number of circuits required for
 measurement.
@@ -42,3 +44,14 @@ measurement.
 
 [spam_example](https://github.com/CQCL/pytket/blob/master/examples/spam_example.ipynb) -
 Calibration and correction of state preparation and measurement in the presence of noise.
+
+## Use-case Examples
+
+[ucc_vqe](https://github.com/CQCL/pytket/blob/master/examples/ucc_vqe.ipynb) -
+Exploring features to help code an efficient implementation of the Variational Quantum Eigensolver using the Unitary Coupled Cluster method for electronic structure.
+
+[entanglement_swapping](https://github.com/CQCL/pytket/blob/master/examples/entanglement_swapping.ipynb) -
+Using tomography to analyse the effect of noise channels when iterating the Entanglement Swapping protocol.
+
+[Forest_portability_example](https://github.com/CQCL/pytket/blob/master/examples/Forest_portability_example.ipynb) -
+Examples illustrating portability between different backends.
