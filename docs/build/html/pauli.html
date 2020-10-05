@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket.pauli &mdash; pytket 0.6.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pytket.device" href="device.html" />
+    <link rel="prev" title="pytket.circuit.OpType" href="optype.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.pauli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partition.html">pytket.partition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/ionq.html">pytket-ionq</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>pytket.pauli</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pauli.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pytket.pauli">
+<span id="pytket-pauli"></span><h1>pytket.pauli<a class="headerlink" href="#module-pytket.pauli" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pytket.pauli.Pauli">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.pauli.</code><code class="sig-name descname">Pauli</code><a class="headerlink" href="#pytket.pauli.Pauli" title="Permalink to this definition">¶</a></dt>
+<dd><p>Members:</p>
+<p>I</p>
+<p>X</p>
+<p>Y</p>
+<p>Z</p>
+<dl class="py method">
+<dt id="pytket.pauli.Pauli.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.pauli.Pauli" title="pytket.pauli.Pauli">pytket.pauli.Pauli</a></span></em>, <em class="sig-param"><span class="n">arg0</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.pauli.Pauli.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="pytket.pauli.Pauli.name">
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket.pauli.Pauli.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>(self: handle) -&gt; str</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.pauli.QubitPauliString">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.pauli.</code><code class="sig-name descname">QubitPauliString</code><a class="headerlink" href="#pytket.pauli.QubitPauliString" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string of Pauli letters from the alphabet {I, X, Y, Z},implemented as a sparse list, indexed by qubit.</p>
+<dl class="py method">
+<dt id="pytket.pauli.QubitPauliString.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.pauli.QubitPauliString.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.pauli.QubitPauliString) -&gt; None</p></li>
+</ol>
+<p>Constructs an empty QubitPauliString.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.pauli.QubitPauliString, qubit: tket::Qubit, pauli: pytket.pauli.Pauli) -&gt; None</p></li>
+</ol>
+<p>Constructs a QubitPauliString with a single Pauli term.</p>
+<ol class="arabic simple" start="3">
+<li><p>__init__(self: pytket.pauli.QubitPauliString, qubits: List[tket::Qubit], paulis: List[pytket.pauli.Pauli]) -&gt; None</p></li>
+</ol>
+<p>Constructs a QubitPauliString from two matching lists of Qubits and Paulis.</p>
+<ol class="arabic simple" start="4">
+<li><p>__init__(self: pytket.pauli.QubitPauliString, map: Dict[tket::Qubit, pytket.pauli.Pauli]) -&gt; None</p></li>
+</ol>
+<p>Construct a QubitPauliString from a QubitPauliMap.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.pauli.QubitPauliString.commutes_with">
+<code class="sig-name descname">commutes_with</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em>, <em class="sig-param"><span class="n">other</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.pauli.QubitPauliString.commutes_with" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if the two strings commute, else False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.pauli.QubitPauliString.compress">
+<code class="sig-name descname">compress</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.pauli.QubitPauliString.compress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes I terms to compress the sparse representation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.pauli.QubitPauliString.dot_state">
+<code class="sig-name descname">dot_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.pauli.QubitPauliString.dot_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>dot_state(self: pytket.pauli.QubitPauliString, state: numpy.ndarray[complex128[m, 1]]) -&gt; numpy.ndarray[complex128[m, 1]]</p></li>
+</ol>
+<p>Performs the dot product of the state with the pauli string. Maps the qubits of the statevector with sequentially-indexed qubits in the default register, with <code class="docutils literal notranslate"><span class="pre">Qubit(0)</span></code> being the most significant qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>state</strong> – statevector for qubits <code class="docutils literal notranslate"><span class="pre">Qubit(0)</span></code> to <code class="docutils literal notranslate"><span class="pre">Qubit(n-1)</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dot product of operator with state</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>dot_state(self: pytket.pauli.QubitPauliString, state: numpy.ndarray[complex128[m, 1]], qubits: List[tket::Qubit]) -&gt; numpy.ndarray[complex128[m, 1]]</p></li>
+</ol>
+<p>Performs the dot product of the state with the pauli string. Maps the qubits of the statevector according to the ordered list <cite>qubits</cite>, with <code class="docutils literal notranslate"><span class="pre">qubits[0]</span></code> being the most significant qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – statevector</p></li>
+<li><p><strong>qubits</strong> – order of qubits in <cite>state</cite> from most to least significant</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dot product of operator with state</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.pauli.QubitPauliString.state_expectation">
+<code class="sig-name descname">state_expectation</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.pauli.QubitPauliString.state_expectation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>state_expectation(self: pytket.pauli.QubitPauliString, state: numpy.ndarray[complex128[m, 1]]) -&gt; complex</p></li>
+</ol>
+<p>Calculates the expectation value of the state with the pauli string. Maps the qubits of the statevector with sequentially-indexed qubits in the default register, with <code class="docutils literal notranslate"><span class="pre">Qubit(0)</span></code> being the most significant qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>state</strong> – statevector for qubits <code class="docutils literal notranslate"><span class="pre">Qubit(0)</span></code> to <code class="docutils literal notranslate"><span class="pre">Qubit(n-1)</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>expectation value with respect to state</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>state_expectation(self: pytket.pauli.QubitPauliString, state: numpy.ndarray[complex128[m, 1]], qubits: List[tket::Qubit]) -&gt; complex</p></li>
+</ol>
+<p>Calculates the expectation value of the state with the pauli string. Maps the qubits of the statevector according to the ordered list <cite>qubits</cite>, with <code class="docutils literal notranslate"><span class="pre">qubits[0]</span></code> being the most significant qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>state</strong> – statevector</p></li>
+<li><p><strong>qubits</strong> – order of qubits in <cite>state</cite> from most to least significant</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>expectation value with respect to state</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.pauli.QubitPauliString.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em><span class="sig-paren">)</span> &#x2192; Dict[tket::Qubit, pytket.pauli.Pauli]<a class="headerlink" href="#pytket.pauli.QubitPauliString.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the string as a python dict mapping <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> to <a class="reference internal" href="#pytket.pauli.Pauli" title="pytket.pauli.Pauli"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pauli</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.pauli.QubitPauliString.to_sparse_matrix">
+<code class="sig-name descname">to_sparse_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.pauli.QubitPauliString.to_sparse_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>to_sparse_matrix(self: pytket.pauli.QubitPauliString) -&gt; scipy.sparse.csc_matrix[complex128]</p></li>
+</ol>
+<p>Represents the sparse string as a dense string (without padding for extra qubits) and generates the matrix for the tensor. Uses the ILO-BE convention, so <code class="docutils literal notranslate"><span class="pre">Qubit(&quot;a&quot;,</span> <span class="pre">0)</span></code> is more significant that <code class="docutils literal notranslate"><span class="pre">Qubit(&quot;a&quot;,</span> <span class="pre">1)</span></code> and <code class="docutils literal notranslate"><span class="pre">Qubit(&quot;b&quot;)</span></code> for indexing into the matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a sparse matrix corresponding to the operator</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>to_sparse_matrix(self: pytket.pauli.QubitPauliString, n_qubits: int) -&gt; scipy.sparse.csc_matrix[complex128]</p></li>
+</ol>
+<p>Represents the sparse string as a dense string over <cite>n_qubits</cite> qubits (sequentially indexed from 0 in the default register) and generates the matrix for the tensor. Uses the ILO-BE convention, so <code class="docutils literal notranslate"><span class="pre">Qubit(0)</span></code> is the most significant bit for indexing into the matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n_qubits</strong> – the number of qubits in the full operator</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a sparse matrix corresponding to the operator</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>to_sparse_matrix(self: pytket.pauli.QubitPauliString, n_qubits: List[tket::Qubit]) -&gt; scipy.sparse.csc_matrix[complex128]</p></li>
+</ol>
+<p>Represents the sparse string as a dense string and generates the matrix for the tensor. Orders qubits according to <cite>qubits</cite> (padding with identities if they are not in the sparse string), so <code class="docutils literal notranslate"><span class="pre">qubits[0]</span></code> is the most significant bit for indexing into the matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>qubits</strong> – the ordered list of qubits in the full operator</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a sparse matrix corresponding to the operator</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.pauli.pauli_string_mult">
+<code class="sig-prename descclassname">pytket.pauli.</code><code class="sig-name descname">pauli_string_mult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qubitpaulistring1</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em>, <em class="sig-param"><span class="n">qubitpaulistring2</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><span class="p">]</span><a class="headerlink" href="#pytket.pauli.pauli_string_mult" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the product of two QubitPauliString objects as a pair (QubitPauliString, complex)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="device.html" class="btn btn-neutral float-right" title="pytket.device" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="optype.html" class="btn btn-neutral float-left" title="pytket.circuit.OpType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket.device &mdash; pytket 0.6.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pytket.passes" href="passes.html" />
+    <link rel="prev" title="pytket.pauli" href="pauli.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partition.html">pytket.partition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/ionq.html">pytket-ionq</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>pytket.device</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/device.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pytket.device">
+<span id="pytket-device"></span><h1>pytket.device<a class="headerlink" href="#module-pytket.device" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="pytket.device.Device">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.device.</code><code class="sig-name descname">Device</code><a class="headerlink" href="#pytket.device.Device" title="Permalink to this definition">¶</a></dt>
+<dd><p>The base Device class, describing gate errors, readout errors and coupling information for qubits and edges.</p>
+<dl class="py method">
+<dt id="pytket.device.Device.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.device.Device, node_errors: Dict[pytket.circuit.Node, pytket.device.QubitErrorContainer], edge_errors: Dict[Tuple[pytket.circuit.Node, pytket.circuit.Node], pytket.device.QubitErrorContainer], architecture: pytket.routing.Architecture) -&gt; None</p></li>
+</ol>
+<p>Constructor for a Device from a connectivity graph and reported single and multi-qubit errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_errors</strong> – A map from node ids to error rates</p></li>
+<li><p><strong>edge_errors</strong> – A map from edges (ordered pairs of node ids) to error rates</p></li>
+<li><p><strong>architecture</strong> – An architecture containing qubit connectivity information</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.device.Device, architecture: pytket.routing.Architecture) -&gt; None</p></li>
+</ol>
+<p>Construct a Device from a connectivity graph with no gate information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>architecture</strong> – An architecture containing qubit connectivity information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.get_average_error">
+<code class="sig-name descname">get_average_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_average_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>get_average_error(self: pytket.device.Device, node: pytket.circuit.Node) -&gt; Optional[float]</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>node</strong> – Node the gate error rates are averaged for</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>averaged error rates for all single qubit primitives for Node</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>get_average_error(self: pytket.device.Device, edge: Tuple[pytket.circuit.Node, pytket.circuit.Node]) -&gt; Optional[float]</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>edge</strong> – Edge for which the gate error rates are averaged</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>averaged error rates for all two-qubit primitives for edge</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.get_error">
+<code class="sig-name descname">get_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.Device.get_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>get_error(self: pytket.device.Device, gate: pytket.circuit.OpType, node: pytket.circuit.Node) -&gt; float</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> – OpType (gate) of error to be found</p></li>
+<li><p><strong>node</strong> – Node gate is run on</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>stored error rates for given OpType and Node</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>get_error(self: pytket.device.Device, gate: pytket.circuit.OpType, edge: Tuple[pytket.circuit.Node, pytket.circuit.Node]) -&gt; float</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate</strong> – OpType (gate) of error to be found</p></li>
+<li><p><strong>edge</strong> – pair of Nodes gate is run on</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>stored error rates for given OpType and edge</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.get_readout_error">
+<code class="sig-name descname">get_readout_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em>, <em class="sig-param"><span class="n">node</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><a class="headerlink" href="#pytket.device.Device.get_readout_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>:param node readout error is found for
+:return: stored readout error for given Node</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.architecture">
+<em class="property">property </em><code class="sig-name descname">architecture</code><a class="headerlink" href="#pytket.device.Device.architecture" title="Permalink to this definition">¶</a></dt>
+<dd><p>The underlying connectivity graph of the Device</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.coupling">
+<em class="property">property </em><code class="sig-name descname">coupling</code><a class="headerlink" href="#pytket.device.Device.coupling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the coupling map of the Device as UnitIDs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.errors_by_link">
+<em class="property">property </em><code class="sig-name descname">errors_by_link</code><a class="headerlink" href="#pytket.device.Device.errors_by_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of pairs of links and error rates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.errors_by_node">
+<em class="property">property </em><code class="sig-name descname">errors_by_node</code><a class="headerlink" href="#pytket.device.Device.errors_by_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of pairs of nodes and error rates</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.Device.nodes">
+<em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#pytket.device.Device.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of all nodes with reported error rates.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.device.QubitErrorContainer">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.device.</code><code class="sig-name descname">QubitErrorContainer</code><a class="headerlink" href="#pytket.device.QubitErrorContainer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Container for gate errors for a single node or edge, contains a map between supported gate types and a float corresponding to gate error rate</p>
+<dl class="py method">
+<dt id="pytket.device.QubitErrorContainer.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.device.QubitErrorContainer.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.device.QubitErrorContainer, arg0: Set[pytket.circuit.OpType]) -&gt; None</p></li>
+</ol>
+<p>Constructs a QubitErrorContainer with a set of valid operations.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.device.QubitErrorContainer, gate_error_map: Dict[pytket.circuit.OpType, float]) -&gt; None</p></li>
+</ol>
+<p>The constructor for a class containing all gate errors and runtimes for a given node or edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gate_error_map</strong> – Map from OpType to its associated float describing error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.QubitErrorContainer.add_error">
+<code class="sig-name descname">add_error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.QubitErrorContainer" title="pytket.device.QubitErrorContainer">pytket.device.QubitErrorContainer</a></span></em>, <em class="sig-param"><span class="n">new_error</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>pytket.circuit.OpType<span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.QubitErrorContainer.add_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new error to container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_error</strong> – A pair of an OpType and its associated error rate.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.QubitErrorContainer.add_readout">
+<code class="sig-name descname">add_readout</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.device.QubitErrorContainer" title="pytket.device.QubitErrorContainer">pytket.device.QubitErrorContainer</a></span></em>, <em class="sig-param"><span class="n">readout_error</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.device.QubitErrorContainer.add_readout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a readout error for this node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>readout_error</strong> – Error rate of readout, in range [0,1]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.QubitErrorContainer.readout">
+<em class="property">property </em><code class="sig-name descname">readout</code><a class="headerlink" href="#pytket.device.QubitErrorContainer.readout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a readout error in range [0,1] for this node if it has been set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.QubitErrorContainer.supported_gate_errors">
+<em class="property">property </em><code class="sig-name descname">supported_gate_errors</code><a class="headerlink" href="#pytket.device.QubitErrorContainer.supported_gate_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns error rate by associated OpType for supported OpType.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.device.QubitErrorContainer.supported_gates">
+<em class="property">property </em><code class="sig-name descname">supported_gates</code><a class="headerlink" href="#pytket.device.QubitErrorContainer.supported_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve OpTypes supported by Node associated with this QubitErrorContainer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="passes.html" class="btn btn-neutral float-right" title="pytket.passes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pauli.html" class="btn btn-neutral float-left" title="pytket.pauli" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

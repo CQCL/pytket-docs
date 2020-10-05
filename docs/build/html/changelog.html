@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Changelog &mdash; pytket 0.6.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation Troubleshooting" href="install.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#october-2020">0.6.1 (October 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#september-2020">0.6.0 (September 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#august-2020">0.5.7 (August 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#june-2020">0.5.5 (June 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#may-2020">0.5.4 (May 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#april-2020">0.5.2 (April 2020)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#december-2019">0.4.1 (December 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#november-2019">0.4.0 (November 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#august-2019">0.3.0 (August 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#july-2019">0.2.3 (July 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#june-2019">0.2.2 (June 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.1 (June 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.0 (June 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#april-2019">0.1.6 (April 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.1.5 (April 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.1.4 (April 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#march-2019">0.1.3 (March 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#february-2019">0.1.2 (February 2019)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#december-2018">0.1.0 (December 2018)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#july-2018">0.0.1 (July 2018)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partition.html">pytket.partition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/ionq.html">pytket-ionq</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Changelog</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="october-2020">
+<h2>0.6.1 (October 2020)<a class="headerlink" href="#october-2020" title="Permalink to this headline">¶</a></h2>
+<p>Minor New Features:</p>
+<ul class="simple">
+<li><p>New pass generator <code class="docutils literal notranslate"><span class="pre">RenameQubitsPass</span></code></p></li>
+</ul>
+<p>New Supported Backends:</p>
+<ul class="simple">
+<li><p>Devices from IonQ (via separate <code class="docutils literal notranslate"><span class="pre">pytket-ionq</span></code> module)</p></li>
+</ul>
+</div>
+<div class="section" id="september-2020">
+<h2>0.6.0 (September 2020)<a class="headerlink" href="#september-2020" title="Permalink to this headline">¶</a></h2>
+<p>Major New Features:</p>
+<ul class="simple">
+<li><p>Windows support</p></li>
+<li><p>Phase-aware circuits</p></li>
+<li><p>New box type for applying quantum controls to arbitrary quantum operations</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">tailoring</span></code> module containing tools for noise tailoring</p></li>
+<li><p>Circuit transpose method</p></li>
+<li><p>Optimization levels for default backend compilation passes</p></li>
+<li><p>New serialization methods for circuits and results</p></li>
+<li><p>New online user manual</p></li>
+</ul>
+<p>Minor New Features:</p>
+<ul class="simple">
+<li><p>New gate type <code class="docutils literal notranslate"><span class="pre">OpType.PhasedISWAP</span></code></p></li>
+<li><p>Expectations of non-Hermitian operators (when supported by backend)</p></li>
+<li><p>Greater control over graph-colouring algorithms</p></li>
+<li><p>Improved Clifford simplification</p></li>
+<li><p>Retrieval of gate set from <code class="docutils literal notranslate"><span class="pre">GateSetPredicate</span></code></p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">Backend.cancel</span></code> method</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">name</span></code> attribute for circuits.</p></li>
+<li><p>Backends can be wrapped as Qiskit backends for use in Qiskit software.</p></li>
+<li><p>IBMQEmulatorBackend added to emulate IBMQBackend behaviour, with simulator execution.</p></li>
+</ul>
+<p>New supported backends:</p>
+<ul class="simple">
+<li><p>Devices and simulators from Amazon Braket (via separate <code class="docutils literal notranslate"><span class="pre">pytket-braket</span></code>
+module)</p></li>
+<li><p>Qulacs simulator (via separate <code class="docutils literal notranslate"><span class="pre">pytket-qulacs</span></code> module)</p></li>
+</ul>
+<p>API changes:</p>
+<ul class="simple">
+<li><p>Retrieval of shots, counts, state and unitary directly from <code class="docutils literal notranslate"><span class="pre">ResultHandle</span></code>
+is no longer supported: either use <code class="docutils literal notranslate"><span class="pre">Backend.get_shots(Circuit)</span></code> or
+<code class="docutils literal notranslate"><span class="pre">Backend.get_result(ResultHandle).get_shots()</span></code> (etc).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Backend.default_compilation_pass</span></code> is no longer a property but a method.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QubitMap</span></code> is replaced by a Python dictionary.</p></li>
+<li><p>Bit ordering of <cite>condition_value</cite> for conditionals now follows QASM convention
+(opposite to before, now <cite>[0, 1]</cite> corresponds to value 2).</p></li>
+</ul>
+<p>Bugfixes:</p>
+<ul class="simple">
+<li><p>Various small bug fixes</p></li>
+</ul>
+<p>Known issues:</p>
+<ul class="simple">
+<li><p>There is an <a class="reference external" href="https://github.com/CQCL/pytket/issues/24">issue</a> with the use
+of symbolic circuits on Windows, causing memory access violations in some
+circumstances.</p></li>
+</ul>
+<p>Compatible extension versions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-aqt</span></code>: 0.3.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-braket</span></code>: 0.2.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-cirq</span></code>: 0.5.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-honeywell</span></code>: 0.4.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-projectq</span></code>: 0.5.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-pyquil</span></code>: 0.6.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-pyzx</span></code>: 0.5.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>: 0.6.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-qsharp</span></code>: 0.6.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket-qulacs</span></code>: 0.3.0</p></li>
+</ul>
+</div>
+<div class="section" id="august-2020">
+<h2>0.5.7 (August 2020)<a class="headerlink" href="#august-2020" title="Permalink to this headline">¶</a></h2>
+<p>Number of bugs fixed including:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OpType.Reset</span></code> added to QASM conversion</p></li>
+<li><p>Bugfix for <code class="docutils literal notranslate"><span class="pre">CnX</span></code> with n=4, n=5</p></li>
+<li><p>Correct Node IDS for <code class="docutils literal notranslate"><span class="pre">FullyConnected</span></code> Architecture.</p></li>
+</ul>
+</div>
+<div class="section" id="june-2020">
+<h2>0.5.5 (June 2020)<a class="headerlink" href="#june-2020" title="Permalink to this headline">¶</a></h2>
+<p>Major New Features:</p>
+<ul class="simple">
+<li><p>Redesigned algorithm for <code class="docutils literal notranslate"><span class="pre">CliffordSimp</span></code>, improving speed and identifying more cases for optimisation</p></li>
+</ul>
+<p>Minor New Features:</p>
+<ul class="simple">
+<li><p>New gates added: <code class="docutils literal notranslate"><span class="pre">OpType.Sycamore</span></code> and <code class="docutils literal notranslate"><span class="pre">OpType.ISWAPMax</span></code></p></li>
+<li><p>New class <code class="docutils literal notranslate"><span class="pre">Graph</span></code> for visualising circuit structure</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>First parameter of <code class="docutils literal notranslate"><span class="pre">OpType.FSim</span></code> gate corrected to have range <span class="math notranslate nohighlight">\([0, 2\pi)\)</span></p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code> and related classes replace use of OpenFermion’s <code class="docutils literal notranslate"><span class="pre">QubitOperator</span></code></p></li>
+<li><p>Significant optimisation of <code class="docutils literal notranslate"><span class="pre">pauli_tensor_matrix</span></code> and <code class="docutils literal notranslate"><span class="pre">operator_matrix</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="may-2020">
+<h2>0.5.4 (May 2020)<a class="headerlink" href="#may-2020" title="Permalink to this headline">¶</a></h2>
+<p>Minor New Features:</p>
+<ul class="simple">
+<li><p>Method to generate a circuit from a sequence of <code class="docutils literal notranslate"><span class="pre">QubitOperator</span></code> terms</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Rename <code class="docutils literal notranslate"><span class="pre">measurement</span></code> module to <code class="docutils literal notranslate"><span class="pre">partition</span></code></p></li>
+</ul>
+<p>Bugfixes:</p>
+<ul class="simple">
+<li><p>Fix invalid cancellation of certain controlled rotations</p></li>
+</ul>
+</div>
+<div class="section" id="april-2020">
+<h2>0.5.2 (April 2020)<a class="headerlink" href="#april-2020" title="Permalink to this headline">¶</a></h2>
+<p>Major New Features:</p>
+<ul class="simple">
+<li><p>Routing, gate decomposition, and basic optimisations can work around conditional gates and mid-circuit measurements</p></li>
+<li><p>New high-level optimisation routine for Trotterised Hamiltonians</p></li>
+<li><p>Measurement reduction via Pauli term diagonalisation</p></li>
+<li><p>Inspection of the status of circuit execution on asynchronous backends</p></li>
+<li><p>Error mitigation facilities via the SPAM method</p></li>
+<li><p>Introduction of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Program</span></code> class for specifying routines with classical control flow</p></li>
+</ul>
+<p>Minor New Features:</p>
+<ul class="simple">
+<li><p>Improved error messages when circuits cannot be run on a backend</p></li>
+<li><p>Generalised <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.depth_by_type()</span></code> to allow sets of gate types</p></li>
+<li><p>A selection of optimisation passes are parameterised by pattern for decomposing into CXs</p></li>
+<li><p>New <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> subclass, <code class="xref py py-class docutils literal notranslate"><span class="pre">FullyConnected</span></code>, added</p></li>
+<li><p>New gates added: <cite>OpType.ESWAP</cite> and <cite>OpType.FSim</cite></p></li>
+<li><p>Additional utility methods for permuting qubits of statevectors</p></li>
+<li><p>Inspection of any implicit permutations within the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> dag structure</p></li>
+<li><p>Inspection of free symbols in a circuit</p></li>
+<li><p>Inspection of detailed gate errors from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></p></li>
+<li><p>Additional methods for parsing/producing QASM through strings and streams</p></li>
+<li><p>Ability to enable internal logs</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Cleaner addition of conditions to gates via kwargs</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> objects are specialised into either <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> objects, with more natural constructors</p></li>
+<li><p>Renamed many passes to give a uniform naming convention</p></li>
+<li><p>Getters on <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GateError</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">QubitErrorContainer</span></code> made into readonly properties</p></li>
+<li><p>Backend-specific runtime arguments (e.g. simulator seeds) are now passed in via kwargs</p></li>
+<li><p>Stability improvements and bug fixes</p></li>
+<li><p>Updated documentation and additional examples</p></li>
+<li><p>Stricter namespacing (most classes must be imported from submodules rather than top level)</p></li>
+<li><p>Python 3.8 support</p></li>
+</ul>
+<p>Deprecations:</p>
+<ul class="simple">
+<li><p>Calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_counts()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_shots()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_state()</span></code> on a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> object with a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> argument is deprecated in favour of <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>.</p></li>
+</ul>
+<p>New supported backends:</p>
+<ul class="simple">
+<li><p>AQT devices and simulators (via separate <code class="docutils literal notranslate"><span class="pre">pytket_aqt</span></code> module)</p></li>
+<li><p>Honeywell devices (via separate <code class="docutils literal notranslate"><span class="pre">pytket_honeywell</span></code> module)</p></li>
+<li><p>Q# simulators and resource estimator (via separate <code class="docutils literal notranslate"><span class="pre">pytket_qsharp</span></code> module)</p></li>
+</ul>
+</div>
+<div class="section" id="december-2019">
+<h2>0.4.1 (December 2019)<a class="headerlink" href="#december-2019" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>New classes for placement of logical qubits from <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to physical qubits from <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code></p></li>
+<li><p>Data from backends can be returned in either increasing lexicographical order of (qu)bit identifiers (the familiar ordering used in most textbooks) or decreasing order (popular with other quantum software platforms) using the <code class="xref py py-class docutils literal notranslate"><span class="pre">BasisOrder</span></code> enum</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Updated documentation and additional examples</p></li>
+<li><p>OptimiseCliffordsZX pass removed, FullPeepholeOptimise pass added</p></li>
+<li><p>New architectures added, including <code class="xref py py-class docutils literal notranslate"><span class="pre">SquareGrid</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">HexagonalGrid</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RingArch</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">TriangularGrid</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">CyclicButterfly</span></code></p></li>
+<li><p>Device information from <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> can now be returned</p></li>
+<li><p>Stability improvements and bug fixes</p></li>
+</ul>
+</div>
+<div class="section" id="november-2019">
+<h2>0.4.0 (November 2019)<a class="headerlink" href="#november-2019" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Contractural compilation passes with guarantees on how they transform circuits that satisfy their preconditions. This provides a uniform interface for optimisations, routing, and other stages of compilation</p></li>
+<li><p>New “Box” gate types for encapsulating high-level structures (arbitrary subcircuits, parameterised composite gate definitions, unitaries, Pauli operators)</p></li>
+<li><p>Simpler and more flexible structure for registers and names of qubits/bits, allowing for non-contiguous and multi-dimensional indices (referring to individual units, linear registers, grids, etc.)</p></li>
+<li><p>Latex diagram output using Quantikz</p></li>
+<li><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> class to build on top of <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> with error and timing information</p></li>
+<li><p>Initial and final maps tracked throughout the entire compilation procedure using the <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code> wrapper</p></li>
+<li><p>Import circuits from Quipper source files</p></li>
+<li><p>Utility methods for processing data from Backends</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>All Backends refactored for more consistent interfaces, separation of data processing, and introducing batch circuit processing when possible</p></li>
+<li><p>Routing improved to use distributed CX (BRIDGE) gates in addition to SWAP insertion</p></li>
+<li><p>Cost function for noise-aware allocation of qubits improved to consider more sources of noise</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> objects can be specified with arbitrary node names, using the same <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> objects and qubits/bits</p></li>
+<li><p>Removed the <code class="xref py py-class docutils literal notranslate"><span class="pre">PhysicalCircuit</span></code> class in preference of just using <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> objects</p></li>
+<li><p>Generalised and sped up the gate commutation pass</p></li>
+<li><p>Optimisation for redundant gate removal now removes diagonal gates before measurements</p></li>
+<li><p>Support for custom gate definitions in QASM input</p></li>
+<li><p>Support for a greater fragment of sympy expressions in gate parameters</p></li>
+<li><p>Stability improvements and bug fixes</p></li>
+<li><p>Updated documentation and additional examples</p></li>
+</ul>
+</div>
+<div class="section" id="august-2019">
+<h2>0.3.0 (August 2019)<a class="headerlink" href="#august-2019" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>More options for circuit routing, including noise-aware allocation of qubits</p></li>
+<li><p>Basic support for generating circuits with classical conditions and multiple registers</p></li>
+<li><p>ForestBackend for running circuits on Rigett’s QVM simulators and QCS</p></li>
+<li><p>AerUnitaryBackend for inspecting the full unitary of a circuit</p></li>
+<li><p>Chaining gate commands</p></li>
+<li><p>Primitive QASM&lt;-&gt;Circuit (import and export)</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Simplified conversions for pytket_qiskit, going straight to/from QuantumCircuit rather than DAGCircuit</p></li>
+<li><p>CSWAP gate added</p></li>
+</ul>
+</div>
+<div class="section" id="july-2019">
+<h2>0.2.3 (July 2019)<a class="headerlink" href="#july-2019" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Decomposition <cite>Transform</cite> for controlled gates</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Exposed additional gate types into Pytket</p></li>
+<li><p>Fixed bug in <cite>add_circuit</cite></p></li>
+<li><p>Fixed routing bug</p></li>
+<li><p>Made <cite>run</cite> behaviour more sensible for backends</p></li>
+</ul>
+</div>
+<div class="section" id="june-2019">
+<h2>0.2.2 (June 2019)<a class="headerlink" href="#june-2019" title="Permalink to this headline">¶</a></h2>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Minor bug fixes, examples and documentation</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>0.2.1 (June 2019)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Extra support for appending Circuits from Matrices and Exponents</p></li>
+<li><p>More docs and examples</p></li>
+<li><p>Fixed bugs in backends</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>0.2.0 (June 2019)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Support for circuits and simulation using ProjectQ (0.4.2)</p></li>
+<li><p>Support for conversion to and from PyZX (<a class="reference external" href="https://github.com/Quantomatic/pyzx">https://github.com/Quantomatic/pyzx</a>)</p></li>
+<li><p>Interface to many new optimisation passes, allowing for custom passes</p></li>
+<li><p>Circuit compilation using symbolic parameters</p></li>
+<li><p>New interface to routing</p></li>
+<li><p>Enabled noise modeling in the AerBackend module</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Qiskit support updated for Qiskit 0.10.1 and Qiskit Chemistry 0.5</p></li>
+<li><p>Pytket Chemistry module has been removed, to be part of the separate Eumen package</p></li>
+<li><p>Bug fixes and performance improvements to routing</p></li>
+</ul>
+</div>
+<div class="section" id="april-2019">
+<h2>0.1.6 (April 2019)<a class="headerlink" href="#april-2019" title="Permalink to this headline">¶</a></h2>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Routing can return SWAP gates rather than decomposing to CNOTs</p></li>
+<li><p>Decomposition and routing bug fixes</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>0.1.5 (April 2019)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Enabled conversions from 4x4 unitary matrices to 2 qubit circuit</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>0.1.4 (April 2019)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Bug fix patch for routing and performance improvements</p></li>
+</ul>
+</div>
+<div class="section" id="march-2019">
+<h2>0.1.3 (March 2019)<a class="headerlink" href="#march-2019" title="Permalink to this headline">¶</a></h2>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Qiskit support updated for Terra 0.7.3, Aqua 0.4.1, and Chemistry 0.4.2</p></li>
+<li><p>Bug fixes in routing</p></li>
+</ul>
+</div>
+<div class="section" id="february-2019">
+<h2>0.1.2 (February 2019)<a class="headerlink" href="#february-2019" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Support for circuits from Rigetti pyQuil (2.3)</p></li>
+<li><p>New interface for constructing and analysing circuits in pytket directly</p></li>
+<li><p>Named classical registers for measurements</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Documentation and tutorial improvements</p></li>
+<li><p>Bug fixes in routing and optimisations</p></li>
+<li><p>Minor API changes for notational consistency</p></li>
+</ul>
+</div>
+<div class="section" id="december-2018">
+<h2>0.1.0 (December 2018)<a class="headerlink" href="#december-2018" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Support for circuits and architectures from IBM Qiskit (0.7)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pytket.qiskit.TketPass</span></code> allows pytket to be plugged in to the Qiskit compilation stack to take advantage of tket’s routing and optimisations</p></li>
+<li><p>New Chemistry package featuring an implementation of the Quantum Subspace Expansion to work within or alongside Qiskit Aqua (0.4)</p></li>
+<li><p>Optimisation passes introduced for powerful circuit rewriting before routing, and safe rewriting after routing</p></li>
+</ul>
+<p>Updates:</p>
+<ul class="simple">
+<li><p>Cirq functionality supports Cirq 0.4</p></li>
+<li><p>Refactoring into modules</p></li>
+</ul>
+</div>
+<div class="section" id="july-2018">
+<h2>0.0.1 (July 2018)<a class="headerlink" href="#july-2018" title="Permalink to this headline">¶</a></h2>
+<p>New Features:</p>
+<ul class="simple">
+<li><p>Support for circuits and architectures from Google Cirq (0.3)</p></li>
+<li><p>Routing and placement procedures available for manipulating circuits to satisfy device specifications</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="install.html" class="btn btn-neutral float-right" title="Installation Troubleshooting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
