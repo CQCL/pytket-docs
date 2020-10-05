@@ -10,7 +10,7 @@ This repo contains API documentation and example notebooks to get you started us
 ## Getting Started
 
 ``pytket`` is available for ``python3.6`` or higher, on Linux, MacOS and Windows.
-To install, ensure that you have `pip` version 19 or above, and run
+To install, ensure that you have `pip` version 20 or above, and run
 
 ``pip install pytket``
 
@@ -24,7 +24,7 @@ To get more in depth on features, see the [examples](https://github.com/CQCL/pyt
 
 ## Interfaces
 
-We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum), Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), Amazon [Braket](https://aws.amazon.com/braket/), and [Qulacs](http://docs.qulacs.org/en/latest/#), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
+We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum), Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), Amazon [Braket](https://aws.amazon.com/braket/), [Qulacs](http://docs.qulacs.org/en/latest/#) and [IonQ](https://ionq.com/), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
 
 To use `pytket` in conjunction with other platforms you must download an additional separate module for each.
 This can be done from `pip`.
@@ -41,6 +41,7 @@ For each subpackage:
 * Q#: ``pip install pytket-qsharp``
 * Braket: ``pip install pytket-braket``
 * Qulacs: ``pip install pytket-qulacs``
+* IonQ: ``pip install pytket-ionq``
 
 ## LICENCE
 
