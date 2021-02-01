@@ -1,6 +1,61 @@
 Changelog
 ==================================
 
+0.7.0 (February 2021)
+--------------------------
+
+Major new features:
+
+* Subsitution of named operations with other operations, boxes or circuits.
+* New ability to condition operations on compound (AND, OR, XOR) operations on ``Bit`` and ``BitRegister``,
+  which can be compiled with ``DecomposeClassicalExp`` and executed with ``HoneywellBackend``.
+
+Minor new features:
+
+* Direct creation of operator from gate type and parameters (``Op.create``).
+* New methods ``Circuit.ops_of_type`` and ``Circuit.commands_of_type``.
+* ``KAKDecomposition`` now accepts the estimated CX gate fidelity as parameter
+  and performs an approximate decomposition in that case.
+* Significant optimisation of SPAM correction methods.
+* New GraphColourMethod.Exhaustive added to gen_term_sequence_circuit
+  for partitioning Pauli tensors.
+* New OpTypes ``CRx`` and ``CRy``.
+* New OpTypes ``SX``, ``SXdg``, ``CSX``, ``CSXdg``, ``CV`` and ``CVdg``.
+* New ``BasePass.get_config()`` method, which returns the name and parameters
+  for a pass.
+* New ``SequencePass.get_sequence()`` method, which returns the sequence of passes.
+* New ``get_pass()`` method for ``RepeatPass``, ``RepeatWithMetricPass``, ``RepeatUntilSatisfiedPass``.
+* New ``get_predicate()`` method for ``RepeatUntilSatisfiedPass``.
+* New ``get_metric()`` method for ``RepeatWithMetricPass``.
+* New ``backend`` parameter to ``SpamCorrecter`` constructor.
+
+New supported backends:
+
+* Support for Azure Quantum backends in the ``pytket-qsharp`` extension.
+
+New features in extensions:
+
+* Conversion of ``Reset`` and custom gates in ``pytket-qiskit``.
+* Support for mid-circuit measurements on IBMQ premium devices via ``pytket-qiskit``.
+
+API changes:
+
+* Removal of "minimise" method for SPAM correction
+
+Compatible extension versions:
+
+* ``pytket-aqt``: 0.4.0
+* ``pytket-braket``: 0.3.0
+* ``pytket-cirq``: 0.7.0
+* ``pytket-honeywell``: 0.6.0
+* ``pytket-ionq``: 0.2.0
+* ``pytket-projectq``: 0.6.0
+* ``pytket-pyquil``: 0.7.0
+* ``pytket-pyzx``: 0.6.0
+* ``pytket-qiskit``: 0.7.0
+* ``pytket-qsharp``: 0.8.0
+* ``pytket-qulacs``: 0.4.0
+
 0.6.1 (October 2020)
 --------------------
 

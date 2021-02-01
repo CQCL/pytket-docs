@@ -1,20 +1,15 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Circuit Construction &mdash; pytket 0.6.1 documentation</title>
+  <title>Circuit Construction &mdash; pytket 0.7.0 documentation</title>
   
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
 
   
   
@@ -22,9 +17,7 @@
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,14 +25,18 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Running on Backends" href="manual_backend.html" />
@@ -57,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+            <a href="index.html" class="icon icon-home"> pytket
           
 
           
@@ -67,7 +64,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -84,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,7 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">SOFTWARE LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Manual:</span></p>
@@ -118,6 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#conditional-gates">Conditional Gates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#circuit-level-operations">Circuit-Level Operations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#implicit-qubit-permutations">Implicit Qubit Permutations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modifying-operations-within-circuits">Modifying Operations Within Circuits</a></li>
 </ul>
 </li>
 </ul>
@@ -161,7 +159,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -200,7 +197,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Circuit Construction</li>
     
@@ -273,7 +270,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.5*PI) q[0]; CRz(0.3*PI) q[1], q[0]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.5) q[0]; CRz(0.3) q[1], q[0]; ]
 </pre></div>
 </div>
 </div>
@@ -293,7 +290,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[CnX q[0], q[1], q[4], q[3]; Mølmer-Sørensen(0.7*PI) q[0], q[2]; PhasedX(3.9*PI, 0.5*PI) q[3]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[CnX q[0], q[1], q[4], q[3]; Mølmer-Sørensen(0.7) q[0], q[2]; PhasedX(3.9, 0.5) q[3]; ]
 </pre></div>
 </div>
 </div>
@@ -625,7 +622,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1]; Rz(0.3*PI) q[1]; CX q[0], q[1]; Measure q[0] --&gt; c[0]; H q[1]; Measure q[1] --&gt; c[1]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1]; Rz(0.3) q[1]; CX q[0], q[1]; Measure q[0] --&gt; c[0]; H q[1]; Measure q[1] --&gt; c[1]; ]
 </pre></div>
 </div>
 </div>
@@ -650,7 +647,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.2*PI) a[0]; Z b[0]; CX a[0], a[1]; CZ b[1], b[0]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.2) a[0]; Z b[0]; CX a[0], a[1]; CZ b[1], b[0]; ]
 </pre></div>
 </div>
 </div>
@@ -680,7 +677,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.2*PI) a[0]; CX a[0], a[1]; Z a[1]; CZ a[0], a[1]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.2) a[0]; CX a[0], a[1]; Z a[1]; CZ a[0], a[1]; ]
 </pre></div>
 </div>
 </div>
@@ -731,9 +728,21 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Ry(0.3*PI) q[0]; Ry(0.8*PI) q[1]; CircBox q[2], q[3]; qif (q[0], q[1]) CircBox q[2], q[3]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Ry(0.3) q[0]; Ry(0.8) q[1]; CircBox q[2], q[3]; qif (q[0], q[1]) CircBox q[2], q[3]; ]
 </pre></div>
 </div>
+</div>
+</div>
+<p>As well as creating controlled boxes, we can create a controlled version of an arbitrary <code class="xref py py-class docutils literal notranslate"><span class="pre">Op</span></code> as follows.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span><span class="p">,</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">QControlBox</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+<span class="n">ccs</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
 </div>
 </div>
 <div class="admonition note">
@@ -806,7 +815,7 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>CX OpType.CX [q[0], q[1]]
-Rx(0.3*PI) OpType.Rx [q[0]]
+Rx(0.3) OpType.Rx [q[0]]
 CZ OpType.CZ [q[1], q[2]]
 X OpType.X [q[1]]
 </pre></div>
@@ -826,7 +835,7 @@ X OpType.X [q[1]]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_25_0.svg" src="_images/manual_circuit_25_0.svg" /></div>
+<img alt="_images/manual_circuit_26_0.svg" src="_images/manual_circuit_26_0.svg" /></div>
 </div>
 <p>The visualisation tool can also describe the interaction graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> consisting of only one- and two-qubit gates – that is, the graph of which qubits will share a two-qubit gate at some point during execution.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -840,7 +849,7 @@ X OpType.X [q[1]]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_26_0.svg" src="_images/manual_circuit_26_0.svg" /></div>
+<img alt="_images/manual_circuit_27_0.svg" src="_images/manual_circuit_27_0.svg" /></div>
 </div>
 <p>The full instruction sequence may often be too much detail for a lot of needs, especially for large circuits. Common circuit metrics like gate count and depth are used to approximate the difficulty of running it on a device, providing some basic tools to help distinguish different implementations of a given algorithm.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -928,7 +937,7 @@ X OpType.X [q[1]]
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;bits&#39;: [], &#39;commands&#39;: [{&#39;args&#39;: [[&#39;q&#39;, [0]]], &#39;op&#39;: {&#39;params&#39;: [&#39;0.1&#39;], &#39;type&#39;: &#39;Rx&#39;}}, {&#39;args&#39;: [[&#39;q&#39;, [0]], [&#39;q&#39;, [1]]], &#39;op&#39;: {&#39;type&#39;: &#39;CX&#39;}}, {&#39;args&#39;: [[&#39;q&#39;, [0]], [&#39;q&#39;, [1]]], &#39;op&#39;: {&#39;params&#39;: [&#39;0.2&#39;], &#39;type&#39;: &#39;YYPhase&#39;}}], &#39;implicit_permutation&#39;: [[[&#39;q&#39;, [0]], [&#39;q&#39;, [0]]], [[&#39;q&#39;, [1]], [&#39;q&#39;, [1]]]], &#39;phase&#39;: &#39;0.0&#39;, &#39;qubits&#39;: [[&#39;q&#39;, [0]], [&#39;q&#39;, [1]]]}
 
 
-[Rx(0.1*PI) q[0];, CX q[0], q[1];, YYPhase(0.2*PI) q[0], q[1];]
+[Rx(0.1) q[0];, CX q[0], q[1];, YYPhase(0.2) q[0], q[1];]
 </pre></div>
 </div>
 </div>
@@ -1016,7 +1025,7 @@ measure q[1] -&gt; c[1];
 <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">qc</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">pytket.qiskit</span> <span class="kn">import</span> <span class="n">qiskit_to_tk</span><span class="p">,</span> <span class="n">tk_to_qiskit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">qiskit_to_tk</span><span class="p">,</span> <span class="n">tk_to_qiskit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">qiskit_to_tk</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
@@ -1027,15 +1036,15 @@ measure q[1] -&gt; c[1];
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>     ┌───┐     ┌─┐                       
-q_0: ┤ H ├──■──┤M├───────────────────────
-     └───┘┌─┴─┐└╥┘┌──────────┐     ┌─┐   
-q_1: ─────┤ X ├─╫─┤ RZ(pi/2) ├──■──┤M├───
-          └───┘ ║ └──────────┘┌─┴─┐└╥┘┌─┐
-q_2: ───────────╫─────────────┤ X ├─╫─┤M├
-                ║             └───┘ ║ └╥┘
-c: 3/═══════════╩═══════════════════╩══╩═
-                0                   1  2 
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>     ┌───┐     ┌─┐                      
+q_0: ┤ H ├──■──┤M├──────────────────────
+     └───┘┌─┴─┐└╥┘┌─────────┐     ┌─┐   
+q_1: ─────┤ X ├─╫─┤ RZ(π/2) ├──■──┤M├───
+          └───┘ ║ └─────────┘┌─┴─┐└╥┘┌─┐
+q_2: ───────────╫────────────┤ X ├─╫─┤M├
+                ║            └───┘ ║ └╥┘
+c: 3/═══════════╩══════════════════╩══╩═
+                0                  1  2 
 </pre></div>
 </div>
 </div>
@@ -1065,8 +1074,8 @@ c: 3/═══════════╩═════════════
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(alpha*PI) q[0];, Rx(-2*alpha*PI) q[1];, CX q[0], q[1];, YYPhase(beta*PI) q[0], q[1];]
-[Rx(0.3*PI) q[0];, Rx(3.4*PI) q[1];, CX q[0], q[1];, YYPhase(1.25*PI) q[0], q[1];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(alpha) q[0];, Rx(-2*alpha) q[1];, CX q[0], q[1];, YYPhase(beta) q[0], q[1];]
+[Rx(0.3) q[0];, Rx(3.4) q[1];, CX q[0], q[1];, YYPhase(1.25) q[0], q[1];]
 </pre></div>
 </div>
 </div>
@@ -1087,7 +1096,7 @@ c: 3/═══════════╩═════════════
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.25*PI) q[0];, CX q[0], q[1];, Ry(3.75*PI) q[0];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.25) q[0];, CX q[0], q[1];, Ry(3.75) q[0];]
 </pre></div>
 </div>
 </div>
@@ -1108,7 +1117,7 @@ c: 3/═══════════╩═════════════
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(2*a*PI) q[0];, Rx(b*PI) q[1];, CX q[0], q[1];, Ry(a*PI) q[0];, Ry(a*PI) q[1];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(2*a) q[0];, Rx(b) q[1];, CX q[0], q[1];, Ry(a) q[0];, Ry(a) q[1];]
 </pre></div>
 </div>
 </div>
@@ -1181,43 +1190,87 @@ True
 </div>
 <div class="section" id="conditional-gates">
 <h3>Conditional Gates<a class="headerlink" href="#conditional-gates" title="Permalink to this headline">¶</a></h3>
-<p>Moving beyond toy circuit examples, many applications of quantum computing require looking at circuits as POVMs for extra expressivity, or introducing error-correcting schemes to reduce the effective noise. Each of these requires performing measurements mid-circuit and then perfoming subsequent gates conditional on the classical value of the measurement result.</p>
-<p>Any <code class="docutils literal notranslate"><span class="pre">pytket</span></code> gate can be made conditional at the point of adding it to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> by providing the <code class="docutils literal notranslate"><span class="pre">condition_bits</span></code> and <code class="docutils literal notranslate"><span class="pre">condition_value</span></code> kwargs. The interpretation of <code class="docutils literal notranslate"><span class="pre">circ.G(q,</span> <span class="pre">condition_bits=[reg[0],</span> <span class="pre">reg[1]],</span> <span class="pre">condition_value=v)</span></code> is: “if the value of the bits <code class="docutils literal notranslate"><span class="pre">[reg[0],</span> <span class="pre">reg[1]]</span></code> match the integer value <code class="docutils literal notranslate"><span class="pre">v</span></code>, then perform <code class="docutils literal notranslate"><span class="pre">G(q)</span></code>”.</p>
+<p>Moving beyond toy circuit examples, many applications of quantum computing require looking at circuits as POVMs for extra expressivity, or introducing error-correcting schemes to reduce the effective noise. Each of these requires performing measurements mid-circuit and then performing subsequent gates conditional on the classical value of the measurement result.</p>
+<p>Any <code class="docutils literal notranslate"><span class="pre">pytket</span></code> gate can be made conditional at the point of adding it to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> by providing the <code class="docutils literal notranslate"><span class="pre">condition</span></code> kwarg. The interpretation of <code class="docutils literal notranslate"><span class="pre">circ.G(q,</span> <span class="pre">condition=reg[0])</span></code> is: “if the  bit <code class="docutils literal notranslate"><span class="pre">[reg[0]</span></code> is set, then perform <code class="docutils literal notranslate"><span class="pre">G(q)</span></code>”.
+Conditions on more complicated expressions over the values of <a class="reference external" href="circuit.html#pytket.circuit.Bit">Bit</a> and <a class="reference external" href="circuit.html#pytket.circuit.BitRegister">BitRegister</a> are also possible, expressed as conditions on the results of expressions involving bitwise AND (&amp;), OR (|) and XOR (^) operations.
+For example a gate can be made conditional on the result of a bitwise XOR of registers <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, and <code class="docutils literal notranslate"><span class="pre">c</span></code> being larger than 4 by writing <code class="docutils literal notranslate"><span class="pre">circ.G(q,</span> <span class="pre">condition=reg_gt(a</span> <span class="pre">^</span> <span class="pre">b</span> <span class="pre">^</span> <span class="pre">c,</span> <span class="pre">4))</span></code>.
+When such a condition is added, the result of the expression is written to a scratch bit or register, and the gate is made conditional on the value of the scratch variable.
+For comparison of registers, a special <code class="docutils literal notranslate"><span class="pre">RangePredicate</span></code> type is used to encode the result of the comparison onto a scratch bit.
+See the <a class="reference external" href="classical.html">API reference</a> for more on the possible expressions and predicates.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Circuit</span><span class="p">,</span>
+    <span class="n">BitRegister</span><span class="p">,</span>
+    <span class="n">if_bit</span><span class="p">,</span>
+    <span class="n">if_not_bit</span><span class="p">,</span>
+    <span class="n">reg_eq</span><span class="p">,</span>
+    <span class="n">reg_geq</span><span class="p">,</span>
+    <span class="n">reg_gt</span><span class="p">,</span>
+    <span class="n">reg_leq</span><span class="p">,</span>
+    <span class="n">reg_lt</span><span class="p">,</span>
+    <span class="n">reg_neq</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># create a circuit and add quantum and classical registers</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">par</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">check</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">qreg</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">reg_a</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">reg_b</span> <span class="o">=</span> <span class="n">BitRegister</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="n">reg_b</span><span class="p">)</span>
+<span class="n">reg_c</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-<span class="c1"># Measure ZZI and IZZ stabilizers</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">par</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">par</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">par</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">par</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">par</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">check</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">par</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">check</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="c1"># Correct single bit-flip errors</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">check</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">check</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">check</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">check</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">check</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">check</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># if (reg_a[0] == 1)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">if_bit</span><span class="p">(</span><span class="n">reg_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="c1"># if (reg_a[2] == 0)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">if_not_bit</span><span class="p">(</span><span class="n">reg_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+<span class="c1"># compound logical expressions</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="p">(</span><span class="n">reg_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">reg_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">if_not_bit</span><span class="p">(</span><span class="n">reg_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">reg_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+<span class="n">big_exp</span> <span class="o">=</span> <span class="n">reg_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">|</span> <span class="n">reg_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">^</span> <span class="n">reg_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">reg_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="c1"># syntactic sugar for big_exp = BitOr(reg_a[0], BitXor(reg_a[1], BitAnd(reg_a[2], reg_a[3])))</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">big_exp</span><span class="p">)</span>
+
+<span class="c1"># Register comparisons</span>
+
+<span class="c1"># if (reg_a == 3)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_eq</span><span class="p">(</span><span class="n">reg_a</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1"># if (reg_c != 6)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_neq</span><span class="p">(</span><span class="n">reg_c</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="c1"># if (reg_b &lt; 6)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_lt</span><span class="p">(</span><span class="n">reg_b</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="c1"># if (reg_b &gt; 3)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_gt</span><span class="p">(</span><span class="n">reg_b</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1"># if (reg_c &lt;= 6)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_leq</span><span class="p">(</span><span class="n">reg_c</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="c1"># if (reg_a &gt;= 3)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_geq</span><span class="p">(</span><span class="n">reg_a</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1"># compound register expressions</span>
+<span class="n">big_reg_exp</span> <span class="o">=</span> <span class="n">reg_a</span> <span class="o">&amp;</span> <span class="n">reg_b</span> <span class="o">|</span> <span class="n">reg_c</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">condition</span><span class="o">=</span><span class="n">reg_eq</span><span class="p">(</span><span class="n">big_reg_exp</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[CX d[0], p[0]; CX d[1], p[0]; Measure p[0] --&gt; c[0]; CX d[1], p[1]; CX d[2], p[1]; Measure p[1] --&gt; c[1]; IF ([c[0], c[1]] == 1) THEN X d[0]; IF ([c[0], c[1]] == 3) THEN X d[1]; IF ([c[0], c[1]] == 2) THEN X d[2]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[ClassicalExpBox a[2], a[3], _TK_SCRATCH_BIT[0]; ClassicalExpBox a[2], a[3], _TK_SCRATCH_BIT[1]; ClassicalExpBox a[0], a[1], a[2], a[3], _TK_SCRATCH_BIT[2]; RangePredicate([3,3]) a[0], a[1], a[2], a[3], _TK_SCRATCH_BIT[3]; RangePredicate([5,5]) c[0], c[1], c[2], _TK_SCRATCH_BIT[4]; RangePredicate([0,5]) b[0], b[1], b[2], _TK_SCRATCH_BIT[5]; RangePredicate([4,4294967295]) b[0], b[1], b[2], _TK_SCRATCH_BIT[6]; RangePredicate([0,6]) c[0], c[1], c[2], _TK_SCRATCH_BIT[7]; RangePredicate([3,4294967295]) a[0], a[1], a[2], a[3], _TK_SCRATCH_BIT[8]; ClassicalExpBox a[0], a[1], a[2], a[3], b[0], b[1], b[2], c[0], c[1], c[2], _TK_SCRATCH_BITREG_0[0], _TK_SCRATCH_BITREG_0[1], _TK_SCRATCH_BITREG_0[2]; IF ([a[0]] == 1) THEN H q[0]; IF ([a[2]] == 0) THEN T q[1]; RangePredicate([3,3]) _TK_SCRATCH_BITREG_0[0], _TK_SCRATCH_BITREG_0[1], _TK_SCRATCH_BITREG_0[2], _TK_SCRATCH_BIT[9]; IF ([a[0]] == 1) THEN X q[0]; IF ([_TK_SCRATCH_BIT[1]] == 0) THEN Z q[1]; IF ([_TK_SCRATCH_BIT[5]] == 1) THEN X q[3]; IF ([_TK_SCRATCH_BIT[4]] == 0) THEN Y q[4]; IF ([_TK_SCRATCH_BIT[6]] == 1) THEN Z q[5]; IF ([_TK_SCRATCH_BIT[7]] == 1) THEN S q[6]; IF ([_TK_SCRATCH_BIT[8]] == 1) THEN T q[7]; IF ([_TK_SCRATCH_BIT[0]] == 1) THEN Z q[0]; IF ([_TK_SCRATCH_BIT[2]] == 1) THEN CX q[1], q[2]; IF ([_TK_SCRATCH_BIT[9]] == 1) THEN CX q[3], q[4]; IF ([_TK_SCRATCH_BIT[3]] == 1) THEN H q[2]; ]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Unlike most uses of readouts in <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the <code class="docutils literal notranslate"><span class="pre">condition_value</span></code> argument expects a Little-Endian value, e.g. in the above example <code class="docutils literal notranslate"><span class="pre">condition_value=2</span></code> (representing the LE binary string <code class="docutils literal notranslate"><span class="pre">010000...</span></code>) is triggered when <code class="docutils literal notranslate"><span class="pre">check[0]</span></code> is in state <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">check[1]</span></code> is in state <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<p>Unlike most uses of readouts in <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, register comparisons expect a little-endian value, e.g. in the above example <code class="docutils literal notranslate"><span class="pre">condition=reg_eq(reg_a,</span> <span class="pre">3)</span></code> (representing the little-endian binary string <code class="docutils literal notranslate"><span class="pre">110000...</span></code>) is triggered when <code class="docutils literal notranslate"><span class="pre">reg_a[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">reg_a[1]</span></code> are in state <code class="docutils literal notranslate"><span class="pre">1</span></code> and the remainder of the register is in state <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This feature is only usable on a limited selection of devices and simulators which are designed to support the OpenQASM model. Since conditional gates in OpenQASM only support conditions that assert an entire classical register to be an exact integer value, we recommend using this pattern where possible.</p>
+<p>This feature is only usable on a limited selection of devices and simulators which support conditional gates.</p>
+<p>The <a class="reference external" href="extensions/qiskit.html#pytket.backends.ibm.AerBackend">Aerbackend</a> can support the OpenQasm model, where gates can only be conditional on an entire classical register being an exact integer value. Bitwise logical operations are not supported. Therefore only conditions of the form
+<code class="docutils literal notranslate"><span class="pre">condition=reg_eq(reg,</span> <span class="pre">val)</span></code> are valid.</p>
+<p>The <a class="reference external" href="extensions/honeywell.html#pytket.backends.honeywell.HoneywellBackend">HoneywellBackend</a>
+can support the full range of expressions and comparisons shown above, as long as the <a class="reference external" href="passes.html#pytket.passes.DecomposeClassicalExp">DecomposeClassicalExp</a> pass  has been run on the circuit first.
+This is part of the default compilation pass for that backend, so if you use that you do not need to run it separately.</p>
 </div>
 </div>
 <div class="section" id="circuit-level-operations">
@@ -1269,10 +1322,10 @@ True
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1];, CX q[1], q[0];, Rx(0.2*PI) q[1];, CZ q[0], q[1];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1];, CX q[1], q[0];, Rx(0.2) q[1];, CZ q[0], q[1];]
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_40_1.svg" src="_images/manual_circuit_40_1.svg" /></div>
+<img alt="_images/manual_circuit_41_1.svg" src="_images/manual_circuit_41_1.svg" /></div>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1285,14 +1338,108 @@ True
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[U3(3.8*PI, 0*PI, 1.5*PI) q[0];, U1(0.5*PI) q[1];, CX q[1], q[0];, U1(0.5*PI) q[0];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[U3(3.8, 0, 1.5) q[0];, U1(0.5) q[1];, CX q[1], q[0];, U1(0.5) q[0];]
 {q[0]: q[1], q[1]: q[0], q[2]: q[2], q[3]: q[3]}
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_41_1.svg" src="_images/manual_circuit_41_1.svg" /></div>
+<img alt="_images/manual_circuit_42_1.svg" src="_images/manual_circuit_42_1.svg" /></div>
 </div>
 <p>This procedure essentially exploits the naturality of the symmetry operator in the resource theory to push it to the end of the circuit: the <code class="docutils literal notranslate"><span class="pre">Rx</span></code> gate has moved from qubit <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> to <code class="docutils literal notranslate"><span class="pre">q[0]</span></code> and can be commuted through to the start. This is automatically considered when composing two <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together.</p>
 <p>The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> backends, but care should be taken when reading from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> directly - two quantum <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.implicit_qubit_permutation()</span></code> method can be used to inspect such a permutation.</p>
+</div>
+<div class="section" id="modifying-operations-within-circuits">
+<h3>Modifying Operations Within Circuits<a class="headerlink" href="#modifying-operations-within-circuits" title="Permalink to this headline">¶</a></h3>
+<p>Symbolic parameters allow one to construct a circuit with some not-yet-assigned parameters, and later (perhaps after some optimization), to instantiate them with different values. Occasionally, however, one may desire more flexibility in substituting operations within a circuit. For example, one may wish to apply controls from a certain qubit to certain operations, or to insert or remove certain operations.</p>
+<p>This can be achieved with <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, provided the mutable operations are tagged during circuit construction with identifying names (which can be arbitrary strings). If two operations are given the same name then they belong to the same “operation group”; they can (and must) then be substituted simultaneously.</p>
+<p>Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substitured operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)</p>
+<p>To add gates or boxes to a circuit with specified op group names, simply pass the name as a keyword argument <code class="docutils literal notranslate"><span class="pre">opgroup</span></code> to the method that adds the gate or box. To substitute all operations in a group, use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.substitute_named()</span></code> method. This can be used to substitute a circuit, an operation or a box into the existing circuit.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;rotations&quot;</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;rotations&quot;</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;special one&quot;</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cbox</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">cbox</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;Fred&quot;</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;Fred&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[rotations] Rz(0.25) q[0];, [special one] H q[2];, CX q[0], q[1];, [rotations] Ry(0.75) q[1];, CX q[2], q[1];, [Fred] CircBox q[0], q[1];, [Fred] CX q[1], q[2];]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span>
+
+<span class="c1"># Substitute a new 1-qubit circuit for all ops in the &quot;rotations&quot; group:</span>
+<span class="n">newcirc</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.125</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.875</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">substitute_named</span><span class="p">(</span><span class="n">newcirc</span><span class="p">,</span> <span class="s2">&quot;rotations&quot;</span><span class="p">)</span>
+<span class="c1"># Replace the &quot;special one&quot; with a different op:</span>
+<span class="n">newop</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">substitute_named</span><span class="p">(</span><span class="n">newop</span><span class="p">,</span> <span class="s2">&quot;special one&quot;</span><span class="p">)</span>
+<span class="c1"># Substitute a box for the &quot;Fred&quot; group:</span>
+<span class="n">newcbox</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">substitute_named</span><span class="p">(</span><span class="n">newcbox</span><span class="p">,</span> <span class="s2">&quot;Fred&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Rx(0.125) q[0];, [special one] T q[2];, Ry(0.875) q[0];, CX q[0], q[1];, Rx(0.125) q[1];, Ry(0.875) q[1];, CX q[2], q[1];, [Fred] CircBox q[0], q[1];, [Fred] CircBox q[1], q[2];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that when an operation or box is substituted in, the op group name is retained (and further substitutions can be made). When a circuit is substituted in, the op group name disappears.</p>
+<p>To remove an operation, one can replace it with an empty circuit.</p>
+<p>To add a control to an operation, one can add the original operation as a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> with one unused qubit, and subtitute it with a <code class="xref py py-class docutils literal notranslate"><span class="pre">QControlBox</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">QControlBox</span>
+
+<span class="k">def</span> <span class="nf">with_empty_qubit</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CircBox</span><span class="p">:</span>
+    <span class="n">n_qb</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">n_qubits</span>
+    <span class="k">return</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">Circuit</span><span class="p">(</span><span class="n">n_qb</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_qb</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))))</span>
+<span class="k">def</span> <span class="nf">with_control_qubit</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QControlBox</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">h_op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">)</span>
+<span class="n">cx_op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
+<span class="n">h_0_cbox</span> <span class="o">=</span> <span class="n">with_empty_qubit</span><span class="p">(</span><span class="n">h_op</span><span class="p">)</span>
+<span class="n">h_q_qbox</span> <span class="o">=</span> <span class="n">with_control_qubit</span><span class="p">(</span><span class="n">h_op</span><span class="p">)</span>
+<span class="n">cx_0_cbox</span> <span class="o">=</span> <span class="n">with_empty_qubit</span><span class="p">(</span><span class="n">cx_op</span><span class="p">)</span>
+<span class="n">cx_q_qbox</span> <span class="o">=</span> <span class="n">with_control_qubit</span><span class="p">(</span><span class="n">cx_op</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">h_0_cbox</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;hgroup&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">cx_0_cbox</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;cxgroup&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">h_0_cbox</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;hgroup&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">cx_0_cbox</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;cxgroup&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">substitute_named</span><span class="p">(</span><span class="n">h_q_qbox</span><span class="p">,</span> <span class="s2">&quot;hgroup&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">substitute_named</span><span class="p">(</span><span class="n">cx_q_qbox</span><span class="p">,</span> <span class="s2">&quot;cxgroup&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[X q[0];, Y q[1];, [hgroup] qif (q[2]) H q[0];, [cxgroup] qif (q[2]) CX q[0], q[1];, Y q[0];, X q[1];, [hgroup] qif (q[2]) H q[1];, [cxgroup] qif (q[2]) CX q[1], q[0];, X q[0];, Y q[1];]
+</pre></div>
+</div>
+</div>
+</div>
 <dl class="citation">
 <dt class="label" id="brav2005"><span class="brackets"><a class="fn-backref" href="#id2">Brav2005</a></span></dt>
 <dd><p>Bravyi, S. and Kitaev, A., 2005. Universal quantum computation with ideal Clifford gates and noisy ancillas. Physical Review A, 71(2), p.022316.</p>
@@ -1331,19 +1478,11 @@ True
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1354,6 +1493,7 @@ True
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {
