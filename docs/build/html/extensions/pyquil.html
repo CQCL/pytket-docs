@@ -1,20 +1,15 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket-pyquil &mdash; pytket 0.6.1 documentation</title>
+  <title>pytket-pyquil &mdash; pytket 0.7.0 documentation</title>
   
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/thebelab.css" type="text/css" />
 
   
   
@@ -22,9 +17,7 @@
   
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -32,14 +25,18 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytket-pyzx" href="pyzx.html" />
@@ -57,7 +54,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> pytket
+            <a href="../index.html" class="icon icon-home"> pytket
           
 
           
@@ -67,7 +64,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -84,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,7 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licence.html">SOFTWARE LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Manual:</span></p>
@@ -133,8 +130,8 @@
 <li class="toctree-l1"><a class="reference internal" href="honeywell.html">pytket-honeywell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projectq.html">pytket-projectq</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket-pyquil</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-pytket.backends.forest">pytket.backends.forest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pytket.pyquil">pytket.pyquil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pytket.extensions.backends.forest">pytket.extensions.backends.forest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pytket.extensions.pyquil">pytket.extensions.pyquil</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pyzx.html">pytket-pyzx</a></li>
@@ -147,7 +144,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -186,7 +182,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
         
       <li>pytket-pyquil</li>
     
@@ -217,42 +213,42 @@ representations.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pytket-pyquil</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux, MacOS and Windows. To
 install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-pyquil</span></code></p>
-<div class="section" id="module-pytket.backends.forest">
-<span id="pytket-backends-forest"></span><h2>pytket.backends.forest<a class="headerlink" href="#module-pytket.backends.forest" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pytket.extensions.backends.forest">
+<span id="pytket-extensions-backends-forest"></span><h2>pytket.extensions.backends.forest<a class="headerlink" href="#module-pytket.extensions.backends.forest" title="Permalink to this headline">¶</a></h2>
 <p>Backends for connecting to devices and simulators from the Rigetti Forest platform directly from pytket</p>
 <dl class="py class">
-<dt id="pytket.backends.forest.ForestBackend">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.forest.</code><code class="sig-name descname">ForestBackend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qc_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">simulator</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.extensions.backends.forest.</code><code class="sig-name descname">ForestBackend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qc_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">simulator</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qc_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">simulator</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qc_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">simulator</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running circuits on a Rigetti QCS device or simulating with the QVM.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>qc_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the particular QuantumComputer to use. See the pyQuil docs for more details.</p></li>
-<li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Simulate the device with the QVM (True), or run on the QCS (False). Defaults to True.</p></li>
+<li><p><strong>qc_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the particular QuantumComputer to use. See the pyQuil docs for more details.</p></li>
+<li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Simulate the device with the QVM (True), or run on the QCS (False). Defaults to True.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.status.CircuitStatus" title="pytket.backends.status.CircuitStatus">pytket.backends.status.CircuitStatus</a><a class="headerlink" href="#pytket.backends.forest.ForestBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.circuit_status">
+<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.status.CircuitStatus" title="pytket.backends.status.CircuitStatus">pytket.backends.status.CircuitStatus</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.default_compilation_pass">
-<code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.backends.forest.ForestBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.default_compilation_pass">
+<code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
 will be suitable to run on this backend with as few preconditions as
 possible.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
+<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
 compilation. Level 0 just solves the device constraints without
 optimising. Level 1 additionally performs some light optimisations.
 Level 2 adds more intensive optimisations that can increase compilation
@@ -268,22 +264,22 @@ time for large circuits. Defaults to 1.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><a class="headerlink" href="#pytket.backends.forest.ForestBackend.get_result" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.get_result">
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>See <a class="reference internal" href="../backends.html#pytket.backends.Backend.get_result" title="pytket.backends.Backend.get_result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.backends.Backend.get_result()</span></code></a>.
 Supported kwargs: none.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>pytket.circuit.Circuit<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.forest.ForestBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.process_circuits">
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>See <a class="reference internal" href="../backends.html#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.backends.Backend.process_circuits()</span></code></a>.
 Supported kwargs: <cite>seed</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.characterisation">
-<em class="property">property </em><code class="sig-name descname">characterisation</code><a class="headerlink" href="#pytket.backends.forest.ForestBackend.characterisation" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.characterisation">
+<em class="property">property </em><code class="sig-name descname">characterisation</code><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.characterisation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the characterisation targeted by the backend if it exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -291,14 +287,14 @@ Supported kwargs: <cite>seed</cite>.</p>
 object contains device-specific information such as gate error rates.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>]</p>
+<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.device">
-<em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.forest.ForestBackend.device" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.device">
+<em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -312,8 +308,8 @@ object contains information about gate errors and device architecture.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestBackend.required_predicates">
-<em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.forest.ForestBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestBackend.required_predicates">
+<em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.extensions.backends.forest.ForestBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can
 be successfully run on this backend.</p>
 <dl class="field-list simple">
@@ -329,30 +325,30 @@ be successfully run on this backend.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="pytket.backends.forest.ForestStateBackend">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.forest.</code><code class="sig-name descname">ForestStateBackend</code><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.extensions.backends.forest.</code><code class="sig-name descname">ForestStateBackend</code><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running simulations on the Rigetti QVM Wavefunction Simulator.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.status.CircuitStatus" title="pytket.backends.status.CircuitStatus">pytket.backends.status.CircuitStatus</a><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.circuit_status">
+<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.status.CircuitStatus" title="pytket.backends.status.CircuitStatus">pytket.backends.status.CircuitStatus</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.default_compilation_pass">
-<code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.default_compilation_pass">
+<code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
 will be suitable to run on this backend with as few preconditions as
 possible.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
+<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
 compilation. Level 0 just solves the device constraints without
 optimising. Level 1 additionally performs some light optimisations.
 Level 2 adds more intensive optimisations that can increase compilation
@@ -368,8 +364,8 @@ time for large circuits. Defaults to 1.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.get_operator_expectation_value">
-<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n">pytket.utils.operators.QubitPauliOperator</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.get_operator_expectation_value">
+<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../utils.html#pytket.utils.QubitPauliOperator" title="pytket.utils.QubitPauliOperator">pytket.utils.QubitPauliOperator</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)">complex</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit with respect to the operator using the built-in QVM functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -382,14 +378,14 @@ time for large circuits. Defaults to 1.</p>
 <dd class="field-even"><p><span class="math notranslate nohighlight">\(\left&lt;\psi | H | \psi \right&gt;\)</span></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)">complex</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.get_pauli_expectation_value">
-<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../pauli.html#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.get_pauli_expectation_value">
+<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../pauli.html#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)">complex</a><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit using the built-in QVM functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -402,14 +398,14 @@ time for large circuits. Defaults to 1.</p>
 <dd class="field-even"><p><span class="math notranslate nohighlight">\(\left&lt;\psi | P | \psi \right&gt;\)</span></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.8)">complex</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)">complex</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>pytket.circuit.Circuit<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.process_circuits">
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit circuits to the backend for running. The results will be stored
 in the backend’s result cache to be retrieved by the corresponding
 get_&lt;data&gt; method.</p>
@@ -423,9 +419,9 @@ list:</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>circuits</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
-<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
 for state/unitary simulators. Defaults to None.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
 predicates to run on the backend. Defaults to True</p></li>
 </ul>
 </dd>
@@ -440,8 +436,8 @@ the same order as the circuits.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.device">
-<em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.device" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.device">
+<em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -455,8 +451,8 @@ object contains information about gate errors and device architecture.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pytket.backends.forest.ForestStateBackend.required_predicates">
-<em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.forest.ForestStateBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.backends.forest.ForestStateBackend.required_predicates">
+<em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.extensions.backends.forest.ForestStateBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can
 be successfully run on this backend.</p>
 <dl class="field-list simple">
@@ -472,17 +468,17 @@ be successfully run on this backend.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-pytket.pyquil">
-<span id="id1"></span><h2>pytket.pyquil<a class="headerlink" href="#module-pytket.pyquil" title="Permalink to this headline">¶</a></h2>
-<p>Module for conversion between Rigetti pyQuil and <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives.</p>
+<div class="section" id="module-pytket.extensions.pyquil">
+<span id="pytket-extensions-pyquil"></span><h2>pytket.extensions.pyquil<a class="headerlink" href="#module-pytket.extensions.pyquil" title="Permalink to this headline">¶</a></h2>
+<p>Module for conversion between Rigetti pyQuil and tket primitives.</p>
 <dl class="py function">
-<dt id="pytket.pyquil.pyquil_to_tk">
-<code class="sig-prename descclassname">pytket.pyquil.</code><code class="sig-name descname">pyquil_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prog</span><span class="p">:</span> <span class="n">pyquil.quil.Program</span></em><span class="sig-paren">)</span> &#x2192; pytket.circuit.Circuit<a class="headerlink" href="#pytket.pyquil.pyquil_to_tk" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyquil.Program</span></code> to a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> .
+<dt id="pytket.extensions.pyquil.pyquil_to_tk">
+<code class="sig-prename descclassname">pytket.extensions.pyquil.</code><code class="sig-name descname">pyquil_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prog</span><span class="p">:</span> <span class="n">pyquil.quil.Program</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><a class="headerlink" href="#pytket.extensions.pyquil.pyquil_to_tk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyquil.Program</span></code> to a tket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> .
 Note that not all pyQuil operations are currently supported by pytket.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></p>
+<dd class="field-odd"><p><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a></p>
 </dd>
 <dt class="field-even">Parameters</dt>
 <dd class="field-even"><p><strong>prog</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Program</span></code>) – A circuit to be converted</p>
@@ -494,20 +490,17 @@ Note that not all pyQuil operations are currently supported by pytket.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="pytket.pyquil.tk_to_pyquil">
-<code class="sig-prename descclassname">pytket.pyquil.</code><code class="sig-name descname">tk_to_pyquil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcirc</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">active_reset</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">return_used_bits</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; pyquil.quil.Program<a class="headerlink" href="#pytket.pyquil.tk_to_pyquil" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.pyquil.tk_to_pyquil">
+<code class="sig-prename descclassname">pytket.extensions.pyquil.</code><code class="sig-name descname">tk_to_pyquil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcirc</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">active_reset</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">return_used_bits</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span>pyquil.quil.Program<span class="p">, </span>Tuple<span class="p">[</span>pyquil.quil.Program<span class="p">, </span>List<span class="p">[</span><a class="reference internal" href="../circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">]</span><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.extensions.pyquil.tk_to_pyquil" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div><p>Convert a <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyquil.Program</span></code> .</p>
+<div><p>Convert a tket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyquil.Program</span></code> .</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Program</span></code></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tkcirc</strong> (<a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a>) – A circuit to be converted</p>
 </dd>
-<dt class="field-even">Parameters</dt>
-<dd class="field-even"><p><strong>tkcirc</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>) – A circuit to be converted</p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The converted circuit</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The converted circuit</p>
 </dd>
 </dl>
 </dd></dl>
@@ -535,19 +528,11 @@ Note that not all pyQuil operations are currently supported by pytket.</p>
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -558,6 +543,7 @@ Note that not all pyQuil operations are currently supported by pytket.</p>
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

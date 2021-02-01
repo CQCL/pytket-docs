@@ -1,20 +1,15 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket-qulacs &mdash; pytket 0.6.1 documentation</title>
+  <title>pytket-qulacs &mdash; pytket 0.7.0 documentation</title>
   
-
-  
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/thebelab.css" type="text/css" />
 
   
   
@@ -22,9 +17,7 @@
   
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -32,14 +25,18 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
-        <script src="../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="pytket-ionq" href="ionq.html" />
@@ -57,7 +54,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> pytket
+            <a href="../index.html" class="icon icon-home"> pytket
           
 
           
@@ -67,7 +64,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -84,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,7 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../licence.html">SOFTWARE LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Manual:</span></p>
@@ -139,7 +136,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket-qulacs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gpu-acceleration">GPU acceleration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pytket-backends-qulacs">pytket.backends.qulacs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pytket.qulacs">pytket.qulacs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pytket.extensions.qulacs">pytket.extensions.qulacs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ionq.html">pytket-ionq</a></li>
@@ -148,7 +145,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -187,7 +183,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="../index.html">Docs</a> &raquo;</li>
         
       <li>pytket-qulacs</li>
     
@@ -240,14 +236,14 @@ below.</p>
 <dd><p>Backend for running simulations on the Qulacs simulator</p>
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.cancel">
-<code class="sig-name descname">cancel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.cancel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">cancel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.cancel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cancel a job.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>handle</strong> (<a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><em>ResultHandle</em></a>) – handle to job</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend does not support job cancellation</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If backend does not support job cancellation</p>
 </dd>
 </dl>
 </dd></dl>
@@ -261,13 +257,13 @@ corresponding to the ResultHandle</p>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.compile_circuit">
-<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compile_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.compile_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the default_compilation_pass to a circuit in place.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>circuit</strong> (<a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to compile.</p></li>
-<li><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
+<li><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
 compilation. Level 0 just solves the device constraints without
 optimising. Level 1 additionally performs some light optimisations.
 Level 2 adds more intensive optimisations that can increase compilation
@@ -279,13 +275,13 @@ time for large circuits. Defaults to 1.</p></li>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.default_compilation_pass">
-<code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
 will be suitable to run on this backend with as few preconditions as
 possible.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
+<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
 compilation. Level 0 just solves the device constraints without
 optimising. Level 1 additionally performs some light optimisations.
 Level 2 adds more intensive optimisations that can increase compilation
@@ -302,45 +298,45 @@ time for large circuits. Defaults to 1.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.empty_cache">
-<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">empty_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.empty_cache" title="Permalink to this definition">¶</a></dt>
 <dd><p>Manually empty the result cache on the backend.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.get_counts">
-<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_counts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_counts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; Dict[Tuple[int, …], int]<a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_counts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain a summary of results, accumulating the shots for each result from an
 experiment. Accepts a
-<a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be run and immediately returned. This
 will fail if the circuit does not match the device’s requirements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>circuit</strong> (<a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
-<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
 <li><p><strong>basis</strong> (<a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
 DLO (decreasing lexicographic order) for column ordering. Defaults to
 BasisOrder.ilo.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
 required predicates before running. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support counts
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If backend implementation does not support counts
 retrieval</p>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Dictionary mapping observed readouts to the number of times observed.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, ..], <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>]</p>
+<dd class="field-even"><p>Dict[Tuple[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a>, ..], <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.get_result">
-<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a BackendResult corresponding to the handle.</p>
 <p>Use keyword arguments to specify parameters to be used in retrieving results.
 See specific Backend derived class for available parameters, from the following
@@ -364,7 +360,7 @@ list:</p>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.get_results">
-<code class="sig-name descname">get_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handles</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_results" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handles</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">pytket.backends.backendresult.BackendResult</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return results corresponding to handles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -379,24 +375,24 @@ list:</p>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.get_shots">
-<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_shots" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_shots</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_shots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain the table of shots from an experiment. Accepts a
-<a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be run and immediately returned. This
 will fail if the circuit does not match the device’s requirements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>circuit</strong> (<a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – The circuit to run</p></li>
-<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to generate from the circuit. Defaults to None</p></li>
 <li><p><strong>basis</strong> (<a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO (increasing lexicographic order of bit ids) and
 DLO (decreasing lexicographic order) for column ordering. Defaults to
 BasisOrder.ilo.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
 required predicates before running. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support shot
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If backend implementation does not support shot
 table retrieval</p>
 </dd>
 <dt class="field-odd">Returns</dt>
@@ -412,9 +408,9 @@ corresponding to qubit basis states.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.get_state">
-<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_state" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">basis</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder">pytket.circuit.BasisOrder</a></span> <span class="o">=</span> <span class="default_value">BasisOrder.ilo</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.get_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain a statevector from a simulation. Accepts a
-<a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to be run and immediately returned. This
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to be run and immediately returned. This
 will fail if the circuit does not match the simulator’s requirements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -423,12 +419,12 @@ will fail if the circuit does not match the simulator’s requirements.</p>
 <li><p><strong>basis</strong> (<a class="reference internal" href="../circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><em>BasisOrder</em></a><em>, </em><em>optional</em>) – Toggle between ILO-BE (increasing lexicographic order of bit ids,
 big-endian) and DLO-BE (decreasing lexicographic order, big-endian) for
 ordering the coefficients. Defaults to BasisOrder.ilo.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that the circuit satisfies all of the
 required predicates before running. Defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.8)"><strong>NotImplementedError</strong></a> – If backend implementation does not support
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If backend implementation does not support
 statevector retrieval</p>
 </dd>
 <dt class="field-odd">Returns</dt>
@@ -446,7 +442,7 @@ qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|0\righ
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.pop_result">
-<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a><span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.pop_result" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pop_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>Dict<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.pop_result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove cache entry corresponding to handle from the cache and return.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -463,13 +459,13 @@ qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|0\righ
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.process_circuit">
-<code class="sig-name descname">process_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.process_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.process_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit a single circuit to the backend for running. See <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>pytket.circuit.Circuit<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union[int, float, None]</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit circuits to the backend for running. The results will be stored
 in the backend’s result cache to be retrieved by the corresponding
 get_&lt;data&gt; method.</p>
@@ -483,9 +479,9 @@ list:</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>circuits</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
-<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
 for state/unitary simulators. Defaults to None.</p></li>
-<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
 predicates to run on the backend. Defaults to True</p></li>
 </ul>
 </dd>
@@ -501,7 +497,7 @@ the same order as the circuits.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.valid_circuit">
-<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">valid_circuit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.valid_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the circuit satisfies all of required_predicates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -511,7 +507,7 @@ the same order as the circuits.</p>
 <dd class="field-even"><p>Whether or not all of required_predicates are satisfied.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -526,7 +522,7 @@ the same order as the circuits.</p>
 object contains device-specific information such as gate error rates.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a>]</p>
+<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -581,6 +577,12 @@ be successfully run on this backend.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="pytket.backends.qulacs.QulacsBackend.supports_density_matrix">
+<em class="property">property </em><code class="sig-name descname">supports_density_matrix</code><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.supports_density_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does this backend support density matrix retrieval via <cite>get_density_matrix</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="pytket.backends.qulacs.QulacsBackend.supports_expectation">
 <em class="property">property </em><code class="sig-name descname">supports_expectation</code><a class="headerlink" href="#pytket.backends.qulacs.QulacsBackend.supports_expectation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this backend support expectation value calculation for operators.</p>
@@ -607,12 +609,12 @@ be successfully run on this backend.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-pytket.qulacs">
-<span id="id1"></span><h2>pytket.qulacs<a class="headerlink" href="#module-pytket.qulacs" title="Permalink to this headline">¶</a></h2>
-<p>Module for conversion from <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> primitives to Qulacs primitives.</p>
+<div class="section" id="module-pytket.extensions.qulacs">
+<span id="pytket-extensions-qulacs"></span><h2>pytket.extensions.qulacs<a class="headerlink" href="#module-pytket.extensions.qulacs" title="Permalink to this headline">¶</a></h2>
+<p>Module for conversion from tket primitives to Qulacs primitives.</p>
 <dl class="py function">
-<dt id="pytket.qulacs.tk_to_qulacs">
-<code class="sig-prename descclassname">pytket.qulacs.</code><code class="sig-name descname">tk_to_qulacs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">pytket.circuit.Circuit</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.qulacs.tk_to_qulacs" title="Permalink to this definition">¶</a></dt>
+<dt id="pytket.extensions.qulacs.tk_to_qulacs">
+<code class="sig-prename descclassname">pytket.extensions.qulacs.</code><code class="sig-name descname">tk_to_qulacs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; qulacs.QuantumCircuit<a class="headerlink" href="#pytket.extensions.qulacs.tk_to_qulacs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a pytket circuit to a qulacs circuit object.</p>
 </dd></dl>
 
@@ -639,19 +641,11 @@ be successfully run on this backend.</p>
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -662,6 +656,7 @@ be successfully run on this backend.</p>
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

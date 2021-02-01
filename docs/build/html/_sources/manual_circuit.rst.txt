@@ -435,6 +435,14 @@ Similarly, if our subcircuit is a pure quantum circuit (i.e. it corresponds to a
     circ.Ry(0.3, 0).Ry(0.8, 1)
     circ.add_qcontrolbox(cont, [0, 1, 2, 3])    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
 
+As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Op, OpType, QControlBox
+    op = Op.create(OpType.S)
+    ccs = QControlBox(op, 2)
+
 .. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
 .. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
@@ -648,7 +656,7 @@ For example, installing the ``pytket-qiskit`` package will add the ``tk_to_qiski
     qc.cx(0, 1)
     qc.rz(pi/2, 1)
 
-    from pytket.qiskit import qiskit_to_tk, tk_to_qiskit
+    from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
     circ = qiskit_to_tk(qc)
     circ.CX(1, 2)
     circ.measure_all()
@@ -775,39 +783,87 @@ The :py:class:`CircBox` construction is good for subroutines where the instructi
 Conditional Gates
 =================
 
-.. Performing gates conditional on some classical value
+.. Performing gates conditional on some classical value or expressions
 
-Moving beyond toy circuit examples, many applications of quantum computing require looking at circuits as POVMs for extra expressivity, or introducing error-correcting schemes to reduce the effective noise. Each of these requires performing measurements mid-circuit and then perfoming subsequent gates conditional on the classical value of the measurement result.
+Moving beyond toy circuit examples, many applications of quantum computing require looking at circuits as POVMs for extra expressivity, or introducing error-correcting schemes to reduce the effective noise. Each of these requires performing measurements mid-circuit and then performing subsequent gates conditional on the classical value of the measurement result.
 
-.. Specified by giving `condition_bits` and `condition_value` kwargs when adding a gate
+.. Specified by the `condition` kwarg when adding a gate
 
-Any ``pytket`` gate can be made conditional at the point of adding it to the :py:class:`Circuit` by providing the ``condition_bits`` and ``condition_value`` kwargs. The interpretation of ``circ.G(q, condition_bits=[reg[0], reg[1]], condition_value=v)`` is: "if the value of the bits ``[reg[0], reg[1]]`` match the integer value ``v``, then perform ``G(q)``".
+Any ``pytket`` gate can be made conditional at the point of adding it to the :py:class:`Circuit` by providing the ``condition`` kwarg. The interpretation of ``circ.G(q, condition=reg[0])`` is: "if the  bit ``[reg[0]`` is set, then perform ``G(q)``".
+Conditions on more complicated expressions over the values of `Bit <circuit.html#pytket.circuit.Bit>`_ and `BitRegister <circuit.html#pytket.circuit.BitRegister>`_ are also possible, expressed as conditions on the results of expressions involving bitwise AND (&), OR (|) and XOR (^) operations.
+For example a gate can be made conditional on the result of a bitwise XOR of registers ``a``, ``b``, and ``c`` being larger than 4 by writing ``circ.G(q, condition=reg_gt(a ^ b ^ c, 4))``.
+When such a condition is added, the result of the expression is written to a scratch bit or register, and the gate is made conditional on the value of the scratch variable.
+For comparison of registers, a special ``RangePredicate`` type is used to encode the result of the comparison onto a scratch bit.
+See the `API reference <classical.html>`_ for more on the possible expressions and predicates.
+
+
 
 .. jupyter-execute::
 
-    from pytket import Circuit
+    from pytket.circuit import (
+        Circuit,
+        BitRegister,
+        if_bit,
+        if_not_bit,
+        reg_eq,
+        reg_geq,
+        reg_gt,
+        reg_leq,
+        reg_lt,
+        reg_neq,
+    )
+    # create a circuit and add quantum and classical registers
     circ = Circuit()
-    data = circ.add_q_register("d", 3)
-    par = circ.add_q_register("p", 2)
-    check = circ.add_c_register("c", 2)
+    qreg = circ.add_q_register("q", 10)
+    reg_a = circ.add_c_register("a", 4)
+    reg_b = BitRegister("b", 3)
+    circ.add_c_register(reg_b)
+    reg_c = circ.add_c_register("c", 3)
 
-    # Measure ZZI and IZZ stabilizers
-    circ.CX(data[0], par[0])
-    circ.CX(data[1], par[0])
-    circ.CX(data[1], par[1])
-    circ.CX(data[2], par[1])
-    circ.Measure(par[0], check[0])
-    circ.Measure(par[1], check[1])
-    # Correct single bit-flip errors
-    circ.X(data[0], condition_bits=[check[0], check[1]], condition_value=1)
-    circ.X(data[1], condition_bits=[check[0], check[1]], condition_value=3)
-    circ.X(data[2], condition_bits=[check[0], check[1]], condition_value=2)
+    # if (reg_a[0] == 1)
+    circ.H(qreg[0], condition=reg_a[0])
+    circ.X(qreg[0], condition=if_bit(reg_a[0]))
 
-.. Driven by support within the OpenQASM model, where an entire register must be an exact value; aim to generalise this in future
+    # if (reg_a[2] == 0)
+    circ.T(qreg[1], condition=if_not_bit(reg_a[2]))
 
-.. warning:: Unlike most uses of readouts in ``pytket``, the ``condition_value`` argument expects a Little-Endian value, e.g. in the above example ``condition_value=2`` (representing the LE binary string ``010000...``) is triggered when ``check[0]`` is in state ``0`` and ``check[1]`` is in state ``1``.
+    # compound logical expressions
+    circ.Z(qreg[0], condition=(reg_a[2] & reg_a[3]))
+    circ.Z(qreg[1], condition=if_not_bit(reg_a[2] & reg_a[3]))
+    big_exp = reg_a[0] | reg_a[1] ^ reg_a[2] & reg_a[3]
+    # syntactic sugar for big_exp = BitOr(reg_a[0], BitXor(reg_a[1], BitAnd(reg_a[2], reg_a[3])))
+    circ.CX(qreg[1], qreg[2], condition=big_exp)
 
-.. note:: This feature is only usable on a limited selection of devices and simulators which are designed to support the OpenQASM model. Since conditional gates in OpenQASM only support conditions that assert an entire classical register to be an exact integer value, we recommend using this pattern where possible.
+    # Register comparisons
+
+    # if (reg_a == 3)
+    circ.H(qreg[2], condition=reg_eq(reg_a, 3))
+    # if (reg_c != 6)
+    circ.Y(qreg[4], condition=reg_neq(reg_c, 5))
+    # if (reg_b < 6)
+    circ.X(qreg[3], condition=reg_lt(reg_b, 6))
+    # if (reg_b > 3)
+    circ.Z(qreg[5], condition=reg_gt(reg_b, 3))
+    # if (reg_c <= 6)
+    circ.S(qreg[6], condition=reg_leq(reg_c, 6))
+    # if (reg_a >= 3)
+    circ.T(qreg[7], condition=reg_geq(reg_a, 3))
+    # compound register expressions
+    big_reg_exp = reg_a & reg_b | reg_c
+    circ.CX(qreg[3], qreg[4], condition=reg_eq(big_reg_exp, 3))
+
+.. Within the OpenQASM2 model, an entire register must be an exact value, the HQS extension enables more flexibility. OpenQASM3 will generalise even further.
+
+.. warning:: Unlike most uses of readouts in ``pytket``, register comparisons expect a little-endian value, e.g. in the above example ``condition=reg_eq(reg_a, 3)`` (representing the little-endian binary string ``110000...``) is triggered when ``reg_a[0]`` and ``reg_a[1]`` are in state ``1`` and the remainder of the register is in state ``0``.
+
+.. note:: This feature is only usable on a limited selection of devices and simulators which support conditional gates.
+
+ The `Aerbackend <extensions/qiskit.html#pytket.backends.ibm.AerBackend>`_ can support the OpenQasm model, where gates can only be conditional on an entire classical register being an exact integer value. Bitwise logical operations are not supported. Therefore only conditions of the form
+ ``condition=reg_eq(reg, val)`` are valid.
+
+ The `HoneywellBackend <extensions/honeywell.html#pytket.backends.honeywell.HoneywellBackend>`_ 
+ can support the full range of expressions and comparisons shown above, as long as the `DecomposeClassicalExp <passes.html#pytket.passes.DecomposeClassicalExp>`_ pass  has been run on the circuit first. 
+ This is part of the default compilation pass for that backend, so if you use that you do not need to run it separately.
 
 Circuit-Level Operations
 ========================
@@ -877,6 +933,84 @@ This procedure essentially exploits the naturality of the symmetry operator in t
 .. Two circuits can have the same sequence of gates but different unitaries (and behave differently under composition) because of implicit permutations
 
 The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different :py:class:`UnitID`. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by ``pytket`` backends, but care should be taken when reading from the :py:class:`Circuit` directly - two quantum :py:class:`Circuit` s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The :py:meth:`Circuit.implicit_qubit_permutation` method can be used to inspect such a permutation.
+
+
+Modifying Operations Within Circuits
+====================================
+
+Symbolic parameters allow one to construct a circuit with some not-yet-assigned parameters, and later (perhaps after some optimization), to instantiate them with different values. Occasionally, however, one may desire more flexibility in substituting operations within a circuit. For example, one may wish to apply controls from a certain qubit to certain operations, or to insert or remove certain operations.
+
+This can be achieved with ``pytket``, provided the mutable operations are tagged during circuit construction with identifying names (which can be arbitrary strings). If two operations are given the same name then they belong to the same "operation group"; they can (and must) then be substituted simultaneously.
+
+Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substitured operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)
+
+To add gates or boxes to a circuit with specified op group names, simply pass the name as a keyword argument ``opgroup`` to the method that adds the gate or box. To substitute all operations in a group, use the :py:meth:`Circuit.substitute_named` method. This can be used to substitute a circuit, an operation or a box into the existing circuit.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, CircBox
+
+    circ = Circuit(3)
+    circ.Rz(0.25, 0, opgroup="rotations")
+    circ.CX(0, 1)
+    circ.Ry(0.75, 1, opgroup="rotations")
+    circ.H(2, opgroup="special one")
+    circ.CX(2, 1)
+    cbox = CircBox(Circuit(2).S(0).CY(0,1))
+    circ.add_circbox(cbox, [0,1], opgroup="Fred")
+    circ.CX(1, 2, opgroup="Fred")
+
+    print(circ.get_commands())
+
+.. jupyter-execute::
+
+    from pytket.circuit import Op
+
+    # Substitute a new 1-qubit circuit for all ops in the "rotations" group:
+    newcirc = Circuit(1).Rx(0.125, 0).Ry(0.875, 0)
+    circ.substitute_named(newcirc, "rotations")
+    # Replace the "special one" with a different op:
+    newop = Op.create(OpType.T)
+    circ.substitute_named(newop, "special one")
+    # Substitute a box for the "Fred" group:
+    newcbox = CircBox(Circuit(2).H(1).CX(1,0))
+    circ.substitute_named(newcbox, "Fred")
+
+    print(circ.get_commands())
+
+Note that when an operation or box is substituted in, the op group name is retained (and further substitutions can be made). When a circuit is substituted in, the op group name disappears.
+
+To remove an operation, one can replace it with an empty circuit.
+
+To add a control to an operation, one can add the original operation as a :py:class:`CircBox` with one unused qubit, and subtitute it with a :py:class:`QControlBox`.
+
+.. jupyter-execute::
+
+    from pytket.circuit import QControlBox
+
+    def with_empty_qubit(op: Op) -> CircBox:
+        n_qb = op.n_qubits
+        return CircBox(Circuit(n_qb + 1).add_gate(op, list(range(1, n_qb + 1))))
+    def with_control_qubit(op: Op) -> QControlBox:
+        return QControlBox(op, 1)
+    c = Circuit(3)
+    h_op = Op.create(OpType.H)
+    cx_op = Op.create(OpType.CX)
+    h_0_cbox = with_empty_qubit(h_op)
+    h_q_qbox = with_control_qubit(h_op)
+    cx_0_cbox = with_empty_qubit(cx_op)
+    cx_q_qbox = with_control_qubit(cx_op)
+    c.X(0).Y(1)
+    c.add_circbox(h_0_cbox, [2, 0], opgroup="hgroup")
+    c.add_circbox(cx_0_cbox, [2, 0, 1], opgroup="cxgroup")
+    c.Y(0).X(1)
+    c.add_circbox(h_0_cbox, [2, 1], opgroup="hgroup")
+    c.add_circbox(cx_0_cbox, [2, 1, 0], opgroup="cxgroup")
+    c.X(0).Y(1)
+    c.substitute_named(h_q_qbox, "hgroup")
+    c.substitute_named(cx_q_qbox, "cxgroup")
+
+    print(c.get_commands())
 
 
 .. [Brav2005] Bravyi, S. and Kitaev, A., 2005. Universal quantum computation with ideal Clifford gates and noisy ancillas. Physical Review A, 71(2), p.022316.

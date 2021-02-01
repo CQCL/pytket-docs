@@ -1,20 +1,15 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.circuit.OpType &mdash; pytket 0.6.1 documentation</title>
+  <title>pytket.circuit.OpType &mdash; pytket 0.7.0 documentation</title>
   
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
 
   
   
@@ -22,9 +17,7 @@
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,17 +25,21 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pytket.pauli" href="pauli.html" />
+    <link rel="next" title="pytket.circuit.logic_exp" href="classical.html" />
     <link rel="prev" title="pytket.circuit.Circuit" href="circuit_class.html" /> 
 </head>
 
@@ -57,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+            <a href="index.html" class="icon icon-home"> pytket
           
 
           
@@ -67,7 +64,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -84,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,7 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">SOFTWARE LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Manual:</span></p>
@@ -114,6 +111,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="circuit.html">pytket.circuit</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="circuit_class.html">pytket.circuit.Circuit</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pytket.circuit.OpType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classical.html">pytket.circuit.logic_exp</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
@@ -147,7 +145,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -186,7 +183,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
           <li><a href="circuit.html">pytket.circuit</a> &raquo;</li>
         
@@ -212,10 +209,16 @@
   <div class="section" id="pytket-circuit-optype">
 <h1>pytket.circuit.OpType<a class="headerlink" href="#pytket-circuit-optype" title="Permalink to this headline">¶</a></h1>
 <p>Enum for available operations compatible with the tket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All parametrised OpTypes which take angles (e.g. Rz, CPhase, FSim) expect parameters in multiples of pi (half-turns).
+This may differ from other quantum programming tools you have used, which have specified angles in radians, or perhaps even degrees.
+Therefore, for instance <cite>circuit.add_gate(OpType.Rx, 1, [0])</cite> is equivalent in terms of the unitary to <cite>circuit.add_gate(OpType.X, [0])</cite></p>
+</div>
 <dl class="py class">
 <dt id="pytket.circuit.OpType">
 <em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">OpType</code><a class="headerlink" href="#pytket.circuit.OpType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enum for available operations compatible with <span class="math notranslate nohighlight">\(\mathrm{t|ket}\rangle\)</span> <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> s.</p>
+<dd><p>Enum for available operations compatible with tket <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> s.</p>
 <p>Members:</p>
 <blockquote>
 <div><p>Z : Pauli Z: <span class="math notranslate nohighlight">\(\left[ \begin{array}{cc} 1 &amp; 0 \\ 0 &amp; -1 \end{array} \right]\)</span></p>
@@ -227,6 +230,8 @@
 <p>Tdg : <span class="math notranslate nohighlight">\(\mathrm{T}^{\dagger} = \left[ \begin{array}{cc} 1 &amp; 0 \\ 0 &amp; e^{-i\pi/4} \end{array} \right] = \mathrm{U1}(-\frac14)\)</span></p>
 <p>V : <span class="math notranslate nohighlight">\(\frac{1}{\sqrt 2} \left[ \begin{array}{cc} 1 &amp; -i \\ -i &amp; 1 \end{array} \right] = \mathrm{Rx}(\frac12)\)</span></p>
 <p>Vdg : <span class="math notranslate nohighlight">\(\mathrm{V}^{\dagger} = \frac{1}{\sqrt 2} \left[ \begin{array}{cc} 1 &amp; i \\ i &amp; 1 \end{array} \right] = \mathrm{Rx}(-\frac12)\)</span></p>
+<p>SX : <span class="math notranslate nohighlight">\(\frac{1}{2} \left[ \begin{array}{cc} 1 + i &amp; 1 - i \\ 1 - i &amp; 1 + i \end{array} \right] = e^{\frac{i\pi}{4}}\mathrm{Rx}(\frac12)\)</span></p>
+<p>SXdg : <span class="math notranslate nohighlight">\(\mathrm{SX}^{\dagger} = \frac{1}{2} \left[ \begin{array}{cc} 1 - i &amp; 1 + i \\ 1 + i &amp; 1 - i \end{array} \right] = e^{\frac{-i\pi}{4}}\mathrm{Rx}(-\frac12)\)</span></p>
 <p>H : Hadamard gate: <span class="math notranslate nohighlight">\(\frac{1}{\sqrt 2} \left[ \begin{array}{cc} 1 &amp; 1 \\ 1 &amp; -1 \end{array} \right]\)</span></p>
 <p>Rx : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{-\frac12 i \pi \alpha \mathrm{X}} = \left[ \begin{array}{cc} \cos\frac{\pi\alpha}{2} &amp; -i\sin\frac{\pi\alpha}{2} \\ -i\sin\frac{\pi\alpha}{2} &amp; \cos\frac{\pi\alpha}{2} \end{array} \right]\)</span></p>
 <p>Ry : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{-\frac12 i \pi \alpha \mathrm{Y}} = \left[ \begin{array}{cc} \cos\frac{\pi\alpha}{2} &amp; -\sin\frac{\pi\alpha}{2} \\ \sin\frac{\pi\alpha}{2} &amp; \cos\frac{\pi\alpha}{2} \end{array} \right]\)</span></p>
@@ -239,7 +244,13 @@
 <p>CY : Controlled <span class="math notranslate nohighlight">\(\mathrm{Y}\)</span> gate</p>
 <p>CZ : Controlled <span class="math notranslate nohighlight">\(\mathrm{Z}\)</span> gate</p>
 <p>CH : Controlled <span class="math notranslate nohighlight">\(\mathrm{H}\)</span> gate</p>
+<p>CV : Controlled <span class="math notranslate nohighlight">\(\mathrm{V}\)</span> gate</p>
+<p>CVdg : Controlled <span class="math notranslate nohighlight">\(\mathrm{V}^{\dagger}\)</span> gate</p>
+<p>CSX : Controlled <span class="math notranslate nohighlight">\(\mathrm{SX}\)</span> gate</p>
+<p>CSXdg : Controlled <span class="math notranslate nohighlight">\(\mathrm{SX}^{\dagger}\)</span> gate</p>
 <p>CRz : <span class="math notranslate nohighlight">\((\alpha) \mapsto\)</span> Controlled <span class="math notranslate nohighlight">\(\mathrm{Rz}(\alpha)\)</span> gate</p>
+<p>CRx : <span class="math notranslate nohighlight">\((\alpha) \mapsto\)</span> Controlled <span class="math notranslate nohighlight">\(\mathrm{Rx}(\alpha)\)</span> gate</p>
+<p>CRy : <span class="math notranslate nohighlight">\((\alpha) \mapsto\)</span> Controlled <span class="math notranslate nohighlight">\(\mathrm{Ry}(\alpha)\)</span> gate</p>
 <p>CU1 : <span class="math notranslate nohighlight">\((\lambda) \mapsto\)</span> Controlled <span class="math notranslate nohighlight">\(\mathrm{U1}(\lambda)\)</span> gate. Note that this is not equivalent to a <span class="math notranslate nohighlight">\(\mathrm{CRz}(\lambda)\)</span> up to global phase, differing by an extra <span class="math notranslate nohighlight">\(\mathrm{Rz}(\frac{\lambda}{2})\)</span> on the control qubit.</p>
 <p>CU3 : <span class="math notranslate nohighlight">\((\theta, \phi, \lambda) \mapsto\)</span> Controlled <span class="math notranslate nohighlight">\(\mathrm{U3}(\theta, \phi, \lambda)\)</span> gate. Similar rules apply.</p>
 <p>CCX : Toffoli gate</p>
@@ -260,7 +271,7 @@
 <p>ExpBox : A two-qubit operation corresponding to a unitary matrix defined as the exponential <span class="math notranslate nohighlight">\(e^{itA}\)</span> of an arbitrary 4x4 hermitian matrix <span class="math notranslate nohighlight">\(A\)</span>.</p>
 <p>PauliExpBox : An operation defined as the exponential <span class="math notranslate nohighlight">\(e^{-\frac{i\pi\alpha}{2} P}\)</span> of a tensor <span class="math notranslate nohighlight">\(P\)</span> of Pauli operations.</p>
 <p>QControlBox : An arbitrary n-controlled operation</p>
-<p>Custom : <span class="math notranslate nohighlight">\((\alpha, \beta, \ldots) \mapsto\)</span> A user-defined operation, based on a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> <span class="math notranslate nohighlight">\(C\)</span> with parameters <span class="math notranslate nohighlight">\(\alpha, \beta, \ldots\)</span> substituted in place of bound symbolic variables in <span class="math notranslate nohighlight">\(C\)</span>, as defined by the <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGateDef</span></code>.</p>
+<p>Custom : <span class="math notranslate nohighlight">\((\alpha, \beta, \ldots) \mapsto\)</span> A user-defined operation, based on a <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> <span class="math notranslate nohighlight">\(C\)</span> with parameters <span class="math notranslate nohighlight">\(\alpha, \beta, \ldots\)</span> substituted in place of bound symbolic variables in <span class="math notranslate nohighlight">\(C\)</span>, as defined by the <a class="reference internal" href="circuit.html#pytket.circuit.CustomGateDef" title="pytket.circuit.CustomGateDef"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGateDef</span></code></a>.</p>
 <p>ConditionalGate : An operation to be applied conditionally on the value of some classical register</p>
 <p>ISWAP : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{\frac14 i \pi\alpha (\mathrm{X} \otimes \mathrm{X} + \mathrm{Y} \otimes \mathrm{Y})} = \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; \cos\frac{\pi\alpha}{2} &amp; i\sin\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; i\sin\frac{\pi\alpha}{2} &amp; \cos\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \end{array} \right]\)</span></p>
 <p>PhasedISWAP : <span class="math notranslate nohighlight">\((p, t) \mapsto \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; \cos\frac{\pi t}{2} &amp; i\sin\frac{\pi t}{2}e^{2i\pi p} &amp; 0 \\ 0 &amp; i\sin\frac{\pi t}{2}e^{-2i\pi p} &amp; \cos\frac{\pi t}{2} &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \end{array} \right]\)</span> (equivalent to: Rz(p)[0]; Rz(-p)[1]; ISWAP(t); Rz(-p)[0]; Rz(p)[1])</p>
@@ -275,12 +286,19 @@
 <p>FSim : <span class="math notranslate nohighlight">\((\alpha, \beta) \mapsto \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; \cos \pi\alpha &amp; -i\sin \pi\alpha &amp; 0 \\ 0 &amp; -i\sin \pi\alpha &amp; \cos \pi\alpha &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; e^{-i\pi\beta} \end{array} \right]\)</span></p>
 <p>Sycamore : <span class="math notranslate nohighlight">\(\mathrm{FSim}(\frac12, \frac16)\)</span></p>
 <p>ISWAPMax : <span class="math notranslate nohighlight">\(\mathrm{ISWAP}(1) = \left[ \begin{array}{cccc} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; i &amp; 0 \\ 0 &amp; i &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; 1 \end{array} \right]\)</span></p>
+<p>ClassicalTransform : A general classical operation where all inputs are also outputs</p>
+<p>SetBits : An operation to set some bits to specified values</p>
+<p>CopyBits : An operation to copy some bit values</p>
+<p>RangePredicate : A classical predicate defined by a range of values in binary encoding</p>
+<p>ExplicitPredicate : A classical predicate defined by a truth table</p>
+<p>ExplicitModifier : An operation defined by a truth table that modifies one bit</p>
+<p>MultiBit : A classical operation applied to multiple bits simultaneously</p>
+<p>ClassicalExpBox : A box for holding compound classical operations on Bits.</p>
 </div></blockquote>
 <dl class="py method">
 <dt id="pytket.circuit.OpType.name">
 <em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket.circuit.OpType.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>(self: handle) -&gt; str</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -294,7 +312,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pauli.html" class="btn btn-neutral float-right" title="pytket.pauli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="classical.html" class="btn btn-neutral float-right" title="pytket.circuit.logic_exp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="circuit_class.html" class="btn btn-neutral float-left" title="pytket.circuit.Circuit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -306,19 +324,11 @@
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -329,6 +339,7 @@
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

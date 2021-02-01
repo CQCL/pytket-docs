@@ -1,20 +1,15 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Noise and the Quantum Circuit Model &mdash; pytket 0.6.1 documentation</title>
+  <title>Noise and the Quantum Circuit Model &mdash; pytket 0.7.0 documentation</title>
   
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
 
   
   
@@ -22,9 +17,7 @@
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,14 +25,18 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.backends" href="backends.html" />
@@ -57,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> pytket
+            <a href="index.html" class="icon icon-home"> pytket
           
 
           
@@ -67,7 +64,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -84,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -97,7 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="licence.html">LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">SOFTWARE LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
 <p class="caption"><span class="caption-text">User Manual:</span></p>
@@ -148,7 +145,6 @@
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -187,7 +183,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>Noise and the Quantum Circuit Model</li>
     
@@ -232,95 +228,83 @@ vary over time, a phenomenon commonly referred to as device drift
 their programming interface. When available, <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>
 objects will populate a characterisation property with this
 information.</p>
-<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 
-<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_ourense&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_santiago&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">backend</span><span class="o">.</span><span class="n">characterisation</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-</div>
-</div>
-<div class="jupyter_cell docutils container">
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>NodeErrors
-EdgeErrors
-Architecture
-t1times
-t2times
-Frequencies
-GateTimes
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NodeErrors</span>
+<span class="n">EdgeErrors</span>
+<span class="n">Architecture</span>
+<span class="n">t1times</span>
+<span class="n">t2times</span>
+<span class="n">Frequencies</span>
+<span class="n">GateTimes</span>
 </pre></div>
 </div>
 </div>
-</div>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> stores device characteristics used in noise aware mapping methods, including single-qubit and two-qubit gate error rates and readout error rates. The <code class="docutils literal notranslate"><span class="pre">characterisation</span></code> member of <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> contains all characterisation information supplied by hardware providers.</p>
-<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-</div>
-</div>
-<div class="jupyter_cell docutils container">
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Single qubit errors:
-node[0]
-    Readout: 0.041
-    U3: 0.00120274
-    U2: 0.000601552
-    U1: 0
-    noop: 0.000601552
-node[1]
-    Readout: 0.024
-    U3: 0.000741646
-    U2: 0.000370892
-    U1: 0
-    noop: 0.000370892
-node[2]
-    Readout: 0.016
-    U3: 0.000747229
-    U2: 0.000373684
-    U1: 0
-    noop: 0.000373684
-node[3]
-    Readout: 0.032
-    U3: 0.000657834
-    U2: 0.000328971
-    U1: 0
-    noop: 0.000328971
-node[4]
-    Readout: 0.039
-    U3: 0.000937744
-    U2: 0.000468982
-    U1: 0
-    noop: 0.000468982
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Single</span> <span class="n">qubit</span> <span class="n">errors</span><span class="p">:</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">Readout</span><span class="p">:</span> <span class="mf">0.041</span>
+    <span class="n">U3</span><span class="p">:</span> <span class="mf">0.00120274</span>
+    <span class="n">U2</span><span class="p">:</span> <span class="mf">0.000601552</span>
+    <span class="n">U1</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">noop</span><span class="p">:</span> <span class="mf">0.000601552</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">Readout</span><span class="p">:</span> <span class="mf">0.024</span>
+    <span class="n">U3</span><span class="p">:</span> <span class="mf">0.000741646</span>
+    <span class="n">U2</span><span class="p">:</span> <span class="mf">0.000370892</span>
+    <span class="n">U1</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">noop</span><span class="p">:</span> <span class="mf">0.000370892</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">Readout</span><span class="p">:</span> <span class="mf">0.016</span>
+    <span class="n">U3</span><span class="p">:</span> <span class="mf">0.000747229</span>
+    <span class="n">U2</span><span class="p">:</span> <span class="mf">0.000373684</span>
+    <span class="n">U1</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">noop</span><span class="p">:</span> <span class="mf">0.000373684</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">Readout</span><span class="p">:</span> <span class="mf">0.032</span>
+    <span class="n">U3</span><span class="p">:</span> <span class="mf">0.000657834</span>
+    <span class="n">U2</span><span class="p">:</span> <span class="mf">0.000328971</span>
+    <span class="n">U1</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">noop</span><span class="p">:</span> <span class="mf">0.000328971</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">Readout</span><span class="p">:</span> <span class="mf">0.039</span>
+    <span class="n">U3</span><span class="p">:</span> <span class="mf">0.000937744</span>
+    <span class="n">U2</span><span class="p">:</span> <span class="mf">0.000468982</span>
+    <span class="n">U1</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">noop</span><span class="p">:</span> <span class="mf">0.000468982</span>
 
-Two qubit errors:
-node[0]-&gt;node[1]
-    CX: 0.0215313
-node[1]-&gt;node[0]
-    CX: 0.0215313
-node[1]-&gt;node[2]
-    CX: 0.0234287
-node[1]-&gt;node[3]
-    CX: 0.0201425
-node[2]-&gt;node[1]
-    CX: 0.0234287
-node[3]-&gt;node[1]
-    CX: 0.0201425
-node[3]-&gt;node[4]
-    CX: 0.016031
-node[4]-&gt;node[3]
-    CX: 0.016031
+<span class="n">Two</span> <span class="n">qubit</span> <span class="n">errors</span><span class="p">:</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.0215313</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.0215313</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.0234287</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.0201425</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.0234287</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.0201425</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.016031</span>
+<span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">CX</span><span class="p">:</span> <span class="mf">0.016031</span>
 </pre></div>
-</div>
 </div>
 </div>
 <p>We can also see the variation of device noise characteristics –
@@ -341,7 +325,6 @@ execution.  It achieves this by minimising the additional
 placement, and at the same time avoiding qubits with worse error
 rates. Further information on this method is available in section 7.1
 of our <a class="reference external" href="https://doi.org/10.1088/2058-9565/ab8e92">software overview paper</a>.</p>
-<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.routing</span> <span class="kn">import</span> <span class="n">NoiseAwarePlacement</span><span class="p">,</span> <span class="n">GraphPlacement</span>
 
@@ -366,34 +349,28 @@ of our <a class="reference external" href="https://doi.org/10.1088/2058-9565/ab8
 </div>
 </div>
 <div class="cell_output docutils container">
-</div>
-</div>
-<div class="jupyter_cell docutils container">
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[(node[0], node[1]), (node[1], node[0]), (node[1], node[2]), (node[1], node[3]), (node[2], node[1]), (node[3], node[1]), (node[3], node[4]), (node[4], node[3])]
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">])]</span>
 
-NoiseAwarePlacement mapping:
-q[0] node[3]
-q[1] node[1]
-q[2] node[4]
+<span class="n">NoiseAwarePlacement</span> <span class="n">mapping</span><span class="p">:</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
 
-GraphPlacement mapping:
-q[0] node[1]
-q[1] node[0]
-q[2] node[2]
+<span class="n">GraphPlacement</span> <span class="n">mapping</span><span class="p">:</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
-</div>
 </div>
 </div>
 <p>Both placement methods will satisfy the device’s connectivity
 constraints, however looking at the device characteristics for
-<code class="docutils literal notranslate"><span class="pre">ibmq_ourense</span></code> above,  we see that the placement provided by
+<code class="docutils literal notranslate"><span class="pre">ibmq_santiago</span></code> above,  we see that the placement provided by
 <code class="xref py py-class docutils literal notranslate"><span class="pre">NoiseAwarePlacement</span></code> is over a set of qubits with generally
 better error rates.  This will produce a circuit whose output
 statistics are closer to the ideal, noiseless, distribution.</p>
 <p>In addition, a basic heuristic for using CX error rates in routing is
 available in <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, as shown below.</p>
-<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.routing</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">RoutingMethod</span>
 <span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -401,9 +378,6 @@ available in <code class="docutils literal notranslate"><span class="pre">pytket
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">routed_circuit</span> <span class="o">=</span> <span class="n">route</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">routing_method</span> <span class="o">=</span> <span class="n">RoutingMethod</span><span class="o">.</span><span class="n">noise</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
 </div>
 </div>
 <p>However, we have found that gate fidelity information does not
@@ -521,7 +495,7 @@ Barrier q[0], q[1];
 noop q[0];
 Z q[1];
 Z q[0];
-Rz(0.3*PI) q[1];
+Rz(0.3) q[1];
 noop q[1];
 Barrier q[0], q[1];
 CX q[0], q[1];
@@ -541,7 +515,6 @@ Counter({(1, 0): 12800})
 </div>
 </div>
 <p>For a noise free backend, we can see that the same counts distribution is returned as expected. We can use a basic noise model based on a real device to see how a realistic noise channel can change when applying <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code>.</p>
-<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
 <span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span>
@@ -549,7 +522,7 @@ Counter({(1, 0): 12800})
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
-<span class="n">noisy_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">NoiseModel</span><span class="o">.</span><span class="n">from_backend</span><span class="p">(</span><span class="n">IBMQ</span><span class="o">.</span><span class="n">providers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;ibmq_ourense&#39;</span><span class="p">)))</span>
+<span class="n">noisy_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">NoiseModel</span><span class="o">.</span><span class="n">from_backend</span><span class="p">(</span><span class="n">IBMQ</span><span class="o">.</span><span class="n">providers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;ibmq_santiago&#39;</span><span class="p">)))</span>
 
 <span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">pauli_frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
@@ -570,21 +543,15 @@ Counter({(1, 0): 12800})
 </div>
 </div>
 <div class="cell_output docutils container">
-</div>
-</div>
-<div class="jupyter_cell docutils container">
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noiseless Counts: Counter({(1, 1): 6415, (1, 0): 6385})
-Base Noisy Counts: Counter({(1, 0): 6368, (1, 1): 5951, (0, 1): 253, (0, 0): 228})
-Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 203, (0, 0): 215, (1, 0): 6194, (1, 1): 6188}
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Noiseless</span> <span class="n">Counts</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">6415</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6385</span><span class="p">})</span>
+<span class="n">Base</span> <span class="n">Noisy</span> <span class="n">Counts</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6368</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">5951</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">253</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">228</span><span class="p">})</span>
+<span class="n">Recombined</span> <span class="n">Noisy</span> <span class="n">Counts</span> <span class="n">using</span> <span class="n">PauliFrameRandomisation</span><span class="p">:</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">203</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">215</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6194</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">6188</span><span class="p">}</span>
 </pre></div>
-</div>
 </div>
 </div>
 <p>For this simple case we observe that more shots are returning basis states not in the expected state (though it would be unwise to declare the methods efficacy from this alone).</p>
 <p>Given that cycle gates for <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code> do not form a universal gate set for the quantum circuit model, randomised protocols using <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code> will usually need to individually tailor many cycle instances for a given circuit. This can lead to large circuit overhead required for complete averaging, or a loss of guarantee that the resulting channel is a stochastic Pauli noise when not every frame is used.</p>
 <p>An alternative class, <code class="xref py py-class docutils literal notranslate"><span class="pre">UniversalFrameRandomisation</span></code>, is set with cycle gates {<code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.H</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code>} and frame gates {<code class="docutils literal notranslate"><span class="pre">OpType.X</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Y</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Z</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.noop</span></code>} and so can treat a whole circuit as a single cycle if rebased appropriately. It providers averaging circuits  while preserving the unitary of the circuit by changing the rotation angle of cycle <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code> gates when prepending and appending frame gates, meaning that the stochastic Pauli noise property is additionally dependent on incoherent noise not being dependent on the rotation angle.</p>
-<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">UniversalFrameRandomisation</span>
 
@@ -620,17 +587,12 @@ Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 203, (0, 0): 215
 </div>
 </div>
 <div class="cell_output docutils container">
-</div>
-</div>
-<div class="jupyter_cell docutils container">
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noiseless Counts: Counter({(1, 0): 6490, (1, 1): 6310})
-Recombined Noiseless Counts using UniversalFrameRandomisation: {(1, 0): 6440, (1, 1): 6360}
-Base Noisy Counts: Counter({(1, 0): 6298, (1, 1): 6022, (0, 1): 261, (0, 0): 219})
-Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 240, (0, 0): 212, (1, 0): 6253, (1, 1): 6095}
-Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0): 208, (1, 0): 6277, (1, 1): 6107}
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Noiseless</span> <span class="n">Counts</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6490</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">6310</span><span class="p">})</span>
+<span class="n">Recombined</span> <span class="n">Noiseless</span> <span class="n">Counts</span> <span class="n">using</span> <span class="n">UniversalFrameRandomisation</span><span class="p">:</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6440</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">6360</span><span class="p">}</span>
+<span class="n">Base</span> <span class="n">Noisy</span> <span class="n">Counts</span><span class="p">:</span> <span class="n">Counter</span><span class="p">({(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6298</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">6022</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">261</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">219</span><span class="p">})</span>
+<span class="n">Recombined</span> <span class="n">Noisy</span> <span class="n">Counts</span> <span class="n">using</span> <span class="n">PauliFrameRandomisation</span><span class="p">:</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">240</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">212</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6253</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">6095</span><span class="p">}</span>
+<span class="n">Recombined</span> <span class="n">Noisy</span> <span class="n">Counts</span> <span class="n">using</span> <span class="n">UniversalFrameRandomisation</span><span class="p">:</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">208</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">208</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="mi">6277</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">6107</span><span class="p">}</span>
 </pre></div>
-</div>
 </div>
 </div>
 <p>Similarly as to the previous case, more shots are returning basis states in the expected state.</p>
@@ -690,10 +652,9 @@ can be used to sample from the full set of averaging circuits. It is recommended
 <p>By repeatedly preparing and measuring a basis state of the device, a distribution over basis states is procured. While for a perfect device the distribution would be the prepared basis state with probability 1, for devices prone to SPAM noise this distribution is perturbed and other basis states may be returned with (expected) small probability.</p>
 <p>If this process is repeated for all (or a suitable subset given many qubits won’t experience correlated SPAM errors) basis states of a device, a matrix can be derived that describes the noisy SPAM process.
 Simply applying the inverse of this matrix to the distribution of a quantum state from some desired quantum computation can effectively uncompute the errors caused by SPAM noise.</p>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> provides the required tools for characterising and correcting SPAM noise in this manner. A <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object is initialised from a partition of the quantum device’s qubits. Qubits are assumed to have SPAM errors which are correlated with that of other qubits in their set, but uncorrelated with the other sets.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> provides the required tools for characterising and correcting SPAM noise in this manner. A <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object is initialised from a partition of a subset of the quantum device’s qubits. Qubits are assumed to have SPAM errors which are correlated with that of other qubits in their set, but uncorrelated with the other sets.</p>
 <p>As an n-qubit device has <span class="math notranslate nohighlight">\(2^n\)</span> basis states, finding the exact noisy SPAM process becomes infeasible for larger devices. However, as correlated errors are typically spatially dependent though, one can usually characterise SPAM noise well by only assuming correlated SPAM noise between nearest-neighbour qubits.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object uses these subsets of qubits to produce calibration circuits.</p>
-<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.utils.spam</span> <span class="kn">import</span> <span class="n">SpamCorrecter</span>
 <span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
@@ -710,15 +671,10 @@ Simply applying the inverse of this matrix to the distribution of a quantum stat
 </div>
 </div>
 <div class="cell_output docutils container">
-</div>
-</div>
-<div class="jupyter_cell docutils container">
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of calibration circuits:  32
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Number</span> <span class="n">of</span> <span class="n">calibration</span> <span class="n">circuits</span><span class="p">:</span>  <span class="mi">32</span>
 
-[X node[4];, Barrier node[0], node[1], node[2], node[3], node[4];, Measure node[0] --&gt; c[0];, Measure node[1] --&gt; c[1];, Measure node[2] --&gt; c[2];, Measure node[3] --&gt; c[3];, Measure node[4] --&gt; c[4];]
+<span class="p">[</span><span class="n">X</span> <span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">];,</span> <span class="n">Barrier</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">];,</span> <span class="n">Measure</span> <span class="n">node</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">];,</span> <span class="n">Measure</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">];,</span> <span class="n">Measure</span> <span class="n">node</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">];,</span> <span class="n">Measure</span> <span class="n">node</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">3</span><span class="p">];,</span> <span class="n">Measure</span> <span class="n">node</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">--&gt;</span> <span class="n">c</span><span class="p">[</span><span class="mi">4</span><span class="p">];]</span>
 </pre></div>
-</div>
 </div>
 </div>
 <p>Assuming SPAM correlation between all 5 qubits of the “ibmq_london” device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.</p>
@@ -740,11 +696,8 @@ Simply applying the inverse of this matrix to the distribution of a quantum stat
 
 <span class="n">noisy_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">noise_model</span><span class="p">)</span>
 <span class="n">noiseless_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
-<span class="n">spam_correcter</span> <span class="o">=</span> <span class="n">SpamCorrecter</span><span class="p">([</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">nodes</span><span class="p">])</span>
+<span class="n">spam_correcter</span> <span class="o">=</span> <span class="n">SpamCorrecter</span><span class="p">([</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">nodes</span><span class="p">],</span> <span class="n">noisy_backend</span><span class="p">)</span>
 <span class="n">calibration_circuits</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">calibration_circuits</span><span class="p">()</span>
-
-<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">calibration_circuits</span><span class="p">:</span>
-    <span class="n">noisy_backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
 
 <span class="n">handles</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">calibration_circuits</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">handles</span><span class="p">)]</span>
@@ -764,9 +717,9 @@ Simply applying the inverse of this matrix to the distribution of a quantum stat
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 432, (1, 1): 403, (0, 1): 83, (1, 0): 82})
-Corrected Counts: {(0, 0): 501.0393149592094, (0, 1): 16.73012117780071, (1, 0): 11.726500285700174, (1, 1): 470.5040635772898}
-Noiseless Counts: Counter({(0, 0): 508, (1, 1): 492})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 413, (1, 1): 400, (1, 0): 100, (0, 1): 87})
+Corrected Counts: {(0, 0): 477.08533027891224, (0, 1): 29.182505849008656, (1, 0): 36.79391436897772, (1, 1): 456.9382495031013}
+Noiseless Counts: Counter({(1, 1): 517, (0, 0): 483})
 </pre></div>
 </div>
 </div>
@@ -803,19 +756,11 @@ Noiseless Counts: Counter({(0, 0): 508, (1, 1): 492})
 
   <div role="contentinfo">
     <p>
-        
         &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -826,6 +771,7 @@ Noiseless Counts: Counter({(0, 0): 508, (1, 1): 492})
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

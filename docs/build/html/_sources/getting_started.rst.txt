@@ -5,7 +5,7 @@ Getting Started
 
 The tket compiler is a powerful tool for optimising and manipulating platform-agnostic quantum circuits, focussed on enabling superior performance on NISQ (Noisy Intermediate-Scale Quantum) devices. The pytket package provides an API for interacting with tket and transpiling to and from other popular quantum circuit specifications.
 
-Pytket is compatible with Python 3.6, 3.7 and 3.8. Install pytket from PyPI using:
+Pytket is compatible with 64-bit Python 3.6, 3.7 and 3.8, on Linux, MacOS (10.14 or later) and Windows. Install pytket from PyPI using:
 
 ::
 
@@ -26,8 +26,6 @@ There are separate packages for managing the interoperability between pytket and
 * ``pytket-qsharp``
 
 .. * ``pytket-ionq``
-
-All of these are licensed under a `Non-Commercial Use Software Licence <licence.html>`_.
 
 Designing a Quantum Circuit
 ---------------------------
@@ -61,7 +59,7 @@ Or, if an extension module like ``pytket-qiskit`` is installed,
     from qiskit import QuantumCircuit
     qc = QuantumCircuit()
     # ...
-    from pytket.qiskit import qiskit_to_tk
+    from pytket.extensions.qiskit import qiskit_to_tk
     c = qiskit_to_tk(qc)
 
 Running on a Backend

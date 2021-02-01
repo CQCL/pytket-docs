@@ -3,18 +3,18 @@
 [![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/master?filepath=examples)
 
-`pytket` is a python module for interfacing with CQC t|ket>, a set of quantum programming tools.
+`pytket` is a python module for interfacing with CQC tket, a set of quantum programming tools.
 
 This repo contains API documentation and example notebooks to get you started using `pytket`. It does not contain source code.
 
 ## Getting Started
 
 ``pytket`` is available for ``python3.6`` or higher, on Linux, MacOS and Windows.
-To install, ensure that you have `pip` version 20 or above, and run
+To install, ensure that you have `pip` version 19 or above, and run
 
 ``pip install pytket``
 
-Note: attempting to install from source will not set up the required binaries for the t|ket> compiler, so we recommend the PyPI installation.
+Note: attempting to install from source will not set up the required binaries for the tket compiler, so we recommend the PyPI installation.
 
 See the [Getting Started](https://cqcl.github.io/pytket/build/html/getting_started.html) page for a quick introduction to using `pytket`.
 
@@ -24,7 +24,7 @@ To get more in depth on features, see the [examples](https://github.com/CQCL/pyt
 
 ## Interfaces
 
-We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum), Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), Amazon [Braket](https://aws.amazon.com/braket/), [Qulacs](http://docs.qulacs.org/en/latest/#) and [IonQ](https://ionq.com/), allowing the t|ket> tools to be used in conjunction with projects on these platforms.
+We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum), Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), Amazon [Braket](https://aws.amazon.com/braket/), and [Qulacs](http://docs.qulacs.org/en/latest/#), allowing the tket tools to be used in conjunction with projects on these platforms.
 
 To use `pytket` in conjunction with other platforms you must download an additional separate module for each.
 This can be done from `pip`.
@@ -41,22 +41,14 @@ For each subpackage:
 * Q#: ``pip install pytket-qsharp``
 * Braket: ``pip install pytket-braket``
 * Qulacs: ``pip install pytket-qulacs``
-* IonQ: ``pip install pytket-ionq``
 
 ## LICENCE
 
-Copyright 2019-2020 Cambridge Quantum Computing
+Copyright 2019-2021 Cambridge Quantum Computing
 
-Licensed under a Non-Commercial Use Software Licence (the "Licence");
-you may not use this product except in compliance with the Licence.
+You may not use this product except in compliance with the Licence.
 You may obtain a copy of the Licence in the LICENCE file accompanying
 these documents or view them [here](https://cqcl.github.io/pytket/build/html/licence.html).
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the Licence is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the Licence for the specific language governing permissions and
-limitations under the Licence, but note it is strictly for non-commercial use.
 
 ## How To Cite
 
@@ -69,3 +61,24 @@ If your work is on the topic of specific compilation tasks, it may be more appro
 - ["A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz"](https://arxiv.org/abs/2007.10515) for sequencing of terms in Trotterisation and Pauli diagonalisation.
 
 We are also keen for others to benchmark their compilation techniques against us. We recommend checking our [benchmark repository](https://github.com/CQCL/tket_benchmarking) for examples on how to run basic benchmarks with the latest version of `pytket`. Please list the release version of `pytket` with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
+
+
+## Telemetry
+`pytket` features a telemetry module which can be used to keep track of `pyktet` usage and will provide usage analytics and error reporting at a later date. Telemetry is disabled by default, but may be enabled either through function calls or in the pytket configuration file.
+
+In order to opt in to telemetry a helper function is provided in the `pytket.telemetry` module that need only be run once.
+
+```python
+from pytket import telemetry
+telemetry.opt_in()
+```
+
+Similarly the `opt_out` function will allow a user to opt out.
+
+Alternatively the config file located either at `$HOME/.config/pytket/config.json` or `$XDG_CONFIG_HOME/pytket/config.json` if `$XDG_CONFIG_HOME` is set can be edited manually.
+
+Once a user has opted in to telemetry they will be assigned a telemetry ID by making an HTTP request to a CQC server with some information about their system.
+
+### Telemetry Data Policy
+
+Our telemetry data policy can be viewed [here](https://cqcl.github.io/pytket/build/html/telemetry_data_policy.html).
