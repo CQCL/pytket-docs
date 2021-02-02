@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pytket.circuit.logic_exp &mdash; pytket 0.7.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pytket.pauli" href="pauli.html" />
+    <link rel="prev" title="pytket.circuit.OpType" href="optype.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytket
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">SOFTWARE LICENCE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="circuit.html">pytket.circuit</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="circuit_class.html">pytket.circuit.Circuit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optype.html">pytket.circuit.OpType</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pytket.circuit.logic_exp</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
+<li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partition.html">pytket.partition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qasm.html">pytket.qasm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extensions/ionq.html">pytket-ionq</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="circuit.html">pytket.circuit</a> &raquo;</li>
+        
+      <li>pytket.circuit.logic_exp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/classical.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pytket.circuit.logic_exp">
+<span id="pytket-circuit-logic-exp"></span><h1>pytket.circuit.logic_exp<a class="headerlink" href="#module-pytket.circuit.logic_exp" title="Permalink to this headline">¶</a></h1>
+<p>Classes and functions for constructing logical
+expressions over Bit and BitRegister.</p>
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.And">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">And</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.And" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pytket.circuit.logic_exp.And.eval_vals">
+<code class="sig-name descname">eval_vals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><a class="headerlink" href="#pytket.circuit.logic_exp.And.eval_vals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to evaluate all sub-expressions; simple constant folding.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BinaryOp">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BinaryOp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.BinaryOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expresion for operation on two arguments.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BitAnd">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BitAnd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.BitAnd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BitEq">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BitEq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.BitEq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BitLogicExp">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BitLogicExp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">op</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.BitWiseOp" title="pytket.circuit.logic_exp.BitWiseOp">pytket.circuit.logic_exp.BitWiseOp</a><span class="p">, </span><a class="reference internal" href="#pytket.circuit.logic_exp.RegWiseOp" title="pytket.circuit.logic_exp.RegWiseOp">pytket.circuit.logic_exp.RegWiseOp</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">args</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.BitLogicExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expression acting only on Bit or Constant types.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BitNot">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BitNot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.BitNot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BitOr">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BitOr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.BitOr" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="pytket.circuit.logic_exp.BitOr.eval_vals">
+<code class="sig-name descname">eval_vals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><a class="headerlink" href="#pytket.circuit.logic_exp.BitOr.eval_vals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to evaluate all sub-expressions; simple constant folding.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BitWiseOp">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BitWiseOp</code><a class="headerlink" href="#pytket.circuit.logic_exp.BitWiseOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enum for operations on Bit.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.BitXor">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">BitXor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.BitXor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.ConstPredicate">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">ConstPredicate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.ConstPredicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>A binary predicate where at least one of the arguments is constant.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.Eq">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">Eq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.Eq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.LogicExp">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">LogicExp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">op</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.BitWiseOp" title="pytket.circuit.logic_exp.BitWiseOp">pytket.circuit.logic_exp.BitWiseOp</a><span class="p">, </span><a class="reference internal" href="#pytket.circuit.logic_exp.RegWiseOp" title="pytket.circuit.logic_exp.RegWiseOp">pytket.circuit.logic_exp.RegWiseOp</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">args</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.LogicExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical expressions over Bit or BitRegister.
+Encoded as a tree of expressions</p>
+<dl class="py method">
+<dt id="pytket.circuit.logic_exp.LogicExp.all_inputs">
+<code class="sig-name descname">all_inputs</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Set<span class="p">[</span>Union<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.circuit.logic_exp.LogicExp.all_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All variables involved in expression.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Set[Variable]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.circuit.logic_exp.LogicExp.eval_vals">
+<code class="sig-name descname">eval_vals</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><a class="headerlink" href="#pytket.circuit.logic_exp.LogicExp.eval_vals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to evaluate all sub-expressions; simple constant folding.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.circuit.logic_exp.LogicExp.factory">
+<em class="property">classmethod </em><code class="sig-name descname">factory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">op</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.BitWiseOp" title="pytket.circuit.logic_exp.BitWiseOp">pytket.circuit.logic_exp.BitWiseOp</a><span class="p">, </span><a class="reference internal" href="#pytket.circuit.logic_exp.RegWiseOp" title="pytket.circuit.logic_exp.RegWiseOp">pytket.circuit.logic_exp.RegWiseOp</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Type<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">]</span><a class="headerlink" href="#pytket.circuit.logic_exp.LogicExp.factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return matching operation class for enum.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.circuit.logic_exp.LogicExp.set_value">
+<code class="sig-name descname">set_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.circuit.logic_exp.LogicExp.set_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set value of var to val recursively.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.Neq">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">Neq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.Neq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.Or">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">Or</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.Or" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegAnd">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegAnd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegAnd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegEq">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegEq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegEq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegGeq">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegGeq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegGeq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegGt">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegGt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegGt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegLeq">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegLeq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegLeq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegLogicExp">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegLogicExp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">op</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.BitWiseOp" title="pytket.circuit.logic_exp.BitWiseOp">pytket.circuit.logic_exp.BitWiseOp</a><span class="p">, </span><a class="reference internal" href="#pytket.circuit.logic_exp.RegWiseOp" title="pytket.circuit.logic_exp.RegWiseOp">pytket.circuit.logic_exp.RegWiseOp</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">args</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegLogicExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expression acting only on BitRegister or Constant types.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegLt">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegLt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegLt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegNeq">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegNeq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exp</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.LogicExp" title="pytket.circuit.logic_exp.LogicExp">pytket.circuit.logic_exp.LogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">const</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegNeq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegOr">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegOr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegOr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegWiseOp">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegWiseOp</code><a class="headerlink" href="#pytket.circuit.logic_exp.RegWiseOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enum for operations on BitRegister.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.RegXor">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">RegXor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.RegXor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.UnaryOp">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">UnaryOp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.UnaryOp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expression for operation on one argument.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="pytket.circuit.logic_exp.Xor">
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">Xor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">arg2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>LogicExp<span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.logic_exp.Xor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.filter_by_type">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">filter_by_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seq</span><span class="p">:</span> <span class="n">Iterable</span></em>, <em class="sig-param"><span class="n">var_type</span><span class="p">:</span> <span class="n">Type<span class="p">[</span>T<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">, </span>T<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.circuit.logic_exp.filter_by_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return enumeration of seq, with only elements of type var_type.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.if_bit">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">if_bit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bit</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="#pytket.circuit.logic_exp.BitLogicExp" title="pytket.circuit.logic_exp.BitLogicExp">pytket.circuit.logic_exp.BitLogicExp</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.if_bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent of <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">bit:</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.if_not_bit">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">if_not_bit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bit</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit">pytket.circuit.Bit</a><span class="p">, </span><a class="reference internal" href="#pytket.circuit.logic_exp.BitLogicExp" title="pytket.circuit.logic_exp.BitLogicExp">pytket.circuit.logic_exp.BitLogicExp</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.if_not_bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equivalent of <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">not</span> <span class="pre">bit:</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.reg_eq">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">reg_eq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">register</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.RegLogicExp" title="pytket.circuit.logic_exp.RegLogicExp">pytket.circuit.logic_exp.RegLogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.reg_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to express a BitRegister equality predicate, i.e.
+for a register <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">(r</span> <span class="pre">==</span> <span class="pre">5)</span></code> is expressed as <code class="docutils literal notranslate"><span class="pre">reg_eq(r,</span> <span class="pre">5)</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.reg_geq">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">reg_geq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">register</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.RegLogicExp" title="pytket.circuit.logic_exp.RegLogicExp">pytket.circuit.logic_exp.RegLogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.reg_geq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to express a BitRegister greater than or equal to
+predicate, i.e. for a register <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">(r</span> <span class="pre">&gt;=</span> <span class="pre">5)</span></code> is expressed as <code class="docutils literal notranslate"><span class="pre">reg_geq(r,</span> <span class="pre">5)</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.reg_gt">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">reg_gt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">register</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.RegLogicExp" title="pytket.circuit.logic_exp.RegLogicExp">pytket.circuit.logic_exp.RegLogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.reg_gt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to express a BitRegister greater than predicate, i.e.
+for a register <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">(r</span> <span class="pre">&gt;</span> <span class="pre">5)</span></code> is expressed as <code class="docutils literal notranslate"><span class="pre">reg_gt(r,</span> <span class="pre">5)</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.reg_leq">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">reg_leq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">register</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.RegLogicExp" title="pytket.circuit.logic_exp.RegLogicExp">pytket.circuit.logic_exp.RegLogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.reg_leq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to express a BitRegister less than or equal to predicate,
+i.e. for a register <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">(r</span> <span class="pre">&lt;=</span> <span class="pre">5)</span></code> is expressed as <code class="docutils literal notranslate"><span class="pre">reg_leq(r,</span> <span class="pre">5)</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.reg_lt">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">reg_lt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">register</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.RegLogicExp" title="pytket.circuit.logic_exp.RegLogicExp">pytket.circuit.logic_exp.RegLogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.reg_lt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to express a BitRegister less than predicate, i.e.
+for a register <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">(r</span> <span class="pre">&lt;</span> <span class="pre">5)</span></code> is expressed as <code class="docutils literal notranslate"><span class="pre">reg_lt(r,</span> <span class="pre">5)</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.circuit.logic_exp.reg_neq">
+<code class="sig-prename descclassname">pytket.circuit.logic_exp.</code><code class="sig-name descname">reg_neq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">register</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="#pytket.circuit.logic_exp.RegLogicExp" title="pytket.circuit.logic_exp.RegLogicExp">pytket.circuit.logic_exp.RegLogicExp</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.BitRegister" title="pytket.circuit.BitRegister">pytket.circuit.BitRegister</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.logic_exp.ConstPredicate" title="pytket.circuit.logic_exp.ConstPredicate">pytket.circuit.logic_exp.ConstPredicate</a><a class="headerlink" href="#pytket.circuit.logic_exp.reg_neq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to express a BitRegister inequality predicate, i.e.
+for a register <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">(r</span> <span class="pre">!=</span> <span class="pre">5)</span></code> is expressed as <code class="docutils literal notranslate"><span class="pre">reg_neq(r,</span> <span class="pre">5)</span></code></p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pauli.html" class="btn btn-neutral float-right" title="pytket.pauli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="optype.html" class="btn btn-neutral float-left" title="pytket.circuit.OpType" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

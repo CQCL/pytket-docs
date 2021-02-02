@@ -2,7 +2,7 @@
 
 Here you can find notebooks showing features and example usage of `pytket`. We
 recommend that you clone the repo and open the examples in Jupyter (and play
-around with them) yourself. 
+around with them) yourself.
 
 You can also run all the examples below, and try out all pytket code (including extensions) in your
 browser using Binder:  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/master?filepath=examples)
@@ -45,6 +45,8 @@ measurement.
 [spam_example](https://github.com/CQCL/pytket/blob/master/examples/spam_example.ipynb) -
 Calibration and correction of state preparation and measurement in the presence of noise.
 
+[creating_backends](https://github.com/CQCL/pytket/blob/master/examples/creating_backends.ipynb) - How to write your own pytket backend.
+
 ## Use-case Examples
 
 [ucc_vqe](https://github.com/CQCL/pytket/blob/master/examples/ucc_vqe.ipynb) -
@@ -55,3 +57,5 @@ Using tomography to analyse the effect of noise channels when iterating the Enta
 
 [Forest_portability_example](https://github.com/CQCL/pytket/blob/master/examples/Forest_portability_example.ipynb) -
 Examples illustrating portability between different backends.
+
+[qiskit_integration](https://github.com/CQCL/pytket/blob/master/examples/qiskit_integration.ipynb) - Wrapping a pytket backend as a qiskit backend.
