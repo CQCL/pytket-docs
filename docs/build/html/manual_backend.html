@@ -1,42 +1,47 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Running on Backends &mdash; pytket 0.7.0 documentation</title>
+  <title>Running on Backends &mdash; pytket 0.7.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
+
+  
   
 
   
   
-  
+
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Compilation" href="manual_compiler.html" />
@@ -81,6 +86,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -157,6 +163,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -191,18 +198,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Running on Backends</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/manual_backend.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -227,6 +236,7 @@
 <p>Every device and simulator will have some restrictions to allow for a simpler implementation or because of the limits of engineering or noise within a device. For example, devices and simulators are typically designed to only support a small (but universal) gate set, so a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> containing other gate types could not be run immediately. However, as long as the fragment supported is universal, it is enough to be able to compile down to a semantically-equivalent <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which satisfies the requirements, for example, by translating each unknown gate into sequences of known gates.</p>
 <p>Other common restrictions presented by QPUs include the number of available qubits and their connectivity (multi-qubit gates may only be performed between adjacent qubits on the architecture). Measurements may also be noisy or take a long time on some QPUs, leading to the destruction or decoherence of any remaining quantum state, so they are artificially restricted to only happen in a single layer at the end of execution and mid-circuit measurements are rejected. More extremely, some classes of classical simulators will reject measurements entirely as they are designed to simulate pure quantum circuits (for example, when looking to yield a statevector or unitary deterministically).</p>
 <p>Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> object is aware of the restrictions of the underlying device or simulator, encoding them as a collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s. Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> is essentially a Boolean property of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which must return <code class="docutils literal notranslate"><span class="pre">True</span></code> for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to successfully run. The set of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s required by a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> can be queried with <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.required_predicates</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">IBMQBackend</span><span class="p">,</span> <span class="n">AerStateBackend</span>
 <span class="n">dev_b</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
@@ -237,9 +247,14 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">NoClassicalControlPredicate</span><span class="p">,</span> <span class="n">NoFastFeedforwardPredicate</span><span class="p">,</span> <span class="n">NoMidMeasurePredicate</span><span class="p">,</span> <span class="n">NoSymbolsPredicate</span><span class="p">,</span> <span class="n">GateSetPredicate</span><span class="p">:{</span> <span class="n">U1</span> <span class="n">noop</span> <span class="n">U2</span> <span class="n">CX</span> <span class="n">Barrier</span> <span class="n">Measure</span> <span class="n">U3</span> <span class="p">},</span> <span class="n">DirectednessPredicate</span><span class="p">:{</span> <span class="n">Nodes</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="n">Edges</span><span class="p">:</span> <span class="mi">8</span> <span class="p">}]</span>
-<span class="p">[</span><span class="n">NoClassicalControlPredicate</span><span class="p">,</span> <span class="n">NoFastFeedforwardPredicate</span><span class="p">,</span> <span class="n">GateSetPredicate</span><span class="p">:{</span> <span class="n">CU1</span> <span class="n">CZ</span> <span class="n">CX</span> <span class="n">Unitary2qBox</span> <span class="n">Sdg</span> <span class="n">U1</span> <span class="n">Unitary1qBox</span> <span class="n">SWAP</span> <span class="n">S</span> <span class="n">U2</span> <span class="n">CCX</span> <span class="n">Y</span> <span class="n">U3</span> <span class="n">Z</span> <span class="n">X</span> <span class="n">T</span> <span class="n">noop</span> <span class="n">Tdg</span> <span class="n">Reset</span> <span class="n">H</span> <span class="p">}]</span>
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[NoClassicalControlPredicate, NoFastFeedforwardPredicate, NoMidMeasurePredicate, NoSymbolsPredicate, GateSetPredicate:{ U1 noop U2 CX Barrier Measure U3 }, DirectednessPredicate:{ Nodes: 5, Edges: 8 }]
+[NoClassicalControlPredicate, NoFastFeedforwardPredicate, GateSetPredicate:{ CU1 CZ CX Unitary2qBox Sdg U1 Unitary1qBox SWAP S U2 CCX Y U3 Z X T noop Tdg Reset H }]
 </pre></div>
+</div>
 </div>
 </div>
 <p>Knowing the requirements of each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is handy in case it has consequences for how you design a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, but can generally be abstracted away. Calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.valid_circuit()</span></code> can check whether or not a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> satisfies every requirement to run on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and if it is not immediately valid then <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code> will modify the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation).</p>
@@ -304,16 +319,16 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
- [1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
+ [0 1]
+ [0 1]
  [1 1]
  [0 1]
  [1 1]
  [0 1]
  [1 1]
  [1 1]
- [0 1]
- [0 1]
+ [1 1]
  [1 1]
  [1 1]
  [1 1]
@@ -349,8 +364,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1035, (1, 1): 965})
-{(0, 1): 0.5175, (1, 1): 0.4825}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1005, (1, 1): 995})
+{(0, 1): 0.5025, (1, 1): 0.4975}
 </pre></div>
 </div>
 </div>
@@ -522,7 +537,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.009000000000000008
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.018000000000000016
 </pre></div>
 </div>
 </div>
@@ -580,8 +595,8 @@ Counter({(1, 0): 10})
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[ 0.63003676+0.j -0.32101976+0.j  0.63003676+0.j -0.32101976+0.j
   0.        +0.j  0.        +0.j  0.        +0.j  0.        +0.j]
-Counter({(0, 0, 0): 803, (1, 0, 0): 779, (1, 0, 1): 215, (0, 0, 1): 203})
-Counter({(0, 0): 1582, (0, 1): 418})
+Counter({(0, 0, 0): 806, (1, 0, 0): 758, (1, 0, 1): 236, (0, 0, 1): 200})
+Counter({(0, 0): 1564, (0, 1): 436})
 </pre></div>
 </div>
 </div>
@@ -628,8 +643,10 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.04400000000000004
-0.291000000000000
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.010999999999999899
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.335000000000000
 </pre></div>
 </div>
 </div>
@@ -657,8 +674,8 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 1): 424, (0, 0, 1): 416, (0, 0, 0): 390, (0, 1, 0): 345, (1, 1, 0): 115, (1, 0, 0): 109, (1, 0, 1): 107, (1, 1, 1): 94})
-0.03600000000000003
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 428, (0, 1, 0): 394, (0, 0, 0): 385, (0, 1, 1): 383, (1, 1, 1): 116, (1, 0, 0): 98, (1, 0, 1): 98, (1, 1, 0): 98})
+-0.03600000000000003
 </pre></div>
 </div>
 </div>
@@ -697,7 +714,7 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 142, (1, 1, 0): 137, (0, 1, 0): 134, (1, 1, 1): 132, (0, 1, 1): 131, (0, 0, 0): 116, (0, 0, 1): 104, (1, 0, 0): 104})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 144, (1, 0, 0): 135, (1, 1, 0): 125, (0, 0, 0): 124, (0, 1, 0): 122, (1, 0, 1): 120, (0, 1, 1): 117, (1, 1, 1): 113})
 </pre></div>
 </div>
 </div>
@@ -750,7 +767,7 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.018000000000000016
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.02200000000000002
 </pre></div>
 </div>
 </div>
@@ -761,6 +778,7 @@ Counter({(0, 0): 1582, (0, 1): 418})
 <p>Current public-access quantum computers tend to implement either a queueing or a reservation system for mediating access. Whilst the queue-based access model gives relative fairness, guarantees availability, and maximises throughput and utilisation of the hardware, it also presents a big problem to the user with regards to latency. Whenever a circuit is submitted, not only must the user wait for it to be run on the hardware, but they must wait longer for their turn before it can even start running. This can end up dominating the time taken for the overall experiment, especially when demand is high for a particular device.</p>
 <p>We can mitigate the problem of high queue latency by batching many <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together. This means that we only have to wait the queue time once, since after the first <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is run the next one is run immediately rather than joining the end of the queue.</p>
 <p>To maximise the benefits of batch submission, it is advisable to generate as many of your <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code> (plural) will then submit all the provided <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s simultaneously and return a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to allow each result to be extracted individually for interpretation. Since there is no longer a single <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> s to extract for each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> or the coefficient to multiply the expectation value by.</p>
+<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
@@ -802,8 +820,13 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.2047999999999999</span><span class="o">-</span><span class="mf">0.0015000000000000013</span><span class="n">j</span><span class="p">)</span>
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(1.2047999999999999-0.0015000000000000013j)
 </pre></div>
+</div>
 </div>
 </div>
 <div class="admonition note">
@@ -894,6 +917,7 @@ Counter({(0, 0): 1582, (0, 1): 418})
 <p>In the near future, as we look to more sophisticated algorithms and larger problem instances, the quantity and size of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to be run per experiment and the number of shots required to obtain satisfactory precision will mean the time taken for the quantum computation could exceed that of the classical computation. At this point, the overall algorithm can be sped up by maintaining maximum throughput on the quantum device and minimising how often the quantum device is left idle whilst the classical system is determining the next <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to send. This can be achieved by writing your algorithm to operate asynchronously.</p>
 <p>The intended semantics of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuit&lt;s&gt;()</span></code> will submit the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> (s) and immediately return.</p>
 <p>The progress can be checked by querying <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.circuit_status()</span></code>. If this returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitStatus</span></code> matching <code class="docutils literal notranslate"><span class="pre">StatusEnum.COMPLETED</span></code>, then <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_X()</span></code> will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.</p>
+<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -951,8 +975,13 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">1.2087999999999999</span><span class="o">-</span><span class="mf">0.002400000000000002</span><span class="n">j</span><span class="p">)</span>
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(1.2087999999999999-0.002400000000000002j)
 </pre></div>
+</div>
 </div>
 </div>
 <p>In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.cancel()</span></code> method to cancel the job for a given <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.</p>
@@ -965,6 +994,7 @@ Counter({(0, 0): 1582, (0, 1): 418})
 <h3>Persistent Handles<a class="headerlink" href="#persistent-handles" title="Permalink to this headline">¶</a></h3>
 <p>Being able to split your processing into distinct procedures for <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> generation and result interpretation can help improve throughput on the quantum device, but it can also provide a way to split the processing between different Python sessions. This may be desirable when the classical computation to interpret the results and determine the next experiment parameters is sufficiently intensive that we would prefer to perform it offline and only reserve a quantum device once we are ready to run more. Furthermore, resuming with previously-generated results could benefit repeatability of experiments and better error-safety since the logged results can be saved and reused.</p>
 <p>Some <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s support persistent handles, in that the <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> object can be stored and the associated results obtained from another instance of the same <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> in a different session. This is indicated by the boolean <code class="docutils literal notranslate"><span class="pre">persistent_handles</span></code> property of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>. Use of persistent handles can greatly reduce the amount of logging you would need to do to take advantage of this workflow.</p>
+<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
@@ -983,11 +1013,17 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;5e8f3dcbbb7d8500119cfbf6&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">1000</span><span class="p">}</span>
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(&#39;5e8f3dcbbb7d8500119cfbf6&#39;, 0)
+{(0, 1, 1): 1000}
 </pre></div>
 </div>
 </div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.backends</span> <span class="kn">import</span> <span class="n">ResultHandle</span>
 <span class="kn">from</span> <span class="nn">pytket.backends.ibm</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
@@ -1000,8 +1036,13 @@ Counter({(0, 0): 1582, (0, 1): 418})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="mi">1000</span><span class="p">}</span>
+</div>
+</div>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{(0, 1, 1): 1000}
 </pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -1034,7 +1075,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 8, (0, 0): 2})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 6, (1, 1): 4})
 </pre></div>
 </div>
 </div>
@@ -1056,29 +1097,29 @@ This can be achieved using native serialiaztion and deserialization of <code cla
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="manual_compiler.html" class="btn btn-neutral float-right" title="Compilation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="manual_circuit.html" class="btn btn-neutral float-left" title="Circuit Construction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="manual_compiler.html" class="btn btn-neutral float-right" title="Compilation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="manual_circuit.html" class="btn btn-neutral float-left" title="Circuit Construction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
+        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -1086,7 +1127,6 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
