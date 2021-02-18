@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket-projectq &mdash; pytket 0.7.1 documentation</title>
+  <title>pytket-projectq &mdash; pytket 0.7.2 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
         <script src="../_static/doctools.js"></script>
         <script src="../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -94,7 +94,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <figcaption>
+<p><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
@@ -103,7 +104,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Manual:</span></p>
+<figcaption>
+<p><span class="caption-text">User Manual:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../manual_intro.html">What is tket?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../manual_circuit.html">Circuit Construction</a></li>
@@ -111,7 +113,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../manual_compiler.html">Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<figcaption>
+<p><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../circuit.html">pytket.circuit</a></li>
@@ -128,7 +131,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../logging.html">pytket.logging</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<figcaption>
+<p><span class="caption-text">Specific extensions:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="aqt.html">pytket-aqt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braket.html">pytket-braket</a></li>
@@ -212,36 +216,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pytket-projectq">
+  <section id="pytket-projectq">
 <h1>pytket-projectq<a class="headerlink" href="#pytket-projectq" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com/ProjectQ-Framework/ProjectQ">ProjectQ</a> is an open-source
 library for quantum circuit compilation and simulation.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pytket-projectq</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows <code class="docutils literal notranslate"><span class="pre">pytket</span></code> circuits to
 be run on ProjectQ simulators, as well as conversion to the ProjectQ
 representation.</p>
-<p><code class="docutils literal notranslate"><span class="pre">pytket-projectq</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux, MacOS and Windows.
+<p><code class="docutils literal notranslate"><span class="pre">pytket-projectq</span></code> is available for Python 3.7, 3.8 and 3.9, on Linux, MacOS and Windows.
 To install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-projectq</span></code></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><code class="docutils literal notranslate"><span class="pre">pytket-projectq</span></code> currently cannot be installed on MacOS Big Sur due to a compatibility issue in ProjectQ &lt;= 0.5.1.</p>
 </div>
-<div class="section" id="module-pytket.backends.projectq">
+<section id="module-pytket.backends.projectq">
 <span id="pytket-backends-projectq"></span><h2>pytket.backends.projectq<a class="headerlink" href="#module-pytket.backends.projectq" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pytket.backends.projectq.ProjectQBackend">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.backends.projectq.</code><code class="sig-name descname">ProjectQBackend</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.backends.projectq.</span></code><code class="sig-name descname"><span class="pre">ProjectQBackend</span></code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backend for running statevector simulations on the ProjectQ simulator.</p>
 <dl class="py method">
 <dt id="pytket.backends.projectq.ProjectQBackend.circuit_status">
-<code class="sig-name descname">circuit_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">handle</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.status.CircuitStatus" title="pytket.backends.status.CircuitStatus">pytket.backends.status.CircuitStatus</a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">circuit_status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><span class="pre">pytket.backends.resulthandle.ResultHandle</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../backends.html#pytket.backends.status.CircuitStatus" title="pytket.backends.status.CircuitStatus"><span class="pre">pytket.backends.status.CircuitStatus</span></a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a CircuitStatus reporting the status of the circuit execution
 corresponding to the ResultHandle</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.projectq.ProjectQBackend.default_compilation_pass">
-<code class="sig-name descname">default_compilation_pass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimisation_level</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span> <span class="o">=</span> <span class="default_value">1</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass">pytket.passes.BasePass</a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">default_compilation_pass</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimisation_level</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../passes.html#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
 <dd><p>A suggested compilation pass that will guarantee the resulting circuit
 will be suitable to run on this backend with as few preconditions as
 possible.</p>
@@ -264,7 +268,7 @@ time for large circuits. Defaults to 1.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value">
-<code class="sig-name descname">get_operator_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">operator</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../utils.html#pytket.utils.QubitPauliOperator" title="pytket.utils.QubitPauliOperator">pytket.utils.QubitPauliOperator</a></span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)">complex</a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_operator_expectation_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">operator</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../utils.html#pytket.utils.QubitPauliOperator" title="pytket.utils.QubitPauliOperator"><span class="pre">pytket.utils.QubitPauliOperator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_check</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)"><span class="pre">complex</span></a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_operator_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit with respect to the operator using the built-in ProjectQ functionality</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -285,7 +289,7 @@ time for large circuits. Defaults to 1.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value">
-<code class="sig-name descname">get_pauli_expectation_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">state_circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">pauli</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../pauli.html#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString">pytket.pauli.QubitPauliString</a></span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)">complex</a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_pauli_expectation_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state_circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pauli</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../pauli.html#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString"><span class="pre">pytket.pauli.QubitPauliString</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_check</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.9)"><span class="pre">complex</span></a><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.get_pauli_expectation_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the expectation value of the given circuit using the built-in ProjectQ functionality
 :param state_circuit: Circuit that generates the desired state <span class="math notranslate nohighlight">\(\left|\psi\right&gt;\)</span>.
 :type state_circuit: Circuit
@@ -299,14 +303,14 @@ time for large circuits. Defaults to 1.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.projectq.ProjectQBackend.process_circuits">
-<code class="sig-name descname">process_circuits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuits</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">n_shots</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">valid_check</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle">pytket.backends.resulthandle.ResultHandle</a><span class="p">]</span><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">process_circuits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shots</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_check</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../backends.html#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><span class="pre">pytket.backends.resulthandle.ResultHandle</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>See <a class="reference internal" href="../backends.html#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pytket.backends.Backend.process_circuits()</span></code></a>.
 Supported kwargs: <cite>seed</cite>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.backends.projectq.ProjectQBackend.device">
-<em class="property">property </em><code class="sig-name descname">device</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.device" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">device</span></code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the Device targeted by the backend if it exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -321,7 +325,7 @@ object contains information about gate errors and device architecture.</p>
 
 <dl class="py method">
 <dt id="pytket.backends.projectq.ProjectQBackend.required_predicates">
-<em class="property">property </em><code class="sig-name descname">required_predicates</code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">required_predicates</span></code><a class="headerlink" href="#pytket.backends.projectq.ProjectQBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>The minimum set of predicates that a circuit must satisfy before it can
 be successfully run on this backend.</p>
 <dl class="field-list simple">
@@ -336,18 +340,18 @@ be successfully run on this backend.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-pytket.extensions.projectq">
+</section>
+<section id="module-pytket.extensions.projectq">
 <span id="pytket-extensions-projectq"></span><h2>pytket.extensions.projectq<a class="headerlink" href="#module-pytket.extensions.projectq" title="Permalink to this headline">¶</a></h2>
 <p>Module for conversion between ProjectQ and tket primitives.</p>
 <dl class="py class">
 <dt id="pytket.extensions.projectq.tketBackendEngine">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.extensions.projectq.</code><code class="sig-name descname">tketBackendEngine</code><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.extensions.projectq.</span></code><code class="sig-name descname"><span class="pre">tketBackendEngine</span></code><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine" title="Permalink to this definition">¶</a></dt>
 <dd><p>A projectq backend designed to translate from projectq commands
 to tket Circuits</p>
 <dl class="py method">
 <dt id="pytket.extensions.projectq.tketBackendEngine.is_available">
-<code class="sig-name descname">is_available</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmd</span><span class="p">:</span> <span class="n">projectq.ops._command.Command</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">is_available</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">projectq.ops._command.Command</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine.is_available" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ask the next engine whether a command is available, i.e.,
 whether it can be executed by the next engine(s).</p>
 <dl class="field-list simple">
@@ -368,13 +372,13 @@ whether it can be executed by the next engine(s).</p>
 
 <dl class="py method">
 <dt id="pytket.extensions.projectq.tketBackendEngine.receive">
-<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command_list</span><span class="p">:</span> <span class="n">Iterable</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">receive</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process commands from a list and append to local Circuit.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.extensions.projectq.tketBackendEngine.circuit">
-<em class="property">property </em><code class="sig-name descname">circuit</code><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine.circuit" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">circuit</span></code><a class="headerlink" href="#pytket.extensions.projectq.tketBackendEngine.circuit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.9)"><strong>NotImplementedError</strong></a> – If the Circuit has no gates, assumes user forgot to flush engines.</p>
@@ -389,12 +393,12 @@ whether it can be executed by the next engine(s).</p>
 
 <dl class="py class">
 <dt id="pytket.extensions.projectq.tketOptimiser">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.extensions.projectq.</code><code class="sig-name descname">tketOptimiser</code><a class="headerlink" href="#pytket.extensions.projectq.tketOptimiser" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.extensions.projectq.</span></code><code class="sig-name descname"><span class="pre">tketOptimiser</span></code><a class="headerlink" href="#pytket.extensions.projectq.tketOptimiser" title="Permalink to this definition">¶</a></dt>
 <dd><p>A ProjectQ BasicEngine designed to translate from ProjectQ commands
 to tket Circuits, optimise them, and then return other ProjectQ commands.</p>
 <dl class="py method">
 <dt id="pytket.extensions.projectq.tketOptimiser.receive">
-<code class="sig-name descname">receive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">command_list</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.extensions.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">receive</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><span class="pre">list</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.extensions.projectq.tketOptimiser.receive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receives a list of commands and appends to local Circuit. If a flush gate is received,
 optimises the Circuit using a default Transform pass and then sends the commands from
 this optimised Circuit into the next engine.</p>
@@ -404,7 +408,7 @@ this optimised Circuit into the next engine.</p>
 
 <dl class="py function">
 <dt id="pytket.extensions.projectq.tk_to_projectq">
-<code class="sig-prename descclassname">pytket.extensions.projectq.</code><code class="sig-name descname">tk_to_projectq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">engine</span><span class="p">:</span> <span class="n">projectq.cengines._main.MainEngine</span></em>, <em class="sig-param"><span class="n">qureg</span><span class="p">:</span> <span class="n">projectq.types._qubit.Qureg</span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">ignore_measures</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.extensions.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.extensions.projectq.</span></code><code class="sig-name descname"><span class="pre">tk_to_projectq</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">projectq.cengines._main.MainEngine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qureg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">projectq.types._qubit.Qureg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_measures</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.extensions.projectq.tk_to_projectq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a ProjectQ Qureg in an Engine, converts a Circuit to a series of ProjectQ Commands on this Qureg.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -417,8 +421,8 @@ this optimised Circuit into the next engine.</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

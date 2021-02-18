@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket-cirq &mdash; pytket 0.7.1 documentation</title>
+  <title>pytket-cirq &mdash; pytket 0.7.2 documentation</title>
   
 
   
@@ -36,8 +36,7 @@
         <script src="../_static/doctools.js"></script>
         <script src="../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -94,7 +93,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <figcaption>
+<p><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
@@ -103,7 +103,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Manual:</span></p>
+<figcaption>
+<p><span class="caption-text">User Manual:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../manual_intro.html">What is tket?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../manual_circuit.html">Circuit Construction</a></li>
@@ -111,7 +112,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../manual_compiler.html">Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<figcaption>
+<p><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../circuit.html">pytket.circuit</a></li>
@@ -128,7 +130,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../logging.html">pytket.logging</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<figcaption>
+<p><span class="caption-text">Specific extensions:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="aqt.html">pytket-aqt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="braket.html">pytket-braket</a></li>
@@ -211,21 +214,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pytket-cirq">
+  <section id="pytket-cirq">
 <h1>pytket-cirq<a class="headerlink" href="#pytket-cirq" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://www.github.com/quantumlib/cirq">Cirq</a> is a python library for producing
 quantum circuits and running them on simulators and physical quantum devices.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pytket-cirq</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows conversion to and from
 Cirq representations.</p>
-<p><code class="docutils literal notranslate"><span class="pre">pytket-cirq</span></code> is available for Python 3.6, 3.7 and 3.8, on Linux, MacOS and Windows.
+<p><code class="docutils literal notranslate"><span class="pre">pytket-cirq</span></code> is available for Python 3.7, 3.8 and 3.9, on Linux, MacOS and Windows.
 To install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-cirq</span></code></p>
-<div class="section" id="module-pytket.extensions.cirq">
+<section id="module-pytket.extensions.cirq">
 <span id="pytket-extensions-cirq"></span><h2>pytket.extensions.cirq<a class="headerlink" href="#module-pytket.extensions.cirq" title="Permalink to this headline">¶</a></h2>
 <p>Module for conversion between Google Cirq and tket primitives.</p>
 <dl class="py function">
 <dt id="pytket.extensions.cirq.cirq_to_tk">
-<code class="sig-prename descclassname">pytket.extensions.cirq.</code><code class="sig-name descname">cirq_to_tk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n">cirq.circuits.circuit.Circuit</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a><a class="headerlink" href="#pytket.extensions.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.extensions.cirq.</span></code><code class="sig-name descname"><span class="pre">cirq_to_tk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">cirq.circuits.circuit.Circuit</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><a class="headerlink" href="#pytket.extensions.cirq.cirq_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a tket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -245,7 +248,7 @@ To install, run:</p>
 
 <dl class="py function">
 <dt id="pytket.extensions.cirq.process_characterisation">
-<code class="sig-prename descclassname">pytket.extensions.cirq.</code><code class="sig-name descname">process_characterisation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xmon</span><span class="p">:</span> <span class="n">cirq.google.devices.xmon_device.XmonDevice</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a><a class="headerlink" href="#pytket.extensions.cirq.process_characterisation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.extensions.cirq.</span></code><code class="sig-name descname"><span class="pre">process_characterisation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xmon</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">cirq.google.devices.xmon_device.XmonDevice</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><span class="pre">dict</span></a><a class="headerlink" href="#pytket.extensions.cirq.process_characterisation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a tket dictionary containing device characteristics for a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">XmonDevice</span></code> .</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -262,7 +265,7 @@ To install, run:</p>
 
 <dl class="py function">
 <dt id="pytket.extensions.cirq.tk_to_cirq">
-<code class="sig-prename descclassname">pytket.extensions.cirq.</code><code class="sig-name descname">tk_to_cirq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tkcirc</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; cirq.circuits.circuit.Circuit<a class="headerlink" href="#pytket.extensions.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.extensions.cirq.</span></code><code class="sig-name descname"><span class="pre">tk_to_cirq</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tkcirc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">cirq.circuits.circuit.Circuit</span><a class="headerlink" href="#pytket.extensions.cirq.tk_to_cirq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a tket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object to a Cirq <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -277,8 +280,8 @@ To install, run:</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

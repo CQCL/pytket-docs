@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Getting Started &mdash; pytket 0.7.1 documentation</title>
+  <title>Getting Started &mdash; pytket 0.7.2 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0-alpha.0/dist/embed-amd.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -94,7 +94,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <figcaption>
+<p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#designing-a-quantum-circuit">Designing a Quantum Circuit</a></li>
@@ -108,7 +109,8 @@
 <li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Manual:</span></p>
+<figcaption>
+<p><span class="caption-text">User Manual:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
@@ -116,7 +118,8 @@
 <li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<figcaption>
+<p><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -133,7 +136,8 @@
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Specific extensions:</span></p>
+<figcaption>
+<p><span class="caption-text">Specific extensions:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
 <li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
@@ -213,10 +217,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="getting-started">
+  <section id="getting-started">
 <span id="start"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>The tket compiler is a powerful tool for optimising and manipulating platform-agnostic quantum circuits, focussed on enabling superior performance on NISQ (Noisy Intermediate-Scale Quantum) devices. The pytket package provides an API for interacting with tket and transpiling to and from other popular quantum circuit specifications.</p>
-<p>Pytket is compatible with 64-bit Python 3.6, 3.7 and 3.8, on Linux, MacOS (10.14 or later) and Windows. Install pytket from PyPI using:</p>
+<p>Pytket is compatible with 64-bit Python 3.7, 3.8 and 3.9, on Linux, MacOS (10.14 or later) and Windows. Install pytket from PyPI using:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pytket</span>
 </pre></div>
 </div>
@@ -233,7 +237,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pytket-qsharp</span></code></p></li>
 </ul>
-<div class="section" id="designing-a-quantum-circuit">
+<section id="designing-a-quantum-circuit">
 <h2>Designing a Quantum Circuit<a class="headerlink" href="#designing-a-quantum-circuit" title="Permalink to this headline">¶</a></h2>
 <p>The quantum circuit is an abstraction of computation using quantum resources, designed by initialising a system into a fixed state, then mutating it via sequences of instructions/gates.</p>
 <p>The native circuit interface built into <code class="docutils literal notranslate"><span class="pre">pytket</span></code> allows us to build circuits and use them directly.</p>
@@ -259,8 +263,8 @@
 <span class="n">c</span> <span class="o">=</span> <span class="n">qiskit_to_tk</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="running-on-a-backend">
+</section>
+<section id="running-on-a-backend">
 <h2>Running on a Backend<a class="headerlink" href="#running-on-a-backend" title="Permalink to this headline">¶</a></h2>
 <p>Designing a circuit is good, but our real goal is to run them on a quantum device. <code class="docutils literal notranslate"><span class="pre">pytket</span></code> presents a uniform interface for a number of hardware devices from several providers, as well as a selection of simulators. Many of the extension modules for <code class="docutils literal notranslate"><span class="pre">pytket</span></code> include <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> classes, which can be used interchangeably.</p>
 <p>On quantum hardware, the observable outputs of the circuit are the final states of the classical registers. These are returned via a shot table – a table of outcomes where the columns correspond to the individual classical bits, and each row is the result from a single run of the circuit.</p>
@@ -333,8 +337,8 @@
 </div>
 <p>Given that global phase of a quantum system is unobservable (it can never affect the evolution of the system or measurent outcomes), these are the correct states we were looking for.</p>
 <p>We look in more detail at the supported backends and their features in the <a class="reference external" href="https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb">backends example</a>.</p>
-</div>
-<div class="section" id="compilation-the-missing-link">
+</section>
+<section id="compilation-the-missing-link">
 <h2>Compilation – The Missing Link<a class="headerlink" href="#compilation-the-missing-link" title="Permalink to this headline">¶</a></h2>
 <p>In the previous section, we saw how <code class="docutils literal notranslate"><span class="pre">pytket</span></code> presents a uniform interface for all device and simulator backends. This is designed to help make the user development more flexible, allowing seamless switching between simulators for testing and many different types of quantum hardware for real experiments.</p>
 <p>In reality, this hides a lot of the complexity of running quantum circuits. Each simulator or device can work very differently under the hood, requiring circuits to be transformed into specific formats before being submitted. This can include restrictions on the universal gate set natively provided, the connectivity of the qubits, and what class of measurements are permitted (none, only at the end of the circuit, or mid-circuit via destructive/non-destructive measurement). Pushing these restrictions onto the user means that only experts in quantum circuit design and device characterisation can get the best results.</p>
@@ -370,8 +374,8 @@
 </pre></div>
 </div>
 <p>Some constraints are not possible to solve automatically and hence are still presented to the user. These relate to the computational model and what is fundamentally supported in terms of measurements, classical data, and control flow. For example, statevector simulators like the <code class="xref py py-class docutils literal notranslate"><span class="pre">AerStateBackend</span></code> give a deterministic result for pure quantum circuits, so cannot typically run circuits containing measurements or conditional gates. Since these gates are often crucial to the correctness of a quantum program, there is no faithful way to eliminate them from the circuit. Hence if <code class="docutils literal notranslate"><span class="pre">valid_circuit</span></code> returns <code class="docutils literal notranslate"><span class="pre">False</span></code> after compilation, this may require manual edits to the circuit design.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
