@@ -1,46 +1,42 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PYTKET TELEMETRY DATA POLICY &mdash; pytket 0.7.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
-
-  
+  <title>PYTKET TELEMETRY DATA POLICY &mdash; pytket 0.8.0 documentation</title>
   
 
   
   
-
+  
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
+        <script src="_static/language_data.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Open Source Attribution" href="opensource.html" />
@@ -68,7 +64,7 @@
             
             
               <div class="version">
-                0.7
+                0.8
               </div>
             
           
@@ -85,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -93,8 +88,7 @@
               
             
             
-              <figcaption>
-<p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -115,8 +109,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">User Manual:</span></p>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
@@ -124,8 +117,7 @@
 <li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">API Reference:</span></p>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -142,26 +134,10 @@
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">Specific extensions:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/ionq.html">pytket-ionq</a></li>
-</ul>
 
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -196,20 +172,18 @@
 
 
 
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
       <li>PYTKET TELEMETRY DATA POLICY</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/telemetry_data_policy.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -223,9 +197,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="pytket-telemetry-data-policy">
+  <div class="section" id="pytket-telemetry-data-policy">
 <h1>PYTKET TELEMETRY DATA POLICY<a class="headerlink" href="#pytket-telemetry-data-policy" title="Permalink to this headline">¶</a></h1>
-<section id="introduction">
+<div class="section" id="introduction">
 <h2>1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Cambridge Quantum Computing (“CQC”, “we”, “us” or “our”) is a world
 leading independent quantum computing software company. CQC respects
@@ -249,7 +223,7 @@ please contact <a class="reference external" href="mailto:privacycqc&#37;&#52;&#
 <p>This Telemetry Data Policy provides you with certain information that
 must be provided under the General Data Protection Regulation (<em>(EU)
 2016/679</em>) (GDPR) and the local data protection law.</p>
-<section id="data-collected">
+<div class="section" id="data-collected">
 <h3>Data collected<a class="headerlink" href="#data-collected" title="Permalink to this headline">¶</a></h3>
 <p>The telemetry feature will collect the following Telemetry Data:</p>
 <table class="docutils align-default">
@@ -304,8 +278,8 @@ configuration file. The telemetry feature will not collect any
 Personally Identifiable Information (PII). For the avoidance of doubt,
 CQC maintains that it will still treat all the Telemetry Data collected
 (listed above) as though it is personal data.</p>
-</section>
-<section id="what-the-data-will-be-used-for">
+</div>
+<div class="section" id="what-the-data-will-be-used-for">
 <h3>What the Data will be Used for<a class="headerlink" href="#what-the-data-will-be-used-for" title="Permalink to this headline">¶</a></h3>
 <p>In accordance with GDPR, the Telemetry Data will be used for:</p>
 <ul class="simple">
@@ -316,14 +290,14 @@ know where to target support and features</p></li>
 can be collected and aggregated - i.e., after a release we can see if
 a lot of errors start to occur.</p></li>
 </ul>
-</section>
-</section>
-<section id="how-we-store-the-data">
+</div>
+</div>
+<div class="section" id="how-we-store-the-data">
 <h2>3. How we store the Data<a class="headerlink" href="#how-we-store-the-data" title="Permalink to this headline">¶</a></h2>
 <p>The Telemetry Data is stored in a managed PostgreSQL server hosted in
 Azure Web Services, where it is stored with a timestamp as an event.</p>
-</section>
-<section id="your-rights">
+</div>
+<div class="section" id="your-rights">
 <h2>4. Your Rights<a class="headerlink" href="#your-rights" title="Permalink to this headline">¶</a></h2>
 <p>In accordance with the provisions of GDPR, we inform you that you can
 exercise your rights of access, rectification, erasure, right to be
@@ -332,8 +306,8 @@ directly with CQC.</p>
 <p>To facilitate the exercise of these rights, you may send a message with
 your request to this effect, indicating name, surname and e-mail address
 to the following e-mail address: <a class="reference external" href="mailto:privacycqc&#37;&#52;&#48;cambridgequantum&#46;com">privacycqc<span>&#64;</span>cambridgequantum<span>&#46;</span>com</a></p>
-</section>
-<section id="security">
+</div>
+<div class="section" id="security">
 <h2>5. Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h2>
 <p>We take reasonable steps to hold information securely in electronic or
 physical form and to prevent unauthorised access, use, modification or
@@ -344,8 +318,8 @@ information are subject to confidentiality obligations.</p>
 <p>The transmission of information via the internet is not completely
 secure. We cannot guarantee the security of your data transmitted to our
 online services; hence, any transmission is at your own risk.</p>
-</section>
-<section id="acceptance-of-this-telemetry-data-policy">
+</div>
+<div class="section" id="acceptance-of-this-telemetry-data-policy">
 <h2>6. Acceptance of this Telemetry Data Policy<a class="headerlink" href="#acceptance-of-this-telemetry-data-policy" title="Permalink to this headline">¶</a></h2>
 <p>Any user who installs and uses CQC’s proprietary ‘t|ket&gt;’ software (the
 “End User”) ACKNOWLEDGES AND AGREES TO HAVE READ AND UNDERSTOOD this
@@ -357,8 +331,8 @@ and scope, without exception to any of its provisions.</p>
 <p>CQC reserves the right to update and make changes to the Telemetry Data
 Policy even without prior notice to the End User. It is the End User’s
 responsibility to review the amended Telemetry Data Policy.</p>
-</section>
-<section id="contact-and-further-information">
+</div>
+<div class="section" id="contact-and-further-information">
 <h2>7. Contact and Further Information<a class="headerlink" href="#contact-and-further-information" title="Permalink to this headline">¶</a></h2>
 <p>Should you have any questions about this Telemetry Data Policy, or want
 to submit a written complaint to us about how we handle your Telemetry
@@ -376,37 +350,37 @@ your complaint will be handled. We may ask you for further details,
 consult with other parties and keep records regarding your complaint.</p>
 <p><strong>Last updated:</strong> The Pytket Telemetry Data Policy was last updated on
 30 November 2020.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="opensource.html" class="btn btn-neutral float-right" title="Open Source Attribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="licence.html" class="btn btn-neutral float-left" title="SOFTWARE LICENCE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+      
+        <a href="opensource.html" class="btn btn-neutral float-right" title="Open Source Attribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="licence.html" class="btn btn-neutral float-left" title="SOFTWARE LICENCE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
 
@@ -414,6 +388,7 @@ consult with other parties and keep records regarding your complaint.</p>
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

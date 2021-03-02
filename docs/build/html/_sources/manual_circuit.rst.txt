@@ -858,11 +858,11 @@ See the `API reference <classical.html>`_ for more on the possible expressions a
 
 .. note:: This feature is only usable on a limited selection of devices and simulators which support conditional gates.
 
- The `Aerbackend <extensions/qiskit.html#pytket.backends.ibm.AerBackend>`_ can support the OpenQasm model, where gates can only be conditional on an entire classical register being an exact integer value. Bitwise logical operations are not supported. Therefore only conditions of the form
+ The ``Aerbackend`` (from ``pytket-qiskit``) can support the OpenQasm model, where gates can only be conditional on an entire classical register being an exact integer value. Bitwise logical operations are not supported. Therefore only conditions of the form
  ``condition=reg_eq(reg, val)`` are valid.
 
- The `HoneywellBackend <extensions/honeywell.html#pytket.backends.honeywell.HoneywellBackend>`_ 
- can support the full range of expressions and comparisons shown above, as long as the `DecomposeClassicalExp <passes.html#pytket.passes.DecomposeClassicalExp>`_ pass  has been run on the circuit first. 
+ The ``HoneywellBackend`` (from ``pytket-honeywell``)
+ can support the full range of expressions and comparisons shown above, as long as the `DecomposeClassicalExp <passes.html#pytket.passes.DecomposeClassicalExp>`_ pass  has been run on the circuit first.
  This is part of the default compilation pass for that backend, so if you use that you do not need to run it separately.
 
 Circuit-Level Operations

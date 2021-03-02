@@ -50,7 +50,7 @@ information.
 
 .. jupyter-input::
 
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
 
     backend = IBMQBackend("ibmq_santiago")
     for key in backend.characterisation:
@@ -252,7 +252,7 @@ For each cycle in the circuit, each of the ensemble's operators is prepended to 
 
     from pytket.tailoring import FrameRandomisation
     from pytket import OpType, Circuit
-    from pytket.backends.ibm import AerBackend
+    from pytket.extensions.qiskit import AerBackend
 
     circ = Circuit(2).X(0).CX(0,1).S(1).measure_all()
     frame_randomisation = FrameRandomisation(
@@ -285,7 +285,7 @@ The :py:meth:`PauliFrameRandomisation.get_all_circuits` method returns circuits 
 .. jupyter-execute::
 
     from pytket import Circuit
-    from pytket.backends.ibm import AerBackend
+    from pytket.extensions.qiskit import AerBackend
     from pytket.tailoring import PauliFrameRandomisation
 
     circ = Circuit(2).X(0).CX(0,1).Rz(0.3, 1).CX(0,1).measure_all()
@@ -468,7 +468,7 @@ The :py:class:`SpamCorrecter` object uses these subsets of qubits to produce cal
 .. jupyter-input::
 
     from pytket.utils.spam import SpamCorrecter
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
 
     backend = IBMQBackend("ibmq_london")
     nodes = backend.device.nodes
@@ -496,7 +496,7 @@ First the :py:class:`SpamCorrecter` is characterised using counts results for ca
 
 .. jupyter-execute::
 
-    from pytket.backends.ibm import AerBackend
+    from pytket.extensions.qiskit import AerBackend
     from pytket import Circuit
     from pytket.utils.spam import SpamCorrecter
 

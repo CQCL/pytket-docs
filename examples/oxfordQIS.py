@@ -5,7 +5,7 @@ from pytket.circuit import Circuit, PauliExpBox, Pauli
 from pytket.predicates import CompilationUnit
 from pytket.passes import DecomposeBoxes, PauliSimp, SequencePass
 from pytket.utils import expectation_from_counts
-from pytket.backends.ibm import AerBackend, AerStateBackend
+from pytket.extensions.qiskit import AerBackend, AerStateBackend
 
 from sympy import Symbol
 from scipy.optimize import minimize
