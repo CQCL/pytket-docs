@@ -160,7 +160,7 @@ A placement pass will act in place on a :py:class:`Circuit` by renaming the qubi
 .. jupyter-input::
 
     from pytket import Circuit
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
     from pytket.routing import GraphPlacement
@@ -193,7 +193,7 @@ In some circumstances, the best location is not fully determined immediately and
 .. jupyter-input::
 
     from pytket import Circuit
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.routing import LinePlacement
     circ = Circuit(4)
@@ -247,7 +247,7 @@ Several heuristics have been implemented for identifying candidate placements. F
 .. jupyter-input::
 
     from pytket import Circuit
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
     from pytket.routing import GraphPlacement
@@ -294,7 +294,7 @@ One solution here, is to scan through the :py:class:`Circuit` looking for invali
 .. jupyter-input::
 
     from pytket import Circuit
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass, RoutingPass
     from pytket.routing import GraphPlacement
     circ = Circuit(4)
@@ -560,7 +560,7 @@ After solving for the device connectivity, we then need to restrict what optimis
 .. jupyter-input::
 
     from pytket import Circuit, OpType
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseIBM, RebaseIBM
     circ = Circuit(5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3)
@@ -605,7 +605,7 @@ Optimisation level  Description
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.backends.ibm import AerBackend
+    from pytket.extensions.qiskit import AerBackend
     circ = Circuit(3)
     circ.CZ(0, 1)
     circ.H(1)
@@ -655,7 +655,7 @@ We can wrap up a :py:class:`Circuit` in a :py:class:`CompilationUnit` to allow u
 .. jupyter-input::
 
     from pytket import Circuit
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import DefaultMappingPass
     from pytket.predicates import CompilationUnit
     circ = Circuit(5, 5)
@@ -690,7 +690,7 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
 .. jupyter-execute::
 
     from pytket import Circuit, Qubit
-    from pytket.backends.ibm import AerStateBackend
+    from pytket.extensions.qiskit import AerStateBackend
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils.operators import QubitPauliOperator
     from sympy import symbols
@@ -737,7 +737,7 @@ The main technical consideration here is that the compiler will only have the fr
 .. jupyter-input::
 
     from pytket import Circuit, OpType
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.qiskit import IBMQBackend
     from pytket.predicates import CompilationUnit
     from pytket.routing import Placement
     state_prep = Circuit(4)

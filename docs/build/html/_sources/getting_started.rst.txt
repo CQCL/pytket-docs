@@ -71,13 +71,13 @@ On quantum hardware, the observable outputs of the circuit are the final states 
 
 ::
 
-    from pytket.backends.ibm import IBMQBackend
+    from pytket.extensions.ibm import IBMQBackend
     b = IBMQBackend("ibmq_london")
     # ...
-    from pytket.backends.forest import ForestBackend
+    from pytket.extensions.pyquil import ForestBackend
     b = ForestBackend("Aspen-8")
     # ...
-    from pytket.backends.aqt import AQTBackend
+    from pytket.extensions.aqt import AQTBackend
     b = AQTBackend(access_token, "sim")
     # ...
     b.compile_circuit(c)        # performs the minimal compilation to satisfy the device/simulator constraints
@@ -127,7 +127,7 @@ All of these are stochastically sampled. Whilst this is how the real devices run
     final_state = initial_state.copy()
     final_state.append(increment)
 
-    from pytket.backends.ibm import AerStateBackend
+    from pytket.extensions.qiskit import AerStateBackend
     b = AerStateBackend()
     b.compile_circuit(initial_state)
     b.compile_circuit(final_state)

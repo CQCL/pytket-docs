@@ -1,47 +1,42 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pytket.circuit.OpType &mdash; pytket 0.7.2 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
-
-  
+  <title>pytket.circuit.OpType &mdash; pytket 0.8.0 documentation</title>
   
 
   
   
-
+  
   
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/thebelab-helper.js"></script>
+        <script src="_static/language_data.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.circuit.logic_exp" href="classical.html" />
@@ -69,7 +64,7 @@
             
             
               <div class="version">
-                0.7
+                0.8
               </div>
             
           
@@ -86,7 +81,6 @@
           
         </div>
 
-        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -94,8 +88,7 @@
               
             
             
-              <figcaption>
-<p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -104,8 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">User Manual:</span></p>
+<p class="caption"><span class="caption-text">User Manual:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
@@ -113,8 +105,7 @@
 <li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">API Reference:</span></p>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="circuit.html">pytket.circuit</a><ul class="current">
@@ -136,26 +127,10 @@
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">Specific extensions:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="extensions/aqt.html">pytket-aqt</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/braket.html">pytket-braket</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/cirq.html">pytket-cirq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/honeywell.html">pytket-honeywell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/projectq.html">pytket-projectq</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/pyquil.html">pytket-pyquil</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/pyzx.html">pytket-pyzx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/qiskit.html">pytket-qiskit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/qsharp.html">pytket-qsharp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/qulacs.html">pytket-qulacs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extensions/ionq.html">pytket-ionq</a></li>
-</ul>
 
             
           
         </div>
-        
       </div>
     </nav>
 
@@ -190,13 +165,11 @@
 
 
 
-
-
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
           <li><a href="circuit.html">pytket.circuit</a> &raquo;</li>
         
@@ -205,7 +178,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/optype.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -219,7 +192,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="pytket-circuit-optype">
+  <div class="section" id="pytket-circuit-optype">
 <h1>pytket.circuit.OpType<a class="headerlink" href="#pytket-circuit-optype" title="Permalink to this headline">¶</a></h1>
 <p>Enum for available operations compatible with the tket <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class.</p>
 <div class="admonition warning">
@@ -230,7 +203,7 @@ Therefore, for instance <cite>circuit.add_gate(OpType.Rx, 1, [0])</cite> is equi
 </div>
 <dl class="py class">
 <dt id="pytket.circuit.OpType">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.circuit.</span></code><code class="sig-name descname"><span class="pre">OpType</span></code><a class="headerlink" href="#pytket.circuit.OpType" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pytket.circuit.</code><code class="sig-name descname">OpType</code><a class="headerlink" href="#pytket.circuit.OpType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enum for available operations compatible with tket <a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> s.</p>
 <p>Members:</p>
 <blockquote>
@@ -310,41 +283,41 @@ Therefore, for instance <cite>circuit.add_gate(OpType.Rx, 1, [0])</cite> is equi
 </div></blockquote>
 <dl class="py method">
 <dt id="pytket.circuit.OpType.name">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#pytket.circuit.OpType.name" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket.circuit.OpType.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="classical.html" class="btn btn-neutral float-right" title="pytket.circuit.logic_exp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="circuit_class.html" class="btn btn-neutral float-left" title="pytket.circuit.Circuit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+      
+        <a href="classical.html" class="btn btn-neutral float-right" title="pytket.circuit.logic_exp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="circuit_class.html" class="btn btn-neutral float-left" title="pytket.circuit.Circuit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
+        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
 
     </p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
 
@@ -352,6 +325,7 @@ Therefore, for instance <cite>circuit.add_gate(OpType.Rx, 1, [0])</cite> is equi
 
   </div>
   
+
 
   <script type="text/javascript">
       jQuery(function () {

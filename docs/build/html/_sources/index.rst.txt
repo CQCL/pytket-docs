@@ -7,9 +7,8 @@ pytket
 
 ``pytket`` is a python module for interfacing with `CQC`_ tket, a set of quantum
 programming tools. We currently support circuits and device architectures from
-Google `Cirq`_, IBM `Qiskit`_, `AQT`_, `Honeywell`_, Amazon `Braket`_,
-`QSharp`_, `Pyzx`_, `ProjectQ`_, `Qulacs`_, Rigetti `pyQuil`_ and `IonQ`_, allowing the tket tools
-to be used in conjunction with projects on these platforms.
+`numerous providers <https://github.com/CQCL/pytket-extensions>`_, allowing the
+tket tools to be used in conjunction with projects on their platforms.
 
 ``pytket`` is available for Python 3.7, 3.8 and 3.9, on Linux, MacOS and Windows.
 To install, run
@@ -31,7 +30,7 @@ Some of the extension modules define :py:class:`Backend` s, allowing the circuit
 
 ::
 
-    from pytket.backends.ibm import AerBackend
+    from pytket.extensions.qiskit import AerBackend
     b = AerBackend()                # connect to the backend
     b.compile_circuit(c)            # compile the circuit to satisfy the backend's requirements
     handle = b.process_circuit(c, 100)  # submit the job to run the circuit 100 times
@@ -55,29 +54,37 @@ additional separate module for each. Each one of these adds either some new
 methods to the ``pytket`` package to convert between the circuit
 representations, or some new backends to submit circuits to within ``pytket``.
 
-For each extension module:
+Extension modules can be installed using ``pip``. The extensions supported by
+CQC are described
+`here <https://cqcl.github.io/pytket/build/html/extensions/index.html>`_.
 
-Qiskit: ``pip install pytket-qiskit``
+.. note::
+    The syntax for importing backends from extension modules has changed
+    slightly in version 0.8 of ``pytket``. When importing ``FooBackend``,
+    instead of doing
 
-Cirq: ``pip install pytket-cirq``
+    ``from pytket.backends.something import FooBackend``
 
-PyQuil: ``pip install pytket-pyquil``
+    you should now do
 
-ProjectQ: ``pip install pytket-projectq``
+    ``from pytket.extensions.bar import FooBackend``
 
-AQT: ``pip install pytket-aqt``
+    where ``FooBackend`` is defined in the ``pytket-bar`` extension module.
 
-Honeywell: ``pip install pytket-honeywell``
+    This may entail some changes to existing code. For example, you should
+    change
 
-Braket: ``pip install pytket-braket``
+    ``from pytket.backends.ibm import AerBackend``
 
-QSharp: ``pip install pytket-qsharp``
+    to
 
-PyZX: ``pip install pytket-pyzx``
+    ``from pytket.extensions.qiskit import AerBackend``
 
-Qulacs: ``pip install pytket-qulacs``
+    because ``AerBackend`` is defined in the ``pytket-qiskit`` module.
 
-IonQ: ``pip install pytket-ionq``
+    (In many cases, ``something`` and ``bar`` are identical, and you just need
+    to change ``backends`` to ``extensions``. For example,
+    ``pytket.backends.aqt`` becomes ``pytket.extensions.aqt``.)
 
 How to cite
 ~~~~~~~~~~~
@@ -99,7 +106,7 @@ If you have problems with the use of tket or you think that you have found a bug
 
 - You can join the `tket-users mailing list <https://list.cambridgequantum.com/cgi-bin/mailman/listinfo/tket-users>`_. If you have questions or ideas and wishes for new features you can send an email to the list and ask for help. You can also join the list to get the newest information and get in contact with other users of tket.
 - Write an email to tket-support@cambridgequantum.com and ask for help with your problem.
-- You can write a bug report on the `CQC github <https://github.comCQCL/pytket/issues>`_ with details of the problem and we will pick that up. You can also have a look on that page so see if your problem has already been reported by someone else.
+- You can write a bug report on the `CQC github <https://github.com/CQCL/pytket/issues>`_ with details of the problem and we will pick that up. You can also have a look on that page so see if your problem has already been reported by someone else.
 
 We are really thankful for all help to fix bugs in tket. Usually you will get an answer from someone in the development team of tket soon.
 
@@ -116,28 +123,11 @@ Telemetry Data Policy
 
 Our telemetry data policy can be viewed in the `Telemetry Data Policy`_ page.
 
-.. _Cirq: https://www.github.com/quantumlib/cirq
-.. _Qiskit: https://qiskit.org
-.. _AQT: https://www.aqt.eu/services/
-.. _Honeywell: https://www.honeywell.com/en-us/company/quantum
-.. _Braket: https://aws.amazon.com/braket/
-.. _QSharp: https://docs.microsoft.com/en-us/quantum/
-.. _Pyzx: https://github.com/Quantomatic/pyzx
-.. _ProjectQ: https://github.com/ProjectQ-Framework/ProjectQ
-.. _pyQuil: http://rigetti.com/forest
-.. _Qulacs: https://docs.qulacs.org/en/latest/index.html
 .. _Getting Started: getting_started.html
 .. _examples: https://github.com/CQCL/pytket/blob/master/examples
-.. _source: https://github.com/Quantomatic/pyzx
 .. _LICENCE: licence.html
 .. _CQC: https://cambridgequantum.com
-.. _IonQ: https://ionq.com/
 .. _Telemetry Data Policy: telemetry_data_policy.html
-
-.. |PyPI version| image:: https://badge.fury.io/py/pytket.svg
-   :target: https://badge.fury.io/py/pytket
-.. |Documentation Status| image:: https://readthedocs.org/projects/pytket/badge/?version=latest
-   :target: https://pytket.readthedocs.io/en/latest/?badge=latest
 
 .. toctree::
     :caption: Contents:
@@ -178,22 +168,6 @@ Our telemetry data policy can be viewed in the `Telemetry Data Policy`_ page.
     transform.rst
     utils.rst
     logging.rst
-
-.. toctree::
-    :caption: Specific extensions:
-    :maxdepth: 2
-
-    extensions/aqt.rst
-    extensions/braket.rst
-    extensions/cirq.rst
-    extensions/honeywell.rst
-    extensions/projectq.rst
-    extensions/pyquil.rst
-    extensions/pyzx.rst
-    extensions/qiskit.rst
-    extensions/qsharp.rst
-    extensions/qulacs.rst
-    extensions/ionq.rst
 
 Indices and tables
 ==================
