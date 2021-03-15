@@ -639,7 +639,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
     print(circ.get_commands())
     os.remove(path)
 
-.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `API reference <quipper.html>`_.
+.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `Quipper API reference <quipper.html>`_.
 
 .. Extension modules; example with qiskit, cirq, pyquil; caution that they may not support all gate sets or features (e.g. conditional gates with qiskit only)
 
