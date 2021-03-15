@@ -1,0 +1,11 @@
+#!/bin/sh
+
+python -m pip install --pre -r requirements.txt
+
+cd manual/
+rm -rf build/
+sphinx-build -b html . build
+cd ..
+
+rm -rf docs/build/html/manual/
+cp -r manual/build/ docs/build/html/manual
