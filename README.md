@@ -41,6 +41,7 @@ For each subpackage:
 * Q#: ``pip install pytket-qsharp``
 * Braket: ``pip install pytket-braket``
 * Qulacs: ``pip install pytket-qulacs``
+* IonQ: ``pip install pytket-ionq``
 
 ## LICENCE
 
