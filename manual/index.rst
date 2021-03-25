@@ -3,14 +3,16 @@ Pytket User Manual
 
 This manual refers to the following versions of pytket and extensions:
 
-* pytket 0.8.0
-* pytket-cirq 0.8.0
-* pytket-honeywell 0.7.0
-* pytket-projectq 0.7.0
-* pytket-pyquil 0.8.0
-* pytket-qiskit 0.8.0
-* pytket-qsharp 0.9.0
-* pytket-qulacs 0.5.0
+.. code-block:: text
+
+    pytket == 0.8.0
+    pytket-cirq == 0.8.0
+    pytket-honeywell == 0.7.0
+    pytket-projectq == 0.7.0
+    pytket-pyquil == 0.8.0
+    pytket-qiskit == 0.8.0
+    pytket-qsharp == 0.9.0
+    pytket-qulacs == 0.5.0
 
 .. toctree::
     :maxdepth: 2
