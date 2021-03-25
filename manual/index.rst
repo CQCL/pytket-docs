@@ -10,7 +10,7 @@ Pytket User Manual
     manual_compiler.rst
     manual_noise.rst
 
-Indices and tables
+Indices and Tables
 ==================
 
 * :ref:`genindex`
