@@ -6,7 +6,7 @@ python -m pip install --pre git+git://github.com/willsimmons1465/jupyter-sphinx.
 
 cd manual/
 
-sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../requirements.txt | tr -d '\n')/" index-template.rst > index.rst
+sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../requirements.txt | tr -d '\n')/" index-rst-template > index.rst
 
 rm -rf build/
 sphinx-build -b html . build
