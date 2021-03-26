@@ -10,6 +10,9 @@ sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../requirements.txt |
 
 rm -rf build/
 sphinx-build -b html . build
+
+rm index.rst
+
 cd ..
 
 rm -rf docs/build/html/manual/
