@@ -1,0 +1,68 @@
+name: check docs
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  check:
+    name: check docs
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: install python requirements for manual
+      run: |
+        python -m pip install -r requirements.txt
+        python -m pip install sphinx sphinx_rtd_theme
+        python -m pip install --pre git+git://github.com/willsimmons1465/jupyter-sphinx.git@issue-140#egg=jupyter-sphinx
+    - name: install graphviz
+      run: |
+        sudo apt-get update
+        sudo apt-get install graphviz
+    - name: build manual
+      run: |
+        cd manual/
+        sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../requirements.txt | tr -d '\n')/" index-rst-template > index.rst
+        sphinx-build -b html . build 1>out.txt 2>err.txt
+        cat out.txt err.txt
+        # Uncomment when TKET-1203 fixed:
+        # if [[ -s err.txt ]] ; then exit 1 ; fi
+    - name: install additional python prerequisites for notebooks
+      run: |
+        python -m pip install jupyter openfermion
+    - name: install dotnet SDK and iqsharp
+      run: |
+        curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+        sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
+        sudo apt-get install dotnet-sdk-3.1
+        echo "~/.dotnet/tools" >> $GITHUB_PATH
+        dotnet tool install -g Microsoft.Quantum.IQSharp
+        dotnet iqsharp install --user
+    - name: test example notebooks
+      run: |
+        # Test the notebooks that don't need any backend credentials
+        for name in \
+          ansatz_sequence_example \
+          circuit_analysis_example \
+          circuit_generation_example \
+          comparing_simulators \
+          compilation_example \
+          conditional_gate_example \
+          creating_backends \
+          measurement_reduction_example \
+          symbolics_example \
+          ucc_vqe
+        do
+          python3 -m jupyter nbconvert --ExecutePreprocessor.timeout=600 --to notebook --execute examples/${name}.ipynb
+        done
