@@ -36,8 +36,8 @@ Mid-circuit measurements and classical control.
 [expectation_value_example](https://github.com/CQCL/pytket/blob/master/examples/expectation_value_example.ipynb) -
 Computing expectation values of Hamiltonians.
 
-[measurement_reduction_example](https://github.com/CQCL/pytket/blob/master/examples/measurement_reduction_example.ipynb)
-- Advanced methods for reducing the number of circuits required for
+[measurement_reduction_example](https://github.com/CQCL/pytket/blob/master/examples/measurement_reduction_example.ipynb) -
+Advanced methods for reducing the number of circuits required for
 measurement.
 
 [ansatz_sequence_example](https://github.com/CQCL/pytket/blob/master/examples/ansatz_sequence_example.ipynb) - Advanced methods for synthesising an ansatz circuit from Trotterised Hamiltonians.
