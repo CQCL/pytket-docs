@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+for name in `cat maintained-notebooks.txt`
+do
+    p2j -o -t ${name}-gen.ipynb python/${name}.py
+    cmp ${name}.ipynb ${name}-gen.ipynb
+    rm ${name}-gen.ipynb
+done
