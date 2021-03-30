@@ -1,14 +1,19 @@
 # # Calibration and Correction of State Preparation and Measurement (SPAM)
-
+#
 # Quantum Computers available in the NISQ-era are limited by significant sources of device noise which cause errors in computation. One such noise source is errors in the preparation and measurement of quantum states, more commonly know as SPAM.
+#
 # If device SPAM error can be characterised, then device results can be modified to mitigate the error. Characterisation proceeds by determining overlap between different prepared basis states when measured, and mitigation modifies the distribution over output states of the corrected circuit. No modification of the quantum circuit being corrected is required. The ``` pytket```  ```SpamCorrecter```  class supports characterisation and mitigation of device SPAM error.
+#
 # In this tutorial we will show how the ```SpamCorrecter```  class can be used to modify real results and improve device performance when running experiments.
+#
 # This tutorial will require installation of ```pytket```, ```pytket_qiskit``` and ```qiskit```, all available on pip.
+#
 # First, import the ```SpamCorrecter``` class.
 
 from pytket.utils.spam import SpamCorrecter
 
 # The SpamCorrecter class has methods for generating State Preparation and Measurement (SPAM) calibration experiments for pytket backends and correcting counts generated from those same backends.
+#
 # Let's first mitigate error from a noisy simulation, using a noise model straight from the 5-qubit IBMQ Santiago device. This will require a preloaded IBMQ account.
 
 from qiskit import IBMQ
@@ -33,8 +38,11 @@ santiago_graph = nx.Graph(pytket_santiago_device.coupling)
 nx.draw(santiago_graph, labels={node: node for node in santiago_graph.nodes()})
 
 # SPAM correction requires subsets of qubits which are assumed to only have SPAM errors correlated with each other, and no other qubits.
+#
 # Correlated errors are usually dependent on the connectivity layout of devices, as shown above.
+#
 # As Santiago is a small 5-qubit device with few connections, let's assume that all qubits have correlated SPAM errors. The number of calibration circuits produced is exponential in the maximum number of correlated circuits, so finding good subsets of correlated qubits is important for characterising larger devices with smaller experimental overhead.
+#
 # We get a noise model from ```ibmq_santiago``` using qiskit-aer, make a simulator backend, and then execute all calibration circuits through the backend.
 
 from pytket.extensions.qiskit import AerBackend
@@ -73,6 +81,7 @@ pytket_noiseless_sim_backend = AerBackend()
 ghz_noiseless_counts = pytket_noiseless_sim_backend.get_counts(ghz_circuit, n_shots)
 
 # Noisy simulator counts are corrected using the ```SpamCorrecter``` objects ```correct_counts``` method.
+#
 # To correctly amend counts, the ```correct_counts``` method requires the executed circuits qubit_readout, a map from qubit to its index in readouts from backends.
 
 ghz_spam_corrected_counts = santiago_spam.correct_counts(
@@ -124,7 +133,9 @@ print(
 )
 
 # In our noisy simulated case, spam corrected results produced a distribution closer to the expected distribution.
+#
 # There are two methods available for correcting counts: the default ```bayesian```, and ```invert```. Further information on each method is available at our [documentation](https://cqcl.github.io/pytket/build/html/utils.html#module-pytket.utils.spam).
+#
 # Let's look at how the ```invert``` method performs.
 
 ghz_invert_corrected_counts = santiago_spam.correct_counts(

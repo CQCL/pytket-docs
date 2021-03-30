@@ -1,20 +1,21 @@
-# ### Comparison of the simulators available through tket
+# # Comparison of the simulators available through tket
+#
 # In this tutorial, we will focus on:
 # - exploring the wide array of simulators available through the extension modules for `pytket`;
 # - comparing their unique features and capabilities.
+#
 # This example assumes the reader is familiar with the basics of circuit construction and evaluation.
+#
 # To run every option in this example, you will need `pytket`, `pytket-qiskit`, `pytket-pyquil`, `pytket-qsharp`, `pytket-qulacs`, and `pytket-projectq`.
+#
 # With the number of simulator `Backend`s available across the `pytket` extension modules, we are often asked why to use one over another. Surely, any two simulators are equivalent if they are able to sample the circuits in the same way, right? Not quite. In this notebook we go through each of the simulators in turn and describe what sets them apart from others and how to make use of any unique features.
+#
 # But first, to demonstrate the significant overlap in functionality, we'll just give some examples of common usage for different types of backends.
 
-# ### Sampling simulator usage
+# ## Sampling simulator usage
 
 from pytket import Circuit
 from pytket.extensions.qiskit import AerBackend
-
-# from pytket.extensions.pyquil import ForestBackend
-# from pytket.extensions.qsharp import QsharpSimulatorBackend
-# from pytket.extensions.qulacs import QulacsBackend, QulacsGPUBackend
 
 # Define a circuit
 c = Circuit(3, 3)
@@ -25,23 +26,15 @@ c.measure_all()
 
 # Run on the backend
 backend = AerBackend()
-# backend = ForestBackend('Aspen-8', simulator=True)
-# backend = QsharpSimulatorBackend()
-# backend = QulacsBackend()
-# backend = QulacsGPUBackend()
 backend.compile_circuit(c)
 handle = backend.process_circuit(c, n_shots=2000)
 counts = backend.get_result(handle).get_counts()
 print(counts)
 
-# ### Statevector simulator usage
+# ## Statevector simulator usage
 
 from pytket import Circuit
 from pytket.extensions.qiskit import AerStateBackend
-
-# from pytket.extensions.pyquil import ForestStateBackend
-# from pytket.extensions.qulacs import QulacsBackend, QulacsGPUBackend
-# from pytket.extensions.projectq import ProjectQBackend
 
 # Build a quantum state
 c = Circuit(3)
@@ -52,23 +45,15 @@ c.Ry(0.8, 2)
 
 # Examine the statevector
 backend = AerStateBackend()
-# backend = ForestStateBackend()
-# backend = QulacsBackend()
-# backend = QulacsGPUBackend()
-# backend = ProjectQBackend()
 backend.compile_circuit(c)
 handle = backend.process_circuit(c)
 state = backend.get_result(handle).get_state()
 print(state)
 
-# ### Expectation value usage
+# ## Expectation value usage
 
 from pytket import Circuit, Qubit
 from pytket.extensions.qiskit import AerBackend, AerStateBackend
-
-# from pytket.extensions.pyquil import ForestStateBackend
-# from pytket.extensions.qulacs import QulacsBackend, QulacsGPUBackend
-# from pytket.extensions.projectq import ProjectQBackend
 from pytket.pauli import Pauli, QubitPauliString
 from pytket.utils.operators import QubitPauliOperator
 
@@ -86,21 +71,19 @@ op = QubitPauliOperator({xxi: -1.8, zzz: 0.7j})
 
 # Run on the backend
 backend = AerBackend()
-# backend = AerStateBackend()
-# backend = ForestStateBackend()
-# backend = QulacsBackend()
-# backend = QulacsGPUBackend()
-# backend = ProjectQBackend()
 backend.compile_circuit(c)
 exp = backend.get_operator_expectation_value(c, op)
 print(exp)
 
-# ### `pytket.extensions.qiskit.AerBackend`
+# ## `pytket.extensions.qiskit.AerBackend`
+#
 # `AerBackend` wraps up the `qasm_simulator` from the Qiskit Aer package. It supports an extremely flexible set of circuits and uses many effective simulation methods making it a great all-purpose sampling simulator.
+#
 # Unique features:
 # - supports mid-circuit measurement and OpenQASM-style conditional gates;
 # - encompasses a variety of underlying simulation methods and automatically selects the best one for each circuit (including statevector, density matrix, (extended) stabilizer and matrix product state);
 # - can be provided with a `qiskit.providers.Aer.noise.NoiseModel` on instantiation to perform a noisy simulation.
+#
 # Useful features:
 # - support for fast expectation value calculations according to `QubitPauliString`s or `QubitPauliOperator`s.
 
@@ -151,14 +134,18 @@ result = backend.get_result(handle)
 counts = result.get_counts([final[0]])
 print(counts)
 
-# ### `pytket.extensions.qiskit.AerStateBackend`
+# ## `pytket.extensions.qiskit.AerStateBackend`
+#
 # `AerStateBackend` provides access to Qiskit Aer's `statevector_simulator`. It supports a similarly large gate set and has competitive speed for statevector simulations.
+#
 # Useful features:
 # - no dependency on external executables, making it easy to install and run on any computer;
 # - support for fast expectation value calculations according to `QubitPauliString`s or `QubitPauliOperator`s.
 
-# ### `pytket.extensions.qiskit.AerUnitaryBackend`
+# ## `pytket.extensions.qiskit.AerUnitaryBackend`
+#
 # Finishing the set of simulators from Qiskit Aer, `AerUnitaryBackend` captures the `unitary_simulator`, allowing for the entire unitary of a pure quantum process to be calculated. This is especially useful for testing small subcircuits that will be used many times in a larger computation.
+#
 # Unique features:
 # - provides the full unitary matrix for a pure quantum circuit.
 
@@ -178,24 +165,32 @@ backend.compile_circuit(c)
 unitary = backend.get_unitary(c)
 print(unitary.round(1).real)
 
-# ### `pytket.extensions.pyquil.ForestBackend`
+# ## `pytket.extensions.pyquil.ForestBackend`
+#
 # Whilst normally used as the method of accessing the Rigetti QPUs, the `ForestBackend` also features a simulator mode which turns it into a noiseless sampling simulator that matches the constraints of the simulated device (e.g. the same gate set, restricted connectivity, measurement model, etc.). This is useful when playing around with custom compilation strategies to ensure that your final circuits are suitable to run on the device and for checking that your overall program works fine before you invest in reserving a QPU.
+#
 # Unique features:
 # - faithful recreation of the circuit constraints of Rigetti QPUs.
+#
 # If trying to use the `ForestBackend` locally (i.e. not on a Rigetti QMI), you will need to have `quilc` and `qvm` running as separate processes in server mode. One easy way of doing this is with `docker` (see the `quilc` and `qvm` documentation for alternative methods of running them):
 # `docker run --rm -it -p 5555:5555 rigetti/quilc -R`
 # `docker run --rm -it -p 5000:5000 rigetti/qvm -S`
 
-# ### `pytket.extensions.pyquil.ForestStateBackend`
+# ## `pytket.extensions.pyquil.ForestStateBackend`
+#
 # The Rigetti `pyquil` package also provides the `WavefunctionSimulator`, which we present as the `ForestStateBackend`. Functionally, it is very similar to the `AerStateBackend` so can be used interchangeably. It does require that `quilc` and `qvm` are running as separate processes when not running on a Rigetti QMI.
+#
 # Useful features:
 # - support for fast expectation value calculations according to `QubitPauliString`s or Hermitian `QubitPauliOperator`s.
 
-# ### `pytket.extensions.qsharp.QsharpSimulatorBackend`
+# ## `pytket.extensions.qsharp.QsharpSimulatorBackend`
+#
 # The `QsharpSimulatorBackend` is another basic sampling simulator that is interchangeable with others, using the Microsoft QDK simulator. Note that the `pytket-qsharp` package is dependent on the `dotnet` SDK and `iqsharp` tool. Please consult the `pytket-qsharp` installation instructions for recommendations.
 
-# ### `pytket.extensions.qsharp.QsharpToffoliSimulatorBackend`
+# ## `pytket.extensions.qsharp.QsharpToffoliSimulatorBackend`
+#
 # Toffoli circuits form a strict fragment of quantum circuits and can be efficiently simulated. The `QsharpToffoliSimulatorBackend` can only operate on these circuits, but scales much better with system size than regular simulators.
+#
 # Unique features:
 # - efficient simulation of Toffoli circuits.
 
@@ -217,8 +212,10 @@ handle = backend.process_circuit(c, n_shots=10)
 counts = backend.get_result(handle).get_counts()
 print(counts)
 
-# ### `pytket.extensions.qsharp.QsharpEstimatorBackend`
+# ## `pytket.extensions.qsharp.QsharpEstimatorBackend`
+#
 # The `QsharpEstimatorBackend` is not strictly a simulator, as it doesn't model the state of the quantum system and try to identify the final state, but instead analyses the circuit to estimate the required resources to run it. It does not support any of the regular outcome types (e.g. shots, counts, statevector), just the summary of the estimated resources.
+#
 # Unique features:
 # - estimates resources to perform the circuit, without actually simulating/running it.
 
@@ -240,19 +237,26 @@ handle = backend.process_circuit(c, n_shots=10)
 resources = backend.get_resources(handle)
 print(resources)
 
-# ### `pytket.extensions.qulacs.QulacsBackend`
+# ## `pytket.extensions.qulacs.QulacsBackend`
+#
 # The `QulacsBackend` is an all-purpose simulator with both sampling and statevector modes, using the basic CPU simulator from Qulacs.
+#
 # Unique features:
 # - supports both sampling (shots/counts) and complete statevector outputs.
+#
 # Useful features:
 # - support for fast expectation value calculations according to `QubitPauliString`s or Hermitian `QubitPauliOperator`s.
 
-# ### `pytket.extensions.qulacs.QulacsGPUBackend`
+# ## `pytket.extensions.qulacs.QulacsGPUBackend`
+#
 # If the GPU version of Qulacs is installed, the `QulacsGPUBackend` will use that to benefit from even faster speeds. It is very easy to get started with using a GPU, as it only requires a CUDA installation and the `qulacs-gpu` package from `pip`. Functionally, it is identical to the `QulacsBackend`, but potentially faster if you have GPU resources available.
+#
 # Unique features:
 # - GPU support for very fast simulation.
 
-# ### `pytket.extensions.projectq.ProjectQBackend`
+# ## `pytket.extensions.projectq.ProjectQBackend`
+#
 # ProjectQ is a popular quantum circuit simulator, thanks to its availability and ease of use. It provides a similar level of performance and features to `AerStateBackend`.
+#
 # Useful features:
 # - support for fast expectation value calculations according to `QubitPauliString`s or Hermitian `QubitPauliOperator`s.

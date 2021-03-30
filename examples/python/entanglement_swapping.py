@@ -1,13 +1,19 @@
-# ### Iterated Entanglement Swapping using tket
+# # Iterated Entanglement Swapping using tket
+#
 # In this tutorial, we will focus on:
 # - designing circuits with mid-circuit measurement and conditional gates;
 # - utilising noise models in supported simulators.
+#
 # This example assumes the reader is familiar with the Qubit Teleportation and Entanglement Swapping protocols, and basic models of noise in quantum devices.
+#
 # To run this example, you will need `pytket`, `pytket-qiskit`, and `plotly`.
+#
 # Current quantum hardware fits into the NISQ (Noisy, Intermediate-Scale Quantum) regime. This noise cannot realistically be combatted using conventional error correcting codes, because of the lack of available qubits, noise levels exceeding the code thresholds, and very few devices available that can perform measurements and corrections mid-circuit. Analysis of how quantum algorithms perform under noisy conditions is a very active research area, as is finding ways to cope with it. Here, we will look at how well we can perform the Entanglement Swapping protocol with different noise levels.
+#
 # The Entanglement Swapping protocol requires two parties to share Bell pairs with a third party, who applies the Qubit Teleportation protocol to generate a Bell pair between the two parties. The Qubit Teleportation step requires us to be able to measure some qubits and make subsequent corrections to the remaining qubits. There are only a handful of simulators and devices that currently support this, with others restricted to only measuring the qubits at the end of the circuit.
+#
 # The most popular circuit model with conditional gates at the moment is that provided by the OpenQASM language. This permits a very restricted model of classical logic, where we can apply a gate conditionally on the exact value of a classical register. There is no facility in the current spec for Boolean logic or classical operations to apply any function to the value prior to the equality check. For example, Qubit Teleportation can be performed by the following QASM:
-# ```OPENQASM 2.0;
+# `OPENQASM 2.0;
 # include "qelib1.inc";
 # qreg a[2];
 # qreg b[1];
@@ -24,8 +30,8 @@
 # if(c==1) z b[0];
 # if(c==3) z b[0];
 # if(c==2) x b[0];
-# if(c==3) x b[0];
-# ```
+# if(c==3) x b[0];`
+#
 # This corresponds to the following `pytket` code:
 
 from pytket import Circuit
@@ -94,6 +100,7 @@ counts = backend.get_result(handle).get_counts()
 print(counts)
 
 # This is good, we have got roughly 50/50 measurement results of 00 and 11 under the ZZ operator. But there are many other states beyond the Bell state that also generate this distribution, so to gain more confidence in our claim about the state we should make more measurements that also characterise it, i.e. perform state tomography.
+#
 # Here, we will demonstrate a naive approach to tomography that makes 3^n measurement circuits for an n-qubit state. More elaborate methods also exist.
 
 from pytket.pauli import Pauli, QubitPauliString
@@ -187,6 +194,7 @@ dm = fit_tomography_outcomes(probs_list, 2)
 print(dm.round(3))
 
 # This is very close to the true density matrix for a pure Bell state. We can attribute the error here to the sampling error since we only take 2000 samples of each measurement circuit.
+#
 # To quantify exactly how similar it is to the correct density matrix, we can calculate the fidelity.
 
 from scipy.linalg import sqrtm
@@ -240,6 +248,7 @@ print(dm.round(3))
 print(fidelity(dm, bell_state))
 
 # Despite the very small circuit and the relatively small error rates, the fidelity of the final state has reduced considerably.
+#
 # As far as circuits go, the entanglement swapping protocol is little more than a toy example and is nothing close to the scale of circuits for most interesting quantum computational problems. However, it is possible to iterate the protocol many times to build up a larger computation, allowing us to see the impact of the noise at different scales.
 
 from pytket import OpType

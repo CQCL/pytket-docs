@@ -1,11 +1,17 @@
-# ### Integrating `pytket` into Qiskit software
+# # Integrating `pytket` into Qiskit software
+#
 # In this tutorial, we will focus on:
 # - Using `pytket` for compilation or providing devices/simulators within Qiskit Aer workflows;
 # - Adapting Qiskit code to use `pytket` directly.
+#
 # This example assumes the reader is familiar with the Qiskit software platform and the Grover Adaptive Search optimisation method for Quadratic Unconstrained Binary Optimisation problems.
+#
 # To run this example, you will need `pytket`, `qiskit`, `pytket-qiskit`, `pytket-qulacs`, and `pytket-honeywell`. It also requires `qiskit-aqua` to be [installed from source](https://github.com/Qiskit/qiskit-aqua) for recent bug fixes (version incompatibility errors resulting from using a development version can be ignored for this notebook).
+#
 # Qiskit has risen to prominence as the most popular platform for the development of quantum software, providing an open source, full-stack solution with a large feature list and extensive examples from the developers and community. For many researchers who have already invested in building a large codebase built on top of Qiskit, the idea of switching entirely to a new platform can look like a time-sink and may require reversion to take advantage of the new tools that get regularly added to Qiskit.
+#
 # The interoperability provided by `pytket-qiskit` allows Qiskit users to start taking advantage of some of the unique features of `pytket` without having to completely rewrite their software. Here, we will demonstrate how to take one of the Qiskit tutorial notebooks and enhance it with minimal additional code.
+#
 # The following code was taken from the Qiskit tutorial on [Grover Adaptive Search](https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/optimization/4_grover_optimizer.ipynb).
 
 from qiskit.aqua import aqua_globals
@@ -42,6 +48,7 @@ print("x={}".format(exact_result.x))
 print("fval={}".format(exact_result.fval))
 
 # Since the `pytket` extension modules provide an interface to the widest variety of devices and simulators out of all major quantum software platforms, the simplest advantage to obtain through `pytket` is to try using some alternative backends.
+#
 # One such backend that becomes available is the Qulacs simulator, providing fast noiseless simulations, especially when exploiting an available GPU. We can wrap up the `QulacsBackend` (or `QulacsGPUBackend` if you have a GPU available) in a form that can be passed to any Qiskit Aqua algorithm.
 
 from pytket.extensions.qulacs import QulacsBackend
@@ -56,6 +63,7 @@ print("x={}".format(results.x))
 print("fval={}".format(results.fval))
 
 # Adding extra backends to target is nice, but where `pytket` really shines is in its compiler passes. The ability to exploit a large number of sources of redundancy in the circuit structure to reduce the execution cost on a noisy device is paramount in the NISQ era. We can examine the effects of this by looking at how effectively the algorithm works on the `qasm_simulator` from Qiskit Aer with a given noise model.
+#
 # (Note: some versions of `qiskit-aqua` give an `AssertionError` when the `solve()` step below is run. If you encounter this, try updating `qiskit-aqua` or, as a workaround, reducing the number of iterations to 2.)
 
 from qiskit.providers.aer import Aer
@@ -93,6 +101,7 @@ print("fval={}".format(results.fval))
 print("n_circs={}".format(len(results.operation_counts)))
 
 # For this particular run, the case of compiling with Qiskit converged with fewer circuit executions but the additional noise incurred in running the circuit caused the optimiser to miss the global optimum, whereas the case for `pytket` eventually reached the true minimum value.
+#
 # When using `TketPass` there is a conversion between `qiskit.DAGCircuit` and `pytket.Circuit`, meaning the circuit needs to be in a form suitable for conversion (i.e. the gates used have to be supported by both `qiskit` and `pytket`). If you encounter any issues with using this, we recommend using `Unroller(['cx', 'u1', 'u2', 'u3'])` and `RebaseIBM` at the point before conversion to guarantee appropriate gates are used.
 
 from pytket.passes import RebaseIBM, SequencePass

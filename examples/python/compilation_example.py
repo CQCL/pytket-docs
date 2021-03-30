@@ -1,11 +1,16 @@
 # # Compilation passes: tket example
+#
 # There are numerous ways to optimize circuits in `pytket`. In this notebook we will introduce the basics of compilation passes and how to combine and apply them.
+#
 # We assume familiarity with the `pytket` `Circuit` class. The objective is to transform one `Circuit` into another, equivalent, `Circuit`, that:
 # * satisfies the connectivity constraints of a given architecture;
 # * satisfies some further user-defined constraints (such as restricted gate sets);
 # * minimizes some cost function (such as CX count).
+#
 # We will use Qiskit for circuit visualisation and for an example backend. For this it is necessary to have installed `pytket_qiskit` via `pip`.
+#
 # ## Passes
+#
 # The basic mechanism of compilation is the 'pass', which is a transform that can be applied to a circuit. There is an extensive library of passes in `pytket`, and several standard ways in which they can be combined to form new passes. For example:
 
 from pytket.passes import DecomposeMultiQubitsIBM
@@ -34,6 +39,7 @@ circ1 = cu.circuit
 print(circ1.get_commands())
 
 # ## Predicates
+#
 # Every `CompilationUnit` has associated with it a set of 'predicates', which describe target properties that can be checked against the circuit. There are many types of predicates available in `pytket`. For example, the `GateSetPredicate` checks whether all gates in a circuit belong to a particular set:
 
 from pytket.predicates import GateSetPredicate
@@ -57,13 +63,16 @@ cu.check_all_predicates()
 pred1.verify(circ1)
 
 # ### In-place compilation
+#
 # The example above produced a new circuit, leaving the original circuit untouched. It is also possible to apply a pass to a circuit in-place:
 
 DecomposeMultiQubitsIBM().apply(circ)
 print(circ.get_commands())
 
 # ## Combining passes
+#
 # There are various ways to combine the elementary passes into more complex ones.
+#
 # To combine several passes in sequence, we use a `SequencePass`:
 
 from pytket.passes import SequencePass, OptimisePhaseGadgets
@@ -78,6 +87,7 @@ circ1 = cu.circuit
 print(circ1.get_commands())
 
 # The `apply()` method for an elementary pass returns a boolean indicating whether or not the pass had any effect on the circuit. For a `SequencePass`, the return value indicates whether _any_ of the constituent passes had some effect.
+#
 # A `RepeatPass` repeatedly calls `apply()` on a pass until it returns `False`, indicating that there was no effect:
 
 from pytket.passes import CommuteThroughMultis, RemoveRedundancies, RepeatPass
@@ -86,6 +96,7 @@ seqpass = SequencePass([CommuteThroughMultis(), RemoveRedundancies()])
 reppass = RepeatPass(seqpass)
 
 # This pass will repeatedly apply `CommuteThroughMultis` (which commutes single-qubit operations through multi-qubit operations where possible towards the start of the circuit) and `RemoveRedundancies` (which cancels inverse pairs, merges coaxial rotations and removes redundant gates before measurement) until neither pass has any effect on the circuit.
+#
 # Let's use Qiskit's visualizer to see the effect on a circuit:
 
 from pytket.extensions.qiskit import tk_to_qiskit
@@ -135,6 +146,7 @@ circ1 = cu.circuit
 print(tk_to_qiskit(circ1))
 
 # The `RepeatWithMetricPass` provides another way of generating more sophisticated passes. This is defined in terms of a cost function and another pass type; the pass is applied repeatedly until the cost function stops decreasing.
+#
 # For example, suppose we wish to associate a cost to each gate in out circuit, with $n$-qubit gates having a cost of $n^2$:
 
 
@@ -163,7 +175,9 @@ pass2.apply(cu)
 print(cu.circuit.get_commands())
 
 # ## Targeting devices and architectures
+#
 # If we are given a target architecture, we can generate passes tailored to it.
+#
 # In `pytket` an architecture is defined by a connectivity graph, i.e. a list of pairs of qubits capable of executing two-qubit operations. For example, we can represent a 5-qubit linear architecture, with qubits labelled `n[i]`, as follows:
 
 from pytket.routing import Architecture
@@ -216,7 +230,9 @@ circ2 = cu.circuit
 print(tk_to_qiskit(circ2))
 
 # Note that the pass we just ran also performed some clean-up: the SWAP gate was decomposed into three CX gates, one of which was cancelled by a preceding CX gate; the cancelling gates were removed from the circuit.
+#
 # Every compilation pass has associated sets of preconditions and postconditions on the circuit. If all preconditions are satisfied before the pass, all postconditions are guaranteed to be satisfied afterwards. When we apply a pass to a circuit, we can optionally pass `SafetyMode.Audit` as the second parameter; this will tell the pass to check all preconditions explicitly. By default, there is only limited checking of preconditions and `pytket` relies on the programmer assuring these.
+#
 # For example, the `NoClassicalControl` predicate is a precondition of the `PauliSimp` pass. Let's add a classically controlled gate to our circuit:
 
 from pytket.passes import PauliSimp, SafetyMode
@@ -239,6 +255,7 @@ except RuntimeError as e:
 PauliSimp()
 
 # ## Backends and default passes
+#
 # A `pytket` `Backend` may have a default compilation pass, which will guarantee that the circuit can run on it. This is given by the `default_compilation_pass` property. For example, the default pass for Qiskit's `AerBackend` just converts all gates to U1, U2, U3 and CX:
 
 from pytket.extensions.qiskit import AerBackend

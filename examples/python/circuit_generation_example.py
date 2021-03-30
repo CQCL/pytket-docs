@@ -1,5 +1,5 @@
 # # Circuit generation: tket example
-
+#
 # This notebook will provide a brief introduction to some of the more advanced methods of circuit generation available in `pytket`, including:
 # * how to address wires and registers;
 # * reading in circuits from QASM and Quipper ASCII files;
@@ -7,7 +7,9 @@
 # * composition of circuits (both 'horizontally' and 'vertically');
 # * use of symbolic gate parameters;
 # * representation of classically controlled gates.
+#
 # ## Wires, unit IDs and registers
+#
 # Let's get started by constructing a circuit with 3 qubits and 2 classical bits:
 
 from pytket.circuit import Circuit
@@ -17,6 +19,7 @@ print(c.qubits)
 print(c.bits)
 
 # The qubits have automatically been assigned to a register with name `q` and indices 0, 1 and 2, while the bits have been assigned to a register with name `c` and indices 0 and 1.
+#
 # We can give these units arbitrary names and indices of arbitrary dimension:
 
 from pytket.circuit import Qubit
@@ -35,6 +38,7 @@ c.add_q_register("delta", 4)
 print(c.qubits)
 
 # Similar commands are available for classical bits.
+#
 # We can add gates to the circuit as follows:
 
 c.CX(0, 1)
@@ -51,7 +55,9 @@ print(c.get_commands())
 print(c.get_commands())
 
 # ## Exporting to and importing from standard formats
+#
 # We can export a `Circuit` to a file in QASM format. Conversely, if we have such a file we can import it into `pytket`. There are some limitations on the circuits that can be converted: for example, multi-dimensional indices (as in `beta` and `gamma` above) are not allowed.
+#
 # Here is a simple example:
 
 from pytket.qasm import circuit_to_qasm, circuit_from_qasm
@@ -92,6 +98,7 @@ c = circuit_from_quipper(quipfile)
 print(c.get_commands())
 
 # Note that the Quipper gates that are not supported directly in `pytket` (`W` and `omega`) are translated into equivalent sequences of `pytket` gates.
+#
 # Quipper subroutines are also supported, corresponding to `CircBox` operations in `pytket`:
 
 with open(quipfile, "w") as f:
@@ -118,6 +125,7 @@ cmds = c.get_commands()
 print(cmds)
 
 # ## Boxes
+#
 # The `CircBox` is an example of a `pytket` 'box', which is a reusable encapsulation of a circuit inside another. We can recover the circuit 'inside' the box using the `get_circuit()` method:
 
 boxed_circuit = cmds[1].op.get_circuit()
@@ -128,6 +136,7 @@ print(boxed_circuit.get_commands())
 # * `Unitary2qBox` (implementing an arbitrary $4 \times 4$ unitary matrix);
 # * `ExpBox` (implementing $e^{itA}$ for an arbitrary $4 \times 4$ hermitian matrix $A$ and parameter $t$);
 # * `PauliExpBox` (implementing $e^{-\frac{1}{2} i \pi t (\sigma_0 \otimes \sigma_1 \otimes \cdots)}$ for arbitrary Pauli operators $\sigma_i \in \{\mathrm{I}, \mathrm{X}, \mathrm{Y}, \mathrm{Z}\}$ and parameter $t$).
+#
 # An example will illustrate how these various box types are added to a circuit:
 
 from pytket.circuit import CircBox, Unitary1qBox, Unitary2qBox, ExpBox, PauliExpBox
@@ -138,22 +147,26 @@ from math import sqrt
 boxycirc = Circuit(3)
 
 # Add a CircBox:
+
 subcirc = Circuit(2)
 subcirc.X(0).Y(1).CZ(0, 1)
 cbox = CircBox(subcirc)
 boxycirc.add_circbox(cbox, args=[Qubit(0), Qubit(1)])
 
 # Add a Unitary1qBox:
+
 m1 = np.asarray([[1 / 2, sqrt(3) / 2], [sqrt(3) / 2, -1 / 2]])
 m1box = Unitary1qBox(m1)
 boxycirc.add_unitary1qbox(m1box, 2)
 
 # Add a Unitary2qBox:
+
 m2 = np.asarray([[0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1], [1, 0, 0, 0]])
 m2box = Unitary2qBox(m2)
 boxycirc.add_unitary2qbox(m2box, 1, 2)
 
 # Add an ExpBox:
+
 A = np.asarray(
     [[1, 2, 3, 4 + 1j], [2, 0, 1j, -1], [3, -1j, 2, 1j], [4 - 1j, -1, -1j, 1]]
 )
@@ -161,6 +174,7 @@ ebox = ExpBox(A, 0.5)
 boxycirc.add_expbox(ebox, 0, 1)
 
 # Add a PauliExpBox:
+
 pbox = PauliExpBox([Pauli.X, Pauli.Z, Pauli.X], 0.75)
 boxycirc.add_pauliexpbox(pbox, [0, 1, 2])
 
@@ -171,7 +185,9 @@ print(boxycirc.get_commands())
 print(pbox.get_circuit().get_commands())
 
 # ## Circuit composition
+#
 # Circuits can be composed either serially, whereby wires are joined together, or in parallel, using the `append()` command.
+#
 # For a simple illustration of serial composition, let's create two circuits with compatible set of wires, and append the second to the first:
 
 c = Circuit(2)
@@ -212,6 +228,7 @@ print(c.qubits)
 print(c.get_commands())
 
 # If the sets of unit IDs for the two circuits are disjoint, then the composition is entirely parallel.
+#
 # What if we want to serially compose two circuits having different sets of `Qubit`? In that case, we can use the `rename_units()` method on one or other of them to bring them into line. This method takes a dictionary mapping current unit IDs to new one:
 
 c2 = Circuit()
@@ -226,12 +243,14 @@ c.append(c2)
 print(c.get_commands())
 
 # ## Symbolic parameters
+#
 # Many of the gates supported by `pytket` are parametrized by one or more phase parameters, which represent rotations in multiples of $\pi$. For example, $\mathrm{Rz}(\frac{1}{2})$ represents a quarter turn, i.e. a rotation of $\pi/2$, about the Z axis. If we know the values of these parameters we can add the gates directly to our circuit:
 
 c = Circuit(1)
 c.Rz(0.5, 0)
 
 # However, we may wish to construct and manipulate circuits containing such parametrized gates without specifying the values. This allows us to do calculations in a general setting, only later substituting values for the parameters.
+#
 # Thus `pytket` allows us to specify any of the parameters as symbols. All manipulations (such as combination and cancellation of gates) are performed on the symbolic representation:
 
 from sympy import Symbol
@@ -264,6 +283,7 @@ c.symbol_substitution({b: 2 * a})
 print(c.get_commands())
 
 # ## Custom gates
+#
 # We can define custom parametrized gates in `pytket` by first setting up a circuit containing symbolic parameters and then converting this to a parametrized operation type:
 
 from pytket.circuit import CustomGateDef
@@ -286,6 +306,7 @@ c.add_custom_gate(my_gate, [x, 1.0], [0, 1, 2])
 print(c.get_commands())
 
 # ## Decomposing boxes and custom gates
+#
 # Having defined a circuit containing custom gates, we may now want to decompose it into elementary gates. The `DecomposeBoxes()` transform allows us to do this:
 
 Transform.DecomposeBoxes().apply(c)
@@ -298,9 +319,13 @@ Transform.DecomposeBoxes().apply(c)
 print(c.get_commands())
 
 # Note that the unitaries have been decomposed into elementary gates.
+
 # ## Classical controls
+#
 # Most of the examples above involve only pure quantum gates. However, `pytket` can also represent gates whose operation is conditional on one or more classical inputs.
+#
 # For example, suppose we want to run the complex circuit `c` we've just constructed, then measure qubits 0 and 1, and finally apply an $\mathrm{Rz}(\frac{1}{2})$ rotation to qubit 2 if and only if the measurements were 0 and 1 respectively.
+#
 # First, we'll add two classical wires to the circuit to store the measurement results:
 
 from pytket.circuit import Bit

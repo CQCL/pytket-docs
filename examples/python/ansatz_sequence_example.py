@@ -1,9 +1,11 @@
 # # Ansatz Sequencing: tket example
-
+#
 # When performing variational algorithms like VQE, one common approach to generating circuit ansätze is to take an operator $U$ representing excitations and use this to act on a reference state $\lvert \phi_0 \rangle$. One such ansatz is the Unitary Coupled Cluster ansatz. Each excitation, indexed by $j$, within $U$ is given a real coefficient $a_j$ and a parameter $t_j$, such that $U = e^{i \sum_j \sum_k a_j t_j P_{jk}}$, where $P_{jk} \in \{I, X, Y, Z \}^{\otimes n}$. The exact form is dependent on the chosen qubit encoding. This excitation gives us a variational state $\lvert \psi (t) \rangle = U(t) \lvert \phi_0 \rangle$. The operator $U$ must be Trotterised, to give a product of Pauli exponentials, and converted into native quantum gates to create the ansatz circuit.
+#
 # This notebook will describe how to use an advanced feature of `pytket` to enable automated circuit synthesis for $U$ and reduce circuit depth dramatically.
-
+#
 # We must create a `pytket` `QubitPauliOperator`, which represents such an operator $U$, and contains a dictionary from Pauli string $P_{jk}$ to symbolic expression. Here, we make a mock operator ourselves, which resembles the UCCSD excitation operator for the $\mathrm{H}_2$ molecule using the Jordan-Wigner qubit encoding. In the future, operator generation will be handled automatically using CQC's upcoming software for enterprise quantum chemistry, EUMEN. We also offer conversion to and from the `OpenFermion` `QubitOperator` class, although at the time of writing a `QubitOperator` cannot handle arbitrary symbols.
+#
 # First, we create a series of `QubitPauliString` objects, which represent each $P_{jk}$.
 
 from pytket.pauli import Pauli, QubitPauliString
@@ -47,9 +49,11 @@ ansatz_circuit = gen_term_sequence_circuit(
 )
 
 # This method works by generating a graph of Pauli exponentials and performing graph colouring. Here we have chosen to partition the terms so that exponentials which commute are gathered together, and we have done so using a lazy, greedy graph colouring method.
-# Alternatively, we could have used the `PauliPartitionStrat.NonConflictingSets`, which puts Pauli exponentials together
-# so that they only require single-qubit gates to be converted into the form $e^{i \alpha Z \otimes Z \otimes ... \otimes Z}$. This strategy is primarily useful for measurement reduction, a different problem.
+#
+# Alternatively, we could have used the `PauliPartitionStrat.NonConflictingSets`, which puts Pauli exponentials together so that they only require single-qubit gates to be converted into the form $e^{i \alpha Z \otimes Z \otimes ... \otimes Z}$. This strategy is primarily useful for measurement reduction, a different problem.
+#
 # We could also have used the `GraphColourMethod.LargestFirst`, which still uses a greedy method, but builds the full graph and iterates through the vertices in descending order of arity. We recommend playing around with the options, but we typically find that the combination of `CommutingSets` and `Lazy` allows the best optimisation.
+#
 # In general, not all of our exponentials will commute, so the semantics of our circuit depend on the order of our sequencing. As a result, it is important for us to be able to inspect the order we have produced. `pytket` provides functionality to enable this. Each set of commuting exponentials is put into a `CircBox`, which lets us inspect the partitoning.
 
 from pytket.circuit import OpType
@@ -89,7 +93,9 @@ print("Smart CX Depth: {}".format(smart_circuit.depth_by_type(OpType.CX)))
 print("Smart CX Count: {}".format(smart_circuit.n_gates_of_type(OpType.CX)))
 
 # This `Transform` takes in a `Circuit` with the structure specified above: some arbitrary gates for the reference state, along with several `CircBox` gates containing `PauliExpBox` gates.
+#
 # We have chosen `PauliSynthStrat.Sets` and `CXConfigType.Tree`. The `PauliSynthStrat` dictates the method for decomposing multiple adjacent Pauli exponentials into basic gates, while the `CXConfigType` dictates the structure of adjacent CX gates.
+#
 # If we choose a different combination of strategies, we can produce a different output circuit:
 
 last_circuit = ansatz_circuit.copy()
@@ -102,4 +108,5 @@ print("Last CX Depth: {}".format(last_circuit.depth_by_type(OpType.CX)))
 print("Last CX Count: {}".format(last_circuit.n_gates_of_type(OpType.CX)))
 
 # Other than some single-qubit Cliffords we acquired via synthesis, you can check that this gives us the same circuit structure as our `Transform.DecomposeBoxes` method! It is a suboptimal synthesis method.
+#
 # As with the `gen_term_sequence` method, we recommend playing around with the arguments and seeing what circuits come out. Typically we find that `PauliSynthStrat.Sets` and `CXConfigType.Tree` work the best, although routing can affect this somewhat.

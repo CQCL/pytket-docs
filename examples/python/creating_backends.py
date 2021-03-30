@@ -1,10 +1,15 @@
-# ### How to create your own `Backend` using `pytket`
+# # How to create your own `Backend` using `pytket`
+#
 # In this tutorial, we will focus on:
 # - the components of the abstract `Backend` class;
 # - adaptations for statevector simulation versus measurement sampling.
+#
 # To run this example, you will only need the core `pytket` package.
+#
 # The `pytket` framework currently has direct integration with the largest variety of devices and simulators out of any quantum software platform, but this is certainly not a complete collection. New quantum backends are frequently being rolled out as more device manufacturers bring their machines online and advanced in simulation research give rise to many purpose-built simulators for fast execution of specific circuit fragments.
+#
 # If you have something that can take circuits (i.e. a sequence of gates) and run/simulate them, adding integration with `pytket` connects it to a great number of users and enables existing software solutions to immediately take advantage of your new backend. This reach is further extended beyond just software written with `pytket` by exploiting its integration with the rest of the quantum software ecosystem, such as via the `TketBackend` wrapper to use the new backend within Qiskit projects.
+#
 # This notebook will take a toy simulator and demonstrate how to write each component of the `Backend` class to make it work with the rest of `pytket`. We'll start by defining the internal representation of a circuit that our simulator will use. Rather than common gates, this example will use exponentiated Pauli tensors ($e^{-i \theta P}$ for $P \in \{I, X, Y, Z\}^n$) as its basic operation, which are universal for unitary circuits. To keep it simple, we will ignore measurements for now and just consider unitaries.
 
 from pytket import Qubit
@@ -138,7 +143,9 @@ def tk_to_mycircuit(tkc: Circuit) -> MyCircuit:
 
 
 # Now we turn to the `Backend` class. This provides a uniform API to submit `Circuit` objects for evaluation, typically returning either a statevector or a set of measurement shots. It also captures all of the information needed for compilation and asynchronous job management.
+#
 # We will make a subclass of `Backend` for our statevector simulator. The `_supports_state` flag lets the methods of the abstract `Backend` class know that this implementation supports statevector simulation. We also set `_persistent_handles` to `False` since this `Backend` will not be able to retrieve results from a previous Python session.
+#
 # Since we do not need to connect to a remote process for the simulator, the constructor doesn't need to set anything up. The base `Backend` constructor will initialise the `_cache` field for storing job data.
 
 from pytket.backends import Backend
@@ -156,10 +163,15 @@ class MyBackend(Backend):
 
 
 # Most `Backend`s will only support a small fragment of the `Circuit` language, either through implementation limitations or since a specific presentation is universal. It is helpful to keep this information in the `Backend` object itself so that users can clearly see how a `Circuit` needs to look before it can be successfully run. The `Predicate` classes in `pytket` can capture many common restrictions. The idea behind the `required_predicates` list is that any `Circuit` satisfying every `Predicate` in the list can be run on the `Backend` successfully as it is.
+#
 # However, a typical high-level user will not be writing `Circuit`s that satisfies all of the `required_predicates`, preferring instead to use the model that is most natural for the algorithm they are implementing. Providing a `default_compilation_pass` gives users an easy starting point for compiling an arbitrary `Circuit` into a form that can be executed (when not blocked by paradigm constraints like `NoMidMeasurePredicate` or `NoClassicalControlPredicate` that cannot easily be solved by compilation).
+#
 # You can provide several options using the `optimisation_level` argument. We tend to use `0` for very basic compilation with no optimisation applied, `1` for the inclusion of fast optimisations (e.g. `SynthesiseIBM` is a pre-defined sequence of optimisation passes that scales well with circuit size), and `2` for heavier optimisation (e.g. `FullPeepholeOptimise` incorporates `SynthesiseIBM` alongside some extra passes that may take longer for large circuits).
+#
 # When designing these compilation pass sequences for a given `Backend`, it can be a good idea to start with the passes that solve individual constraints from `required_predicates` (like `FullMappingPass` for `ConnectivityPredicate` or `RebaseX` for `GateSetPredicate`), and find an ordering such that no later pass invalidates the work of an earlier one.
+#
 # For `MyBackend`, we will need to enforce that our circuits are expressed entirely in terms of `OpType.Rx`, `OpType.Ry`, `OpType.Rz`, and `OpType.ZZMax` gates which we can solve using `RebaseCustom`. Note that we omit `OpType.Measure` since we can only run pure quantum circuits.
+#
 # The standard docstrings for these and other abstract methods can be seen in the abstract `Backend` [API reference](https://cqcl.github.io/pytket/build/html/backends.html#pytket.backends.Backend).
 
 from pytket.predicates import Predicate, GateSetPredicate, NoClassicalBitsPredicate
@@ -249,6 +261,7 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
 
 
 # The `device` property is used for hardware devices and noisy simulators to represent the connectivity information and noise characteristics. This can be used within the `required_predicates` and `default_compilation_pass` to capture and solve the connectivity constraints.
+#
 # Since our simulator is noiseless, we will just return `None`.
 
 from pytket.device import Device
@@ -267,7 +280,9 @@ def device(self) -> Optional[Device]:
 
 
 # Asynchronous job management is all managed through the `ResultHandle` associated with a particular `Circuit` that has been submitted. We can use it to inspect the status of the job to see if it has completed, or to look up the results if they are available.
+#
 # For devices, `circuit_status` should query the job to see if it is in a queue, currently being executed, completed successfully, etc. The `CircuitStatus` class is mostly driven by the `StatusEnum` values, but can also contain messages to give more detailed feedback if available. For our simulator, we are not running things asynchronously, so a `Circuit` has either not been run or it will have been completed.
+#
 # Since a device API will probably define its own data type for job handles, the `ResultHandle` definition is flexible enough to cover many possible data types so you can likely use the underlying job handle as the `ResultHandle`. The `_result_id_type` property specifies what data type a `ResultHandle` for this `Backend` should look like. Since our simulator has no underlying job handle, we can just use a UUID string.
 
 from pytket.backends import ResultHandle, CircuitStatus, StatusEnum, CircuitNotRunError
@@ -295,9 +310,13 @@ def circuit_status(self, handle: ResultHandle) -> CircuitStatus:
 
 
 # And finally, we have the method that actually submits a job for execution. `process_circuits` should take a collection of (compiled) `Circuit` objects, process them and return a `ResultHandle` for each `Circuit`. If execution is synchronous, then this can simply wait until it is finished, store the result in `_cache` and return. For backends that support asynchronous jobs, you will need to set up an event to format and store the result on completion.
+#
 # It is recommended to use the `valid_check` parameter to control a call to `Backend._check_all_circuits()`, which will raise an exception if any of the circuits do not satisfy everything in `required_predicates`.
+#
 # The `_cache` fields stores all of the information about current jobs that have been run. When a job has finished execution, the results are expected to be stored in `_cache[handle]["result"]`, though it can also be used to store other data about the job such as some information about the `Circuit` required to properly format the results. Methods like `Backend.get_result()` and `Backend.empty_cache()` expect to interact with the results of a given job in this way.
+#
 # The final output of the execution is stored in a `BackendResult` object. This captures enough information about the results to reinterpret it in numerous ways, such as requesting the statevector in a specific qubit ordering or converting a complete shot table to a summary of the counts. If we create a `BackendResult` with quantum data (e.g. a statevector or unitary), we must provide the `Qubit` ids in order from most-significant to least-significant with regards to indexing the state. Similarly, creating one with classical readouts (e.g. a shot table or counts summary), we give the `Bit` ids in the order they appear in a readout (left-to-right).
+#
 # For a statevector simulation, we should also take into account the global phase stored in the `Circuit` object and any implicit qubit permutations, since these become observable when inspecting the quantum state. We can handle the qubit permutation by changing the order in which we pass the `Qubit` ids into the `BackendResult` object.
 
 from pytket.backends.backendresult import BackendResult

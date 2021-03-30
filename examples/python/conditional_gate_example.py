@@ -1,9 +1,13 @@
 # # Conditional Execution
+#
 # Whilst any quantum process can be created by performing "pure" operations delaying all measurements to the end, this is not always practical and can greatly increase the resource requirements. It is much more convenient to alternate quantum gates and measurements, especially if we can use the measurement results to determine which gates to apply (we refer to this more generic circuit model as "mixed" circuits, against the usual "pure" circuits). This is especially crucial for error correcting codes, where the correction gates are applied only if an error is detected.
+#
 # Measurements on many NISQ devices are often slow and it is hard to maintain other qubits in a quantum state during the measurement operation. Hence they may only support a single round of measurements at the end of the circuit, removing the need for conditional gate support. However, the ability to work with mid-circuit measurement and conditional gates is a feature in high demand for the future, and tket is ready for it.
+#
 # Not every circuit language specification supports conditional gates in the same way. The most popular circuit model at the moment is that provided by the OpenQASM language. This permits a very restricted model of classical logic, where we can apply a gate conditionally on the exact value of a classical register. There is no facility in the current spec for Boolean logic or classical operations to apply any function to the value prior to the equality check.
+#
 # For example, quantum teleportation can be performed by the following QASM:
-# ```OPENQASM 2.0;
+# `OPENQASM 2.0;
 # include "qelib1.inc";
 # qreg a[2];
 # qreg b[1];
@@ -20,8 +24,8 @@
 # if(c==1) z b[0];
 # if(c==3) z b[0];
 # if(c==2) x b[0];
-# if(c==3) x b[0];
-# ```
+# if(c==3) x b[0];`
+#
 # tket supports a slightly more general form of conditional gates, where the gate is applied conditionally on the exact value of any list of bits. When adding a gate to a `Circuit` object, pass in the kwargs `condition_bits` and `condition_value` and the gate will only be applied if the state of the bits yields the binary representation of the value.
 
 from pytket import Circuit
@@ -46,6 +50,7 @@ c.Z(bob[0], condition_bits=[cr[0]], condition_value=1)
 c.X(bob[0], condition_bits=[cr[1]], condition_value=1)
 
 # Performing individual gates conditionally is sufficient, but can get cumbersome for larger circuits. Fortunately, tket's Box structures can also be performed conditionally, enabling this to be applied to large circuits with ease.
+#
 # For the sake of example, assume our device struggles to perform $X$ gates. We can surround it by $CX$ gates onto an ancilla, so measuring the ancilla will either result in the identity or $X$ being applied to the target qubit. If we detect that the $X$ fails, we can retry.
 
 from pytket.circuit import CircBox, Qubit, Bit
@@ -107,6 +112,7 @@ counts = backend.get_counts(c, 1024)
 print(counts)
 
 # Beyond the ability to perform conditional gates, we might want to include more complex classical logic in the form of control flow, including loops, branching code, and jumps. Again, several proposed low-level quantum programming languages have sufficient expressivity to capture these, such as the Quil language.
+#
 # This control flow is hard to represent from within the circuit model, so tket contains the `Program` class, which builds up a flow graph whose basic blocks are individual circuits. Currently, you can add conditional blocks and loops, where the conditions are whether an individual classical bit is 1.
 
 from pytket.program import Program

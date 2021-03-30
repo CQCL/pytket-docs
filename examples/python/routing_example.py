@@ -1,12 +1,10 @@
 # # Respecting Architecture Connectivity Constraints - Advanced Routing in tket
-
-# Very few current or planned quantum architectures have all-to-all
-# qubit connectivity. In consequence, quantum circuits must be modified
-# before execution to ensure that every multi-qubit gate in a circuit corresponds to a set of
-# interactions that are permitted by the architecture.  The problem is solved for arbitrary architectures
-# by adding ```SWAP``` gates and distributed ```CX``` gates, and through translation of multi-qubit gates in to architecture permitted ones.
+#
+# Very few current or planned quantum architectures have all-to-all qubit connectivity. In consequence, quantum circuits must be modified before execution to ensure that every multi-qubit gate in a circuit corresponds to a set of interactions that are permitted by the architecture.  The problem is solved for arbitrary architectures by adding ```SWAP``` gates and distributed ```CX``` gates, and through translation of multi-qubit gates in to architecture permitted ones.
+#
 # In this tutorial we will show how this routing problem is solved automatically in tket. The basic examples require only the installation of pytket, ```pip install pytket```, while further examples require the installation of some supported subpackages, ```pytket_qiskit``` & ```pytket_cirq```.
-# Lets start by importing the Architecture class from ```pytket```:
+#
+# Let's start by importing the Architecture class from ```pytket```:
 
 from pytket.routing import Architecture
 
@@ -91,7 +89,8 @@ print(cb_architecture)
 draw_graph(cb_architecture.coupling)
 
 # In reality a Quantum Device has much more information to it than just its connectivity constraints. The Device class  encapsulates basic additional information used in fidelity aware qubit mapping methods available in pytket: gate errors and readout errors each qubit. Some methods in pytket can use this information to improve circuit performance when running on real hardware.
-# Lets make a generic homogeneous Device using id_architecture with gate primitives constrained to ```H```, ```S```, ```T``` and ```CX```.
+#
+# Let's make a generic homogeneous Device using id_architecture with gate primitives constrained to ```H```, ```S```, ```T``` and ```CX```.
 
 from pytket.circuit import OpType
 from pytket.device import Device, QubitErrorContainer
@@ -134,6 +133,7 @@ id_device = Device(
 id_device
 
 # Quantum Devices are full of different information and so creating an accurate Device object can become tedious.
+#
 # Our supported backends have helper methods for creating Devices. This requires installation of qiskit and a valid IBMQ user logged in.
 
 from qiskit import IBMQ
@@ -141,7 +141,9 @@ from qiskit import IBMQ
 IBMQ.load_account()
 
 # If ```IBMQBackend``` available in ```pytket_qiskit``` is used the characterisation and Device is automatically constructed.
+#
 # Alternatively, lets use the ```process_characterisation``` method to access characterisation information for the athens computer and then construct a pytket device from suitable characteristics.
+#
 # The dictionary returned by ```process_characterisation``` returns additional characterisation information as provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times.
 
 from pytket.extensions.qiskit import process_characterisation
@@ -160,7 +162,7 @@ print(athens_characterisation.keys())
 
 draw_graph(athens_device.coupling)
 
-# Lets look at the some single-qubit Device information for different qubits:
+# Let's look at the some single-qubit Device information for different qubits:
 
 for athens_node in athens_device.nodes:
     print(
@@ -176,7 +178,8 @@ for edge in athens_device.coupling:
     print("CX error rate for", edge, "is", athens_device.get_error(OpType.CX, edge))
 
 # We've now seen how to create custom Architectures using indexing and nodes, how to use our built in Architecture generators for typical connectivity graphs, how to create custom Devices using our QubitErrorContainers, and how to automatically generate a Device object for a real quantum computer straight from IBM.
-# Lets now see how we can use these objects are used for Routing circuits - we create a circuit for Routing to our original architectures and assume the only primitive constraint is the ```CX``` gate, which can only be executed on an edge in our coupling map.
+#
+# Let's now see how we can use these objects are used for Routing circuits - we create a circuit for Routing to our original architectures and assume the only primitive constraint is the ```CX``` gate, which can only be executed on an edge in our coupling map.
 
 from pytket import Circuit
 
@@ -199,7 +202,8 @@ draw_graph(interaction_edges)
 draw_graph(simple_coupling_map)
 
 # Sometimes we can route a circuit just by labelling the qubits to nodes of our Architecture such that the interaction graph matches a subgraph of the Architecture - unfortunately this isn't possible here.
-# Lets call ```pytket```'s automatic routing method, route our circuit for the first Architecture we made, and have a look at our new circuit:
+#
+# Let's call ```pytket```'s automatic routing method, route our circuit for the first Architecture we made, and have a look at our new circuit:
 
 from pytket.routing import route
 
@@ -213,7 +217,8 @@ print(tk_to_qiskit(simple_modified_circuit))
 draw_graph(id_architecture.coupling)
 
 # The route method has relabelled the qubits in our old circuit to nodes in simple_architecture, and has added ```SWAP``` gates that permute logical qubits on nodes of our Architecture.
-# Lets repeat this for id_architecture:
+#
+# Let's repeat this for id_architecture:
 
 id_modified_circuit = route(example_circuit, id_architecture)
 
@@ -223,7 +228,8 @@ for gate in id_modified_circuit:
 print(tk_to_qiskit(id_modified_circuit))
 
 # Both simple_architecture and id_architecture had the same graph structure, and so we can see that the qubits have been relabelled and ```SWAP``` gates added identically - the only difference is the preservation of the node labelling of id_architecture.
-# Lets repeat this one more time for cube_architecture:
+#
+# Let's repeat this one more time for cube_architecture:
 
 cube_modified_circuit = route(example_circuit, cube_architecture)
 
@@ -235,6 +241,7 @@ cmc_copy.flatten_registers()
 print(tk_to_qiskit(cmc_copy))
 
 # Similarly the circuits qubits have been relabelled and ```SWAP``` gates added. In this example though ```route``` is able to utilise the extra connectivity of cube_architecture to reduce the number of ```SWAP``` gates added from 3 to 1.
+#
 # We can easily route for Device objects using the same method:
 
 athens_modified_circuit = route(example_circuit, athens_device)
@@ -245,13 +252,15 @@ for gate in athens_modified_circuit:
 print(tk_to_qiskit(athens_modified_circuit))
 
 # The ```route``` method comes with a set of parameters that can be modified to tune the performance of routing for a circuit to a given Architecture.
+#
 # The 6 parameters are as follows:
 # - (int) **swap_lookahead**, the depth of lookahead employed when trialling ```SWAP``` gates during Routing, default 50.
 # - (int) **bridge_lookahead**, the depth of lookahead employed when comparing ```BRIDGE``` gates to ```SWAP``` gates during Routing, default 2.
 # - (int) **bridge_interactions**, the number of interactions considered in a slice of multi-qubit gates when comparing ```BRIDGE``` gates to ```SWAP``` gates during routing, default 1.
 # - (float) **bridge_exponent**, effects the weighting placed on future slices when comparing ```BRIDGE``` gates to ```SWAP``` gates, default 0.
 # - (RoutingMethod) **routing_method**, determines ```SWAP``` picking strategy used during Routing, default RoutingMethod.base.
-# Lets change some of our basic routing parameters:
+#
+# Let's change some of our basic routing parameters:
 
 basic_parameters = dict(bridge_lookahead=4, bridge_interactions=4, swap_lookahead=0)
 id_basic_modified_circuit = route(example_circuit, id_architecture, **basic_parameters)
@@ -274,6 +283,7 @@ print(tk_to_qiskit(SWAP_c), "\n=\n", tk_to_qiskit(SWAP_decomp_c))
 print(tk_to_qiskit(BRIDGE_c), "\n=\n", tk_to_qiskit(BRIDGE_decomp_c))
 
 # The ```BRIDGE``` (or Distributed-CX gate distance 2) and ```SWAP``` both introduce a net three ```CX``` gates to the circuit.
+#
 # Considering this, by changing our basic parameters our routed circuit has one less gate added, and so should have net three fewer ```CX``` gates. We can confirm this by calling a ```Transformation``` pass that will decompose our additional gates to ```CX``` gates for us.
 
 from pytket.transform import Transform
@@ -291,6 +301,7 @@ print(
 )
 
 # So, by changing the parameters we've managed to produce another suitable routed solution with three fewer ```CX``` gates.
+#
 # We may be able to reduce the number of ```CX``` gates in our routed circuits by using the ```RemovedRedundancies``` ```Transformation``` pass which will replace any adjacent identical ```CX``` gates with the Identity and remove them.
 
 Transform.RemoveRedundancies().apply(id_modified_circuit)
@@ -331,6 +342,7 @@ print("Total gates in id_modified_circuit: ", id_modified_circuit.n_gates)
 print("Total gates in id_basic_modified_circuit: ", id_basic_modified_circuit.n_gates)
 
 # As each flipped ```CX``` gate introduces 4 ```H``` gates, the number of additional ```H``` gates is large.
+#
 # We can reapply ```RemoveRedundancies``` to improve this.
 
 Transform.RemoveRedundancies().apply(id_modified_circuit)
@@ -340,11 +352,13 @@ print("Total gates in id_modified_circuit: ", id_modified_circuit.n_gates)
 print("Total gates in id_basic_modified_circuit: ", id_basic_modified_circuit.n_gates)
 
 # We can see that by changing our basic parameters, we've managed to significantly improve routing performance for a directed architecture for this example.
+#
 # We can also use Placement objects to relabel logical circuit qubits to physical device qubits before routing, hopefully improving performance by reducing eventual number of ```SWAP``` gates added. Available options are ```Placement``` (as used by default route), ```LinePlacement```, ```GraphPlacement``` and ```NoiseAwarePlacement```.
 
 from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwarePlacement
 
 # The default ```Placement``` assigns logical qubits to physical qubits as they are encountered during routing. ```LinePlacement``` uses a strategy described in https://arxiv.org/abs/1902.08091. ```GraphPlacement``` and ```NoiseAwarePlacement``` are described in Section 7.1 of https://arxiv.org/abs/2003.10611. The ```NoiseAwarePlacement``` method uses the same subgraph monomorphism strategy as ```GraphPlacement``` to find potential mappings, but scores them using device information to anticpiate which initial mapping will produce a circuit with best overall fidelity.
+#
 # Let's switch to using our ```athens_device``` as it has heterogeneous device information. For our ```example_circuit``` each method produces the following maps:
 
 #  define a function for printing our maps
@@ -398,6 +412,7 @@ print(
 )
 
 # In this example the place methods available in ```GraphPlacement``` and ```NoiseAwarePlacement``` perform better than the ```LinePlacement``` method for reducing overall ```CX``` gate overhead.
+#
 # We can also provide routing with custom initial maps, partial or full. Lets define a partial custom map for only one of the qubits and see how routing performs. We can do this using an index mapping:
 
 from pytket.routing import place_with_map
@@ -424,7 +439,8 @@ print(
 # ## Routing with Predicates
 
 # While we've discussed methods that allow more control over the routing procedure used and allow for experimentation, circuits can easily be routed to a Device of choice using the ```pass``` system in ```pytket``` (further explanation of this system can be found in our compilation example notebook). In doing so we can use the ```ConnectivityPredicate``` to guarantee that our circuit obeys the connectivity constraints of the given Device object.
-# Lets import the ```CompilationUnit``` object and some useful passes along with our ```ConnectivityPredicate```.
+#
+# Let's import the ```CompilationUnit``` object and some useful passes along with our ```ConnectivityPredicate```.
 
 from pytket.predicates import CompilationUnit, ConnectivityPredicate
 
