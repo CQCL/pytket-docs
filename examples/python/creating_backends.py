@@ -3,7 +3,7 @@
 # In this tutorial, we will focus on:
 # - the components of the abstract `Backend` class;
 # - adaptations for statevector simulation versus measurement sampling.
-#
+
 # To run this example, you will only need the core `pytket` package.
 #
 # The `pytket` framework currently has direct integration with the largest variety of devices and simulators out of any quantum software platform, but this is certainly not a complete collection. New quantum backends are frequently being rolled out as more device manufacturers bring their machines online and advanced in simulation research give rise to many purpose-built simulators for fast execution of specific circuit fragments.

@@ -259,7 +259,7 @@ print(tk_to_qiskit(athens_modified_circuit))
 # - (int) **bridge_interactions**, the number of interactions considered in a slice of multi-qubit gates when comparing ```BRIDGE``` gates to ```SWAP``` gates during routing, default 1.
 # - (float) **bridge_exponent**, effects the weighting placed on future slices when comparing ```BRIDGE``` gates to ```SWAP``` gates, default 0.
 # - (RoutingMethod) **routing_method**, determines ```SWAP``` picking strategy used during Routing, default RoutingMethod.base.
-#
+
 # Let's change some of our basic routing parameters:
 
 basic_parameters = dict(bridge_lookahead=4, bridge_interactions=4, swap_lookahead=0)

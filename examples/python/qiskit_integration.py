@@ -3,7 +3,7 @@
 # In this tutorial, we will focus on:
 # - Using `pytket` for compilation or providing devices/simulators within Qiskit Aer workflows;
 # - Adapting Qiskit code to use `pytket` directly.
-#
+
 # This example assumes the reader is familiar with the Qiskit software platform and the Grover Adaptive Search optimisation method for Quadratic Unconstrained Binary Optimisation problems.
 #
 # To run this example, you will need `pytket`, `qiskit`, `pytket-qiskit`, `pytket-qulacs`, and `pytket-honeywell`. It also requires `qiskit-aqua` to be [installed from source](https://github.com/Qiskit/qiskit-aqua) for recent bug fixes (version incompatibility errors resulting from using a development version can be ignored for this notebook).

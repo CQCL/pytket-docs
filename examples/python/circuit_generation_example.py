@@ -136,7 +136,7 @@ print(boxed_circuit.get_commands())
 # * `Unitary2qBox` (implementing an arbitrary $4 \times 4$ unitary matrix);
 # * `ExpBox` (implementing $e^{itA}$ for an arbitrary $4 \times 4$ hermitian matrix $A$ and parameter $t$);
 # * `PauliExpBox` (implementing $e^{-\frac{1}{2} i \pi t (\sigma_0 \otimes \sigma_1 \otimes \cdots)}$ for arbitrary Pauli operators $\sigma_i \in \{\mathrm{I}, \mathrm{X}, \mathrm{Y}, \mathrm{Z}\}$ and parameter $t$).
-#
+
 # An example will illustrate how these various box types are added to a circuit:
 
 from pytket.circuit import CircBox, Unitary1qBox, Unitary2qBox, ExpBox, PauliExpBox

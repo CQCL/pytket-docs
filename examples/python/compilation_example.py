@@ -6,7 +6,7 @@
 # * satisfies the connectivity constraints of a given architecture;
 # * satisfies some further user-defined constraints (such as restricted gate sets);
 # * minimizes some cost function (such as CX count).
-#
+
 # We will use Qiskit for circuit visualisation and for an example backend. For this it is necessary to have installed `pytket_qiskit` via `pip`.
 #
 # ## Passes

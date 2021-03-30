@@ -3,7 +3,7 @@
 # In this tutorial, we will focus on:
 # - building parameterised ansätze for variational algorithms;
 # - compilation tools for UCC-style ansätze.
-#
+
 # This example assumes the reader is familiar with the Variational Quantum Eigensolver and its application to electronic structure problems through the Unitary Coupled Cluster approach.
 #
 # To run this example, you will need `pytket` and `pytket-qiskit`, as well as `openfermion`, `scipy`, and `sympy`.
@@ -340,7 +340,7 @@ def objective(params):
 # - both generic and domain-specific circuit simplification methods;
 # - symbolic circuit compilation;
 # - measurement reduction for expectation value calculations.
-#
+
 # For the sake of completeness, the following gives the full code for the final solution, including passing the objective function to a classical optimiser to find the ground state:
 
 from openfermion import QubitOperator

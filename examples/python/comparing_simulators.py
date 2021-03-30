@@ -3,7 +3,7 @@
 # In this tutorial, we will focus on:
 # - exploring the wide array of simulators available through the extension modules for `pytket`;
 # - comparing their unique features and capabilities.
-#
+
 # This example assumes the reader is familiar with the basics of circuit construction and evaluation.
 #
 # To run every option in this example, you will need `pytket`, `pytket-qiskit`, `pytket-pyquil`, `pytket-qsharp`, `pytket-qulacs`, and `pytket-projectq`.
@@ -83,7 +83,7 @@ print(exp)
 # - supports mid-circuit measurement and OpenQASM-style conditional gates;
 # - encompasses a variety of underlying simulation methods and automatically selects the best one for each circuit (including statevector, density matrix, (extended) stabilizer and matrix product state);
 # - can be provided with a `qiskit.providers.Aer.noise.NoiseModel` on instantiation to perform a noisy simulation.
-#
+
 # Useful features:
 # - support for fast expectation value calculations according to `QubitPauliString`s or `QubitPauliOperator`s.
 
@@ -171,7 +171,7 @@ print(unitary.round(1).real)
 #
 # Unique features:
 # - faithful recreation of the circuit constraints of Rigetti QPUs.
-#
+
 # If trying to use the `ForestBackend` locally (i.e. not on a Rigetti QMI), you will need to have `quilc` and `qvm` running as separate processes in server mode. One easy way of doing this is with `docker` (see the `quilc` and `qvm` documentation for alternative methods of running them):
 # `docker run --rm -it -p 5555:5555 rigetti/quilc -R`
 # `docker run --rm -it -p 5000:5000 rigetti/qvm -S`
@@ -243,7 +243,7 @@ print(resources)
 #
 # Unique features:
 # - supports both sampling (shots/counts) and complete statevector outputs.
-#
+
 # Useful features:
 # - support for fast expectation value calculations according to `QubitPauliString`s or Hermitian `QubitPauliOperator`s.
 

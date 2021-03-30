@@ -3,7 +3,7 @@
 # In this tutorial, we will focus on:
 # - designing circuits with mid-circuit measurement and conditional gates;
 # - utilising noise models in supported simulators.
-#
+
 # This example assumes the reader is familiar with the Qubit Teleportation and Entanglement Swapping protocols, and basic models of noise in quantum devices.
 #
 # To run this example, you will need `pytket`, `pytket-qiskit`, and `plotly`.
