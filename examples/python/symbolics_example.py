@@ -25,36 +25,38 @@ print(a1)
 
 b = fresh_symbol("b")
 circ = Circuit(4)
-circ.CX(0,1)
-circ.CX(1,2)
-circ.CX(2,3)
-circ.Rz(a,3)
-circ.CX(2,3)
-circ.CX(1,2)
-circ.CX(0,1)
-circ.CX(3,2)
-circ.CX(2,1)
-circ.CX(1,0)
-circ.Rz(b,0)
-circ.CX(1,0)
-circ.CX(2,1)
-circ.CX(3,2)
-circ.CX(0,1)
-circ.CX(1,2)
-circ.CX(2,3)
-circ.Rz(0.5,3)
-circ.CX(2,3)
-circ.CX(1,2)
-circ.CX(0,1)
+circ.CX(0, 1)
+circ.CX(1, 2)
+circ.CX(2, 3)
+circ.Rz(a, 3)
+circ.CX(2, 3)
+circ.CX(1, 2)
+circ.CX(0, 1)
+circ.CX(3, 2)
+circ.CX(2, 1)
+circ.CX(1, 0)
+circ.Rz(b, 0)
+circ.CX(1, 0)
+circ.CX(2, 1)
+circ.CX(3, 2)
+circ.CX(0, 1)
+circ.CX(1, 2)
+circ.CX(2, 3)
+circ.Rz(0.5, 3)
+circ.CX(2, 3)
+circ.CX(1, 2)
+circ.CX(0, 1)
 
 # Now we can use IBM's Qiskit visualiser to display the circuit. For more explanation of our converters, see the `transform_example` notebook. Note that Qiskit can, conveniently, use symbolics as well.
 
 from pytket.extensions.qiskit import tk_to_qiskit
 
+
 def print_tkcirc_via_qiskit(tkcirc):
     qiskit_qcirc = tk_to_qiskit(tkcirc)
     print(qiskit_qcirc)
-    
+
+
 print_tkcirc_via_qiskit(circ)
 
 # Now let's use a transform to shrink the circuit. For more detail on transforms, see the `transform_example` notebook.
@@ -68,7 +70,7 @@ print_tkcirc_via_qiskit(circ)
 
 symbol_circ = circ.copy()
 
-symbol_dict = {a : 0.5, b : 0.75}
+symbol_dict = {a: 0.5, b: 0.75}
 circ.symbol_substitution(symbol_dict)
 
 print_tkcirc_via_qiskit(circ)

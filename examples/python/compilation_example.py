@@ -91,7 +91,9 @@ reppass = RepeatPass(seqpass)
 from pytket.extensions.qiskit import tk_to_qiskit
 
 circ = Circuit(3)
-circ.X(0).Y(1).CX(0,1).Z(0).Rx(1.3,1).CX(0,1).Rz(0.4,0).Ry(0.53,0).H(1).H(2).Rx(1.5,2).Rx(0.5,2).H(2)
+circ.X(0).Y(1).CX(0, 1).Z(0).Rx(1.3, 1).CX(0, 1).Rz(0.4, 0).Ry(0.53, 0).H(1).H(2).Rx(
+    1.5, 2
+).Rx(0.5, 2).H(2)
 
 print(tk_to_qiskit(circ))
 
@@ -105,10 +107,25 @@ print(tk_to_qiskit(circ1))
 
 from pytket.passes import RepeatUntilSatisfiedPass
 
+
 def no_CX(circ):
     return circ.n_gates_of_type(OpType.CX) == 0
 
-circ = Circuit(2).CX(0,1).X(1).CX(0,1).X(1).CX(0,1).X(1).CX(0,1).Z(1).CX(1,0).Z(1).CX(1,0)
+
+circ = (
+    Circuit(2)
+    .CX(0, 1)
+    .X(1)
+    .CX(0, 1)
+    .X(1)
+    .CX(0, 1)
+    .X(1)
+    .CX(0, 1)
+    .Z(1)
+    .CX(1, 0)
+    .Z(1)
+    .CX(1, 0)
+)
 
 custom_pass = RepeatUntilSatisfiedPass(seqpass, no_CX)
 cu = CompilationUnit(circ)
@@ -120,19 +137,25 @@ print(tk_to_qiskit(circ1))
 # The `RepeatWithMetricPass` provides another way of generating more sophisticated passes. This is defined in terms of a cost function and another pass type; the pass is applied repeatedly until the cost function stops decreasing.
 # For example, suppose we wish to associate a cost to each gate in out circuit, with $n$-qubit gates having a cost of $n^2$:
 
+
 def cost(circ):
-    return sum(pow(len(x.args),2) for x in circ)
+    return sum(pow(len(x.args), 2) for x in circ)
+
 
 # Let's construct a new circuit:
 
 circ = Circuit(2)
-circ.CX(0,1).X(1).Y(0).CX(0,1).X(1).Z(0).CX(0,1).X(1).Y(0).CX(0,1).Z(1).CX(1,0).Z(1).X(0).CX(1,0)
+circ.CX(0, 1).X(1).Y(0).CX(0, 1).X(1).Z(0).CX(0, 1).X(1).Y(0).CX(0, 1).Z(1).CX(1, 0).Z(
+    1
+).X(0).CX(1, 0)
 
 # We will repeatedly apply `CommuteThroughMultis`, `DecomposeMultiQubitsIBM` and `RemoveRedundancies` until the `cost` function stops decreasing:
 
 from pytket.passes import RepeatWithMetricPass
 
-pass1 = SequencePass([CommuteThroughMultis(), DecomposeMultiQubitsIBM(), RemoveRedundancies()])
+pass1 = SequencePass(
+    [CommuteThroughMultis(), DecomposeMultiQubitsIBM(), RemoveRedundancies()]
+)
 pass2 = RepeatWithMetricPass(pass1, cost)
 
 cu = CompilationUnit(circ)
@@ -146,9 +169,9 @@ print(cu.circuit.get_commands())
 from pytket.routing import Architecture
 from pytket.circuit import Node
 
-n = [Node('n',i) for i in range(5)]
+n = [Node("n", i) for i in range(5)]
 
-arc = Architecture([[n[0],n[1]], [n[1],n[2]], [n[2],n[3]], [n[3],n[4]]])
+arc = Architecture([[n[0], n[1]], [n[1], n[2]], [n[2], n[3]], [n[3], n[4]]])
 
 # A `Device` is a model of a physical device, which encapsulates both its `Architecture` and its gate noise characteristics. Ignoring the latter, we can construct a 'noise-free' `Device` directly from an `Architecture`:
 
@@ -159,15 +182,15 @@ dev = Device(arc)
 # Suppose we have a circuit that we wish to run on this device:
 
 circ = Circuit(5)
-circ.CX(0,1)
+circ.CX(0, 1)
 circ.H(0)
 circ.Z(1)
-circ.CX(0,3)
-circ.Rx(1.5,3)
-circ.CX(2,4)
+circ.CX(0, 3)
+circ.Rx(1.5, 3)
+circ.CX(2, 4)
 circ.X(2)
-circ.CX(1,4)
-circ.CX(0,4)
+circ.CX(1, 4)
+circ.CX(0, 4)
 
 print(tk_to_qiskit(circ))
 
@@ -199,8 +222,8 @@ print(tk_to_qiskit(circ2))
 from pytket.passes import PauliSimp, SafetyMode
 from pytket.circuit import Qubit, Bit
 
-q = [Qubit('q',i) for i in range(5)]
-c = Bit('c')
+q = [Qubit("q", i) for i in range(5)]
+c = Bit("c")
 circ.add_bit(c)
 circ.Measure(q[3], c)
 circ.CY(q[0], q[1], condition_bits=[c], condition_value=1)
@@ -209,7 +232,7 @@ try:
     PauliSimp().apply(cu, safety_mode=SafetyMode.Audit)
 except RuntimeError as e:
     print("Error:", str(e))
-    
+
 
 # The preconditions and postconditions of all the elementary predicates are documented in their string representations:
 
@@ -225,7 +248,7 @@ b.default_compilation_pass
 
 # To compile a circuit using the default pass of a `Backend` we can simply use the `compile_circuit()` method:
 
-circ = Circuit(2).X(0).Y(1).CRz(0.5,1,0)
+circ = Circuit(2).X(0).Y(1).CRz(0.5, 1, 0)
 circ1 = circ.copy()
 b.compile_circuit(circ1)
 print(tk_to_qiskit(circ1))

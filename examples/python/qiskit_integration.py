@@ -9,6 +9,7 @@
 # The following code was taken from the Qiskit tutorial on [Grover Adaptive Search](https://github.com/Qiskit/qiskit-tutorials/blob/master/tutorials/optimization/4_grover_optimizer.ipynb).
 
 from qiskit.aqua import aqua_globals
+
 aqua_globals.random_seed = 1
 
 from qiskit.aqua.algorithms import NumPyMinimumEigensolver
@@ -17,13 +18,13 @@ from qiskit.optimization.problems import QuadraticProgram
 from qiskit import BasicAer
 from docplex.mp.model import Model
 
-backend = BasicAer.get_backend('statevector_simulator')
+backend = BasicAer.get_backend("statevector_simulator")
 
 model = Model()
-x0 = model.binary_var(name='x0')
-x1 = model.binary_var(name='x1')
-x2 = model.binary_var(name='x2')
-model.minimize(-x0+2*x1-3*x2-2*x0*x2-1*x1*x2)
+x0 = model.binary_var(name="x0")
+x1 = model.binary_var(name="x1")
+x2 = model.binary_var(name="x2")
+model.minimize(-x0 + 2 * x1 - 3 * x2 - 2 * x0 * x2 - 1 * x1 * x2)
 qp = QuadraticProgram()
 qp.from_docplex(model)
 print(qp.export_as_lp_string())
@@ -63,8 +64,8 @@ from qiskit.aqua import QuantumInstance
 
 backend = Aer.get_backend("qasm_simulator")
 model = NoiseModel()
-model.add_all_qubit_quantum_error(depolarizing_error(0.01, 1), ['p', 'u'])
-model.add_all_qubit_quantum_error(depolarizing_error(0.05, 2), ['cx'])
+model.add_all_qubit_quantum_error(depolarizing_error(0.01, 1), ["p", "u"])
+model.add_all_qubit_quantum_error(depolarizing_error(0.05, 2), ["cx"])
 
 qi = QuantumInstance(backend, noise_model=model, seed_transpiler=2, seed_simulator=2)
 
@@ -82,7 +83,7 @@ from qiskit.transpiler import PassManager
 from qiskit.transpiler.passes import Unroller
 
 tp = TketPass(FullPeepholeOptimise())
-pm = PassManager([Unroller(['cx', 'p', 'u']), tp])
+pm = PassManager([Unroller(["cx", "p", "u"]), tp])
 qi = QuantumInstance(backend, pass_manager=pm, noise_model=model, seed_simulator=2)
 
 grover_optimizer = GroverOptimizer(6, num_iterations=10, quantum_instance=qi)
@@ -96,27 +97,35 @@ print("n_circs={}".format(len(results.operation_counts)))
 
 from pytket.passes import RebaseIBM, SequencePass
 
-seq = SequencePass([
-    # Insert pytket pass of choice
-    RebaseIBM(),
-])
+seq = SequencePass(
+    [
+        # Insert pytket pass of choice
+        RebaseIBM(),
+    ]
+)
 tp = TketPass(seq)
-pm = PassManager([
-    # Insert initial qiskit passes
-    Unroller(['cx', 'p', 'u']),
-    tp,
-    # Insert final qiskit passes
-])
+pm = PassManager(
+    [
+        # Insert initial qiskit passes
+        Unroller(["cx", "p", "u"]),
+        tp,
+        # Insert final qiskit passes
+    ]
+)
 qi = QuantumInstance(backend, pass_manager=pm)
 
 # Similarly, when using `TketBackend` it may be necessary to include some compilation in `qiskit` to enable the conversion into `pytket`, and then some further `pytket` compilation to get it suitable for the actual target backend. For example, `qiskit.circuit.library.standard_gates.DCXGate` currently does not have an equivalent elementary operation in `pytket`, so must be decomposed before we can map across, and likewise the `OpType.ZZMax` gate used by `pytket.extensions.honeywell.HoneywellBackend` (from the `pytket-honeywell` extension) has no equivalent in `qiskit` so the targeting of the final gateset must be performed by `pytket`.
 
 from pytket.extensions.honeywell import HoneywellBackend
 
-pm = PassManager(Unroller(['cx', 'p', 'u']))                # Map to a basic gateset to allow conversion to pytket
+pm = PassManager(
+    Unroller(["cx", "p", "u"])
+)  # Map to a basic gateset to allow conversion to pytket
 
 hb = HoneywellBackend(device_name="HQS-LT-1.0-APIVAL", machine_debug=True)
-backend = TketBackend(hb, hb.default_compilation_pass(2))   # Then use pytket compilation with optimisation level 2
+backend = TketBackend(
+    hb, hb.default_compilation_pass(2)
+)  # Then use pytket compilation with optimisation level 2
 
 qi = QuantumInstance(backend, pass_manager=pm)
 

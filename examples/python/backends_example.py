@@ -16,7 +16,13 @@
 # ```
 # First, import the backends that we will be demonstrating.
 
-from pytket.extensions.qiskit import AerStateBackend, AerBackend, AerUnitaryBackend, IBMQBackend, IBMQEmulatorBackend
+from pytket.extensions.qiskit import (
+    AerStateBackend,
+    AerBackend,
+    AerUnitaryBackend,
+    IBMQBackend,
+    IBMQEmulatorBackend,
+)
 from pytket.extensions.projectq import ProjectQBackend
 
 # We are also going to be making a circuit to run on these backends, so import the `Circuit` class.
@@ -27,11 +33,11 @@ from pytket import Circuit
 
 circ = Circuit(2)
 circ.H(0)
-circ.CX(0,1)
+circ.CX(0, 1)
 
 # As a sanity check, we will use the `AerStateBackend` to verify that `circ` does actually produce a Bell state.
 # To submit a circuit for excution on a backend we can use `process_circuit` with appropriate arguments. If we have multiple circuits to excecute, we can use `process_circuits` (note the plural), which will attempt to batch up the circuits if possible. Both methods return a `ResultHandle` object per submitted `Circuit` which you can use with result retrieval methods to get the result type you want (as long as that result type is supported by the backend).
-# Calling `get_state` will return a `numpy` array corresponding to the statevector. 
+# Calling `get_state` will return a `numpy` array corresponding to the statevector.
 # This style of usage is used consistently in the `pytket` backends.
 
 aer_state_b = AerStateBackend()
@@ -67,28 +73,34 @@ print(shots)
 # To investigate this, we will require an import from Qiskit. For more information about noise modelling using Qiskit Aer, see the [Qiskit device noise](https://qiskit.org/documentation/apidoc/aer_noise.html) documentation.
 
 from qiskit.providers.aer.noise import NoiseModel
+
 my_noise_model = NoiseModel()
 readout_error = 0.2
 for q in range(2):
-    my_noise_model.add_readout_error([[1-readout_error, readout_error], [readout_error, 1-readout_error]], [q])
+    my_noise_model.add_readout_error(
+        [[1 - readout_error, readout_error], [readout_error, 1 - readout_error]], [q]
+    )
 
 # This simple noise model gives a 20% chance that, upon measurement, a qubit that would otherwise have been measured as $0$ would instead be measured as $1$, and vice versa. Let's see what our shot table looks like with this model:
 
 noisy_aer_b = AerBackend(my_noise_model)
-noisy_shots_handle = noisy_aer_b.process_circuit(circ, n_shots=10, seed=1, valid_check=False)
+noisy_shots_handle = noisy_aer_b.process_circuit(
+    circ, n_shots=10, seed=1, valid_check=False
+)
 noisy_shots = noisy_aer_b.get_result(noisy_shots_handle).get_shots()
 print(noisy_shots)
 
-# We now have some spurious $01$ and $10$ measurements, which could never happen when measuring a Bell state on a noiseless device. 
+# We now have some spurious $01$ and $10$ measurements, which could never happen when measuring a Bell state on a noiseless device.
 # The `AerBackend` class can accept any Qiskit noise model.
 
 # Suppose that we don't need the full shot table, but just want a summary of the results. The most common summary is the counts map, mapping the readout state to the number of times it was observed. We can retrieve this directly using `backend.get_counts` for those backends that support it, or use a utility function.
 
 from pytket.utils import counts_from_shot_table
+
 print(counts_from_shot_table(noisy_shots))
 
-# All backends expose a generic `get_result` method which takes a `ResultHandle` and returns the respective result in the form of a `BackendResult` object. This object may hold measured results in the form of shots or counts, or an exact statevector from simulation. Measured results are stored as `OutcomeArray` objects, which compresses measured bit values into 8-bit integers. We can extract the bitwise values using `to_readouts`. 
-# Instead of an assumed ILO or DLO convention, we can use this object to request only the `Bit` measurements we want, in the order we want. Let's try reversing the bits of the noisy results. 
+# All backends expose a generic `get_result` method which takes a `ResultHandle` and returns the respective result in the form of a `BackendResult` object. This object may hold measured results in the form of shots or counts, or an exact statevector from simulation. Measured results are stored as `OutcomeArray` objects, which compresses measured bit values into 8-bit integers. We can extract the bitwise values using `to_readouts`.
+# Instead of an assumed ILO or DLO convention, we can use this object to request only the `Bit` measurements we want, in the order we want. Let's try reversing the bits of the noisy results.
 
 backend_result = noisy_aer_b.get_result(noisy_shots_handle)
 bits = circ.bits
@@ -96,9 +108,10 @@ bits = circ.bits
 outcomes = backend_result.get_shots([bits[1], bits[0]])
 print(outcomes)
 
-# `BackendResult` objects can be natively serialized to and deserialized from a dictionary. This dictionary can be immediately dumped to `json` for storing results. 
+# `BackendResult` objects can be natively serialized to and deserialized from a dictionary. This dictionary can be immediately dumped to `json` for storing results.
 
 from pytket.backends.backendresult import BackendResult
+
 result_dict = backend_result.to_dict()
 print(result_dict)
 print(BackendResult.from_dict(result_dict).get_counts())
@@ -109,7 +122,7 @@ print(BackendResult.from_dict(result_dict).get_counts())
 
 from openfermion import QubitOperator
 
-hamiltonian = 0.5 * QubitOperator('X0 X2') + 0.3 * QubitOperator('Z0')
+hamiltonian = 0.5 * QubitOperator("X0 X2") + 0.3 * QubitOperator("Z0")
 
 circ2 = Circuit(3)
 circ2.Y(0)
@@ -119,8 +132,11 @@ circ2.Rx(0.3, 2)
 # Now we can create a `ProjectQBackend` instance and feed it our circuit and `QubitOperator`:
 
 from pytket.utils.operators import QubitPauliOperator
+
 projectq_b = ProjectQBackend()
-expectation = projectq_b.get_operator_expectation_value(circ2, QubitPauliOperator.from_OpenFermion(hamiltonian))
+expectation = projectq_b.get_operator_expectation_value(
+    circ2, QubitPauliOperator.from_OpenFermion(hamiltonian)
+)
 print(expectation)
 
 # The last leg of this tour includes running a pytket circuit on an actual quantum computer. To do this, you will need an IBM quantum experience account and have your credentials stored on your computer. See https://quantum-computing.ibm.com to make an account and view available devices and their specs.
@@ -130,7 +146,7 @@ print(expectation)
 
 # Let's create an `IBMQEmulatorBackend` for the `ibmq_santiago` device and check if our circuit is valid to be run.
 
-ibmq_b_emu = IBMQEmulatorBackend('ibmq_santiago')
+ibmq_b_emu = IBMQEmulatorBackend("ibmq_santiago")
 ibmq_b_emu.valid_circuit(circ)
 
 # It looks like we need to compile this circuit to be compatible with the device. To simplify this procedure, we provide minimal compilation passes designed for each backend (the `default_compilation_pass()` method) which will guarantee compatibility with the device. These may still fail if the input circuit has too many qubits or unsupported usage of conditional gates. The default passes can have their degree of optimisation by changing an integer parameter (optimisation levels 0, 1, 2), and they can be easily composed with any of tket's other optimisation passes for better performance.
@@ -141,7 +157,7 @@ ibmq_b_emu.compile_circuit(circ)
 
 # Let's create a backend for running on the actual device and check our compiled circuit is valid for this backend too.
 
-ibmq_b = IBMQBackend('ibmq_santiago')
+ibmq_b = IBMQBackend("ibmq_santiago")
 ibmq_b.valid_circuit(circ)
 
 # We are now good to run this circuit on the device. After submitting, we can use the handle to check on the status of the job, so that we know when results are ready to be retrieved. The `circuit_status` method works for all backends, and returns a `CircuitStatus` object. If we just run `get_result` straight away, the backend will wait for results to complete, blocking any other code from running.
@@ -159,7 +175,7 @@ print(quantum_shots)
 circuits = []
 for i in range(5):
     c = Circuit(2)
-    c.Rx(0.2*i,0).CX(0,1)
+    c.Rx(0.2 * i, 0).CX(0, 1)
     c.measure_all()
     ibmq_b.compile_circuit(c)
     circuits.append(c)
@@ -169,6 +185,7 @@ print(handles)
 # We can now retrieve the results and process them. As we measured each circuit in the $Z$-basis, we can obtain the expectation value for the $ZZ$ operator immediately from these measurement results. We can calculate this using the `expectation_value_from_shots` utility method in `pytket`.
 
 from pytket.utils import expectation_from_shots
+
 for handle in handles:
     shots = ibmq_b.get_result(handle).get_shots()
     exp_val = expectation_from_shots(shots)
@@ -177,7 +194,8 @@ for handle in handles:
 # A `ResultHandle` can be easily stored in its string representaton and later reconstructed using the `from_str` method. For example, we could do something like this:
 
 from pytket.backends import ResultHandle
-c = Circuit(2).Rx(0.5,0).CX(0,1).measure_all()
+
+c = Circuit(2).Rx(0.5, 0).CX(0, 1).measure_all()
 ibmq_b.compile_circuit(c)
 handle = ibmq_b.process_circuit(c, n_shots=10)
 handlestring = str(handle)

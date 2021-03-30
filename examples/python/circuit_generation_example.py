@@ -11,7 +11,8 @@
 # Let's get started by constructing a circuit with 3 qubits and 2 classical bits:
 
 from pytket.circuit import Circuit
-c = Circuit(3,2)
+
+c = Circuit(3, 2)
 print(c.qubits)
 print(c.bits)
 
@@ -19,9 +20,10 @@ print(c.bits)
 # We can give these units arbitrary names and indices of arbitrary dimension:
 
 from pytket.circuit import Qubit
-new_q1 = Qubit('alpha', 0)
-new_q2 = Qubit('beta', 2, 1)
-new_q3 = Qubit('gamma', (0,0,0))
+
+new_q1 = Qubit("alpha", 0)
+new_q2 = Qubit("beta", 2, 1)
+new_q3 = Qubit("gamma", (0, 0, 0))
 c.add_qubit(new_q1)
 c.add_qubit(new_q2)
 c.add_qubit(new_q3)
@@ -29,18 +31,18 @@ print(c.qubits)
 
 # We can also add a new register of qubits in one go:
 
-c.add_q_register('delta', 4)
+c.add_q_register("delta", 4)
 print(c.qubits)
 
 # Similar commands are available for classical bits.
 # We can add gates to the circuit as follows:
 
-c.CX(0,1)
+c.CX(0, 1)
 
 # This command appends a CX gate with control `q[0]` and target `q[1]`. Note that the integer arguments are automatically converted to the default unit IDs. For simple circuits it is often easiest to stick to the default register and refer to the qubits by integers. To add gates to our own named units, we simply pass the `Qubit` (or classical `Bit`) as an argument. (We can't mix the two conventions in one command, however.)
 
 c.H(new_q1)
-c.CX(Qubit('q',1), new_q2)
+c.CX(Qubit("q", 1), new_q2)
 c.Rz(0.5, new_q2)
 print(c.get_commands())
 
@@ -54,17 +56,18 @@ print(c.get_commands())
 
 from pytket.qasm import circuit_to_qasm, circuit_from_qasm
 
-c = Circuit(3,1)
+c = Circuit(3, 1)
 c.H(0)
-c.CX(0,1)
-c.CX(1,2)
-c.Rz(0.25,2)
-c.Measure(2,0)
+c.CX(0, 1)
+c.CX(1, 2)
+c.Rz(0.25, 2)
+c.Measure(2, 0)
 
-qasmfile = 'c.qasm'
+qasmfile = "c.qasm"
 circuit_to_qasm(c, qasmfile)
 
-with open(qasmfile) as f: print(f.read())
+with open(qasmfile) as f:
+    print(f.read())
 
 c1 = circuit_from_qasm(qasmfile)
 c == c1
@@ -73,22 +76,27 @@ c == c1
 
 from pytket.quipper import circuit_from_quipper
 
-quipfile = 'c.quip'
-with open(quipfile, 'w') as f: f.write("""Inputs: 0:Qbit, 1:Qbit
+quipfile = "c.quip"
+with open(quipfile, "w") as f:
+    f.write(
+        """Inputs: 0:Qbit, 1:Qbit
 QGate["W"](0,1)
 QGate["omega"](1)
 QGate["swap"](0,1)
 QGate["W"]*(1,0)
 Outputs: 0:Qbit, 1:Qbit
-""")
-    
+"""
+    )
+
 c = circuit_from_quipper(quipfile)
 print(c.get_commands())
 
 # Note that the Quipper gates that are not supported directly in `pytket` (`W` and `omega`) are translated into equivalent sequences of `pytket` gates.
 # Quipper subroutines are also supported, corresponding to `CircBox` operations in `pytket`:
 
-with open(quipfile, 'w') as f: f.write("""Inputs: 0:Qbit, 1:Qbit, 2:Qbit
+with open(quipfile, "w") as f:
+    f.write(
+        """Inputs: 0:Qbit, 1:Qbit, 2:Qbit
 QGate["H"](0)
 Subroutine(x2)["sub", shape "([Q,Q],())"] (2,1) -> (2,1)
 QGate["H"](1)
@@ -102,8 +110,9 @@ QGate["Y"](0)
 QGate["not"](1) with controls=[+0]
 QGate["Z"](1)
 Outputs: 0:Qbit, 1:Qbit
-""")
-    
+"""
+    )
+
 c = circuit_from_quipper(quipfile)
 cmds = c.get_commands()
 print(cmds)
@@ -130,28 +139,30 @@ boxycirc = Circuit(3)
 
 # Add a CircBox:
 subcirc = Circuit(2)
-subcirc.X(0).Y(1).CZ(0,1)
+subcirc.X(0).Y(1).CZ(0, 1)
 cbox = CircBox(subcirc)
-boxycirc.add_circbox(cbox, args=[Qubit(0),Qubit(1)])
+boxycirc.add_circbox(cbox, args=[Qubit(0), Qubit(1)])
 
 # Add a Unitary1qBox:
-m1 = np.asarray([[1/2, sqrt(3)/2], [sqrt(3)/2, -1/2]])
+m1 = np.asarray([[1 / 2, sqrt(3) / 2], [sqrt(3) / 2, -1 / 2]])
 m1box = Unitary1qBox(m1)
 boxycirc.add_unitary1qbox(m1box, 2)
 
 # Add a Unitary2qBox:
-m2 = np.asarray([[0,0,1,0], [0,1,0,0], [0,0,0,1], [1,0,0,0]])
+m2 = np.asarray([[0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1], [1, 0, 0, 0]])
 m2box = Unitary2qBox(m2)
 boxycirc.add_unitary2qbox(m2box, 1, 2)
 
 # Add an ExpBox:
-A = np.asarray([[1, 2, 3, 4+1j], [2, 0, 1j, -1], [3, -1j, 2, 1j], [4-1j, -1, -1j, 1]])
+A = np.asarray(
+    [[1, 2, 3, 4 + 1j], [2, 0, 1j, -1], [3, -1j, 2, 1j], [4 - 1j, -1, -1j, 1]]
+)
 ebox = ExpBox(A, 0.5)
 boxycirc.add_expbox(ebox, 0, 1)
 
 # Add a PauliExpBox:
 pbox = PauliExpBox([Pauli.X, Pauli.Z, Pauli.X], 0.75)
-boxycirc.add_pauliexpbox(pbox, [0,1,2])
+boxycirc.add_pauliexpbox(pbox, [0, 1, 2])
 
 print(boxycirc.get_commands())
 
@@ -164,10 +175,10 @@ print(pbox.get_circuit().get_commands())
 # For a simple illustration of serial composition, let's create two circuits with compatible set of wires, and append the second to the first:
 
 c = Circuit(2)
-c.CX(0,1)
+c.CX(0, 1)
 
 c1 = Circuit(2)
-c1.CZ(1,0)
+c1.CZ(1, 0)
 
 c.append(c1)
 
@@ -175,17 +186,17 @@ print(c.get_commands())
 
 # In the above example, there was a one-to-one match between the unit IDs in the two circuits, and they were matched up accordingly. The same applied with named unit IDs:
 
-x, y = Qubit('x'), Qubit('y')
+x, y = Qubit("x"), Qubit("y")
 
 c = Circuit()
 c.add_qubit(x)
 c.add_qubit(y)
-c.CX(x,y)
+c.CX(x, y)
 
 c1 = Circuit()
 c1.add_qubit(x)
 c1.add_qubit(y)
-c1.CZ(y,x)
+c1.CZ(y, x)
 
 c.append(c1)
 
@@ -193,9 +204,9 @@ print(c.get_commands())
 
 # If either circuit contains wires not matching any wires in the other, those are added to the other circuit before composition:
 
-z = Qubit('z')
+z = Qubit("z")
 c1.add_qubit(z)
-c1.CY(y,z)
+c1.CY(y, z)
 c.append(c1)
 print(c.qubits)
 print(c.get_commands())
@@ -204,11 +215,11 @@ print(c.get_commands())
 # What if we want to serially compose two circuits having different sets of `Qubit`? In that case, we can use the `rename_units()` method on one or other of them to bring them into line. This method takes a dictionary mapping current unit IDs to new one:
 
 c2 = Circuit()
-c2.add_q_register('w', 3)
-w = [Qubit('w', i) for i in range(3)]
-c2.H(w[0]).CX(w[0],w[1]).CRz(0.25, w[1],w[2])
+c2.add_q_register("w", 3)
+w = [Qubit("w", i) for i in range(3)]
+c2.H(w[0]).CX(w[0], w[1]).CRz(0.25, w[1], w[2])
 
-c.rename_units({x:w[0], y:w[1], z:w[2]})
+c.rename_units({x: w[0], y: w[1], z: w[2]})
 
 c.append(c2)
 
@@ -225,7 +236,7 @@ c.Rz(0.5, 0)
 
 from sympy import Symbol
 
-a = Symbol('a')
+a = Symbol("a")
 c.Rz(a, 0)
 
 print(c.get_commands())
@@ -240,16 +251,16 @@ print(c.get_commands())
 
 # To substitute values for symbols, we use the `symbol_substitution()` method, supplying a dictionary from symbols to values:
 
-c.symbol_substitution({a:0.75})
+c.symbol_substitution({a: 0.75})
 
 print(c.get_commands())
 
 # We can also substitute symbols for other symbols:
 
-b = Symbol('b')
+b = Symbol("b")
 c = Circuit(1)
-c.Rz(a+b, 0)
-c.symbol_substitution({b:2*a})
+c.Rz(a + b, 0)
+c.symbol_substitution({b: 2 * a})
 print(c.get_commands())
 
 # ## Custom gates
@@ -257,11 +268,11 @@ print(c.get_commands())
 
 from pytket.circuit import CustomGateDef
 
-a = Symbol('a')
-b = Symbol('b')
+a = Symbol("a")
+b = Symbol("b")
 setup = Circuit(3)
 setup.CX(0, 1)
-setup.Rz(a+0.5, 2)
+setup.Rz(a + 0.5, 2)
 setup.CRz(b, 0, 2)
 my_gate = CustomGateDef.define("g", setup, [a, b])
 c = Circuit(4)
@@ -270,8 +281,8 @@ print(c.get_commands())
 
 # Custom gates can also receive symbolic parameters:
 
-x = Symbol('x')
-c.add_custom_gate(my_gate, [x, 1.], [0,1,2])
+x = Symbol("x")
+c.add_custom_gate(my_gate, [x, 1.0], [0, 1, 2])
 print(c.get_commands())
 
 # ## Decomposing boxes and custom gates
@@ -294,12 +305,12 @@ print(c.get_commands())
 
 from pytket.circuit import Bit
 
-c.add_c_register('m', 2)
-m = [Bit('m', i) for i in range(2)]
+c.add_c_register("m", 2)
+m = [Bit("m", i) for i in range(2)]
 
 # Classically conditioned operations depend on all their inputs being 1. Since we want to condition on `m[0]` being 0, we must first apply an X gate to its qubit, and then measure:
 
-q = [Qubit('q', i) for i in range(3)]
+q = [Qubit("q", i) for i in range(3)]
 c.X(q[0])
 c.Measure(q[0], m[0])
 c.Measure(q[1], m[1])
@@ -311,4 +322,3 @@ from pytket.circuit import OpType
 c.add_gate(OpType.Rz, [0.5], [q[2]], condition_bits=[m[0], m[1]], condition_value=3)
 
 # Note that many of the transforms and compilation passes will not accept circuits that contain classical controls.
-

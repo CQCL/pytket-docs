@@ -68,16 +68,15 @@ c.add_bit(success)
 # Try the X gate
 c.add_circbox(x_box, args=[target, ancilla, success])
 # Try again if the X failed
-c.add_circbox(x_box, args=[target, ancilla, success], condition_bits=[success], condition_value=0)
+c.add_circbox(
+    x_box, args=[target, ancilla, success], condition_bits=[success], condition_value=0
+)
 
 # tket is able to apply essential compilation passes on circuits containing conditional gates. This includes decomposing any boxes into primitive gates and rebasing to other gatesets whilst preserving the conditional data.
 
 from pytket.passes import DecomposeBoxes, RebaseIBM, SequencePass
 
-comp_pass = SequencePass([
-    DecomposeBoxes(),
-    RebaseIBM()
-])
+comp_pass = SequencePass([DecomposeBoxes(), RebaseIBM()])
 
 comp_pass.apply(c)
 

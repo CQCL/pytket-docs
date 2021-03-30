@@ -65,7 +65,7 @@ es.CX(ava[0], bella[0])
 
 # Teleport bella[0] to charlie[0]
 tel_to_c = qtel.copy()
-tel_to_c.rename_units({alice[0] : bella[0], alice[1] : bella[1], bob[0] : charlie[0]})
+tel_to_c.rename_units({alice[0]: bella[0], alice[1]: bella[1], bob[0]: charlie[0]})
 es.append(tel_to_c)
 
 print(es.get_commands())
@@ -86,6 +86,7 @@ bell_test.Measure(charlie[0], data[1])
 
 backend.compile_circuit(bell_test)
 from pytket.extensions.qiskit import tk_to_qiskit
+
 print(tk_to_qiskit(bell_test))
 handle = backend.process_circuit(bell_test, n_shots=2000)
 counts = backend.get_result(handle).get_counts()
@@ -100,6 +101,7 @@ from pytket.utils import append_pauli_measurement, probs_from_counts
 from itertools import product
 from scipy.linalg import lstsq, eigh
 import numpy as np
+
 
 def gen_tomography_circuits(state, qubits, bits):
     # Yields {X, Y, Z}^n measurements in lexicographical order
@@ -116,6 +118,7 @@ def gen_tomography_circuits(state, qubits, bits):
             circ.Measure(qb, b)
         yield circ
 
+
 def run_tomography_circuits(state, qubits, bits, backend):
     circs = list(gen_tomography_circuits(state, qubits, bits))
     # Compile and run each circuit
@@ -130,6 +133,7 @@ def run_tomography_circuits(state, qubits, bits, backend):
         probs_list.append(probs)
     return probs_list
 
+
 def fit_tomography_outcomes(probs_list, n_qbs):
     # Define the density matrices for the basis states
     basis = dict()
@@ -139,13 +143,15 @@ def fit_tomography_outcomes(probs_list, n_qbs):
     basis[(Pauli.Y, 1)] = np.asarray([[0.5, 0.5j], [-0.5j, 0.5]])
     basis[(Pauli.Z, 0)] = np.asarray([[1, 0], [0, 0]])
     basis[(Pauli.Z, 1)] = np.asarray([[0, 0], [0, 1]])
-    dim = 2**n_qbs
+    dim = 2 ** n_qbs
     # Define vector all_probs as a concatenation of probability vectors for each measurement (2**n x 3**n, 1)
     # Define matrix all_ops mapping a (vectorised) density matrix to a vector of probabilities for each measurement
     # (2**n x 3**n, 2**n x 2**n)
     all_probs = []
     all_ops = []
-    for paulis, probs in zip(product([Pauli.X, Pauli.Y, Pauli.Z], repeat=n_qbs), probs_list):
+    for paulis, probs in zip(
+        product([Pauli.X, Pauli.Y, Pauli.Z], repeat=n_qbs), probs_list
+    ):
         prob_vec = []
         meas_ops = []
         for outcome in product([0, 1], repeat=n_qbs):
@@ -153,7 +159,7 @@ def fit_tomography_outcomes(probs_list, n_qbs):
             op = np.eye(1, dtype=complex)
             for p, o in zip(paulis, outcome):
                 op = np.kron(op, basis[(p, o)])
-            meas_ops.append(op.reshape(1, dim*dim).conj())
+            meas_ops.append(op.reshape(1, dim * dim).conj())
         all_probs.append(np.vstack(prob_vec))
         all_ops.append(np.vstack(meas_ops))
     # Solve for density matrix by minimising || all_ops * dm - all_probs ||
@@ -163,8 +169,8 @@ def fit_tomography_outcomes(probs_list, n_qbs):
     v, w = eigh(dm)
     for i in range(dim):
         if v[i] < 0:
-            for j in range(i+1, dim):
-                v[j] += v[i] / (dim - (i+1))
+            for j in range(i + 1, dim):
+                v[j] += v[i] / (dim - (i + 1))
             v[i] = 0
     dm = np.zeros([dim, dim], dtype=complex)
     for j in range(dim):
@@ -173,7 +179,10 @@ def fit_tomography_outcomes(probs_list, n_qbs):
     dm /= np.trace(dm)
     return dm
 
-probs_list = run_tomography_circuits(es, [ava[0], charlie[0]], [data[0], data[1]], backend)
+
+probs_list = run_tomography_circuits(
+    es, [ava[0], charlie[0]], [data[0], data[1]], backend
+)
 dm = fit_tomography_outcomes(probs_list, 2)
 print(dm.round(3))
 
@@ -182,40 +191,50 @@ print(dm.round(3))
 
 from scipy.linalg import sqrtm
 
+
 def fidelity(dm0, dm1):
     # Calculate the fidelity between two density matrices
     sq0 = sqrtm(dm0)
     sq1 = sqrtm(dm1)
-    return np.linalg.norm(sq0.dot(sq1))**2
+    return np.linalg.norm(sq0.dot(sq1)) ** 2
 
-bell_state = np.asarray([
-    [0.5, 0, 0, 0.5],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0.5, 0, 0, 0.5],
-])
+
+bell_state = np.asarray(
+    [
+        [0.5, 0, 0, 0.5],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0.5, 0, 0, 0.5],
+    ]
+)
 print(fidelity(dm, bell_state))
 
 # This high fidelity is unsurprising since we have a completely noiseless simulation. So the next step is to add some noise to the simulation and observe how the overall fidelity is affected. The `AerBackend` wraps around the Qiskit Aer simulator and can pass on any `qiskit.providers.aer.noise.NoiseModel` to the simulator. Let's start by adding some uniform depolarising noise to each CX gate and some uniform measurement error.
 
 from qiskit.providers.aer.noise import NoiseModel, depolarizing_error, ReadoutError
 
+
 def make_noise_model(dep_err_rate, ro_err_rate, qubits):
     # Define a noise model that applies uniformly to the given qubits
     model = NoiseModel()
     dep_err = depolarizing_error(dep_err_rate, 2)
-    ro_err = ReadoutError([[1-ro_err_rate, ro_err_rate], [ro_err_rate, 1-ro_err_rate]])
+    ro_err = ReadoutError(
+        [[1 - ro_err_rate, ro_err_rate], [ro_err_rate, 1 - ro_err_rate]]
+    )
     # Add depolarising error to CX gates between any qubits (implying full connectivity)
     for i, j in product(qubits, repeat=2):
-        model.add_quantum_error(dep_err, ['cx'], [i, j])
+        model.add_quantum_error(dep_err, ["cx"], [i, j])
     # Add readout error for each qubit
     for i in qubits:
         model.add_readout_error(ro_err, qubits=[i])
     return model
 
+
 test_model = make_noise_model(0.03, 0.05, range(4))
 backend = AerBackend(noise_model=test_model)
-probs_list = run_tomography_circuits(es, [ava[0], charlie[0]], [data[0], data[1]], backend)
+probs_list = run_tomography_circuits(
+    es, [ava[0], charlie[0]], [data[0], data[1]], backend
+)
 dm = fit_tomography_outcomes(probs_list, 2)
 print(dm.round(3))
 print(fidelity(dm, bell_state))
@@ -225,6 +244,7 @@ print(fidelity(dm, bell_state))
 
 from pytket import OpType
 from plotly.graph_objects import Scatter, Figure
+
 
 def iterated_entanglement_swap(n_iter):
     # Iterate the entanglement swapping protocol n_iter times
@@ -242,14 +262,18 @@ def iterated_entanglement_swap(n_iter):
         if i % 2 == 0:
             # Teleport bella[0] to charlie[0] to give a Bell pair between ava[0] and charlier[0]
             tel_to_c = qtel.copy()
-            tel_to_c.rename_units({alice[0] : bella[0], alice[1] : bella[1], bob[0] : charlie[0]})
+            tel_to_c.rename_units(
+                {alice[0]: bella[0], alice[1]: bella[1], bob[0]: charlie[0]}
+            )
             it_es.append(tel_to_c)
             it_es.add_gate(OpType.Reset, [bella[0]])
             it_es.add_gate(OpType.Reset, [bella[1]])
         else:
             # Teleport charlie[0] to bella[0] to give a Bell pair between ava[0] and bella[0]
             tel_to_b = qtel.copy()
-            tel_to_b.rename_units({alice[0] : charlie[0], alice[1] : bella[1], bob[0] : bella[0]})
+            tel_to_b.rename_units(
+                {alice[0]: charlie[0], alice[1]: bella[1], bob[0]: bella[0]}
+            )
             it_es.append(tel_to_b)
             it_es.add_gate(OpType.Reset, [bella[1]])
             it_es.add_gate(OpType.Reset, [charlie[0]])
@@ -259,13 +283,14 @@ def iterated_entanglement_swap(n_iter):
     else:
         return it_es, [ava[0], charlie[0]]
 
+
 def iterated_noisy_experiment(dep_err_rate, ro_err_rate, max_iter):
     # Set up the noisy simulator with the given error rates
     test_model = make_noise_model(dep_err_rate, ro_err_rate, range(4))
     backend = AerBackend(noise_model=test_model)
     # Estimate the fidelity after n iterations, from 0 to max_iter (inclusive)
     fid_list = []
-    for i in range(max_iter+1):
+    for i in range(max_iter + 1):
         it_es, qubits = iterated_entanglement_swap(i)
         probs_list = run_tomography_circuits(it_es, qubits, [data[0], data[1]], backend)
         dm = fit_tomography_outcomes(probs_list, 2)
@@ -273,27 +298,36 @@ def iterated_noisy_experiment(dep_err_rate, ro_err_rate, max_iter):
         fid_list.append(fid)
     return fid_list
 
+
 fig = Figure()
-fig.update_layout(title='Iterated Entanglement Swapping under Noise (dep_err = 0.03)',
-                   xaxis_title='Iterations',
-                   xaxis=dict(range=[0, 10]),
-                   yaxis_title='Fidelity')
+fig.update_layout(
+    title="Iterated Entanglement Swapping under Noise (dep_err = 0.03)",
+    xaxis_title="Iterations",
+    xaxis=dict(range=[0, 10]),
+    yaxis_title="Fidelity",
+)
 iter_range = np.arange(11)
 for i in range(7):
-    fids = iterated_noisy_experiment(0.03, 0.025*i, 10)
-    plot_data = Scatter(x=iter_range, y=fids, name="ro_err="+str(np.round(0.025*i, 3)))
+    fids = iterated_noisy_experiment(0.03, 0.025 * i, 10)
+    plot_data = Scatter(
+        x=iter_range, y=fids, name="ro_err=" + str(np.round(0.025 * i, 3))
+    )
     fig.add_trace(plot_data)
 fig.show(renderer="svg")
 
 fig = Figure()
-fig.update_layout(title='Iterated Entanglement Swapping under Noise (ro_err = 0.05)',
-                   xaxis_title='Iterations',
-                   xaxis=dict(range=[0, 10]),
-                   yaxis_title='Fidelity')
+fig.update_layout(
+    title="Iterated Entanglement Swapping under Noise (ro_err = 0.05)",
+    xaxis_title="Iterations",
+    xaxis=dict(range=[0, 10]),
+    yaxis_title="Fidelity",
+)
 iter_range = np.arange(11)
 for i in range(9):
-    fids = iterated_noisy_experiment(0.01*i, 0.05, 10)
-    plot_data = Scatter(x=iter_range, y=fids, name="dep_err="+str(np.round(0.01*i, 3)))
+    fids = iterated_noisy_experiment(0.01 * i, 0.05, 10)
+    plot_data = Scatter(
+        x=iter_range, y=fids, name="dep_err=" + str(np.round(0.01 * i, 3))
+    )
     fig.add_trace(plot_data)
 fig.show(renderer="svg")
 

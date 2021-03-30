@@ -11,19 +11,19 @@ from pytket import Qubit
 from pytket.pauli import QubitPauliString
 from typing import List
 
+
 class MyCircuit:
-    """A minimal representation of a unitary circuit
-    """
+    """A minimal representation of a unitary circuit"""
 
     def __init__(self, qubits: List[Qubit]):
         """Creates a circuit over some set of qubits
-        
+
         :param qubits: The list of qubits in the circuit
         :type qubits: List[Qubit]
         """
         self.qubits = sorted(qubits, reverse=True)
         self.gates = list()
-    
+
     def add_gate(self, qps: QubitPauliString, angle: float):
         """Adds a gate to the end of the circuit e^{-0.5i * qps * angle}
 
@@ -34,13 +34,14 @@ class MyCircuit:
         """
         self.gates.append((qps, angle))
 
+
 # To simulate these, it is enough to generate the matrix of these exponentials and apply them in sequence to our initial state. Calculating these matrix exponentials is easy since we can exploit the following property: if an operator $A$ satisfies $A^2 = I$, then $e^{i\theta A} = \mathrm{cos}(\theta)I + i \mathrm{sin}(\theta) A$. This works for any tensor of Pauli matrices. Furthermore, since each Pauli matrix is some combination of a diagonal matrix and a permutation matrix, they benefit greatly from a sparse matrix representation, which we can obtain from the `QubitPauliString`.
 
 import numpy as np
 
+
 class MySimulator:
-    """A minimal statevector simulator for unitary circuits
-    """
+    """A minimal statevector simulator for unitary circuits"""
 
     def __init__(self, qubits: List[Qubit]):
         """Initialise a statevector, setting all qubits to the |0❭ state.
@@ -50,9 +51,9 @@ class MySimulator:
         :type qubits: List[Qubit]
         """
         self._qubits = qubits
-        self._qstate = np.zeros((2**len(qubits),), dtype=complex)
-        self._qstate[0] = 1.
-    
+        self._qstate = np.zeros((2 ** len(qubits),), dtype=complex)
+        self._qstate[0] = 1.0
+
     def apply_Pauli_rot(self, qps: QubitPauliString, angle: float):
         """Applies e^{-0.5i * qps * angle} to the state
 
@@ -63,7 +64,10 @@ class MySimulator:
         """
         pauli_tensor = qps.to_sparse_matrix(self._qubits)
         exponent = -0.5 * angle
-        self._qstate = np.cos(exponent) * self._qstate + 1j * np.sin(exponent) * pauli_tensor.dot(self._qstate)
+        self._qstate = np.cos(exponent) * self._qstate + 1j * np.sin(
+            exponent
+        ) * pauli_tensor.dot(self._qstate)
+
 
 def run_mycircuit(circ: MyCircuit) -> np.ndarray:
     """Gives the state after applying the circuit to the all-|0❭ state
@@ -78,6 +82,7 @@ def run_mycircuit(circ: MyCircuit) -> np.ndarray:
         sim.apply_Pauli_rot(qps, angle)
     return sim._qstate
 
+
 # And that's all we need for a basic simulator! We can check that this works by trying to generate a Bell state (up to global phase).
 
 from pytket.pauli import Pauli
@@ -85,18 +90,19 @@ from pytket.pauli import Pauli
 q = [Qubit(0), Qubit(1)]
 circ = MyCircuit(q)
 # Hadamard on Qubit(0)
-circ.add_gate(QubitPauliString(Qubit(0), Pauli.Z), np.pi/2)
-circ.add_gate(QubitPauliString(Qubit(0), Pauli.X), np.pi/2)
-circ.add_gate(QubitPauliString(Qubit(0), Pauli.Z), np.pi/2)
+circ.add_gate(QubitPauliString(Qubit(0), Pauli.Z), np.pi / 2)
+circ.add_gate(QubitPauliString(Qubit(0), Pauli.X), np.pi / 2)
+circ.add_gate(QubitPauliString(Qubit(0), Pauli.Z), np.pi / 2)
 # CX with control Qubit(0) and target Qubit(1)
-circ.add_gate(QubitPauliString(Qubit(0), Pauli.Z), -np.pi/2)
-circ.add_gate(QubitPauliString(Qubit(1), Pauli.X), -np.pi/2)
-circ.add_gate(QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.X}), np.pi/2)
+circ.add_gate(QubitPauliString(Qubit(0), Pauli.Z), -np.pi / 2)
+circ.add_gate(QubitPauliString(Qubit(1), Pauli.X), -np.pi / 2)
+circ.add_gate(QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.X}), np.pi / 2)
 print(run_mycircuit(circ))
 
 # A useful first step to integrating this is to define a conversion from the `pytket.Circuit` class to the `MyCircuit` class. In most cases, this will just amount to converting one gate at a time by a simple syntax map. We need not specify how to convert every possible `OpType`, since we can rely on the compilation passes in `pytket` to map the circuit into the required gate set as long as it is universal. For this example, the definitions of `OpType.Rx`, `OpType.Ry`, `OpType.Rz`, and `OpType.ZZMax` all match the form of a single Pauli exponential.
 
 from pytket import Circuit, OpType
+
 
 def tk_to_mycircuit(tkc: Circuit) -> MyCircuit:
     """Convert a pytket Circuit to a MyCircuit object.
@@ -111,16 +117,25 @@ def tk_to_mycircuit(tkc: Circuit) -> MyCircuit:
     for command in tkc:
         optype = command.op.type
         if optype == OpType.Rx:
-            circ.add_gate(QubitPauliString(command.args[0], Pauli.X), np.pi * command.op.params[0])
+            circ.add_gate(
+                QubitPauliString(command.args[0], Pauli.X), np.pi * command.op.params[0]
+            )
         elif optype == OpType.Ry:
-            circ.add_gate(QubitPauliString(command.args[0], Pauli.Y), np.pi * command.op.params[0])
+            circ.add_gate(
+                QubitPauliString(command.args[0], Pauli.Y), np.pi * command.op.params[0]
+            )
         elif optype == OpType.Rz:
-            circ.add_gate(QubitPauliString(command.args[0], Pauli.Z), np.pi * command.op.params[0])
+            circ.add_gate(
+                QubitPauliString(command.args[0], Pauli.Z), np.pi * command.op.params[0]
+            )
         elif optype == OpType.ZZMax:
-            circ.add_gate(QubitPauliString(command.args, [Pauli.Z, Pauli.Z]), np.pi * 0.5)
+            circ.add_gate(
+                QubitPauliString(command.args, [Pauli.Z, Pauli.Z]), np.pi * 0.5
+            )
         else:
             raise ValueError("Cannot convert optype to MyCircuit: ", optype)
     return circ
+
 
 # Now we turn to the `Backend` class. This provides a uniform API to submit `Circuit` objects for evaluation, typically returning either a statevector or a set of measurement shots. It also captures all of the information needed for compilation and asynchronous job management.
 # We will make a subclass of `Backend` for our statevector simulator. The `_supports_state` flag lets the methods of the abstract `Backend` class know that this implementation supports statevector simulation. We also set `_persistent_handles` to `False` since this `Backend` will not be able to retrieve results from a previous Python session.
@@ -128,16 +143,17 @@ def tk_to_mycircuit(tkc: Circuit) -> MyCircuit:
 
 from pytket.backends import Backend
 
+
 class MyBackend(Backend):
-    """A pytket Backend wrapping around the MySimulator statevector simulator
-    """
+    """A pytket Backend wrapping around the MySimulator statevector simulator"""
+
     _supports_state = True
     _persistent_handles = False
 
     def __init__(self):
-        """Create a new instance of the MyBackend class
-        """
+        """Create a new instance of the MyBackend class"""
         super().__init__()
+
 
 # Most `Backend`s will only support a small fragment of the `Circuit` language, either through implementation limitations or since a specific presentation is universal. It is helpful to keep this information in the `Backend` object itself so that users can clearly see how a `Circuit` needs to look before it can be successfully run. The `Predicate` classes in `pytket` can capture many common restrictions. The idea behind the `required_predicates` list is that any `Circuit` satisfying every `Predicate` in the list can be run on the `Backend` successfully as it is.
 # However, a typical high-level user will not be writing `Circuit`s that satisfies all of the `required_predicates`, preferring instead to use the model that is most natural for the algorithm they are implementing. Providing a `default_compilation_pass` gives users an easy starting point for compiling an arbitrary `Circuit` into a form that can be executed (when not blocked by paradigm constraints like `NoMidMeasurePredicate` or `NoClassicalControlPredicate` that cannot easily be solved by compilation).
@@ -147,7 +163,16 @@ class MyBackend(Backend):
 # The standard docstrings for these and other abstract methods can be seen in the abstract `Backend` [API reference](https://cqcl.github.io/pytket/build/html/backends.html#pytket.backends.Backend).
 
 from pytket.predicates import Predicate, GateSetPredicate, NoClassicalBitsPredicate
-from pytket.passes import BasePass, SequencePass, DecomposeBoxes, SynthesiseIBM, FullPeepholeOptimise, RebaseCustom, SquashCustom
+from pytket.passes import (
+    BasePass,
+    SequencePass,
+    DecomposeBoxes,
+    SynthesiseIBM,
+    FullPeepholeOptimise,
+    RebaseCustom,
+    SquashCustom,
+)
+
 
 @property
 def required_predicates(self) -> List[Predicate]:
@@ -167,9 +192,10 @@ def required_predicates(self) -> List[Predicate]:
                 OpType.Rz,
                 OpType.ZZMax,
             }
-        )
+        ),
     ]
     return preds
+
 
 def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
     """
@@ -196,6 +222,7 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
     cx_circ.Vdg(1)
     cx_circ.Sdg(1)
     cx_circ.add_phase(0.5)
+
     def sq(a, b, c):
         circ = Circuit(1)
         if c != 0:
@@ -205,23 +232,28 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
         if a != 0:
             circ.Rz(a, 0)
         return circ
-    rebase = RebaseCustom({OpType.ZZMax}, cx_circ, {OpType.Rx, OpType.Ry, OpType.Rz}, sq)
+
+    rebase = RebaseCustom(
+        {OpType.ZZMax}, cx_circ, {OpType.Rx, OpType.Ry, OpType.Rz}, sq
+    )
     squash = SquashCustom({OpType.Rz, OpType.Rx, OpType.Ry}, sq)
-    seq = [DecomposeBoxes()]                # Decompose boxes into basic gates
+    seq = [DecomposeBoxes()]  # Decompose boxes into basic gates
     if optimisation_level == 1:
-        seq.append(SynthesiseIBM())         # Optional fast optimisation
+        seq.append(SynthesiseIBM())  # Optional fast optimisation
     elif optimisation_level == 2:
         seq.append(FullPeepholeOptimise())  # Optional heavy optimisation
-    seq.append(rebase)                      # Map to target gate set
+    seq.append(rebase)  # Map to target gate set
     if optimisation_level != 0:
-        seq.append(squash)                  # Optionally simplify 1qb gate chains within this gate set
+        seq.append(squash)  # Optionally simplify 1qb gate chains within this gate set
     return SequencePass(seq)
+
 
 # The `device` property is used for hardware devices and noisy simulators to represent the connectivity information and noise characteristics. This can be used within the `required_predicates` and `default_compilation_pass` to capture and solve the connectivity constraints.
 # Since our simulator is noiseless, we will just return `None`.
 
 from pytket.device import Device
 from typing import Optional
+
 
 @property
 def device(self) -> Optional[Device]:
@@ -233,12 +265,14 @@ def device(self) -> Optional[Device]:
     """
     return None
 
+
 # Asynchronous job management is all managed through the `ResultHandle` associated with a particular `Circuit` that has been submitted. We can use it to inspect the status of the job to see if it has completed, or to look up the results if they are available.
 # For devices, `circuit_status` should query the job to see if it is in a queue, currently being executed, completed successfully, etc. The `CircuitStatus` class is mostly driven by the `StatusEnum` values, but can also contain messages to give more detailed feedback if available. For our simulator, we are not running things asynchronously, so a `Circuit` has either not been run or it will have been completed.
 # Since a device API will probably define its own data type for job handles, the `ResultHandle` definition is flexible enough to cover many possible data types so you can likely use the underlying job handle as the `ResultHandle`. The `_result_id_type` property specifies what data type a `ResultHandle` for this `Backend` should look like. Since our simulator has no underlying job handle, we can just use a UUID string.
 
 from pytket.backends import ResultHandle, CircuitStatus, StatusEnum, CircuitNotRunError
 from pytket.backends.resulthandle import _ResultIdTuple
+
 
 @property
 def _result_id_type(self) -> _ResultIdTuple:
@@ -249,6 +283,7 @@ def _result_id_type(self) -> _ResultIdTuple:
     """
     return (str,)
 
+
 def circuit_status(self, handle: ResultHandle) -> CircuitStatus:
     """
     Return a CircuitStatus reporting the status of the circuit execution
@@ -257,6 +292,7 @@ def circuit_status(self, handle: ResultHandle) -> CircuitStatus:
     if handle in self._cache:
         return CircuitStatus(StatusEnum.COMPLETED)
     raise CircuitNotRunError(handle)
+
 
 # And finally, we have the method that actually submits a job for execution. `process_circuits` should take a collection of (compiled) `Circuit` objects, process them and return a `ResultHandle` for each `Circuit`. If execution is synchronous, then this can simply wait until it is finished, store the result in `_cache` and return. For backends that support asynchronous jobs, you will need to set up an event to format and store the result on completion.
 # It is recommended to use the `valid_check` parameter to control a call to `Backend._check_all_circuits()`, which will raise an exception if any of the circuits do not satisfy everything in `required_predicates`.
@@ -268,6 +304,7 @@ from pytket.backends.backendresult import BackendResult
 from pytket.utils.results import KwargTypes
 from typing import Iterable
 from uuid import uuid4
+
 
 def process_circuits(
     self,
@@ -303,7 +340,7 @@ def process_circuits(
     circuit_list = list(circuits)
     if valid_check:
         self._check_all_circuits(circuit_list)
-    
+
     handle_list = []
     for circuit in circuit_list:
         handle = ResultHandle(str(uuid4()))
@@ -311,25 +348,24 @@ def process_circuits(
         state = run_mycircuit(mycirc)
         state *= np.exp(1j * np.pi * circuit.phase)
         implicit_perm = circuit.implicit_qubit_permutation()
-        res_qubits = [
-            implicit_perm[qb] for qb in sorted(circuit.qubits, reverse=True)
-        ]
+        res_qubits = [implicit_perm[qb] for qb in sorted(circuit.qubits, reverse=True)]
         res = BackendResult(q_bits=res_qubits, state=state)
-        self._cache[handle] = {"result" : res}
+        self._cache[handle] = {"result": res}
         handle_list.append(handle)
     return handle_list
 
+
 # Let's redefine our `MyBackend` class to use these methods to finish it off.
 
+
 class MyBackend(Backend):
-    """A pytket Backend wrapping around the MySimulator statevector simulator
-    """
+    """A pytket Backend wrapping around the MySimulator statevector simulator"""
+
     _supports_state = True
     _persistent_handles = False
 
     def __init__(self):
-        """Create a new instance of the MyBackend class
-        """
+        """Create a new instance of the MyBackend class"""
         super().__init__()
 
     required_predicates = required_predicates
@@ -339,6 +375,7 @@ class MyBackend(Backend):
     circuit_status = circuit_status
     process_circuits = process_circuits
 
+
 # Our new `Backend` subclass is now complete, so let's test it out. If you are planning on maintaining a backend class, it is recommended to set up some unit tests. The following tests will cover basic operation and integration with `pytket` utilities.
 
 from pytket.circuit import BasisOrder, Unitary1qBox
@@ -347,13 +384,15 @@ from pytket.utils import get_operator_expectation_value
 from pytket.utils.operators import QubitPauliOperator
 import pytest
 
+
 def test_bell() -> None:
     c = Circuit(2)
     c.H(0)
     c.CX(0, 1)
     b = MyBackend()
     b.compile_circuit(c)
-    assert np.allclose(b.get_state(c), np.asarray([1, 0, 0, 1]) * 1/np.sqrt(2))
+    assert np.allclose(b.get_state(c), np.asarray([1, 0, 0, 1]) * 1 / np.sqrt(2))
+
 
 def test_basisorder() -> None:
     c = Circuit(2)
@@ -362,6 +401,7 @@ def test_basisorder() -> None:
     b.compile_circuit(c)
     assert np.allclose(b.get_state(c), np.asarray([0, 1, 0, 0]))
     assert np.allclose(b.get_state(c, basis=BasisOrder.dlo), np.asarray([0, 0, 1, 0]))
+
 
 def test_implicit_perm() -> None:
     c = Circuit(2)
@@ -379,6 +419,7 @@ def test_implicit_perm() -> None:
         s1 = b.get_state(c1, bo)
         assert np.allclose(s, s1)
 
+
 def test_compilation_pass() -> None:
     b = MyBackend()
     for opt_level in range(3):
@@ -392,6 +433,7 @@ def test_compilation_pass() -> None:
         b.compile_circuit(c, optimisation_level=opt_level)
         assert b.valid_circuit(c)
 
+
 def test_invalid_measures() -> None:
     c = Circuit(2)
     c.H(0).CX(0, 1).measure_all()
@@ -399,19 +441,23 @@ def test_invalid_measures() -> None:
     b.compile_circuit(c)
     assert not (b.valid_circuit(c))
 
+
 def test_expectation_value() -> None:
     c = Circuit(2)
     c.H(0)
     c.CX(0, 1)
-    op = QubitPauliOperator({
-        QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Z}) : 1.,
-        QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X}) : 0.3,
-        QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Y}) : 0.8j,
-        QubitPauliString({Qubit(0): Pauli.Y}) : -0.4j,
-    })
+    op = QubitPauliOperator(
+        {
+            QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Z}): 1.0,
+            QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X}): 0.3,
+            QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Y}): 0.8j,
+            QubitPauliString({Qubit(0): Pauli.Y}): -0.4j,
+        }
+    )
     b = MyBackend()
     b.compile_circuit(c)
     assert get_operator_expectation_value(c, op, b) == pytest.approx(1.3)
+
 
 # Explicit calls are needed for this notebook
 # Normally pytest will just find these "test_X" methods when run from the command line
@@ -426,7 +472,10 @@ test_expectation_value()
 
 from typing import Set
 
-def sample_mycircuit(circ: MyCircuit, qubits: Set[Qubit], n_shots: int, seed: Optional[int]=None) -> np.ndarray:
+
+def sample_mycircuit(
+    circ: MyCircuit, qubits: Set[Qubit], n_shots: int, seed: Optional[int] = None
+) -> np.ndarray:
     """Run the circuit on the all-|0❭ state and measures a set of qubits
 
     :param circ: The circuit to simulate
@@ -447,7 +496,7 @@ def sample_mycircuit(circ: MyCircuit, qubits: Set[Qubit], n_shots: int, seed: Op
     shots = np.zeros((n_shots, len(circ.qubits)))
     for s in range(n_shots):
         # Pick a random point in the distribution
-        point = np.random.uniform(0., 1.)
+        point = np.random.uniform(0.0, 1.0)
         # Find the corresponding readout
         index = np.searchsorted(cumulative_probs, point)
         # Convert index to a binary array
@@ -463,10 +512,12 @@ def sample_mycircuit(circ: MyCircuit, qubits: Set[Qubit], n_shots: int, seed: Op
             target += 1
     return filtered
 
+
 # Since `MyCircuit` doesn't have a representation for measurement gates, our converter must return both the `MyCircuit` object and some way of capturing the measurements. Since we will also want to know how they map into our `Bit` ids, the simplest option is just a dictionary from `Qubit` to `Bit`.
 
 from pytket import Bit
 from typing import Tuple, Dict
+
 
 def tk_to_mymeasures(tkc: Circuit) -> Tuple[MyCircuit, Dict[Qubit, Bit]]:
     """Convert a pytket Circuit to a MyCircuit object and a measurement map.
@@ -479,20 +530,30 @@ def tk_to_mymeasures(tkc: Circuit) -> Tuple[MyCircuit, Dict[Qubit, Bit]]:
     """
     circ = MyCircuit(tkc.qubits)
     measure_map = dict()
-    measured_units = set()  # Track measured Qubits/used Bits to identify mid-circuit measurement
+    measured_units = (
+        set()
+    )  # Track measured Qubits/used Bits to identify mid-circuit measurement
     for command in tkc:
         for u in command.args:
             if u in measured_units:
                 raise ValueError("Circuit contains a mid-circuit measurement")
         optype = command.op.type
         if optype == OpType.Rx:
-            circ.add_gate(QubitPauliString(command.args[0], Pauli.X), np.pi * command.op.params[0])
+            circ.add_gate(
+                QubitPauliString(command.args[0], Pauli.X), np.pi * command.op.params[0]
+            )
         elif optype == OpType.Ry:
-            circ.add_gate(QubitPauliString(command.args[0], Pauli.Y), np.pi * command.op.params[0])
+            circ.add_gate(
+                QubitPauliString(command.args[0], Pauli.Y), np.pi * command.op.params[0]
+            )
         elif optype == OpType.Rz:
-            circ.add_gate(QubitPauliString(command.args[0], Pauli.Z), np.pi * command.op.params[0])
+            circ.add_gate(
+                QubitPauliString(command.args[0], Pauli.Z), np.pi * command.op.params[0]
+            )
         elif optype == OpType.ZZMax:
-            circ.add_gate(QubitPauliString(command.args, [Pauli.Z, Pauli.Z]), np.pi * 0.5)
+            circ.add_gate(
+                QubitPauliString(command.args, [Pauli.Z, Pauli.Z]), np.pi * 0.5
+            )
         elif optype == OpType.Measure:
             measure_map[command.args[0]] = command.args[1]
             measured_units.add(command.args[0])
@@ -501,21 +562,22 @@ def tk_to_mymeasures(tkc: Circuit) -> Tuple[MyCircuit, Dict[Qubit, Bit]]:
             raise ValueError("Cannot convert optype to MyCircuit: ", optype)
     return circ, measure_map
 
+
 # To build a `Backend` subclass for this sampling simulator, we only need to change how we write `required_predicates` and `process_circuits`.
 
 from pytket.predicates import NoMidMeasurePredicate, NoClassicalControlPredicate
 from pytket.utils.outcomearray import OutcomeArray
 
+
 class MySampler(Backend):
-    """A pytket Backend wrapping around the MySimulator simulator with readout sampling
-    """
+    """A pytket Backend wrapping around the MySimulator simulator with readout sampling"""
+
     _supports_shots = True
     _supports_counts = True
     _persistent_handles = False
 
     def __init__(self):
-        """Create a new instance of the MySampler class
-        """
+        """Create a new instance of the MySampler class"""
         super().__init__()
 
     default_compilation_pass = default_compilation_pass
@@ -543,7 +605,7 @@ class MySampler(Backend):
                     OpType.ZZMax,
                     OpType.Measure,
                 }
-            )
+            ),
         ]
         return preds
 
@@ -581,26 +643,32 @@ class MySampler(Backend):
         circuit_list = list(circuits)
         if valid_check:
             self._check_all_circuits(circuit_list)
-        
+
         handle_list = []
         for circuit in circuit_list:
             handle = ResultHandle(str(uuid4()))
             mycirc, measure_map = tk_to_mymeasures(circuit)
             qubit_list, bit_list = zip(*measure_map.items())
-            qubit_shots = sample_mycircuit(mycirc, set(qubit_list), n_shots, kwargs.get("seed"))
+            qubit_shots = sample_mycircuit(
+                mycirc, set(qubit_list), n_shots, kwargs.get("seed")
+            )
             # Pad shot table with 0 columns for unused bits
             all_shots = np.zeros((n_shots, len(circuit.bits)), dtype=int)
-            all_shots[:, :len(qubit_list)] = qubit_shots
+            all_shots[:, : len(qubit_list)] = qubit_shots
             res_bits = [measure_map[q] for q in sorted(qubit_list, reverse=True)]
             for b in circuit.bits:
                 if b not in bit_list:
                     res_bits.append(b)
-            res = BackendResult(c_bits=res_bits, shots=OutcomeArray.from_readouts(all_shots))
-            self._cache[handle] = {"result" : res}
+            res = BackendResult(
+                c_bits=res_bits, shots=OutcomeArray.from_readouts(all_shots)
+            )
+            self._cache[handle] = {"result": res}
             handle_list.append(handle)
         return handle_list
 
+
 # Likewise, we run some basic tests to make sure it works.
+
 
 def test_sampler_bell() -> None:
     c = Circuit(2, 2)
@@ -612,6 +680,7 @@ def test_sampler_bell() -> None:
     assert b.get_shots(c, n_shots=10, seed=3).shape == (10, 2)
     assert b.get_counts(c, n_shots=10, seed=3) == {(0, 0): 5, (1, 1): 5}
 
+
 def test_sampler_basisorder() -> None:
     c = Circuit(2, 2)
     c.X(1)
@@ -620,6 +689,7 @@ def test_sampler_basisorder() -> None:
     b.compile_circuit(c)
     assert b.get_counts(c, n_shots=10, seed=0) == {(0, 1): 10}
     assert b.get_counts(c, n_shots=10, seed=0, basis=BasisOrder.dlo) == {(1, 0): 10}
+
 
 def test_sampler_compilation_pass() -> None:
     b = MySampler()
@@ -635,6 +705,7 @@ def test_sampler_compilation_pass() -> None:
         b.compile_circuit(c, optimisation_level=opt_level)
         assert b.valid_circuit(c)
 
+
 def test_sampler_invalid_conditions() -> None:
     c = Circuit(2, 2)
     c.H(0)
@@ -644,20 +715,26 @@ def test_sampler_invalid_conditions() -> None:
     b.compile_circuit(c)
     assert not (b.valid_circuit(c))
 
+
 def test_sampler_expectation_value() -> None:
     c = Circuit(2)
     c.H(0)
     c.CX(0, 1)
-    op = QubitPauliOperator({
-        QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Z}) : 1.,
-        QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X}) : 0.3,
-        QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Y}) : 0.8j,
-        QubitPauliString({Qubit(0): Pauli.Y}) : -0.4j,
-    })
+    op = QubitPauliOperator(
+        {
+            QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Z}): 1.0,
+            QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X}): 0.3,
+            QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Y}): 0.8j,
+            QubitPauliString({Qubit(0): Pauli.Y}): -0.4j,
+        }
+    )
     b = MySampler()
     b.compile_circuit(c)
     expectation = get_operator_expectation_value(c, op, b, n_shots=2000, seed=0)
-    assert (np.real(expectation), np.imag(expectation)) == pytest.approx((1.3, 0.), abs=0.1)
+    assert (np.real(expectation), np.imag(expectation)) == pytest.approx(
+        (1.3, 0.0), abs=0.1
+    )
+
 
 test_sampler_bell()
 test_sampler_basisorder()

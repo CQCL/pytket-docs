@@ -11,6 +11,7 @@
 
 from pytket import Circuit
 from pytket.extensions.qiskit import AerBackend
+
 # from pytket.extensions.pyquil import ForestBackend
 # from pytket.extensions.qsharp import QsharpSimulatorBackend
 # from pytket.extensions.qulacs import QulacsBackend, QulacsGPUBackend
@@ -37,6 +38,7 @@ print(counts)
 
 from pytket import Circuit
 from pytket.extensions.qiskit import AerStateBackend
+
 # from pytket.extensions.pyquil import ForestStateBackend
 # from pytket.extensions.qulacs import QulacsBackend, QulacsGPUBackend
 # from pytket.extensions.projectq import ProjectQBackend
@@ -63,6 +65,7 @@ print(state)
 
 from pytket import Circuit, Qubit
 from pytket.extensions.qiskit import AerBackend, AerStateBackend
+
 # from pytket.extensions.pyquil import ForestStateBackend
 # from pytket.extensions.qulacs import QulacsBackend, QulacsGPUBackend
 # from pytket.extensions.projectq import ProjectQBackend
@@ -77,9 +80,9 @@ c.Rz(-0.3, 1)
 c.Ry(0.8, 2)
 
 # Define the measurement operator
-xxi = QubitPauliString({Qubit(0) : Pauli.X, Qubit(1) : Pauli.X})
-zzz = QubitPauliString({Qubit(0) : Pauli.Z, Qubit(1) : Pauli.Z, Qubit(2) : Pauli.Z})
-op = QubitPauliOperator({xxi : -1.8, zzz : 0.7j})
+xxi = QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X})
+zzz = QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Z, Qubit(2): Pauli.Z})
+op = QubitPauliOperator({xxi: -1.8, zzz: 0.7j})
 
 # Run on the backend
 backend = AerBackend()
@@ -108,10 +111,10 @@ from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
 
 # Quantum teleportation circuit
 c = Circuit()
-alice = c.add_q_register('a', 2)
-bob = c.add_q_register('b', 1)
-data = c.add_c_register('d', 2)
-final = c.add_c_register('f', 1)
+alice = c.add_q_register("a", 2)
+bob = c.add_q_register("b", 1)
+data = c.add_c_register("d", 2)
+final = c.add_c_register("f", 1)
 
 # Start in an interesting state
 c.Rx(0.3, alice[0])
@@ -137,8 +140,8 @@ c.Measure(bob[0], final[0])
 model = NoiseModel()
 dep_err = depolarizing_error(0.04, 2)
 for i, j in combinations(range(3), r=2):
-    model.add_quantum_error(dep_err, ['cx'], [i, j])
-    model.add_quantum_error(dep_err, ['cx'], [j, i])
+    model.add_quantum_error(dep_err, ["cx"], [i, j])
+    model.add_quantum_error(dep_err, ["cx"], [j, i])
 backend = AerBackend(noise_model=model)
 
 # Run circuit

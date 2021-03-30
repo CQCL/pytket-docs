@@ -22,9 +22,9 @@ qps5 = QubitPauliString(q, [Pauli.Y, Pauli.X, Pauli.X, Pauli.X])
 from pytket.circuit import fresh_symbol
 
 symbol1 = fresh_symbol("s0")
-expr1 = 1.2*symbol1
+expr1 = 1.2 * symbol1
 symbol2 = fresh_symbol("s1")
-expr2 = -0.3*symbol2
+expr2 = -0.3 * symbol2
 
 # We can now create our `QubitPauliOperator`.
 
@@ -43,10 +43,11 @@ from pytket.partition import PauliPartitionStrat, GraphColourMethod
 
 reference_circ = Circuit(4).X(1).X(3)
 ansatz_circuit = gen_term_sequence_circuit(
-    operator, reference_circ, PauliPartitionStrat.CommutingSets, GraphColourMethod.Lazy)
+    operator, reference_circ, PauliPartitionStrat.CommutingSets, GraphColourMethod.Lazy
+)
 
 # This method works by generating a graph of Pauli exponentials and performing graph colouring. Here we have chosen to partition the terms so that exponentials which commute are gathered together, and we have done so using a lazy, greedy graph colouring method.
-# Alternatively, we could have used the `PauliPartitionStrat.NonConflictingSets`, which puts Pauli exponentials together 
+# Alternatively, we could have used the `PauliPartitionStrat.NonConflictingSets`, which puts Pauli exponentials together
 # so that they only require single-qubit gates to be converted into the form $e^{i \alpha Z \otimes Z \otimes ... \otimes Z}$. This strategy is primarily useful for measurement reduction, a different problem.
 # We could also have used the `GraphColourMethod.LargestFirst`, which still uses a greedy method, but builds the full graph and iterates through the vertices in descending order of arity. We recommend playing around with the options, but we typically find that the combination of `CommutingSets` and `Lazy` allows the best optimisation.
 # In general, not all of our exponentials will commute, so the semantics of our circuit depend on the order of our sequencing. As a result, it is important for us to be able to inspect the order we have produced. `pytket` provides functionality to enable this. Each set of commuting exponentials is put into a `CircBox`, which lets us inspect the partitoning.
@@ -57,7 +58,11 @@ for command in ansatz_circuit:
     if command.op.type == OpType.CircBox:
         print("New CircBox:")
         for pauli_exp in command.op.get_circuit():
-            print(" {} {} {}".format(pauli_exp, pauli_exp.op.get_paulis(), pauli_exp.op.get_phase()))
+            print(
+                " {} {} {}".format(
+                    pauli_exp, pauli_exp.op.get_paulis(), pauli_exp.op.get_phase()
+                )
+            )
     else:
         print("Native gate: {}".format(command))
 
@@ -88,7 +93,9 @@ print("Smart CX Count: {}".format(smart_circuit.n_gates_of_type(OpType.CX)))
 # If we choose a different combination of strategies, we can produce a different output circuit:
 
 last_circuit = ansatz_circuit.copy()
-Transform.UCCSynthesis(PauliSynthStrat.Individual, CXConfigType.Snake).apply(last_circuit)
+Transform.UCCSynthesis(PauliSynthStrat.Individual, CXConfigType.Snake).apply(
+    last_circuit
+)
 print(last_circuit.get_commands())
 
 print("Last CX Depth: {}".format(last_circuit.depth_by_type(OpType.CX)))

@@ -25,11 +25,16 @@ c.H(4)
 c.V(2)
 
 shots_backend.compile_circuit(c)
-op = QubitPauliOperator({
-    QubitPauliString([Qubit(0)], [Pauli.Z]): 0.1,
-    QubitPauliString([Qubit(0), Qubit(1), Qubit(2), Qubit(3), Qubit(4)], [Pauli.Y, Pauli.Z, Pauli.X, Pauli.X, Pauli.Y]): 0.4,
-    QubitPauliString([Qubit(0), Qubit(1)], [Pauli.X, Pauli.X]): 0.2
-})
+op = QubitPauliOperator(
+    {
+        QubitPauliString([Qubit(0)], [Pauli.Z]): 0.1,
+        QubitPauliString(
+            [Qubit(0), Qubit(1), Qubit(2), Qubit(3), Qubit(4)],
+            [Pauli.Y, Pauli.Z, Pauli.X, Pauli.X, Pauli.Y],
+        ): 0.4,
+        QubitPauliString([Qubit(0), Qubit(1)], [Pauli.X, Pauli.X]): 0.2,
+    }
+)
 
 shots_result = get_operator_expectation_value(c, op, shots_backend, n_shots)
 print(shots_result)

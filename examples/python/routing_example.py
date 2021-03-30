@@ -15,11 +15,13 @@ from pytket.routing import Architecture
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
 def draw_graph(coupling_map):
     coupling_graph = nx.Graph(coupling_map)
-    nx.draw(coupling_graph, labels = {node:node for node in coupling_graph.nodes()})
+    nx.draw(coupling_graph, labels={node: node for node in coupling_graph.nodes()})
 
-simple_coupling_map = [(0,1),(1,2),(2,3)]
+
+simple_coupling_map = [(0, 1), (1, 2), (2, 3)]
 simple_architecture = Architecture(simple_coupling_map)
 draw_graph(simple_coupling_map)
 
@@ -27,29 +29,40 @@ draw_graph(simple_coupling_map)
 
 from pytket.circuit import Node
 
-node_0 = Node('example_register', 0)
-node_1 = Node('example_register', 1)
-node_2 = Node('example_register', 2)
-node_3 = Node('example_register', 3)
+node_0 = Node("example_register", 0)
+node_1 = Node("example_register", 1)
+node_2 = Node("example_register", 2)
+node_3 = Node("example_register", 3)
 
-id_coupling_map = [(node_0,node_1),(node_1,node_2),(node_2,node_3)]
+id_coupling_map = [(node_0, node_1), (node_1, node_2), (node_2, node_3)]
 id_architecture = Architecture(id_coupling_map)
 draw_graph(id_coupling_map)
 
 # We can also create an ID with an arbitrary-dimensional index. Lets make a 2x2x2 cube:
 
-node_000 = Node('cube',[0,0,0])
-node_001 = Node('cube',[0,0,1])
-node_010 = Node('cube',[0,1,0])
-node_011 = Node('cube',[0,1,1])
-node_100 = Node('cube',[1,0,0])
-node_101 = Node('cube',[1,0,1])
-node_110 = Node('cube',[1,1,0])
-node_111 = Node('cube',[1,1,1])
+node_000 = Node("cube", [0, 0, 0])
+node_001 = Node("cube", [0, 0, 1])
+node_010 = Node("cube", [0, 1, 0])
+node_011 = Node("cube", [0, 1, 1])
+node_100 = Node("cube", [1, 0, 0])
+node_101 = Node("cube", [1, 0, 1])
+node_110 = Node("cube", [1, 1, 0])
+node_111 = Node("cube", [1, 1, 1])
 
-cube_coupling_map = [(node_000,node_001),(node_000,node_010),(node_010,node_011),(node_001,node_011),
-                 (node_000,node_100), (node_001,node_101),(node_010,node_110),(node_011,node_111),
-                 (node_100,node_101),(node_100,node_110),(node_110,node_111),(node_101,node_111)]
+cube_coupling_map = [
+    (node_000, node_001),
+    (node_000, node_010),
+    (node_010, node_011),
+    (node_001, node_011),
+    (node_000, node_100),
+    (node_001, node_101),
+    (node_010, node_110),
+    (node_011, node_111),
+    (node_100, node_101),
+    (node_100, node_110),
+    (node_110, node_111),
+    (node_101, node_111),
+]
 
 cube_architecture = Architecture(cube_coupling_map)
 draw_graph(cube_coupling_map)
@@ -57,19 +70,22 @@ draw_graph(cube_coupling_map)
 # To avoid that tedium though we could just use our SquareGrid Architecture:
 
 from pytket.routing import SquareGrid
-alternative_cube_architecture = SquareGrid(2,2,2)
+
+alternative_cube_architecture = SquareGrid(2, 2, 2)
 draw_graph(alternative_cube_architecture.coupling)
 
 # Other Architecture generators are supported including the HexagonalGrid:
 
 from pytket.routing import HexagonalGrid
-hex_architecture = HexagonalGrid(1,2,1)
+
+hex_architecture = HexagonalGrid(1, 2, 1)
 print(hex_architecture)
 draw_graph(hex_architecture.coupling)
 
 # and the CyclicButterfly:
 
 from pytket.routing import CyclicButterfly
+
 cb_architecture = CyclicButterfly(3)
 print(cb_architecture)
 draw_graph(cb_architecture.coupling)
@@ -81,35 +97,47 @@ from pytket.circuit import OpType
 from pytket.device import Device, QubitErrorContainer
 
 # First create an error type for our single qubit errors
-single_qubit_error = 0.001 # gate error rate
+single_qubit_error = 0.001  # gate error rate
 readout_error = 0.01
-single_qubit_gate_errors = QubitErrorContainer({OpType.H : single_qubit_error, 
-                                               OpType.S : single_qubit_error, 
-                                               OpType.T : single_qubit_error})
+single_qubit_gate_errors = QubitErrorContainer(
+    {
+        OpType.H: single_qubit_error,
+        OpType.S: single_qubit_error,
+        OpType.T: single_qubit_error,
+    }
+)
 single_qubit_gate_errors.add_readout(readout_error)
 
 # Second create an error type for our multi qubit errors
 cx_error = 0.01
-cx_gate_errors = QubitErrorContainer({OpType.CX : cx_error})
+cx_gate_errors = QubitErrorContainer({OpType.CX: cx_error})
 
 # Initialise a Device for id_architecture with homogeneous qubits and links
-id_device = Device({node_0 : single_qubit_gate_errors, 
-                    node_1 : single_qubit_gate_errors, 
-                    node_2 : single_qubit_gate_errors, 
-                    node_3 : single_qubit_gate_errors}, 
-                   {id_coupling_map[0] : cx_gate_errors,
-                    id_coupling_map[0][::-1] : cx_gate_errors,
-                    id_coupling_map[1] : cx_gate_errors,
-                    id_coupling_map[1][::-1] : cx_gate_errors,
-                    id_coupling_map[2] : cx_gate_errors, 
-                    id_coupling_map[2][::-1] : cx_gate_errors}, id_architecture)
+id_device = Device(
+    {
+        node_0: single_qubit_gate_errors,
+        node_1: single_qubit_gate_errors,
+        node_2: single_qubit_gate_errors,
+        node_3: single_qubit_gate_errors,
+    },
+    {
+        id_coupling_map[0]: cx_gate_errors,
+        id_coupling_map[0][::-1]: cx_gate_errors,
+        id_coupling_map[1]: cx_gate_errors,
+        id_coupling_map[1][::-1]: cx_gate_errors,
+        id_coupling_map[2]: cx_gate_errors,
+        id_coupling_map[2][::-1]: cx_gate_errors,
+    },
+    id_architecture,
+)
 
 id_device
 
 # Quantum Devices are full of different information and so creating an accurate Device object can become tedious.
-# Our supported backends have helper methods for creating Devices. This requires installation of qiskit and a valid IBMQ user logged in. 
+# Our supported backends have helper methods for creating Devices. This requires installation of qiskit and a valid IBMQ user logged in.
 
 from qiskit import IBMQ
+
 IBMQ.load_account()
 
 # If ```IBMQBackend``` available in ```pytket_qiskit``` is used the characterisation and Device is automatically constructed.
@@ -119,11 +147,13 @@ IBMQ.load_account()
 from pytket.extensions.qiskit import process_characterisation
 
 provider = IBMQ.providers()[0]
-athens_backend = provider.get_backend('ibmq_athens')
+athens_backend = provider.get_backend("ibmq_athens")
 athens_characterisation = process_characterisation(athens_backend)
-athens_device = Device(athens_characterisation["NodeErrors"], 
-                        athens_characterisation["EdgeErrors"], 
-                        athens_characterisation["Architecture"])
+athens_device = Device(
+    athens_characterisation["NodeErrors"],
+    athens_characterisation["EdgeErrors"],
+    athens_characterisation["Architecture"],
+)
 
 print(athens_device.__repr__())
 print(athens_characterisation.keys())
@@ -133,12 +163,17 @@ draw_graph(athens_device.coupling)
 # Lets look at the some single-qubit Device information for different qubits:
 
 for athens_node in athens_device.nodes:
-    print('X error rate for', athens_node, 'is', athens_device.get_error(OpType.X, athens_node))
+    print(
+        "X error rate for",
+        athens_node,
+        "is",
+        athens_device.get_error(OpType.X, athens_node),
+    )
 
 # Likewise we can retrieve multi-qubit gate information.
 
 for edge in athens_device.coupling:
-    print('CX error rate for', edge, 'is', athens_device.get_error(OpType.CX, edge))
+    print("CX error rate for", edge, "is", athens_device.get_error(OpType.CX, edge))
 
 # We've now seen how to create custom Architectures using indexing and nodes, how to use our built in Architecture generators for typical connectivity graphs, how to create custom Devices using our QubitErrorContainers, and how to automatically generate a Device object for a real quantum computer straight from IBM.
 # Lets now see how we can use these objects are used for Routing circuits - we create a circuit for Routing to our original architectures and assume the only primitive constraint is the ```CX``` gate, which can only be executed on an edge in our coupling map.
@@ -146,18 +181,19 @@ for edge in athens_device.coupling:
 from pytket import Circuit
 
 example_circuit = Circuit(4)
-example_circuit.CX(0,1).CX(0,2).CX(1,2).CX(3,2).CX(0,3)
+example_circuit.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 for gate in example_circuit:
     print(gate)
 
 # We can also visualise the `Circuit` using, for example, IBM Qiskit's `QuantumCircuit` printer. To do this, we must use the `pytket.extensions.qiskit` subpackage and import a method from within Qiskit.
 
 from pytket.extensions.qiskit import tk_to_qiskit
+
 print(tk_to_qiskit(example_circuit))
 
 # This circuit can not be executed on any of our Architectures without modification. We can see this by looking at the circuits interaction graph, a graph where nodes are logical qubits and edges are some two-qubit gate.
 
-interaction_edges = [(0,1),(0,2),(1,2),(3,2),(0,3)]
+interaction_edges = [(0, 1), (0, 2), (1, 2), (3, 2), (0, 3)]
 draw_graph(interaction_edges)
 
 draw_graph(simple_coupling_map)
@@ -169,7 +205,7 @@ from pytket.routing import route
 
 simple_modified_circuit = route(example_circuit, simple_architecture)
 
-for gate in simple_modified_circuit: 
+for gate in simple_modified_circuit:
     print(gate)
 
 print(tk_to_qiskit(simple_modified_circuit))
@@ -181,9 +217,9 @@ draw_graph(id_architecture.coupling)
 
 id_modified_circuit = route(example_circuit, id_architecture)
 
-for gate in id_modified_circuit: 
+for gate in id_modified_circuit:
     print(gate)
-    
+
 print(tk_to_qiskit(id_modified_circuit))
 
 # Both simple_architecture and id_architecture had the same graph structure, and so we can see that the qubits have been relabelled and ```SWAP``` gates added identically - the only difference is the preservation of the node labelling of id_architecture.
@@ -191,11 +227,11 @@ print(tk_to_qiskit(id_modified_circuit))
 
 cube_modified_circuit = route(example_circuit, cube_architecture)
 
-for gate in cube_modified_circuit: 
-    print(gate) 
-    
+for gate in cube_modified_circuit:
+    print(gate)
+
 cmc_copy = cube_modified_circuit.copy()
-cmc_copy.flatten_registers() 
+cmc_copy.flatten_registers()
 print(tk_to_qiskit(cmc_copy))
 
 # Similarly the circuits qubits have been relabelled and ```SWAP``` gates added. In this example though ```route``` is able to utilise the extra connectivity of cube_architecture to reduce the number of ```SWAP``` gates added from 3 to 1.
@@ -205,7 +241,7 @@ athens_modified_circuit = route(example_circuit, athens_device)
 
 for gate in athens_modified_circuit:
     print(gate)
-    
+
 print(tk_to_qiskit(athens_modified_circuit))
 
 # The ```route``` method comes with a set of parameters that can be modified to tune the performance of routing for a circuit to a given Architecture.
@@ -217,7 +253,7 @@ print(tk_to_qiskit(athens_modified_circuit))
 # - (RoutingMethod) **routing_method**, determines ```SWAP``` picking strategy used during Routing, default RoutingMethod.base.
 # Lets change some of our basic routing parameters:
 
-basic_parameters = dict(bridge_lookahead = 4, bridge_interactions = 4, swap_lookahead = 0)
+basic_parameters = dict(bridge_lookahead=4, bridge_interactions=4, swap_lookahead=0)
 id_basic_modified_circuit = route(example_circuit, id_architecture, **basic_parameters)
 
 for gate in id_basic_modified_circuit:
@@ -226,16 +262,16 @@ for gate in id_basic_modified_circuit:
 # By changing the basic routing parameters we return a different routed circuit. To assess performance we must know the CX decomposition of both the ```SWAP``` and ```BRIDGE``` gates.
 
 SWAP_c = Circuit(2)
-SWAP_c.SWAP(0,1)
+SWAP_c.SWAP(0, 1)
 SWAP_decomp_c = Circuit(2)
-SWAP_decomp_c.CX(0,1).CX(1,0).CX(0,1)
+SWAP_decomp_c.CX(0, 1).CX(1, 0).CX(0, 1)
 BRIDGE_c = Circuit(3)
-BRIDGE_c.CX(0,2)
+BRIDGE_c.CX(0, 2)
 BRIDGE_decomp_c = Circuit(3)
-BRIDGE_decomp_c.CX(0,1).CX(1,2).CX(0,1).CX(1,2)
+BRIDGE_decomp_c.CX(0, 1).CX(1, 2).CX(0, 1).CX(1, 2)
 
-print(tk_to_qiskit(SWAP_c),"\n=\n",tk_to_qiskit(SWAP_decomp_c))
-print(tk_to_qiskit(BRIDGE_c),"\n=\n",tk_to_qiskit(BRIDGE_decomp_c))
+print(tk_to_qiskit(SWAP_c), "\n=\n", tk_to_qiskit(SWAP_decomp_c))
+print(tk_to_qiskit(BRIDGE_c), "\n=\n", tk_to_qiskit(BRIDGE_decomp_c))
 
 # The ```BRIDGE``` (or Distributed-CX gate distance 2) and ```SWAP``` both introduce a net three ```CX``` gates to the circuit.
 # Considering this, by changing our basic parameters our routed circuit has one less gate added, and so should have net three fewer ```CX``` gates. We can confirm this by calling a ```Transformation``` pass that will decompose our additional gates to ```CX``` gates for us.
@@ -246,8 +282,13 @@ Transform.DecomposeSWAPtoCX().apply(id_modified_circuit)
 Transform.DecomposeSWAPtoCX().apply(id_basic_modified_circuit)
 Transform.DecomposeBRIDGE().apply(id_basic_modified_circuit)
 
-print('CX gates in id_modified_circuit: ', id_modified_circuit.n_gates_of_type(OpType.CX))
-print('CX gates in id_basic_modified_circuit: ', id_basic_modified_circuit.n_gates_of_type(OpType.CX))
+print(
+    "CX gates in id_modified_circuit: ", id_modified_circuit.n_gates_of_type(OpType.CX)
+)
+print(
+    "CX gates in id_basic_modified_circuit: ",
+    id_basic_modified_circuit.n_gates_of_type(OpType.CX),
+)
 
 # So, by changing the parameters we've managed to produce another suitable routed solution with three fewer ```CX``` gates.
 # We may be able to reduce the number of ```CX``` gates in our routed circuits by using the ```RemovedRedundancies``` ```Transformation``` pass which will replace any adjacent identical ```CX``` gates with the Identity and remove them.
@@ -255,8 +296,13 @@ print('CX gates in id_basic_modified_circuit: ', id_basic_modified_circuit.n_gat
 Transform.RemoveRedundancies().apply(id_modified_circuit)
 Transform.RemoveRedundancies().apply(id_basic_modified_circuit)
 
-print('CX gates in id_modified_circuit: ', id_modified_circuit.n_gates_of_type(OpType.CX))
-print('CX gates in id_basic_modified_circuit: ', id_basic_modified_circuit.n_gates_of_type(OpType.CX))
+print(
+    "CX gates in id_modified_circuit: ", id_modified_circuit.n_gates_of_type(OpType.CX)
+)
+print(
+    "CX gates in id_basic_modified_circuit: ",
+    id_basic_modified_circuit.n_gates_of_type(OpType.CX),
+)
 
 # By changing the routing parameters and cleaning up our circuits after routing we've managed to reduce the number of ```CX``` gates in the final circuit by 5!
 
@@ -281,8 +327,8 @@ Transform.DecomposeCXDirected(id_architecture).apply(id_basic_modified_circuit)
 print(id_modified_circuit.valid_connectivity(id_architecture, True))
 print(id_basic_modified_circuit.valid_connectivity(id_architecture, True))
 
-print('Total gates in id_modified_circuit: ', id_modified_circuit.n_gates)
-print('Total gates in id_basic_modified_circuit: ', id_basic_modified_circuit.n_gates)
+print("Total gates in id_modified_circuit: ", id_modified_circuit.n_gates)
+print("Total gates in id_basic_modified_circuit: ", id_basic_modified_circuit.n_gates)
 
 # As each flipped ```CX``` gate introduces 4 ```H``` gates, the number of additional ```H``` gates is large.
 # We can reapply ```RemoveRedundancies``` to improve this.
@@ -290,8 +336,8 @@ print('Total gates in id_basic_modified_circuit: ', id_basic_modified_circuit.n_
 Transform.RemoveRedundancies().apply(id_modified_circuit)
 Transform.RemoveRedundancies().apply(id_basic_modified_circuit)
 
-print('Total gates in id_modified_circuit: ', id_modified_circuit.n_gates)
-print('Total gates in id_basic_modified_circuit: ', id_basic_modified_circuit.n_gates)
+print("Total gates in id_modified_circuit: ", id_modified_circuit.n_gates)
+print("Total gates in id_basic_modified_circuit: ", id_basic_modified_circuit.n_gates)
 
 # We can see that by changing our basic parameters, we've managed to significantly improve routing performance for a directed architecture for this example.
 # We can also use Placement objects to relabel logical circuit qubits to physical device qubits before routing, hopefully improving performance by reducing eventual number of ```SWAP``` gates added. Available options are ```Placement``` (as used by default route), ```LinePlacement```, ```GraphPlacement``` and ```NoiseAwarePlacement```.
@@ -303,9 +349,10 @@ from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwareP
 
 #  define a function for printing our maps
 def print_qubit_mapping(the_map):
-    print('Qubit to Node mapping:')
+    print("Qubit to Node mapping:")
     for k, v in the_map.items():
         print(k, v)
+
 
 # We can use the Placement objects to either modify the circuit in place, or return the mapping as a QubitMap.
 
@@ -313,11 +360,11 @@ lp_athens = LinePlacement(athens_device)
 graph_athens = GraphPlacement(athens_device)
 noise_athens = NoiseAwarePlacement(athens_device)
 
-print('LinePlacement map:')
+print("LinePlacement map:")
 print_qubit_mapping(lp_athens.get_placement_map(example_circuit))
-print('GraphPlacement map:')
+print("GraphPlacement map:")
 print_qubit_mapping(graph_athens.get_placement_map(example_circuit))
-print('NoiseAwarePlacement map:')
+print("NoiseAwarePlacement map:")
 print_qubit_mapping(noise_athens.get_placement_map(example_circuit))
 
 # Each of these methods produces a different qubit->node mapping.  Lets compare their performance:
@@ -338,9 +385,17 @@ for c in [line_routed_circuit, graph_routed_circuit, noise_aware_routed_circuit]
     Transform.DecomposeBRIDGE().apply(c)
     Transform.DecomposeSWAPtoCX().apply(c)
 
-print('CX gates in line_routed_circuit: ', line_routed_circuit.n_gates_of_type(OpType.CX))
-print('CX gates in graph_routed_circuit: ', graph_routed_circuit.n_gates_of_type(OpType.CX))
-print('CX gates in noise_aware_routed_circuit: ', noise_aware_routed_circuit.n_gates_of_type(OpType.CX))
+print(
+    "CX gates in line_routed_circuit: ", line_routed_circuit.n_gates_of_type(OpType.CX)
+)
+print(
+    "CX gates in graph_routed_circuit: ",
+    graph_routed_circuit.n_gates_of_type(OpType.CX),
+)
+print(
+    "CX gates in noise_aware_routed_circuit: ",
+    noise_aware_routed_circuit.n_gates_of_type(OpType.CX),
+)
 
 # In this example the place methods available in ```GraphPlacement``` and ```NoiseAwarePlacement``` perform better than the ```LinePlacement``` method for reducing overall ```CX``` gate overhead.
 # We can also provide routing with custom initial maps, partial or full. Lets define a partial custom map for only one of the qubits and see how routing performs. We can do this using an index mapping:
@@ -348,8 +403,8 @@ print('CX gates in noise_aware_routed_circuit: ', noise_aware_routed_circuit.n_g
 from pytket.routing import place_with_map
 from pytket import Qubit
 
-partial_initial_index_map = {0 : 1}
-partial_initial_map = {Qubit(i) : Node(j) for i, j in partial_initial_index_map.items()}
+partial_initial_index_map = {0: 1}
+partial_initial_map = {Qubit(i): Node(j) for i, j in partial_initial_index_map.items()}
 print_qubit_mapping(partial_initial_map)
 
 partial_ex_circ = example_circuit.copy()
@@ -361,7 +416,10 @@ Transform.DecomposeBRIDGE().apply(partial_routed_circuit)
 Transform.DecomposeSWAPtoCX().apply(partial_routed_circuit)
 Transform.RemoveRedundancies().apply(partial_routed_circuit)
 
-print('CX gates in partial_routed_circuit: ', partial_routed_circuit.n_gates_of_type(OpType.CX))
+print(
+    "CX gates in partial_routed_circuit: ",
+    partial_routed_circuit.n_gates_of_type(OpType.CX),
+)
 
 # ## Routing with Predicates
 
@@ -374,44 +432,77 @@ from pytket.passes import SequencePass, RoutingPass, DecomposeSwapsToCXs
 
 # Finally, lets demonstrate the pass system using new devices from ```pytket-qiskit``` and ```pytket-cirq```.
 
-melbourne_backend = provider.get_backend('ibmq_16_melbourne')
+melbourne_backend = provider.get_backend("ibmq_16_melbourne")
 melbourne_characterisation = process_characterisation(melbourne_backend)
-melbourne_device = Device(melbourne_characterisation['NodeErrors'],
-                           melbourne_characterisation['EdgeErrors'],
-                           melbourne_characterisation['Architecture'])
+melbourne_device = Device(
+    melbourne_characterisation["NodeErrors"],
+    melbourne_characterisation["EdgeErrors"],
+    melbourne_characterisation["Architecture"],
+)
 
 from cirq.google import Foxtail, Bristlecone
 import pytket.extensions.cirq as pc
 
 foxtail_characterisation = pc.process_characterisation(Foxtail)
-foxtail_device = Device(foxtail_characterisation['NodeErrors'],
-                           foxtail_characterisation['EdgeErrors'],
-                           foxtail_characterisation['Architecture'])
+foxtail_device = Device(
+    foxtail_characterisation["NodeErrors"],
+    foxtail_characterisation["EdgeErrors"],
+    foxtail_characterisation["Architecture"],
+)
 
 bristlecone_characterisation = pc.process_characterisation(Bristlecone)
-bristlecone_device = Device(bristlecone_characterisation['NodeErrors'],
-                           bristlecone_characterisation['EdgeErrors'],
-                           bristlecone_characterisation['Architecture'])
+bristlecone_device = Device(
+    bristlecone_characterisation["NodeErrors"],
+    bristlecone_characterisation["EdgeErrors"],
+    bristlecone_characterisation["Architecture"],
+)
+
 
 def predicate_route_device(my_circuit, my_device):
     gp = GraphPlacement(my_device)
     gp.place(my_circuit)
-    cu = CompilationUnit(my_circuit,[ConnectivityPredicate(my_device)])
-    routing_passes = SequencePass([RoutingPass(my_device),
-                         DecomposeSwapsToCXs(my_device, False)])
+    cu = CompilationUnit(my_circuit, [ConnectivityPredicate(my_device)])
+    routing_passes = SequencePass(
+        [RoutingPass(my_device), DecomposeSwapsToCXs(my_device, False)]
+    )
     routing_passes.apply(cu)
     return cu.circuit, cu.check_all_predicates()
 
+
 from pytket.qasm import circuit_from_qasm
 
-comparison_circuit = circuit_from_qasm('qasm/routing_example_circuit.qasm')
-melbourne_circuit,melbourne_valid = predicate_route_device(comparison_circuit, melbourne_device)
-foxtail_circuit,foxtail_valid = predicate_route_device(comparison_circuit, foxtail_device)
-bristlecone_circuit,bristlecone_valid = predicate_route_device(comparison_circuit, bristlecone_device)
+comparison_circuit = circuit_from_qasm("qasm/routing_example_circuit.qasm")
+melbourne_circuit, melbourne_valid = predicate_route_device(
+    comparison_circuit, melbourne_device
+)
+foxtail_circuit, foxtail_valid = predicate_route_device(
+    comparison_circuit, foxtail_device
+)
+bristlecone_circuit, bristlecone_valid = predicate_route_device(
+    comparison_circuit, bristlecone_device
+)
 
-print('Melbourne circuit, number of CX gates:', melbourne_circuit.n_gates_of_type(OpType.CX), 
-      ', depth of CX gates:', melbourne_circuit.depth_by_type(OpType.CX),', result valid:', melbourne_valid)
-print('Foxtail circuit, number of CX gates:', foxtail_circuit.n_gates_of_type(OpType.CX), 
-      ', depth of CX gates:', foxtail_circuit.depth_by_type(OpType.CX),', result valid:', foxtail_valid)
-print('Bristlecone circuit, number of CX gates:', bristlecone_circuit.n_gates_of_type(OpType.CX), 
-      ', depth of CX gates:', bristlecone_circuit.depth_by_type(OpType.CX),', result valid:', bristlecone_valid)
+print(
+    "Melbourne circuit, number of CX gates:",
+    melbourne_circuit.n_gates_of_type(OpType.CX),
+    ", depth of CX gates:",
+    melbourne_circuit.depth_by_type(OpType.CX),
+    ", result valid:",
+    melbourne_valid,
+)
+print(
+    "Foxtail circuit, number of CX gates:",
+    foxtail_circuit.n_gates_of_type(OpType.CX),
+    ", depth of CX gates:",
+    foxtail_circuit.depth_by_type(OpType.CX),
+    ", result valid:",
+    foxtail_valid,
+)
+print(
+    "Bristlecone circuit, number of CX gates:",
+    bristlecone_circuit.n_gates_of_type(OpType.CX),
+    ", depth of CX gates:",
+    bristlecone_circuit.depth_by_type(OpType.CX),
+    ", result valid:",
+    bristlecone_valid,
+)

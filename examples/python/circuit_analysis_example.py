@@ -6,13 +6,13 @@
 from pytket.circuit import Circuit, OpType
 
 c = Circuit(4, name="example")
-c.add_gate(OpType.CU1, 0.5, [0,1])
+c.add_gate(OpType.CU1, 0.5, [0, 1])
 c.H(0).X(1).Y(2).Z(3)
-c.X(0).CX(1,2).Y(1).Z(2).H(3)
+c.X(0).CX(1, 2).Y(1).Z(2).H(3)
 c.Y(0).Z(1)
-c.add_gate(OpType.CU1, 0.5, [2,3])
+c.add_gate(OpType.CU1, 0.5, [2, 3])
 c.H(2).X(3)
-c.Z(0).H(1).X(2).Y(3).CX(3,0)
+c.Z(0).H(1).X(2).Y(3).CX(3, 0)
 
 # ## Basic statistics
 # From the circuit we can easily read off the number of qubits ...
@@ -66,7 +66,7 @@ print(tk_to_cirq(c))
 # ### Via Latex
 # We can create a Latex document containing a diagram of the circuit using the `to_latex_file()` method. This uses the `quantikz` library. The document can be viewed on its own or the Latex can easily be copied and pasted into a larger document.
 
-c.to_latex_file('c.tex')
+c.to_latex_file("c.tex")
 
 # ## Commands
 # We can retrieve a list of operations comprising a circuit, each represented as a `Command` object:
@@ -84,10 +84,10 @@ print(qubits0)
 
 # From the `Op` we can read off the string representation (in normal or Latex form), the parameters and the type:
 
-op0.get_name() # normal form
+op0.get_name()  # normal form
 
-op0.get_name(latex=True) # Latex form
+op0.get_name(latex=True)  # Latex form
 
 op0.type, op0.params
 
-# Note that some compilation passes introduce implicit wire swaps at the end of the circuit, which are not represented in the command list. (The internal representation of the circuit as a directed acyclic graph reduces explicit permutations of qubits to implicit features of the graph.) 
+# Note that some compilation passes introduce implicit wire swaps at the end of the circuit, which are not represented in the command list. (The internal representation of the circuit as a directed acyclic graph reduces explicit permutations of qubits to implicit features of the graph.)

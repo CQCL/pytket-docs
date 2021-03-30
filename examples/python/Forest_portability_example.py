@@ -7,19 +7,21 @@
 
 from qiskit import QuantumCircuit, QuantumRegister
 from qiskit.aqua.components.initial_states import Custom
+
 n_qubits = 3
-state_prep = Custom(n_qubits, state='random')
+state_prep = Custom(n_qubits, state="random")
 qreg = QuantumRegister(n_qubits)
-state_prep_circ = state_prep.construct_circuit('circuit', qreg)
+state_prep_circ = state_prep.construct_circuit("circuit", qreg)
 print(state_prep_circ)
 
 # We can now evolve this state under an operator for a given duration.
 
 from qiskit.aqua.operators import WeightedPauliOperator
 from qiskit.quantum_info import Pauli
+
 duration = 1.2
-paulis = list(map(Pauli.from_label, ['XXI', 'YYI', 'ZZZ']))
-weights = [0.3, 0.5 + 1j*0.2, -0.4]
+paulis = list(map(Pauli.from_label, ["XXI", "YYI", "ZZZ"]))
+weights = [0.3, 0.5 + 1j * 0.2, -0.4]
 op = WeightedPauliOperator.from_list(paulis, weights)
 evolution_circ = op.evolve(None, duration, num_time_slices=1, quantum_registers=qreg)
 print(evolution_circ)
@@ -29,9 +31,17 @@ state_prep_circ += evolution_circ
 # Now that we have a circuit, `pytket` can take this and start operating on it directly. For example, we can apply some basic compilation passes to simplify it.
 
 from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
+
 tk_circ = qiskit_to_tk(state_prep_circ)
 
-from pytket.passes import SequencePass, CliffordSimp, DecomposeBoxes, KAKDecomposition, SynthesiseIBM
+from pytket.passes import (
+    SequencePass,
+    CliffordSimp,
+    DecomposeBoxes,
+    KAKDecomposition,
+    SynthesiseIBM,
+)
+
 DecomposeBoxes().apply(tk_circ)
 optimise = SequencePass([KAKDecomposition(), CliffordSimp(False), SynthesiseIBM()])
 optimise.apply(tk_circ)
