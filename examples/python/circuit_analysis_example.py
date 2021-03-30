@@ -1,5 +1,5 @@
 # # Circuit analysis: tket example
-#
+
 # This notebook will introduce the basic methods of analysis and visualization of circuits available in `pytket`.
 #
 # It makes use of the modules `pytket_qiskit` and `pytket_cirq` for visualization; these need to be installed (with `pip`) in addition to `pytket`.
@@ -18,7 +18,7 @@ c.H(2).X(3)
 c.Z(0).H(1).X(2).Y(3).CX(3, 0)
 
 # ## Basic statistics
-#
+
 # From the circuit we can easily read off the number of qubits ...
 
 c.n_qubits
@@ -40,7 +40,7 @@ c.depth_by_type(OpType.CU1), c.depth_by_type(OpType.H)
 # This last method counts the number of instances of the specified gate type that cannot be parallelized. Notice that although there are 4 H gates in the circuit, the H-depth is 2 because pairs of them can be parallelized (as will be clear from the visualizations below).
 
 # ## Visualization
-#
+
 # There are several ways to produce useful visualizations of circuits from `pytket`: we can use the built-in `Graph` class to visualize the circuit as a directed acyclic graph (DAG); we can convert the circuit to either Qiskit or Cirq and use the tools provided by those modules; or we can export to Latex.
 
 # ### Via the `Graph` class
@@ -73,13 +73,13 @@ print(tk_to_cirq(c))
 # (Note that Cirq cannot represent all gates diagrammatically.)
 
 # ### Via Latex
-#
+
 # We can create a Latex document containing a diagram of the circuit using the `to_latex_file()` method. This uses the `quantikz` library. The document can be viewed on its own or the Latex can easily be copied and pasted into a larger document.
 
 c.to_latex_file("c.tex")
 
 # ## Commands
-#
+
 # We can retrieve a list of operations comprising a circuit, each represented as a `Command` object:
 
 cmds = c.get_commands()

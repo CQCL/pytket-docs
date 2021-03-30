@@ -1,5 +1,5 @@
 # # VQE for Unitary Coupled Cluster using tket
-#
+
 # In this tutorial, we will focus on:
 # - building parameterised ansätze for variational algorithms;
 # - compilation tools for UCC-style ansätze.

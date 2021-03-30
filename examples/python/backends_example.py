@@ -1,5 +1,5 @@
 # # Backends: tket example
-#
+
 # This example shows how to use `pytket` to execute quantum circuits on both simulators and real devices, and how to interpret the results. As tket is designed to be platform-agnostic, we have unified the interfaces of different providers as much as possible into the `Backend` class for maximum portability of code. Currently, the following are supported:
 # * ProjectQ simulator
 # * Aer simulators (statevector, QASM, and unitary)

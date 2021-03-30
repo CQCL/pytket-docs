@@ -1,5 +1,5 @@
 # # Conditional Execution
-#
+
 # Whilst any quantum process can be created by performing "pure" operations delaying all measurements to the end, this is not always practical and can greatly increase the resource requirements. It is much more convenient to alternate quantum gates and measurements, especially if we can use the measurement results to determine which gates to apply (we refer to this more generic circuit model as "mixed" circuits, against the usual "pure" circuits). This is especially crucial for error correcting codes, where the correction gates are applied only if an error is detected.
 #
 # Measurements on many NISQ devices are often slow and it is hard to maintain other qubits in a quantum state during the measurement operation. Hence they may only support a single round of measurements at the end of the circuit, removing the need for conditional gate support. However, the ability to work with mid-circuit measurement and conditional gates is a feature in high demand for the future, and tket is ready for it.

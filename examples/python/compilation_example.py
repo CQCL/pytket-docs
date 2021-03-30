@@ -1,5 +1,5 @@
 # # Compilation passes: tket example
-#
+
 # There are numerous ways to optimize circuits in `pytket`. In this notebook we will introduce the basics of compilation passes and how to combine and apply them.
 #
 # We assume familiarity with the `pytket` `Circuit` class. The objective is to transform one `Circuit` into another, equivalent, `Circuit`, that:
@@ -10,7 +10,7 @@
 # We will use Qiskit for circuit visualisation and for an example backend. For this it is necessary to have installed `pytket_qiskit` via `pip`.
 #
 # ## Passes
-#
+
 # The basic mechanism of compilation is the 'pass', which is a transform that can be applied to a circuit. There is an extensive library of passes in `pytket`, and several standard ways in which they can be combined to form new passes. For example:
 
 from pytket.passes import DecomposeMultiQubitsIBM
@@ -39,7 +39,7 @@ circ1 = cu.circuit
 print(circ1.get_commands())
 
 # ## Predicates
-#
+
 # Every `CompilationUnit` has associated with it a set of 'predicates', which describe target properties that can be checked against the circuit. There are many types of predicates available in `pytket`. For example, the `GateSetPredicate` checks whether all gates in a circuit belong to a particular set:
 
 from pytket.predicates import GateSetPredicate
@@ -63,14 +63,14 @@ cu.check_all_predicates()
 pred1.verify(circ1)
 
 # ### In-place compilation
-#
+
 # The example above produced a new circuit, leaving the original circuit untouched. It is also possible to apply a pass to a circuit in-place:
 
 DecomposeMultiQubitsIBM().apply(circ)
 print(circ.get_commands())
 
 # ## Combining passes
-#
+
 # There are various ways to combine the elementary passes into more complex ones.
 #
 # To combine several passes in sequence, we use a `SequencePass`:
@@ -175,7 +175,7 @@ pass2.apply(cu)
 print(cu.circuit.get_commands())
 
 # ## Targeting devices and architectures
-#
+
 # If we are given a target architecture, we can generate passes tailored to it.
 #
 # In `pytket` an architecture is defined by a connectivity graph, i.e. a list of pairs of qubits capable of executing two-qubit operations. For example, we can represent a 5-qubit linear architecture, with qubits labelled `n[i]`, as follows:
@@ -255,7 +255,7 @@ except RuntimeError as e:
 PauliSimp()
 
 # ## Backends and default passes
-#
+
 # A `pytket` `Backend` may have a default compilation pass, which will guarantee that the circuit can run on it. This is given by the `default_compilation_pass` property. For example, the default pass for Qiskit's `AerBackend` just converts all gates to U1, U2, U3 and CX:
 
 from pytket.extensions.qiskit import AerBackend

@@ -1,5 +1,5 @@
 # # Respecting Architecture Connectivity Constraints - Advanced Routing in tket
-#
+
 # Very few current or planned quantum architectures have all-to-all qubit connectivity. In consequence, quantum circuits must be modified before execution to ensure that every multi-qubit gate in a circuit corresponds to a set of interactions that are permitted by the architecture.  The problem is solved for arbitrary architectures by adding ```SWAP``` gates and distributed ```CX``` gates, and through translation of multi-qubit gates in to architecture permitted ones.
 #
 # In this tutorial we will show how this routing problem is solved automatically in tket. The basic examples require only the installation of pytket, ```pip install pytket```, while further examples require the installation of some supported subpackages, ```pytket_qiskit``` & ```pytket_cirq```.

@@ -1,5 +1,5 @@
 # # How to create your own `Backend` using `pytket`
-#
+
 # In this tutorial, we will focus on:
 # - the components of the abstract `Backend` class;
 # - adaptations for statevector simulation versus measurement sampling.

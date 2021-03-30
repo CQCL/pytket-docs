@@ -1,5 +1,5 @@
 # # Symbolic compilation: tket example
-#
+
 # Motivation: in compilation, particularly of hybrid classical-quantum variational algorithms in which the structure of a circuit remains constant but the parameters of some gates change, it can be useful to compile using symbolic parameters and optimise the circuit without knowledge of what these parameters will be instantiated to afterwards.
 #
 # In this tutorial, we will show how to compile a circuit containing mathematical symbols, and then instantiate the symbols afterwards. To do this, you need to have `pytket` installed. Run:

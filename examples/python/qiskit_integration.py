@@ -1,5 +1,5 @@
 # # Integrating `pytket` into Qiskit software
-#
+
 # In this tutorial, we will focus on:
 # - Using `pytket` for compilation or providing devices/simulators within Qiskit Aer workflows;
 # - Adapting Qiskit code to use `pytket` directly.

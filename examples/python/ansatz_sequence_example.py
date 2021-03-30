@@ -1,5 +1,5 @@
 # # Ansatz Sequencing: tket example
-#
+
 # When performing variational algorithms like VQE, one common approach to generating circuit ansätze is to take an operator $U$ representing excitations and use this to act on a reference state $\lvert \phi_0 \rangle$. One such ansatz is the Unitary Coupled Cluster ansatz. Each excitation, indexed by $j$, within $U$ is given a real coefficient $a_j$ and a parameter $t_j$, such that $U = e^{i \sum_j \sum_k a_j t_j P_{jk}}$, where $P_{jk} \in \{I, X, Y, Z \}^{\otimes n}$. The exact form is dependent on the chosen qubit encoding. This excitation gives us a variational state $\lvert \psi (t) \rangle = U(t) \lvert \phi_0 \rangle$. The operator $U$ must be Trotterised, to give a product of Pauli exponentials, and converted into native quantum gates to create the ansatz circuit.
 #
 # This notebook will describe how to use an advanced feature of `pytket` to enable automated circuit synthesis for $U$ and reduce circuit depth dramatically.

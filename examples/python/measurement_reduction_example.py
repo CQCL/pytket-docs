@@ -1,5 +1,5 @@
 # # Advanced Expectation Values and Measurement Reduction
-#
+
 # This notebook is an advanced follow-up to the "expectation_value_example" notebook, focussing on reducing the number of circuits required for measurement.
 #
 # When calculating the expectation value $\langle \psi \vert H \vert \psi \rangle$ of some operator $H$ on a quantum computer, we prepare $\vert \psi \rangle$ using a circuit, and the operator $H$ is first decomposed into a sum of smaller, tractable operators of the form $\alpha P$, where $P \in \mathcal{G}_n$, the multi-qubit Pauli group. Naively, one would obtain the expectation value of each of these smaller operators individually by doing shots on the quantum computer and measuring in the correct Pauli bases. Assuming the device measures only single qubits in the $Z$-basis, this basis change requires single-qubit Clifford gates, which are "cheaper" (less noisy and quicker) than entangling gates. The sum of these smaller operator expectation values is then used to obtain the desired $\langle \psi \vert H \vert \psi \rangle$.
