@@ -7,25 +7,25 @@
 # Not every circuit language specification supports conditional gates in the same way. The most popular circuit model at the moment is that provided by the OpenQASM language. This permits a very restricted model of classical logic, where we can apply a gate conditionally on the exact value of a classical register. There is no facility in the current spec for Boolean logic or classical operations to apply any function to the value prior to the equality check.
 #
 # For example, quantum teleportation can be performed by the following QASM:
-# `OPENQASM 2.0;
-# include "qelib1.inc";
-# qreg a[2];
-# qreg b[1];
-# creg c[2];
-# // Bell state between Alice and Bob
-# h a[1];
-# cx a[1],b[0];
-# // Bell measurement of Alice's qubits
-# cx a[0],a[1];
-# h a[0];
-# measure a[0] -> c[0];
-# measure a[1] -> c[1];
-# // Correction of Bob's qubit
-# if(c==1) z b[0];
-# if(c==3) z b[0];
-# if(c==2) x b[0];
-# if(c==3) x b[0];`
-#
+# `OPENQASM 2.0;`
+# `include "qelib1.inc";`
+# `qreg a[2];`
+# `qreg b[1];`
+# `creg c[2];`
+# `// Bell state between Alice and Bob`
+# `h a[1];`
+# `cx a[1],b[0];`
+# `// Bell measurement of Alice's qubits`
+# `cx a[0],a[1];`
+# `h a[0];`
+# `measure a[0] -> c[0];`
+# `measure a[1] -> c[1];`
+# `// Correction of Bob's qubit`
+# `if(c==1) z b[0];`
+# `if(c==3) z b[0];`
+# `if(c==2) x b[0];`
+# `if(c==3) x b[0];`
+
 # tket supports a slightly more general form of conditional gates, where the gate is applied conditionally on the exact value of any list of bits. When adding a gate to a `Circuit` object, pass in the kwargs `condition_bits` and `condition_value` and the gate will only be applied if the state of the bits yields the binary representation of the value.
 
 from pytket import Circuit

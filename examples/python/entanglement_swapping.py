@@ -13,24 +13,24 @@
 # The Entanglement Swapping protocol requires two parties to share Bell pairs with a third party, who applies the Qubit Teleportation protocol to generate a Bell pair between the two parties. The Qubit Teleportation step requires us to be able to measure some qubits and make subsequent corrections to the remaining qubits. There are only a handful of simulators and devices that currently support this, with others restricted to only measuring the qubits at the end of the circuit.
 #
 # The most popular circuit model with conditional gates at the moment is that provided by the OpenQASM language. This permits a very restricted model of classical logic, where we can apply a gate conditionally on the exact value of a classical register. There is no facility in the current spec for Boolean logic or classical operations to apply any function to the value prior to the equality check. For example, Qubit Teleportation can be performed by the following QASM:
-# `OPENQASM 2.0;
-# include "qelib1.inc";
-# qreg a[2];
-# qreg b[1];
-# creg c[2];
-# // Bell state between Alice and Bob
-# h a[1];
-# cx a[1],b[0];
-# // Bell measurement of Alice's qubits
-# cx a[0],a[1];
-# h a[0];
-# measure a[0] -> c[0];
-# measure a[1] -> c[1];
-# // Correction of Bob's qubit
-# if(c==1) z b[0];
-# if(c==3) z b[0];
-# if(c==2) x b[0];
-# if(c==3) x b[0];`
+# `OPENQASM 2.0;`
+# `include "qelib1.inc";`
+# `qreg a[2];`
+# `qreg b[1];`
+# `creg c[2];`
+# `// Bell state between Alice and Bob`
+# `h a[1];`
+# `cx a[1],b[0];`
+# `// Bell measurement of Alice's qubits`
+# `cx a[0],a[1];`
+# `h a[0];`
+# `measure a[0] -> c[0];`
+# `measure a[1] -> c[1];`
+# `// Correction of Bob's qubit`
+# `if(c==1) z b[0];`
+# `if(c==3) z b[0];`
+# `if(c==2) x b[0];`
+# `if(c==3) x b[0];`
 #
 # This corresponds to the following `pytket` code:
 
@@ -41,17 +41,20 @@ alice = qtel.add_q_register("a", 2)
 bob = qtel.add_q_register("b", 1)
 data = qtel.add_c_register("d", 2)
 
-# Bell state between Alice and Bob
+# Bell state between Alice and Bob:
+
 qtel.H(alice[1])
 qtel.CX(alice[1], bob[0])
 
-# Bell measurement of Alice's qubits
+# Bell measurement of Alice's qubits:
+
 qtel.CX(alice[0], alice[1])
 qtel.H(alice[0])
 qtel.Measure(alice[0], data[0])
 qtel.Measure(alice[1], data[1])
 
-# Correction of Bob's qubit
+# Correction of Bob's qubit:
+
 qtel.X(bob[0], condition_bits=[data[0], data[1]], condition_value=2)
 qtel.X(bob[0], condition_bits=[data[0], data[1]], condition_value=3)
 qtel.Z(bob[0], condition_bits=[data[0], data[1]], condition_value=1)
@@ -65,11 +68,13 @@ bella = es.add_q_register("b", 2)
 charlie = es.add_q_register("c", 1)
 data = es.add_c_register("d", 2)
 
-# Bell state between Ava and Bella
+# Bell state between Ava and Bella:
+
 es.H(ava[0])
 es.CX(ava[0], bella[0])
 
-# Teleport bella[0] to charlie[0]
+# Teleport `bella[0]` to `charlie[0]`:
+
 tel_to_c = qtel.copy()
 tel_to_c.rename_units({alice[0]: bella[0], alice[1]: bella[1], bob[0]: charlie[0]})
 es.append(tel_to_c)
@@ -80,15 +85,17 @@ print(es.get_commands())
 
 from pytket.extensions.qiskit import AerBackend
 
-# Connect to a simulator
+# Connect to a simulator:
+
 backend = AerBackend()
 
-# Make a ZZ measurement of the Bell pair
+# Make a ZZ measurement of the Bell pair:
+
 bell_test = es.copy()
 bell_test.Measure(ava[0], data[0])
 bell_test.Measure(charlie[0], data[1])
 
-# Run the experiment
+# Run the experiment:
 
 backend.compile_circuit(bell_test)
 from pytket.extensions.qiskit import tk_to_qiskit

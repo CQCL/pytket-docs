@@ -146,26 +146,26 @@ from math import sqrt
 
 boxycirc = Circuit(3)
 
-# Add a CircBox:
+# Add a `CircBox`:
 
 subcirc = Circuit(2)
 subcirc.X(0).Y(1).CZ(0, 1)
 cbox = CircBox(subcirc)
 boxycirc.add_circbox(cbox, args=[Qubit(0), Qubit(1)])
 
-# Add a Unitary1qBox:
+# Add a `Unitary1qBox`:
 
 m1 = np.asarray([[1 / 2, sqrt(3) / 2], [sqrt(3) / 2, -1 / 2]])
 m1box = Unitary1qBox(m1)
 boxycirc.add_unitary1qbox(m1box, 2)
 
-# Add a Unitary2qBox:
+# Add a `Unitary2qBox`:
 
 m2 = np.asarray([[0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1], [1, 0, 0, 0]])
 m2box = Unitary2qBox(m2)
 boxycirc.add_unitary2qbox(m2box, 1, 2)
 
-# Add an ExpBox:
+# Add an `ExpBox`:
 
 A = np.asarray(
     [[1, 2, 3, 4 + 1j], [2, 0, 1j, -1], [3, -1j, 2, 1j], [4 - 1j, -1, -1j, 1]]
@@ -173,7 +173,7 @@ A = np.asarray(
 ebox = ExpBox(A, 0.5)
 boxycirc.add_expbox(ebox, 0, 1)
 
-# Add a PauliExpBox:
+# Add a `PauliExpBox`:
 
 pbox = PauliExpBox([Pauli.X, Pauli.Z, Pauli.X], 0.75)
 boxycirc.add_pauliexpbox(pbox, [0, 1, 2])

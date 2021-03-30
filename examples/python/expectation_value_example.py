@@ -15,7 +15,8 @@ from pytket.utils.operators import QubitPauliOperator
 from sympy import symbols
 from openfermion import QubitOperator
 
-# Generate ansatz and Hamiltonian
+# Generate ansatz and Hamiltonian:
+
 ansatz = Circuit()
 qubits = ansatz.add_q_register("q", 4)
 args = symbols("a0 a1 a2 a3 a4 a5 a6 a7")

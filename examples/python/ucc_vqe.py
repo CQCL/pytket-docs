@@ -37,7 +37,9 @@ nuclear_repulsion_energy = 0.70556961456
 
 from pytket import Circuit
 
-# Hardware efficient ansatz
+# Hardware efficient ansatz:
+
+
 def hea(params):
     ansatz = Circuit(4)
     for i in range(4):
@@ -56,7 +58,9 @@ from pytket.utils import expectation_from_counts
 
 backend = AerBackend()
 
-# Naive objective function
+# Naive objective function:
+
+
 def objective(params):
     energy = 0
     for term, coeff in hamiltonian.terms.items():
@@ -153,7 +157,9 @@ def add_operator_term(circuit: Circuit, term: QubitPauliString, angle: float):
             circuit.Vdg(q)
 
 
-# Unitary Coupled Cluster Singles & Doubles ansatz
+# Unitary Coupled Cluster Singles & Doubles ansatz:
+
+
 def ucc(params):
     ansatz = Circuit(4)
     # Set initial reference state
@@ -181,7 +187,9 @@ def add_excitation(circ, term_dict, param):
         circ.add_pauliexpbox(pbox, qubits)
 
 
-# UCC ansatz with syntactic shortcuts
+# UCC ansatz with syntactic shortcuts:
+
+
 def ucc(params):
     ansatz = Circuit(4)
     ansatz.X(1).X(3)
@@ -199,7 +207,9 @@ from pytket.utils import get_operator_expectation_value
 
 hamiltonian_op = QubitPauliOperator.from_OpenFermion(hamiltonian)
 
-# Simplified objective function using utilities
+# Simplified objective function using utilities:
+
+
 def objective(params):
     circ = ucc(params)
     return (
@@ -251,7 +261,9 @@ print("CX depth after PS+FPO", test_circuit.depth_by_type(OpType.CX))
 
 # To include this into our routines, we can just add the simplification passes to the objective function. The `get_operator_expectation_value` utility handles compiling to meet the requirements of the backend, so we don't have to worry about that here.
 
-# Objective function with circuit simplification
+# Objective function with circuit simplification:
+
+
 def objective(params):
     circ = ucc(params)
     PauliSimp().apply(circ)
@@ -300,7 +312,9 @@ ucc = gen_term_sequence_circuit(excitation_op, ucc_ref)
 GuidedPauliSimp().apply(ucc)
 FullPeepholeOptimise().apply(ucc)
 
-# Objective function using the symbolic ansatz
+# Objective function using the symbolic ansatz:
+
+
 def objective(params):
     circ = ucc.copy()
     sym_map = dict(zip(syms, params))
@@ -317,7 +331,9 @@ def objective(params):
 
 from pytket.partition import PauliPartitionStrat
 
-# Objective function using measurement reduction
+# Objective function using measurement reduction:
+
+
 def objective(params):
     circ = ucc.copy()
     sym_map = dict(zip(syms, params))
@@ -355,7 +371,8 @@ from pytket.pauli import Pauli, QubitPauliString
 from pytket.utils import get_operator_expectation_value, gen_term_sequence_circuit
 from pytket.utils.operators import QubitPauliOperator
 
-# Obtain electronic Hamiltonian
+# Obtain electronic Hamiltonian:
+
 hamiltonian = (
     -0.8153001706270075 * QubitOperator("")
     + 0.16988452027940318 * QubitOperator("Z0")
@@ -377,7 +394,8 @@ nuclear_repulsion_energy = 0.70556961456
 
 hamiltonian_op = QubitPauliOperator.from_OpenFermion(hamiltonian)
 
-# Obtain terms for single and double excitations
+# Obtain terms for single and double excitations:
+
 q = [Qubit(i) for i in range(4)]
 xyii = QubitPauliString([q[0], q[1]], [Pauli.X, Pauli.Y])
 yxii = QubitPauliString([q[0], q[1]], [Pauli.Y, Pauli.X])
@@ -392,7 +410,8 @@ yyxy = QubitPauliString(q, [Pauli.Y, Pauli.Y, Pauli.X, Pauli.Y])
 yxyy = QubitPauliString(q, [Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y])
 xyyy = QubitPauliString(q, [Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y])
 
-# Symbolic UCC ansatz generation
+# Symbolic UCC ansatz generation:
+
 syms = symbols("p0 p1 p2")
 singles_syms = {xyii: syms[0], yxii: -syms[0], iixy: syms[1], iiyx: -syms[1]}
 doubles_syms = {
@@ -409,14 +428,18 @@ excitation_op = QubitPauliOperator({**singles_syms, **doubles_syms})
 ucc_ref = Circuit(4).X(0).X(2)
 ucc = gen_term_sequence_circuit(excitation_op, ucc_ref)
 
-# Circuit simplification
+# Circuit simplification:
+
 GuidedPauliSimp().apply(ucc)
 FullPeepholeOptimise().apply(ucc)
 
-# Connect to a simulator/device
+# Connect to a simulator/device:
+
 backend = AerBackend()
 
-# Objective function
+# Objective function:
+
+
 def objective(params):
     circ = ucc.copy()
     sym_map = dict(zip(syms, params))
@@ -433,7 +456,8 @@ def objective(params):
     )
 
 
-# Optimise against the objective function
+# Optimise against the objective function:
+
 initial_params = [1e-4, 1e-4, 4e-1]
 result = minimize(objective, initial_params, method="Nelder-Mead")
 print("Final parameter values", result.x)

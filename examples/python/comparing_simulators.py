@@ -17,14 +17,16 @@
 from pytket import Circuit
 from pytket.extensions.qiskit import AerBackend
 
-# Define a circuit
+# Define a circuit:
+
 c = Circuit(3, 3)
 c.Ry(0.7, 0)
 c.CX(0, 1)
 c.X(2)
 c.measure_all()
 
-# Run on the backend
+# Run on the backend:
+
 backend = AerBackend()
 backend.compile_circuit(c)
 handle = backend.process_circuit(c, n_shots=2000)
@@ -36,14 +38,16 @@ print(counts)
 from pytket import Circuit
 from pytket.extensions.qiskit import AerStateBackend
 
-# Build a quantum state
+# Build a quantum state:
+
 c = Circuit(3)
 c.H(0).CX(0, 1)
 c.Rz(0.3, 0)
 c.Rz(-0.3, 1)
 c.Ry(0.8, 2)
 
-# Examine the statevector
+# Examine the statevector:
+
 backend = AerStateBackend()
 backend.compile_circuit(c)
 handle = backend.process_circuit(c)
@@ -57,19 +61,22 @@ from pytket.extensions.qiskit import AerBackend, AerStateBackend
 from pytket.pauli import Pauli, QubitPauliString
 from pytket.utils.operators import QubitPauliOperator
 
-# Build a quantum state
+# Build a quantum state:
+
 c = Circuit(3)
 c.H(0).CX(0, 1)
 c.Rz(0.3, 0)
 c.Rz(-0.3, 1)
 c.Ry(0.8, 2)
 
-# Define the measurement operator
+# Define the measurement operator:
+
 xxi = QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X})
 zzz = QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Z, Qubit(2): Pauli.Z})
 op = QubitPauliOperator({xxi: -1.8, zzz: 0.7j})
 
-# Run on the backend
+# Run on the backend:
+
 backend = AerBackend()
 backend.compile_circuit(c)
 exp = backend.get_operator_expectation_value(c, op)
@@ -92,20 +99,24 @@ from pytket.extensions.qiskit import AerBackend
 from itertools import combinations
 from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
 
-# Quantum teleportation circuit
+# Quantum teleportation circuit:
+
 c = Circuit()
 alice = c.add_q_register("a", 2)
 bob = c.add_q_register("b", 1)
 data = c.add_c_register("d", 2)
 final = c.add_c_register("f", 1)
 
-# Start in an interesting state
+# Start in an interesting state:
+
 c.Rx(0.3, alice[0])
 
-# Set up a Bell state between Alice and Bob
+# Set up a Bell state between Alice and Bob:
+
 c.H(alice[1]).CX(alice[1], bob[0])
 
-# Measure Alice's qubits in the Bell basis
+# Measure Alice's qubits in the Bell basis:
+
 c.CX(alice[0], alice[1]).H(alice[0])
 c.Measure(alice[0], data[0])
 c.Measure(alice[1], data[1])
@@ -116,10 +127,12 @@ c.X(bob[0], condition_bits=[data[0], data[1]], condition_value=3)
 c.Z(bob[0], condition_bits=[data[0], data[1]], condition_value=2)
 c.Z(bob[0], condition_bits=[data[0], data[1]], condition_value=3)
 
-# Measure Bob's qubit to observe the interesting state
+# Measure Bob's qubit to observe the interesting state:
+
 c.Measure(bob[0], final[0])
 
-# Set up a noisy simulator
+# Set up a noisy simulator:
+
 model = NoiseModel()
 dep_err = depolarizing_error(0.04, 2)
 for i, j in combinations(range(3), r=2):
@@ -127,7 +140,8 @@ for i, j in combinations(range(3), r=2):
     model.add_quantum_error(dep_err, ["cx"], [j, i])
 backend = AerBackend(noise_model=model)
 
-# Run circuit
+# Run circuit:
+
 backend.compile_circuit(c)
 handle = backend.process_circuit(c, n_shots=2000)
 result = backend.get_result(handle)
@@ -153,13 +167,15 @@ from pytket import Circuit
 from pytket.extensions.qiskit import AerUnitaryBackend
 from pytket.predicates import NoClassicalControlPredicate
 
-# Define a simple quantum incrementer
+# Define a simple quantum incrementer:
+
 c = Circuit(3)
 c.CCX(2, 1, 0)
 c.CX(2, 1)
 c.X(2)
 
-# Examine the unitary
+# Examine the unitary:
+
 backend = AerUnitaryBackend()
 backend.compile_circuit(c)
 unitary = backend.get_unitary(c)
@@ -177,7 +193,7 @@ print(unitary.round(1).real)
 # `docker run --rm -it -p 5000:5000 rigetti/qvm -S`
 
 # ## `pytket.extensions.pyquil.ForestStateBackend`
-#
+
 # The Rigetti `pyquil` package also provides the `WavefunctionSimulator`, which we present as the `ForestStateBackend`. Functionally, it is very similar to the `AerStateBackend` so can be used interchangeably. It does require that `quilc` and `qvm` are running as separate processes when not running on a Rigetti QMI.
 #
 # Useful features:
@@ -197,7 +213,8 @@ print(unitary.round(1).real)
 from pytket import Circuit
 from pytket.extensions.qsharp import QsharpToffoliSimulatorBackend
 
-# Define a circuit - start in a basis state
+# Define a circuit - start in a basis state:
+
 c = Circuit(3)
 c.X(0).X(2)
 # Define a circuit - incrementer
@@ -205,7 +222,8 @@ c.CCX(2, 1, 0)
 c.CX(2, 1)
 c.X(2)
 
-# Run on the backend
+# Run on the backend:
+
 backend = QsharpToffoliSimulatorBackend()
 backend.compile_circuit(c)
 handle = backend.process_circuit(c, n_shots=10)
@@ -222,7 +240,8 @@ print(counts)
 from pytket import Circuit
 from pytket.extensions.qsharp import QsharpEstimatorBackend
 
-# Define a circuit - start in a basis state
+# Define a circuit - start in a basis state:
+
 c = Circuit(3)
 c.X(0).X(2)
 # Define a circuit - incrementer
@@ -230,7 +249,8 @@ c.CCX(2, 1, 0)
 c.CX(2, 1)
 c.X(2)
 
-# Run on the backend
+# Run on the backend:
+
 backend = QsharpEstimatorBackend()
 backend.compile_circuit(c)
 handle = backend.process_circuit(c, n_shots=10)

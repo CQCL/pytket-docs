@@ -7,9 +7,9 @@
 # `pip install pytket`
 #
 # We will also be using the circuit drawing tool from IBM's Qiskit, although this is only for visualisation and is not necessary to do symbolic compilation using pytket. To use the converter:
-# ```
+#
 # `pip install pytket_qiskit`
-# ```
+#
 # To begin, we will import the `Circuit` and `Transform` classes from `pytket`, and the `fresh_symbol` method from `pytket.circuit`.
 
 from pytket.circuit import Circuit, fresh_symbol
