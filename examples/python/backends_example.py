@@ -1,6 +1,6 @@
 # # Backends: tket example
 
-# This example shows how to use `pytket` to execute quantum circuits on both simulators and real devices, and how to interpret the results. As tket is designed to be platform-agnostic, we have unified the interfaces of different providers as much as possible into the `Backend` class for maximum portability of code. Currently, the following are supported:
+# This example shows how to use `pytket` to execute quantum circuits on both simulators and real devices, and how to interpret the results. As tket is designed to be platform-agnostic, we have unified the interfaces of different providers as much as possible into the `Backend` class for maximum portability of code. The following is a selection of currently supported backends:
 # * ProjectQ simulator
 # * Aer simulators (statevector, QASM, and unitary)
 # * IBMQ devices
@@ -14,7 +14,7 @@
 #
 # To get started, we must install the core pytket package and the subpackages required to interface with the desired providers. We will also need the `QubitOperator` class from `openfermion` to construct operators for a later example. To get everything run the following in shell:
 #
-# `pip install pytket pytket_qiskit pytket_projectq openfermion`
+# `pip install pytket pytket-qiskit pytket-projectq openfermion`
 #
 # First, import the backends that we will be demonstrating.
 
