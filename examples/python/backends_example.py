@@ -12,7 +12,7 @@
 
 # In this notebook we will focus on the Aer, IBMQ and ProjectQ backends.
 #
-# To get started, we must install the core pytket packageF and the subpackages required to interface with the desired providers. We will also need the `QubitOperator` class from `openfermion` to construct operators for a later example. To get everything run the following in shell:
+# To get started, we must install the core pytket package and the subpackages required to interface with the desired providers. We will also need the `QubitOperator` class from `openfermion` to construct operators for a later example. To get everything run the following in shell:
 #
 # `pip install pytket pytket_qiskit pytket_projectq openfermion`
 #
