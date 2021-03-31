@@ -3,7 +3,11 @@ set -e
 
 for name in `cat maintained-notebooks.txt`
 do
+    echo "Checking: ${name} ..."
+    # Check that notebook is generated from script:
     p2j -o -t ${name}-gen.ipynb python/${name}.py
     cmp ${name}.ipynb ${name}-gen.ipynb
     rm ${name}-gen.ipynb
+    # Run script:
+    python python/${name}.py
 done
