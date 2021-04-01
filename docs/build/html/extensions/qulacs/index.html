@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pytket-qulacs &mdash; pytket-qulacs 0.6.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> pytket-qulacs
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pytket-qulacs</a><ul>
+<li><a class="reference internal" href="#gpu-acceleration">GPU acceleration</a></li>
+<li><a class="reference internal" href="#module-pytket.extensions.qulacs">pytket.extensions.qulacs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">pytket-qulacs</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>pytket-qulacs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="pytket-qulacs">
+<h1>pytket-qulacs<a class="headerlink" href="#pytket-qulacs" title="Permalink to this headline">¶</a></h1>
+<a class="reference internal image-reference" href="_images/CQCLogo.png"><img alt="_images/CQCLogo.png" class="align-right" src="_images/CQCLogo.png" style="width: 120px;" /></a>
+<p><a class="reference external" href="https://docs.qulacs.org/en/latest/index.html">Qulacs</a> is an optimized quantum
+circuit simulator.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pytket-qulacs</span></code> is an extension to <code class="docutils literal notranslate"><span class="pre">pytket</span></code> that allows <code class="docutils literal notranslate"><span class="pre">pytket</span></code> circuits
+to be simulated using <code class="docutils literal notranslate"><span class="pre">qulacs</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pytket-qulacs</span></code> is available for Python 3.7, 3.8 and 3.9, on Linux, MacOS and Windows.
+To install, run:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-qulacs</span></code></p>
+<section id="gpu-acceleration">
+<h2>GPU acceleration<a class="headerlink" href="#gpu-acceleration" title="Permalink to this headline">¶</a></h2>
+<p>To use the <code class="docutils literal notranslate"><span class="pre">QulacsGPUBackend</span></code>, which can take advantage of a CUDA-enabled GPU
+on your machine for faster simulation, it is necessary to first install the CUDA
+toolset. For platform-specific instructions on how to do this, see:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.nvidia.com/cuda/cuda-installation-guide-linux/">Linux</a></p></li>
+<li><p><a class="reference external" href="https://docs.nvidia.com/cuda/cuda-installation-guide-mac-os-x/">MacOS</a></p></li>
+<li><p><a class="reference external" href="https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/">Windows</a></p></li>
+</ul>
+<p>Afterwards, install <code class="docutils literal notranslate"><span class="pre">qulacs-gpu</span></code>:</p>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">qulacs-gpu</span></code></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">QulacsGPUBackend</span></code> has an identical API to the <code class="docutils literal notranslate"><span class="pre">QulacsBackend</span></code> described
+below.</p>
+</section>
+<section id="module-pytket.extensions.qulacs">
+<span id="pytket-extensions-qulacs"></span><h2>pytket.extensions.qulacs<a class="headerlink" href="#module-pytket.extensions.qulacs" title="Permalink to this headline">¶</a></h2>
+<p>Module for conversion from tket primitives to Qulacs primitives.</p>
+<dl class="py class">
+<dt id="pytket.extensions.qulacs.QulacsBackend">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.extensions.qulacs.</span></code><code class="sig-name descname"><span class="pre">QulacsBackend</span></code><a class="headerlink" href="#pytket.extensions.qulacs.QulacsBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Backend for running simulations on the Qulacs simulator</p>
+<dl class="py method">
+<dt id="pytket.extensions.qulacs.QulacsBackend.circuit_status">
+<code class="sig-name descname"><span class="pre">circuit_status</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/backends.html#pytket.backends.resulthandle.ResultHandle" title="(in pytket v0.8)"><span class="pre">pytket.backends.resulthandle.ResultHandle</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://cqcl.github.io/pytket/build/html/backends.html#pytket.backends.status.CircuitStatus" title="(in pytket v0.8)"><span class="pre">pytket.backends.status.CircuitStatus</span></a><a class="headerlink" href="#pytket.extensions.qulacs.QulacsBackend.circuit_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a CircuitStatus reporting the status of the circuit execution
+corresponding to the ResultHandle</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.extensions.qulacs.QulacsBackend.default_compilation_pass">
+<code class="sig-name descname"><span class="pre">default_compilation_pass</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimisation_level</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://cqcl.github.io/pytket/build/html/passes.html#pytket.passes.BasePass" title="(in pytket v0.8)"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.extensions.qulacs.QulacsBackend.default_compilation_pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>A suggested compilation pass that will guarantee the resulting circuit
+will be suitable to run on this backend with as few preconditions as
+possible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>optimisation_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>optional</em>) – The level of optimisation to perform during
+compilation. Level 0 just solves the device constraints without
+optimising. Level 1 additionally performs some light optimisations.
+Level 2 adds more intensive optimisations that can increase compilation
+time for large circuits. Defaults to 1.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Compilation pass guaranteeing required predicates.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://cqcl.github.io/pytket/build/html/passes.html#pytket.passes.BasePass" title="BasePass">BasePass</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.extensions.qulacs.QulacsBackend.process_circuits">
+<code class="sig-name descname"><span class="pre">process_circuits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.8)"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shots</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_check</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://cqcl.github.io/pytket/build/html/backends.html#pytket.backends.resulthandle.ResultHandle" title="(in pytket v0.8)"><span class="pre">pytket.backends.resulthandle.ResultHandle</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.extensions.qulacs.QulacsBackend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit circuits to the backend for running. The results will be stored
+in the backend’s result cache to be retrieved by the corresponding
+get_&lt;data&gt; method.</p>
+<p>Use keyword arguments to specify parameters to be used in submitting circuits
+See specific Backend derived class for available parameters, from the following
+list:</p>
+<ul class="simple">
+<li><p><cite>seed</cite>: RNG seed for simulators</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuits</strong> (<em>Iterable</em><em>[</em><a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
+for state/unitary simulators. Defaults to None.</p></li>
+<li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
+predicates to run on the backend. Defaults to True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Handles to results for each input circuit, as an interable in
+the same order as the circuits.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://cqcl.github.io/pytket/build/html/backends.html#pytket.backends.resulthandle.ResultHandle" title="ResultHandle">ResultHandle</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.extensions.qulacs.QulacsBackend.device">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">device</span></code><a class="headerlink" href="#pytket.extensions.qulacs.QulacsBackend.device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the Device targeted by the backend if it exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The Device that this backend targets if it exists. The Device
+object contains information about gate errors and device architecture.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Optional[<a class="reference external" href="https://cqcl.github.io/pytket/build/html/device.html#pytket.device.Device" title="Device">Device</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.extensions.qulacs.QulacsBackend.required_predicates">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">required_predicates</span></code><a class="headerlink" href="#pytket.extensions.qulacs.QulacsBackend.required_predicates" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minimum set of predicates that a circuit must satisfy before it can
+be successfully run on this backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Required predicates.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference external" href="https://cqcl.github.io/pytket/build/html/predicates.html#pytket.predicates.Predicate" title="Predicate">Predicate</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="pytket.extensions.qulacs.tk_to_qulacs">
+<code class="sig-prename descclassname"><span class="pre">pytket.extensions.qulacs.</span></code><code class="sig-name descname"><span class="pre">tk_to_qulacs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.8)"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="http://docs.qulacs.org/en/latest/pyRef/modules.html#qulacs.QuantumCircuit" title="(in Qulacs v0.1.9)"><span class="pre">qulacs.QuantumCircuit</span></a><a class="headerlink" href="#pytket.extensions.qulacs.tk_to_qulacs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a pytket circuit to a qulacs circuit object.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021 Cambridge Quantum Computing.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

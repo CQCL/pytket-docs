@@ -1,42 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.routing &mdash; pytket 0.8.0 documentation</title>
+  <title>pytket.routing &mdash; pytket 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
 
   
   
-  
+
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.transform" href="transform.html" />
@@ -64,7 +63,7 @@
             
             
               <div class="version">
-                0.8
+                0.9
               </div>
             
           
@@ -81,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -88,7 +88,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <figcaption>
+<p><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -97,15 +98,8 @@
 <li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Manual:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
-</ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<figcaption>
+<p><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -119,13 +113,16 @@
 <li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tailoring.html">pytket.tailoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">pytket.config</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -160,18 +157,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>pytket.routing</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/routing.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -185,15 +184,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pytket.routing">
+  <section id="module-pytket.routing">
 <span id="pytket-routing"></span><h1>pytket.routing<a class="headerlink" href="#module-pytket.routing" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pytket.routing.Architecture">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">Architecture</code><a class="headerlink" href="#pytket.routing.Architecture" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">Architecture</span></code><a class="headerlink" href="#pytket.routing.Architecture" title="Permalink to this definition">¶</a></dt>
 <dd><p>The base architecture class, describing the connectivity of qubits on a device.</p>
 <dl class="py method">
 <dt id="pytket.routing.Architecture.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.Architecture.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.Architecture.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.routing.Architecture, connections: List[Tuple[int, int]]) -&gt; None</p></li>
@@ -217,13 +216,13 @@
 
 <dl class="py method">
 <dt id="pytket.routing.Architecture.coupling">
-<em class="property">property </em><code class="sig-name descname">coupling</code><a class="headerlink" href="#pytket.routing.Architecture.coupling" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">coupling</span></code><a class="headerlink" href="#pytket.routing.Architecture.coupling" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coupling map of the Architecture as UnitIDs.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="pytket.routing.Architecture.nodes">
-<em class="property">property </em><code class="sig-name descname">nodes</code><a class="headerlink" href="#pytket.routing.Architecture.nodes" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">nodes</span></code><a class="headerlink" href="#pytket.routing.Architecture.nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all nodes of architecture as UnitID objects.</p>
 </dd></dl>
 
@@ -231,11 +230,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.CyclicButterfly">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">CyclicButterfly</code><a class="headerlink" href="#pytket.routing.CyclicButterfly" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">CyclicButterfly</span></code><a class="headerlink" href="#pytket.routing.CyclicButterfly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for a cyclic butterfly graph of given dimension.</p>
 <dl class="py method">
 <dt id="pytket.routing.CyclicButterfly.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.CyclicButterfly" title="pytket.routing.CyclicButterfly">pytket.routing.CyclicButterfly</a></span></em>, <em class="sig-param"><span class="n">dimension</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.CyclicButterfly.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.CyclicButterfly" title="pytket.routing.CyclicButterfly"><span class="pre">pytket.routing.CyclicButterfly</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.CyclicButterfly.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor for CyclicButterfly graph with some undirected connectivity between qubits.</p>
 <p>:param dimension</p>
 </dd></dl>
@@ -244,11 +243,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.FullyConnected">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">FullyConnected</code><a class="headerlink" href="#pytket.routing.FullyConnected" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">FullyConnected</span></code><a class="headerlink" href="#pytket.routing.FullyConnected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for number of qubits connected to every other qubit.</p>
 <dl class="py method">
 <dt id="pytket.routing.FullyConnected.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.FullyConnected" title="pytket.routing.FullyConnected">pytket.routing.FullyConnected</a></span></em>, <em class="sig-param"><span class="n">nodes</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.FullyConnected.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.FullyConnected" title="pytket.routing.FullyConnected"><span class="pre">pytket.routing.FullyConnected</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.FullyConnected.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>The constructor for a FullyConnected Architecture with some undirected connectivity between qubits.</p>
 <p>:param number of qubits</p>
 </dd></dl>
@@ -257,11 +256,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.GraphPlacement">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">GraphPlacement</code><a class="headerlink" href="#pytket.routing.GraphPlacement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">GraphPlacement</span></code><a class="headerlink" href="#pytket.routing.GraphPlacement" title="Permalink to this definition">¶</a></dt>
 <dd><p>The GraphPlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
 <dl class="py method">
 <dt id="pytket.routing.GraphPlacement.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement">pytket.routing.GraphPlacement</a></span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.GraphPlacement.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement"><span class="pre">pytket.routing.GraphPlacement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.GraphPlacement.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>The constructor for a GraphPlacement object. The Device object contains an architecture which details connectivity between qubits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -272,7 +271,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.GraphPlacement.modify_config">
-<code class="sig-name descname">modify_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement">pytket.routing.GraphPlacement</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.GraphPlacement.modify_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">modify_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement"><span class="pre">pytket.routing.GraphPlacement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.GraphPlacement.modify_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overides default Placement parameters to given values. 
 :param **kwargs: Parameters for placement: (int)depth_limit=5, (int)max_interaction_edges=edges in the device graph, (int)max_matches=10000, (int)contraction_ratio=10.</p>
 </dd></dl>
@@ -281,11 +280,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.HexagonalGrid">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">HexagonalGrid</code><a class="headerlink" href="#pytket.routing.HexagonalGrid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">HexagonalGrid</span></code><a class="headerlink" href="#pytket.routing.HexagonalGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for qubits arranged in a hexagonal grid lattice of given rows, length and layers</p>
 <dl class="py method">
 <dt id="pytket.routing.HexagonalGrid.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.HexagonalGrid.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.HexagonalGrid.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.routing.HexagonalGrid, n_rows: int, ;en: int) -&gt; None</p></li>
@@ -318,11 +317,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.LinePlacement">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">LinePlacement</code><a class="headerlink" href="#pytket.routing.LinePlacement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">LinePlacement</span></code><a class="headerlink" href="#pytket.routing.LinePlacement" title="Permalink to this definition">¶</a></dt>
 <dd><p>The LinePlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
 <dl class="py method">
 <dt id="pytket.routing.LinePlacement.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.LinePlacement" title="pytket.routing.LinePlacement">pytket.routing.LinePlacement</a></span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.LinePlacement.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.LinePlacement" title="pytket.routing.LinePlacement"><span class="pre">pytket.routing.LinePlacement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.LinePlacement.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>The constructor for a LinePlacement object. The Device object contains an architecture which details connectivity between qubits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -335,11 +334,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.NoiseAwarePlacement">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">NoiseAwarePlacement</code><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">NoiseAwarePlacement</span></code><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement" title="Permalink to this definition">¶</a></dt>
 <dd><p>The NoiseAwarePlacement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
 <dl class="py method">
 <dt id="pytket.routing.NoiseAwarePlacement.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement">pytket.routing.NoiseAwarePlacement</a></span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement"><span class="pre">pytket.routing.NoiseAwarePlacement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>The constructor for a LinePlacement object. The Device object contains an architecture which details connectivity between qubits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -350,7 +349,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.NoiseAwarePlacement.modify_config">
-<code class="sig-name descname">modify_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement">pytket.routing.NoiseAwarePlacement</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.modify_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">modify_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.NoiseAwarePlacement" title="pytket.routing.NoiseAwarePlacement"><span class="pre">pytket.routing.NoiseAwarePlacement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.NoiseAwarePlacement.modify_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overides default Placement parameters to given values. 
 :param **kwargs: Parameters for placement: (int)depth_limit=5, (int)max_interaction_edges=edges in the device graph, (int)max_matches=10000, (int)contraction_ratio=10.</p>
 </dd></dl>
@@ -359,11 +358,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.Placement">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">Placement</code><a class="headerlink" href="#pytket.routing.Placement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">Placement</span></code><a class="headerlink" href="#pytket.routing.Placement" title="Permalink to this definition">¶</a></dt>
 <dd><p>The base Placement class, contains methods for getting maps between Circuit Qubits and Device Nodes and for relabelling Circuit Qubits.</p>
 <dl class="py method">
 <dt id="pytket.routing.Placement.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement">pytket.routing.Placement</a></span></em>, <em class="sig-param"><span class="n">device</span><span class="p">:</span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">pytket.device.Device</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.Placement.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.Placement.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>The constructor for a Placement object. The Device object contains an architecture which details connectivity between qubits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -374,7 +373,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.Placement.get_placement_map">
-<code class="sig-name descname">get_placement_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement">pytket.routing.Placement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a><span class="p">]</span><a class="headerlink" href="#pytket.routing.Placement.get_placement_map" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_placement_map</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.routing.Placement.get_placement_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a map from logical to physical qubits that is Device appropriate for the given Circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -388,7 +387,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.Placement.get_placement_maps">
-<code class="sig-name descname">get_placement_maps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement">pytket.routing.Placement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Dict<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#pytket.routing.Placement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_placement_maps</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.routing.Placement.get_placement_maps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of maps from logical to physical qubits that are Device appropriate for the given Circuit. Each map is estimated to given a similar SWAP overheard after routing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -402,7 +401,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.Placement.place">
-<code class="sig-name descname">place</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement">pytket.routing.Placement</a></span></em>, <em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#pytket.routing.Placement.place" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">place</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a><a class="headerlink" href="#pytket.routing.Placement.place" title="Permalink to this definition">¶</a></dt>
 <dd><p>Relabels Circuit Qubits to Device Nodes and ‘unplaced’. For base Placement, all Qubits and labelled ‘unplaced’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -413,7 +412,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.Placement.place_with_map">
-<em class="property">static </em><code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">qmap</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a><a class="headerlink" href="#pytket.routing.Placement.place_with_map" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">place_with_map</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qmap</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a><a class="headerlink" href="#pytket.routing.Placement.place_with_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Relabels Circuit Qubits to Device Nodes using given map.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -429,11 +428,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.RingArch">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">RingArch</code><a class="headerlink" href="#pytket.routing.RingArch" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">RingArch</span></code><a class="headerlink" href="#pytket.routing.RingArch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for number of qubits arranged in a ring.</p>
 <dl class="py method">
 <dt id="pytket.routing.RingArch.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.RingArch" title="pytket.routing.RingArch">pytket.routing.RingArch</a></span></em>, <em class="sig-param"><span class="n">nodes</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.RingArch.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.RingArch" title="pytket.routing.RingArch"><span class="pre">pytket.routing.RingArch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.RingArch.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>The constructor for a RingArchitecture with some undirected connectivity between qubits.</p>
 <p>:param number of qubits</p>
 </dd></dl>
@@ -442,32 +441,32 @@
 
 <dl class="py class">
 <dt id="pytket.routing.RoutingMethod">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">RoutingMethod</code><a class="headerlink" href="#pytket.routing.RoutingMethod" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">RoutingMethod</span></code><a class="headerlink" href="#pytket.routing.RoutingMethod" title="Permalink to this definition">¶</a></dt>
 <dd><p>Members:</p>
 <p>base : Default cost function for selecting SWAP networks to insert</p>
 <p>noise : Noise-sensitive cost function for selecting SWAP networks to insert</p>
 <dl class="py method">
 <dt id="pytket.routing.RoutingMethod.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.RoutingMethod" title="pytket.routing.RoutingMethod">pytket.routing.RoutingMethod</a></span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.RoutingMethod.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.RoutingMethod" title="pytket.routing.RoutingMethod"><span class="pre">pytket.routing.RoutingMethod</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.RoutingMethod.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="pytket.routing.RoutingMethod.name">
-<em class="property">property </em><code class="sig-name descname">name</code><a class="headerlink" href="#pytket.routing.RoutingMethod.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#pytket.routing.RoutingMethod.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt id="pytket.routing.SquareGrid">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">SquareGrid</code><a class="headerlink" href="#pytket.routing.SquareGrid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">SquareGrid</span></code><a class="headerlink" href="#pytket.routing.SquareGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for qubits arranged in a square lattice of given number of rows and columns. Qubits are arranged with qubits values increasing first along rows then along columns i.e. for a 3 x 3 grid:</p>
 <p>0 1 2</p>
 <p>3 4 5</p>
 <p>6 7 8</p>
 <dl class="py method">
 <dt id="pytket.routing.SquareGrid.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.SquareGrid.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.SquareGrid.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.routing.SquareGrid, n_rows: int, n_columns: int) -&gt; None</p></li>
@@ -498,7 +497,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.SquareGrid.qind_to_squind">
-<code class="sig-name descname">qind_to_squind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.SquareGrid" title="pytket.routing.SquareGrid">pytket.routing.SquareGrid</a></span></em>, <em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><span class="p">]</span><a class="headerlink" href="#pytket.routing.SquareGrid.qind_to_squind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">qind_to_squind</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.SquareGrid" title="pytket.routing.SquareGrid"><span class="pre">pytket.routing.SquareGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.routing.SquareGrid.qind_to_squind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a single qubit index to a (row,column) index for a square grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -512,7 +511,7 @@
 
 <dl class="py method">
 <dt id="pytket.routing.SquareGrid.squind_to_qind">
-<code class="sig-name descname">squind_to_qind</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#pytket.routing.SquareGrid" title="pytket.routing.SquareGrid">pytket.routing.SquareGrid</a></span></em>, <em class="sig-param"><span class="n">row</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em>, <em class="sig-param"><span class="n">column</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a><a class="headerlink" href="#pytket.routing.SquareGrid.squind_to_qind" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">squind_to_qind</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.SquareGrid" title="pytket.routing.SquareGrid"><span class="pre">pytket.routing.SquareGrid</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><a class="headerlink" href="#pytket.routing.SquareGrid.squind_to_qind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts a (row,column) index for a square grid to a single qubit index</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -531,11 +530,11 @@
 
 <dl class="py class">
 <dt id="pytket.routing.TriangularGrid">
-<em class="property">class </em><code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">TriangularGrid</code><a class="headerlink" href="#pytket.routing.TriangularGrid" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">TriangularGrid</span></code><a class="headerlink" href="#pytket.routing.TriangularGrid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for qubits arranged in a triangular grid lattice of given rows, length and layers</p>
 <dl class="py method">
 <dt id="pytket.routing.TriangularGrid.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.TriangularGrid.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.TriangularGrid.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.routing.TriangularGrid, n_rows: int, n_cols: int) -&gt; None</p></li>
@@ -568,7 +567,7 @@
 
 <dl class="py function">
 <dt id="pytket.routing.place_with_map">
-<code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">place_with_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">circuit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">pytket.circuit.Circuit</a></span></em>, <em class="sig-param"><span class="n">qmap</span><span class="p">:</span> <span class="n">Dict<span class="p">[</span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit">pytket.circuit.Qubit</a><span class="p">, </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">pytket.circuit.Node</a><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a><a class="headerlink" href="#pytket.routing.place_with_map" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">place_with_map</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qmap</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.place_with_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Relabels Circuit Qubits according to a map. If provided map is partial, remaining Circuit Qubits are left ‘unplaced’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -582,7 +581,7 @@
 
 <dl class="py function">
 <dt id="pytket.routing.route">
-<code class="sig-prename descclassname">pytket.routing.</code><code class="sig-name descname">route</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.route" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">route</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.route" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>route(circuit: pytket.circuit.Circuit, architecture: pytket.routing.Architecture, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs) -&gt; pytket.circuit.Circuit</p></li>
@@ -618,36 +617,36 @@
 </dl>
 </dd></dl>
 
-</div>
+</section>
 
 
            </div>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="transform.html" class="btn btn-neutral float-right" title="pytket.transform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="quipper.html" class="btn btn-neutral float-left" title="pytket.quipper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="transform.html" class="btn btn-neutral float-right" title="pytket.transform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quipper.html" class="btn btn-neutral float-left" title="pytket.quipper" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
+        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -655,7 +654,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,38 +1,35 @@
-.. _start:
-
 Getting Started
-==================================
+===============
 
-The tket compiler is a powerful tool for optimising and manipulating platform-agnostic quantum circuits, focussed on enabling superior performance on NISQ (Noisy Intermediate-Scale Quantum) devices. The pytket package provides an API for interacting with tket and transpiling to and from other popular quantum circuit specifications.
+The tket compiler is a powerful tool for optimizing and manipulating
+platform-agnostic quantum circuits, focused on enabling superior performance on
+NISQ (noisy intermediate-scale quantum) devices. The pytket package provides an
+API for interacting with tket and transpiling to and from other popular quantum
+circuit specifications.
 
-Pytket is compatible with 64-bit Python 3.7, 3.8 and 3.9, on Linux, MacOS (10.14 or later) and Windows. Install pytket from PyPI using:
+Pytket is compatible with 64-bit Python 3.7, 3.8 and 3.9, on Linux, MacOS (10.14
+or later) and Windows. Install pytket from PyPI using:
 
 ::
 
     pip install pytket
 
-This will install the tket compiler binaries as well as the pytket package. For those using an older version of pytket, keep up to date by installing with the ``--upgrade`` flag for additional features and bug fixes.
+This will install the tket compiler binaries as well as the pytket package. For
+those using an older version of pytket, keep up to date by installing with the
+``--upgrade`` flag for additional features and bug fixes.
 
-There are separate packages for managing the interoperability between pytket and other quantum software packages which can also be installed via PyPI:
+There are separate packages for managing the interoperability between pytket and
+other quantum software packages which can also be installed via PyPI. For
+details of these, see the
+`pytket-extensions <https://github.com/CQCL/pytket-extensions>`_ repo.
 
-* ``pytket-aqt``
-* ``pytket-braket``
-* ``pytket-cirq``
-* ``pytket-honeywell``
-* ``pytket-projectq``
-* ``pytket-pyquil``
-* ``pytket-pyzx``
-* ``pytket-qiskit``
-* ``pytket-qsharp``
 
-.. * ``pytket-ionq``
+The quantum circuit is an abstraction of computation using quantum resources,
+designed by initializing a system into a fixed state, then mutating it via
+sequences of instructions (gates).
 
-Designing a Quantum Circuit
----------------------------
-
-The quantum circuit is an abstraction of computation using quantum resources, designed by initialising a system into a fixed state, then mutating it via sequences of instructions/gates.
-
-The native circuit interface built into ``pytket`` allows us to build circuits and use them directly.
+The native circuit interface built into pytket allows us to build circuits and
+use them directly.
 
 ::
 
@@ -43,16 +40,20 @@ The native circuit interface built into ``pytket`` allows us to build circuits a
     c.CX(1,0)        # add a CX gate with control qubit 1 and target qubit 0
     c.measure_all()  # measure qubits 0 and 1, recording the results in bits 0 and 1
 
-Building directly in ``pytket`` provides many handy shortcuts and higher-level components for circuits, including custom gate definitions, circuit composition, gates with symbolic parameters, and conditional gates. These are explored in detail in the `circuit generation <https://github.com/CQCL/pytket/blob/master/examples/circuit_generation_example.ipynb>`_, `conditional gate <https://github.com/CQCL/pytket/blob/master/examples/conditional_gate_example.ipynb>`_ and `symbolic circuit <https://github.com/CQCL/pytket/blob/master/examples/symbolics_example.ipynb>`_ examples.
+Pytket provides many handy shortcuts and higher-level components for building
+circuits, including custom gate definitions, circuit composition, gates with
+symbolic parameters, and conditional gates.
 
-On the other hand, ``pytket``'s flexibility of interface allows you to take circuits defined in a number of languages, including raw source code languages such as OpenQASM and Quipper, or embedded python frameworks such as Qiskit and Cirq.
+On the other hand, pytket's flexibile interface allows you to take circuits
+defined in a number of languages, including raw source code languages such as
+OpenQASM and Quipper, or embedded python frameworks such as Qiskit and Cirq.
 
 ::
 
     from pytket.qasm import circuit_from_qasm
     c = circuit_from_qasm("my_qasm_file.qasm")
 
-Or, if an extension module like ``pytket-qiskit`` is installed,
+Or, if an extension module like ``pytket-qiskit`` is installed:
 
 ::
 
@@ -62,139 +63,7 @@ Or, if an extension module like ``pytket-qiskit`` is installed,
     from pytket.extensions.qiskit import qiskit_to_tk
     c = qiskit_to_tk(qc)
 
-Running on a Backend
---------------------
-
-Designing a circuit is good, but our real goal is to run them on a quantum device. ``pytket`` presents a uniform interface for a number of hardware devices from several providers, as well as a selection of simulators. Many of the extension modules for ``pytket`` include :py:class:`Backend` classes, which can be used interchangeably.
-
-On quantum hardware, the observable outputs of the circuit are the final states of the classical registers. These are returned via a shot table -- a table of outcomes where the columns correspond to the individual classical bits, and each row is the result from a single run of the circuit.
-
-::
-
-    from pytket.extensions.ibm import IBMQBackend
-    b = IBMQBackend("ibmq_london")
-    # ...
-    from pytket.extensions.pyquil import ForestBackend
-    b = ForestBackend("Aspen-8")
-    # ...
-    from pytket.extensions.aqt import AQTBackend
-    b = AQTBackend(access_token, "sim")
-    # ...
-    b.compile_circuit(c)        # performs the minimal compilation to satisfy the device/simulator constraints
-    handle = b.process_circuit(c, 10)   # run the circuit 10 times
-    shots = b.get_shots(handle) # retrieve and return the readouts
-    print(shots)
-
-::
-
-    [[0 0]
-     [1 0]
-     [0 0]
-     [1 0]
-     [0 0]
-     [0 0]
-     [1 0]
-     [1 0]
-     [0 0]
-     [1 0]]
-
-If the ordering of results is not needed, the ``get_counts`` method instead returns a summary of the frequencies of each result.
-
-::
-
-    counts = b.get_counts(handle)
-    print(counts)
-
-::
-
-    {(0, 0): 5, (1, 0): 5}
-
-All of these are stochastically sampled. Whilst this is how the real devices run, it is more convenient to have a complete description of the state of the system when testing that your circuit design was correctly implemented. Some simulators allow you to inspect the final statevector when a pure quantum circuit (one without any measurements) is run on the initial state :math:`|0\rangle^{\otimes n}`. This makes it easy to test running our circuit design on some test input state.
-
-::
-
-    initial_state = Circuit(3)      # Initialise the system in 1/sqrt(2) (|011> + |101>)
-    initial_state.H(0)
-    initial_state.X(1)
-    initial_state.X(2)
-    initial_state.CX(0, 1)
-
-    increment = Circuit(3)
-    increment.CCX(2, 1, 0)
-    increment.CX(2, 1)
-    increment.X(2)
-
-    final_state = initial_state.copy()
-    final_state.append(increment)
-
-    from pytket.extensions.qiskit import AerStateBackend
-    b = AerStateBackend()
-    b.compile_circuit(initial_state)
-    b.compile_circuit(final_state)
-    handles = b.process_circuits([initial_state, final_state])
-    s0 = b.get_state(handles[0])    # Check that the initial state is 1/sqrt(2) (|011> + |101>)
-    print(s0.round(10))             # Round to ignore floating-point error in simulation
-    s1 = b.get_state(handles[1])    # Check that the incrementer has mapped this to 1/sqrt(2) (|100> + |110>)
-    print(s1.round(10))
-
-::
-
-    [0.        +0.j 0.        +0.j 0.        +0.j 0.70710678+0.j
-     0.        +0.j 0.70710678+0.j 0.        +0.j 0.        +0.j]
-    [ 0. -0.j  -0. +0.j   0. +0.j   0. -0.j   0.5-0.5j  0. +0.j   0.5-0.5j
-     -0. +0.j ]
-
-Given that global phase of a quantum system is unobservable (it can never affect the evolution of the system or measurent outcomes), these are the correct states we were looking for.
-
-We look in more detail at the supported backends and their features in the `backends example <https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb>`_.
-
-Compilation -- The Missing Link
--------------------------------
-
-In the previous section, we saw how ``pytket`` presents a uniform interface for all device and simulator backends. This is designed to help make the user development more flexible, allowing seamless switching between simulators for testing and many different types of quantum hardware for real experiments.
-
-In reality, this hides a lot of the complexity of running quantum circuits. Each simulator or device can work very differently under the hood, requiring circuits to be transformed into specific formats before being submitted. This can include restrictions on the universal gate set natively provided, the connectivity of the qubits, and what class of measurements are permitted (none, only at the end of the circuit, or mid-circuit via destructive/non-destructive measurement). Pushing these restrictions onto the user means that only experts in quantum circuit design and device characterisation can get the best results.
-
-Each :py:class:`Backend` object is aware of the requirements of the underlying system and can test whether or not a circuit already satisfies them:
-
-::
-
-    c = Circuit(4, 2)
-    # ...
-    if not b.valid_circuit(c):
-        print("Not ready to run")
-
-If our circuit does not meet all the requirements of the device then it needs to be rewritten in some manner. Fortunately, most of these rewrites can be performed automtically by ``pytket``'s compiler passes. Each elementary pass aims to either rewrite the circuit to conform to a particular constraint, or optimise the circuit by finding an equivalent realisation of the same operation that has a lower resource cost. For example, if the qubits of the circuit have already been allocated onto the physical qubits of the device, the :py:class:`RoutingPass` will add additional gates to permute the qubits so that the circuit satisfies the device connectivity.
-
-Since the backend constraints are known, we have included a default sequence of compiler passes to solve each of the constraints in turn. We already saw the ``compile_circuit`` method on the backends which applies this to a circuit.
-
-However, if you want fine-grained control over the compilation performed, each compiler pass is exposed for you to invoke directly. For example, the ``PauliSimp`` pass for resynthesising circuits to reduce the gate count is designed to work well for Trotterised Hamiltonian circuits. We can apply this to our circuit using the ``apply`` method.
-
-::
-
-    from pytket.passes import PauliSimp
-    PauliSimp().apply(c)
-
-Note that applying optimisation passes will change the circuit structure and possibly invalidate the constraints of the backend, so the order of application is important. In general, we recommend starting with more intensive optimisations, then compiling to solve for the constraints, and then running some lighter optimisations (which preserve the constraints) to tidy up any redundancies introduced during the compilation. We can achieve this by composing the ``PauliSimp`` pass with the default pass from the backend.
-
-::
-
-    from pytket.passes import SequencePass
-    comp_pass = SequencePass([PauliSimp(), b.default_compilation_pass])
-    comp_pass.apply(c)
-
-During the compilation procedure, there may be large structural and interface changes to the circuit. In particular, the identifiers for qubits and bits may change as the logical qubits are placed onto the physical qubits of the device, and the classical data may be reordered to match the target data model. The :py:class:`CompilationUnit` class can wrap up a circuit to record extra information relating to the compilation procedure.
-
-::
-
-    from pytket.predicates import CompilationUnit
-    cu = CompilationUnit(c)
-    comp_pass.apply(cu)
-    final_circuit = cu.circuit
-    print(cu.final_map)
-
-::
-
-    {c[0]: c[0], c[1]: c[1], q[0]: node[1], q[1]: node[0]}
-
-Some constraints are not possible to solve automatically and hence are still presented to the user. These relate to the computational model and what is fundamentally supported in terms of measurements, classical data, and control flow. For example, statevector simulators like the :py:class:`AerStateBackend` give a deterministic result for pure quantum circuits, so cannot typically run circuits containing measurements or conditional gates. Since these gates are often crucial to the correctness of a quantum program, there is no faithful way to eliminate them from the circuit. Hence if ``valid_circuit`` returns ``False`` after compilation, this may require manual edits to the circuit design.
+See the
+`Pytket User Manual <https://cqcl.github.io/pytket/build/html/manual/index.html>`_
+for an extensive tutorial on pytket, providing a gentle introduction to its
+features and how to run circuits on backend devices, with worked examples.
