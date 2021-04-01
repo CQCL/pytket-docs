@@ -1,42 +1,41 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Installation Troubleshooting &mdash; pytket 0.8.0 documentation</title>
+  <title>Installation Troubleshooting &mdash; pytket 0.9.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
 
   
   
-  
+
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="SOFTWARE LICENCE" href="licence.html" />
@@ -64,7 +63,7 @@
             
             
               <div class="version">
-                0.8
+                0.9
               </div>
             
           
@@ -81,6 +80,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -88,7 +88,8 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <figcaption>
+<p><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -108,15 +109,8 @@
 <li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">User Manual:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
-</ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<figcaption>
+<p><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -130,13 +124,16 @@
 <li class="toctree-l1"><a class="reference internal" href="quipper.html">pytket.quipper</a></li>
 <li class="toctree-l1"><a class="reference internal" href="routing.html">pytket.routing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transform.html">pytket.transform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tailoring.html">pytket.tailoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">pytket.config</a></li>
 </ul>
 
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -171,18 +168,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Installation Troubleshooting</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/install.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -196,9 +195,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installation-troubleshooting">
+  <section id="installation-troubleshooting">
 <h1>Installation Troubleshooting<a class="headerlink" href="#installation-troubleshooting" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="general-installation-instructions">
+<section id="general-installation-instructions">
 <h2>General Installation Instructions<a class="headerlink" href="#general-installation-instructions" title="Permalink to this headline">¶</a></h2>
 <p>To install the core <code class="docutils literal notranslate"><span class="pre">pytket</span></code> package, run</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket</span></code></p>
@@ -207,62 +206,62 @@
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-X</span></code></p>
 <p>You can update your installation to the most recent version using</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">pytket</span></code></p>
-</div>
-<div class="section" id="frequently-asked-questions">
+</section>
+<section id="frequently-asked-questions">
 <h2>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="is-there-a-build-of-pytket-for-my-system">
+<section id="is-there-a-build-of-pytket-for-my-system">
 <h3>Is there a build of <code class="docutils literal notranslate"><span class="pre">pytket</span></code> for my system?<a class="headerlink" href="#is-there-a-build-of-pytket-for-my-system" title="Permalink to this headline">¶</a></h3>
 <p>The non-commercial version of <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, and most additional modules available through PyPI, are built to work on Linux, MacOS and Windows with Python versions 3.7, 3.8, or 3.9, and <code class="docutils literal notranslate"><span class="pre">pip</span></code> version 20.0.0+.</p>
-</div>
-<div class="section" id="do-all-versions-of-pytket-work-with-windows">
+</section>
+<section id="do-all-versions-of-pytket-work-with-windows">
 <h3>Do all versions of <code class="docutils literal notranslate"><span class="pre">pytket</span></code> work with Windows?<a class="headerlink" href="#do-all-versions-of-pytket-work-with-windows" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> versions 0.6 and above are compatible with most recent versions of Windows. LTSC versions of Windows are not supported and an <a class="reference external" href="https://github.com/CQCL/pytket/issues/36">issue</a> has been reported with these.</p>
-</div>
-<div class="section" id="pytket-installed-but-modules-mentioned-in-the-docs-could-not-be-found-why">
+</section>
+<section id="pytket-installed-but-modules-mentioned-in-the-docs-could-not-be-found-why">
 <h3><code class="docutils literal notranslate"><span class="pre">pytket</span></code> installed but modules mentioned in the docs could not be found. Why?<a class="headerlink" href="#pytket-installed-but-modules-mentioned-in-the-docs-could-not-be-found-why" title="Permalink to this headline">¶</a></h3>
 <p>Some of the modules concerning interaction with another software package (e.g. <code class="docutils literal notranslate"><span class="pre">qiskit</span></code>, <code class="docutils literal notranslate"><span class="pre">pyquil</span></code>, etc.) need to be installed separately.</p>
 <p>Otherwise, this may be that the version of <code class="docutils literal notranslate"><span class="pre">pytket</span></code> you obtained is not the most recent version released. We only publish our docs for the most recent version of <code class="docutils literal notranslate"><span class="pre">pytket</span></code>.</p>
-</div>
-<div class="section" id="when-i-ran-pip-install-pytket-i-could-only-get-an-old-version-what-gives">
+</section>
+<section id="when-i-ran-pip-install-pytket-i-could-only-get-an-old-version-what-gives">
 <h3>When I ran <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket</span></code>, I could only get an old version. What gives?<a class="headerlink" href="#when-i-ran-pip-install-pytket-i-could-only-get-an-old-version-what-gives" title="Permalink to this headline">¶</a></h3>
 <p>At a couple of points in the development of the software, we had to increase the system requirements. Obtaining an old version from PyPI is likely the result of that being the most recent version compliant with your system.</p>
 <p>If you received version 0.3.0 or 0.4.2, it is likely that you are using an old version of <code class="docutils literal notranslate"><span class="pre">pip</span></code> that cannot accept the more recent Linux builds. Try running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--upgrade</span> <span class="pre">pip</span></code> to upgrade it to the most recent version and upgrade <code class="docutils literal notranslate"><span class="pre">pytket</span></code>.</p>
-</div>
-<div class="section" id="i-ve-tried-the-recommended-actions-here-and-it-still-won-t-work-what-can-i-do">
+</section>
+<section id="i-ve-tried-the-recommended-actions-here-and-it-still-won-t-work-what-can-i-do">
 <h3>I’ve tried the recommended actions here and it still won’t work! What can I do?<a class="headerlink" href="#i-ve-tried-the-recommended-actions-here-and-it-still-won-t-work-what-can-i-do" title="Permalink to this headline">¶</a></h3>
 <p>Our <a class="reference external" href="http://github.com/CQCL/pytket">examples repository</a> on GitHub has an issue tracker for current issues. You might find others who have had similar problems there. If not, feel free to add an issue describing your problem and our dev team will try to diagnose it and get back to you as soon as possible.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="licence.html" class="btn btn-neutral float-right" title="SOFTWARE LICENCE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="changelog.html" class="btn btn-neutral float-left" title="Changelog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="licence.html" class="btn btn-neutral float-right" title="SOFTWARE LICENCE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="changelog.html" class="btn btn-neutral float-left" title="Changelog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020, Cambridge Quantum Computing Ltd
+        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -270,7 +269,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
