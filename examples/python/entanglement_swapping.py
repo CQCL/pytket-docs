@@ -6,7 +6,7 @@
 
 # This example assumes the reader is familiar with the Qubit Teleportation and Entanglement Swapping protocols, and basic models of noise in quantum devices.
 #
-# To run this example, you will need `pytket`, `pytket-qiskit`, and `plotly`.
+# To run this example, you will need `pytket`, `pytket-qiskit`, and `plotly` (installed via `pip`). To view the graphs, you will need an intallation of `plotly-orca`.
 #
 # Current quantum hardware fits into the NISQ (Noisy, Intermediate-Scale Quantum) regime. This noise cannot realistically be combatted using conventional error correcting codes, because of the lack of available qubits, noise levels exceeding the code thresholds, and very few devices available that can perform measurements and corrections mid-circuit. Analysis of how quantum algorithms perform under noisy conditions is a very active research area, as is finding ways to cope with it. Here, we will look at how well we can perform the Entanglement Swapping protocol with different noise levels.
 #
@@ -329,7 +329,10 @@ for i in range(7):
         x=iter_range, y=fids, name="ro_err=" + str(np.round(0.025 * i, 3))
     )
     fig.add_trace(plot_data)
-fig.show(renderer="svg")
+try:
+    fig.show(renderer="svg")
+except ValueError as e:
+    print(e)  # requires plotly-orca
 
 fig = Figure()
 fig.update_layout(
@@ -345,7 +348,10 @@ for i in range(9):
         x=iter_range, y=fids, name="dep_err=" + str(np.round(0.01 * i, 3))
     )
     fig.add_trace(plot_data)
-fig.show(renderer="svg")
+try:
+    fig.show(renderer="svg")
+except ValueError as e:
+    print(e)  # requires plotly-orca
 
 # These graphs are not very surprising, but are still important for seeing that the current error rates of typical NISQ devices become crippling for fidelities very quickly after repeated mid-circuit measurements and corrections (even with this overly-simplified model with uniform noise and no crosstalk or higher error modes). This provides good motivation for the adoption of error mitigation techniques, and for the development of new techniques that are robust to errors in mid-circuit measurements.
 
