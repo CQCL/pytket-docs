@@ -35,7 +35,10 @@ jobs:
         cd manual/
         sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../requirements.txt | tr -d '\n')/" index-rst-template > index.rst
         sphinx-build -b html . build 1>out.txt 2>err.txt
-        cat out.txt err.txt
+        echo "stdout:"
+        cat out.txt
+        echo "stderr:"
+        cat err.txt
         if [[ -s err.txt ]] ; then exit 1 ; fi
     - name: install additional python prerequisites for notebooks
       run: |
