@@ -177,12 +177,14 @@ ibmq_b = IBMQBackend("ibmq_santiago")
 ibmq_b.valid_circuit(circ)
 
 # We are now good to run this circuit on the device. After submitting, we can use the handle to check on the status of the job, so that we know when results are ready to be retrieved. The `circuit_status` method works for all backends, and returns a `CircuitStatus` object. If we just run `get_result` straight away, the backend will wait for results to complete, blocking any other code from running.
+#
+# In this notebook we will use the emulated backend `ibmq_b_emu` to illustrate, but the workflow is the same as for the real backend `ibmq_b` (except that the latter will typically take much longer because of the size of the queue).
 
-quantum_handle = ibmq_b.process_circuit(circ, n_shots=10)
+quantum_handle = ibmq_b_emu.process_circuit(circ, n_shots=10)
 
-print(ibmq_b.circuit_status(quantum_handle))
+print(ibmq_b_emu.circuit_status(quantum_handle))
 
-quantum_shots = ibmq_b.get_result(quantum_handle).get_shots()
+quantum_shots = ibmq_b_emu.get_result(quantum_handle).get_shots()
 print(quantum_shots)
 
 # These are from an actual device, so it's impossible to perfectly predict what the results will be. However, because of the problem of noise, it would be unsurprising to find a few $01$ or $10$ results in the table. The circuit is very short, so it should be fairly close to the ideal result.
@@ -194,9 +196,9 @@ for i in range(5):
     c = Circuit(2)
     c.Rx(0.2 * i, 0).CX(0, 1)
     c.measure_all()
-    ibmq_b.compile_circuit(c)
+    ibmq_b_emu.compile_circuit(c)
     circuits.append(c)
-handles = ibmq_b.process_circuits(circuits, n_shots=100)
+handles = ibmq_b_emu.process_circuits(circuits, n_shots=100)
 print(handles)
 
 # We can now retrieve the results and process them. As we measured each circuit in the $Z$-basis, we can obtain the expectation value for the $ZZ$ operator immediately from these measurement results. We can calculate this using the `expectation_value_from_shots` utility method in `pytket`.
@@ -204,7 +206,7 @@ print(handles)
 from pytket.utils import expectation_from_shots
 
 for handle in handles:
-    shots = ibmq_b.get_result(handle).get_shots()
+    shots = ibmq_b_emu.get_result(handle).get_shots()
     exp_val = expectation_from_shots(shots)
     print(exp_val)
 
@@ -213,13 +215,13 @@ for handle in handles:
 from pytket.backends import ResultHandle
 
 c = Circuit(2).Rx(0.5, 0).CX(0, 1).measure_all()
-ibmq_b.compile_circuit(c)
-handle = ibmq_b.process_circuit(c, n_shots=10)
+ibmq_b_emu.compile_circuit(c)
+handle = ibmq_b_emu.process_circuit(c, n_shots=10)
 handlestring = str(handle)
 print(handlestring)
 # ... later ...
 oldhandle = ResultHandle.from_str(handlestring)
-print(ibmq_b.get_result(oldhandle).get_shots())
+print(ibmq_b_emu.get_result(oldhandle).get_shots())
 
 # For backends which support persistent handles (currently `IBMQBackend`, `HoneywellBackend`, `BraketBackend` and `AQTBackend`) you can even stop your python session and use your result handles in a separate script to retrive results when they are ready, by storing the handle strings. For experiments with long queue times, this enables separate job submission and retrieval. Use `Backend.persistent_handles` to check whether a backend supports this feature.
 #
