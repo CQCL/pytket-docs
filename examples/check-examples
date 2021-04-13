@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 set -e
 
 for name in `cat maintained-notebooks.txt`
@@ -9,5 +10,37 @@ do
     cmp ${name}.ipynb ${name}-gen.ipynb
     rm ${name}-gen.ipynb
     # Run script:
-    python python/${name}.py
+    if [[ "$name" == "backends_example" || \
+          "$name" == "expectation_value_example" || \
+          "$name" == "routing_example" || \
+          "$name" == "spam_example" ]] ; then
+        echo "Attempting to load IBMQ credentials ..."
+        set +e
+        ./load-ibmq-account
+        RESULT=$?
+        set -e
+        if [[ $RESULT -eq 0 ]] ; then
+            echo "... IBMQ credentials loaded."
+            python python/${name}.py
+        else
+            echo "... Failed to load IBMQ credentials, skipping notebook."
+        fi
+    elif [[ "$name" == "Forest_portability_example" ]] ; then
+        echo "Attempting to start Rigetti VMs ..."
+        set +e
+        ./start-rigetti-vms
+        RESULT=$?
+        set -e
+        if [[ $RESULT -eq 0 ]] ; then
+            echo "... Rigetti VMs started."
+            python python/${name}.py
+            echo "Stopping VMs ..."
+            ./stop-vms || true
+            echo "VMs stopped."
+        else
+            echo "Failed to start Rigetti VMs, skipping notebook."
+        fi
+    else
+        python python/${name}.py
+    fi
 done

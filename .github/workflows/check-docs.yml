@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - master
+  schedule:
+    # 04:00 every weekday morning
+    - cron: '0 4 * * 1-5'
 
 jobs:
   check:
@@ -39,7 +42,7 @@ jobs:
         sphinx-build -b html . build 1>out.txt 2>err.txt
         cat out.txt err.txt
         if [[ -s err.txt ]] ; then exit 1 ; fi
-    - name: install additional python prerequisites for notebooks
+    - name: install additional python prerequisites for notebooks and tests
       run: |
         python -m pip install jupyter openfermion
     - name: install dotnet SDK and iqsharp
@@ -51,19 +54,11 @@ jobs:
         dotnet tool install -g Microsoft.Quantum.IQSharp
         dotnet iqsharp install --user
     - name: test example notebooks
+      if: github.event_name == 'schedule'
       run: |
-        # Test the notebooks that don't need any backend credentials
-        for name in \
-          ansatz_sequence_example \
-          circuit_analysis_example \
-          circuit_generation_example \
-          comparing_simulators \
-          compilation_example \
-          conditional_gate_example \
-          creating_backends \
-          measurement_reduction_example \
-          symbolics_example \
-          ucc_vqe
-        do
-          python3 -m jupyter nbconvert --ExecutePreprocessor.timeout=600 --to notebook --execute examples/${name}.ipynb
-        done
+        # Test all the notebooks that we can on the CI
+        python -m pip install docker p2j plotly
+        docker pull rigetti/quilc
+        docker pull rigetti/qvm
+        cd examples
+        ./check-examples
