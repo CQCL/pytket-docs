@@ -71,3 +71,8 @@ from the Python scripts; and then attempts to run all the scripts. For those
 scripts that require credentials, it first tries to load them, and skips the
 test if it fails. For those that require containers to be running, it first
 tries to start them, and skips the test if it fails.
+
+To add a new script, you can either create the Python file and convert it using
+`gen-nb` or create a notebook file, convert it to Python using `p2j -r`, and
+then run `gen-nb` to convert back. In either case, please check that the
+formatting in the notebook is satisfactory.
