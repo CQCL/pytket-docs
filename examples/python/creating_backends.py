@@ -478,8 +478,8 @@ def test_expectation_value() -> None:
     assert get_operator_expectation_value(c, op, b) == pytest.approx(1.3)
 
 
-# Explicit calls are needed for this notebook
-# Normally pytest will just find these "test_X" methods when run from the command line
+# Explicit calls are needed for this notebook. Normally pytest will just find these "test_X" methods when run from the command line:
+
 test_bell()
 test_basisorder()
 test_implicit_perm()

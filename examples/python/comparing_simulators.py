@@ -121,7 +121,8 @@ c.CX(alice[0], alice[1]).H(alice[0])
 c.Measure(alice[0], data[0])
 c.Measure(alice[1], data[1])
 
-# Correct Bob's qubit
+# Correct Bob's qubit:
+
 c.X(bob[0], condition_bits=[data[0], data[1]], condition_value=1)
 c.X(bob[0], condition_bits=[data[0], data[1]], condition_value=3)
 c.Z(bob[0], condition_bits=[data[0], data[1]], condition_value=2)

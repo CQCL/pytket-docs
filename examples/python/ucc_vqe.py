@@ -301,7 +301,8 @@ def ucc(params):
 
 from sympy import symbols
 
-# Symbolic UCC ansatz generation
+# Symbolic UCC ansatz generation:
+
 syms = symbols("p0 p1 p2")
 singles_a_syms = {qps: syms[0] * coeff for qps, coeff in singles_a.items()}
 singles_b_syms = {qps: syms[1] * coeff for qps, coeff in singles_b.items()}

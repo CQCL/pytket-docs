@@ -35,17 +35,20 @@ alice = c.add_q_register("a", 2)
 bob = c.add_q_register("b", 1)
 cr = c.add_c_register("c", 2)
 
-# Bell state between Alice and Bob
+# Bell state between Alice and Bob:
+
 c.H(alice[1])
 c.CX(alice[1], bob[0])
 
-# Bell measurement of Alice's qubits
+# Bell measurement of Alice's qubits:
+
 c.CX(alice[0], alice[1])
 c.H(alice[0])
 c.Measure(alice[0], cr[0])
 c.Measure(alice[1], cr[1])
 
-# Correction of Bob's qubit
+# Correction of Bob's qubit:
+
 c.Z(bob[0], condition_bits=[cr[0]], condition_value=1)
 c.X(bob[0], condition_bits=[cr[1]], condition_value=1)
 
@@ -70,7 +73,8 @@ c.add_qubit(target)
 c.add_qubit(ancilla)
 c.add_bit(success)
 
-# Try the X gate
+# Try the X gate:
+
 c.add_circbox(x_box, args=[target, ancilla, success])
 # Try again if the X failed
 c.add_circbox(

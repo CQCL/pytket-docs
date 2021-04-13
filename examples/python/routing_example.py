@@ -95,7 +95,8 @@ draw_graph(cb_architecture.coupling)
 from pytket.circuit import OpType
 from pytket.device import Device, QubitErrorContainer
 
-# First create an error type for our single qubit errors
+# First create an error type for our single qubit errors:
+
 single_qubit_error = 0.001  # gate error rate
 readout_error = 0.01
 single_qubit_gate_errors = QubitErrorContainer(
@@ -107,11 +108,13 @@ single_qubit_gate_errors = QubitErrorContainer(
 )
 single_qubit_gate_errors.add_readout(readout_error)
 
-# Second create an error type for our multi qubit errors
+# Second create an error type for our multi qubit errors:
+
 cx_error = 0.01
 cx_gate_errors = QubitErrorContainer({OpType.CX: cx_error})
 
-# Initialise a Device for id_architecture with homogeneous qubits and links
+# Initialise a Device for id_architecture with homogeneous qubits and links:
+
 id_device = Device(
     {
         node_0: single_qubit_gate_errors,
@@ -361,7 +364,9 @@ from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwareP
 #
 # Let's switch to using our ```athens_device``` as it has heterogeneous device information. For our ```example_circuit``` each method produces the following maps:
 
-#  define a function for printing our maps
+# Define a function for printing our maps:
+
+
 def print_qubit_mapping(the_map):
     print("Qubit to Node mapping:")
     for k, v in the_map.items():
