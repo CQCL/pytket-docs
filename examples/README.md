@@ -76,4 +76,6 @@ To add a new script, you can either create the Python file and convert it using
 `gen-nb` or create a notebook file, convert it to Python using `p2j -r`, and
 then run `gen-nb` to convert back. In either case, please check that the
 formatting in the notebook is satisfactory. Then add the name of the new
-notebook to `maintained-notebooks.txt`.
+notebook to `maintained-notebooks.txt`. If the new script requires special
+set-up, such as local credentials, make sure it is covered by the checks in
+`check-examples`.
