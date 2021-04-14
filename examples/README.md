@@ -24,6 +24,8 @@ Compilation passes and how to combine and apply them.
 [backends_example](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) -
 How to run circuits on different backends.
 
+[contextual_optimization](https://github.com/CQCL/pytket/blob/master/examples/backends_example.ipynb) - How to eliminate gates by taking advantage of initial state and classical postprocessing.
+
 [comparing_simulators](https://github.com/CQCL/pytket/blob/master/examples/comparing_simulators.ipynb) -
 An overview of the differences between each of the simulators supported by `pytket`.
 
