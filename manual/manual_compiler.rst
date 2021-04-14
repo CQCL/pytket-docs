@@ -817,3 +817,198 @@ This measurement partitioning is built into the :py:meth:`get_operator_expectati
     print(setup.results[yy])
 
 .. note:: Since there could be multiple measurement :py:class:`Circuit` s generating the same observable, we could theoretically use this to extract extra shots (and hence extra precision) for that observable for free; automatically doing this as part of :py:meth:`measurement_reduction()` is planned for a future release of ``pytket``.
+
+Contextual Optimisations
+========================
+
+By default, tket makes no assumptions about a circuit's input state, nor about
+the destiny of its output state. We can therefore compose circuits freely,
+construct boxes from them that we can then place inside other circuits, and so
+on. However, when we come to run a circuit on a real device we can almost always
+assume that it will be initialised in the all-zero state, and that the final
+state of the qubits will be discarded (after measurement).
+
+This is where `contextual optimisations` can come into play. These are
+optimisations that depend on knowledge of the context of the circuit being run.
+They do not generally preserve the full unitary, but they generate circuits that
+are observationally indistinguishable (on an ideal device), and reduce noise by
+eliminating unnecessary operations from the beginning or end of the circuit.
+
+First of all, tket provides methods to `annotate` a qubit (or all qubits) as
+being initialized to zero, or discarded at the end of the circuit, or both.
+
+.. jupyter-execute::
+
+    from pytket import Circuit
+
+    c = Circuit(2)
+    c.Y(0)
+    c.CX(0,1)
+    c.H(0)
+    c.H(1)
+    c.Rz(0.125, 1)
+    c.measure_all()
+    c.qubit_create_all()
+    c.qubit_discard_all()
+
+The last two lines tell the compiler that all qubits are to be initialized to
+zero and discarded at the end. The methods :py:meth:`Circuit.qubit_create` and
+:py:meth:`Circuit.qubit_discard` can be used to achieve the same on individual
+qubits.
+
+Note that we are now restricted in how we can compose our circuit with other
+circuits. When composing after another circuit, a "created" qubit becomes a
+Reset operation. Whem composing before another circuit, a "discarded" qubit may
+not be joined to another qubit unless that qubit has itself been "created" (so
+that the discarded state gets reset to zero).
+
+Initial simplification
+~~~~~~~~~~~~~~~~~~~~~~
+
+When the above circuit is run from an all-zero state, the Y and CX gates at the
+beginning just have the effect of putting both qubits in the "1" state (ignoring
+unobservable global phase), so they could be replaced with two X gates. This is
+exactly what the :py:meth:`SimplifyInitial` pass does.
+
+.. jupyter-execute::
+
+    from pytket.passes import SimplifyInitial
+
+    SimplifyInitial().apply(c)
+    print(c.get_commands())
+
+This pass tracks the state of qubits known to be initialised to zero forward
+through the circuit, for as long as the qubits remain in a computational basis
+state, either removing gates (when they don't change the state) or replacing
+them with X gates (when they invert the state).
+
+By default, this pass also replaces Measure operations acting on qubits with a
+known state by classical set-bits operations on the target bits:
+
+.. jupyter-execute::
+
+    c = Circuit(1).X(0).measure_all()
+    c.qubit_create_all()
+    SimplifyInitial().apply(c)
+    print(c.get_commands())
+
+The measurement has disappeared, replaced with a classical operation on its
+target bit. To disable this behaviour, pass the ``allow_classical=False``
+argument to :py:meth:`SimplifyInitial` when constructing the pass.
+
+Note that :py:meth:`SimplifyInitial` does not automatically cancel successive
+pairs of X gates introduced by the simplification. It is a good idea to follow
+it with a :py:meth:`RemoveRedundancies` pass in order to perform these
+cancellations.
+
+Removal of discarded operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An operation that has no quantum or classical output in its causal future has no
+effect and can be removed from the circuit. By marking a qubit as discarded, we
+tell the compiler that it has no quantum output, potentially enabling this
+simplification.
+
+Note that if the qubit is measured, even if it is then discarded, the Measure
+operation has a classical output in its causal future so will not be removed.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Qubit
+    from pytket.passes import RemoveDiscarded
+
+    c = Circuit(3, 2)
+    c.H(0).H(1).H(2).CX(0, 1).Measure(0, 0).Measure(1, 1).H(0).H(1)
+    c.qubit_discard(Qubit(0))
+    c.qubit_discard(Qubit(2))
+    RemoveDiscarded().apply(c)
+    print(c.get_commands())
+
+The Hadamard gate following the measurement on qubit 0, as well as the Hadamard
+on qubit 2, have disappeared, because those qubits were discarded. The Hadamard
+following the measurement on qubit 1 remains, because that qubit was not
+discarded.
+
+Commutation of measured classical maps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The last type of contextual optimization is a little more subtle. Let's call a
+quantum unitary operation a `classical map` if it sends every computational
+basis state to a computational basis state, possibly composed with a diagonal
+operator. For example, X, Y, Z, Rz, CX, CY, CZ and Sycamore are classical maps,
+but Rx, Ry and H are not.
+
+When a classical map is followed by a measurement of all its qubits, and those
+qubits are then discarded, it can be replaced by a purely classical operation
+acting on the classical outputs of the measurement.
+
+For example, if we apply a CX gate and then measure the two qubits, the result
+is (ideally) the same as if we measured the two qubits first and then applied a
+classical controlled-NOT on the measurement bits. If the gate were a CY instead
+of a CX the effect would be identical: the only difference is the insertion of a
+diagonal operator, whose effect is unmeasurable.
+
+This simplification is effected by the :py:meth:`SimplifyMeasured` pass.
+
+Let's illustrate this with a Bell circuit:
+
+.. jupyter-execute::
+
+    from pytket.passes import SimplifyMeasured
+
+    c = Circuit(2).H(0).CX(0, 1).measure_all()
+    c.qubit_discard_all()
+    SimplifyMeasured().apply(c)
+    print(c.get_commands())
+
+The CX gate has disappeared, replaced with a classical transform acting on the
+bits after the measurement.
+
+Contextual optimisation in practice
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The above three passes are combined in the :py:meth:`ContextSimp` pass, which
+also performs a final :py:meth:`RemoveRedundancies`. Normally, before running a
+circuit on a device you will want to apply this pass (after using
+:py:meth:`Circuit.qubit_create_all` and :py:meth:`Circuit.qubit_discard_all` to
+enable the simplifications).
+
+However, most backends cannot process the classical operations that may be
+introduced by :py:meth:`SimplifyMeasured` or (possibly)
+:py:meth:`SimplifyInitial`. So pytket provides a method
+:py:meth:`separate_classical` to separate the classical postprocessing circuit
+from the main circuit to be run on the device. This postprocessing circuit is
+then passed as the ``ppcirc`` argument to :py:meth:`BackendResult.get_counts` or
+:py:meth:`BackendResult.get_shots`, in order to obtain the postprocessed
+results.
+
+Much of the above is wrapped up in the utility method
+:py:meth:`prepare_circuit`. This takes a circuit, applies
+:py:meth:`Circuit.qubit_create_all` and :py:meth:`Circuit.qubit_discard_all`,
+runs the full :py:meth:`ContextSimp` pass, and then separates the result into
+the main circuit and the postprocessing circuit, returning both.
+
+Thus a typical usage would look something like this:
+
+.. jupyter-execute::
+
+    from pytket.utils import prepare_circuit
+    from pytket.extensions.qiskit import AerBackend
+
+    b = AerBackend()
+    c = Circuit(2).H(0).CX(0, 1)
+    c.measure_all()
+    c0, ppcirc = prepare_circuit(c)
+    b.compile_circuit(c0)
+    h = b.process_circuit(c0, n_shots=10)
+    r = b.get_result(h)
+    shots = r.get_shots(ppcirc=ppcirc)
+    print(shots)
+
+This is a toy example, but illustrates the principle. The actual circuit sent to
+the backend consisted only of a Hadamard gate on qubit 0 and a single
+measurement to bit 0. The classical postprocessing circuit set bit 1 to zero and
+then executed a controlled-NOT from bit 0 to bit 1. These details are hidden
+from us (unless we inspect the circuits), and what we end up with is a shots
+table that is indistinguishable from running the original circuit but with less
+noise.
