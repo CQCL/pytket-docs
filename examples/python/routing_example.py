@@ -72,9 +72,7 @@ from pytket.routing import SquareGrid
 alternative_cube_architecture = SquareGrid(2, 2, 2)
 draw_graph(alternative_cube_architecture.coupling)
 
-# In many cases, we are interested in the architectures of real devices.
-# These are available directly from the device backends, available within tket's respective extension packages.
-# We will see more on this further below.
+# In many cases, we are interested in the architectures of real devices. These are available directly from the device backends, available within tket's respective extension packages. We will see more on this further below.
 
 # In reality a Quantum Device has much more information to it than just its connectivity constraints. The Device class  encapsulates basic additional information used in fidelity aware qubit mapping methods available in pytket: gate errors and readout errors each qubit. Some methods in pytket can use this information to improve circuit performance when running on real hardware.
 #
