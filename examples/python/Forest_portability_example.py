@@ -11,20 +11,20 @@ from qiskit.aqua.components.initial_states import Custom
 
 n_qubits = 3
 state_prep = Custom(n_qubits, state="random")
-qreg = QuantumRegister(n_qubits)
+qreg = QuantumRegister(n_qubits, "q")
 state_prep_circ = state_prep.construct_circuit("circuit", qreg)
 print(state_prep_circ)
 
 # We can now evolve this state under an operator for a given duration.
 
-from qiskit.aqua.operators import WeightedPauliOperator
+from qiskit.opflow import PauliTrotterEvolution
+from qiskit.opflow.primitive_ops import PauliSumOp
 from qiskit.quantum_info import Pauli
 
 duration = 1.2
-paulis = list(map(Pauli.from_label, ["XXI", "YYI", "ZZZ"]))
-weights = [0.3, 0.5 + 1j * 0.2, -0.4]
-op = WeightedPauliOperator.from_list(paulis, weights)
-evolution_circ = op.evolve(None, duration, num_time_slices=1, quantum_registers=qreg)
+op = PauliSumOp.from_list([("XXI", 0.3), ("YYI", 0.5 + 1j * 0.2), ("ZZZ", -0.4)])
+evolved_op = (duration * op).exp_i()
+evolution_circ = PauliTrotterEvolution(reps=1).convert(evolved_op).to_circuit()
 print(evolution_circ)
 
 state_prep_circ += evolution_circ
