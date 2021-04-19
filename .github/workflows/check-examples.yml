@@ -14,11 +14,19 @@ jobs:
       with:
         fetch-depth: '0'
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
+    - name: check if examples have changed
+      id: check_changed
+      run: |
+        git diff --no-commit-id --name-only -r ${{ github.base-ref}} ${{ github.sha }} | grep "^examples\/"
+        NOCHANGES=$?
+        echo "::set-output name=nochanges::${NOCHANGES}"
     - name: Set up Python 3.7
+      if:  ${{ ! steps.chack_changed.outputs.nochanges }}
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
     - name: install python requirements for notebooks
+      if:  ${{ ! steps.chack_changed.outputs.nochanges }}
       run: |
         python -m pip install --upgrade pip
         python -m pip install wheel
@@ -26,6 +34,7 @@ jobs:
         python -m pip install jupyter openfermion plotly
         python -m pip install docker p2j
     - name: install dotnet SDK and iqsharp
+      if:  ${{ ! steps.chack_changed.outputs.nochanges }}
       run: |
         curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
         sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
@@ -34,10 +43,12 @@ jobs:
         dotnet tool install -g Microsoft.Quantum.IQSharp
         dotnet iqsharp install --user
     - name: pull docker images
+      if:  ${{ ! steps.chack_changed.outputs.nochanges }}
       run: |
         docker pull rigetti/quilc
         docker pull rigetti/qvm
     - name: test example notebooks
+      if:  ${{ ! steps.chack_changed.outputs.nochanges }}
       run: |
         cd examples
         ./check-examples
