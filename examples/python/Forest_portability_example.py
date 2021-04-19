@@ -6,13 +6,18 @@
 
 # IBM's Qiskit Aqua package is a toolkit for high-level circuit synthesis and quantum algorithms. We will start by building a random initial state over some qubits.
 
-from qiskit import QuantumCircuit, QuantumRegister
-from qiskit.aqua.components.initial_states import Custom
+from qiskit import QuantumCircuit
+from qiskit.quantum_info.states.random import random_statevector
 
 n_qubits = 3
-state_prep = Custom(n_qubits, state="random")
-qreg = QuantumRegister(n_qubits, "q")
-state_prep_circ = state_prep.construct_circuit("circuit", qreg)
+state = random_statevector((1 << n_qubits, 1)).data
+state_prep_circ = QuantumCircuit(n_qubits)
+state_prep_circ.initialize(state)
+state_prep_circ = state_prep_circ.decompose()
+state_prep_circ.data = [
+    datum for datum in state_prep_circ.data if datum[0].name != "reset"
+]
+
 print(state_prep_circ)
 
 # We can now evolve this state under an operator for a given duration.
