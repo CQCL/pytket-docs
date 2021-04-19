@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - master
+  schedule:
+    # 04:00 every Saturday morning
+    - cron: '0 4 * * 6'
 
 jobs:
 
@@ -22,7 +25,7 @@ jobs:
   check:
     name: check examples
     needs: changes
-    if: ${{ needs.changes.outputs.examples == 'true' }}
+    if: github.event_name == 'schedule' || {{ needs.changes.outputs.examples == 'true' }}
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
