@@ -1,30 +1,35 @@
 # # Code Portability and Intro to Forest
 
-# The quantum hardware landscape is incredibly competitive and rapidly changing. Many full-stack quantum software platforms lock users into them in order to use the associated devices and simulators. This notebook demonstrates how `pytket` can free up your existing high-level code to be used on devices from other providers. We will take a state-preparation and evolution circuit designed using the Qiskit Aqua package and enable it to be run on several Rigetti backends.
+# The quantum hardware landscape is incredibly competitive and rapidly changing. Many full-stack quantum software platforms lock users into them in order to use the associated devices and simulators. This notebook demonstrates how `pytket` can free up your existing high-level code to be used on devices from other providers. We will take a state-preparation and evolution circuit generated using `qiskit`, and enable it to be run on several Rigetti backends.
 #
 # To use a real hardware device, this notebook should be run from a Rigetti QMI instance. Look [here](https://www.rigetti.com/qcs/docs/intro-to-qcs) for information on how to set this up. Otherwise, make sure you have QuilC and QVM running in server mode. You will need to have `pytket`, `pytket_pyquil`, and `pytket_qiskit` installed, which are all available from PyPI.
 
-# IBM's Qiskit Aqua package is a toolkit for high-level circuit synthesis and quantum algorithms. We will start by building a random initial state over some qubits.
+# We will start by using `qiskit` to build a random initial state over some qubits. (We remove the initial "reset" gates from the circuit since these are not recognized by the Forest backends, which assume an all-zero initial state.)
 
-from qiskit import QuantumCircuit, QuantumRegister
-from qiskit.aqua.components.initial_states import Custom
+from qiskit import QuantumCircuit
+from qiskit.quantum_info.states.random import random_statevector
 
 n_qubits = 3
-state_prep = Custom(n_qubits, state="random")
-qreg = QuantumRegister(n_qubits)
-state_prep_circ = state_prep.construct_circuit("circuit", qreg)
+state = random_statevector((1 << n_qubits, 1)).data
+state_prep_circ = QuantumCircuit(n_qubits)
+state_prep_circ.initialize(state)
+state_prep_circ = state_prep_circ.decompose()
+state_prep_circ.data = [
+    datum for datum in state_prep_circ.data if datum[0].name != "reset"
+]
+
 print(state_prep_circ)
 
 # We can now evolve this state under an operator for a given duration.
 
-from qiskit.aqua.operators import WeightedPauliOperator
+from qiskit.opflow import PauliTrotterEvolution
+from qiskit.opflow.primitive_ops import PauliSumOp
 from qiskit.quantum_info import Pauli
 
 duration = 1.2
-paulis = list(map(Pauli.from_label, ["XXI", "YYI", "ZZZ"]))
-weights = [0.3, 0.5 + 1j * 0.2, -0.4]
-op = WeightedPauliOperator.from_list(paulis, weights)
-evolution_circ = op.evolve(None, duration, num_time_slices=1, quantum_registers=qreg)
+op = PauliSumOp.from_list([("XXI", 0.3), ("YYI", 0.5 + 1j * 0.2), ("ZZZ", -0.4)])
+evolved_op = (duration * op).exp_i()
+evolution_circ = PauliTrotterEvolution(reps=1).convert(evolved_op).to_circuit()
 print(evolution_circ)
 
 state_prep_circ += evolution_circ
