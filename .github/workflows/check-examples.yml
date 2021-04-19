@@ -1,13 +1,31 @@
 name: check examples
 
 on:
+  pull_request:
+    branches:
+      - master
   schedule:
-    # 04:00 every weekday morning
-    - cron: '0 4 * * 1-5'
+    # 04:00 every Saturday morning
+    - cron: '0 4 * * 6'
 
 jobs:
+
+  changes:
+    runs-on: ubuntu-20.04
+    outputs:
+      examples: ${{ steps.filter.outputs.examples }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          examples:
+            - 'examples/**'
+
   check:
     name: check examples
+    needs: changes
+    if: github.event_name == 'schedule' || needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
