@@ -25,7 +25,7 @@ jobs:
   check:
     name: check examples
     needs: changes
-    if: {{ github.event_name == 'schedule' || needs.changes.outputs.examples == 'true' }}
+    if: github.event_name == 'schedule' || needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
