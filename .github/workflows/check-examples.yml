@@ -6,8 +6,23 @@ on:
       - master
 
 jobs:
+
+  changes:
+    runs-on: ubuntu-20.04
+    outputs:
+      examples: ${{ steps.filter.outputs.examples }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          examples:
+            - 'examples/**'
+
   check:
     name: check examples
+    needs: changes
+    if: ${{ needs.changes.outputs.examples == 'true' }}
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
