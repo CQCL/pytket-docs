@@ -1,10 +1,10 @@
 # # Code Portability and Intro to Forest
 
-# The quantum hardware landscape is incredibly competitive and rapidly changing. Many full-stack quantum software platforms lock users into them in order to use the associated devices and simulators. This notebook demonstrates how `pytket` can free up your existing high-level code to be used on devices from other providers. We will take a state-preparation and evolution circuit designed using the Qiskit Aqua package and enable it to be run on several Rigetti backends.
+# The quantum hardware landscape is incredibly competitive and rapidly changing. Many full-stack quantum software platforms lock users into them in order to use the associated devices and simulators. This notebook demonstrates how `pytket` can free up your existing high-level code to be used on devices from other providers. We will take a state-preparation and evolution circuit generated using `qiskit`, and enable it to be run on several Rigetti backends.
 #
 # To use a real hardware device, this notebook should be run from a Rigetti QMI instance. Look [here](https://www.rigetti.com/qcs/docs/intro-to-qcs) for information on how to set this up. Otherwise, make sure you have QuilC and QVM running in server mode. You will need to have `pytket`, `pytket_pyquil`, and `pytket_qiskit` installed, which are all available from PyPI.
 
-# IBM's Qiskit Aqua package is a toolkit for high-level circuit synthesis and quantum algorithms. We will start by building a random initial state over some qubits.
+# We will start by using `qiskit` to build a random initial state over some qubits. (We remove the initial "reset" gates from the circuit since these are not recognized by the Forest backends, which assume an all-zero initial state.)
 
 from qiskit import QuantumCircuit
 from qiskit.quantum_info.states.random import random_statevector
