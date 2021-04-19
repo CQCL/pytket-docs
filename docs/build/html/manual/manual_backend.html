@@ -263,14 +263,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
  [1 1]
- [0 1]
  [1 1]
- [0 1]
- [1 1]
- [0 1]
- [0 1]
  [0 1]
  [1 1]
  [0 1]
@@ -279,10 +274,15 @@
  [0 1]
  [1 1]
  [1 1]
+ [1 1]
+ [0 1]
+ [0 1]
+ [0 1]
+ [0 1]
  [0 1]
  [0 1]
  [1 1]
- [1 1]]
+ [0 1]]
 </pre></div>
 </div>
 </div>
@@ -308,8 +308,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1009, (0, 1): 991})
-{(0, 1): 0.4955, (1, 1): 0.5045}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1019, (0, 1): 981})
+{(0, 1): 0.4905, (1, 1): 0.5095}
 </pre></div>
 </div>
 </div>
@@ -481,7 +481,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.017000000000000015
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.020000000000000018
 </pre></div>
 </div>
 </div>
@@ -539,8 +539,8 @@ Counter({(1, 0): 10})
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[ 0.63003676+0.j -0.32101976+0.j  0.63003676+0.j -0.32101976+0.j
   0.        +0.j  0.        +0.j  0.        +0.j  0.        +0.j]
-Counter({(0, 0, 0): 798, (1, 0, 0): 792, (0, 0, 1): 221, (1, 0, 1): 189})
-Counter({(0, 0): 1590, (0, 1): 410})
+Counter({(1, 0, 0): 825, (0, 0, 0): 782, (0, 0, 1): 213, (1, 0, 1): 180})
+Counter({(0, 0): 1607, (0, 1): 393})
 </pre></div>
 </div>
 </div>
@@ -587,8 +587,8 @@ Counter({(0, 0): 1590, (0, 1): 410})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.026999999999999913
-0.296000000000000
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.028999999999999915
+0.323000000000000
 </pre></div>
 </div>
 </div>
@@ -616,8 +616,11 @@ Counter({(0, 0): 1590, (0, 1): 410})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 409, (0, 0, 0): 398, (0, 1, 0): 392, (0, 1, 1): 368, (1, 0, 1): 112, (1, 0, 0): 109, (1, 1, 1): 107, (1, 1, 0): 105})
--0.016999999999999904
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 439, (0, 1, 1): 403, (0, 0, 1): 391, (0, 1, 0): 389, (1, 0, 0): 105, (1, 0, 1): 95, (1, 1, 0): 92, (1, 1, 1): 86})
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+0.029000000000000026
 </pre></div>
 </div>
 </div>
@@ -656,7 +659,7 @@ Counter({(0, 0): 1590, (0, 1): 410})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 149, (0, 1, 1): 140, (1, 1, 0): 127, (0, 1, 0): 123, (1, 0, 0): 122, (1, 1, 1): 122, (0, 0, 0): 116, (0, 0, 1): 101})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 138, (1, 1, 0): 133, (1, 0, 1): 129, (0, 0, 1): 127, (0, 1, 1): 127, (0, 1, 0): 122, (1, 0, 0): 113, (1, 1, 1): 111})
 </pre></div>
 </div>
 </div>
@@ -709,7 +712,7 @@ Counter({(0, 0): 1590, (0, 1): 410})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.030000000000000027
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.03300000000000003
 </pre></div>
 </div>
 </div>
@@ -777,24 +780,32 @@ Counter({(0, 0): 1590, (0, 1): 410})
 <p>Not only is the goal of tket to be a device-agnostic platform, but also interface-agnostic, so users are not obliged to have to work entirely in tket to benefit from the wide range of devices supported. For example, Qiskit is currently the most widely adopted quantum software development platform, providing its own modules for building and compiling circuits, submitting to backends, applying error mitigation techniques and combining these into higher-level algorithms. Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> can be wrapped up to imitate a Qiskit backend, allowing the benefits of tket to be felt in existing Qiskit projects with minimal work.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.aqua.algorithms</span> <span class="kn">import</span> <span class="n">BernsteinVazirani</span>
-<span class="kn">from</span> <span class="nn">qiskit.aqua.components.oracles</span> <span class="kn">import</span> <span class="n">TruthTableOracle</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.utils</span> <span class="kn">import</span> <span class="n">QuantumInstance</span>
+<span class="kn">from</span> <span class="nn">qiskit.algorithms</span> <span class="kn">import</span> <span class="n">Grover</span><span class="p">,</span> <span class="n">AmplificationProblem</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 
 <span class="kn">from</span> <span class="nn">pytket.extensions.qulacs</span> <span class="kn">import</span> <span class="n">QulacsBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit.tket_backend</span> <span class="kn">import</span> <span class="n">TketBackend</span>
 
 <span class="n">b</span> <span class="o">=</span> <span class="n">QulacsBackend</span><span class="p">()</span>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">TketBackend</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">())</span>
+<span class="n">qinstance</span> <span class="o">=</span> <span class="n">QuantumInstance</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
 
-<span class="n">ora</span> <span class="o">=</span> <span class="n">TruthTableOracle</span><span class="p">(</span><span class="n">bitmaps</span><span class="o">=</span><span class="s2">&quot;01100110&quot;</span><span class="p">)</span>
-<span class="n">alg</span> <span class="o">=</span> <span class="n">BernsteinVazirani</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">ora</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">oracle</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">oracle</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">is_good_state</span><span class="p">(</span><span class="n">bitstr</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">bitstr</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span>
+
+<span class="n">problem</span> <span class="o">=</span> <span class="n">AmplificationProblem</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">is_good_state</span><span class="o">=</span><span class="n">is_good_state</span><span class="p">)</span>
+<span class="n">grover</span> <span class="o">=</span> <span class="n">Grover</span><span class="p">(</span><span class="n">quantum_instance</span><span class="o">=</span><span class="n">qinstance</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">amplify</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Top measurement:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">top_measurement</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;result&#39;: &#39;011&#39;}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Top measurement: 11
 </pre></div>
 </div>
 </div>
@@ -1001,7 +1012,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 8, (1, 1): 2})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 6, (0, 0): 4})
 </pre></div>
 </div>
 </div>
