@@ -4,7 +4,7 @@
 #
 # To use a real hardware device, this notebook should be run from a Rigetti QMI instance. Look [here](https://www.rigetti.com/qcs/docs/intro-to-qcs) for information on how to set this up. Otherwise, make sure you have QuilC and QVM running in server mode. You will need to have `pytket`, `pytket_pyquil`, and `pytket_qiskit` installed, which are all available from PyPI.
 
-# We will start by using `qiskit` to build a random initial state over some qubits. (We remove the initial "reset" gates from the circuit since these are not recognized by the Forest backends, which assume an all-zero initial state.)
+# We will start by using `qiskit` to build a random initial state over some qubits. (We remove the initial "reset" gates from the circuit since these are not recognized by the Forest backends, which assume an all-zero initial state...)
 
 from qiskit import QuantumCircuit
 from qiskit.quantum_info.states.random import random_statevector
