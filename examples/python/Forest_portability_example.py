@@ -20,7 +20,7 @@ state_prep_circ.data = [
 
 print(state_prep_circ)
 
-# We can now evolve this state under an operator for a given duration.
+# We can evolve this state under an operator for a given duration.
 
 from qiskit.opflow import PauliTrotterEvolution
 from qiskit.opflow.primitive_ops import PauliSumOp
