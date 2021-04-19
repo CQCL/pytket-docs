@@ -47,7 +47,7 @@ Each :py:class:`Backend` object is aware of the restrictions of the underlying d
 .. Can check if a circuit satisfies all requirements with `valid_circuit`
 .. `compile_circuit` modifies a circuit in place to try to satisfy all backend requirements if possible (restrictions on measurements or conditional gate support may not be fixed by compilation)
 
-Knowing the requirements of each :py:class:`Backend` is handy in case it has consequences for how you design a :py:class:`Circuit`, but can generally be abstracted away. Calling :py:meth:`Backend.valid_circuit()` can check whether or not a :py:class:`Circuit` satisfies every requirement to run on the :py:class:`Backend`, and if it is not immediately valid then :py:meth:`Backend.compile_circuit` will modify the :py:class:`Circuit` in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation).
+Knowing the requirements of each :py:class:`Backend` is handy in case it has consequences for how you design a :py:class:`Circuit`, but can generally be abstracted away. Calling :py:meth:`Backend.valid_circuit()` can check whether or not a :py:class:`Circuit` satisfies every requirement to run on the :py:class:`Backend`, and if it is not immediately valid then :py:meth:`Backend.compile_circuit` will modify the :py:class:`Circuit` in-place to try to solve all of the remaining constraints when possible. (Note that restrictions on measurements or conditional gate support may not be fixed by compilation.)
 
 .. jupyter-execute::
 
