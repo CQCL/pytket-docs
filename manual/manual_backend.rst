@@ -12,7 +12,7 @@ A :py:class:`Backend` represents a connection to some co-processor instance, whi
 
 With the wide variety of :py:class:`Backend` s available, they naturally have very different capabilities and limitations. The class is designed to open up this information so that it is easy to examine at runtime and make hardware-dependent choices as needed for maximum performance, whilst providing a basic abstract model that is easy for proof-of-concept testing.
 
-No :py:class:`Backend` s are currently provided with the core ``pytket`` package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`AerBackend` and :py:class:`IBMQBackend` with ``pytket-qiskit`` or the :py:class:`HoneywellBackend` with ``pytket-honeywell``.
+No :py:class:`Backend` s are ... currently provided with the core ``pytket`` package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`AerBackend` and :py:class:`IBMQBackend` with ``pytket-qiskit`` or the :py:class:`HoneywellBackend` with ``pytket-honeywell``.
 
 Backend Requirements
 --------------------
