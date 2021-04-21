@@ -862,9 +862,9 @@ Initial simplification
 ~~~~~~~~~~~~~~~~~~~~~~
 
 When the above circuit is run from an all-zero state, the Y and CX gates at the
-beginning just have the effect of putting both qubits in the "1" state (ignoring
-unobservable global phase), so they could be replaced with two X gates. This is
-exactly what the :py:meth:`SimplifyInitial` pass does.
+beginning just have the effect of putting both qubits in the :math:`\lvert 1
+\rangle` state (ignoring unobservable global phase), so they could be replaced
+with two X gates. This is exactly what the :py:meth:`SimplifyInitial` pass does.
 
 .. jupyter-execute::
 
