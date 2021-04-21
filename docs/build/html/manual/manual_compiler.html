@@ -1,44 +1,50 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Compilation &mdash; pytket-manual  documentation</title>
   
 
   
-  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
+
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Noise and the Quantum Circuit Model" href="manual_noise.html" />
@@ -79,6 +85,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -105,6 +112,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#compiling-symbolic-circuits">Compiling Symbolic Circuits</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#partial-compilation">Partial Compilation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#measurement-reduction">Measurement Reduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contextual-optimisations">Contextual Optimisations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initial-simplification">Initial simplification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#removal-of-discarded-operations">Removal of discarded operations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#commutation-of-measured-classical-maps">Commutation of measured classical maps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#contextual-optimisation-in-practice">Contextual optimisation in practice</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -115,6 +129,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -149,18 +164,20 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Compilation</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/manual_compiler.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -836,7 +853,7 @@ True
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">e455c605f47a</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_176024</span><span class="o">/</span><span class="mf">723866287.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># PauliSimp requires a specific gateset and no conditional gates</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># or mid-circuit measurement, so this will raise an exception</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">comp</span> <span class="o">=</span> <span class="n">SequencePass</span><span class="p">([</span><span class="n">DecomposeBoxes</span><span class="p">(),</span> <span class="n">PauliSimp</span><span class="p">()])</span>
@@ -1142,6 +1159,236 @@ Invert: False]
 <p>Since there could be multiple measurement <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s generating the same observable, we could theoretically use this to extract extra shots (and hence extra precision) for that observable for free; automatically doing this as part of <code class="xref py py-meth docutils literal notranslate"><span class="pre">measurement_reduction()</span></code> is planned for a future release of <code class="docutils literal notranslate"><span class="pre">pytket</span></code>.</p>
 </div>
 </div>
+<div class="section" id="contextual-optimisations">
+<h3>Contextual Optimisations<a class="headerlink" href="#contextual-optimisations" title="Permalink to this headline">¶</a></h3>
+<p>By default, tket makes no assumptions about a circuit’s input state, nor about
+the destiny of its output state. We can therefore compose circuits freely,
+construct boxes from them that we can then place inside other circuits, and so
+on. However, when we come to run a circuit on a real device we can almost always
+assume that it will be initialised in the all-zero state, and that the final
+state of the qubits will be discarded (after measurement).</p>
+<p>This is where <cite>contextual optimisations</cite> can come into play. These are
+optimisations that depend on knowledge of the context of the circuit being run.
+They do not generally preserve the full unitary, but they generate circuits that
+are observationally indistinguishable (on an ideal device), and reduce noise by
+eliminating unnecessary operations from the beginning or end of the circuit.</p>
+<p>First of all, tket provides methods to <cite>annotate</cite> a qubit (or all qubits) as
+being initialized to zero, or discarded at the end of the circuit, or both.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.125</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">qubit_create_all</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">qubit_discard_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>The last two lines tell the compiler that all qubits are to be initialized to
+zero and discarded at the end. The methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.qubit_create()</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.qubit_discard()</span></code> can be used to achieve the same on individual
+qubits.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Note that we are now restricted in how we can compose our circuit with other circuits. When composing after another circuit, a “created” qubit becomes a Reset operation. Whem composing before another circuit, a “discarded” qubit may not be joined to another qubit unless that qubit has itself been “created” (so that the discarded state gets reset to zero).</p>
+</div>
+<div class="section" id="initial-simplification">
+<h4>Initial simplification<a class="headerlink" href="#initial-simplification" title="Permalink to this headline">¶</a></h4>
+<p>When the above circuit is run from an all-zero state, the Y and CX gates at the
+beginning just have the effect of putting both qubits in the <span class="math notranslate nohighlight">\(\lvert 1
+\rangle\)</span> state (ignoring unobservable global phase), so they could be replaced
+with two X gates. This is exactly what the <code class="xref py py-meth docutils literal notranslate"><span class="pre">SimplifyInitial()</span></code> pass does.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">SimplifyInitial</span>
+
+<span class="n">SimplifyInitial</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[X q[0];, X q[1];, H q[0];, H q[1];, Measure q[0] --&gt; c[0];, Rz(0.125) q[1];, Measure q[1] --&gt; c[1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>This pass tracks the state of qubits known to be initialised to zero (or reset
+mid-circuit) forward through the circuit, for as long as the qubits remain in a
+computational basis state, either removing gates (when they don’t change the
+state) or replacing them with X gates (when they invert the state).</p>
+<p>By default, this pass also replaces Measure operations acting on qubits with a
+known state by classical set-bits operations on the target bits:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">qubit_create_all</span><span class="p">()</span>
+<span class="n">SimplifyInitial</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[SetBits(1) c[0];, X q[0];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The measurement has disappeared, replaced with a classical operation on its
+target bit. To disable this behaviour, pass the <code class="docutils literal notranslate"><span class="pre">allow_classical=False</span></code>
+argument to <code class="xref py py-meth docutils literal notranslate"><span class="pre">SimplifyInitial()</span></code> when constructing the pass.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Most backends currently do not support set-bit operations, so these could cause errors when using this pass with mid-circuit measurements. In such cases you should set <code class="docutils literal notranslate"><span class="pre">allow_classical=False</span></code>.</p>
+</div>
+<p>Note that <code class="xref py py-meth docutils literal notranslate"><span class="pre">SimplifyInitial()</span></code> does not automatically cancel successive
+pairs of X gates introduced by the simplification. It is a good idea to follow
+it with a <code class="xref py py-meth docutils literal notranslate"><span class="pre">RemoveRedundancies()</span></code> pass in order to perform these
+cancellations.</p>
+</div>
+<div class="section" id="removal-of-discarded-operations">
+<h4>Removal of discarded operations<a class="headerlink" href="#removal-of-discarded-operations" title="Permalink to this headline">¶</a></h4>
+<p>An operation that has no quantum or classical output in its causal future has no
+effect (or rather, no observable effect on an ideal system), and can be removed
+from the circuit. By marking a qubit as discarded, we tell the compiler that it
+has no quantum output, potentially enabling this simplification.</p>
+<p>Note that if the qubit is measured, even if it is then discarded, the Measure
+operation has a classical output in its causal future so will not be removed.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RemoveDiscarded</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">qubit_discard</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">c</span><span class="o">.</span><span class="n">qubit_discard</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">RemoveDiscarded</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[H q[0];, H q[1];, CX q[0], q[1];, Measure q[0] --&gt; c[0];, Measure q[1] --&gt; c[1];, H q[1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The Hadamard gate following the measurement on qubit 0, as well as the Hadamard
+on qubit 2, have disappeared, because those qubits were discarded. The Hadamard
+following the measurement on qubit 1 remains, because that qubit was not
+discarded.</p>
+</div>
+<div class="section" id="commutation-of-measured-classical-maps">
+<h4>Commutation of measured classical maps<a class="headerlink" href="#commutation-of-measured-classical-maps" title="Permalink to this headline">¶</a></h4>
+<p>The last type of contextual optimization is a little more subtle. Let’s call a
+quantum unitary operation a <cite>classical map</cite> if it sends every computational
+basis state to a computational basis state, possibly composed with a diagonal
+operator. For example, X, Y, Z, Rz, CX, CY, CZ and Sycamore are classical maps,
+but Rx, Ry and H are not. Check the
+<a class="reference external" href="https://cqcl.github.io/pytket/build/html/optype.html">documentation of gate types</a>
+to see which gates have unitaries that make them amenable to optimisation.</p>
+<p>When a classical map is followed by a measurement of all its qubits, and those
+qubits are then discarded, it can be replaced by a purely classical operation
+acting on the classical outputs of the measurement.</p>
+<p>For example, if we apply a CX gate and then measure the two qubits, the result
+is (ideally) the same as if we measured the two qubits first and then applied a
+classical controlled-NOT on the measurement bits. If the gate were a CY instead
+of a CX the effect would be identical: the only difference is the insertion of a
+diagonal operator, whose effect is unmeasurable.</p>
+<p>This simplification is effected by the <code class="xref py py-meth docutils literal notranslate"><span class="pre">SimplifyMeasured()</span></code> pass.</p>
+<p>Let’s illustrate this with a Bell circuit:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">SimplifyMeasured</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">qubit_discard_all</span><span class="p">()</span>
+<span class="n">SimplifyMeasured</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[Measure q[1] --&gt; c[1];, H q[0];, Measure q[0] --&gt; c[0];, ClassicalTransform c[0], c[1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The CX gate has disappeared, replaced with a classical transform acting on the
+bits after the measurement.</p>
+</div>
+<div class="section" id="contextual-optimisation-in-practice">
+<h4>Contextual optimisation in practice<a class="headerlink" href="#contextual-optimisation-in-practice" title="Permalink to this headline">¶</a></h4>
+<p>The above three passes are combined in the <code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextSimp()</span></code> pass, which
+also performs a final <code class="xref py py-meth docutils literal notranslate"><span class="pre">RemoveRedundancies()</span></code>. Normally, before running a
+circuit on a device you will want to apply this pass (after using
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.qubit_create_all()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.qubit_discard_all()</span></code> to
+enable the simplifications).</p>
+<p>However, most backends cannot process the classical operations that may be
+introduced by <code class="xref py py-meth docutils literal notranslate"><span class="pre">SimplifyMeasured()</span></code> or (possibly)
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">SimplifyInitial()</span></code>. So pytket provides a method
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">separate_classical()</span></code> to separate the classical postprocessing circuit
+from the main circuit to be run on the device. This postprocessing circuit is
+then passed as the <code class="docutils literal notranslate"><span class="pre">ppcirc</span></code> argument to <code class="xref py py-meth docutils literal notranslate"><span class="pre">BackendResult.get_counts()</span></code> or
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">BackendResult.get_shots()</span></code>, in order to obtain the postprocessed
+results.</p>
+<p>Much of the above is wrapped up in the utility method
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare_circuit()</span></code>. This takes a circuit, applies
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.qubit_create_all()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.qubit_discard_all()</span></code>,
+runs the full <code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextSimp()</span></code> pass, and then separates the result into
+the main circuit and the postprocessing circuit, returning both.</p>
+<p>Thus a typical usage would look something like this:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">prepare_circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">c0</span><span class="p">,</span> <span class="n">ppcirc</span> <span class="o">=</span> <span class="n">prepare_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c0</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c0</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">get_shots</span><span class="p">(</span><span class="n">ppcirc</span><span class="o">=</span><span class="n">ppcirc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
+ [0 0]
+ [1 1]
+ [1 1]
+ [0 0]
+ [0 0]
+ [1 1]
+ [1 1]
+ [1 1]
+ [0 0]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is a toy example, but illustrates the principle. The actual circuit sent to
+the backend consisted only of a Hadamard gate on qubit 0 and a single
+measurement to bit 0. The classical postprocessing circuit set bit 1 to zero and
+then executed a controlled-NOT from bit 0 to bit 1. These details are hidden
+from us (unless we inspect the circuits), and what we end up with is a shots
+table that is indistinguishable from running the original circuit but with less
+noise.</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -1150,29 +1397,29 @@ Invert: False]
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="manual_noise.html" class="btn btn-neutral float-right" title="Noise and the Quantum Circuit Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="manual_backend.html" class="btn btn-neutral float-left" title="Running on Backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="manual_noise.html" class="btn btn-neutral float-right" title="Noise and the Quantum Circuit Model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="manual_backend.html" class="btn btn-neutral float-left" title="Running on Backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2020-2021 Cambridge Quantum Computing Ltd
+        &#169; Copyright 2020-2021 Cambridge Quantum Computing Ltd.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -1180,7 +1427,6 @@ Invert: False]
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
