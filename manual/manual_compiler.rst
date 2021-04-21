@@ -903,9 +903,9 @@ Removal of discarded operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An operation that has no quantum or classical output in its causal future has no
-effect and can be removed from the circuit. By marking a qubit as discarded, we
-tell the compiler that it has no quantum output, potentially enabling this
-simplification.
+effect (or rather, no observable effect on an ideal system), and can be removed
+from the circuit. By marking a qubit as discarded, we tell the compiler that it
+has no quantum output, potentially enabling this simplification.
 
 Note that if the qubit is measured, even if it is then discarded, the Measure
 operation has a classical output in its causal future so will not be removed.
