@@ -892,6 +892,8 @@ The measurement has disappeared, replaced with a classical operation on its
 target bit. To disable this behaviour, pass the ``allow_classical=False``
 argument to :py:meth:`SimplifyInitial` when constructing the pass.
 
+.. warning:: Most backends currently do not support set-bit operations, so these could cause errors when using this pass with mid-circuit measurements. In such cases you should set ``allow_classical=False``.
+
 Note that :py:meth:`SimplifyInitial` does not automatically cancel successive
 pairs of X gates introduced by the simplification. It is a good idea to follow
 it with a :py:meth:`RemoveRedundancies` pass in order to perform these
