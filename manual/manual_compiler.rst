@@ -856,11 +856,7 @@ zero and discarded at the end. The methods :py:meth:`Circuit.qubit_create` and
 :py:meth:`Circuit.qubit_discard` can be used to achieve the same on individual
 qubits.
 
-Note that we are now restricted in how we can compose our circuit with other
-circuits. When composing after another circuit, a "created" qubit becomes a
-Reset operation. Whem composing before another circuit, a "discarded" qubit may
-not be joined to another qubit unless that qubit has itself been "created" (so
-that the discarded state gets reset to zero).
+.. warning:: Note that we are now restricted in how we can compose our circuit with other circuits. When composing after another circuit, a "created" qubit becomes a Reset operation. Whem composing before another circuit, a "discarded" qubit may not be joined to another qubit unless that qubit has itself been "created" (so that the discarded state gets reset to zero).
 
 Initial simplification
 ~~~~~~~~~~~~~~~~~~~~~~
