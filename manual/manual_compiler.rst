@@ -873,10 +873,10 @@ with two X gates. This is exactly what the :py:meth:`SimplifyInitial` pass does.
     SimplifyInitial().apply(c)
     print(c.get_commands())
 
-This pass tracks the state of qubits known to be initialised to zero forward
-through the circuit, for as long as the qubits remain in a computational basis
-state, either removing gates (when they don't change the state) or replacing
-them with X gates (when they invert the state).
+This pass tracks the state of qubits known to be initialised to zero (or reset
+mid-circuit) forward through the circuit, for as long as the qubits remain in a
+computational basis state, either removing gates (when they don't change the
+state) or replacing them with X gates (when they invert the state).
 
 By default, this pass also replaces Measure operations acting on qubits with a
 known state by classical set-bits operations on the target bits:
