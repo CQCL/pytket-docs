@@ -60,6 +60,8 @@ Using tomography to analyse the effect of noise channels when iterating the Enta
 [Forest_portability_example](https://github.com/CQCL/pytket/blob/master/examples/Forest_portability_example.ipynb) -
 Examples illustrating portability between different backends.
 
+[qiskit_integration](https://github.com/CQCL/pytket/blob/master/examples/qiskit_integration.ipynb) - Wrapping a pytket backend as a qiskit backend.
+
 ## Notes for developers
 
 The sources for all these notebooks are the Python scripts in the `python`
