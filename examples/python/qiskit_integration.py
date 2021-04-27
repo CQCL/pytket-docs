@@ -74,13 +74,11 @@ print("VQE result:", vqe_solve(H2_op, 50, qi))
 #
 # In order to satisfy the gate-set constraints of pytket compilation passes, it is sometimes necessary to get qiskit to "unroll" to a certain gate set first; this we can do by passing a `PassManager` to the `QuantumInstance` constructor, as illustrated below.
 
-from pytket.passes import FullPeepholeOptimise, RemoveBarriers, SequencePass
+from pytket.passes import FullPeepholeOptimise
 from qiskit.transpiler import PassManager
 from qiskit.transpiler.passes import Unroller
 
-comp_pass = SequencePass([RemoveBarriers(), FullPeepholeOptimise()])
-
-qis_backend2 = TketBackend(b_emu, comp_pass)
+qis_backend2 = TketBackend(b_emu, FullPeepholeOptimise())
 qi2 = QuantumInstance(
     qis_backend2,
     pass_manager=PassManager(Unroller(["cx", "h", "rx", "ry", "rz"])),
