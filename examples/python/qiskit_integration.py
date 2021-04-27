@@ -68,7 +68,7 @@ qi = QuantumInstance(qis_backend, shots=8192, wait=0.1)
 #
 # We can now run the VQE algorithm. In this example we use only 10 iterations, but greater accuracy may be achieved by increasing this number:
 
-print("VQE result:", vqe_solve(H2_op, 20, qi))
+print("VQE result:", vqe_solve(H2_op, 50, qi))
 
 # Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; in this example we will use a combination of `PauliSimp`, which restructures the circuit using certain high-level structures within it, and `FullPeepholeOptimise`, which is a powerful general-purpose pass.
 #
@@ -91,6 +91,6 @@ qi2 = QuantumInstance(
 
 # Let's run the optimisation again:
 
-print("VQE result (with optimisation):", vqe_solve(H2_op, 20, qi2))
+print("VQE result (with optimisation):", vqe_solve(H2_op, 50, qi2))
 
 # These are small two-qubit circuits, so the improvement may be small, but with larger, more complex circuits, the reduction in noise from compilation will make a greater difference and allow VQE experiments to converge with fewer iterations.
