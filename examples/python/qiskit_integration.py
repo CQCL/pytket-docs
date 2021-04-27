@@ -70,15 +70,27 @@ qi = QuantumInstance(qis_backend, shots=8192, wait=0.1)
 
 print("VQE result:", vqe_solve(H2_op, 20, qi))
 
-# Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; in this example we will use `FullPeepholeOptimise` which is a powerful general-purpose pass.
+# Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; in this example we will use a combination of `PauliSimp`, which restructures the circuit using certain high-level structures within it, and `FullPeepholeOptimise`, which is a powerful general-purpose pass.
+#
+# In order to satisfy the gate-set constraints of pytket compilation passes, it is sometimes necessary to get qiskit to "unroll" to a certain gate set first; this we can do by passing a `PassManager` to the `QuantumInstance` constructor, as illustrated below.
 
-from pytket.passes import FullPeepholeOptimise
+from pytket.circuit import Circuit, OpType
+from pytket.passes import FullPeepholeOptimise, PauliSimp, RemoveBarriers, SequencePass
+from qiskit.transpiler import PassManager
+from qiskit.transpiler.passes import Unroller
 
-qis_backend2 = TketBackend(b_emu, FullPeepholeOptimise())
-qi2 = QuantumInstance(qis_backend2, shots=8192, wait=0.1)
+comp_pass = SequencePass([RemoveBarriers(), PauliSimp(), FullPeepholeOptimise()])
+
+qis_backend2 = TketBackend(b_emu, comp_pass)
+qi2 = QuantumInstance(
+    qis_backend2,
+    pass_manager=PassManager(Unroller(["cx", "h", "rx", "ry", "rz"])),
+    shots=8192,
+    wait=0.1,
+)
 
 # Let's run the optimisation again:
 
-print("VQE result (with FullPeepholeOptimise):", vqe_solve(H2_op, 20, qi2))
+print("VQE result (with optimisation):", vqe_solve(H2_op, 20, qi2))
 
 # These are small two-qubit circuits, so the improvement may be small, but with larger, more complex circuits, the reduction in noise from compilation will make a greater difference and allow VQE experiments to converge with fewer iterations.
