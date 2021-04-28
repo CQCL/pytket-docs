@@ -62,9 +62,7 @@ sim_handles = pytket_noisy_sim_backend.process_circuits(calibration_circuits, n_
 
 # Count results from the simulator are then used to calculate the matrices used for SPAM correction for ```ibmq_santiago```.
 
-sim_count_results = (
-    pytket_noisy_sim_backend.get_result(handle).get_counts() for handle in sim_handles
-)
+sim_count_results = pytket_noisy_sim_backend.get_results(sim_handles)
 santiago_spam.calculate_matrices(sim_count_results)
 
 from pytket import Circuit
@@ -73,19 +71,27 @@ ghz_circuit = (
     Circuit(len(pytket_santiago_device.nodes)).H(0).CX(0, 1).CX(1, 2).measure_all()
 )
 pytket_noisy_sim_backend.compile_circuit(ghz_circuit)
-ghz_noisy_counts = pytket_noisy_sim_backend.get_counts(ghz_circuit, n_shots)
+ghz_noisy_handle = pytket_noisy_sim_backend.process_circuit(ghz_circuit, n_shots)
+ghz_noisy_result = pytket_noisy_sim_backend.get_result(ghz_noisy_handle)
 
 # We also run a noiseless simulation so we can compare performance.
 
 pytket_noiseless_sim_backend = AerBackend()
-ghz_noiseless_counts = pytket_noiseless_sim_backend.get_counts(ghz_circuit, n_shots)
+ghz_noiseless_handle = pytket_noiseless_sim_backend.process_circuit(
+    ghz_circuit, n_shots
+)
+ghz_noiseless_result = pytket_noiseless_sim_backend.get_result(ghz_noiseless_handle)
 
 # Noisy simulator counts are corrected using the ```SpamCorrecter``` objects ```correct_counts``` method.
 #
-# To correctly amend counts, the ```correct_counts``` method requires the executed circuits qubit_readout, a map from qubit to its index in readouts from backends.
+# To correctly amend counts, the ```correct_counts``` method requires a ``ParallelMeasures`` type object, a list of ``Dict[Qubit, Bit]`` where each dictionary denotes a set of Qubit measured in parallel and the Bit their measured values are assigned to.
+#
+# The ``SpamCorrecter`` class has a helper method ``get_parallel_measure`` for retrieving this object for a Circuit.
 
-ghz_spam_corrected_counts = santiago_spam.correct_counts(
-    ghz_noisy_counts, ghz_circuit.qubit_readout
+ghz_parallel_measure = santiago_spam.get_parallel_measure(ghz_circuit)
+
+ghz_spam_corrected_result = santiago_spam.correct_counts(
+    ghz_noisy_result, ghz_parallel_measure
 )
 
 # Import and define the Jensen-Shannon divergence, which we will use for comparing performance. The Jensen-Shannon divergence is a symmetric and finite measure of similarity between two probability distributions. A smaller divergence implies more similarity between two probability distributions.
@@ -99,7 +105,8 @@ def binseq(k):
     return ["".join(x) for x in itertools.product("01", repeat=k)]
 
 
-def probs_from_counts(counts):
+def probs_from_counts(result):
+    counts = result.get_counts()
     counts_dict = dict()
     for x in counts:
         counts_dict["".join(str(e) for e in x)] = counts[x]
@@ -119,9 +126,9 @@ def JSD(P, Q):
 
 # Convert our counts results to a probability distribution over the basis states for comparison.
 
-ghz_noiseless_probabilities = probs_from_counts(ghz_noiseless_counts)
-ghz_noisy_probabilities = probs_from_counts(ghz_noisy_counts)
-ghz_spam_corrected_probabilities = probs_from_counts(ghz_spam_corrected_counts)
+ghz_noiseless_probabilities = probs_from_counts(ghz_noiseless_result)
+ghz_noisy_probabilities = probs_from_counts(ghz_noisy_result)
+ghz_spam_corrected_probabilities = probs_from_counts(ghz_spam_corrected_result)
 
 print(
     "Jensen-Shannon Divergence between noiseless simulation probability distribution and noisy simulation probability distribution: ",
@@ -138,10 +145,10 @@ print(
 #
 # Let's look at how the ```invert``` method performs.
 
-ghz_invert_corrected_counts = santiago_spam.correct_counts(
-    ghz_noisy_counts, ghz_circuit.qubit_readout, method="invert"
+ghz_invert_corrected_result = santiago_spam.correct_counts(
+    ghz_noisy_result, ghz_parallel_measure, method="invert"
 )
-ghz_invert_probabilities = probs_from_counts(ghz_invert_corrected_counts)
+ghz_invert_probabilities = probs_from_counts(ghz_invert_corrected_result)
 
 print(
     "Jensen-Shannon Divergence between noiseless simulation probability distribution and Bayesian-corrected noisy simulation probability distribution: ",
@@ -163,25 +170,23 @@ ibm_backend.compile_circuit(ghz_circuit)
 all_circuits = santiago_spam_real.calibration_circuits() + [ghz_circuit]
 ibm_handles = ibm_backend.process_circuits(all_circuits, n_shots)
 
-ibm_calibration_results = (
-    ibm_backend.get_result(handle).get_counts() for handle in ibm_handles[:-1]
-)
+ibm_calibration_results = ibm_backend.get_results(ibm_handles[:-1])
 santiago_spam_real.calculate_matrices(ibm_calibration_results)
 
-ghz_santiago_counts = ibm_backend.get_result(ibm_handles[-1]).get_counts()
-ghz_santiago_probabilities = probs_from_counts(ghz_santiago_counts)
+ghz_santiago_result = ibm_backend.get_result(ibm_handles[-1])
+ghz_santiago_probabilities = probs_from_counts(ghz_santiago_result)
 
 # Finally we compare performance for our machine results:
 
-ghz_spam_corrected_santiago_counts = santiago_spam_real.correct_counts(
-    ghz_santiago_counts, ghz_circuit.qubit_readout
+ghz_spam_corrected_santiago_result = santiago_spam_real.correct_counts(
+    ghz_santiago_counts, ghz_parallel_measure
 )
-ghz_invert_corrected_counts = santiago_spam_real.correct_counts(
-    ghz_santiago_counts, ghz_circuit.qubit_readout, method="invert"
+ghz_invert_corrected_result = santiago_spam_real.correct_counts(
+    ghz_santiago_counts, ghz_parallel_measure, method="invert"
 )
 
-ghz_spam_corrected_santiago_probabilities = probs_from_counts(ghz_spam_corrected_counts)
-ghz_invert_probabilities = probs_from_counts(ghz_invert_corrected_counts)
+ghz_spam_corrected_santiago_probabilities = probs_from_counts(ghz_spam_corrected_result)
+ghz_invert_probabilities = probs_from_counts(ghz_invert_corrected_result)
 
 print(
     "Jensen-Shannon Divergence between noiseless simulation probability distribution and santiago probability distribution: ",
