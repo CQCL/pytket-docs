@@ -48,7 +48,7 @@ def vqe_solve(op, maxiter, quantum_instance):
     return vqe.compute_minimum_eigenvalue(op).eigenvalue
 
 
-# We will run this on a pytket `IBMQEmulatorBackend`. This is a noisy simulator whose characteristics match those of the real device, in this case "ibmq_belem" (a 5-qubit machine). The characteristics are retrieved from the device when the backend is constructed, so we must first load our IBMQ account.
+# We will run this on a pytket `IBMQEmulatorBackend`. This is a noisy simulator whose characteristics match those of the real device, in this case "ibmq_belem" (a 5-qubit machine). The characteristics are retrieved from the device when the backend is constructed, so we must first load our IBMQ account. Circuits will be compiled to match the connectivity of the device and simulated using a basic noise model [constructed from the device parameters](https://qiskit.org/documentation/apidoc/aer_noise.html).
 
 from pytket.extensions.qiskit import IBMQEmulatorBackend
 from qiskit import IBMQ
@@ -66,7 +66,7 @@ qi = QuantumInstance(qis_backend, shots=8192, wait=0.1)
 
 # Note that we could have used any other pytket shots backend instead of `b_emu` here. The `pytket` extension modules provide an interface to a wide variety of devices and simulators from different quantum software platforms.
 #
-# We can now run the VQE algorithm. In this example we use only 10 iterations, but greater accuracy may be achieved by increasing this number:
+# We can now run the VQE algorithm. In this example we use only 50 iterations, but greater accuracy may be achieved by increasing this number:
 
 print("VQE result:", vqe_solve(H2_op, 50, qi))
 
