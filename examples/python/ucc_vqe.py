@@ -466,5 +466,5 @@ print("Final energy value", result.fun)
 
 # Exercises:
 # - Replace the `get_operator_expectation_value` call with its implementation and use this to pull the analysis for measurement reduction outside of the objective function, so our circuits can be fully determined and compiled once. This means that the `symbol_substitution` method will need to be applied to each measurement circuit instead of just the state preparation circuit.
-# - Use the `SPAMMitigation` class to add some mitigation of the measurement errors. Start by running the characterisation circuits first, before your main VQE loop, then apply the mitigation to each of the circuits run within the objective function.
+# - Use the `SpamCorrecter` class to add some mitigation of the measurement errors. Start by running the characterisation circuits first, before your main VQE loop, then apply the mitigation to each of the circuits run within the objective function.
 # - Change the `backend` by passing in a `Qiskit` `NoiseModel` to simulate a noisy device. Compare the accuracy of the objective function both with and without the circuit simplification. Try running a classical optimiser over the objective function and compare the convergence rates with different noise models. If you have access to a QPU, try changing the `backend` to connect to that and compare the results to the simulator.
