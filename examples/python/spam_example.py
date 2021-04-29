@@ -179,10 +179,10 @@ ghz_santiago_probabilities = probs_from_counts(ghz_santiago_result)
 # Finally we compare performance for our machine results:
 
 ghz_spam_corrected_santiago_result = santiago_spam_real.correct_counts(
-    ghz_santiago_counts, ghz_parallel_measure
+    ghz_santiago_result, ghz_parallel_measure
 )
 ghz_invert_corrected_result = santiago_spam_real.correct_counts(
-    ghz_santiago_counts, ghz_parallel_measure, method="invert"
+    ghz_santiago_result, ghz_parallel_measure, method="invert"
 )
 
 ghz_spam_corrected_santiago_probabilities = probs_from_counts(ghz_spam_corrected_result)
