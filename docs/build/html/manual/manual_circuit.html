@@ -476,7 +476,7 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_175960</span><span class="o">/</span><span class="mf">1589822138.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_9161</span><span class="o">/</span><span class="mf">1589822138.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> 
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># rejected because &quot;a&quot; is already a qubit register</span>
 <span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_bit</span><span class="p">(</span><span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -497,7 +497,7 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_175960</span><span class="o">/</span><span class="mf">2401292893.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_9161</span><span class="o">/</span><span class="mf">2401292893.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># rejected because &quot;a&quot; is already a 1D register</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
@@ -517,7 +517,7 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_175960</span><span class="o">/</span><span class="mf">2464724698.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_9161</span><span class="o">/</span><span class="mf">2464724698.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># rejected because a[0] is already in the circuit</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
@@ -789,6 +789,741 @@ X OpType.X [q[1]]
 </div>
 </div>
 </div>
+<p>If you are working in a Jupyter environment, a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> can be rendered using html for inline display.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit.display</span> <span class="kn">import</span> <span class="n">render_circuit_jupyter</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+<style>
+body {
+    font-family: "roboto", system-ui, sans-serif;
+}
+
+/* FOR DISPLAYING CIRCUITS */
+/* Main preview container */
+.circuit-preview{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+
+    /* Define some variables */
+    --box-height: 40px;
+    --wire-col: black;
+    --c-wire-col: grey;
+}
+.circuit-preview.condensed{
+    overflow: auto;
+}
+
+.circuit-container{
+    max-width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: flex-start;
+    margin: auto;
+    width: fit-content;
+}
+.circuit-preview.condensed > .circuit-container{
+    flex-wrap: nowrap;
+    min-width: fit-content;
+}
+.circuit-container.nested{
+    position: relative;
+    flex-wrap: nowrap;
+    margin: -2px 0;
+}
+.nested-circuit-container{
+    display: flex;
+    overflow: auto;
+    max-width: 400px;
+    background: rgba(130,255,140,0.2);
+    outline: 1px solid darkseagreen;
+    outline-offset: -1px;
+}
+.nested-circuit-container::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+}
+.nested-circuit-container > *{
+    margin: auto;
+}
+.circuit-end{
+    width: 2px;
+    height: auto;
+    border: 2px solid black;
+    margin: calc(var(--box-height)/2) 0 calc(var(--box-height)/2 + 20px);
+}
+.circuit-layer{
+    min-width: 40px;
+    width: max-content;
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-bottom: 20px;
+}
+.circuit-container:not(.nested) > .circuit-layer:nth-child(2),
+.circuit-container:not(.nested) > .circuit-layer:nth-last-child(2),
+.circuit-container.nested > .circuit-layer:nth-child(2),
+.circuit-container.nested > .circuit-layer:nth-last-child(2),
+.gate_container.nested > .circuit-layer:first-child,
+.gate_container.nested > .circuit-layer:last-child{
+    min-width: 10px;
+}
+.nested .circuit-layer{
+    margin-bottom: 0px;
+}
+.circuit-layer.hover-highlight:not(:first-child):not(:last-child):hover{
+    background: rgba(0, 0, 0, 0.05);
+}
+.flex_wire{
+    flex-grow: 1;
+}
+/* Display qubit names at start of circuit */
+.circuit-layer.qubits{
+    flex-grow: 0;
+}
+.qubit{
+    height: calc(var(--box-height) - 20px);
+    padding: 10px;
+    text-align: center;
+    font-family: monospace;
+    box-sizing: content-box;
+}
+.wire{
+    height: 0;
+    border: 1px solid var(--wire-col);
+    background: var(--wire-col);
+    margin: calc(var(--box-height)/2) 0;
+}
+.wire.transparent-wire{
+    border-color: transparent;
+    background: transparent;
+}
+
+/* Generic base for our gates */
+.gate_container{
+    position: relative;
+    min-width: fit-content;
+}
+.gate_container.nested{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.gate_container.nested:after{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.gate_container .classical{
+    border-color: var(--c-wire-col);
+    background: var(--c-wire-col) !important;
+}
+.gate{
+    position: relative;
+    height: calc(var(--box-height) - 16px);
+    margin: 0 9px;
+    padding: 9px 5px;
+    border: 1px solid darkseagreen;
+    border-bottom: none;
+    border-top: none;
+    text-align: left;
+    background: darkseagreen;
+    z-index: 2;
+    display: flex;
+    box-sizing: content-box;
+}
+.wire-label{
+    color: green;
+    padding: 10px 0;
+    width: fit-content;
+    height: calc(var(--box-height) - 18px);
+}
+.gate_top > .wire-label,
+.gate_bottom > .wire-label {
+    padding-top: 0;
+}
+.nested-label-layer{
+    background: darkseagreen;
+    padding: 0 5px;
+}
+
+/* Multi-qubit gates */
+.gate_bottom{
+    height: calc(var(--box-height) - 18px);
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    border-bottom: 1px solid darkseagreen;
+}
+.gate_top{
+    height: calc(var(--box-height) - 18px);
+    margin-top: 10px;
+    padding-top: 0;
+    border-top: 1px solid darkseagreen;
+}
+.gate_name{
+    text-align: center;
+    flex-grow: 1;
+}
+/* Single qubit gate*/
+.gate_box{
+    height: calc(var(--box-height) - 20px);
+    margin: 10px;
+    padding: 0 5px;
+    border: 1px solid darkseagreen !important;
+    text-align: center;
+}
+
+/* Special gates */
+.gate_connection {
+    position: absolute;
+    top: -3px;
+    left: -1px;
+    border: none;
+    margin: calc(var(--box-height)/2) calc(50% - 5px);
+    padding: 0;
+}
+.gate_swap {
+    height: 20px;
+    width: 20px;
+    margin: calc(var(--box-height)/2 - 6px) calc(50% - 9px);
+    background: url(
+data:image/svg+xml;utf8,%0A%3C%21--%20Generated%20with%20http%3A//jxnblk.com/paths%20--%3E%0A%3Csvg%0A%20%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%0A%20%20viewBox%3D%270%200%2064%2064%27%0A%20%20width%3D%2764%27%20height%3D%2764%27%0A%20%20fill%3D%27currentcolor%27%3E%0A%20%20%3Cpath%20d%3D%27M60%200%20L32%2028%20L4%200%20L0%204%20L28%2032%20L0%2060%20L4%2064%20L32%2036%20L60%2064%20L64%2060%20L36%2032%20L64%204%27%20/%3E%0A%3C/svg%3E
+) center;
+    background-size: cover;
+}
+.gate_measure {
+    height: 20px;
+    width: 25px;
+    margin: calc(var(--box-height)/2 - 10px) calc(50% - 11px);
+    background: url(
+data:image/svg+xml;utf8,%0A%3C%21--%20Generated%20with%20http%3A//jxnblk.com/paths%20--%3E%0A%3Csvg%0A%20%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%0A%20%20viewBox%3D%27-10%20-10%2084%2084%27%0A%20%20width%3D%2764%27%20height%3D%2764%27%0A%20%20fill%3D%27white%27%0A%20%20stroke%3D%22black%22%0A%20%20stroke-width%3D%224px%22%0A%3E%0A%20%20%3Cpath%20d%3D%27M63%2C63%20C63%2C32%2048%2C16%2032%2C16%20C16%2C16%201%2C32%201%2C63%20L63%2C63%27%20/%3E%0A%20%20%3Cpath%20d%3D%22M32%2C63%20L56%2C16%22%20/%3E%0A%3C/svg%3E
+) center;
+    background-size: cover;
+}
+.gate_control {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    margin: calc(var(--box-height)/2 - 3px) calc(50% - 5px);
+    padding: 0;
+    border: 2px solid black;
+    background: black;
+}
+.gate_x {
+    top: -10px;
+    left: -6px;
+    border-radius: 50%;
+    border-color: black !important;
+    width: 20px;
+    background: url(
+data:image/svg+xml;utf8,%0A%3C%21--%20Generated%20with%20http%3A//jxnblk.com/paths%20--%3E%0A%3Csvg%0A%20%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%0A%20%20viewBox%3D%270%200%2064%2064%27%0A%20%20width%3D%2764%27%20height%3D%2764%27%0A%20%20fill%3D%27currentcolor%27%3E%0A%20%20%3Cpath%20d%3D%27M36%2064%20L36%2036%20L64%2036%20L64%2028%20L36%2028%20L36%200%20L28%200%20L28%2028%20L0%2028%20L0%2036%20L28%2036%20L28%2064%27%20/%3E%0A%3C/svg%3E
+) center;
+    background-size: cover;
+}
+.gate_reset{
+    margin: 11px 10px;
+    padding: 0 15px;
+    border: none !important;
+    border-left: 2px solid black !important;
+    background: url(
+data:image/svg+xml;utf8,%0A%3Csvg%0A%20%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%0A%20%20viewBox%3D%27-30%200%20104%2064%27%0A%20%20width%3D%2764%27%20height%3D%2764%27%0A%20%20fill%3D%22none%22%0A%20%20stroke%3D%22black%22%0A%20%20stroke-width%3D%224px%22%0A%3E%0A%20%20%3Cpath%20fill%3D%22darkseagreen%22%20stroke%3D%22none%22%20d%3D%22M%20-30%2032%20A%201%201%2090%200%201%2074%2032%20A%201%201%2090%200%201%20-30%2032%20Z%22/%3E%0A%20%20%3Cpath%20d%3D%22M%202%200%20L%202%2064%20Z%20M%2024%201%20L%2058%2032%20L%2024%2063%20M%2034%2034%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%2032%2034%20A%201%201%2090%200%201%2014%2034%20L%2014%2030%20A%201%201%2090%200%201%2032%2030%20Z%22%20/%3E%0A%3C/svg%3E
+) right no-repeat transparent;
+    background-size: contain;
+}
+
+/* Add wire sections coming in and out of the gate */
+.gate_in:before, .gate_in:after{
+    content: '';
+    position: absolute;
+    display: block;
+    top: calc(50% - 1px);
+    border: 1px solid var(--wire-col);
+    width: 9px;
+    height: 0;
+    background: var(--wire-col);
+    box-sizing: content-box;
+}
+.gate_in:before.classical,
+.gate_in:after.classical{
+    border-color: var(--c-wire-col);
+}
+
+.gate_in:before{
+    left: -12px;
+}
+.gate_out:after{
+    right: -12px;
+}
+.gate_top.gate_in:before, .gate_top.gate_out:after{
+    top:calc(50% - 6.5px)
+}
+.gate_bottom.gate_in:before, .gate_bottom.gate_out:after{
+    top:calc(50% + 4.5px)
+}
+
+
+.link-bottom, .link-top {
+    height: var(--box-height);
+    width: 0;
+    border: 1px solid black;
+    background: black;
+    position: absolute;
+    display: block;
+    left: calc(50% - 1px);
+    box-sizing: content-box;
+}
+.link-top{
+    top: calc(0px - var(--box-height)/2);
+}
+.link-bottom{
+    top: calc(var(--box-height)/2)
+}
+.half-link {
+    height: calc(var(--box-height) - 9px);
+}
+.half-link.link-bottom{
+    top: calc(var(--box-height)/2 + 11px)
+}
+.half-link.link-top{
+    top: calc(-2px - var(--box-height)/2);
+}
+.link-bottom.measurement{
+    width: 1px;
+    background: white;
+    border-top: none;
+    border-bottom: none;
+    height: calc(var(--box-height) + 2px);
+    z-index: 1;
+}
+</style>
+
+
+</head>
+<body>
+    <div >
+        <div class="circuit-preview condensed">
+    <div class="circuit-container nested">
+        <div class="circuit-layer qubits">
+
+            <div class="qubit">q[0]</div>
+
+            <div class="qubit">q[1]</div>
+
+            <div class="qubit">q[2]</div>
+
+
+    </div>
+
+            <div class="circuit-layer hover-highlight">
+
+
+
+
+
+
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+
+
+
+
+
+
+        </div>
+
+            <div class="circuit-layer hover-highlight">
+
+
+
+
+
+
+
+
+
+            <div class="gate_container">
+                <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+                <div class="gate gate_control "></div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="gate_container nested">
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+        <div class="gate_container">
+
+                    <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+                <div class="gate gate_box gate_connection gate_x"></div>
+
+
+
+                <div class="link-top"></div>
+
+        </div>
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+
+
+
+
+
+
+        </div>
+
+            <div class="circuit-layer hover-highlight">
+
+
+
+
+
+
+
+            <div class="gate_container nested">
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+        <div class="gate_container">
+
+                <div class="gate gate_box gate_in gate_out ">
+                    <span class="gate_name">Rx(0.3)</span>
+                </div>
+
+
+
+        </div>
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="gate_container">
+                <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+                <div class="gate gate_control "></div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="gate_container nested">
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+        <div class="gate_container">
+
+                <div class="gate gate_box gate_in gate_out ">
+                    <span class="gate_name">Z</span>
+                </div>
+
+
+
+                <div class="link-top"></div>
+
+        </div>
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+            <div class="circuit-layer hover-highlight">
+
+
+
+
+
+
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="gate_container nested">
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+        <div class="gate_container">
+
+                    <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+                <div class="gate gate_box gate_connection gate_x"></div>
+
+
+
+        </div>
+        <div class="flex_wire">
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+
+
+
+
+
+
+        </div>
+
+            <div class="circuit-layer hover-highlight">
+
+
+
+
+
+
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+            <div class="gate_container">
+        <div class="wire "></div>
+
+    </div>
+
+
+
+
+
+
+
+        </div>
+
+        <div class="circuit-layer qubits">
+
+            <div class="qubit">q[0]</div>
+
+            <div class="qubit">q[1]</div>
+
+            <div class="qubit">q[2]</div>
+
+
+    </div>
+    </div>
+</div>
+    </div>
+</body>
+</html></div></div>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> also features ways to view the underlying DAG graphically for easier visual inspection.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -802,7 +1537,7 @@ X OpType.X [q[1]]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_26_0.svg" src="_images/manual_circuit_26_0.svg" /></div>
+<img alt="_images/manual_circuit_27_0.svg" src="_images/manual_circuit_27_0.svg" /></div>
 </div>
 <p>The visualisation tool can also describe the interaction graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> consisting of only one- and two-qubit gates – that is, the graph of which qubits will share a two-qubit gate at some point during execution.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -816,7 +1551,7 @@ X OpType.X [q[1]]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_27_0.svg" src="_images/manual_circuit_27_0.svg" /></div>
+<img alt="_images/manual_circuit_28_0.svg" src="_images/manual_circuit_28_0.svg" /></div>
 </div>
 <p>The full instruction sequence may often be too much detail for a lot of needs, especially for large circuits. Common circuit metrics like gate count and depth are used to approximate the difficulty of running it on a device, providing some basic tools to help distinguish different implementations of a given algorithm.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1292,7 +2027,7 @@ This is part of the default compilation pass for that backend, so if you use tha
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1];, CX q[1], q[0];, Rx(0.2) q[1];, CZ q[0], q[1];]
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_41_1.svg" src="_images/manual_circuit_41_1.svg" /></div>
+<img alt="_images/manual_circuit_42_1.svg" src="_images/manual_circuit_42_1.svg" /></div>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1309,7 +2044,7 @@ This is part of the default compilation pass for that backend, so if you use tha
 {q[0]: q[1], q[1]: q[0], q[2]: q[2], q[3]: q[3]}
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_42_1.svg" src="_images/manual_circuit_42_1.svg" /></div>
+<img alt="_images/manual_circuit_43_1.svg" src="_images/manual_circuit_43_1.svg" /></div>
 </div>
 <p>This procedure essentially exploits the naturality of the symmetry operator in the resource theory to push it to the end of the circuit: the <code class="docutils literal notranslate"><span class="pre">Rx</span></code> gate has moved from qubit <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> to <code class="docutils literal notranslate"><span class="pre">q[0]</span></code> and can be commuted through to the start. This is automatically considered when composing two <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together.</p>
 <p>The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> backends, but care should be taken when reading from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> directly - two quantum <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.implicit_qubit_permutation()</span></code> method can be used to inspect such a permutation.</p>

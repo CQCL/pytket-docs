@@ -503,6 +503,17 @@ Because the :py:class:`Circuit` class identifies circuits up to DAG equivalence,
 
 .. To see more succinctly, can visualise in circuit form or the underlying DAG
 
+If you are working in a Jupyter environment, a :py:class:`Circuit` can be rendered using html for inline display. 
+
+.. jupyter-execute::
+
+    from pytket import Circuit
+    from pytket.circuit.display import render_circuit_jupyter
+
+    circ = Circuit(3)
+    circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
+    render_circuit_jupyter(circ)
+
 ``pytket`` also features ways to view the underlying DAG graphically for easier visual inspection.
 
 .. jupyter-execute::

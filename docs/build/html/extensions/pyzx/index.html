@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket-pyzx &mdash; pytket-pyzx 0.8.0 documentation</title>
+  <title>pytket-pyzx &mdash; pytket-pyzx 0.9.0 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                0.8
+                0.9
               </div>
             
           
@@ -159,7 +162,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="pytket-pyzx">
+  <div class="section" id="pytket-pyzx">
 <h1>pytket-pyzx<a class="headerlink" href="#pytket-pyzx" title="Permalink to this headline">¶</a></h1>
 <a class="reference internal image-reference" href="_images/CQCLogo.png"><img alt="_images/CQCLogo.png" class="align-right" src="_images/CQCLogo.png" style="width: 120px;" /></a>
 <p><a class="reference external" href="https://github.com/Quantomatic/pyzx">PyZX</a> is an open-source Python library for
@@ -170,12 +173,12 @@ PyZX representations.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pytket-pyzx</span></code> is available for Python 3.7, 3.8 and 3.9, on Linux, MacOS and Windows. To
 install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-pyzx</span></code></p>
-<section id="module-pytket.extensions.pyzx">
+<div class="section" id="module-pytket.extensions.pyzx">
 <span id="pytket-extensions-pyzx"></span><h2>pytket.extensions.pyzx<a class="headerlink" href="#module-pytket.extensions.pyzx" title="Permalink to this headline">¶</a></h2>
 <p>Module for conversion between PyZX and tket primitives.</p>
 <dl class="py function">
 <dt id="pytket.extensions.pyzx.pyzx_to_tk">
-<code class="sig-prename descclassname"><span class="pre">pytket.extensions.pyzx.</span></code><code class="sig-name descname"><span class="pre">pyzx_to_tk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pyzx_circ</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pyzx.circuit.Circuit</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.8)"><span class="pre">pytket.circuit.Circuit</span></a><a class="headerlink" href="#pytket.extensions.pyzx.pyzx_to_tk" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.extensions.pyzx.</span></code><code class="sig-name descname"><span class="pre">pyzx_to_tk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pyzx_circ</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pyzx.circuit.Circuit</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.9)"><span class="pre">pytket.circuit.Circuit</span></a><a class="headerlink" href="#pytket.extensions.pyzx.pyzx_to_tk" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code> to a tket <a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> .
 All PyZX basic gate operations are currently supported by pytket. Run
 <cite>pyzx_circuit_name.to_basic_gates()</cite> before conversion.</p>
@@ -191,7 +194,7 @@ All PyZX basic gate operations are currently supported by pytket. Run
 
 <dl class="py function">
 <dt id="pytket.extensions.pyzx.tk_to_pyzx">
-<code class="sig-prename descclassname"><span class="pre">pytket.extensions.pyzx.</span></code><code class="sig-name descname"><span class="pre">tk_to_pyzx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tkcircuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.8)"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">denominator_limit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pyzx.circuit.Circuit</span><a class="headerlink" href="#pytket.extensions.pyzx.tk_to_pyzx" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.extensions.pyzx.</span></code><code class="sig-name descname"><span class="pre">tk_to_pyzx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tkcircuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.9)"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">denominator_limit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pyzx.circuit.Circuit</span><a class="headerlink" href="#pytket.extensions.pyzx.tk_to_pyzx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a tket <a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code>.</p>
 <dl class="field-list simple">
@@ -210,8 +213,8 @@ allow for more precise angles.</p></li>
 </dl>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

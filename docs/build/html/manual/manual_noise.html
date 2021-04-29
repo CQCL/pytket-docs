@@ -628,8 +628,8 @@ can be used to sample from the full set of averaging circuits. It is recommended
 <p>A prominent source of noise is that occurring during State Preparation and Measurement (SPAM) in the hardware.</p>
 <p>SPAM error mitigation methods can correct for such noise through a post-processing step that modifies the output distribution measured from repeatedly sampling shots. This is possible given the assumption that SPAM noise is not dependent on the quantum computation run.</p>
 <p>By repeatedly preparing and measuring a basis state of the device, a distribution over basis states is procured. While for a perfect device the distribution would be the prepared basis state with probability 1, for devices prone to SPAM noise this distribution is perturbed and other basis states may be returned with (expected) small probability.</p>
-<p>If this process is repeated for all (or a suitable subset given many qubits won’t experience correlated SPAM errors) basis states of a device, a matrix can be derived that describes the noisy SPAM process.
-Simply applying the inverse of this matrix to the distribution of a quantum state from some desired quantum computation can effectively uncompute the errors caused by SPAM noise.</p>
+<p>If this process is repeated for all (or a suitable subset given many qubits won’t experience correlated SPAM errors) basis states of a device, a transition matrix can be derived that describes the noisy SPAM process.
+Simply applying the inverse of this transition matrix to the distribution of a quantum state from some desired quantum computation can effectively uncompute the errors caused by SPAM noise.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> provides the required tools for characterising and correcting SPAM noise in this manner. A <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object is initialised from a partition of a subset of the quantum device’s qubits. Qubits are assumed to have SPAM errors which are correlated with that of other qubits in their set, but uncorrelated with the other sets.</p>
 <p>As an n-qubit device has <span class="math notranslate nohighlight">\(2^n\)</span> basis states, finding the exact noisy SPAM process becomes infeasible for larger devices. However, as correlated errors are typically spatially dependent though, one can usually characterise SPAM noise well by only assuming correlated SPAM noise between nearest-neighbour qubits.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object uses these subsets of qubits to produce calibration circuits.</p>
@@ -679,27 +679,31 @@ Simply applying the inverse of this matrix to the distribution of a quantum stat
 <span class="n">spam_correcter</span> <span class="o">=</span> <span class="n">SpamCorrecter</span><span class="p">([</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">nodes</span><span class="p">],</span> <span class="n">noisy_backend</span><span class="p">)</span>
 <span class="n">calibration_circuits</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">calibration_circuits</span><span class="p">()</span>
 
-<span class="n">handles</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">calibration_circuits</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">handles</span><span class="p">)]</span>
+<span class="n">char_handles</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">calibration_circuits</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">char_results</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">char_handles</span><span class="p">)</span>
 
-<span class="n">spam_correcter</span><span class="o">.</span><span class="n">calculate_matrices</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+<span class="n">spam_correcter</span><span class="o">.</span><span class="n">calculate_matrices</span><span class="p">(</span><span class="n">char_results</span><span class="p">)</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 <span class="n">noisy_backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
-<span class="n">noisy_counts</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">noiseless_counts</span> <span class="o">=</span> <span class="n">noiseless_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">corrected_counts</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">correct_counts</span><span class="p">(</span><span class="n">noisy_counts</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">qubit_readout</span><span class="p">)</span>
+<span class="n">noisy_handle</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">noisy_result</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">noisy_handle</span><span class="p">)</span>
+<span class="n">noiseless_handle</span> <span class="o">=</span> <span class="n">noiseless_backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">noiseless_result</span> <span class="o">=</span> <span class="n">noiseless_backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">noiseless_handle</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noisy Counts:&#39;</span><span class="p">,</span> <span class="n">noisy_counts</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Corrected Counts:&#39;</span><span class="p">,</span> <span class="n">corrected_counts</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noiseless Counts:&#39;</span><span class="p">,</span> <span class="n">noiseless_counts</span><span class="p">)</span>
+<span class="n">circ_parallel_measure</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">get_parallel_measure</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">corrected_counts</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">correct_counts</span><span class="p">(</span><span class="n">noisy_result</span><span class="p">,</span> <span class="n">circ_parallel_measure</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noisy Counts:&#39;</span><span class="p">,</span> <span class="n">noisy_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Corrected Counts:&#39;</span><span class="p">,</span> <span class="n">corrected_counts</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noiseless Counts:&#39;</span><span class="p">,</span> <span class="n">noiseless_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 411, (0, 0): 405, (0, 1): 96, (1, 0): 88})
-Corrected Counts: {(0, 0): 460.53910056118826, (0, 1): 40.767812263215504, (1, 0): 31.701970492095395, (1, 1): 466.99111668350093}
-Noiseless Counts: Counter({(1, 1): 517, (0, 0): 483})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 415, (1, 1): 391, (0, 1): 104, (1, 0): 90})
+Corrected Counts: Counter({(0, 0): 476, (1, 1): 444, (0, 1): 55, (1, 0): 27})
+Noiseless Counts: Counter({(0, 0): 524, (1, 1): 476})
 </pre></div>
 </div>
 </div>
