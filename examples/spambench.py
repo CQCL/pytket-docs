@@ -3,17 +3,25 @@
 from collections import Counter
 from random import seed, random, randrange
 from time import perf_counter
-from pytket.circuit import Node
+from pytket.circuit import Node, Bit # type: ignore
 from pytket.utils.spam import SpamCorrecter
+from pytket.backends.backendresult import BackendResult
+from pytket.utils.outcomearray import OutcomeArray
 
 
 def fake_counts(n_qbs, n_shots):
     """ Uniformly random results """
-    counts = Counter()
+    counts = dict()
     for i in range(n_shots):
         readout = tuple(randrange(2) for _ in range(n_qbs))
-        counts[readout] += 1
-    return dict(counts)
+        if readout in counts:
+            counts[readout] += 1
+        else:
+            counts[readout] = 1
+    counter = Counter(
+        {OutcomeArray.from_readouts([key]): val for key, val in counts.items()}
+    )
+    return BackendResult(counts=counter, c_bits=[Bit(i) for i in range(n_qbs)])
 
 
 def prep_state_to_readout(n_qbs, prep_state):
@@ -33,11 +41,18 @@ def maybe_flipped(x, p):
 
 
 def fake_cal_counts(n_qbs, ideal_readout, p, n_shots):
-    counts = Counter()
+    counts = dict()
     for _ in range(n_shots):
         readout = tuple(maybe_flipped(ideal_readout[i], p) for i in range(n_qbs))
+        if readout in counts:
+            counts[readout] += 1
+        else:
+            counts[readout] = 1
         counts[readout] += 1
-    return dict(counts)
+    counter = Counter(
+        {OutcomeArray.from_readouts([key]): val for key, val in counts.items()}
+    )
+    return BackendResult(counts=counter, c_bits=[Bit(i) for i in range(n_qbs)])
 
 
 def fake_calib_results(part, prep_states, p=0.9, n_shots=1000):
@@ -72,11 +87,12 @@ def benchmark(part, methods, p=0.9, n_shots=1000, randseed=None):
         subs.append([Node("x", j) for j in range(i, i + x)])
         i += x
     spam = SpamCorrecter(subs)
-    calib_circs = spam.calibration_circuits()
-    calib_results = fake_calib_results(part, spam._prepared_states, p, n_shots)
+    spam.calibration_circuits()
+    prepared_states = [si[0] for si in spam.state_infos]
+    calib_results = fake_calib_results(part, prepared_states, p, n_shots)
     spam.calculate_matrices(calib_results)
     my_result = fake_counts(n_qbs, n_shots)
-    res_map = {Node("x", i): i for i in range(n_qbs)}
+    res_map = [{Node("x", i): Bit(i) for i in range(n_qbs)}]
     for method in methods:
         print(f"Method '{method}'...")
         t0 = perf_counter()
