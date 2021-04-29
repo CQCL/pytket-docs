@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.utils &mdash; pytket 0.9.0 documentation</title>
+  <title>pytket.utils &mdash; pytket 0.10.0 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.9
+                0.10
               </div>
             
           
@@ -89,18 +89,21 @@
               
             
             
-              <figcaption>
-<p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Introduction:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="licence.html">SOFTWARE LICENCE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">Licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">Telemetry Data Policy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">API Reference:</span></p>
+<p class="caption"><span class="caption-text">More Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/manual/index.html">Manual</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/extensions/index.html">Extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -188,7 +191,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="module-pytket.utils">
+  <div class="section" id="module-pytket.utils">
 <span id="pytket-utils"></span><h1>pytket.utils<a class="headerlink" href="#module-pytket.utils" title="Permalink to this headline">¶</a></h1>
 <p>Utility functions for performing high-level procedures in pytket</p>
 <dl class="py function">
@@ -443,7 +446,7 @@ encoded as a list</p></li>
 
 <dl class="py function">
 <dt id="pytket.utils.prepare_circuit">
-<code class="sig-prename descclassname"><span class="pre">pytket.utils.</span></code><code class="sig-name descname"><span class="pre">prepare_circuit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circ</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.utils.prepare_circuit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.utils.</span></code><code class="sig-name descname"><span class="pre">prepare_circuit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circ</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_classical</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.utils.prepare_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare a circuit for processing by a backend device.</p>
 <p>This method first makes all inputs into Create operations (assuming an initial all-
 zero state) and all outputs into Discard operations (so that the circuit can no
@@ -456,9 +459,13 @@ compilation has been applied), and the second of which is a pure-classical circu
 results. This post-processing is applied automatically when you pass the classical
 circuit as the <cite>ppcirc</cite> argument to <cite>BackendResult.get_counts()</cite> or
 <cite>BackendResult.get_shots()</cite>.</p>
+<p>The original circuit is not modified by this method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>circ</strong> – input circuit</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circ</strong> – input circuit</p></li>
+<li><p><strong>allow_classical</strong> – allow insertion of mid-circuit classical operations?</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>(c0, ppcirc) where c0 is the simplified circuit and ppcirc should be passed
@@ -967,13 +974,14 @@ caller may delete it afterwards.</p>
 
 </dd></dl>
 
-<section id="module-pytket.utils.spam">
+<div class="section" id="module-pytket.utils.spam">
 <span id="pytket-utils-spam"></span><h2>pytket.utils.spam<a class="headerlink" href="#module-pytket.utils.spam" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="pytket.utils.spam.compress_counts">
 <code class="sig-prename descclassname"><span class="pre">pytket.utils.spam.</span></code><code class="sig-name descname"><span class="pre">compress_counts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">round_to_int</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.utils.spam.compress_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Filter counts to remove states that have a count value (which can be a floating-
-point number) below a tolerance, and optionally round to an integer.</p>
+<dd><p>Filter counts to remove states that have a count value (which can be a
+floating-point number) below a tolerance, and optionally round to an
+integer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -1005,15 +1013,15 @@ dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>qubit_subsets</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><em>Node</em></a><em>]</em><em>]</em>) – A list of lists of correlated Nodes of a <cite>Device</cite>.
-Qubits within the same list are assumed to only have SPAM errors correlated
-with each other. Thus to allow SPAM errors between all qubits you should
-provide a single list.</p></li>
+<li><p><strong>qubit_subsets</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><em>Node</em></a><em>]</em><em>]</em>) – A list of lists of correlated Nodes of a <cite>Device</cite>. Qubits
+within the same list are assumed to only have SPAM errors correlated with
+each other. Thus to allow SPAM errors between all qubits you should provide
+a single list.</p></li>
 <li><p><strong>backend</strong> – Backend on which the experiments are intended to be run
 (optional). If provided, the qubits in <cite>qubit_subsets</cite> must be nodes in the
 backend’s associated <cite>Device</cite>. If not provided, it is assumed that the
-experiment will be run on a <cite>Device</cite> with the nodes in <cite>qubit_subsets</cite>, and
-furthermore that the intended device natively supports X gates.</p></li>
+experiment will be run on a <cite>Device`with the nodes in `qubit_subsets</cite>,
+and furthermore that the intended device natively supports X gates.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -1024,13 +1032,13 @@ furthermore that the intended device natively supports X gates.</p></li>
 
 <dl class="py method">
 <dt id="pytket.utils.spam.SpamCorrecter.calculate_matrices">
-<code class="sig-name descname"><span class="pre">calculate_matrices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.utils.spam.SpamCorrecter.calculate_matrices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">calculate_matrices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult"><span class="pre">pytket.backends.backendresult.BackendResult</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.utils.spam.SpamCorrecter.calculate_matrices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the calibration matrices from the results of running calibration
 circuits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>counts_list</strong> (<em>List</em><em>[</em><em>CountsDict</em><em>]</em>) – List of result counts. Must be in the same order as the
-corresponding circuits generated by <cite>calibration_circuits</cite>.</p>
+<dd class="field-odd"><p><strong>results_list</strong> – List of results from Backend. Must be in the same order as
+the corresponding circuits generated by <cite>calibration_circuits</cite>.</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.9)"><strong>RuntimeError</strong></a> – Calibration circuits have not been generated yet.</p>
@@ -1045,9 +1053,9 @@ corresponding circuits generated by <cite>calibration_circuits</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A list of calibration circuits to be run on the machine. The circuits
-should be processed without compilation. Results from these circuits must be
-given back to this class (via the <cite>calculate_matrices</cite> method) in the same
-order.</p>
+should be processed without compilation. Results from these circuits must
+be given back to this class (via the <cite>calculate_matrices</cite> method) in the
+same order.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>List[<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit">Circuit</a>]</p>
@@ -1057,51 +1065,27 @@ order.</p>
 
 <dl class="py method">
 <dt id="pytket.utils.spam.SpamCorrecter.correct_counts">
-<code class="sig-name descname"><span class="pre">correct_counts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_map</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'bayesian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">…</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.utils.spam.SpamCorrecter.correct_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Correct results counts from calibrated backend according to calibration data,
-using the specified method.</p>
+<code class="sig-name descname"><span class="pre">correct_counts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult"><span class="pre">pytket.backends.backendresult.BackendResult</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel_measures</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit"><span class="pre">pytket.circuit.Bit</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'bayesian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult"><span class="pre">pytket.backends.backendresult.BackendResult</span></a><a class="headerlink" href="#pytket.utils.spam.SpamCorrecter.correct_counts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies count distribution for result, such that the inversion of the pure
+noise map represented by characterisation matrices is applied to it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>counts</strong> (<em>CountsDict</em>) – Input counts</p></li>
-<li><p><strong>res_map</strong> (<em>ResultsMap</em>) – Dictionary mapping each calibrated <cite>Node</cite> of the backend to the
-position in the <cite>counts</cite> state tuple corresponding to the result from that
-qubit.</p></li>
-<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>optional</em>) – <p>Method to use for calculating the corrected counts.
-Options are:</p>
-<ul>
-<li><p>”bayesian” (default): Use an iterative Bayesian technique to converge to
-the corrected counts.</p></li>
-<li><p>”invert”: Invert the calibration matrix exactly, remove any negative terms
-from the result and rescale.</p></li>
-</ul>
-<p>The “bayesian” method may be faster than inversion when there are large
-qubit sets in the partition; it is also less sensitive to statistical
-fluctuations in the data. For small qubit sets and a large number of shots
-in the calibration experiments, the “invert” method may give more accurate
-results.</p>
-</p></li>
-<li><p><strong>options</strong> (<em>Dict</em><em>, </em><em>optional</em>) – <p>Options for the method. Possible options are:</p>
-<ul>
-<li><p>”tol”: Convergence tolerance (for “bayesian” method).</p></li>
-<li><p>”maxiter”: Number of iterations before terminating if convergence is not
-reached (for “bayesian” method).</p></li>
-</ul>
-</p></li>
+<li><p><strong>result</strong> (<a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult"><em>BackendResult</em></a>) – BackendResult object to be negated by pure noise object.</p></li>
+<li><p><strong>parallel_measures</strong> (<em>ParallelMeasures</em>) – Used to permute corresponding BackendResult object so
+counts order matches noise characterisation and to amend characterisation
+matrices to correct the right bits. SpamCorrecter.get_parallel_measure
+returns the required object for a given circuit.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.9)"><strong>RuntimeError</strong></a> – Calibration matrix has not been calculated, or results
-map does not provide a result position for all calibrated qubits.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – Invalid method string.</p></li>
-</ul>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – Measured qubit in result not characterised.</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Corrected counts, possibly with floating-point count values.</p>
+<dd class="field-odd"><p>A new result object with counts modified to reflect SPAM correction.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>CountsDict</p>
+<dd class="field-even"><p><a class="reference internal" href="backends.html#pytket.backends.backendresult.BackendResult" title="pytket.backends.backendresult.BackendResult">BackendResult</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1109,14 +1093,35 @@ map does not provide a result position for all calibrated qubits.</p></li>
 <dl class="py method">
 <dt id="pytket.utils.spam.SpamCorrecter.from_dict">
 <em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.utils.spam.SpamCorrecter" title="pytket.utils.spam.SpamCorrecter"><span class="pre">pytket.utils.spam.SpamCorrecter</span></a><a class="headerlink" href="#pytket.utils.spam.SpamCorrecter.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build a <cite>SpamCorrecter</cite> instance from a dictionary in the format returned by
-<cite>to_dict</cite>.</p>
+<dd><p>Build a <cite>SpamCorrecter</cite> instance from a dictionary in the format returned
+by <cite>to_dict</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Dictionary of calibration information.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#pytket.utils.spam.SpamCorrecter" title="pytket.utils.spam.SpamCorrecter">SpamCorrecter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="pytket.utils.spam.SpamCorrecter.get_parallel_measure">
+<code class="sig-name descname"><span class="pre">get_parallel_measure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit.html#pytket.circuit.Bit" title="pytket.circuit.Bit"><span class="pre">pytket.circuit.Bit</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.utils.spam.SpamCorrecter.get_parallel_measure" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>For a given circuit, produces and returns a ParallelMeasures object required</dt><dd><p>for correcting counts results.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>circuit</strong> (<a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a>) – Circuit with some Measure operations.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of dictionaries mapping Qubit to Bit where each separate
+dictionary details some set of Measurement operations run in parallel.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ParallelMeasures</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1137,8 +1142,8 @@ map does not provide a result position for all calibrated qubits.</p></li>
 
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -1154,7 +1159,7 @@ map does not provide a result position for all calibrated qubits.</p></li>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
+        &#169; Copyright 2021, Cambridge Quantum Computing Ltd.
 
     </p>
   </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.routing &mdash; pytket 0.9.0 documentation</title>
+  <title>pytket.routing &mdash; pytket 0.10.0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.9
+                0.10
               </div>
             
           
@@ -88,18 +88,21 @@
               
             
             
-              <figcaption>
-<p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Introduction:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="licence.html">SOFTWARE LICENCE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">Licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">Telemetry Data Policy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">API Reference:</span></p>
+<p class="caption"><span class="caption-text">More Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/manual/index.html">Manual</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/extensions/index.html">Extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -184,7 +187,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="module-pytket.routing">
+  <div class="section" id="module-pytket.routing">
 <span id="pytket-routing"></span><h1>pytket.routing<a class="headerlink" href="#module-pytket.routing" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pytket.routing.Architecture">
@@ -229,19 +232,6 @@
 </dd></dl>
 
 <dl class="py class">
-<dt id="pytket.routing.CyclicButterfly">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">CyclicButterfly</span></code><a class="headerlink" href="#pytket.routing.CyclicButterfly" title="Permalink to this definition">¶</a></dt>
-<dd><p>Architecture class for a cyclic butterfly graph of given dimension.</p>
-<dl class="py method">
-<dt id="pytket.routing.CyclicButterfly.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.CyclicButterfly" title="pytket.routing.CyclicButterfly"><span class="pre">pytket.routing.CyclicButterfly</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimension</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.CyclicButterfly.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructor for CyclicButterfly graph with some undirected connectivity between qubits.</p>
-<p>:param dimension</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt id="pytket.routing.FullyConnected">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">FullyConnected</span></code><a class="headerlink" href="#pytket.routing.FullyConnected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Architecture class for number of qubits connected to every other qubit.</p>
@@ -274,43 +264,6 @@
 <code class="sig-name descname"><span class="pre">modify_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.routing.GraphPlacement" title="pytket.routing.GraphPlacement"><span class="pre">pytket.routing.GraphPlacement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.GraphPlacement.modify_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overides default Placement parameters to given values. 
 :param **kwargs: Parameters for placement: (int)depth_limit=5, (int)max_interaction_edges=edges in the device graph, (int)max_matches=10000, (int)contraction_ratio=10.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="pytket.routing.HexagonalGrid">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">HexagonalGrid</span></code><a class="headerlink" href="#pytket.routing.HexagonalGrid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Architecture class for qubits arranged in a hexagonal grid lattice of given rows, length and layers</p>
-<dl class="py method">
-<dt id="pytket.routing.HexagonalGrid.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.HexagonalGrid.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overloaded function.</p>
-<ol class="arabic simple">
-<li><p>__init__(self: pytket.routing.HexagonalGrid, n_rows: int, ;en: int) -&gt; None</p></li>
-</ol>
-<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
-<li><p><strong>len</strong> – The length of each row in the grid</p></li>
-</ul>
-</dd>
-</dl>
-<ol class="arabic simple" start="2">
-<li><p>__init__(self: pytket.routing.HexagonalGrid, n_rows: int, len: int, n_layers: int) -&gt; None</p></li>
-</ol>
-<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
-<li><p><strong>n_columns</strong> – The length of each row in the grid</p></li>
-<li><p><strong>n_layers</strong> – The number of layers of grids</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>
@@ -528,43 +481,6 @@
 
 </dd></dl>
 
-<dl class="py class">
-<dt id="pytket.routing.TriangularGrid">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">TriangularGrid</span></code><a class="headerlink" href="#pytket.routing.TriangularGrid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Architecture class for qubits arranged in a triangular grid lattice of given rows, length and layers</p>
-<dl class="py method">
-<dt id="pytket.routing.TriangularGrid.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.routing.TriangularGrid.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overloaded function.</p>
-<ol class="arabic simple">
-<li><p>__init__(self: pytket.routing.TriangularGrid, n_rows: int, n_cols: int) -&gt; None</p></li>
-</ol>
-<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
-<li><p><strong>len</strong> – The length of each row in the grid</p></li>
-</ul>
-</dd>
-</dl>
-<ol class="arabic simple" start="2">
-<li><p>__init__(self: pytket.routing.TriangularGrid, n_rows: int, len: int, n_layers: int) -&gt; None</p></li>
-</ol>
-<p>The constructor for an architecture with some undirected connectivity between qubits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_rows</strong> – The number of rows in the grid</p></li>
-<li><p><strong>n_columns</strong> – The length of each row in the grid</p></li>
-<li><p><strong>n_layers</strong> – The number of layers of grids</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py function">
 <dt id="pytket.routing.place_with_map">
 <code class="sig-prename descclassname"><span class="pre">pytket.routing.</span></code><code class="sig-name descname"><span class="pre">place_with_map</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">qmap</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.routing.place_with_map" title="Permalink to this definition">¶</a></dt>
@@ -617,7 +533,7 @@
 </dl>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
@@ -633,7 +549,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
+        &#169; Copyright 2021, Cambridge Quantum Computing Ltd.
 
     </p>
   </div>

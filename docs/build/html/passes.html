@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.passes &mdash; pytket 0.9.0 documentation</title>
+  <title>pytket.passes &mdash; pytket 0.10.0 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.9
+                0.10
               </div>
             
           
@@ -89,18 +89,21 @@
               
             
             
-              <figcaption>
-<p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Introduction:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="licence.html">SOFTWARE LICENCE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">PYTKET TELEMETRY DATA POLICY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="licence.html">Licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">Telemetry Data Policy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<figcaption>
-<p><span class="caption-text">API Reference:</span></p>
+<p class="caption"><span class="caption-text">More Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/manual/index.html">Manual</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/extensions/index.html">Extensions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -185,7 +188,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="module-pytket.passes">
+  <div class="section" id="module-pytket.passes">
 <span id="pytket-passes"></span><h1>pytket.passes<a class="headerlink" href="#module-pytket.passes" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="pytket.passes.BasePass">
@@ -519,13 +522,14 @@
 
 <dl class="py function">
 <dt id="pytket.passes.EulerAngleReduction">
-<code class="sig-prename descclassname"><span class="pre">pytket.passes.</span></code><code class="sig-name descname"><span class="pre">EulerAngleReduction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="optype.html#pytket.circuit.OpType" title="pytket.circuit.OpType"><span class="pre">pytket.circuit.OpType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="optype.html#pytket.circuit.OpType" title="pytket.circuit.OpType"><span class="pre">pytket.circuit.OpType</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.EulerAngleReduction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uses Euler angle decompositions to reduce all chains of P and Q rotations to minimal P-Q-P triples, where P,Q ∈ {Rx,Ry,Rz}.</p>
+<code class="sig-prename descclassname"><span class="pre">pytket.passes.</span></code><code class="sig-name descname"><span class="pre">EulerAngleReduction</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">q</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="optype.html#pytket.circuit.OpType" title="pytket.circuit.OpType"><span class="pre">pytket.circuit.OpType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="optype.html#pytket.circuit.OpType" title="pytket.circuit.OpType"><span class="pre">pytket.circuit.OpType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.EulerAngleReduction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses Euler angle decompositions to squash all chains of P and Q rotations, where P,Q ∈ {Rx,Ry,Rz}. By default (<cite>strict=False</cite>), this pass will try to decompose the chains into pairs of -P-Q- or -Q-P- rotations, commuting any third rotation past multi-qubit gates. If <cite>strict=True</cite>, all chains will be decomposed to P-Q-P triples and no further optimisation is performed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>q</strong> – The type of the inner rotation of each triple.</p></li>
-<li><p><strong>p</strong> – The type of the outer rotations of each triple.</p></li>
+<li><p><strong>q</strong> – The type of the Q rotation (Q ∈ {Rx,Ry,Rz}).</p></li>
+<li><p><strong>p</strong> – The type of the P rotation (P ∈ {Rx,Ry,Rz}, P ≠ Q).</p></li>
+<li><p><strong>strict</strong> – Optionally performs strict P-Q-P Euler decomposition</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -745,6 +749,12 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="pytket.passes.RemoveBarriers">
+<code class="sig-prename descclassname"><span class="pre">pytket.passes.</span></code><code class="sig-name descname"><span class="pre">RemoveBarriers</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.RemoveBarriers" title="Permalink to this definition">¶</a></dt>
+<dd><p>A pass to remove all barrier instructions from the circuit.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="pytket.passes.RemoveDiscarded">
 <code class="sig-prename descclassname"><span class="pre">pytket.passes.</span></code><code class="sig-name descname"><span class="pre">RemoveDiscarded</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.RemoveDiscarded" title="Permalink to this definition">¶</a></dt>
 <dd><p>A pass to remove all operations that have no <code class="docutils literal notranslate"><span class="pre">OpType.Output</span></code> or <code class="docutils literal notranslate"><span class="pre">OpType.ClOutput</span></code> in their causal future (in other words, all operations whose causal future is discarded).</p>
@@ -786,14 +796,17 @@
 
 <dl class="py function">
 <dt id="pytket.passes.SimplifyInitial">
-<code class="sig-prename descclassname"><span class="pre">pytket.passes.</span></code><code class="sig-name descname"><span class="pre">SimplifyInitial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_classical</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.SimplifyInitial" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">pytket.passes.</span></code><code class="sig-name descname"><span class="pre">SimplifyInitial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_classical</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_all_qubits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.SimplifyInitial" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simplify the circuit using knowledge of qubit state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Param</dt>
 <dd class="field-odd"><p>allow_classical: allow replacement of measurements on known state with classical set-bit operations</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a pass to perform the simplification</p>
+<dt class="field-even">Param</dt>
+<dd class="field-even"><p>create_all_qubits: automatically annotate all qubits as initialized to the zero state</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a pass to perform the simplification</p>
 </dd>
 </dl>
 </dd></dl>
@@ -848,7 +861,7 @@
 <dd><p>Squash U1, U2 and U3 gates by converting to them to Rz-Ry-Rz sequences and back. The only single-qubit gates in the resulting circuit are U1 and U3.</p>
 </dd></dl>
 
-</section>
+</div>
 
 
            </div>
@@ -864,7 +877,7 @@
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2020, Cambridge Quantum Computing Ltd.
+        &#169; Copyright 2021, Cambridge Quantum Computing Ltd.
 
     </p>
   </div>
