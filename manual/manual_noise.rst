@@ -455,8 +455,8 @@ SPAM error mitigation methods can correct for such noise through a post-processi
 
 By repeatedly preparing and measuring a basis state of the device, a distribution over basis states is procured. While for a perfect device the distribution would be the prepared basis state with probability 1, for devices prone to SPAM noise this distribution is perturbed and other basis states may be returned with (expected) small probability.
 
-If this process is repeated for all (or a suitable subset given many qubits won't experience correlated SPAM errors) basis states of a device, a matrix can be derived that describes the noisy SPAM process.
-Simply applying the inverse of this matrix to the distribution of a quantum state from some desired quantum computation can effectively uncompute the errors caused by SPAM noise.
+If this process is repeated for all (or a suitable subset given many qubits won't experience correlated SPAM errors) basis states of a device, a transition matrix can be derived that describes the noisy SPAM process.
+Simply applying the inverse of this transition matrix to the distribution of a quantum state from some desired quantum computation can effectively uncompute the errors caused by SPAM noise.
 
 The :py:class:`SpamCorrecter` provides the required tools for characterising and correcting SPAM noise in this manner. A :py:class:`SpamCorrecter` object is initialised from a partition of a subset of the quantum device's qubits. Qubits are assumed to have SPAM errors which are correlated with that of other qubits in their set, but uncorrelated with the other sets.
 
@@ -513,20 +513,24 @@ First the :py:class:`SpamCorrecter` is characterised using counts results for ca
     spam_correcter = SpamCorrecter([noisy_backend.device.nodes], noisy_backend)
     calibration_circuits = spam_correcter.calibration_circuits()
 
-    handles = noisy_backend.process_circuits(calibration_circuits, 1000)
-    counts = [res.get_counts() for res in noisy_backend.get_results(handles)]
+    char_handles = noisy_backend.process_circuits(calibration_circuits, 1000)
+    char_results = noisy_backend.get_results(char_handles)
 
-    spam_correcter.calculate_matrices(counts)
+    spam_correcter.calculate_matrices(char_results)
 
     circ = Circuit(2).H(0).CX(0,1).measure_all()
     noisy_backend.compile_circuit(circ)
-    noisy_counts = noisy_backend.get_counts(circ, 1000)
-    noiseless_counts = noiseless_backend.get_counts(circ, 1000)
-    corrected_counts = spam_correcter.correct_counts(noisy_counts, circ.qubit_readout)
+    noisy_handle = noisy_backend.process_circuit(circ, 1000)
+    noisy_result = noisy_backend.get_result(noisy_handle)
+    noiseless_handle = noiseless_backend.process_circuit(circ, 1000)
+    noiseless_result = noiseless_backend.get_result(noiseless_handle)
+    
+    circ_parallel_measure = spam_correcter.get_parallel_measure(circ)
+    corrected_counts = spam_correcter.correct_counts(noisy_result, circ_parallel_measure)
 
-    print('Noisy Counts:', noisy_counts)
-    print('Corrected Counts:', corrected_counts)
-    print('Noiseless Counts:', noiseless_counts)
+    print('Noisy Counts:', noisy_result.get_counts())
+    print('Corrected Counts:', corrected_counts.get_counts())
+    print('Noiseless Counts:', noiseless_result.get_counts())
 
 
 Despite the presence of additional noise, it is straightforward to see that the corrected counts results are closer to the expected noiseless counts than the original noisy counts. All that is required to use :py:class:`SpamCorrecter` with a real device is the interchange of :py:class:`AerBackend` with a real device backend, such as  :py:class:`IBMQBackend`.
