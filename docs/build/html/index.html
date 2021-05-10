@@ -210,7 +210,7 @@ To install, run</p>
 <span class="n">b</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>                <span class="c1"># connect to the backend</span>
 <span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>            <span class="c1"># compile the circuit to satisfy the backend&#39;s requirements</span>
 <span class="n">handle</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># submit the job to run the circuit 100 times</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>   <span class="c1"># retrieve and summarise the results</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="n"><span class="o">.</span>get_counts()</span><span class="p">)</span>   <span class="c1"># retrieve and summarise the results</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
 </pre></div>
 </div>
