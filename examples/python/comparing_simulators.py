@@ -73,7 +73,7 @@ c.Ry(0.8, 2)
 
 xxi = QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X})
 zzz = QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.Z, Qubit(2): Pauli.Z})
-op = QubitPauliOperator({xxi: -1.8, zzz: 0.7j})
+op = QubitPauliOperator({xxi: -1.8, zzz: 0.7})
 
 # Run on the backend:
 
