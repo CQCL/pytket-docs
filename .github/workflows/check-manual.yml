@@ -9,8 +9,23 @@ on:
     - cron: '0 3 * * 6'
 
 jobs:
+
+  changes:
+    runs-on: ubuntu-20.04
+    outputs:
+      manual: ${{ steps.filter.outputs.manual }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          manual:
+            - 'manual/**'
+
   check:
     name: check manual
+    needs: changes
+    if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
