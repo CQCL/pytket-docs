@@ -447,17 +447,17 @@ melbourne_device = Device(
     melbourne_characterisation["Architecture"],
 )
 
-from cirq.google import Foxtail, Bristlecone
+import cirq_google
 import pytket.extensions.cirq as pc
 
-foxtail_characterisation = pc.process_characterisation(Foxtail)
+foxtail_characterisation = pc.process_characterisation(cirq_google.Foxtail)
 foxtail_device = Device(
     foxtail_characterisation["NodeErrors"],
     foxtail_characterisation["EdgeErrors"],
     foxtail_characterisation["Architecture"],
 )
 
-bristlecone_characterisation = pc.process_characterisation(Bristlecone)
+bristlecone_characterisation = pc.process_characterisation(cirq_google.Bristlecone)
 bristlecone_device = Device(
     bristlecone_characterisation["NodeErrors"],
     bristlecone_characterisation["EdgeErrors"],
