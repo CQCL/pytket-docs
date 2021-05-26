@@ -31,12 +31,8 @@ Afterwards, install ``qulacs-gpu``:
 
 ``pip install qulacs-gpu``
 
-The ``QulacsGPUBackend`` has an identical API to the ``QulacsBackend`` described
-below.
+The ``QulacsGPUBackend`` has an identical API to the ``QulacsBackend``.
 
-pytket.extensions.qulacs
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: pytket.extensions.qulacs
-    :members: tk_to_qulacs, QulacsBackend
-
+.. toctree::
+    api.rst
+    changelog.rst

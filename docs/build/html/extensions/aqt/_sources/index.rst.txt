@@ -1,5 +1,5 @@
 pytket-aqt
-==================================
+==========
 
 .. image:: CQCLogo.png
    :width: 120px
@@ -13,13 +13,6 @@ install, run:
 
 ``pip install pytket-aqt``
 
-pytket.extensions.aqt
-~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: pytket.extensions.aqt
-    :special-members:
-    :members: AQTBackend
-
-
-.. automodule:: pytket.extensions.aqt.backends.config
-    :members:
+.. toctree::
+    api.rst
+    changelog.rst

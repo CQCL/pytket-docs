@@ -1,5 +1,5 @@
 pytket-ionq
-==================================
+===========
 
 .. image:: CQCLogo.png
    :width: 120px
@@ -16,13 +16,6 @@ To install, run:
 
 .. note::   Requires an `IonQ <https://ionq.com/>`_ account.
 
-pytket.extensions.ionq
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: pytket.extensions.ionq
-    :special-members:
-    :members: IonQBackend
-
-
-.. automodule:: pytket.extensions.ionq.backends.config
-    :members:
+.. toctree::
+    api.rst
+    changelog.rst

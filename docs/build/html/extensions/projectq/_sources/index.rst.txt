@@ -1,5 +1,5 @@
 pytket-projectq
-==================================
+===============
 
 .. image:: CQCLogo.png
    :width: 120px
@@ -20,8 +20,6 @@ To install, run:
 .. warning::
     ``pytket-projectq`` currently cannot be installed on MacOS Big Sur due to a compatibility issue in ProjectQ <= 0.5.1.
 
-pytket.extensions.projectq
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: pytket.extensions.projectq
-    :members: tk_to_projectq, tketBackendEngine, tketOptimiser, ProjectQBackend
+.. toctree::
+    api.rst
+    changelog.rst

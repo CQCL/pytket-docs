@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket &mdash; pytket 0.10.0 documentation</title>
+  <title>pytket &mdash; pytket 0.11.0 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -62,7 +65,7 @@
             
             
               <div class="version">
-                0.10
+                0.11
               </div>
             
           
@@ -210,7 +213,7 @@ To install, run</p>
 <span class="n">b</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>                <span class="c1"># connect to the backend</span>
 <span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>            <span class="c1"># compile the circuit to satisfy the backend&#39;s requirements</span>
 <span class="n">handle</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># submit the job to run the circuit 100 times</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts()</span>   <span class="c1"># retrieve and summarise the results</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>   <span class="c1"># retrieve and summarise the results</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -326,6 +329,7 @@ You may view a copy of the Licence on the <a class="reference external" href="li
 <li class="toctree-l1"><a class="reference internal" href="tailoring.html">pytket.tailoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">pytket.utils</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utils.html#module-pytket.utils.spam">pytket.utils.spam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#module-pytket.utils.symbolic">pytket.utils.symbolic</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="logging.html">pytket.logging</a></li>

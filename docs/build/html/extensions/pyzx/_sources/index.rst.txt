@@ -1,5 +1,5 @@
 pytket-pyzx
-==================================
+===========
 
 .. image:: CQCLogo.png
    :width: 120px
@@ -17,8 +17,6 @@ install, run:
 
 ``pip install pytket-pyzx``
 
-pytket.extensions.pyzx
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: pytket.extensions.pyzx
-    :members: tk_to_pyzx, pyzx_to_tk
+.. toctree::
+    api.rst
+    changelog.rst
