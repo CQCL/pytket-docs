@@ -581,7 +581,7 @@ Some simulators will have dedicated support for fast expectation value calculati
         Qubit(2) : Pauli.Z})
     op = QubitPauliOperator({
         QubitPauliString() : -0.5,
-        xxy : 0.7j,
+        xxy : 0.7,
         zzi : 1.4,
         iiz : 3.2})
 
