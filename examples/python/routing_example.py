@@ -131,40 +131,40 @@ IBMQ.load_account()
 
 # If ```IBMQBackend``` available in ```pytket_qiskit``` is used the characterisation and Device is automatically constructed.
 #
-# Alternatively, lets use the ```process_characterisation``` method to access characterisation information for the athens computer and then construct a pytket device from suitable characteristics.
+# Alternatively, lets use the ```process_characterisation``` method to access characterisation information for the quito computer and then construct a pytket device from suitable characteristics.
 #
 # The dictionary returned by ```process_characterisation``` returns additional characterisation information as provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times.
 
 from pytket.extensions.qiskit import process_characterisation
 
 provider = IBMQ.providers()[0]
-athens_backend = provider.get_backend("ibmq_athens")
-athens_characterisation = process_characterisation(athens_backend)
-athens_device = Device(
-    athens_characterisation["NodeErrors"],
-    athens_characterisation["EdgeErrors"],
-    athens_characterisation["Architecture"],
+quito_backend = provider.get_backend("ibmq_quito")
+quito_characterisation = process_characterisation(quito_backend)
+quito_device = Device(
+    quito_characterisation["NodeErrors"],
+    quito_characterisation["EdgeErrors"],
+    quito_characterisation["Architecture"],
 )
 
-print(athens_device.__repr__())
-print(athens_characterisation.keys())
+print(quito_device.__repr__())
+print(quito_characterisation.keys())
 
-draw_graph(athens_device.coupling)
+draw_graph(quito_device.coupling)
 
 # Let's look at the some single-qubit Device information for different qubits:
 
-for athens_node in athens_device.nodes:
+for quito_node in quito_device.nodes:
     print(
         "X error rate for",
-        athens_node,
+        quito_node,
         "is",
-        athens_device.get_error(OpType.X, athens_node),
+        quito_device.get_error(OpType.X, quito_node),
     )
 
 # Likewise we can retrieve multi-qubit gate information.
 
-for edge in athens_device.coupling:
-    print("CX error rate for", edge, "is", athens_device.get_error(OpType.CX, edge))
+for edge in quito_device.coupling:
+    print("CX error rate for", edge, "is", quito_device.get_error(OpType.CX, edge))
 
 # We've now seen how to create custom Architectures using indexing and nodes, how to use our built in Architecture generators for typical connectivity graphs, how to create custom Devices using our QubitErrorContainers, and how to automatically generate a Device object for a real quantum computer straight from IBM.
 #
@@ -233,12 +233,12 @@ print(tk_to_qiskit(cmc_copy))
 #
 # We can easily route for Device objects using the same method:
 
-athens_modified_circuit = route(example_circuit, athens_device)
+quito_modified_circuit = route(example_circuit, quito_device)
 
-for gate in athens_modified_circuit:
+for gate in quito_modified_circuit:
     print(gate)
 
-print(tk_to_qiskit(athens_modified_circuit))
+print(tk_to_qiskit(quito_modified_circuit))
 
 # The ```route``` method comes with a set of parameters that can be modified to tune the performance of routing for a circuit to a given Architecture.
 #
@@ -348,7 +348,7 @@ from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwareP
 
 # The default ```Placement``` assigns logical qubits to physical qubits as they are encountered during routing. ```LinePlacement``` uses a strategy described in https://arxiv.org/abs/1902.08091. ```GraphPlacement``` and ```NoiseAwarePlacement``` are described in Section 7.1 of https://arxiv.org/abs/2003.10611. The ```NoiseAwarePlacement``` method uses the same subgraph monomorphism strategy as ```GraphPlacement``` to find potential mappings, but scores them using device information to anticpiate which initial mapping will produce a circuit with best overall fidelity.
 #
-# Let's switch to using our ```athens_device``` as it has heterogeneous device information. For our ```example_circuit``` each method produces the following maps:
+# Let's switch to using our ```quito_device``` as it has heterogeneous device information. For our ```example_circuit``` each method produces the following maps:
 
 # Define a function for printing our maps:
 
@@ -361,29 +361,29 @@ def print_qubit_mapping(the_map):
 
 # We can use the Placement objects to either modify the circuit in place, or return the mapping as a QubitMap.
 
-lp_athens = LinePlacement(athens_device)
-graph_athens = GraphPlacement(athens_device)
-noise_athens = NoiseAwarePlacement(athens_device)
+lp_quito = LinePlacement(quito_device)
+graph_quito = GraphPlacement(quito_device)
+noise_quito = NoiseAwarePlacement(quito_device)
 
 print("LinePlacement map:")
-print_qubit_mapping(lp_athens.get_placement_map(example_circuit))
+print_qubit_mapping(lp_quito.get_placement_map(example_circuit))
 print("GraphPlacement map:")
-print_qubit_mapping(graph_athens.get_placement_map(example_circuit))
+print_qubit_mapping(graph_quito.get_placement_map(example_circuit))
 print("NoiseAwarePlacement map:")
-print_qubit_mapping(noise_athens.get_placement_map(example_circuit))
+print_qubit_mapping(noise_quito.get_placement_map(example_circuit))
 
 # Each of these methods produces a different qubit->node mapping.  Lets compare their performance:
 
 lp_ex_circ = example_circuit.copy()
-lp_athens.place(lp_ex_circ)
+lp_quito.place(lp_ex_circ)
 gp_ex_circ = example_circuit.copy()
-graph_athens.place(gp_ex_circ)
+graph_quito.place(gp_ex_circ)
 np_ex_circ = example_circuit.copy()
-noise_athens.place(np_ex_circ)
+noise_quito.place(np_ex_circ)
 
-line_routed_circuit = route(lp_ex_circ, athens_device)
-graph_routed_circuit = route(gp_ex_circ, athens_device)
-noise_aware_routed_circuit = route(np_ex_circ, athens_device)
+line_routed_circuit = route(lp_ex_circ, quito_device)
+graph_routed_circuit = route(gp_ex_circ, quito_device)
+noise_aware_routed_circuit = route(np_ex_circ, quito_device)
 
 
 for c in [line_routed_circuit, graph_routed_circuit, noise_aware_routed_circuit]:
@@ -415,7 +415,7 @@ print_qubit_mapping(partial_initial_map)
 
 partial_ex_circ = example_circuit.copy()
 place_with_map(partial_ex_circ, partial_initial_map)
-partial_routed_circuit = route(partial_ex_circ, athens_device)
+partial_routed_circuit = route(partial_ex_circ, quito_device)
 
 
 Transform.DecomposeBRIDGE().apply(partial_routed_circuit)
