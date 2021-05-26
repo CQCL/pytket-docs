@@ -453,8 +453,8 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
     from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
     import numpy as np
-    u1 = np.asarray([[-0.75011107+0.j        ,  0.38870936-0.53501254j],
-                     [-0.31858942+0.57951201j,  0.31938176+0.67872079j]])
+    u1 = np.asarray([[-0.7487011587786401+0.4453416229024393j, 0.4061474383265779+0.2759740424295397j],
+                     [-0.12329679104996497+0.4753054965713359j, -0.8565044726815658+0.15900526570629525j]])
     u1box = Unitary1qBox(u1)
     u2 = np.asarray([[0, 1, 0, 0],
                      [0, 0, 0, -1],

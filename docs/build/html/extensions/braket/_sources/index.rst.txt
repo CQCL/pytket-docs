@@ -1,5 +1,5 @@
 pytket-braket
-==================================
+=============
 
 .. image:: CQCLogo.png
    :width: 120px
@@ -15,13 +15,6 @@ To install, run:
 
 .. note::   Requires an `Amazon Braket <https://aws.amazon.com/braket/>`_ account.
 
-pytket.extensions.braket
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: pytket.extensions.braket
-    :special-members:
-    :members: BraketBackend
-
-
-.. automodule:: pytket.extensions.braket.backends.config
-    :members:
+.. toctree::
+    api.rst
+    changelog.rst

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket-pyzx &mdash; pytket-pyzx 0.9.0 documentation</title>
+  <title>pytket-pyzx &mdash; pytket-pyzx 0.10.0 documentation</title>
   
 
   
@@ -40,7 +40,8 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API documentation" href="api.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.9
+                0.10
               </div>
             
           
@@ -89,14 +90,11 @@
               
             
             
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">pytket-pyzx</a><ul>
-<li><a class="reference internal" href="#module-pytket.extensions.pyzx">pytket.extensions.pyzx</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
             
           
         </div>
@@ -173,46 +171,14 @@ PyZX representations.</p>
 <p><code class="docutils literal notranslate"><span class="pre">pytket-pyzx</span></code> is available for Python 3.7, 3.8 and 3.9, on Linux, MacOS and Windows. To
 install, run:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytket-pyzx</span></code></p>
-<div class="section" id="module-pytket.extensions.pyzx">
-<span id="pytket-extensions-pyzx"></span><h2>pytket.extensions.pyzx<a class="headerlink" href="#module-pytket.extensions.pyzx" title="Permalink to this headline">¶</a></h2>
-<p>Module for conversion between PyZX and tket primitives.</p>
-<dl class="py function">
-<dt id="pytket.extensions.pyzx.pyzx_to_tk">
-<code class="sig-prename descclassname"><span class="pre">pytket.extensions.pyzx.</span></code><code class="sig-name descname"><span class="pre">pyzx_to_tk</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pyzx_circ</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pyzx.circuit.Circuit</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.9)"><span class="pre">pytket.circuit.Circuit</span></a><a class="headerlink" href="#pytket.extensions.pyzx.pyzx_to_tk" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a <code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code> to a tket <a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> .
-All PyZX basic gate operations are currently supported by pytket. Run
-<cite>pyzx_circuit_name.to_basic_gates()</cite> before conversion.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pyzx_circ</strong> – A circuit to be converted</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The converted circuit</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="pytket.extensions.pyzx.tk_to_pyzx">
-<code class="sig-prename descclassname"><span class="pre">pytket.extensions.pyzx.</span></code><code class="sig-name descname"><span class="pre">tk_to_pyzx</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tkcircuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="(in pytket v0.9)"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">denominator_limit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1000000</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">pyzx.circuit.Circuit</span><a class="headerlink" href="#pytket.extensions.pyzx.tk_to_pyzx" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a tket <a class="reference external" href="https://cqcl.github.io/pytket/build/html/circuit_class.html#pytket.circuit.Circuit" title="Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> to a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">pyzx.Circuit</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tkcircuit</strong> – A circuit to be converted</p></li>
-<li><p><strong>denominator_limit</strong> – The limit for denominator size when converting
-floats to fractions. Smaller limits allow for correct representation of simple
-fractions with non-exact floating-point representations, while larger limits
-allow for more precise angles.</p></li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#may-2021">0.10.0 (May 2021)</a></li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The converted circuit</p>
-</dd>
-</dl>
-</dd></dl>
-
+</li>
+</ul>
 </div>
 </div>
 
@@ -221,6 +187,9 @@ allow for more precise angles.</p></li>
            
           </div>
           <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="api.html" class="btn btn-neutral float-right" title="API documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

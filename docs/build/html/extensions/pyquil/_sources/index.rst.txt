@@ -1,5 +1,5 @@
 pytket-pyquil
-==================================
+=============
 
 .. image:: CQCLogo.png
    :width: 120px
@@ -17,8 +17,6 @@ install, run:
 
 ``pip install pytket-pyquil``
 
-pytket.extensions.pyquil
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. automodule:: pytket.extensions.pyquil
-    :members: pyquil_to_tk, tk_to_pyquil, ForestBackend, ForestStateBackend
+.. toctree::
+    api.rst
+    changelog.rst
