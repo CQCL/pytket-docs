@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Noise and the Quantum Circuit Model &mdash; pytket-manual  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Compilation" href="manual_compiler.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytket-manual
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Noise and the Quantum Circuit Model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#noise-aware-mapping">Noise Aware Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#noise-tailoring-methods">Noise Tailoring Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spam-mitigation">SPAM Mitigation</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket-manual</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Noise and the Quantum Circuit Model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/manual_noise.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="noise-and-the-quantum-circuit-model">
+<h1>Noise and the Quantum Circuit Model<a class="headerlink" href="#noise-and-the-quantum-circuit-model" title="Permalink to this headline">¶</a></h1>
+<p>NISQ era devices are characterised as having high error rates, meaning the effect of running quantum circuits on these devices is that states are commonly dominated by noise. This is usually to the extent that even for circuits with very few gates, significant errors are accrued quickly enough that the returned results are unusable.</p>
+<p>Compilation of quantum circuits does not have a unique solution. Typically compilation strategies are designed to produce quantum circuits that implement the same logical circuit with fewer total gates and so have less opportunity to accrue errors. Understanding which quantum operations will lead to excessive noise accumulation in devices can help design compilation strategies to reduce this noise. Examples of this are circuit optimistation strategies that target the removal of multi-qubit gates as they typically have worse error rates than single-qubit gates, or designing circuit routing methods that introduce fewer total swap gates when conforming circuits to some device connectivity.</p>
+<p>Given the range of types of quantum devices available and their individual noise profiles, more precise characterisations of where noise accumulates in devices can aid in designing techniques for suppressing specific or general noise - <code class="docutils literal notranslate"><span class="pre">pytket</span></code> has several such techniques available.</p>
+<p>Noise in the quantum circuit model can be viewed as the distance between the expected distribution of measurement outcomes from a quantum state and the distribution returned by the process of repeatedly sampling shots. While some compilation methods aim to reduce this distance by the optimisation of some other metric, such as the number of occurrences of a given device’s multi-qubit primitives, the discussed techniques are explicitly designed to modify the returned distribution favourably by dealing directly with noise levels.</p>
+<div class="section" id="noise-aware-mapping">
+<h2>Noise Aware Mapping<a class="headerlink" href="#noise-aware-mapping" title="Permalink to this headline">¶</a></h2>
+<p>Many quantum devices place limits on which qubits can
+interact, with these limitations being determined by the device architecture.
+When compiling a circuit to run on one of these devices, the circuit
+must be modified to fit the architecture, a process described in the
+previous chapter under <a class="reference internal" href="manual_compiler.html#compiler-placement"><span class="std std-ref">Placement</span></a> and
+<a class="reference internal" href="manual_compiler.html#compiler-routing"><span class="std std-ref">Routing</span></a>.</p>
+<p>In addition, the noise present in NISQ devices typically varies across
+the architecture, with different qubits and couplings experiencing
+different error rates, which may also vary depending on the operation
+being performed.  To complicate matters further, these characteristics
+vary over time, a phenomenon commonly referred to as device drift
+<a class="reference internal" href="#white2019" id="id1"><span>[White2019]</span></a>.</p>
+<p>Some devices expose error characterisation information through
+their programming interface. When available, <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>
+objects will populate a characterisation property with this
+information.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_santiago&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">backend</span><span class="o">.</span><span class="n">characterisation</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>NodeErrors
+EdgeErrors
+Architecture
+t1times
+t2times
+Frequencies
+GateTimes
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> stores device characteristics used in noise aware mapping methods, including single-qubit and two-qubit gate error rates and readout error rates. The <code class="docutils literal notranslate"><span class="pre">characterisation</span></code> member of <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> contains all characterisation information supplied by hardware providers.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Single qubit errors:
+node[0]
+    Readout: 0.041
+    U3: 0.00120274
+    U2: 0.000601552
+    U1: 0
+    noop: 0.000601552
+node[1]
+    Readout: 0.024
+    U3: 0.000741646
+    U2: 0.000370892
+    U1: 0
+    noop: 0.000370892
+node[2]
+    Readout: 0.016
+    U3: 0.000747229
+    U2: 0.000373684
+    U1: 0
+    noop: 0.000373684
+node[3]
+    Readout: 0.032
+    U3: 0.000657834
+    U2: 0.000328971
+    U1: 0
+    noop: 0.000328971
+node[4]
+    Readout: 0.039
+    U3: 0.000937744
+    U2: 0.000468982
+    U1: 0
+    noop: 0.000468982
+
+Two qubit errors:
+node[0]-&gt;node[1]
+    CX: 0.0215313
+node[1]-&gt;node[0]
+    CX: 0.0215313
+node[1]-&gt;node[2]
+    CX: 0.0234287
+node[1]-&gt;node[3]
+    CX: 0.0201425
+node[2]-&gt;node[1]
+    CX: 0.0234287
+node[3]-&gt;node[1]
+    CX: 0.0201425
+node[3]-&gt;node[4]
+    CX: 0.016031
+node[4]-&gt;node[3]
+    CX: 0.016031
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also see the variation of device noise characteristics –
+consider <code class="docutils literal notranslate"><span class="pre">node[0]</span></code> which reports considerably larger error rates for a
+U3 gate than all other nodes.  Given this variety, it is possible, at
+least in principle, to achieve better overall performance by
+preferentially using the qubits and couplings with lowest error rate.</p>
+<p>Recall that mapping in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> works in two phases –
+first assigning logical circuit qubits to physical device qubits
+(placement) and then permuting these qubits via <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code>
+networks (routing).  Device characteristics can inform the choices
+made in both phases.</p>
+<p>The class <code class="xref py py-class docutils literal notranslate"><span class="pre">NoiseAwarePlacement</span></code> uses characteristics stored in
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> to find an initial placement of logical qubits on
+physical qubits which minimises the error accrued during a circuit’s
+execution.  It achieves this by minimising the additional
+<code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> overhead to route circuits, as in conventional
+placement, and at the same time avoiding qubits with worse error
+rates. Further information on this method is available in section 7.1
+of our <a class="reference external" href="https://doi.org/10.1088/2058-9565/ab8e92">software overview paper</a>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.routing</span> <span class="kn">import</span> <span class="n">NoiseAwarePlacement</span><span class="p">,</span> <span class="n">GraphPlacement</span>
+
+<span class="n">noise_placer</span> <span class="o">=</span> <span class="n">NoiseAwarePlacement</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+<span class="n">graph_placer</span> <span class="o">=</span> <span class="n">GraphPlacement</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">coupling</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">noise_placement</span> <span class="o">=</span> <span class="n">noise_placer</span><span class="o">.</span><span class="n">get_placement_map</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">graph_placement</span> <span class="o">=</span> <span class="n">graph_placer</span><span class="o">.</span><span class="n">get_placement_map</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;NoiseAwarePlacement mapping:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">noise_placement</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">GraphPlacement mapping:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">graph_placement</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[(node[0], node[1]), (node[1], node[0]), (node[1], node[2]), (node[1], node[3]), (node[2], node[1]), (node[3], node[1]), (node[3], node[4]), (node[4], node[3])]
+
+NoiseAwarePlacement mapping:
+q[0] node[3]
+q[1] node[1]
+q[2] node[4]
+
+GraphPlacement mapping:
+q[0] node[1]
+q[1] node[0]
+q[2] node[2]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Both placement methods will satisfy the device’s connectivity
+constraints, however looking at the device characteristics for
+<code class="docutils literal notranslate"><span class="pre">ibmq_santiago</span></code> above,  we see that the placement provided by
+<code class="xref py py-class docutils literal notranslate"><span class="pre">NoiseAwarePlacement</span></code> is over a set of qubits with generally
+better error rates.  This will produce a circuit whose output
+statistics are closer to the ideal, noiseless, distribution.</p>
+<p>In addition, a basic heuristic for using CX error rates in routing is
+available in <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, as shown below.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.routing</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">RoutingMethod</span>
+<span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">routed_circuit</span> <span class="o">=</span> <span class="n">route</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">routing_method</span> <span class="o">=</span> <span class="n">RoutingMethod</span><span class="o">.</span><span class="n">noise</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>However, we have found that gate fidelity information does not
+accurately identify the lowest error routing solutions on real devices
+for whole computations.  For this reason we recommend to use the
+default heuristic (outlined in <a class="reference external" href="https://doi.org/10.4230/LIPIcs.TQC.2019.5">On the qubit routing problem</a> ) which prioritises
+minimising the total number of additional <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> gates added
+to the circuit.</p>
+</div>
+<div class="section" id="noise-tailoring-methods">
+<h2>Noise Tailoring Methods<a class="headerlink" href="#noise-tailoring-methods" title="Permalink to this headline">¶</a></h2>
+<p>While it is not possible to efficiently characterise and suppress all device noise, it can be advantageous to transform some adverse type of noise into a less damaging type.</p>
+<p>Coherent errors are additional unwanted unitary rotations that may appear throughout a quantum computation. Their effect can be damaging due to a possible faster rate of error accumulation than in the case of probabilistic (incoherent) errors.</p>
+<p>Randomisation protocols can be used to tailor the form of the noise profile. By averaging the n-qubit noise channel over all elements from a group (specifically some subgroup of the full unitary group on n qubits), the resulting noise is invariant under the action of any element from this group.</p>
+<p>For example, averaging a noise channel over the n-qubit Pauli group has the effect of producing an n-qubit stochastic Pauli channel –  this is a probabilistic linear combination of n-qubit Pauli unitary errors.</p>
+<p>In this manner, an n-qubit coherent noise channel can be tailored into an n-qubit stochastic Pauli noise channel. For Pauli channels, the worst case error rate is similar to the average error rate, whilst for coherent noise the worst case error rate scales as a square root of the average error rate.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">pytket</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">FrameRandomisation</span></code> class available in the tailoring module provides methods for using randomised protocols on generic quantum circuits. At a high level, <code class="xref py py-class docutils literal notranslate"><span class="pre">FrameRandomisation</span></code> provides methods for identifying n-qubit subcircuits (or cycles) comprised of gates chosen for tailoring in some circuit of choice, and then constructing new circuits for averaging these subcircuits over some ensemble of n-qubit operators (constructed from the Kronecker product of single qubit gates referred to as ‘Frame’ gates). Tailored counts for a circuit of choice are then produced by running each of the new circuits through a backend with the same number of shots and then combining the returned counts.</p>
+<p>For each cycle in the circuit, each of the ensemble’s operators is prepended to the cycle and a new operator is derived to append to the cycle such that the whole unitary operation is unchanged.  When constructing a <code class="xref py py-class docutils literal notranslate"><span class="pre">FrameRandomisation</span></code> object the information required to derive the correct operator to prepend must be provided through a dictionary. An example of this procedure is <em>randomised compilation</em> <a class="reference internal" href="#wallman2015" id="id2"><span>[Wallman2015]</span></a>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">FrameRandomisation</span>
+<span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">frame_randomisation</span> <span class="o">=</span> <span class="n">FrameRandomisation</span><span class="p">(</span>
+    <span class="p">{</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">},</span> <span class="c1"># Set of OpType that cycles are comprised of. For a randomised circuit, the minimum number of cycles is found such that every gate with a cycle OpType is in exactly one cycle.</span>
+    <span class="p">{</span><span class="n">OpType</span><span class="o">.</span><span class="n">Y</span><span class="p">},</span> <span class="c1"># Set of OpType frames are constructed from</span>
+    <span class="p">{</span>
+        <span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">:</span> <span class="p">{(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Y</span><span class="p">):</span> <span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Z</span><span class="p">)},</span> <span class="c1"># Operations to prepend and append to CX respectively such that unitary is preserved i.e. Y(0).Y(1).CX(0,1).X(0).Z(1) == CX(0,1)</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;For a single gate in the averaging ensemble we return a single circuit:&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">com</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">We can check that the unitary of the circuit is preserved by comparing output counts:&#39;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>For a single gate in the averaging ensemble we return a single circuit:
+X q[0];
+Y q[1];
+Y q[0];
+Barrier q[0], q[1];
+CX q[0], q[1];
+Barrier q[0], q[1];
+X q[0];
+Z q[1];
+Measure q[0] --&gt; c[0];
+S q[1];
+Measure q[1] --&gt; c[1];
+
+We can check that the unitary of the circuit is preserved by comparing output counts:
+Counter({(1, 1): 100})
+Counter({(1, 1): 100})
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the <code class="xref py py-class docutils literal notranslate"><span class="pre">FrameRandomisation</span></code> procedure sandwiches each cycle between <code class="docutils literal notranslate"><span class="pre">OpType.Barrier</span></code> operations. This is because frame gates can be combined with adjacent rotation gates to reduce gate overhead, but can not be commuted through their associated cycle as this will undo the framing process. As FrameRandomisation will lead to a blow up in the number of circuits compiled, it is recommended to run FrameRandomisation procedures after circuit optimisation techniques.</p>
+<p>Running a randomised protocol to achieve meaningful results requires a careful choice of cycle gates and frame gates, which the above example does not make. However, the <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code> class is preset with cycle gates {<code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.H</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.S</span></code>} and frame gates {<code class="docutils literal notranslate"><span class="pre">OpType.X</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Y</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Z</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.noop</span></code>} that should.</p>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">PauliFrameRandomisation.get_all_circuits()</span></code> method returns circuits that tailor the noise of subcircuits comprised of cycle gates into a stochastic Pauli noise when run on a device (given some assumptions, such as additional frame gates not providing additional incoherent noise).</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+<span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">PauliFrameRandomisation</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">pauli_frame_randomisation</span> <span class="o">=</span> <span class="n">PauliFrameRandomisation</span><span class="p">()</span>
+<span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">pauli_frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of PauliFrameRandomisation averaging circuits: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">An example averaging circuit with frames applied to two cycles: &#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">com</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_commands</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">com</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">:</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+
+<span class="n">pfr_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="c1"># combine each averaging circuits counts into a single counts object for comparison</span>
+<span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">pfr_counts_list</span><span class="p">:</span>
+    <span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">pfr_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pfr_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pfr_counts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of PauliFrameRandomisation averaging circuits:  256
+
+An example averaging circuit with frames applied to two cycles: 
+X q[0];
+Z q[1];
+Z q[0];
+Barrier q[0], q[1];
+CX q[0], q[1];
+Barrier q[0], q[1];
+noop q[0];
+Z q[1];
+Z q[0];
+Rz(0.3) q[1];
+noop q[1];
+Barrier q[0], q[1];
+CX q[0], q[1];
+Barrier q[0], q[1];
+Z q[0];
+noop q[1];
+Measure q[0] --&gt; c[0];
+Measure q[1] --&gt; c[1];
+
+
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{(1, 0): 12800}
+Counter({(1, 0): 12800})
+</pre></div>
+</div>
+</div>
+</div>
+<p>For a noise free backend, we can see that the same counts distribution is returned as expected. We can use a basic noise model based on a real device to see how a realistic noise channel can change when applying <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span>
+<span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">noisy_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">NoiseModel</span><span class="o">.</span><span class="n">from_backend</span><span class="p">(</span><span class="n">IBMQ</span><span class="o">.</span><span class="n">providers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;ibmq_santiago&#39;</span><span class="p">)))</span>
+
+<span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">pauli_frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">:</span>
+    <span class="n">noisy_backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">noisy_backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+
+<span class="n">pfr_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">pfr_counts_list</span><span class="p">:</span>
+    <span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">pfr_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pfr_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noiseless Counts:&#39;</span><span class="p">,</span> <span class="n">AerBackend</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Base Noisy Counts:&#39;</span><span class="p">,</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recombined Noisy Counts using PauliFrameRandomisation:&#39;</span><span class="p">,</span> <span class="n">pfr_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noiseless Counts: Counter({(1, 1): 6415, (1, 0): 6385})
+Base Noisy Counts: Counter({(1, 0): 6368, (1, 1): 5951, (0, 1): 253, (0, 0): 228})
+Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 203, (0, 0): 215, (1, 0): 6194, (1, 1): 6188}
+</pre></div>
+</div>
+</div>
+</div>
+<p>For this simple case we observe that more shots are returning basis states not in the expected state (though it would be unwise to declare the methods efficacy from this alone).</p>
+<p>Given that cycle gates for <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code> do not form a universal gate set for the quantum circuit model, randomised protocols using <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code> will usually need to individually tailor many cycle instances for a given circuit. This can lead to large circuit overhead required for complete averaging, or a loss of guarantee that the resulting channel is a stochastic Pauli noise when not every frame is used.</p>
+<p>An alternative class, <code class="xref py py-class docutils literal notranslate"><span class="pre">UniversalFrameRandomisation</span></code>, is set with cycle gates {<code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.H</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code>} and frame gates {<code class="docutils literal notranslate"><span class="pre">OpType.X</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Y</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Z</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.noop</span></code>} and so can treat a whole circuit as a single cycle if rebased appropriately. It providers averaging circuits  while preserving the unitary of the circuit by changing the rotation angle of cycle <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code> gates when prepending and appending frame gates, meaning that the stochastic Pauli noise property is additionally dependent on incoherent noise not being dependent on the rotation angle.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">UniversalFrameRandomisation</span>
+
+<span class="n">universal_frame_randomisation</span> <span class="o">=</span> <span class="n">UniversalFrameRandomisation</span><span class="p">()</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">universal_frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">:</span>
+    <span class="n">noisy_backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">noisy_backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+
+<span class="n">ufr_noisy_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="n">ufr_noisy_counts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">ufr_noisy_counts_list</span><span class="p">:</span>
+    <span class="n">ufr_noisy_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">ufr_noisy_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ufr_noisy_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
+
+
+<span class="n">ufr_noiseless_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">AerBackend</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="n">ufr_noiseless_counts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">ufr_noiseless_counts_list</span><span class="p">:</span>
+    <span class="n">ufr_noiseless_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">ufr_noiseless_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ufr_noiseless_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noiseless Counts:&#39;</span><span class="p">,</span> <span class="n">noiseless_counts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recombined Noiseless Counts using UniversalFrameRandomisation:&#39;</span><span class="p">,</span> <span class="n">ufr_noiseless_counts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Base Noisy Counts:&#39;</span><span class="p">,</span> <span class="n">noisy_counts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recombined Noisy Counts using PauliFrameRandomisation:&#39;</span><span class="p">,</span> <span class="n">pfr_counts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recombined Noisy Counts using UniversalFrameRandomisation:&#39;</span><span class="p">,</span> <span class="n">ufr_noisy_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noiseless Counts: Counter({(1, 0): 6490, (1, 1): 6310})
+Recombined Noiseless Counts using UniversalFrameRandomisation: {(1, 0): 6440, (1, 1): 6360}
+Base Noisy Counts: Counter({(1, 0): 6298, (1, 1): 6022, (0, 1): 261, (0, 0): 219})
+Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 240, (0, 0): 212, (1, 0): 6253, (1, 1): 6095}
+Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0): 208, (1, 0): 6277, (1, 1): 6107}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Similarly as to the previous case, more shots are returning basis states in the expected state.</p>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">RebaseUFR()</span></code> can be applied to a circuit to rebase its gates to {<code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.H</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code>}, the cycle gate primitives for Universal Frame Randomisation.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">PauliExpBox</span><span class="p">,</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.transform</span> <span class="kn">import</span> <span class="n">Transform</span>
+<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RebaseUFR</span>
+<span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">UniversalFrameRandomisation</span>
+
+<span class="n">universal_frame_randomisation</span> <span class="o">=</span> <span class="n">UniversalFrameRandomisation</span><span class="p">()</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span>
+    <span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">I</span><span class="p">],</span> <span class="mf">0.034</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span>
+    <span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">I</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span>
+    <span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">I</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">],</span> <span class="mf">0.45</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">Transform</span><span class="o">.</span><span class="n">DecomposeBoxes</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">ufr_averaging_circuits</span> <span class="o">=</span> <span class="n">universal_frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of Universal Frame Randomisation averaging circuits without rebase: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ufr_averaging_circuits</span><span class="p">))</span>
+
+<span class="n">RebaseUFR</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">ufr_averaging_circuits</span> <span class="o">=</span> <span class="n">universal_frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of Universal Frame Randomisation averaging circuits with rebase: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ufr_averaging_circuits</span><span class="p">))</span>
+
+<span class="n">ufr_averaging_circuits</span> <span class="o">=</span> <span class="n">universal_frame_randomisation</span><span class="o">.</span><span class="n">sample_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of sampled Universal Frame Randomisation averaging circuits with rebase: &#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ufr_averaging_circuits</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase:  16384
+Number of Universal Frame Randomisation averaging circuits with rebase:  256
+Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
+</pre></div>
+</div>
+</div>
+</div>
+<p>By rebasing the circuit Universal Frame Randomisation is being applied to, we can see a significant reduction in the number of averaging circuits required. For large circuits with many cycles <code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameRandomisation.sample_circuits()</span></code>
+can be used to sample from the full set of averaging circuits. It is recommended to use <code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameRandomisation.sample_circuit()</span></code> over <code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameRandomisation.get_all_circuits()</span></code> for larger circuits with many cycles as the overhead in finding frame permutations becomes significant.</p>
+</div>
+<div class="section" id="spam-mitigation">
+<h2>SPAM Mitigation<a class="headerlink" href="#spam-mitigation" title="Permalink to this headline">¶</a></h2>
+<p>A prominent source of noise is that occurring during State Preparation and Measurement (SPAM) in the hardware.</p>
+<p>SPAM error mitigation methods can correct for such noise through a post-processing step that modifies the output distribution measured from repeatedly sampling shots. This is possible given the assumption that SPAM noise is not dependent on the quantum computation run.</p>
+<p>By repeatedly preparing and measuring a basis state of the device, a distribution over basis states is procured. While for a perfect device the distribution would be the prepared basis state with probability 1, for devices prone to SPAM noise this distribution is perturbed and other basis states may be returned with (expected) small probability.</p>
+<p>If this process is repeated for all (or a suitable subset given many qubits won’t experience correlated SPAM errors) basis states of a device, a transition matrix can be derived that describes the noisy SPAM process.
+Simply applying the inverse of this transition matrix to the distribution of a quantum state from some desired quantum computation can effectively uncompute the errors caused by SPAM noise.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> provides the required tools for characterising and correcting SPAM noise in this manner. A <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object is initialised from a partition of a subset of the quantum device’s qubits. Qubits are assumed to have SPAM errors which are correlated with that of other qubits in their set, but uncorrelated with the other sets.</p>
+<p>As an n-qubit device has <span class="math notranslate nohighlight">\(2^n\)</span> basis states, finding the exact noisy SPAM process becomes infeasible for larger devices. However, as correlated errors are typically spatially dependent though, one can usually characterise SPAM noise well by only assuming correlated SPAM noise between nearest-neighbour qubits.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object uses these subsets of qubits to produce calibration circuits.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.utils.spam</span> <span class="kn">import</span> <span class="n">SpamCorrecter</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="n">nodes</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">nodes</span>
+
+<span class="n">spam_correcter</span> <span class="o">=</span> <span class="n">SpamCorrecter</span><span class="p">([</span><span class="n">nodes</span><span class="p">])</span>
+
+<span class="n">calibration_circuits</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">calibration_circuits</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of calibration circuits: &#39;</span> <span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">calibration_circuits</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">calibration_circuits</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of calibration circuits:  32
+
+[X node[4];, Barrier node[0], node[1], node[2], node[3], node[4];, Measure node[0] --&gt; c[0];, Measure node[1] --&gt; c[1];, Measure node[2] --&gt; c[2];, Measure node[3] --&gt; c[3];, Measure node[4] --&gt; c[4];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Assuming SPAM correlation between all 5 qubits of the “ibmq_london” device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.</p>
+<p>To display the performance of SPAM correction in a controlled environment, we can construct a noise model with measurement errors from <code class="docutils literal notranslate"><span class="pre">qiskit-aer</span></code> and use it to define a simulator backend with known measurement noise.</p>
+<p>First the <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> is characterised using counts results for calibration circuits executed through the noisy backend of choice using <code class="xref py py-meth docutils literal notranslate"><span class="pre">SpamCorrecter.calculate_matrices()</span></code>. Once characterised, noisy counts for a circuit can be corrected using <code class="xref py py-meth docutils literal notranslate"><span class="pre">SpamCorrecter.correct_counts()</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+<span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.utils.spam</span> <span class="kn">import</span> <span class="n">SpamCorrecter</span>
+
+<span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise.errors</span> <span class="kn">import</span> <span class="n">depolarizing_error</span>
+
+<span class="n">noise_model</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="p">()</span>
+<span class="n">noise_model</span><span class="o">.</span><span class="n">add_readout_error</span><span class="p">([[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">noise_model</span><span class="o">.</span><span class="n">add_readout_error</span><span class="p">([[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">]],</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">noise_model</span><span class="o">.</span><span class="n">add_quantum_error</span><span class="p">(</span><span class="n">depolarizing_error</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;cx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="n">noisy_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">noise_model</span><span class="p">)</span>
+<span class="n">noiseless_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+<span class="n">spam_correcter</span> <span class="o">=</span> <span class="n">SpamCorrecter</span><span class="p">([</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">nodes</span><span class="p">],</span> <span class="n">noisy_backend</span><span class="p">)</span>
+<span class="n">calibration_circuits</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">calibration_circuits</span><span class="p">()</span>
+
+<span class="n">char_handles</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">calibration_circuits</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">char_results</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">char_handles</span><span class="p">)</span>
+
+<span class="n">spam_correcter</span><span class="o">.</span><span class="n">calculate_matrices</span><span class="p">(</span><span class="n">char_results</span><span class="p">)</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">noisy_backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">noisy_handle</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">noisy_result</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">noisy_handle</span><span class="p">)</span>
+<span class="n">noiseless_handle</span> <span class="o">=</span> <span class="n">noiseless_backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">noiseless_result</span> <span class="o">=</span> <span class="n">noiseless_backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">noiseless_handle</span><span class="p">)</span>
+
+<span class="n">circ_parallel_measure</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">get_parallel_measure</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">corrected_counts</span> <span class="o">=</span> <span class="n">spam_correcter</span><span class="o">.</span><span class="n">correct_counts</span><span class="p">(</span><span class="n">noisy_result</span><span class="p">,</span> <span class="n">circ_parallel_measure</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noisy Counts:&#39;</span><span class="p">,</span> <span class="n">noisy_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Corrected Counts:&#39;</span><span class="p">,</span> <span class="n">corrected_counts</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noiseless Counts:&#39;</span><span class="p">,</span> <span class="n">noiseless_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 434, (1, 1): 389, (0, 1): 90, (1, 0): 87})
+Corrected Counts: Counter({(0, 0): 501, (1, 1): 446, (0, 1): 32, (1, 0): 23})
+Noiseless Counts: Counter({(1, 1): 507, (0, 0): 493})
+</pre></div>
+</div>
+</div>
+</div>
+<p>Despite the presence of additional noise, it is straightforward to see that the corrected counts results are closer to the expected noiseless counts than the original noisy counts. All that is required to use <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> with a real device is the interchange of <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> with a real device backend, such as  <code class="xref py py-class docutils literal notranslate"><span class="pre">IBMQBackend</span></code>.</p>
+<dl class="citation">
+<dt class="label" id="wallman2015"><span class="brackets"><a class="fn-backref" href="#id2">Wallman2015</a></span></dt>
+<dd><p>Wallman, J., Emerson, J., 2015. Noise tailoring for scalable quantum computation via randomized compiling. Phys. Rev. A 94, 052325 (2016).</p>
+</dd>
+<dt class="label" id="white2019"><span class="brackets"><a class="fn-backref" href="#id1">White2019</a></span></dt>
+<dd><p>White, G., Hill, C., Hollenberg, L., 2019. Performance optimisation for drift-robust fidelity improvement of two-qubit gates. arXiv:1911.12096.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="manual_compiler.html" class="btn btn-neutral float-left" title="Compilation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020-2021 Cambridge Quantum Computing Ltd.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
