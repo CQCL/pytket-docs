@@ -67,7 +67,7 @@ We are also keen for others to benchmark their compilation techniques against us
 ## Telemetry
 `pytket` features a telemetry module which can be used to keep track of `pyktet` usage and will provide usage analytics and error reporting at a later date. Telemetry is disabled by default, but may be enabled either through function calls or in the pytket configuration file.
 
-In order to opt in to telemetry a helper function is provided in the `pytket.telemetry` module that need only be run once.
+In order to opt in to telemetry, a helper function is provided in the `pytket.telemetry` module that need only be run once.
 
 ```python
 from pytket import telemetry
