@@ -172,7 +172,7 @@ A placement pass will act in place on a :py:class:`Circuit` by renaming the qubi
     circ.H(0).H(1).H(2).Vdg(3)
     circ.measure_all()
 
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     place = PlacementPass(GraphPlacement(backend.device))
     place.apply(circ)
 
@@ -199,7 +199,7 @@ In some circumstances, the best location is not fully determined immediately and
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     place = PlacementPass(LinePlacement(backend.device))
     place.apply(circ)
 
@@ -299,7 +299,7 @@ One solution here, is to scan through the :py:class:`Circuit` looking for invali
     from pytket.routing import GraphPlacement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     PlacementPass(GraphPlacement(backend.device)).apply(circ)
     print(circ.get_commands())  # One qubit still unplaced
                                 # node[0] and node[2] are not adjacent
@@ -573,7 +573,7 @@ After solving for the device connectivity, we then need to restrict what optimis
     FullPeepholeOptimise().apply(circ)      # Freely rewrite circuit
     print(circ.n_gates_of_type(OpType.CX))
 
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     DefaultMappingPass(backend.device).apply(circ)
     RebaseIBM().apply(circ)
     print(circ.n_gates_of_type(OpType.CX))  # Routing adds gates
@@ -660,7 +660,7 @@ We can wrap up a :py:class:`Circuit` in a :py:class:`CompilationUnit` to allow u
     from pytket.predicates import CompilationUnit
     circ = Circuit(5, 5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3).CX(0, 4).measure_all()
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     cu = CompilationUnit(circ)
     DefaultMappingPass(backend.device).apply(cu)
     print(cu.circuit.get_commands())
@@ -750,7 +750,7 @@ The main technical consideration here is that the compiler will only have the fr
     measure1 = Circuit(4, 4)
     measure1.CX(1, 2).CX(3, 2).measure_all()
 
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     cu = CompilationUnit(state_prep)
     backend.default_compilation_pass().apply(cu)
     Placement.place_with_map(measure0, cu.final_map)

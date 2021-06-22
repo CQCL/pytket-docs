@@ -470,7 +470,7 @@ The :py:class:`SpamCorrecter` object uses these subsets of qubits to produce cal
     from pytket.utils.spam import SpamCorrecter
     from pytket.extensions.qiskit import IBMQBackend
 
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     nodes = backend.device.nodes
 
     spam_correcter = SpamCorrecter([nodes])
@@ -488,7 +488,7 @@ The :py:class:`SpamCorrecter` object uses these subsets of qubits to produce cal
 
 
 
-Assuming SPAM correlation between all 5 qubits of the "ibmq_london" device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.
+Assuming SPAM correlation between all 5 qubits of the "ibmq_quito" device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.
 
 To display the performance of SPAM correction in a controlled environment, we can construct a noise model with measurement errors from ``qiskit-aer`` and use it to define a simulator backend with known measurement noise.
 
