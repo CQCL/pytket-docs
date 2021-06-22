@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
   <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
 
@@ -33,14 +31,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -197,7 +194,7 @@
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span><span class="p">,</span> <span class="n">AerStateBackend</span>
-<span class="n">dev_b</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="n">dev_b</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
 <span class="n">sim_b</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">dev_b</span><span class="o">.</span><span class="n">required_predicates</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">sim_b</span><span class="o">.</span><span class="n">required_predicates</span><span class="p">)</span>
@@ -274,23 +271,23 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
- [1 1]
- [0 1]
- [0 1]
  [0 1]
  [0 1]
  [0 1]
  [1 1]
- [0 1]
- [0 1]
+ [1 1]
  [1 1]
  [0 1]
  [0 1]
  [0 1]
  [0 1]
  [1 1]
+ [1 1]
  [0 1]
  [1 1]
+ [1 1]
+ [0 1]
+ [0 1]
  [0 1]
  [0 1]]
 </pre></div>
@@ -318,8 +315,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1005, (0, 1): 995})
-{(0, 1): 0.4975, (1, 1): 0.5025}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1006, (0, 1): 994})
+{(0, 1): 0.497, (1, 1): 0.503}
 </pre></div>
 </div>
 </div>
@@ -491,7 +488,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.052000000000000046
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.016000000000000014
 </pre></div>
 </div>
 </div>
@@ -549,8 +546,8 @@ Counter({(1, 0): 10})
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[ 0.63003676+0.j -0.32101976+0.j  0.63003676+0.j -0.32101976+0.j
   0.        +0.j  0.        +0.j  0.        +0.j  0.        +0.j]
-Counter({(1, 0, 0): 818, (0, 0, 0): 775, (1, 0, 1): 211, (0, 0, 1): 196})
-Counter({(0, 0): 1593, (0, 1): 407})
+Counter({(0, 0, 0): 817, (1, 0, 0): 777, (1, 0, 1): 209, (0, 0, 1): 197})
+Counter({(0, 0): 1594, (0, 1): 406})
 </pre></div>
 </div>
 </div>
@@ -597,8 +594,8 @@ Counter({(0, 0): 1593, (0, 1): 407})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.02300000000000002
-0.289000000000000
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.006000000000000005
+0.370000000000000
 </pre></div>
 </div>
 </div>
@@ -626,8 +623,8 @@ Counter({(0, 0): 1593, (0, 1): 407})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 414, (0, 0, 0): 389, (0, 1, 0): 379, (0, 1, 1): 371, (1, 0, 1): 115, (1, 0, 0): 114, (1, 1, 1): 110, (1, 1, 0): 108})
--0.016999999999999904
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 0): 424, (0, 1, 1): 404, (0, 0, 0): 396, (0, 0, 1): 377, (1, 0, 1): 106, (1, 0, 0): 102, (1, 1, 1): 100, (1, 1, 0): 91})
+-0.0029999999999998916
 </pre></div>
 </div>
 </div>
@@ -666,7 +663,7 @@ Counter({(0, 0): 1593, (0, 1): 407})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1, 0): 146, (0, 0, 1): 138, (0, 1, 0): 131, (0, 0, 0): 121, (1, 0, 1): 120, (1, 1, 1): 120, (1, 0, 0): 116, (0, 1, 1): 108})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 139, (0, 0, 0): 131, (1, 1, 0): 129, (1, 1, 1): 128, (0, 1, 0): 126, (0, 0, 1): 118, (0, 1, 1): 117, (1, 0, 0): 112})
 </pre></div>
 </div>
 </div>
@@ -719,7 +716,7 @@ Counter({(0, 0): 1593, (0, 1): 407})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.020999999999999908
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.05300000000000005
 </pre></div>
 </div>
 </div>
@@ -735,7 +732,7 @@ Counter({(0, 0): 1593, (0, 1): 407})
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">expectation_from_counts</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
 
 <span class="n">state</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">state</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -862,9 +859,7 @@ Counter({(0, 0): 1593, (0, 1): 407})
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-1.0
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.20000000000000046
+0.20000000000000046
 </pre></div>
 </div>
 </div>
@@ -882,7 +877,7 @@ Counter({(0, 0): 1593, (0, 1): 407})
 <span class="kn">from</span> <span class="nn">pytket.backends</span> <span class="kn">import</span> <span class="n">StatusEnum</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">expectation_from_counts</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
 
 <span class="n">state</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">state</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -952,7 +947,7 @@ Counter({(0, 0): 1593, (0, 1): 407})
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
@@ -977,7 +972,7 @@ Counter({(0, 0): 1593, (0, 1): 407})
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.backends</span> <span class="kn">import</span> <span class="n">ResultHandle</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
 
 <span class="n">handle</span> <span class="o">=</span> <span class="n">ResultHandle</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;(&#39;5e8f3dcbbb7d8500119cfbf6&#39;, 0)&quot;</span><span class="p">)</span>
 <span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
@@ -1021,7 +1016,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 7, (0, 0): 3})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 6, (1, 1): 4})
 </pre></div>
 </div>
 </div>

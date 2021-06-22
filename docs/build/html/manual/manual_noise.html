@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
   <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
 
@@ -33,14 +31,13 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -638,7 +635,7 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.utils.spam</span> <span class="kn">import</span> <span class="n">SpamCorrecter</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 
-<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_london&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
 <span class="n">nodes</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">nodes</span>
 
 <span class="n">spam_correcter</span> <span class="o">=</span> <span class="n">SpamCorrecter</span><span class="p">([</span><span class="n">nodes</span><span class="p">])</span>
@@ -657,7 +654,7 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 </div>
-<p>Assuming SPAM correlation between all 5 qubits of the “ibmq_london” device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.</p>
+<p>Assuming SPAM correlation between all 5 qubits of the “ibmq_quito” device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.</p>
 <p>To display the performance of SPAM correction in a controlled environment, we can construct a noise model with measurement errors from <code class="docutils literal notranslate"><span class="pre">qiskit-aer</span></code> and use it to define a simulator backend with known measurement noise.</p>
 <p>First the <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> is characterised using counts results for calibration circuits executed through the noisy backend of choice using <code class="xref py py-meth docutils literal notranslate"><span class="pre">SpamCorrecter.calculate_matrices()</span></code>. Once characterised, noisy counts for a circuit can be corrected using <code class="xref py py-meth docutils literal notranslate"><span class="pre">SpamCorrecter.correct_counts()</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -701,9 +698,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 434, (1, 1): 389, (0, 1): 90, (1, 0): 87})
-Corrected Counts: Counter({(0, 0): 501, (1, 1): 446, (0, 1): 32, (1, 0): 23})
-Noiseless Counts: Counter({(1, 1): 507, (0, 0): 493})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 414, (1, 1): 410, (0, 1): 89, (1, 0): 87})
+Corrected Counts: Counter({(1, 1): 470, (0, 0): 466, (0, 1): 38, (1, 0): 27})
+Noiseless Counts: Counter({(0, 0): 511, (1, 1): 489})
 </pre></div>
 </div>
 </div>
