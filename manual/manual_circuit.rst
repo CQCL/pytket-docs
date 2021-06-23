@@ -754,9 +754,35 @@ There are currently no simulators or devices that can run symbolic circuits alge
     print(circ.free_symbols())
     print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 
+
 .. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <passes.html#pytket._tket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition <passes.html#pytket._tket.passes.KAKDecomposition>`_ to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 
 .. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://github.com/CQCL/pytket/tree/master/examples/ucc_vqe.ipynb>`_.
+
+
+Symbolic unitaries and states
+=============================
+
+In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_symbolic_unitary`, which can calculate the unitary representation of a possibly symbolic circuit, and :py:func:`circuit_apply_symbolic_statevector`, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).
+
+.. jupyter-execute::
+
+    from pytket import Circuit
+    from pytket.utils.symbolic import circuit_apply_symbolic_statevector, circuit_to_symbolic_unitary
+    from sympy import Symbol, pi
+    a = Symbol("alpha")
+    circ = Circuit(2)
+    circ.Rx(a/pi, 0).CX(0, 1)
+    display(circuit_apply_symbolic_statevector(circ)) # all zero input state is default if None is provided
+    circuit_to_symbolic_unitary(circ)
+
+
+The unitaries are calculated using the unitary representation of each `OpType <https://cqcl.github.io/pytket/build/html/optype.html>`_ , and according to the default `ILO BasisOrder convention used in backends <manual_backend.html#interpreting-results>`_.
+The outputs are sympy `ImmutableMatrix <https://docs.sympy.org/latest/modules/matrices/immutablematrices.html>`_ objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
+The conversion functions use the `sympy Quantum Mechanics module <https://docs.sympy.org/latest/modules/physics/quantum/index.html>`_, see also the :py:func:`circuit_to_symbolic_gates` and :py:func:`circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
+
+.. warning::
+    Unitaries corresponding to circuits with :math:`n` qubits have dimensions :math:`2^n \times 2^n`, so are computationally very expensive to calculate. Symbolic calculation is also computationally costly, meaning calculation of symbolic unitaries is only really feasible for very small circuits (of up to a few qubits in size). These utilities are provided as way to test the design of small subcircuits to check they are performing the intended unitary. Note also that as mentioned above, compilation of a symbolic circuit can generate long symbolic expressions; converting these circuits to a symbolic unitary could then result in a matrix object that is very hard to work with or interpret.
 
 Advanced Topics
 ---------------
@@ -953,7 +979,7 @@ Symbolic parameters allow one to construct a circuit with some not-yet-assigned 
 
 This can be achieved with ``pytket``, provided the mutable operations are tagged during circuit construction with identifying names (which can be arbitrary strings). If two operations are given the same name then they belong to the same "operation group"; they can (and must) then be substituted simultaneously.
 
-Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substitured operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)
+Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substituted operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)
 
 To add gates or boxes to a circuit with specified op group names, simply pass the name as a keyword argument ``opgroup`` to the method that adds the gate or box. To substitute all operations in a group, use the :py:meth:`Circuit.substitute_named` method. This can be used to substitute a circuit, an operation or a box into the existing circuit.
 
