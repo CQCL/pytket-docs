@@ -104,7 +104,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#boxes">Boxes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#analysing-circuits">Analysing Circuits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#importing-exporting-circuits">Importing/Exporting Circuits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#symbolic-circuits">Symbolic Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#symbolic-circuits">Symbolic Circuits</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#symbolic-unitaries-and-states">Symbolic unitaries and states</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-topics">Advanced Topics</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#custom-parameterised-gates">Custom parameterised Gates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#conditional-gates">Conditional Gates</a></li>
@@ -1854,6 +1857,37 @@ True
 <p class="admonition-title">See also</p>
 <p>To see how to use symbolic compilation in a variational experiment, have a look at our <a class="reference external" href="https://github.com/CQCL/pytket/tree/master/examples/ucc_vqe.ipynb">VQE (UCCSD) example</a>.</p>
 </div>
+<div class="section" id="symbolic-unitaries-and-states">
+<h3>Symbolic unitaries and states<a class="headerlink" href="#symbolic-unitaries-and-states" title="Permalink to this headline">¶</a></h3>
+<p>In <a class="reference external" href="https://cqcl.github.io/pytket/build/html/utils.html#module-pytket.utils.symbolic" title="(in pytket v0.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.utils.symbolic</span> <span class="kn">import</span> <span class="n">circuit_apply_symbolic_statevector</span><span class="p">,</span> <span class="n">circuit_to_symbolic_unitary</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">pi</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">circuit_apply_symbolic_statevector</span><span class="p">(</span><span class="n">circ</span><span class="p">))</span> <span class="c1"># all zero input state is default if None is provided</span>
+<span class="n">circuit_to_symbolic_unitary</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(0.5 \alpha \right)}\\0\\0\\- 1.0 i \sin{\left(0.5 \alpha \right)}\end{matrix}\right]\end{split}\]</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(0.5 \alpha \right)} &amp; 0 &amp; - 1.0 i \sin{\left(0.5 \alpha \right)} &amp; 0\\0 &amp; \cos{\left(0.5 \alpha \right)} &amp; 0 &amp; - 1.0 i \sin{\left(0.5 \alpha \right)}\\0 &amp; - 1.0 i \sin{\left(0.5 \alpha \right)} &amp; 0 &amp; \cos{\left(0.5 \alpha \right)}\\- 1.0 i \sin{\left(0.5 \alpha \right)} &amp; 0 &amp; \cos{\left(0.5 \alpha \right)} &amp; 0\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>The unitaries are calculated using the unitary representation of each <a class="reference external" href="https://cqcl.github.io/pytket/build/html/optype.html">OpType</a> , and according to the default <a class="reference external" href="manual_backend.html#interpreting-results">ILO BasisOrder convention used in backends</a>.
+The outputs are sympy <a class="reference external" href="https://docs.sympy.org/latest/modules/matrices/immutablematrices.html">ImmutableMatrix</a> objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
+The conversion functions use the <a class="reference external" href="https://docs.sympy.org/latest/modules/physics/quantum/index.html">sympy Quantum Mechanics module</a>, see also the <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_gates()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_qubit()</span></code> functions to see how to work with those objects directly.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Unitaries corresponding to circuits with <span class="math notranslate nohighlight">\(n\)</span> qubits have dimensions <span class="math notranslate nohighlight">\(2^n \times 2^n\)</span>, so are computationally very expensive to calculate. Symbolic calculation is also computationally costly, meaning calculation of symbolic unitaries is only really feasible for very small circuits (of up to a few qubits in size). These utilities are provided as way to test the design of small subcircuits to check they are performing the intended unitary. Note also that as mentioned above, compilation of a symbolic circuit can generate long symbolic expressions; converting these circuits to a symbolic unitary could then result in a matrix object that is very hard to work with or interpret.</p>
+</div>
+</div>
 </div>
 <div class="section" id="advanced-topics">
 <h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline">¶</a></h2>
@@ -2027,7 +2061,7 @@ This is part of the default compilation pass for that backend, so if you use tha
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1];, CX q[1], q[0];, Rx(0.2) q[1];, CZ q[0], q[1];]
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_42_1.svg" src="_images/manual_circuit_42_1.svg" /></div>
+<img alt="_images/manual_circuit_43_1.svg" src="_images/manual_circuit_43_1.svg" /></div>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -2044,7 +2078,7 @@ This is part of the default compilation pass for that backend, so if you use tha
 {q[0]: q[1], q[1]: q[0], q[2]: q[2], q[3]: q[3]}
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_43_1.svg" src="_images/manual_circuit_43_1.svg" /></div>
+<img alt="_images/manual_circuit_44_1.svg" src="_images/manual_circuit_44_1.svg" /></div>
 </div>
 <p>This procedure essentially exploits the naturality of the symmetry operator in the resource theory to push it to the end of the circuit: the <code class="docutils literal notranslate"><span class="pre">Rx</span></code> gate has moved from qubit <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> to <code class="docutils literal notranslate"><span class="pre">q[0]</span></code> and can be commuted through to the start. This is automatically considered when composing two <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together.</p>
 <p>The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> backends, but care should be taken when reading from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> directly - two quantum <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.implicit_qubit_permutation()</span></code> method can be used to inspect such a permutation.</p>
@@ -2053,7 +2087,7 @@ This is part of the default compilation pass for that backend, so if you use tha
 <h3>Modifying Operations Within Circuits<a class="headerlink" href="#modifying-operations-within-circuits" title="Permalink to this headline">¶</a></h3>
 <p>Symbolic parameters allow one to construct a circuit with some not-yet-assigned parameters, and later (perhaps after some optimization), to instantiate them with different values. Occasionally, however, one may desire more flexibility in substituting operations within a circuit. For example, one may wish to apply controls from a certain qubit to certain operations, or to insert or remove certain operations.</p>
 <p>This can be achieved with <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, provided the mutable operations are tagged during circuit construction with identifying names (which can be arbitrary strings). If two operations are given the same name then they belong to the same “operation group”; they can (and must) then be substituted simultaneously.</p>
-<p>Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substitured operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)</p>
+<p>Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substituted operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)</p>
 <p>To add gates or boxes to a circuit with specified op group names, simply pass the name as a keyword argument <code class="docutils literal notranslate"><span class="pre">opgroup</span></code> to the method that adds the gate or box. To substitute all operations in a group, use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.substitute_named()</span></code> method. This can be used to substitute a circuit, an operation or a box into the existing circuit.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
