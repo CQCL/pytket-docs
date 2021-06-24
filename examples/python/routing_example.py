@@ -439,12 +439,12 @@ from pytket.passes import SequencePass, RoutingPass, DecomposeSwapsToCXs
 
 # Finally, lets demonstrate the pass system using new devices from ```pytket-qiskit``` and ```pytket-cirq```.
 
-melbourne_backend = provider.get_backend("ibmq_16_melbourne")
-melbourne_characterisation = process_characterisation(melbourne_backend)
-melbourne_device = Device(
-    melbourne_characterisation["NodeErrors"],
-    melbourne_characterisation["EdgeErrors"],
-    melbourne_characterisation["Architecture"],
+quito_backend = provider.get_backend("ibmq_quito")
+quito_characterisation = process_characterisation(quito_backend)
+quito_device = Device(
+    quito_characterisation["NodeErrors"],
+    quito_characterisation["EdgeErrors"],
+    quito_characterisation["Architecture"],
 )
 
 import cirq_google
@@ -479,8 +479,8 @@ def predicate_route_device(my_circuit, my_device):
 from pytket.qasm import circuit_from_qasm
 
 comparison_circuit = circuit_from_qasm("qasm/routing_example_circuit.qasm")
-melbourne_circuit, melbourne_valid = predicate_route_device(
-    comparison_circuit, melbourne_device
+quito_circuit, quito_valid = predicate_route_device(
+    comparison_circuit, quito_device
 )
 foxtail_circuit, foxtail_valid = predicate_route_device(
     comparison_circuit, foxtail_device
@@ -490,12 +490,12 @@ bristlecone_circuit, bristlecone_valid = predicate_route_device(
 )
 
 print(
-    "Melbourne circuit, number of CX gates:",
-    melbourne_circuit.n_gates_of_type(OpType.CX),
+    "quito circuit, number of CX gates:",
+    quito_circuit.n_gates_of_type(OpType.CX),
     ", depth of CX gates:",
-    melbourne_circuit.depth_by_type(OpType.CX),
+    quito_circuit.depth_by_type(OpType.CX),
     ", result valid:",
-    melbourne_valid,
+    quito_valid,
 )
 print(
     "Foxtail circuit, number of CX gates:",
