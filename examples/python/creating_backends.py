@@ -260,23 +260,40 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
     return SequencePass(seq)
 
 
-# The `device` property is used for hardware devices and noisy simulators to represent the connectivity information and noise characteristics. This can be used within the `required_predicates` and `default_compilation_pass` to capture and solve the connectivity constraints.
-#
-# Since our simulator is noiseless, we will just return `None`.
+# The `backend_info` property is used for storing variuos properties of a backend. By default it provides all device information useful for compilation. Typically we would  make it return a class attribute `self._backend_info` that we initialise on construction, but we will define it at point of request here.
 
-from pytket.device import Device
-from typing import Optional
+
+from pytket.backends.backendinfo import BackendInfo
 
 
 @property
-def device(self) -> Optional[Device]:
-    """Retrieve the Device targeted by the backend if it exists.
+def backend_info(self) -> BackendInfo:
+    return BackendInfo(
+        "MyBackend",
+        "MySimulator",
+        "1.0",
+        "Architecture([])",
+        {
+            OpType.Rx,
+            OpType.Ry,
+            OpType.Rz,
+            OpType.ZZMax,
+            OpType.Measure,
+        },
+        supports_midcircuit_measurement=False,
+        misc={"characterisation": None},
+    )
 
-    :return: The Device that this backend targets if it exists. The Device
-        object contains information about gate errors and device architecture.
-    :rtype: Optional[Device]
-    """
-    return None
+
+# The `characterisation` property functions as an additional information store for a `Backend`. This is intended to hold hardware specific characterisation information such as gate fidelities. Typically these are held in the `backend_info` misc attribute, a bucket dictionary that takes strings as keys and can store Any object as values.
+
+from typing import Dict, Any, Optional
+
+
+@property
+def characterisation(self) -> Optional[Dict[str, Any]]:
+    char = self._backend_info.get_misc("characterisation")
+    return cast(Dict[str, Any], char) if char else None
 
 
 # Asynchronous job management is all managed through the `ResultHandle` associated with a particular `Circuit` that has been submitted. We can use it to inspect the status of the job to see if it has completed, or to look up the results if they are available.
@@ -389,7 +406,6 @@ class MyBackend(Backend):
 
     required_predicates = required_predicates
     default_compilation_pass = default_compilation_pass
-    device = device
     _result_id_type = _result_id_type
     circuit_status = circuit_status
     process_circuits = process_circuits
@@ -535,7 +551,7 @@ def sample_mycircuit(
 # Since `MyCircuit` doesn't have a representation for measurement gates, our converter must return both the `MyCircuit` object and some way of capturing the measurements. Since we will also want to know how they map into our `Bit` ids, the simplest option is just a dictionary from `Qubit` to `Bit`.
 
 from pytket import Bit
-from typing import Tuple, Dict
+from typing import Tuple
 
 
 def tk_to_mymeasures(tkc: Circuit) -> Tuple[MyCircuit, Dict[Qubit, Bit]]:
@@ -600,7 +616,6 @@ class MySampler(Backend):
         super().__init__()
 
     default_compilation_pass = default_compilation_pass
-    device = device
     _result_id_type = _result_id_type
     circuit_status = circuit_status
 
@@ -763,5 +778,5 @@ test_sampler_expectation_value()
 
 # Exercises:
 # - Add some extra gate definitions to the simulator and expand the accepted gate set of the backends. Start with some that are easily represented as exponentiated Pauli tensors like `OpType.YYPhase`. For a challenge, try adding `OpType.CCX` efficiently (it is possible to encode it using seven Pauli rotations).
-# - Restrict the simulator to a limited qubit connectivity. Express this in the backends by setting the `device` property to a `pytket.Device` object and adding to the `required_predicates`. Adjust the `default_compilation_pass` to solve for the connectivity.
+# - Restrict the simulator to a limited qubit connectivity. Express this in the backends by modifying the `Architecture` property of the `BackendInfo` attribute object and adding to the `required_predicates`. Adjust the `default_compilation_pass` to solve for the connectivity.
 # - The file `creating_backends_exercise.py` extends the simulators above to allow for mid-circuit measurement and conditional gates using a binary decision tree. Implement an appropriate converter and `Backend` class for this simulator.
