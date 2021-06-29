@@ -72,9 +72,14 @@ The ``characterisation`` member of :py:class:`Backend` contains all characterisa
 
 There is typically a large variation in device noise characteristics.
 
+.. jupyter-input::
+
+    print(backend.characterisation["NodeErrors"])
+    print(backend.characterisation["EdgeErrors"])
+    
 .. jupyter-output::
 
-    Single qubit errors:
+    Node Errors:
     node[0]
         Readout: 0.041
         U3: 0.00120274
@@ -106,7 +111,7 @@ There is typically a large variation in device noise characteristics.
         U1: 0
         noop: 0.000468982
 
-    Two qubit errors:
+    Edge Errors:
     node[0]->node[1]
         CX: 0.0215313
     node[1]->node[0]
