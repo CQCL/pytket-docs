@@ -278,7 +278,7 @@ from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwareP
 #
 
 # ```Placement```, ```LinePlacement``` and ```GraphPlacement``` only require an architecture device when producing placements.
-# ```NoiseAwarePlacement``` requires additional information about the average single and two-qubit gate error rates for each qubit and coupling, along with readout error rates.
+# ```NoiseAwarePlacement``` requires additional information about the average single- and two-qubit gate error rates for each qubit and coupling, along with readout error rates.
 # The ```get_avg_characterisation``` method can be used to convert the characterisation stored in the IBMQ provider backend object to the averaged error rates required.
 
 
