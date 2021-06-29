@@ -341,7 +341,7 @@ print(
     noise_aware_routed_circuit.n_gates_of_type(OpType.CX),
 )
 
-# In this example the place methods available in ```GraphPlacement``` and ```NoiseAwarePlacement``` perform better than the ```LinePlacement``` method for reducing overall ```CX``` gate overhead.
+# In this example all of the placement methods perform equally, giving the same overall ```CX``` gate overhead.
 #
 # We can also provide routing with custom initial maps, partial or full. Lets define a partial custom map for only one of the qubits and see how routing performs. We can do this using an index mapping:
 

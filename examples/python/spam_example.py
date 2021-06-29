@@ -21,20 +21,15 @@ from qiskit import IBMQ
 IBMQ.load_account()
 
 from pytket.extensions.qiskit import process_characterisation
-from pytket.device import Device
 
 ibmq_santiago_backend = IBMQ.providers()[0].get_backend("ibmq_santiago")
 pytket_santiago_characterisation = process_characterisation(ibmq_santiago_backend)
-pytket_santiago_device = Device(
-    pytket_santiago_characterisation["NodeErrors"],
-    pytket_santiago_characterisation["EdgeErrors"],
-    pytket_santiago_characterisation["Architecture"],
-)
+pytket_santiago_architecture = pytket_santiago_characterisation["Architecture"]
 
 import networkx as nx
 import matplotlib.pyplot as plt
 
-santiago_graph = nx.Graph(pytket_santiago_device.coupling)
+santiago_graph = nx.Graph(pytket_santiago_architecture.coupling)
 nx.draw(santiago_graph, labels={node: node for node in santiago_graph.nodes()})
 
 # SPAM correction requires subsets of qubits which are assumed to only have SPAM errors correlated with each other, and no other qubits.
@@ -43,14 +38,13 @@ nx.draw(santiago_graph, labels={node: node for node in santiago_graph.nodes()})
 #
 # As Santiago is a small 5-qubit device with few connections, let's assume that all qubits have correlated SPAM errors. The number of calibration circuits produced is exponential in the maximum number of correlated circuits, so finding good subsets of correlated qubits is important for characterising larger devices with smaller experimental overhead.
 #
-# We get a noise model from ```ibmq_santiago``` using qiskit-aer, make a simulator backend, and then execute all calibration circuits through the backend.
+# We can produce an ```IBMQEmulatorBackend``` to run this. This uses a noise model from ```ibmq_santiago``` produced using qiskit-aer. We can then execute all calibration circuits through the backend.
 
-from pytket.extensions.qiskit import AerBackend
-from qiskit.providers.aer.noise import NoiseModel
+from pytket.extensions.qiskit import IBMQEmulatorBackend, AerBackend
 
 n_shots = 8192
-santiago_node_subsets = pytket_santiago_device.nodes
-pytket_noisy_sim_backend = AerBackend(NoiseModel.from_backend(ibmq_santiago_backend))
+pytket_noisy_sim_backend = IBMQEmulatorBackend("ibmq_santiago")
+santiago_node_subsets = pytket_noisy_sim_backend.backend_info.architecture
 santiago_spam = SpamCorrecter([santiago_node_subsets], pytket_noisy_sim_backend)
 
 # The SpamCorrecter uses these subsets of qubits to produce calibration circuits.
@@ -68,7 +62,7 @@ santiago_spam.calculate_matrices(sim_count_results)
 from pytket import Circuit
 
 ghz_circuit = (
-    Circuit(len(pytket_santiago_device.nodes)).H(0).CX(0, 1).CX(1, 2).measure_all()
+    Circuit(len(pytket_noisy_sim_backend.backend_info.architecture.nodes)).H(0).CX(0, 1).CX(1, 2).measure_all()
 )
 pytket_noisy_sim_backend.compile_circuit(ghz_circuit)
 ghz_noisy_handle = pytket_noisy_sim_backend.process_circuit(ghz_circuit, n_shots)
@@ -165,7 +159,7 @@ from pytket.extensions.qiskit import IBMQBackend
 
 ibm_backend = IBMQBackend("ibmq_santiago")
 
-santiago_spam_real = SpamCorrecter([ibm_backend.device.nodes], ibm_backend)
+santiago_spam_real = SpamCorrecter([ibm_backend.backend_info.architecture.nodes], ibm_backend)
 ibm_backend.compile_circuit(ghz_circuit)
 all_circuits = santiago_spam_real.calibration_circuits() + [ghz_circuit]
 ibm_handles = ibm_backend.process_circuits(all_circuits, n_shots)
