@@ -260,7 +260,7 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
     return SequencePass(seq)
 
 
-# The `backend_info` property is used for storing variuos properties of a backend. By default it provides all device information useful for compilation. Typically we would  make it return a class attribute `self._backend_info` that we initialise on construction, but we will define it at point of request here.
+# The `backend_info` property is used for storing various properties of a backend. By default it provides all device information useful for compilation. Typically we would  make it return a class attribute `self._backend_info` that we initialise on construction, but we will define it at point of request here.
 
 
 from pytket.backends.backendinfo import BackendInfo
@@ -285,7 +285,7 @@ def backend_info(self) -> BackendInfo:
     )
 
 
-# The `characterisation` property functions as an additional information store for a `Backend`. This is intended to hold hardware specific characterisation information such as gate fidelities. Typically these are held in the `backend_info` misc attribute, a bucket dictionary that takes strings as keys and can store Any object as values.
+# The `characterisation` property functions as an additional information store for a `Backend`. This is intended to hold hardware-specific characterisation information such as gate fidelities. Typically these are held in the `backend_info` `misc` attribute, a bucket dictionary that takes strings as keys and can store any objects as values.
 
 from typing import Dict, Any, Optional
 

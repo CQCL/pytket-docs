@@ -74,15 +74,14 @@ draw_graph(alternative_cube_architecture.coupling)
 
 # In many cases, we are interested in the architectures of real devices. These are available directly from the device backends, available within tket's respective extension packages. 
 
-# In reality a Quantum Device has much more information to it than just its connectivity constraints. 
-# This includes information we can use in noise-aware methods such as gate errors and readout errors for each qubit. These methods can improve circuit performance when running on real hardware. If available from hardware providers, a device Backend will store this information via a `BackendInfo` attribute.
+# In reality a Quantum Device has much more information to it than just its connectivity constraints. This includes information we can use in noise-aware methods such as gate errors and readout errors for each qubit. These methods can improve circuit performance when running on real hardware. If available from hardware providers, a device Backend will store this information via a `BackendInfo` attribute.
 
 from qiskit import IBMQ
 
 IBMQ.load_account()
 
 
-# We can produce an IBMQ Backend object using ```process_characterisation```. This returns a dictionary containing characteriastion informatino provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times along with the coupling graph of the device as a pytket ```Architecture```.
+# We can produce an IBMQ Backend object using ```process_characterisation```. This returns a dictionary containing characteriastion information provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times along with the coupling graph of the device as a pytket ```Architecture```.
 
 from pytket.circuit import OpType
 from pytket.extensions.qiskit.qiskit_convert import process_characterisation
@@ -96,7 +95,7 @@ draw_graph(quito_characterisation["Architecture"].coupling)
 for key, val in quito_characterisation["EdgeErrors"].items():
     print(key, val)
 
-# We've now seen how to create custom Architectures using indexing and nodes, how to use our built in Architecture generators for typical connectivity graphs and how to access characterisation information using the ```process_characterisation``` method.
+# We've now seen how to create custom Architectures using indexing and nodes, how to use our built-in Architecture generators for typical connectivity graphs and how to access characterisation information using the ```process_characterisation``` method.
 #
 # Let's now see how we can use these objects are used for Routing circuits - we create a circuit for Routing to our original architectures and assume the only primitive constraint is the ```CX``` gate, which can only be executed on an edge in our coupling map.
 
@@ -279,7 +278,7 @@ from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwareP
 #
 
 # ```Placement```, ```LinePlacement``` and ```GraphPlacement``` only require an architecture device when producing placements.
-# ```NoiseAwarePlacement``` requires additional information about the average single and two-qubit gate error rates for each qubit and coupling, along with readout error rates.
+# ```NoiseAwarePlacement``` requires additional information about the average single- and two-qubit gate error rates for each qubit and coupling, along with readout error rates.
 # The ```get_avg_characterisation``` method can be used to convert the characterisation stored in the IBMQ provider backend object to the averaged error rates required.
 
 
