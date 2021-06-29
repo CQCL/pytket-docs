@@ -95,7 +95,7 @@ draw_graph(quito_characterisation["Architecture"].coupling)
 for key, val in quito_characterisation["EdgeErrors"].items():
     print(key, val)
 
-# We've now seen how to create custom Architectures using indexing and nodes, how to use our built in Architecture generators for typical connectivity graphs and how to access characterisation information using the ```process_characterisation``` method.
+# We've now seen how to create custom Architectures using indexing and nodes, how to use our built-in Architecture generators for typical connectivity graphs and how to access characterisation information using the ```process_characterisation``` method.
 #
 # Let's now see how we can use these objects are used for Routing circuits - we create a circuit for Routing to our original architectures and assume the only primitive constraint is the ```CX``` gate, which can only be executed on an edge in our coupling map.
 
