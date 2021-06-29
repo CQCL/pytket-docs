@@ -44,7 +44,7 @@ from pytket.extensions.qiskit import IBMQEmulatorBackend, AerBackend
 
 n_shots = 8192
 pytket_noisy_sim_backend = IBMQEmulatorBackend("ibmq_santiago")
-santiago_node_subsets = pytket_noisy_sim_backend.backend_info.architecture
+santiago_node_subsets = pytket_noisy_sim_backend.backend_info.architecture.nodes
 santiago_spam = SpamCorrecter([santiago_node_subsets], pytket_noisy_sim_backend)
 
 # The SpamCorrecter uses these subsets of qubits to produce calibration circuits.
