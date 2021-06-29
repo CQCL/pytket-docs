@@ -68,16 +68,18 @@ information.
 
 .. Device class
 
-The :py:class:`Device` stores device characteristics used in noise aware mapping methods, including single-qubit and two-qubit gate error rates and readout error rates. The ``characterisation`` member of :py:class:`Backend` contains all characterisation information supplied by hardware providers.
+The ``characterisation`` member of :py:class:`Backend` contains all characterisation information supplied by hardware providers and used in noise aware mapping methods, including single-qubit and two-qubit gate error rates and readout error rates. 
+
+There is typically a large variation in device noise characteristics.
 
 .. jupyter-input::
 
-    print(repr(backend.device))
-
-
+    print(backend.characterisation["NodeErrors"])
+    print(backend.characterisation["EdgeErrors"])
+    
 .. jupyter-output::
 
-    Single qubit errors:
+    Node Errors:
     node[0]
         Readout: 0.041
         U3: 0.00120274
@@ -109,7 +111,7 @@ The :py:class:`Device` stores device characteristics used in noise aware mapping
         U1: 0
         noop: 0.000468982
 
-    Two qubit errors:
+    Edge Errors:
     node[0]->node[1]
         CX: 0.0215313
     node[1]->node[0]
@@ -128,8 +130,7 @@ The :py:class:`Device` stores device characteristics used in noise aware mapping
         CX: 0.016031
 
 
-We can also see the variation of device noise characteristics --
-consider ``node[0]`` which reports considerably larger error rates for a
+Consider ``node[0]`` which reports considerably larger error rates for a
 U3 gate than all other nodes.  Given this variety, it is possible, at
 least in principle, to achieve better overall performance by
 preferentially using the qubits and couplings with lowest error rate.
@@ -143,7 +144,7 @@ made in both phases.
 .. Noise-Aware placement is effective
 
 The class :py:class:`NoiseAwarePlacement` uses characteristics stored in
-:py:class:`Device` to find an initial placement of logical qubits on
+:py:class:`BackendInfo` to find an initial placement of logical qubits on
 physical qubits which minimises the error accrued during a circuit's
 execution.  It achieves this by minimising the additional
 ``OpType.SWAP`` overhead to route circuits, as in conventional
@@ -155,13 +156,16 @@ of our `software overview paper
 .. jupyter-input::
 
     from pytket.routing import NoiseAwarePlacement, GraphPlacement
+    from pytket.extensions.qiskit.qiskit_convert import get_avg_characterisation
 
-    noise_placer = NoiseAwarePlacement(backend.device)
-    graph_placer = GraphPlacement(backend.device)
+    backend_avg = get_avg_characterisation(backend)
+
+    noise_placer = NoiseAwarePlacement(backend.backend_info.architecture, **backend_avg)
+    graph_placer = GraphPlacement(backend.backend_info.architecture)
 
     circ = Circuit(3).CX(0,1).CX(0,2)
 
-    print(backend.device.coupling, '\n')
+    print(backend.backend_info.architecture.coupling, '\n')
 
     noise_placement = noise_placer.get_placement_map(circ)
     graph_placement = graph_placer.get_placement_map(circ)
@@ -195,29 +199,6 @@ constraints, however looking at the device characteristics for
 :py:class:`NoiseAwarePlacement` is over a set of qubits with generally
 better error rates.  This will produce a circuit whose output
 statistics are closer to the ideal, noiseless, distribution.
-
-
-.. Noise aware routing with just fidelity information is bad
-
-In addition, a basic heuristic for using CX error rates in routing is
-available in ``pytket``, as shown below.
-
-.. jupyter-input::
-
-    from pytket.routing import route, RoutingMethod
-    from pytket import Circuit
-
-    circ = Circuit(3).CX(0,1).CX(0,2).CX(1,2)
-    routed_circuit = route(circ, backend.device, routing_method = RoutingMethod.noise)
-
-However, we have found that gate fidelity information does not
-accurately identify the lowest error routing solutions on real devices
-for whole computations.  For this reason we recommend to use the
-default heuristic (outlined in `On the qubit routing problem
-<https://doi.org/10.4230/LIPIcs.TQC.2019.5>`_ ) which prioritises
-minimising the total number of additional ``OpType.SWAP`` gates added
-to the circuit.
-
 
 .. Frame Randomisation and friends
 
@@ -470,8 +451,8 @@ The :py:class:`SpamCorrecter` object uses these subsets of qubits to produce cal
     from pytket.utils.spam import SpamCorrecter
     from pytket.extensions.qiskit import IBMQBackend
 
-    backend = IBMQBackend("ibmq_london")
-    nodes = backend.device.nodes
+    backend = IBMQBackend("ibmq_quito")
+    nodes = backend.backend_info.architecture.nodes
 
     spam_correcter = SpamCorrecter([nodes])
 
@@ -488,7 +469,7 @@ The :py:class:`SpamCorrecter` object uses these subsets of qubits to produce cal
 
 
 
-Assuming SPAM correlation between all 5 qubits of the "ibmq_london" device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.
+Assuming SPAM correlation between all 5 qubits of the "ibmq_quito" device, there are a total of 32 calibration circuits total for constructing each basis state. Printing the commands of the second basis state preparation circuit, we see that the circuits simply apply X gates to the states of qubits initialised in the 0 state as appropriate.
 
 To display the performance of SPAM correction in a controlled environment, we can construct a noise model with measurement errors from ``qiskit-aer`` and use it to define a simulator backend with known measurement noise.
 
@@ -510,7 +491,7 @@ First the :py:class:`SpamCorrecter` is characterised using counts results for ca
 
     noisy_backend = AerBackend(noise_model)
     noiseless_backend = AerBackend()
-    spam_correcter = SpamCorrecter([noisy_backend.device.nodes], noisy_backend)
+    spam_correcter = SpamCorrecter([noisy_backend.backend_info.architecture.nodes], noisy_backend)
     calibration_circuits = spam_correcter.calibration_circuits()
 
     char_handles = noisy_backend.process_circuits(calibration_circuits, 1000)

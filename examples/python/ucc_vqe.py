@@ -454,7 +454,7 @@ def objective(params):
             partition_strat=PauliPartitionStrat.CommutingSets,
         )
         + nuclear_repulsion_energy
-    )
+    ).real
 
 
 # Optimise against the objective function:

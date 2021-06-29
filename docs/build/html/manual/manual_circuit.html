@@ -882,6 +882,7 @@ body {
     align-content: flex-start;
     margin: auto;
     width: fit-content;
+    background: rgba(255, 255, 255, 1);
 }
 .circuit-preview.condensed > .circuit-container{
     flex-wrap: nowrap;
@@ -943,6 +944,7 @@ body {
 /* Display qubit names at start of circuit */
 .circuit-layer.qubits{
     flex-grow: 0;
+    color: black;
 }
 .qubit{
     height: calc(var(--box-height) - 20px);
@@ -1024,6 +1026,7 @@ body {
 .gate_name{
     text-align: center;
     flex-grow: 1;
+    color: black;
 }
 /* Single qubit gate*/
 .gate_box{
@@ -1875,9 +1878,9 @@ True
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(0.5 \alpha \right)}\\0\\0\\- 1.0 i \sin{\left(0.5 \alpha \right)}\end{matrix}\right]\end{split}\]</div>
+\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(\frac{\alpha}{2} \right)}\\0\\0\\- i \sin{\left(\frac{\alpha}{2} \right)}\end{matrix}\right]\end{split}\]</div>
 <div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(0.5 \alpha \right)} &amp; 0 &amp; - 1.0 i \sin{\left(0.5 \alpha \right)} &amp; 0\\0 &amp; \cos{\left(0.5 \alpha \right)} &amp; 0 &amp; - 1.0 i \sin{\left(0.5 \alpha \right)}\\0 &amp; - 1.0 i \sin{\left(0.5 \alpha \right)} &amp; 0 &amp; \cos{\left(0.5 \alpha \right)}\\- 1.0 i \sin{\left(0.5 \alpha \right)} &amp; 0 &amp; \cos{\left(0.5 \alpha \right)} &amp; 0\end{matrix}\right]\end{split}\]</div>
+\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(\frac{\alpha}{2} \right)} &amp; 0 &amp; - i \sin{\left(\frac{\alpha}{2} \right)} &amp; 0\\0 &amp; \cos{\left(\frac{\alpha}{2} \right)} &amp; 0 &amp; - i \sin{\left(\frac{\alpha}{2} \right)}\\0 &amp; - i \sin{\left(\frac{\alpha}{2} \right)} &amp; 0 &amp; \cos{\left(\frac{\alpha}{2} \right)}\\- i \sin{\left(\frac{\alpha}{2} \right)} &amp; 0 &amp; \cos{\left(\frac{\alpha}{2} \right)} &amp; 0\end{matrix}\right]\end{split}\]</div>
 </div>
 </div>
 <p>The unitaries are calculated using the unitary representation of each <a class="reference external" href="https://cqcl.github.io/pytket/build/html/optype.html">OpType</a> , and according to the default <a class="reference external" href="manual_backend.html#interpreting-results">ILO BasisOrder convention used in backends</a>.

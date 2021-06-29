@@ -174,7 +174,7 @@ cu = CompilationUnit(circ)
 pass2.apply(cu)
 print(cu.circuit.get_commands())
 
-# ## Targeting devices and architectures
+# ## Targeting architectures
 
 # If we are given a target architecture, we can generate passes tailored to it.
 #
@@ -187,13 +187,7 @@ n = [Node("n", i) for i in range(5)]
 
 arc = Architecture([[n[0], n[1]], [n[1], n[2]], [n[2], n[3]], [n[3], n[4]]])
 
-# A `Device` is a model of a physical device, which encapsulates both its `Architecture` and its gate noise characteristics. Ignoring the latter, we can construct a 'noise-free' `Device` directly from an `Architecture`:
-
-from pytket.device import Device
-
-dev = Device(arc)
-
-# Suppose we have a circuit that we wish to run on this device:
+# Suppose we have a circuit that we wish to run on this architecture:
 
 circ = Circuit(5)
 circ.CX(0, 1)
@@ -208,11 +202,11 @@ circ.CX(0, 4)
 
 print(tk_to_qiskit(circ))
 
-# A mapping pass lets us rewrite this circuit for our device:
+# A mapping pass lets us rewrite this circuit for our architecture:
 
 from pytket.passes import DefaultMappingPass
 
-mapper = DefaultMappingPass(dev)
+mapper = DefaultMappingPass(arc)
 cu = CompilationUnit(circ)
 mapper.apply(cu)
 circ1 = cu.circuit
@@ -223,7 +217,7 @@ print(tk_to_qiskit(circ1))
 
 from pytket.passes import DecomposeSwapsToCXs
 
-pass1 = DecomposeSwapsToCXs(dev)
+pass1 = DecomposeSwapsToCXs(arc)
 pass1.apply(cu)
 circ2 = cu.circuit
 

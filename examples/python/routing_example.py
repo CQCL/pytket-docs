@@ -72,101 +72,30 @@ from pytket.routing import SquareGrid
 alternative_cube_architecture = SquareGrid(2, 2, 2)
 draw_graph(alternative_cube_architecture.coupling)
 
-# In many cases, we are interested in the architectures of real devices. These are available directly from the device backends, available within tket's respective extension packages. We will see more on this further below.
+# In many cases, we are interested in the architectures of real devices. These are available directly from the device backends, available within tket's respective extension packages. 
 
-# In reality a Quantum Device has much more information to it than just its connectivity constraints. The Device class  encapsulates basic additional information used in fidelity aware qubit mapping methods available in pytket: gate errors and readout errors each qubit. Some methods in pytket can use this information to improve circuit performance when running on real hardware.
-#
-# Let's make a generic homogeneous Device using id_architecture with gate primitives constrained to ```H```, ```S```, ```T``` and ```CX```.
-
-from pytket.circuit import OpType
-from pytket.device import Device, QubitErrorContainer
-
-# First create an error type for our single qubit errors:
-
-single_qubit_error = 0.001  # gate error rate
-readout_error = 0.01
-single_qubit_gate_errors = QubitErrorContainer(
-    {
-        OpType.H: single_qubit_error,
-        OpType.S: single_qubit_error,
-        OpType.T: single_qubit_error,
-    }
-)
-single_qubit_gate_errors.add_readout(readout_error)
-
-# Second create an error type for our multi qubit errors:
-
-cx_error = 0.01
-cx_gate_errors = QubitErrorContainer({OpType.CX: cx_error})
-
-# Initialise a Device for id_architecture with homogeneous qubits and links:
-
-id_device = Device(
-    {
-        node_0: single_qubit_gate_errors,
-        node_1: single_qubit_gate_errors,
-        node_2: single_qubit_gate_errors,
-        node_3: single_qubit_gate_errors,
-    },
-    {
-        id_coupling_map[0]: cx_gate_errors,
-        id_coupling_map[0][::-1]: cx_gate_errors,
-        id_coupling_map[1]: cx_gate_errors,
-        id_coupling_map[1][::-1]: cx_gate_errors,
-        id_coupling_map[2]: cx_gate_errors,
-        id_coupling_map[2][::-1]: cx_gate_errors,
-    },
-    id_architecture,
-)
-
-id_device
-
-# Quantum Devices are full of different information and so creating an accurate Device object can become tedious.
-#
-# Our supported backends have helper methods for creating Devices. This requires installation of qiskit and a valid IBMQ user logged in.
+# In reality a Quantum Device has much more information to it than just its connectivity constraints. This includes information we can use in noise-aware methods such as gate errors and readout errors for each qubit. These methods can improve circuit performance when running on real hardware. If available from hardware providers, a device Backend will store this information via a `BackendInfo` attribute.
 
 from qiskit import IBMQ
 
 IBMQ.load_account()
 
-# If ```IBMQBackend``` available in ```pytket_qiskit``` is used the characterisation and Device is automatically constructed.
-#
-# Alternatively, lets use the ```process_characterisation``` method to access characterisation information for the quito computer and then construct a pytket device from suitable characteristics.
-#
-# The dictionary returned by ```process_characterisation``` returns additional characterisation information as provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times.
 
-from pytket.extensions.qiskit import process_characterisation
+# We can produce an IBMQ Backend object using ```process_characterisation```. This returns a dictionary containing characteriastion information provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times along with the coupling graph of the device as a pytket ```Architecture```.
+
+from pytket.circuit import OpType
+from pytket.extensions.qiskit.qiskit_convert import process_characterisation
 
 provider = IBMQ.providers()[0]
 quito_backend = provider.get_backend("ibmq_quito")
 quito_characterisation = process_characterisation(quito_backend)
-quito_device = Device(
-    quito_characterisation["NodeErrors"],
-    quito_characterisation["EdgeErrors"],
-    quito_characterisation["Architecture"],
-)
+draw_graph(quito_characterisation["Architecture"].coupling)
 
-print(quito_device.__repr__())
-print(quito_characterisation.keys())
+# This characterisation contains a range of information such as gate fidelities. Let's look at two-qubit gate errors.
+for key, val in quito_characterisation["EdgeErrors"].items():
+    print(key, val)
 
-draw_graph(quito_device.coupling)
-
-# Let's look at the some single-qubit Device information for different qubits:
-
-for quito_node in quito_device.nodes:
-    print(
-        "X error rate for",
-        quito_node,
-        "is",
-        quito_device.get_error(OpType.X, quito_node),
-    )
-
-# Likewise we can retrieve multi-qubit gate information.
-
-for edge in quito_device.coupling:
-    print("CX error rate for", edge, "is", quito_device.get_error(OpType.CX, edge))
-
-# We've now seen how to create custom Architectures using indexing and nodes, how to use our built in Architecture generators for typical connectivity graphs, how to create custom Devices using our QubitErrorContainers, and how to automatically generate a Device object for a real quantum computer straight from IBM.
+# We've now seen how to create custom Architectures using indexing and nodes, how to use our built-in Architecture generators for typical connectivity graphs and how to access characterisation information using the ```process_characterisation``` method.
 #
 # Let's now see how we can use these objects are used for Routing circuits - we create a circuit for Routing to our original architectures and assume the only primitive constraint is the ```CX``` gate, which can only be executed on an edge in our coupling map.
 
@@ -231,9 +160,9 @@ print(tk_to_qiskit(cmc_copy))
 
 # Similarly the circuits qubits have been relabelled and ```SWAP``` gates added. In this example though ```route``` is able to utilise the extra connectivity of cube_architecture to reduce the number of ```SWAP``` gates added from 3 to 1.
 #
-# We can easily route for Device objects using the same method:
+# We also route for the Quito architecture. 
 
-quito_modified_circuit = route(example_circuit, quito_device)
+quito_modified_circuit = route(example_circuit, quito_characterisation["Architecture"])
 
 for gate in quito_modified_circuit:
     print(gate)
@@ -247,7 +176,6 @@ print(tk_to_qiskit(quito_modified_circuit))
 # - (int) **bridge_lookahead**, the depth of lookahead employed when comparing ```BRIDGE``` gates to ```SWAP``` gates during Routing, default 2.
 # - (int) **bridge_interactions**, the number of interactions considered in a slice of multi-qubit gates when comparing ```BRIDGE``` gates to ```SWAP``` gates during routing, default 1.
 # - (float) **bridge_exponent**, effects the weighting placed on future slices when comparing ```BRIDGE``` gates to ```SWAP``` gates, default 0.
-# - (RoutingMethod) **routing_method**, determines ```SWAP``` picking strategy used during Routing, default RoutingMethod.base.
 
 # Let's change some of our basic routing parameters:
 
@@ -348,10 +276,16 @@ from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwareP
 
 # The default ```Placement``` assigns logical qubits to physical qubits as they are encountered during routing. ```LinePlacement``` uses a strategy described in https://arxiv.org/abs/1902.08091. ```GraphPlacement``` and ```NoiseAwarePlacement``` are described in Section 7.1 of https://arxiv.org/abs/2003.10611. The ```NoiseAwarePlacement``` method uses the same subgraph monomorphism strategy as ```GraphPlacement``` to find potential mappings, but scores them using device information to anticpiate which initial mapping will produce a circuit with best overall fidelity.
 #
-# Let's switch to using our ```quito_device``` as it has heterogeneous device information. For our ```example_circuit``` each method produces the following maps:
+
+# ```Placement```, ```LinePlacement``` and ```GraphPlacement``` only require an architecture device when producing placements.
+# ```NoiseAwarePlacement``` requires additional information about the average single- and two-qubit gate error rates for each qubit and coupling, along with readout error rates.
+# The ```get_avg_characterisation``` method can be used to convert the characterisation stored in the IBMQ provider backend object to the averaged error rates required.
+
+
+from pytket.extensions.qiskit.qiskit_convert import get_avg_characterisation
+quito_avg_characterisation = get_avg_characterisation(quito_characterisation)
 
 # Define a function for printing our maps:
-
 
 def print_qubit_mapping(the_map):
     print("Qubit to Node mapping:")
@@ -361,9 +295,13 @@ def print_qubit_mapping(the_map):
 
 # We can use the Placement objects to either modify the circuit in place, or return the mapping as a QubitMap.
 
-lp_quito = LinePlacement(quito_device)
-graph_quito = GraphPlacement(quito_device)
-noise_quito = NoiseAwarePlacement(quito_device)
+lp_quito = LinePlacement(quito_characterisation["Architecture"])
+graph_quito = GraphPlacement(quito_characterisation["Architecture"])
+noise_quito = NoiseAwarePlacement(
+                quito_characterisation["Architecture"], 
+                **quito_avg_characterisation)
+
+
 
 print("LinePlacement map:")
 print_qubit_mapping(lp_quito.get_placement_map(example_circuit))
@@ -381,9 +319,9 @@ graph_quito.place(gp_ex_circ)
 np_ex_circ = example_circuit.copy()
 noise_quito.place(np_ex_circ)
 
-line_routed_circuit = route(lp_ex_circ, quito_device)
-graph_routed_circuit = route(gp_ex_circ, quito_device)
-noise_aware_routed_circuit = route(np_ex_circ, quito_device)
+line_routed_circuit = route(lp_ex_circ, quito_characterisation["Architecture"])
+graph_routed_circuit = route(gp_ex_circ, quito_characterisation["Architecture"])
+noise_aware_routed_circuit = route(np_ex_circ, quito_characterisation["Architecture"])
 
 
 for c in [line_routed_circuit, graph_routed_circuit, noise_aware_routed_circuit]:
@@ -402,7 +340,7 @@ print(
     noise_aware_routed_circuit.n_gates_of_type(OpType.CX),
 )
 
-# In this example the place methods available in ```GraphPlacement``` and ```NoiseAwarePlacement``` perform better than the ```LinePlacement``` method for reducing overall ```CX``` gate overhead.
+# In this example all of the placement methods perform equally, giving the same overall ```CX``` gate overhead.
 #
 # We can also provide routing with custom initial maps, partial or full. Lets define a partial custom map for only one of the qubits and see how routing performs. We can do this using an index mapping:
 
@@ -415,7 +353,7 @@ print_qubit_mapping(partial_initial_map)
 
 partial_ex_circ = example_circuit.copy()
 place_with_map(partial_ex_circ, partial_initial_map)
-partial_routed_circuit = route(partial_ex_circ, quito_device)
+partial_routed_circuit = route(partial_ex_circ, quito_characterisation["Architecture"])
 
 
 Transform.DecomposeBRIDGE().apply(partial_routed_circuit)
@@ -429,7 +367,7 @@ print(
 
 # ## Routing with Predicates
 
-# While we've discussed methods that allow more control over the routing procedure used and allow for experimentation, circuits can easily be routed to a Device of choice using the ```pass``` system in ```pytket``` (further explanation of this system can be found in our compilation example notebook). In doing so we can use the ```ConnectivityPredicate``` to guarantee that our circuit obeys the connectivity constraints of the given Device object.
+# While we've discussed methods that allow more control over the routing procedure used and allow for experimentation, circuits can easily be routed to a Device of choice using the ```pass``` system in ```pytket``` (further explanation of this system can be found in our compilation example notebook). In doing so we can use the ```ConnectivityPredicate``` to guarantee that our circuit obeys the connectivity constraints of the given Architecture.
 #
 # Let's import the ```CompilationUnit``` object and some useful passes along with our ```ConnectivityPredicate```.
 
@@ -437,40 +375,24 @@ from pytket.predicates import CompilationUnit, ConnectivityPredicate
 
 from pytket.passes import SequencePass, RoutingPass, DecomposeSwapsToCXs
 
-# Finally, lets demonstrate the pass system using new devices from ```pytket-qiskit``` and ```pytket-cirq```.
-
-melbourne_backend = provider.get_backend("ibmq_16_melbourne")
-melbourne_characterisation = process_characterisation(melbourne_backend)
-melbourne_device = Device(
-    melbourne_characterisation["NodeErrors"],
-    melbourne_characterisation["EdgeErrors"],
-    melbourne_characterisation["Architecture"],
-)
-
+# Finally, lets demonstrate the pass system using other devices from  ```pytket-cirq```.
 import cirq_google
 import pytket.extensions.cirq as pc
 
 foxtail_characterisation = pc.process_characterisation(cirq_google.Foxtail)
-foxtail_device = Device(
-    foxtail_characterisation["NodeErrors"],
-    foxtail_characterisation["EdgeErrors"],
-    foxtail_characterisation["Architecture"],
-)
+foxtail_arc = foxtail_characterisation["Architecture"]
+
 
 bristlecone_characterisation = pc.process_characterisation(cirq_google.Bristlecone)
-bristlecone_device = Device(
-    bristlecone_characterisation["NodeErrors"],
-    bristlecone_characterisation["EdgeErrors"],
-    bristlecone_characterisation["Architecture"],
-)
+bristlecone_arc = bristlecone_characterisation["Architecture"]
 
 
-def predicate_route_device(my_circuit, my_device):
-    gp = GraphPlacement(my_device)
+def predicate_route_device(my_circuit, my_architecture):
+    gp = GraphPlacement(my_architecture)
     gp.place(my_circuit)
-    cu = CompilationUnit(my_circuit, [ConnectivityPredicate(my_device)])
+    cu = CompilationUnit(my_circuit, [ConnectivityPredicate(my_architecture)])
     routing_passes = SequencePass(
-        [RoutingPass(my_device), DecomposeSwapsToCXs(my_device, False)]
+        [RoutingPass(my_architecture), DecomposeSwapsToCXs(my_architecture, False)]
     )
     routing_passes.apply(cu)
     return cu.circuit, cu.check_all_predicates()
@@ -479,24 +401,13 @@ def predicate_route_device(my_circuit, my_device):
 from pytket.qasm import circuit_from_qasm
 
 comparison_circuit = circuit_from_qasm("qasm/routing_example_circuit.qasm")
-melbourne_circuit, melbourne_valid = predicate_route_device(
-    comparison_circuit, melbourne_device
-)
 foxtail_circuit, foxtail_valid = predicate_route_device(
-    comparison_circuit, foxtail_device
+    comparison_circuit, foxtail_arc
 )
 bristlecone_circuit, bristlecone_valid = predicate_route_device(
-    comparison_circuit, bristlecone_device
+    comparison_circuit, bristlecone_arc
 )
 
-print(
-    "Melbourne circuit, number of CX gates:",
-    melbourne_circuit.n_gates_of_type(OpType.CX),
-    ", depth of CX gates:",
-    melbourne_circuit.depth_by_type(OpType.CX),
-    ", result valid:",
-    melbourne_valid,
-)
 print(
     "Foxtail circuit, number of CX gates:",
     foxtail_circuit.n_gates_of_type(OpType.CX),

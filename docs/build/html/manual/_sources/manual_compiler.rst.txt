@@ -145,7 +145,7 @@ Placement
 
 .. Task of selecting appropriate physical qubits to use; better use of connectivity and better noise characteristics
 
-Initially, a :py:class:`Circuit` designed without a target device in mind will be expressed in terms of actions on a set of "logical qubits" - those with semantic meaning to the computation. A `placement` (or `initial mapping`) is a map from these logical qubits to the physical qubits of the device that will be used to carry them. A given placement may be preferred over another if the connectivity of the physical qubits better matches the interactions between the logical qubits caused by multi-qubit gates, or if the selection of physical qubits has better noise characteristics. All of the information for connectivity and noise characteristics of a given :py:class:`Backend` is wrapped up in a :py:class:`Device` object by the :py:attr:`Backend.device` property.
+Initially, a :py:class:`Circuit` designed without a target device in mind will be expressed in terms of actions on a set of "logical qubits" - those with semantic meaning to the computation. A `placement` (or `initial mapping`) is a map from these logical qubits to the physical qubits of the device that will be used to carry them. A given placement may be preferred over another if the connectivity of the physical qubits better matches the interactions between the logical qubits caused by multi-qubit gates, or if the selection of physical qubits has better noise characteristics. All of the information for connectivity and noise characteristics of a given :py:class:`Backend` is wrapped up in a :py:class:`BackendInfo` object by the :py:attr:`Backend.backend_info` property.
 
 .. Affects where the logical qubits start initially, but it not necessarily where they will end up being measured at the end
 
@@ -172,12 +172,12 @@ A placement pass will act in place on a :py:class:`Circuit` by renaming the qubi
     circ.H(0).H(1).H(2).Vdg(3)
     circ.measure_all()
 
-    backend = IBMQBackend("ibmq_london")
-    place = PlacementPass(GraphPlacement(backend.device))
+    backend = IBMQBackend("ibmq_quito")
+    place = PlacementPass(GraphPlacement(backend.backend_info.architecture))
     place.apply(circ)
 
     print(circ.get_commands())
-    print(ConnectivityPredicate(backend.device).verify(circ))
+    print(ConnectivityPredicate(backend.backend_info.architecture).verify(circ))
 
 .. jupyter-output::
 
@@ -199,8 +199,8 @@ In some circumstances, the best location is not fully determined immediately and
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
-    backend = IBMQBackend("ibmq_london")
-    place = PlacementPass(LinePlacement(backend.device))
+    backend = IBMQBackend("ibmq_quito")
+    place = PlacementPass(LinePlacement(backend.backend_info.architecture))
     place.apply(circ)
 
     print(circ.get_commands())
@@ -259,8 +259,8 @@ Several heuristics have been implemented for identifying candidate placements. F
     circ.CX(1, 3)   # Extra interaction hidden at higher depth than cutoff
 
     backend = IBMQBackend("ibmqx2")
-    g_pl = GraphPlacement(backend.device)
-    connected = ConnectivityPredicate(backend.device)
+    g_pl = GraphPlacement(backend.backend_info.architecture)
+    connected = ConnectivityPredicate(backend.backend_info.architecture)
 
     PlacementPass(g_pl).apply(circ)
     print(connected.verify(circ))   # Imperfect placement because the final CX was not considered
@@ -299,12 +299,12 @@ One solution here, is to scan through the :py:class:`Circuit` looking for invali
     from pytket.routing import GraphPlacement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
-    backend = IBMQBackend("ibmq_london")
-    PlacementPass(GraphPlacement(backend.device)).apply(circ)
+    backend = IBMQBackend("ibmq_quito")
+    PlacementPass(GraphPlacement(backend.backend_info.architecture)).apply(circ)
     print(circ.get_commands())  # One qubit still unplaced
                                 # node[0] and node[2] are not adjacent
 
-    RoutingPass(backend.device).apply(circ)
+    RoutingPass(backend.backend_info.architecture).apply(circ)
     print(circ.get_commands())
 
 .. jupyter-output::
@@ -573,8 +573,8 @@ After solving for the device connectivity, we then need to restrict what optimis
     FullPeepholeOptimise().apply(circ)      # Freely rewrite circuit
     print(circ.n_gates_of_type(OpType.CX))
 
-    backend = IBMQBackend("ibmq_london")
-    DefaultMappingPass(backend.device).apply(circ)
+    backend = IBMQBackend("ibmq_quito")
+    DefaultMappingPass(backend.backend_info.architecture).apply(circ)
     RebaseIBM().apply(circ)
     print(circ.n_gates_of_type(OpType.CX))  # Routing adds gates
     print(circ.get_commands())
@@ -660,9 +660,9 @@ We can wrap up a :py:class:`Circuit` in a :py:class:`CompilationUnit` to allow u
     from pytket.predicates import CompilationUnit
     circ = Circuit(5, 5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3).CX(0, 4).measure_all()
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     cu = CompilationUnit(circ)
-    DefaultMappingPass(backend.device).apply(cu)
+    DefaultMappingPass(backend.backend_info.architecture).apply(cu)
     print(cu.circuit.get_commands())
     print(cu.initial_map)
     print(cu.final_map)
@@ -750,7 +750,7 @@ The main technical consideration here is that the compiler will only have the fr
     measure1 = Circuit(4, 4)
     measure1.CX(1, 2).CX(3, 2).measure_all()
 
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
     cu = CompilationUnit(state_prep)
     backend.default_compilation_pass().apply(cu)
     Placement.place_with_map(measure0, cu.final_map)
