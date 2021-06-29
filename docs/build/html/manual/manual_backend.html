@@ -194,6 +194,23 @@
 <p>Every device and simulator will have some restrictions to allow for a simpler implementation or because of the limits of engineering or noise within a device. For example, devices and simulators are typically designed to only support a small (but universal) gate set, so a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> containing other gate types could not be run immediately. However, as long as the fragment supported is universal, it is enough to be able to compile down to a semantically-equivalent <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which satisfies the requirements, for example, by translating each unknown gate into sequences of known gates.</p>
 <p>Other common restrictions presented by QPUs include the number of available qubits and their connectivity (multi-qubit gates may only be performed between adjacent qubits on the architecture). Measurements may also be noisy or take a long time on some QPUs, leading to the destruction or decoherence of any remaining quantum state, so they are artificially restricted to only happen in a single layer at the end of execution and mid-circuit measurements are rejected. More extremely, some classes of classical simulators will reject measurements entirely as they are designed to simulate pure quantum circuits (for example, when looking to yield a statevector or unitary deterministically).</p>
 <p>Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> object is aware of the restrictions of the underlying device or simulator, encoding them as a collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s. Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> is essentially a Boolean property of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which must return <code class="docutils literal notranslate"><span class="pre">True</span></code> for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to successfully run. The set of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s required by a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> can be queried with <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.required_predicates</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span><span class="p">,</span> <span class="n">AerStateBackend</span>
+<span class="n">dev_b</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
+<span class="n">sim_b</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dev_b</span><span class="o">.</span><span class="n">required_predicates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sim_b</span><span class="o">.</span><span class="n">required_predicates</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[NoClassicalControlPredicate, NoFastFeedforwardPredicate, NoMidMeasurePredicate, NoSymbolsPredicate, GateSetPredicate:{ U1 noop U2 CX Barrier Measure U3 }, DirectednessPredicate:{ Nodes: 5, Edges: 8 }]
+[NoClassicalControlPredicate, NoFastFeedforwardPredicate, GateSetPredicate:{ CU1 CZ CX Unitary2qBox Sdg U1 Unitary1qBox SWAP S U2 CCX Y U3 Z X T noop Tdg Reset H }]
+</pre></div>
+</div>
+</div>
+</div>
 <p>Knowing the requirements of each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is handy in case it has consequences for how you design a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, but can generally be abstracted away. Calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.valid_circuit()</span></code> can check whether or not a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> satisfies every requirement to run on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and if it is not immediately valid then <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code> will modify the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -256,26 +273,26 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
  [1 1]
- [0 1]
- [0 1]
- [1 1]
- [0 1]
- [0 1]
- [0 1]
- [0 1]
- [1 1]
- [0 1]
- [0 1]
- [0 1]
- [0 1]
- [0 1]
  [0 1]
  [1 1]
  [1 1]
  [1 1]
- [0 1]]
+ [0 1]
+ [0 1]
+ [1 1]
+ [0 1]
+ [1 1]
+ [1 1]
+ [0 1]
+ [0 1]
+ [1 1]
+ [0 1]
+ [1 1]
+ [0 1]
+ [0 1]
+ [1 1]]
 </pre></div>
 </div>
 </div>
@@ -301,8 +318,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1041, (1, 1): 959})
-{(0, 1): 0.5205, (1, 1): 0.4795}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1001, (0, 1): 999})
+{(0, 1): 0.4995, (1, 1): 0.5005}
 </pre></div>
 </div>
 </div>
@@ -474,7 +491,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.014000000000000012
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.01200000000000001
 </pre></div>
 </div>
 </div>
@@ -534,8 +551,8 @@ Counter({(1, 0): 10})
   0.        +0.j  0.        +0.j  0.        +0.j  0.        +0.j]
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 0): 806, (0, 0, 0): 788, (0, 0, 1): 222, (1, 0, 1): 184})
-Counter({(0, 0): 1594, (0, 1): 406})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 831, (1, 0, 0): 766, (1, 0, 1): 210, (0, 0, 1): 193})
+Counter({(0, 0): 1597, (0, 1): 403})
 </pre></div>
 </div>
 </div>
@@ -582,10 +599,10 @@ Counter({(0, 0): 1594, (0, 1): 406})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.026000000000000023
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.010000000000000009
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.242000000000000
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.285+0j)
 </pre></div>
 </div>
 </div>
@@ -613,8 +630,8 @@ Counter({(0, 0): 1594, (0, 1): 406})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 0): 437, (0, 1, 1): 388, (0, 0, 0): 384, (0, 0, 1): 377, (1, 0, 1): 120, (1, 1, 0): 112, (1, 0, 0): 97, (1, 1, 1): 85})
-0.0040000000000000036
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 0): 435, (0, 0, 1): 406, (0, 1, 1): 404, (0, 0, 0): 366, (1, 1, 1): 102, (1, 0, 0): 97, (1, 1, 0): 96, (1, 0, 1): 94})
+-0.040000000000000036
 </pre></div>
 </div>
 </div>
@@ -653,7 +670,7 @@ Counter({(0, 0): 1594, (0, 1): 406})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 137, (0, 0, 0): 133, (0, 1, 0): 125, (1, 0, 1): 125, (1, 0, 0): 122, (1, 1, 0): 122, (1, 1, 1): 122, (0, 1, 1): 114})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1, 0): 137, (1, 1, 1): 133, (1, 0, 0): 130, (0, 1, 1): 129, (0, 0, 0): 125, (1, 0, 1): 125, (0, 1, 0): 112, (0, 0, 1): 109})
 </pre></div>
 </div>
 </div>
@@ -706,7 +723,7 @@ Counter({(0, 0): 1594, (0, 1): 406})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.008000000000000007
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.0129999999999999
 </pre></div>
 </div>
 </div>
@@ -717,6 +734,53 @@ Counter({(0, 0): 1594, (0, 1): 406})
 <p>Current public-access quantum computers tend to implement either a queueing or a reservation system for mediating access. Whilst the queue-based access model gives relative fairness, guarantees availability, and maximises throughput and utilisation of the hardware, it also presents a big problem to the user with regards to latency. Whenever a circuit is submitted, not only must the user wait for it to be run on the hardware, but they must wait longer for their turn before it can even start running. This can end up dominating the time taken for the overall experiment, especially when demand is high for a particular device.</p>
 <p>We can mitigate the problem of high queue latency by batching many <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together. This means that we only have to wait the queue time once, since after the first <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is run the next one is run immediately rather than joining the end of the queue.</p>
 <p>To maximise the benefits of batch submission, it is advisable to generate as many of your <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code> (plural) will then submit all the provided <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s simultaneously and return a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to allow each result to be extracted individually for interpretation. Since there is no longer a single <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> s to extract for each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> or the coefficient to multiply the expectation value by.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+<span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">expectation_from_counts</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
+
+<span class="n">state</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX</span>
+<span class="n">zzz</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">zzz</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">xzz</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">xzz</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">xxx</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">xxx</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">circ_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">zzz</span><span class="p">,</span> <span class="n">xzz</span><span class="p">,</span> <span class="n">xxx</span><span class="p">]:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">circ_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">coeff_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="o">-</span><span class="mf">0.3</span><span class="n">j</span><span class="p">,</span>  <span class="c1"># ZZZ</span>
+    <span class="mf">0.8</span><span class="p">,</span>    <span class="c1"># XZZ</span>
+    <span class="mf">1.2</span>     <span class="c1"># XXX</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">circ_list</span><span class="p">:</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">handle_list</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">circ_list</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">result_list</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">handle_list</span><span class="p">)</span>
+
+<span class="n">expectation</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">coeff</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coeff_list</span><span class="p">,</span> <span class="n">result_list</span><span class="p">):</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+    <span class="n">expectation</span> <span class="o">+=</span> <span class="n">coeff</span> <span class="o">*</span> <span class="n">expectation_from_counts</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">expectation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(1.2047999999999999-0.0015000000000000013j)
+</pre></div>
+</div>
+</div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Currently, only the devices from IBMQ, Honeywell and Amazon Braket support a queue model and benefit from this methodology, though more may adopt this in future. The <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> simulator can take advantage of batch submission for parallelisation. In all other cases, <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code> will just loop through each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in turn.</p>
@@ -813,6 +877,69 @@ Counter({(0, 0): 1594, (0, 1): 406})
 <p>In the near future, as we look to more sophisticated algorithms and larger problem instances, the quantity and size of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to be run per experiment and the number of shots required to obtain satisfactory precision will mean the time taken for the quantum computation could exceed that of the classical computation. At this point, the overall algorithm can be sped up by maintaining maximum throughput on the quantum device and minimising how often the quantum device is left idle whilst the classical system is determining the next <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to send. This can be achieved by writing your algorithm to operate asynchronously.</p>
 <p>The intended semantics of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuit&lt;s&gt;()</span></code> will submit the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> (s) and immediately return.</p>
 <p>The progress can be checked by querying <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.circuit_status()</span></code>. If this returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitStatus</span></code> matching <code class="docutils literal notranslate"><span class="pre">StatusEnum.COMPLETED</span></code>, then <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_X()</span></code> will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.backends</span> <span class="kn">import</span> <span class="n">StatusEnum</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+<span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">expectation_from_counts</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
+
+<span class="n">state</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX</span>
+<span class="n">zzz</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">zzz</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">xzz</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">xzz</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">xxx</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">xxx</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">circ_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">zzz</span><span class="p">,</span> <span class="n">xzz</span><span class="p">,</span> <span class="n">xxx</span><span class="p">]:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">circ_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">coeff_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="o">-</span><span class="mf">0.3</span><span class="n">j</span><span class="p">,</span>  <span class="c1"># ZZZ</span>
+    <span class="mf">0.8</span><span class="p">,</span>    <span class="c1"># XZZ</span>
+    <span class="mf">1.2</span>     <span class="c1"># XXX</span>
+<span class="p">]</span>
+
+<span class="n">handle_list</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">circ_list</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">check_at_intervals</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">interval</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">circuit_status</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">status</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">(</span><span class="n">StatusEnum</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="n">StatusEnum</span><span class="o">.</span><span class="n">ERROR</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">status</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">expectation</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">coeff</span><span class="p">):</span>
+    <span class="k">await</span> <span class="n">check_at_intervals</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">coeff</span> <span class="o">*</span> <span class="n">expectation_from_counts</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">task_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">expectation</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span> <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">handle_list</span><span class="p">,</span> <span class="n">coeff_list</span><span class="p">)])</span>
+    <span class="n">done</span><span class="p">,</span> <span class="n">pending</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">task_set</span><span class="p">,</span> <span class="n">return_when</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">ALL_COMPLETED</span><span class="p">)</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">done</span><span class="p">:</span>
+        <span class="nb">sum</span> <span class="o">+=</span> <span class="k">await</span> <span class="n">t</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(1.2087999999999999-0.002400000000000002j)
+</pre></div>
+</div>
+</div>
+</div>
 <p>In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.cancel()</span></code> method to cancel the job for a given <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code>. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -823,6 +950,49 @@ Counter({(0, 0): 1594, (0, 1): 406})
 <h3>Persistent Handles<a class="headerlink" href="#persistent-handles" title="Permalink to this headline">¶</a></h3>
 <p>Being able to split your processing into distinct procedures for <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> generation and result interpretation can help improve throughput on the quantum device, but it can also provide a way to split the processing between different Python sessions. This may be desirable when the classical computation to interpret the results and determine the next experiment parameters is sufficiently intensive that we would prefer to perform it offline and only reserve a quantum device once we are ready to run more. Furthermore, resuming with previously-generated results could benefit repeatability of experiments and better error-safety since the logged results can be saved and reused.</p>
 <p>Some <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s support persistent handles, in that the <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> object can be stored and the associated results obtained from another instance of the same <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> in a different session. This is indicated by the boolean <code class="docutils literal notranslate"><span class="pre">persistent_handles</span></code> property of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>. Use of persistent handles can greatly reduce the amount of logging you would need to do to take advantage of this workflow.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># assert backend.persistent_handles</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">handle</span><span class="p">))</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(&#39;5e8f3dcbbb7d8500119cfbf6&#39;, 0)
+{(0, 1, 1): 1000}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.backends</span> <span class="kn">import</span> <span class="n">ResultHandle</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
+
+<span class="n">handle</span> <span class="o">=</span> <span class="n">ResultHandle</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;(&#39;5e8f3dcbbb7d8500119cfbf6&#39;, 0)&quot;</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{(0, 1, 1): 1000}
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="result-serialization">
 <h3>Result Serialization<a class="headerlink" href="#result-serialization" title="Permalink to this headline">¶</a></h3>
@@ -853,7 +1023,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 6, (0, 0): 4})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 7, (1, 1): 3})
 </pre></div>
 </div>
 </div>

@@ -34,7 +34,7 @@ Each :py:class:`Backend` object is aware of the restrictions of the underlying d
 .. jupyter-input::
 
     from pytket.extensions.qiskit import IBMQBackend, AerStateBackend
-    dev_b = IBMQBackend("ibmq_london")
+    dev_b = IBMQBackend("ibmq_quito")
     sim_b = AerStateBackend()
     print(dev_b.required_predicates)
     print(sim_b.required_predicates)
@@ -470,7 +470,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.utils import expectation_from_counts
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
@@ -609,7 +609,7 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
     from pytket.backends import StatusEnum
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.utils import expectation_from_counts
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
@@ -676,7 +676,7 @@ Some :py:class:`Backend` s support persistent handles, in that the :py:class:`
 
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
 
     circ = Circuit(3, 3)
     circ.X(1).CZ(0, 1).CX(1, 2).measure_all()
@@ -697,7 +697,7 @@ Some :py:class:`Backend` s support persistent handles, in that the :py:class:`
 
     from pytket.backends import ResultHandle
     from pytket.extensions.qiskit import IBMQBackend
-    backend = IBMQBackend("ibmq_london")
+    backend = IBMQBackend("ibmq_quito")
 
     handle = ResultHandle.from_str("('5e8f3dcbbb7d8500119cfbf6', 0)")
     counts = backend.get_result(handle).get_counts()
