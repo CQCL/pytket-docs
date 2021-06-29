@@ -272,7 +272,7 @@ def backend_info(self) -> BackendInfo:
         "MyBackend",
         "MySimulator",
         "1.0",
-        "Architecture([])",
+        Architecture([]),
         {
             OpType.Rx,
             OpType.Ry,
