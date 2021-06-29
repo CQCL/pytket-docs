@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.backends &mdash; pytket 0.11.0 documentation</title>
+  <title>pytket.backends &mdash; pytket 0.12.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.11
+                0.12
               </div>
             
           
@@ -112,11 +112,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-pytket.backends.resulthandle">pytket.backends.resulthandle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pytket.backends.backendresult">pytket.backends.backendresult</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pytket.backends.status">pytket.backends.status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pytket.backends.backendinfo">pytket.backends.backendinfo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
@@ -236,6 +236,20 @@ corresponding to the ResultHandle</p>
 <dt class="sig sig-object py" id="pytket.backends.Backend.compile_circuit">
 <span class="sig-name descname"><span class="pre">compile_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimisation_level</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.backends.Backend.compile_circuit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the default_compilation_pass to a circuit in place.</p>
+<p>As well as applying a degree of optimisation (controlled by the
+<cite>optimisation_level</cite> parameter), this method tries to ensure that the circuit
+can be run on the backend (i.e. successfully passed to
+<a class="reference internal" href="#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a>), for example by rebasing to the supported gate set,
+or routing to match the connectivity of the device. However, this is not always
+possible, for example if the circuit contains classical operations that are not
+supported by the backend. You may use <a class="reference internal" href="#pytket.backends.Backend.valid_circuit" title="pytket.backends.Backend.valid_circuit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">valid_circuit()</span></code></a> to check whether
+the circuit meets the backend’s requirements after compilation. This validity
+check is included in <a class="reference internal" href="#pytket.backends.Backend.process_circuits" title="pytket.backends.Backend.process_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuits()</span></code></a> by default, before any circuits
+are submitted to the backend.</p>
+<p>If the validity check fails, you can obtain more information about the failure
+by iterating through the predicates in the <cite>required_predicates</cite> property of the
+backend, and running the <code class="xref py py-meth docutils literal notranslate"><span class="pre">verify()</span></code> method on each in turn with your
+circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -453,7 +467,7 @@ qubit q[0] is in state <span class="math notranslate nohighlight">\(\left|0\righ
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.backends.Backend.process_circuits">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">process_circuits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shots</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_check</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><span class="pre">pytket.backends.resulthandle.ResultHandle</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.backends.Backend.process_circuits" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">process_circuits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_shots</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_check</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pytket.backends.resulthandle.ResultHandle" title="pytket.backends.resulthandle.ResultHandle"><span class="pre">pytket.backends.resulthandle.ResultHandle</span></a><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pytket.backends.Backend.process_circuits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit circuits to the backend for running. The results will be stored
 in the backend’s result cache to be retrieved by the corresponding
 get_&lt;data&gt; method.</p>
@@ -472,9 +486,10 @@ list:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>circuits</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
-<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. None is to be used
-for state/unitary simulators. Defaults to None.</p></li>
+<li><p><strong>circuits</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="circuit_class.html#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><em>Circuit</em></a><em>]</em>) – Circuits to process on the backend.</p></li>
+<li><p><strong>n_shots</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>, </em><em>Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – Number of shots to run per circuit. Optionally, this can be
+a list of shots specifying the number of shots for each circuit separately.
+None is to be used for state/unitary simulators. Defaults to None.</p></li>
 <li><p><strong>valid_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>, </em><em>optional</em>) – Explicitly check that all circuits satisfy all required
 predicates to run on the backend. Defaults to True</p></li>
 </ul>
@@ -507,6 +522,22 @@ the same order as the circuits.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="pytket.backends.Backend.backend_info">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">backend_info</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional[pytket.backends.backendinfo.BackendInfo]</span></em><a class="headerlink" href="#pytket.backends.Backend.backend_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve all Backend properties in a BackendInfo object, including
+device architecture, supported gate set, gate errors and other hardware-specific
+information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The BackendInfo describing this backend if it exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Optional[<a class="reference internal" href="#pytket.backends.backendinfo.BackendInfo" title="pytket.backends.backendinfo.BackendInfo">BackendInfo</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="pytket.backends.Backend.characterisation">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">characterisation</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional[dict]</span></em><a class="headerlink" href="#pytket.backends.Backend.characterisation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the characterisation targeted by the backend if it exists.</p>
@@ -518,21 +549,6 @@ error rates.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pytket.backends.Backend.device">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional[pytket.device.Device]</span></em><a class="headerlink" href="#pytket.backends.Backend.device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the Device targeted by the backend if it exists.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The Device that this backend targets if it exists. The Device
-object contains information about gate errors and device architecture.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Optional[<a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device">Device</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1019,6 +1035,120 @@ are stored</p>
 <dt class="sig sig-object py" id="pytket.backends.status.StatusEnum">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytket.backends.status.</span></span><span class="sig-name descname"><span class="pre">StatusEnum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.status.StatusEnum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enumeration for the possible status of a circuit submitted to a backend.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pytket.backends.backendinfo">
+<span id="pytket-backends-backendinfo"></span><h2>pytket.backends.backendinfo<a class="headerlink" href="#module-pytket.backends.backendinfo" title="Permalink to this headline">¶</a></h2>
+<p>BackendInfo class: additional information on Backends</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytket.backends.backendinfo.</span></span><span class="sig-name descname"><span class="pre">BackendInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">name:</span> <span class="pre">str,</span> <span class="pre">device_name:</span> <span class="pre">Optional[str],</span> <span class="pre">version:</span> <span class="pre">str,</span> <span class="pre">architecture:</span> <span class="pre">pytket.routing.Architecture,</span> <span class="pre">gate_set:</span> <span class="pre">Set[pytket.circuit.OpType],</span> <span class="pre">supports_fast_feedforward:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">supports_reset:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">supports_midcircuit_measurement:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False,</span> <span class="pre">misc:</span> <span class="pre">Dict[str,</span> <span class="pre">Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores various properties of a Backend.</p>
+<p>This provides all device information useful for compilation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Class name of the backend.</p></li>
+<li><p><strong>device_name</strong> – Name of the device.</p></li>
+<li><p><strong>version</strong> – Pytket-extension version installed when creating object.</p></li>
+<li><p><strong>architecture</strong> – Device connectivity.</p></li>
+<li><p><strong>gate_set</strong> – Set of supported gate types.</p></li>
+<li><p><strong>supports_fast_feedforward</strong> – Flag for hardware support of fast feedforward.</p></li>
+<li><p><strong>supports_reset</strong> – Flag for hardware support of reset operation</p></li>
+<li><p><strong>supports_midcircuit_meas</strong> – Flag for hardware support of midcircuit
+measurement.</p></li>
+<li><p><strong>misc</strong> – key-value map with further provider-specific information</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.add_misc">
+<span class="sig-name descname"><span class="pre">add_misc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.add_misc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new entry in BackendInfo’s dictionary of additional information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key to store and retrieve value.</p></li>
+<li><p><strong>val</strong> – Value to be stored.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.from_dict">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.backends.backendinfo.BackendInfo" title="pytket.backends.backendinfo.BackendInfo"><span class="pre">pytket.backends.backendinfo.BackendInfo</span></a><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct BackendInfo object from serialised dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>constructed BackendInfo object</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#pytket.backends.backendinfo.BackendInfo" title="pytket.backends.backendinfo.BackendInfo">BackendInfo</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.get_misc">
+<span class="sig-name descname"><span class="pre">get_misc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Any</span><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.get_misc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve information stored in Backend’s additional information store</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key to retrieve value.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.9)"><strong>KeyError</strong></a> – There is no value stored with the given key.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value stored at the given key.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Dict</span><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get backend information serialised as a dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dictionary output</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.n_nodes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">n_nodes</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.n_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of nodes in the architecture of the device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Number of nodes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.nodes">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">nodes</span></span><em class="property"><span class="pre">:</span> <span class="pre">List[pytket.circuit.Node]</span></em><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of device nodes of the backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List of nodes.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[<a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node">Node</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.transform &mdash; pytket 0.11.0 documentation</title>
+  <title>pytket.transform &mdash; pytket 0.12.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.11
+                0.12
               </div>
             
           
@@ -110,7 +110,6 @@
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
@@ -242,11 +241,24 @@
 <dd><p>An in-place transformation of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.transform.Transform.CommuteSQThroughSWAP">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">CommuteSQThroughSWAP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform"><span class="pre">pytket.transform.Transform</span></a><a class="headerlink" href="#pytket.transform.Transform.CommuteSQThroughSWAP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Commutes single qubit gates through SWAP gates, leaving them on the physical qubit wtih best fidelity for given gate type. Assumes the circuit is already mapped onto the architecture.</p>
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">CommuteSQThroughSWAP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.transform.Transform.CommuteSQThroughSWAP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>CommuteSQThroughSWAP(avg_node_errors: Dict[pytket.circuit.Node, float]) -&gt; pytket.transform.Transform</p></li>
+</ol>
+<p>Commutes single qubit gates through SWAP gates, leaving them on the physical qubit with best fidelity for given gate type. Assumes the circuit is already mapped onto the architecture.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>device</strong> – The device to use for connectivity and fidelity information</p>
+<dd class="field-odd"><p><strong>avg_node_errors</strong> – a dict mapping Nodes to average single-qubit gate errors</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>CommuteSQThroughSWAP(op_node_errors: Dict[pytket.circuit.Node, Dict[pytket.circuit.OpType, float]]) -&gt; pytket.transform.Transform</p></li>
+</ol>
+<p>Commutes single qubit gates through SWAP gates, leaving them on the physical qubit with best fidelity for given gate type. Assumes the circuit is already mapped onto the architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>avg_node_errors</strong> – a dict of dicts, mapping Nodes to dicts of OpType to single-qubit gate error maps</p>
 </dd>
 </dl>
 </dd></dl>
@@ -412,6 +424,12 @@
 <dt class="sig sig-object py" id="pytket.transform.Transform.SynthesisePauliGraph">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">SynthesisePauliGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">synth_strat</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.transform.PauliSynthStrat" title="pytket.transform.PauliSynthStrat"><span class="pre">pytket.transform.PauliSynthStrat</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">PauliSynthStrat.Sets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cx_config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.transform.CXConfigType" title="pytket.transform.CXConfigType"><span class="pre">pytket.transform.CXConfigType</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">CXConfigType.Snake</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform"><span class="pre">pytket.transform.Transform</span></a><a class="headerlink" href="#pytket.transform.Transform.SynthesisePauliGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Synthesises Pauli Graphs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.transform.Transform.ThreeQubitSquash">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">ThreeQubitSquash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform"><span class="pre">pytket.transform.Transform</span></a><a class="headerlink" href="#pytket.transform.Transform.ThreeQubitSquash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Squash three-qubit subcircuits into subcircuits having fewer CX gates, when possible.</p>
 </dd></dl>
 
 <dl class="py method">

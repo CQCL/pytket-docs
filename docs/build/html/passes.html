@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.passes &mdash; pytket 0.11.0 documentation</title>
+  <title>pytket.passes &mdash; pytket 0.12.0 documentation</title>
   
 
   
@@ -43,7 +43,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="pytket.predicates" href="predicates.html" />
-    <link rel="prev" title="pytket.device" href="device.html" /> 
+    <link rel="prev" title="pytket.pauli" href="pauli.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.11
+                0.12
               </div>
             
           
@@ -111,7 +111,6 @@
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
@@ -390,14 +389,14 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.CXMappingPass">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">CXMappingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">placer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.CXMappingPass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass to convert all gates to CX, relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to :py:class’Device’ Nodes, route to the connectivty graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> and decompose additional routing gates (SWAP and BRIDGE) to CX gates.</p>
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">CXMappingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture"><span class="pre">pytket.routing.Architecture</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">placer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.CXMappingPass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to convert all gates to CX, relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to :py:class’Architecture’ Nodes, route to the connectivty graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> and decompose additional routing gates (SWAP and BRIDGE) to CX gates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> – The Device used for connectivity information.</p></li>
+<li><p><strong>arc</strong> – The Architecture used for connectivity information.</p></li>
 <li><p><strong>placer</strong> – The placement used for relabelling.</p></li>
-<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0, (RoutingMethod)routing_method=RoutingMethod.base, (bool)directed_cx=false, (bool)delay_measures=true</p></li>
+<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0, (bool)directed_cx=false, (bool)delay_measures=true</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -475,12 +474,12 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.DecomposeSwapsToCXs">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DecomposeSwapsToCXs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">respect_direction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.DecomposeSwapsToCXs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass to decompose SWAP and BRIDGE gates to CX gates, constraining connectivity to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>, optionally taking the directedness of the connectivity graph into account.</p>
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DecomposeSwapsToCXs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture"><span class="pre">pytket.routing.Architecture</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">respect_direction</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.DecomposeSwapsToCXs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to decompose SWAP and BRIDGE gates to CX gates, constraining connectivity to an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>, optionally taking the directedness of the connectivity graph into account.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> – The device to use for connectivity information.</p></li>
+<li><p><strong>arc</strong> – The architecture to use for connectivity information.</p></li>
 <li><p><strong>respect_direction</strong> – Optionally takes the directedness of the connectivity graph into account.</p></li>
 </ul>
 </dd>
@@ -505,13 +504,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.DefaultMappingPass">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DefaultMappingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.DefaultMappingPass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass to relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> Nodes, and then route to the connectivity graph of a :py:class: ‘Device’. Edge direction is ignored. Placement used is GraphPlacement.</p>
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DefaultMappingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture"><span class="pre">pytket.routing.Architecture</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.DefaultMappingPass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> Nodes, and then route to the connectivity graph of the given :py:class: ‘Architecture’. Edge direction is ignored. Placement used is GraphPlacement.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> – The Device used for connectivity information.</p></li>
-<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0, (RoutingMethod)routing_method = RoutingMethod.base.</p></li>
+<li><p><strong>arc</strong> – The Architecture used for connectivity information.</p></li>
+<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -552,14 +551,14 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.FullMappingPass">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">FullMappingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">placer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.FullMappingPass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass to relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> Nodes, and then route to the connectivity graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>. Edge direction is ignored.</p>
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">FullMappingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture"><span class="pre">pytket.routing.Architecture</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">placer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.FullMappingPass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> Nodes, and then route to the connectivity graph of an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>. Edge direction is ignored.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> – The Device to use for connectivity information.</p></li>
+<li><p><strong>arc</strong> – The architecture to use for connectivity information.</p></li>
 <li><p><strong>placer</strong> – The Placement used for relabelling.</p></li>
-<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0, (RoutingMethod)routing_method = RoutingMethod.base.</p></li>
+<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -571,7 +570,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.FullPeepholeOptimise">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">FullPeepholeOptimise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.FullPeepholeOptimise" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs full (and slow) peephole optimisation and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
+<dd><p>Performs peephole optimisation including resynthesis of 2- and 3-qubit gate sequences, and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -682,6 +681,12 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pytket.passes.PeepholeOptimise2Q">
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">PeepholeOptimise2Q</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.PeepholeOptimise2Q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs peephole optimisation including resynthesis of 2-qubit gate sequences, and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.PlacementPass">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">PlacementPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">placer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.PlacementPass" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -689,7 +694,7 @@
 <dd class="field-odd"><p><strong>placer</strong> – The Placement used for relabelling.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a pass to relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> Nodes</p>
+<dd class="field-even"><p>a pass to relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> Nodes</p>
 </dd>
 </dl>
 </dd></dl>
@@ -808,13 +813,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.RoutingPass">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">RoutingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="device.html#pytket.device.Device" title="pytket.device.Device"><span class="pre">pytket.device.Device</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.RoutingPass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass to route to the connectivity graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>. Edge direction is ignored.</p>
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">RoutingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture"><span class="pre">pytket.routing.Architecture</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.RoutingPass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to route to the connectivity graph of an <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code>. Edge direction is ignored.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> – The device to use for connectivity information.</p></li>
-<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0, (RoutingMethod)routing_method = RoutingMethod.base.</p></li>
+<li><p><strong>arc</strong> – The architecture to use for connectivity information.</p></li>
+<li><p><strong>**kwargs</strong> – Parameters for routing: (int)swap_lookahead=50, (int)bridge_lookahead=4, (int)bridge_interactions=2, (float)bridge_exponent=0.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -897,6 +902,17 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pytket.passes.ThreeQubitSquash">
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">ThreeQubitSquash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_swaps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.ThreeQubitSquash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Squash three-qubit subcircuits into subcircuits having fewer CX gates, when possible, and apply Clifford simplification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param</dt>
+<dd class="field-odd"><p>allow_swaps whether to allow implicit wire swaps</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.USquashIBM">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">USquashIBM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a><a class="headerlink" href="#pytket.passes.USquashIBM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Squash U1, U2 and U3 gates by converting to them to Rz-Ry-Rz sequences and back. The only single-qubit gates in the resulting circuit are U1 and U3.</p>
@@ -911,7 +927,7 @@
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
         <a href="predicates.html" class="btn btn-neutral float-right" title="pytket.predicates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-        <a href="device.html" class="btn btn-neutral float-left" title="pytket.device" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pauli.html" class="btn btn-neutral float-left" title="pytket.pauli" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

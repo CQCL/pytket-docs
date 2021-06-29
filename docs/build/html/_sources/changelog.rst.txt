@@ -1,9 +1,29 @@
 Changelog
 ==================================
 
+0.12.0 (June 2021)
+------------------
+
+Major new features:
+
+* New ``ThreeQubitSquash`` compilation pass to simplify long three-qubit subcircuits.
+* Three-qubit squash included in ``FullPeepholeOptimise`` pass; new ``PeepholeOptimise2Q`` pass corresponds to former ``FullPeepholeOptimise``.
+
+Minor new features:
+
+* add_phase now returns the circuit
+* Option for `process_circuits` to take a list of `n_shots`.
+* `Device` class removed, replaced with :py:class:`BackendInfo`.
+* ``QubitErrorContainer`` removed.
+* ``RoutingMethod`` removed.
+
+Bugfixes and improvements:
+
+* Barriers no longer count towards circuit depth.
+* Squashing of rotations with symbolic angles now performs more simplification, leading to much shorter expressions, and works around a bug in symengine that caused invalid simplification of some expressions.
+
 0.11.0 (May 2021)
 -----------------
-
 Major new features:
 
 * New ``pytket.utils.symbolic`` module to generate symbolic unitaries and statevectors from symbolic circuits.
@@ -14,7 +34,7 @@ Minor new features:
 * New ``ECR`` OpType.
 * New ``SynthesiseOQC`` pass.
 * New ``RebaseOQC`` pass.
-
+  
 0.10.1 (May 2021)
 -----------------
 
