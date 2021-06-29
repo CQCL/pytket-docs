@@ -285,7 +285,7 @@ def backend_info(self) -> BackendInfo:
     )
 
 
-# The `characterisation` property functions as an additional information store for a `Backend`. This is intended to hold hardware specific characterisation information such as gate fidelities. Typically these are held in the `backend_info` misc attribute, a bucket dictionary that takes strings as keys and can store Any object as values.
+# The `characterisation` property functions as an additional information store for a `Backend`. This is intended to hold hardware-specific characterisation information such as gate fidelities. Typically these are held in the `backend_info` `misc` attribute, a bucket dictionary that takes strings as keys and can store any objects as values.
 
 from typing import Dict, Any, Optional
 
