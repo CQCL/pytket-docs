@@ -74,8 +74,7 @@ draw_graph(alternative_cube_architecture.coupling)
 
 # In many cases, we are interested in the architectures of real devices. These are available directly from the device backends, available within tket's respective extension packages. 
 
-# In reality a Quantum Device has much more information to it than just its connectivity constraints. 
-# This includes information we can use in noise-aware methods such as gate errors and readout errors for each qubit. These methods can improve circuit performance when running on real hardware. If available from hardware providers, a device Backend will store this information via a `BackendInfo` attribute.
+# In reality a Quantum Device has much more information to it than just its connectivity constraints. This includes information we can use in noise-aware methods such as gate errors and readout errors for each qubit. These methods can improve circuit performance when running on real hardware. If available from hardware providers, a device Backend will store this information via a `BackendInfo` attribute.
 
 from qiskit import IBMQ
 
