@@ -81,7 +81,7 @@ from qiskit import IBMQ
 IBMQ.load_account()
 
 
-# We can produce an IBMQ Backend object using ```process_characterisation```. This returns a dictionary containing characteriastion informatino provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times along with the coupling graph of the device as a pytket ```Architecture```.
+# We can produce an IBMQ Backend object using ```process_characterisation```. This returns a dictionary containing characteriastion information provided by IBMQ, including t1 times, t2 times, qubit frequencies and gate times along with the coupling graph of the device as a pytket ```Architecture```.
 
 from pytket.circuit import OpType
 from pytket.extensions.qiskit.qiskit_convert import process_characterisation
