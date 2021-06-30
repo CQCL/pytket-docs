@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.circuit.Circuit &mdash; pytket 0.11.0 documentation</title>
+  <title>pytket.circuit.Circuit &mdash; pytket 0.12.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.11
+                0.12
               </div>
             
           
@@ -117,7 +117,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
@@ -1893,11 +1892,14 @@ condition on a specified set of bit values.)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.circuit.Circuit.add_phase">
-<span class="sig-name descname"><span class="pre">add_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Expression</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="headerlink" href="#pytket.circuit.Circuit.add_phase" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Expression</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a><a class="headerlink" href="#pytket.circuit.Circuit.add_phase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a global phase to the circuit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>a</strong> – Phase to add, in halfturns</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>circuit with added phase</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2184,9 +2186,9 @@ condition on a specified set of bit values.)</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.circuit.Circuit.depth">
 <span class="sig-name descname"><span class="pre">depth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.circuit.Circuit" title="pytket.circuit.Circuit"><span class="pre">pytket.circuit.Circuit</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a><a class="headerlink" href="#pytket.circuit.Circuit.depth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of interior vertices on the longest path through the DAG.</p>
+<dd><p>Returns the number of interior vertices on the longest path through the DAG, excluding vertices representing barrier operations.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth</span><span class="p">()</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth</span><span class="p">()</span>
 <span class="go">0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
@@ -2209,8 +2211,9 @@ condition on a specified set of bit values.)</p>
 <ol class="arabic simple">
 <li><p>depth_by_type(self: pytket.circuit.Circuit, type: pytket.circuit.OpType) -&gt; int</p></li>
 </ol>
-<p>Returns the depth of the circuit with respect to a given operation type, e.g. CX-depth.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<p>Returns the number of vertices in the longest path through the sub-DAG consisting of vertices representing operations of the given type.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
@@ -2219,7 +2222,7 @@ condition on a specified set of bit values.)</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>type</strong> – The operation type of interest</p>
+<dd class="field-odd"><p><strong>type</strong> – the operation type of interest</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the circuit depth with respect to operations matching <cite>type</cite></p>
@@ -2228,17 +2231,18 @@ condition on a specified set of bit values.)</p>
 <ol class="arabic simple" start="2">
 <li><p>depth_by_type(self: pytket.circuit.Circuit, types: Set[pytket.circuit.OpType]) -&gt; int</p></li>
 </ol>
-<p>Returns the depth of the circuit with respect to a given set of operation types, e.g. {CZ, CX}-depth.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<p>Returns the number of vertices in the longest path through the sub-DAG consisting of vertices representing operations of the given types.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">([</span><span class="n">OpType</span><span class="o">.</span><span class="n">CZ</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">({</span><span class="n">OpType</span><span class="o">.</span><span class="n">CZ</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">})</span>
 <span class="go">2</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>types</strong> – The set of operation types of interest</p>
+<dd class="field-odd"><p><strong>types</strong> – the set of operation types of interest</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the circuit depth with respect to operations matching an element of <cite>types</cite></p>

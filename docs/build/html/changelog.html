@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Changelog &mdash; pytket 0.11.0 documentation</title>
+  <title>Changelog &mdash; pytket 0.12.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.11
+                0.12
               </div>
             
           
@@ -96,6 +96,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#june-2021">0.12.0 (June 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#may-2021">0.11.0 (May 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">0.10.1 (May 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#april-2021">0.10.0 (April 2021)</a></li>
@@ -141,7 +142,6 @@
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
@@ -223,6 +223,27 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="june-2021">
+<h2>0.12.0 (June 2021)<a class="headerlink" href="#june-2021" title="Permalink to this headline">¶</a></h2>
+<p>Major new features:</p>
+<ul class="simple">
+<li><p>New <code class="docutils literal notranslate"><span class="pre">ThreeQubitSquash</span></code> compilation pass to simplify long three-qubit subcircuits.</p></li>
+<li><p>Three-qubit squash included in <code class="docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> pass; new <code class="docutils literal notranslate"><span class="pre">PeepholeOptimise2Q</span></code> pass corresponds to former <code class="docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code>.</p></li>
+</ul>
+<p>Minor new features:</p>
+<ul class="simple">
+<li><p>add_phase now returns the circuit</p></li>
+<li><p>Option for <cite>process_circuits</cite> to take a list of <cite>n_shots</cite>.</p></li>
+<li><p><cite>Device</cite> class removed, replaced with <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">QubitErrorContainer</span></code> removed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RoutingMethod</span></code> removed.</p></li>
+</ul>
+<p>Bugfixes and improvements:</p>
+<ul class="simple">
+<li><p>Barriers no longer count towards circuit depth.</p></li>
+<li><p>Squashing of rotations with symbolic angles now performs more simplification, leading to much shorter expressions, and works around a bug in symengine that caused invalid simplification of some expressions.</p></li>
+</ul>
+</div>
 <div class="section" id="may-2021">
 <h2>0.11.0 (May 2021)<a class="headerlink" href="#may-2021" title="Permalink to this headline">¶</a></h2>
 <p>Major new features:</p>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.utils &mdash; pytket 0.11.0 documentation</title>
+  <title>pytket.utils &mdash; pytket 0.12.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.11
+                0.12
               </div>
             
           
@@ -111,7 +111,6 @@
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pauli.html">pytket.pauli</a></li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">pytket.device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="passes.html">pytket.passes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predicates.html">pytket.predicates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="program.html">pytket.program</a></li>
@@ -1019,15 +1018,16 @@ dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>qubit_subsets</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><em>Node</em></a><em>]</em><em>]</em>) – A list of lists of correlated Nodes of a <cite>Device</cite>. Qubits
-within the same list are assumed to only have SPAM errors correlated with
-each other. Thus to allow SPAM errors between all qubits you should provide
-a single list.</p></li>
+<li><p><strong>qubit_subsets</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><a class="reference internal" href="circuit.html#pytket.circuit.Node" title="pytket.circuit.Node"><em>Node</em></a><em>]</em><em>]</em>) – A list of lists of correlated Nodes of an <cite>Architecture</cite>.
+Qubits within the same list are assumed to only have SPAM errors correlated
+with each other. Thus to allow SPAM errors between all qubits you should
+provide a single list.</p></li>
 <li><p><strong>backend</strong> – Backend on which the experiments are intended to be run
 (optional). If provided, the qubits in <cite>qubit_subsets</cite> must be nodes in the
-backend’s associated <cite>Device</cite>. If not provided, it is assumed that the
-experiment will be run on a <cite>Device`with the nodes in `qubit_subsets</cite>,
-and furthermore that the intended device natively supports X gates.</p></li>
+backend’s associated <cite>Architecture</cite>. If not provided, it is assumed that the
+experiment will be run on an <cite>Architecture`with the nodes in
+`qubit_subsets</cite>, and furthermore that the intended architecture natively
+supports X gates.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
