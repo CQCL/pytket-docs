@@ -732,6 +732,8 @@ A common pattern across expectation value and tomography experiments is to run m
 
 The main technical consideration here is that the compiler will only have the freedom to identify good placements for the first subcircuit to be run. This means that the state preparation should be compiled first, and the placement for the measurements is given by the final map in order to compose well.
 
+Once compiled, we can use :py:meth:`Backend.process_circuits` to submit several circuits at once for execution on the backend. The circuits to be executed are passed as list. If the backend is shot-based, the number of shots can be passed using the `n_shots` parameter, which can be a single integer or a list of integers of the same length as the list of circuits to be executed. In the following example, 4000 shots are measured for the first circuit and 2000 for the second.
+
 .. Example of state prep with many measurements; compile state prep once, inspect final map, use this as placement for measurement circuits and compile them, then compose
 
 .. jupyter-input::
@@ -762,7 +764,7 @@ The main technical consideration here is that the compiler will only have the fr
     circ1 = circ0.copy()
     circ0.append(measure0)
     circ1.append(measure1)
-    handles = backend.process_circuits([circ0, circ1], n_shots=4000)
+    handles = backend.process_circuits([circ0, circ1], n_shots=[4000, 2000])
     r0, r1 = backend.get_results(handles)
     print(r0.get_counts())
     print(r1.get_counts())
