@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket &mdash; pytket 0.12.0 documentation</title>
+  <title>pytket &mdash; pytket 0.13.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                0.12
+                0.13
               </div>
             
           
@@ -90,7 +90,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Introduction:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Introduction:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -99,12 +99,12 @@
 <li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">Telemetry Data Policy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">More Documentation:</span></p>
+<p class="caption" role="heading"><span class="caption-text">More Documentation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/manual/index.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/extensions/index.html">Extensions</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -209,10 +209,10 @@ To install, run</p>
 </div>
 <p>Some of the extension modules define <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s, allowing the circuits to be run on simulators or real quantum hardware. For example, <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code> grants access to the <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> simulator which can sample from measurements.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>                <span class="c1"># connect to the backend</span>
-<span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>            <span class="c1"># compile the circuit to satisfy the backend&#39;s requirements</span>
-<span class="n">handle</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># submit the job to run the circuit 100 times</span>
-<span class="n">counts</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>   <span class="c1"># retrieve and summarise the results</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>                            <span class="c1"># connect to the backend</span>
+<span class="n">compiled</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>        <span class="c1"># compile the circuit to satisfy the backend&#39;s requirements</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">compiled</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>   <span class="c1"># submit the job to run the circuit 100 times</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>  <span class="c1"># retrieve and summarise the results</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -282,7 +282,7 @@ You may view a copy of the Licence on the <a class="reference external" href="li
 <h2>Telemetry Data Policy<a class="headerlink" href="#telemetry-data-policy" title="Permalink to this headline">¶</a></h2>
 <p>Our telemetry data policy can be viewed in the <a class="reference external" href="telemetry_data_policy.html">Telemetry Data Policy</a> page.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Introduction:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Introduction:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -293,14 +293,14 @@ You may view a copy of the Licence on the <a class="reference external" href="li
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">More Documentation:</span></p>
+<p class="caption" role="heading"><span class="caption-text">More Documentation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/manual/index.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/extensions/index.html">Extensions</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="backends.html#module-pytket.backends.resulthandle">pytket.backends.resulthandle</a></li>

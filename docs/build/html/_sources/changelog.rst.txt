@@ -1,6 +1,33 @@
 Changelog
 ==================================
 
+0.13.0 (July 2021)
+------------------
+
+Major new features:
+
+* New circuit functions, e.g. ``get_unitary``, calculate numerical unitaries and statevectors from non-symbolic circuits.
+* New serialization methods for compilation passes.
+
+Minor new features:
+
+* Additions to `BackendInfo`.
+* More reliable handling of timeouts for placement.
+* User-configurable placement timeout.
+
+Fixes:
+
+* Fixed occasional segfault in placement pass.
+* Daggering or transposing circuits with CnX fixed to have valid operation arguments.
+
+API changes:
+
+* :py:meth:`Backend.compile_circuit` is deprecated,
+  :py:meth:`Backend.get_compiled_circuit` and
+  :py:meth:`Backend.get_compiled_circuits` (for a sequence of circuits) replace
+  it, do not act in place, returning the compiled circuit(s). In place
+  compilation can still be achieved with `backend.default_compilation_pass().apply(circ)`
+
 0.12.0 (June 2021)
 ------------------
 

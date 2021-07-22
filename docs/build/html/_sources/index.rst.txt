@@ -31,10 +31,10 @@ Some of the extension modules define :py:class:`Backend` s, allowing the circuit
 ::
 
     from pytket.extensions.qiskit import AerBackend
-    b = AerBackend()                # connect to the backend
-    b.compile_circuit(c)            # compile the circuit to satisfy the backend's requirements
-    handle = b.process_circuit(c, 100)  # submit the job to run the circuit 100 times
-    counts = b.get_result(handle).get_counts()   # retrieve and summarise the results
+    b = AerBackend()                            # connect to the backend
+    compiled = b.get_compiled_circuit(c)        # compile the circuit to satisfy the backend's requirements
+    handle = b.process_circuit(compiled, 100)   # submit the job to run the circuit 100 times
+    counts = b.get_result(handle).get_counts()  # retrieve and summarise the results
     print(counts)
 
 This prints out a summary of readouts (the final values of the classical bits) and their frequencies.
