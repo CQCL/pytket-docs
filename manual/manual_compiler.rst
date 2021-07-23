@@ -2,7 +2,7 @@
 Compilation
 ***********
 
-So far, we have already covered enough to be able to design the :py:class:`Circuit` s we want to run, submit them to a :py:class:`Backend`, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the :py:meth:`Backend.compile_circuit()` method. The compilation step maps from the universal computer abstraction presented at :py:class:`Circuit` construction to the restricted fragment supported by the target :py:class:`Backend`, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.
+So far, we have already covered enough to be able to design the :py:class:`Circuit` s we want to run, submit them to a :py:class:`Backend`, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the :py:meth:`Backend.get_compiled_circuit()` method. The compilation step maps from the universal computer abstraction presented at :py:class:`Circuit` construction to the restricted fragment supported by the target :py:class:`Backend`, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.
 
 The necessity of compilation maps over from the world of classical computation: it is much easier to design correct programs when working with higher-level constructions that aren't natively supported, and it shouldn't require a programmer to be an expert in the exact device architecture to achieve good performance. There are many possible low-level implementations on the device for each high-level program, which vary in the time and resources taken to execute. However, because QPUs are analog devices, the implementation can have a massive impact on the quality of the final outcomes as a result of changing how susceptible the system is to noise. Using a good compiler and choosing the methods appropriately can automatically find a better low-level implementation. Each aspect of the compilation procedure is exposed through ``pytket`` to provide users with a way to have full control over what is applied and how.
 
@@ -12,7 +12,7 @@ The primary goals of compilation are two-fold: solving the constraints of the :p
 
 .. Passes capture methods of transforming the circuit, acting in place
 
-Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class:`Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`Circuit` in-place. The :py:meth:`Backend.compile_circuit()` method is simply an alias for :py:meth:`BasePass.apply()` from the :py:class:`Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
+Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class:`Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`Circuit` in-place. The :py:meth:`Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`BasePass.apply()` from the :py:class:`Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
 
 Predicates
 ----------
@@ -592,7 +592,7 @@ After solving for the device connectivity, we then need to restrict what optimis
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.compile_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
+Also in this category, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
 
 ==================  ========================================================================================================
 Optimisation level  Description
@@ -705,7 +705,7 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
     op = QubitPauliOperator({xx : 1.5})
 
     backend = AerStateBackend()
-    backend.compile_circuit(circ)   # Compile once outside of the objective function
+    circ = backend.get_compiled_circuit(circ)   # Compile once outside of the objective function
 
     def objective(params):
         state = circ.copy()
@@ -1001,7 +1001,7 @@ Thus a typical usage would look something like this:
     c = Circuit(2).H(0).CX(0, 1)
     c.measure_all()
     c0, ppcirc = prepare_circuit(c)
-    b.compile_circuit(c0)
+    c0 = b.get_compiled_circuit(c0)
     h = b.process_circuit(c0, n_shots=10)
     r = b.get_result(h)
     shots = r.get_shots(ppcirc=ppcirc)

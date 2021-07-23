@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Index &mdash; pytket 0.12.0 documentation</title>
+  <title>Index &mdash; pytket 0.13.0 documentation</title>
   
 
   
@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.12
+                0.13
               </div>
             
           
@@ -89,7 +89,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Introduction:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Introduction:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
@@ -98,12 +98,12 @@
 <li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">Telemetry Data Policy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">More Documentation:</span></p>
+<p class="caption" role="heading"><span class="caption-text">More Documentation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/manual/index.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/extensions/index.html">Extensions</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -847,6 +847,8 @@
       <li><a href="circuit_class.html#pytket.circuit.Circuit.from_dict">from_dict() (pytket.circuit.Circuit static method)</a>
 
       <ul>
+        <li><a href="passes.html#pytket.passes.BasePass.from_dict">(pytket.passes.BasePass static method)</a>
+</li>
         <li><a href="backends.html#pytket.backends.backendinfo.BackendInfo.from_dict">(pytket.backends.backendinfo.BackendInfo class method)</a>
 </li>
         <li><a href="backends.html#pytket.backends.backendresult.BackendResult.from_dict">(pytket.backends.backendresult.BackendResult class method)</a>
@@ -930,7 +932,9 @@
         <li><a href="program.html#pytket.program.Program.get_commands">(pytket.program.Program method)</a>
 </li>
       </ul></li>
-      <li><a href="passes.html#pytket.passes.BasePass.get_config">get_config() (pytket.passes.BasePass method)</a>
+      <li><a href="backends.html#pytket.backends.Backend.get_compiled_circuit">get_compiled_circuit() (pytket.backends.Backend method)</a>
+</li>
+      <li><a href="backends.html#pytket.backends.Backend.get_compiled_circuits">get_compiled_circuits() (pytket.backends.Backend method)</a>
 </li>
       <li><a href="config.html#pytket.config.get_config_file_path">get_config_file_path() (in module pytket.config)</a>
 </li>
@@ -964,10 +968,10 @@
 </li>
       <li><a href="circuit.html#pytket.circuit.ClassicalExpBox.get_n_i">get_n_i() (pytket.circuit.ClassicalExpBox method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="circuit.html#pytket.circuit.ClassicalExpBox.get_n_io">get_n_io() (pytket.circuit.ClassicalExpBox method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="circuit.html#pytket.circuit.ClassicalExpBox.get_n_o">get_n_o() (pytket.circuit.ClassicalExpBox method)</a>
 </li>
       <li><a href="circuit.html#pytket.circuit.Op.get_name">get_name() (pytket.circuit.Op method)</a>
@@ -1024,12 +1028,18 @@
         <li><a href="backends.html#pytket.backends.backendresult.BackendResult.get_state">(pytket.backends.backendresult.BackendResult method)</a>
 </li>
       </ul></li>
-      <li><a href="circuit.html#pytket.circuit.Op.get_unitary">get_unitary() (pytket.circuit.Op method)</a>
+      <li><a href="circuit_class.html#pytket.circuit.Circuit.get_statevector">get_statevector() (pytket.circuit.Circuit method)</a>
+</li>
+      <li><a href="circuit_class.html#pytket.circuit.Circuit.get_unitary">get_unitary() (pytket.circuit.Circuit method)</a>
 
       <ul>
+        <li><a href="circuit.html#pytket.circuit.Op.get_unitary">(pytket.circuit.Op method)</a>
+</li>
         <li><a href="backends.html#pytket.backends.backendresult.BackendResult.get_unitary">(pytket.backends.backendresult.BackendResult method)</a>
 </li>
       </ul></li>
+      <li><a href="circuit_class.html#pytket.circuit.Circuit.get_unitary_times_other">get_unitary_times_other() (pytket.circuit.Circuit method)</a>
+</li>
       <li><a href="utils.html#pytket.utils.Graph">Graph (class in pytket.utils)</a>
 </li>
       <li><a href="partition.html#pytket.partition.GraphColourMethod">GraphColourMethod (class in pytket.partition)</a>
@@ -1855,6 +1865,8 @@
       <li><a href="circuit_class.html#pytket.circuit.Circuit.to_dict">to_dict() (pytket.circuit.Circuit method)</a>
 
       <ul>
+        <li><a href="passes.html#pytket.passes.BasePass.to_dict">(pytket.passes.BasePass method)</a>
+</li>
         <li><a href="pauli.html#pytket.pauli.QubitPauliString.to_dict">(pytket.pauli.QubitPauliString method)</a>
 </li>
         <li><a href="backends.html#pytket.backends.backendinfo.BackendInfo.to_dict">(pytket.backends.backendinfo.BackendInfo method)</a>

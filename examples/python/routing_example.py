@@ -72,7 +72,7 @@ from pytket.routing import SquareGrid
 alternative_cube_architecture = SquareGrid(2, 2, 2)
 draw_graph(alternative_cube_architecture.coupling)
 
-# In many cases, we are interested in the architectures of real devices. These are available directly from the device backends, available within tket's respective extension packages. 
+# In many cases, we are interested in the architectures of real devices. These are available directly from the device backends, available within tket's respective extension packages.
 
 # In reality a Quantum Device has much more information to it than just its connectivity constraints. This includes information we can use in noise-aware methods such as gate errors and readout errors for each qubit. These methods can improve circuit performance when running on real hardware. If available from hardware providers, a device Backend will store this information via a `BackendInfo` attribute.
 
@@ -160,7 +160,7 @@ print(tk_to_qiskit(cmc_copy))
 
 # Similarly the circuits qubits have been relabelled and ```SWAP``` gates added. In this example though ```route``` is able to utilise the extra connectivity of cube_architecture to reduce the number of ```SWAP``` gates added from 3 to 1.
 #
-# We also route for the Quito architecture. 
+# We also route for the Quito architecture.
 
 quito_modified_circuit = route(example_circuit, quito_characterisation["Architecture"])
 
@@ -283,9 +283,11 @@ from pytket.routing import Placement, LinePlacement, GraphPlacement, NoiseAwareP
 
 
 from pytket.extensions.qiskit.qiskit_convert import get_avg_characterisation
+
 quito_avg_characterisation = get_avg_characterisation(quito_characterisation)
 
 # Define a function for printing our maps:
+
 
 def print_qubit_mapping(the_map):
     print("Qubit to Node mapping:")
@@ -298,9 +300,11 @@ def print_qubit_mapping(the_map):
 lp_quito = LinePlacement(quito_characterisation["Architecture"])
 graph_quito = GraphPlacement(quito_characterisation["Architecture"])
 noise_quito = NoiseAwarePlacement(
-                quito_characterisation["Architecture"], 
-                **quito_avg_characterisation)
-
+    quito_characterisation["Architecture"],
+    node_errors=quito_avg_characterisation["node_errors"],
+    link_errors=quito_avg_characterisation["edge_errors"],
+    readout_errors=quito_avg_characterisation["readout_errors"],
+)
 
 
 print("LinePlacement map:")
@@ -401,9 +405,7 @@ def predicate_route_device(my_circuit, my_architecture):
 from pytket.qasm import circuit_from_qasm
 
 comparison_circuit = circuit_from_qasm("qasm/routing_example_circuit.qasm")
-foxtail_circuit, foxtail_valid = predicate_route_device(
-    comparison_circuit, foxtail_arc
-)
+foxtail_circuit, foxtail_valid = predicate_route_device(comparison_circuit, foxtail_arc)
 bristlecone_circuit, bristlecone_valid = predicate_route_device(
     comparison_circuit, bristlecone_arc
 )

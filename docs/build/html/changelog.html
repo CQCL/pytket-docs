@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Changelog &mdash; pytket 0.12.0 documentation</title>
+  <title>Changelog &mdash; pytket 0.13.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.12
+                0.13
               </div>
             
           
@@ -92,10 +92,11 @@
               
             
             
-              <p class="caption"><span class="caption-text">Introduction:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Introduction:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#july-2021">0.13.0 (July 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#june-2021">0.12.0 (June 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#may-2021">0.11.0 (May 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">0.10.1 (May 2021)</a></li>
@@ -132,12 +133,12 @@
 <li class="toctree-l1"><a class="reference internal" href="telemetry_data_policy.html">Telemetry Data Policy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="opensource.html">Open Source Attribution</a></li>
 </ul>
-<p class="caption"><span class="caption-text">More Documentation:</span></p>
+<p class="caption" role="heading"><span class="caption-text">More Documentation:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/manual/index.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket/build/html/extensions/index.html">Extensions</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Reference:</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="backends.html">pytket.backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="circuit.html">pytket.circuit</a></li>
@@ -223,6 +224,33 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="july-2021">
+<h2>0.13.0 (July 2021)<a class="headerlink" href="#july-2021" title="Permalink to this headline">¶</a></h2>
+<p>Major new features:</p>
+<ul class="simple">
+<li><p>New circuit functions, e.g. <code class="docutils literal notranslate"><span class="pre">get_unitary</span></code>, calculate numerical unitaries and statevectors from non-symbolic circuits.</p></li>
+<li><p>New serialization methods for compilation passes.</p></li>
+</ul>
+<p>Minor new features:</p>
+<ul class="simple">
+<li><p>Additions to <cite>BackendInfo</cite>.</p></li>
+<li><p>More reliable handling of timeouts for placement.</p></li>
+<li><p>User-configurable placement timeout.</p></li>
+</ul>
+<p>Fixes:</p>
+<ul class="simple">
+<li><p>Fixed occasional segfault in placement pass.</p></li>
+<li><p>Daggering or transposing circuits with CnX fixed to have valid operation arguments.</p></li>
+</ul>
+<p>API changes:</p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code> is deprecated,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuits()</span></code> (for a sequence of circuits) replace
+it, do not act in place, returning the compiled circuit(s). In place
+compilation can still be achieved with <cite>backend.default_compilation_pass().apply(circ)</cite></p></li>
+</ul>
+</div>
 <div class="section" id="june-2021">
 <h2>0.12.0 (June 2021)<a class="headerlink" href="#june-2021" title="Permalink to this headline">¶</a></h2>
 <p>Major new features:</p>

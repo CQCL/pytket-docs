@@ -283,9 +283,8 @@ The :py:meth:`PauliFrameRandomisation.get_all_circuits` method returns circuits 
 
     backend = AerBackend()
 
-    for c in averaging_circuits:
-        backend.compile_circuit(c)
-    backend.compile_circuit(circ)
+    averaging_circuits = backend.get_compiled_circuits(averaging_circuits)
+    circ = backend.get_compiled_circuit(circ)
 
     pfr_counts_list = [backend.get_counts(c, 50) for c in averaging_circuits]
     # combine each averaging circuits counts into a single counts object for comparison
@@ -311,9 +310,8 @@ For a noise free backend, we can see that the same counts distribution is return
 
     averaging_circuits = pauli_frame_randomisation.get_all_circuits(circ)
 
-    for c in averaging_circuits:
-        noisy_backend.compile_circuit(c)
-    noisy_backend.compile_circuit(circ)
+    averaging_circuits = noisy_backend.get_compiled_circuits(averaging_circuits)
+    circ = noisy_backend.get_compiled_circuit(circ)
 
     pfr_counts_list = [noisy_backend.get_counts(c, 50) for c in averaging_circuits]
     pfr_counts = {}
@@ -352,9 +350,8 @@ An alternative class, :py:class:`UniversalFrameRandomisation`, is set with cycle
     averaging_circuits = universal_frame_randomisation.get_all_circuits(circ)
     print()
 
-    for c in averaging_circuits:
-        noisy_backend.compile_circuit(c)
-    noisy_backend.compile_circuit(circ)
+    averaging_circuits = noisy_backend.get_compiled_circuits(averaging_circuits)
+    circ = noisy_backend.get_compiled_circuit(circ)
 
     ufr_noisy_counts_list = [noisy_backend.get_counts(c, 800) for c in averaging_circuits]
     ufr_noisy_counts = {}
@@ -500,7 +497,7 @@ First the :py:class:`SpamCorrecter` is characterised using counts results for ca
     spam_correcter.calculate_matrices(char_results)
 
     circ = Circuit(2).H(0).CX(0,1).measure_all()
-    noisy_backend.compile_circuit(circ)
+    circ = noisy_backend.get_compiled_circuit(circ)
     noisy_handle = noisy_backend.process_circuit(circ, 1000)
     noisy_result = noisy_backend.get_result(noisy_handle)
     noiseless_handle = noiseless_backend.process_circuit(circ, 1000)

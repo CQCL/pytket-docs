@@ -211,7 +211,7 @@
 </div>
 </div>
 </div>
-<p>Knowing the requirements of each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is handy in case it has consequences for how you design a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, but can generally be abstracted away. Calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.valid_circuit()</span></code> can check whether or not a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> satisfies every requirement to run on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and if it is not immediately valid then <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code> will modify the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation).</p>
+<p>Knowing the requirements of each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is handy in case it has consequences for how you design a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, but can generally be abstracted away. Calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.valid_circuit()</span></code> can check whether or not a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> satisfies every requirement to run on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and if it is not immediately valid then <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code> will modify the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation). To get a copy of the compiled circuit without modifying it in place, use <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -275,24 +275,24 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
  [0 1]
+ [0 1]
+ [1 1]
+ [0 1]
  [1 1]
  [0 1]
  [1 1]
  [0 1]
  [1 1]
  [1 1]
- [0 1]
- [0 1]
- [1 1]
- [0 1]
  [1 1]
  [1 1]
  [0 1]
  [1 1]
- [1 1]
- [1 1]
  [0 1]
- [0 1]]
+ [0 1]
+ [0 1]
+ [0 1]
+ [1 1]]
 </pre></div>
 </div>
 </div>
@@ -318,8 +318,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1018, (0, 1): 982})
-{(0, 1): 0.491, (1, 1): 0.509}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1056, (1, 1): 944})
+{(0, 1): 0.528, (1, 1): 0.472}
 </pre></div>
 </div>
 </div>
@@ -491,7 +491,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.006000000000000005
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.008999999999999897
 </pre></div>
 </div>
 </div>
@@ -549,8 +549,8 @@ Counter({(1, 0): 10})
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[ 0.63003676+0.j -0.32101976+0.j  0.63003676+0.j -0.32101976+0.j
   0.        +0.j  0.        +0.j  0.        +0.j  0.        +0.j]
-Counter({(0, 0, 0): 791, (1, 0, 0): 767, (0, 0, 1): 228, (1, 0, 1): 214})
-Counter({(0, 0): 1558, (0, 1): 442})
+Counter({(1, 0, 0): 811, (0, 0, 0): 769, (0, 0, 1): 225, (1, 0, 1): 195})
+Counter({(0, 0): 1580, (0, 1): 420})
 </pre></div>
 </div>
 </div>
@@ -597,8 +597,8 @@ Counter({(0, 0): 1558, (0, 1): 442})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0040000000000000036
-(0.26899999999999996+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.03400000000000003
+(0.31+0j)
 </pre></div>
 </div>
 </div>
@@ -626,8 +626,8 @@ Counter({(0, 0): 1558, (0, 1): 442})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 421, (0, 0, 1): 389, (0, 1, 1): 380, (0, 1, 0): 379, (1, 1, 0): 116, (1, 0, 1): 108, (1, 0, 0): 104, (1, 1, 1): 103})
-0.025000000000000022
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 421, (0, 0, 0): 396, (0, 1, 0): 379, (0, 1, 1): 373, (1, 0, 0): 118, (1, 1, 1): 109, (1, 1, 0): 103, (1, 0, 1): 101})
+-0.026999999999999913
 </pre></div>
 </div>
 </div>
@@ -666,7 +666,7 @@ Counter({(0, 0): 1558, (0, 1): 442})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 138, (0, 0, 1): 136, (0, 1, 1): 135, (1, 1, 0): 132, (0, 1, 0): 122, (1, 1, 1): 117, (1, 0, 0): 111, (0, 0, 0): 109})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 136, (0, 0, 0): 135, (1, 0, 0): 134, (1, 1, 1): 130, (1, 0, 1): 121, (0, 1, 0): 120, (1, 1, 0): 116, (0, 1, 1): 108})
 </pre></div>
 </div>
 </div>
@@ -698,7 +698,7 @@ Counter({(0, 0): 1558, (0, 1): 442})
 <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">supports_counts</span><span class="p">:</span>
     <span class="n">circ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">measure</span><span class="p">)</span>
 
-<span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 <span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
 
 <span class="n">expectation</span> <span class="o">=</span> <span class="mi">0</span>
@@ -719,7 +719,7 @@ Counter({(0, 0): 1558, (0, 1): 442})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.013000000000000012
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.052000000000000046
 </pre></div>
 </div>
 </div>
@@ -756,8 +756,7 @@ Counter({(0, 0): 1558, (0, 1): 442})
     <span class="mf">0.8</span><span class="p">,</span>    <span class="c1"># XZZ</span>
     <span class="mf">1.2</span>     <span class="c1"># XXX</span>
 <span class="p">]</span>
-<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">circ_list</span><span class="p">:</span>
-    <span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">circ_list</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuits</span><span class="p">(</span><span class="n">circ_list</span><span class="p">)</span>
 
 <span class="n">handle_list</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">circ_list</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
 <span class="n">result_list</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">handle_list</span><span class="p">)</span>
@@ -854,7 +853,7 @@ Counter({(0, 0): 1558, (0, 1): 442})
     <span class="n">iiz</span> <span class="p">:</span> <span class="mf">3.2</span><span class="p">})</span>
 
 <span class="k">assert</span> <span class="n">backend</span><span class="o">.</span><span class="n">supports_expectation</span>
-<span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_pauli_expectation_value</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">xxy</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_operator_expectation_value</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">op</span><span class="p">))</span>
 </pre></div>
@@ -895,8 +894,7 @@ Counter({(0, 0): 1558, (0, 1): 442})
 <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">zzz</span><span class="p">,</span> <span class="n">xzz</span><span class="p">,</span> <span class="n">xxx</span><span class="p">]:</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-    <span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="n">circ_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">circ_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
 <span class="n">coeff_list</span> <span class="o">=</span> <span class="p">[</span>
     <span class="o">-</span><span class="mf">0.3</span><span class="n">j</span><span class="p">,</span>  <span class="c1"># ZZZ</span>
     <span class="mf">0.8</span><span class="p">,</span>    <span class="c1"># XZZ</span>
@@ -954,7 +952,7 @@ Counter({(0, 0): 1558, (0, 1): 442})
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
-<span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 <span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
 <span class="c1"># assert backend.persistent_handles</span>

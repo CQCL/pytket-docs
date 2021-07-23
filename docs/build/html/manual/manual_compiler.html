@@ -193,10 +193,10 @@
             
   <div class="section" id="compilation">
 <h1>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h1>
-<p>So far, we have already covered enough to be able to design the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s we want to run, submit them to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code> method. The compilation step maps from the universal computer abstraction presented at <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> construction to the restricted fragment supported by the target <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.</p>
+<p>So far, we have already covered enough to be able to design the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s we want to run, submit them to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code> method. The compilation step maps from the universal computer abstraction presented at <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> construction to the restricted fragment supported by the target <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.</p>
 <p>The necessity of compilation maps over from the world of classical computation: it is much easier to design correct programs when working with higher-level constructions that aren’t natively supported, and it shouldn’t require a programmer to be an expert in the exact device architecture to achieve good performance. There are many possible low-level implementations on the device for each high-level program, which vary in the time and resources taken to execute. However, because QPUs are analog devices, the implementation can have a massive impact on the quality of the final outcomes as a result of changing how susceptible the system is to noise. Using a good compiler and choosing the methods appropriately can automatically find a better low-level implementation. Each aspect of the compilation procedure is exposed through <code class="docutils literal notranslate"><span class="pre">pytket</span></code> to provide users with a way to have full control over what is applied and how.</p>
 <p>The primary goals of compilation are two-fold: solving the constraints of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> to get from the abstract model to something runnable, and optimising/simplifying the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to make it faster, smaller, and less prone to noise. Every step in compilation can generally be split up into one of these two categories (though even the constraint solving steps could have multiple solutions over which we could optimise for noise).</p>
-<p>Each compiler pass inherits from the <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePass</span></code> class, capturing a method of transforming a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The main functionality is built into the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> method, which applies the transformation to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code> method is simply an alias for <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.</p>
+<p>Each compiler pass inherits from the <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePass</span></code> class, capturing a method of transforming a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The main functionality is built into the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> method, which applies the transformation to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code> method is a wrapper around the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.</p>
 <div class="section" id="predicates">
 <h2>Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline">¶</a></h2>
 <p>Solving the constraints of the target <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.required_predicates</span></code> property gives a collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s, describing the necessary properties a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> must satisfy in order to be run.</p>
@@ -907,7 +907,7 @@ True
 </div>
 </div>
 </div>
-<p>Also in this category, we have the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> which is run by <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.compile_circuit()</span></code>. These give a recommended compiler pass to solve the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s constraints with a choice of optimisation levels.</p>
+<p>Also in this category, we have the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> which is run by <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code>. These give a recommended compiler pass to solve the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s constraints with a choice of optimisation levels.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -1032,7 +1032,7 @@ CXs 3
 <span class="n">op</span> <span class="o">=</span> <span class="n">QubitPauliOperator</span><span class="p">({</span><span class="n">xx</span> <span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
 
 <span class="n">backend</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
-<span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>   <span class="c1"># Compile once outside of the objective function</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>   <span class="c1"># Compile once outside of the objective function</span>
 
 <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1062,6 +1062,7 @@ CXs 3
 <h3>Partial Compilation<a class="headerlink" href="#partial-compilation" title="Permalink to this headline">¶</a></h3>
 <p>A common pattern across expectation value and tomography experiments is to run many <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s that have large identical regions, such as a single state preparation with many different measurements. We can further speed up the overall compilation time by splitting up the state preparation from the measurements, compiling each subcircuit only once, and composing together at the end.</p>
 <p>The main technical consideration here is that the compiler will only have the freedom to identify good placements for the first subcircuit to be run. This means that the state preparation should be compiled first, and the placement for the measurements is given by the final map in order to compose well.</p>
+<p>Once compiled, we can use <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code> to submit several circuits at once for execution on the backend. The circuits to be executed are passed as list. If the backend is shot-based, the number of shots can be passed using the <cite>n_shots</cite> parameter, which can be a single integer or a list of integers of the same length as the list of circuits to be executed. In the following example, 4000 shots are measured for the first circuit and 2000 for the second.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
@@ -1090,7 +1091,7 @@ CXs 3
 <span class="n">circ1</span> <span class="o">=</span> <span class="n">circ0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">circ0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">measure0</span><span class="p">)</span>
 <span class="n">circ1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">measure1</span><span class="p">)</span>
-<span class="n">handles</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">([</span><span class="n">circ0</span><span class="p">,</span> <span class="n">circ1</span><span class="p">],</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">4000</span><span class="p">)</span>
+<span class="n">handles</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">([</span><span class="n">circ0</span><span class="p">,</span> <span class="n">circ1</span><span class="p">],</span> <span class="n">n_shots</span><span class="o">=</span><span class="p">[</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
 <span class="n">r0</span><span class="p">,</span> <span class="n">r1</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">handles</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">r0</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
@@ -1357,7 +1358,7 @@ the main circuit and the postprocessing circuit, returning both.</p>
 <span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">c</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 <span class="n">c0</span><span class="p">,</span> <span class="n">ppcirc</span> <span class="o">=</span> <span class="n">prepare_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-<span class="n">b</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">c0</span><span class="p">)</span>
+<span class="n">c0</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c0</span><span class="p">)</span>
 <span class="n">h</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c0</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
 <span class="n">shots</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">get_shots</span><span class="p">(</span><span class="n">ppcirc</span><span class="o">=</span><span class="n">ppcirc</span><span class="p">)</span>
@@ -1366,16 +1367,16 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
+ [1 1]
+ [0 0]
+ [0 0]
+ [0 0]
+ [0 0]
  [0 0]
  [0 0]
  [1 1]
- [0 0]
- [1 1]
- [0 0]
- [1 1]
- [1 1]
- [1 1]]
+ [0 0]]
 </pre></div>
 </div>
 </div>

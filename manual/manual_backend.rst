@@ -47,7 +47,7 @@ Each :py:class:`Backend` object is aware of the restrictions of the underlying d
 .. Can check if a circuit satisfies all requirements with `valid_circuit`
 .. `compile_circuit` modifies a circuit in place to try to satisfy all backend requirements if possible (restrictions on measurements or conditional gate support may not be fixed by compilation)
 
-Knowing the requirements of each :py:class:`Backend` is handy in case it has consequences for how you design a :py:class:`Circuit`, but can generally be abstracted away. Calling :py:meth:`Backend.valid_circuit()` can check whether or not a :py:class:`Circuit` satisfies every requirement to run on the :py:class:`Backend`, and if it is not immediately valid then :py:meth:`Backend.compile_circuit` will modify the :py:class:`Circuit` in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation).
+Knowing the requirements of each :py:class:`Backend` is handy in case it has consequences for how you design a :py:class:`Circuit`, but can generally be abstracted away. Calling :py:meth:`Backend.valid_circuit()` can check whether or not a :py:class:`Circuit` satisfies every requirement to run on the :py:class:`Backend`, and if it is not immediately valid then :py:meth:`Backend.compile_circuit` will modify the :py:class:`Circuit` in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation). To get a copy of the compiled circuit without modifying it in place, use :py:meth:`Backend.get_compiled_circuit`.
 
 .. jupyter-execute::
 
@@ -432,7 +432,7 @@ For the final steps of retrieving and interpreting the results, it suffices to j
     if backend.supports_counts:
         circ.append(measure)
 
-    backend.compile_circuit(circ)
+    circ = backend.get_compiled_circuit(circ)
     handle = backend.process_circuit(circ, n_shots=2000)
 
     expectation = 0
@@ -491,8 +491,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
         0.8,    # XZZ
         1.2     # XXX
     ]
-    for c in circ_list:
-        backend.compile_circuit(c)
+    circ_list = backend.get_compiled_circuits(circ_list)
 
     handle_list = backend.process_circuits(circ_list, n_shots=2000)
     result_list = backend.get_results(handle_list)
@@ -586,7 +585,7 @@ Some simulators will have dedicated support for fast expectation value calculati
         iiz : 3.2})
 
     assert backend.supports_expectation
-    backend.compile_circuit(state)
+    state = backend.get_compiled_circuit(state)
     print(backend.get_pauli_expectation_value(state, xxy))
     print(backend.get_operator_expectation_value(state, op))
 
@@ -624,8 +623,7 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
     for m in [zzz, xzz, xxx]:
         c = state.copy()
         c.append(m)
-        backend.compile_circuit(c)
-        circ_list.append(c)
+        circ_list.append(backend.get_compiled_circuit(c))
     coeff_list = [
         -0.3j,  # ZZZ
         0.8,    # XZZ
@@ -680,7 +678,7 @@ Some :py:class:`Backend` s support persistent handles, in that the :py:class:`
 
     circ = Circuit(3, 3)
     circ.X(1).CZ(0, 1).CX(1, 2).measure_all()
-    backend.compile_circuit(circ)
+    circ = backend.get_compiled_circuit(circ)
     handle = backend.process_circuit(circ, n_shots=1000)
 
     # assert backend.persistent_handles
