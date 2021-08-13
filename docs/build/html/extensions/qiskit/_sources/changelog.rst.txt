@@ -1,6 +1,11 @@
 Changelog
 ~~~~~~~~~
 
+0.16.1 (July 2021)
+------------------
+
+* Fix slow/high memory use :py:meth:`AerBackend.get_operator_expectation_value`
+
 0.16.0 (July 2021)
 ------------------
 
