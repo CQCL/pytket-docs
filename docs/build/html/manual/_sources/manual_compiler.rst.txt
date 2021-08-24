@@ -251,22 +251,23 @@ Several heuristics have been implemented for identifying candidate placements. F
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
     from pytket.routing import GraphPlacement
-    circ = Circuit(4)
-    circ.CX(0, 1).CX(1, 2).CX(2, 3)
-    circ.CX(0, 1).CX(1, 2).CX(2, 3)
-    circ.CX(0, 1).CX(1, 2).CX(2, 3)
-    circ.CX(0, 1).CX(1, 2).CX(2, 3)
-    circ.CX(1, 3)   # Extra interaction hidden at higher depth than cutoff
+    circ = Circuit(5)
+    circ.CX(0, 1).CX(1, 2).CX(3, 4)
+    circ.CX(0, 1).CX(1, 2).CX(3, 4)
+    circ.CX(0, 1).CX(1, 2).CX(3, 4)
+    circ.CX(0, 1).CX(1, 2).CX(3, 4)
+    circ.CX(0, 1).CX(1, 2).CX(3, 4)
+    circ.CX(1, 4)   # Extra interaction hidden at higher depth than cutoff
 
-    backend = IBMQBackend("ibmqx2")
+    backend = IBMQBackend("ibmq_quito")
     g_pl = GraphPlacement(backend.backend_info.architecture)
     connected = ConnectivityPredicate(backend.backend_info.architecture)
 
     PlacementPass(g_pl).apply(circ)
     print(connected.verify(circ))   # Imperfect placement because the final CX was not considered
 
-    # Default depth limit is 5, but there is a new interaction at depth 10
-    g_pl.modify_config(depth_limit=15)
+    # Default depth limit is 5, but there is a new interaction at depth 11
+    g_pl.modify_config(depth_limit=11)
 
     PlacementPass(g_pl).apply(circ)
     print(connected.verify(circ))   # Now have an exact placement
