@@ -34,10 +34,10 @@ def random_sparse_ansatz(n_qubits, n_layers, p, rng_seed=None):
 # Let's examine a smallish example:
 
 from pytket.circuit import OpType
-from pytket.extensions.qiskit import tk_to_qiskit
+from pytket.circuit.display import render_circuit_jupyter
 
 c = random_sparse_ansatz(4, 3, 0.5, rng_seed=0)
-print(tk_to_qiskit(c))
+render_circuit_jupyter(c)
 print("Number of CX:", c.n_gates_of_type(OpType.CX))
 
 # Contextual optimizations allow us to shave some gates from the beginning and end of the circuit. Those at the end get commuted through the Measure gates into a classical post-processing circuit, which we can then pass to `BackendResult` methods to have the postprocessing performed automatically.
@@ -47,7 +47,7 @@ print("Number of CX:", c.n_gates_of_type(OpType.CX))
 from pytket.utils import prepare_circuit
 
 c0, ppcirc = prepare_circuit(c)
-print(tk_to_qiskit(c0))
+render_circuit_jupyter(c0)
 print("Number of CX:", c0.n_gates_of_type(OpType.CX))
 
 # In this case, one CX has been shaved from the beginning of the circuit and two from the end.

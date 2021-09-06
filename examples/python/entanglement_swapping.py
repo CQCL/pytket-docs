@@ -98,9 +98,9 @@ bell_test.Measure(charlie[0], data[1])
 # Run the experiment:
 
 backend.compile_circuit(bell_test)
-from pytket.extensions.qiskit import tk_to_qiskit
+from pytket.circuit.display import render_circuit_jupyter
 
-print(tk_to_qiskit(bell_test))
+render_circuit_jupyter(bell_test)
 handle = backend.process_circuit(bell_test, n_shots=2000)
 counts = backend.get_result(handle).get_counts()
 

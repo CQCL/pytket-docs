@@ -41,7 +41,13 @@ c.depth_by_type(OpType.CU1), c.depth_by_type(OpType.H)
 
 # ## Visualization
 
-# There are several ways to produce useful visualizations of circuits from `pytket`: we can use the built-in `Graph` class to visualize the circuit as a directed acyclic graph (DAG); we can convert the circuit to either Qiskit or Cirq and use the tools provided by those modules; or we can export to Latex.
+# There are several ways to produce useful visualizations of circuits from `pytket`: we can use the methods in the `pytket.circuit.display` class; we can use the built-in `Graph` class to visualize the circuit as a directed acyclic graph (DAG); we can convert the circuit to either Qiskit or Cirq and use the tools provided by those modules; or we can export to Latex.
+
+# ### Via the `render_circuit_jupyter` method
+
+from pytket.circuit.display import render_circuit_jupyter
+render_circuit_jupyter(c)
+
 
 # ### Via the `Graph` class
 

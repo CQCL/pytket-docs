@@ -36,7 +36,7 @@ state_prep_circ += evolution_circ
 
 # Now that we have a circuit, `pytket` can take this and start operating on it directly. For example, we can apply some basic compilation passes to simplify it.
 
-from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
+from pytket.extensions.qiskit import qiskit_to_tk
 
 tk_circ = qiskit_to_tk(state_prep_circ)
 
@@ -54,7 +54,8 @@ optimise.apply(tk_circ)
 
 # Display the optimised circuit:
 
-print(tk_to_qiskit(tk_circ))
+from pytket.circuit.display import render_circuit_jupyter
+render_circuit_jupyter(tk_circ)
 
 # The Backends in `pytket` abstract away the differences between different devices and simulators as much as possible, allowing painless switching between them. The `pytket_pyquil` package provides two Backends: `ForestBackend` encapsulates both running on physical devices via Rigetti QCS and simulating those devices on the QVM, and `ForestStateBackend` acts as a wrapper to the pyQuil Wavefunction Simulator.
 #

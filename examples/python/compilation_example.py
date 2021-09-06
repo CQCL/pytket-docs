@@ -7,8 +7,6 @@
 # * satisfies some further user-defined constraints (such as restricted gate sets);
 # * minimizes some cost function (such as CX count).
 
-# We will use Qiskit for circuit visualisation and for an example backend. For this it is necessary to have installed `pytket_qiskit` via `pip`.
-#
 # ## Passes
 
 # The basic mechanism of compilation is the 'pass', which is a transform that can be applied to a circuit. There is an extensive library of passes in `pytket`, and several standard ways in which they can be combined to form new passes. For example:
@@ -97,22 +95,22 @@ reppass = RepeatPass(seqpass)
 
 # This pass will repeatedly apply `CommuteThroughMultis` (which commutes single-qubit operations through multi-qubit operations where possible towards the start of the circuit) and `RemoveRedundancies` (which cancels inverse pairs, merges coaxial rotations and removes redundant gates before measurement) until neither pass has any effect on the circuit.
 #
-# Let's use Qiskit's visualizer to see the effect on a circuit:
+# Let's use `pytket`'s built-in visualizer to see the effect on a circuit:
 
-from pytket.extensions.qiskit import tk_to_qiskit
+from pytket.circuit.display import render_circuit_jupyter
 
 circ = Circuit(3)
 circ.X(0).Y(1).CX(0, 1).Z(0).Rx(1.3, 1).CX(0, 1).Rz(0.4, 0).Ry(0.53, 0).H(1).H(2).Rx(
     1.5, 2
 ).Rx(0.5, 2).H(2)
 
-print(tk_to_qiskit(circ))
+render_circuit_jupyter(circ)
 
 cu = CompilationUnit(circ)
 reppass.apply(cu)
 circ1 = cu.circuit
 
-print(tk_to_qiskit(circ1))
+render_circuit_jupyter(circ1)
 
 # If we want to repeat a pass until the circuit satisfies some desired property, we first define a boolean function to test for that property, and then pass this function to the constructor of a `RepeatUntilSatisfied` pass:
 
@@ -143,7 +141,7 @@ cu = CompilationUnit(circ)
 custom_pass.apply(cu)
 circ1 = cu.circuit
 
-print(tk_to_qiskit(circ1))
+render_circuit_jupyter(circ1)
 
 # The `RepeatWithMetricPass` provides another way of generating more sophisticated passes. This is defined in terms of a cost function and another pass type; the pass is applied repeatedly until the cost function stops decreasing.
 #
@@ -200,7 +198,7 @@ circ.X(2)
 circ.CX(1, 4)
 circ.CX(0, 4)
 
-print(tk_to_qiskit(circ))
+render_circuit_jupyter(circ)
 
 # A mapping pass lets us rewrite this circuit for our architecture:
 
@@ -211,7 +209,7 @@ cu = CompilationUnit(circ)
 mapper.apply(cu)
 circ1 = cu.circuit
 
-print(tk_to_qiskit(circ1))
+render_circuit_jupyter(circ1)
 
 # If we want to decompose all SWAP and BRIDGE gates to CX gates in the final circuit, we can use another pass:
 
@@ -221,7 +219,7 @@ pass1 = DecomposeSwapsToCXs(arc)
 pass1.apply(cu)
 circ2 = cu.circuit
 
-print(tk_to_qiskit(circ2))
+render_circuit_jupyter(circ2)
 
 # Note that the pass we just ran also performed some clean-up: the SWAP gate was decomposed into three CX gates, one of which was cancelled by a preceding CX gate; the cancelling gates were removed from the circuit.
 #
@@ -262,7 +260,7 @@ b.default_compilation_pass
 circ = Circuit(2).X(0).Y(1).CRz(0.5, 1, 0)
 circ1 = circ.copy()
 b.compile_circuit(circ1)
-print(tk_to_qiskit(circ1))
+render_circuit_jupyter(circ1)
 
 # Every `Backend` will have a certain set of requirements that must be met by any circuit in order to run. These are exposed via the `required_predicates` property:
 
