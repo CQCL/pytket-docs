@@ -65,7 +65,7 @@ Some information, including gate error rates, is stored in attributes with speci
     node[3]: 0.00015814094160059136, 
     node[4]: 0.00013411930305754117}    
 
-While other information is stored in a generic dictionary and is accessible through the :py:class:`Backend` `characterisation` member.
+Other information is stored in a generic dictionary and is accessible through the :py:class:`Backend` `characterisation` member.
 
 .. jupyter-input::
 
