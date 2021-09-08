@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Changelog &mdash; pytket 0.13.0 documentation</title>
+  <title>Changelog &mdash; pytket 0.14.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.13
+                0.14
               </div>
             
           
@@ -96,6 +96,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#september-2021">0.14.0 (September 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#july-2021">0.13.0 (July 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#june-2021">0.12.0 (June 2021)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#may-2021">0.11.0 (May 2021)</a></li>
@@ -224,6 +225,38 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="september-2021">
+<h2>0.14.0 (September 2021)<a class="headerlink" href="#september-2021" title="Permalink to this headline">¶</a></h2>
+<p>Major new features:</p>
+<ul class="simple">
+<li><p>New <code class="docutils literal notranslate"><span class="pre">Circuit.add_assertion</span></code> method for applying quantum assertions to circuits.
+Two new box types  <code class="docutils literal notranslate"><span class="pre">StabiliserAssertionBox</span></code> and <code class="docutils literal notranslate"><span class="pre">ProjectorAssertionBox</span></code>.
+New <code class="docutils literal notranslate"><span class="pre">BackendResult.get_debug_info</span></code> method for summarising assertion results.
+New <code class="docutils literal notranslate"><span class="pre">PauliStabiliser</span></code> class.</p></li>
+<li><p>New compilerpass for architecture aware synthesis of phase polynomials <code class="docutils literal notranslate"><span class="pre">AASRouting</span></code>.</p></li>
+</ul>
+<p>Minor new features:</p>
+<ul class="simple">
+<li><p>Update circuit display to include extra gate information and use ZX-style colours.</p></li>
+<li><p><cite>BackendInfo</cite>, <cite>Architecture</cite> and <cite>Node</cite> are now JSON-serializable.</p></li>
+<li><p><cite>QubitPauliOperator</cite> and <cite>QubitPauliString</cite> are now JSON-serializable.</p></li>
+<li><p>Equality checks on <cite>Architecture</cite> only consider node IDs and coupling.</p></li>
+<li><p>New pass <cite>DecomposeMultiQubitsCX</cite>, equivalent to <cite>DecomposeMultiQubitsIBM</cite> (which is deprecated).</p></li>
+<li><p>New pass <cite>DecomposeSingleQubitsTK1</cite>.</p></li>
+<li><p>New pass <cite>SynthesiseTket</cite>.</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">XXPhase3</span></code> OpType.</p></li>
+</ul>
+<p>API changes:</p>
+<ul class="simple">
+<li><p>The transforms <cite>ReduceSingles</cite>, <cite>OptimisePauliGadgets</cite> and <cite>OptimisePhaseGadgets</cite>, and the passes <cite>CliffordSimp</cite>, <cite>PeepholeOptimise2Q</cite>, <cite>FullPeepholeOptimise</cite> and <cite>OptimisePhaseGadgets</cite>, produce TK1 instead of U gates.</p></li>
+<li><p>The passes <cite>O2Pass</cite>, <cite>O1Pass</cite> and <cite>DecomposeSingleQubitsIBM</cite> are removed (use <cite>FullPeepholeOptimise</cite> and <cite>SynthesiseTket</cite> instead for the first two).</p></li>
+<li><p><cite>QubitPauliOperator.to_dict()</cite> (deprecated) is replaced by the property <cite>QubitPauliOperator.map</cite>.</p></li>
+</ul>
+<p>Deprecations:</p>
+<ul class="simple">
+<li><p>The passes`DecomposeMultiQubitsIBM` (equivalent to <cite>DecomposeMultiQubitsCX</cite>), <cite>DecomposeSingleQubitsIBM</cite>, <cite>RebaseToQiskit</cite>, <cite>SynthesiseIBM</cite>, <cite>RebaseIBM</cite> and <cite>USquashIBM</cite> are deprecated.</p></li>
+</ul>
+</div>
 <div class="section" id="july-2021">
 <h2>0.13.0 (July 2021)<a class="headerlink" href="#july-2021" title="Permalink to this headline">¶</a></h2>
 <p>Major new features:</p>

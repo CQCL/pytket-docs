@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.pauli &mdash; pytket 0.13.0 documentation</title>
+  <title>pytket.pauli &mdash; pytket 0.14.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.13
+                0.14
               </div>
             
           
@@ -213,13 +213,46 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="pytket.pauli.PauliStabiliser">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytket.pauli.</span></span><span class="sig-name descname"><span class="pre">PauliStabiliser</span></span><a class="headerlink" href="#pytket.pauli.PauliStabiliser" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string of Pauli letters from the alphabet {I, X, Y, Z} with a +/- 1 coefficient.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.pauli.PauliStabiliser.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.pauli.PauliStabiliser.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(<a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs)
+Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.pauli.PauliStabiliser) -&gt; None</p></li>
+</ol>
+<p>Constructs an empty QubitPauliString.</p>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.pauli.PauliStabiliser, string: List[pytket.pauli.Pauli], coeff: int) -&gt; None</p></li>
+</ol>
+<p>Constructs a PauliStabiliser with a list of Pauli terms.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytket.pauli.PauliStabiliser.coeff">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">coeff</span></span><a class="headerlink" href="#pytket.pauli.PauliStabiliser.coeff" title="Permalink to this definition">¶</a></dt>
+<dd><p>The coefficient of the stabiliser</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytket.pauli.PauliStabiliser.string">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">string</span></span><a class="headerlink" href="#pytket.pauli.PauliStabiliser.string" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of Pauli terms</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="pytket.pauli.QubitPauliString">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytket.pauli.</span></span><span class="sig-name descname"><span class="pre">QubitPauliString</span></span><a class="headerlink" href="#pytket.pauli.QubitPauliString" title="Permalink to this definition">¶</a></dt>
 <dd><p>A string of Pauli letters from the alphabet {I, X, Y, Z},implemented as a sparse list, indexed by qubit.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.pauli.QubitPauliString.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.pauli.QubitPauliString.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>__init__(<a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs)
+<dd><p>__init__(<a href="#id5"><span class="problematic" id="id6">*</span></a>args, <a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs)
 Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: pytket.pauli.QubitPauliString) -&gt; None</p></li>
@@ -289,6 +322,12 @@ Overloaded function.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pytket.pauli.QubitPauliString.from_list">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">from_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">json</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString"><span class="pre">pytket.pauli.QubitPauliString</span></a></span></span><a class="headerlink" href="#pytket.pauli.QubitPauliString.from_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a new QubitPauliString instance from a JSON serializable list representation.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pytket.pauli.QubitPauliString.state_expectation">
 <span class="sig-name descname"><span class="pre">state_expectation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.pauli.QubitPauliString.state_expectation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
@@ -324,11 +363,13 @@ Overloaded function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.pauli.QubitPauliString.to_dict">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString"><span class="pre">pytket.pauli.QubitPauliString</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#pytket.pauli.Pauli" title="pytket.pauli.Pauli"><span class="pre">pytket.pauli.Pauli</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pytket.pauli.QubitPauliString.to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>the string as a python dict mapping <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> to <a class="reference internal" href="#pytket.pauli.Pauli" title="pytket.pauli.Pauli"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pauli</span></code></a></p>
-</dd>
-</dl>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.pauli.QubitPauliString.to_list">
+<span class="sig-name descname"><span class="pre">to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.pauli.QubitPauliString" title="pytket.pauli.QubitPauliString"><span class="pre">pytket.pauli.QubitPauliString</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">json</span></span></span><a class="headerlink" href="#pytket.pauli.QubitPauliString.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>A JSON-serializable representation of the QubitPauliString. 
+:return: a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code>-to-<a class="reference internal" href="#pytket.pauli.Pauli" title="pytket.pauli.Pauli"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pauli</span></code></a> entries, represented as dicts.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -366,6 +407,16 @@ Overloaded function.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>a sparse matrix corresponding to the operator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pytket.pauli.QubitPauliString.map">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">map</span></span><a class="headerlink" href="#pytket.pauli.QubitPauliString.map" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the QubitPauliString’s underlying dict mapping <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> to <a class="reference internal" href="#pytket.pauli.Pauli" title="pytket.pauli.Pauli"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pauli</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

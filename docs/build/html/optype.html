@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.circuit.OpType &mdash; pytket 0.13.0 documentation</title>
+  <title>pytket.circuit.OpType &mdash; pytket 0.14.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.13
+                0.14
               </div>
             
           
@@ -272,6 +272,7 @@ Therefore, for instance <cite>circuit.add_gate(OpType.Rx, 1, [0])</cite> is equi
 <p>XXPhase : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{-\frac12 i \pi\alpha (\mathrm{X} \otimes \mathrm{X})} = \left[ \begin{array}{cccc} \cos\frac{\pi\alpha}{2} &amp; 0 &amp; 0 &amp; -i\sin\frac{\pi\alpha}{2} \\ 0 &amp; \cos\frac{\pi\alpha}{2} &amp; -i\sin\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; -i\sin\frac{\pi\alpha}{2} &amp; \cos\frac{\pi\alpha}{2} &amp; 0 \\ -i\sin\frac{\pi\alpha}{2} &amp; 0 &amp; 0 &amp; \cos\frac{\pi\alpha}{2} \end{array} \right]\)</span></p>
 <p>YYPhase : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{-\frac12 i \pi\alpha (\mathrm{Y} \otimes \mathrm{Y})} = \left[ \begin{array}{cccc} \cos\frac{\pi\alpha}{2} &amp; 0 &amp; 0 &amp; i\sin\frac{\pi\alpha}{2} \\ 0 &amp; \cos\frac{\pi\alpha}{2} &amp; -i\sin\frac{\pi\alpha}{2} &amp; 0 \\ 0 &amp; -i\sin\frac{\pi\alpha}{2} &amp; \cos\frac{\pi\alpha}{2} &amp; 0 \\ i\sin\frac{\pi\alpha}{2} &amp; 0 &amp; 0 &amp; \cos\frac{\pi\alpha}{2} \end{array} \right]\)</span></p>
 <p>ZZPhase : <span class="math notranslate nohighlight">\((\alpha) \mapsto e^{-\frac12 i \pi\alpha (\mathrm{Z} \otimes \mathrm{Z})} = \left[ \begin{array}{cccc} e^{-\frac12 i \pi\alpha} &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; e^{\frac12 i \pi\alpha} &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; e^{\frac12 i \pi\alpha} &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; e^{-\frac12 i \pi\alpha} \end{array} \right]\)</span></p>
+<p>XXPhase3 : A 3-qubit gate XXPhase3(α) consists of pairwise 2-qubit XXPhase(α) interactions. Equivalent to XXPhase(α)[0, 1] XXPhase(α)[1, 2] XXPhase(α)[0, 2].</p>
 <p>PhasedX : <span class="math notranslate nohighlight">\((\alpha,\beta) \mapsto \mathrm{Rz}(\beta)\mathrm{Rx}(\alpha)\mathrm{Rz}(-\beta)\)</span> (matrix-multiplication order)</p>
 <p>CnRy : <span class="math notranslate nohighlight">\((\alpha)\)</span> := n-controlled <span class="math notranslate nohighlight">\(\mathrm{Ry}(\alpha)\)</span> gate.</p>
 <p>CnX : n-controlled X gate.</p>
