@@ -47,7 +47,7 @@ their programming interface. When available, :py:class:`Backend`
 objects will populate a :py:class:`BackendInfo` object with this information. 
 
 A :py:class:`BackendInfo` object contains a variety of characterisation information supplied by hardware providers.   
-Some information, including gate error rates, are stored in prenamed attributes
+Some information, including gate error rates, is stored in attributes with specific names.
 
 
 .. jupyter-input::
