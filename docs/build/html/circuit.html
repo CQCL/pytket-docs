@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.circuit &mdash; pytket 0.13.0 documentation</title>
+  <title>pytket.circuit &mdash; pytket 0.14.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.13
+                0.14
               </div>
             
           
@@ -612,6 +612,22 @@ Overloaded function.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.circuit.Node.from_list">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">from_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">json</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a></span></span><a class="headerlink" href="#pytket.circuit.Node.from_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct Node instance from JSON serializable list representation of the Node.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.circuit.Node.to_list">
+<span class="sig-name descname"><span class="pre">to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.circuit.Node" title="pytket.circuit.Node"><span class="pre">pytket.circuit.Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">json</span></span></span><a class="headerlink" href="#pytket.circuit.Node.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a JSON serializable list representation of the Node</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1068,6 +1084,58 @@ Every backend and matrix-based box has a BasisOrder option which can toggle betw
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>the number of pure outputs from the box.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytket.circuit.ProjectorAssertionBox">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytket.circuit.</span></span><span class="sig-name descname"><span class="pre">ProjectorAssertionBox</span></span><a class="headerlink" href="#pytket.circuit.ProjectorAssertionBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user-defined assertion specified by a 2x2, 4x4, or 8x8 projector matrix.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.circuit.ProjectorAssertionBox.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.circuit.ProjectorAssertionBox" title="pytket.circuit.ProjectorAssertionBox"><span class="pre">pytket.circuit.ProjectorAssertionBox</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.complex128</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><span class="pre">pytket.circuit.BasisOrder</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">BasisOrder.ilo</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pytket.circuit.ProjectorAssertionBox.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: pytket.circuit.ProjectorAssertionBox, m: numpy.ndarray[numpy.complex128[m, n]], basis: pytket.circuit.BasisOrder = &lt;BasisOrder.ilo: 0&gt;) -&gt; None</p>
+<p>Construct from a projector matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> – The projector matrix</p></li>
+<li><p><strong>basis</strong> – Whether the provided unitary is in the ILO-BE (increasing lexicographic order of qubit ids, big-endian indexing) format, or DLO-BE (decreasing lexicographic order of ids)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytket.circuit.StabiliserAssertionBox">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytket.circuit.</span></span><span class="sig-name descname"><span class="pre">StabiliserAssertionBox</span></span><a class="headerlink" href="#pytket.circuit.StabiliserAssertionBox" title="Permalink to this definition">¶</a></dt>
+<dd><p>A user-defined assertion specified by a list of pauli stabilisers.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytket.circuit.StabiliserAssertionBox.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytket.circuit.StabiliserAssertionBox.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(<a href="#id17"><span class="problematic" id="id18">*</span></a>args, <a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs)
+Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__init__(self: pytket.circuit.StabiliserAssertionBox, stabilisers: List[pytket.circuit.PauliStabiliser]) -&gt; None</p></li>
+</ol>
+<p>Construct from a list of pauli stabilisers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>m</strong> – The list of pauli stabilisers</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>__init__(self: pytket.circuit.StabiliserAssertionBox, stabilisers: List[str]) -&gt; None</p></li>
+</ol>
+<p>Construct from a list of pauli stabilisers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>m</strong> – The list of pauli stabilisers expressed as Python strings</p>
 </dd>
 </dl>
 </dd></dl>

@@ -39,7 +39,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -664,8 +664,8 @@ True
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[1], q[0];, U1(0.5) q[0];]
-[U1(0.5) q[0];, U3(3.5, 1.42, 0) q[1];, U3(0.5, 1.5, 0.5) q[2];, CX q[1], q[2];, U3(1.5, 1.5, 1.46) q[2];, CX q[1], q[2];, U3(0.5, 1.5, 0.5) q[1];, CX q[0], q[1];, U3(0.5, 0, 1) q[1];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[1], q[0];, tk1(0, 0, 0.5) q[0];]
+[tk1(0, 0, 0.5) q[0];, tk1(1.92, 3.5, 3.5) q[1];, tk1(0, 0.5, 0) q[2];, CX q[1], q[2];, tk1(0, 1.5, 0.96) q[2];, CX q[1], q[2];, tk1(0, 0.5, 0) q[1];, CX q[0], q[1];, tk1(0.5, 0.5, 0.5) q[1];]
 </pre></div>
 </div>
 </div>
@@ -697,7 +697,7 @@ True
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CZ q[0], q[1];, Rx(0.4) q[0];, Rz(0.289) q[0];, Ry(3.66) q[0];, Rz(0.12) q[0];, Ry(3.19) q[0];, CX q[1], q[0];]
-[CX q[0], q[1];, tk1(0, 0.5, 3) q[2];, tk1(3.39281, 0.5, 1) q[1];, CX q[1], q[2];, tk1(3.5, 0.425003, 1) q[1];, tk1(1, 0.5, 0.06) q[2];, CX q[1], q[2];, tk1(0, 0.5, 3.31281) q[1];, tk1(0.5, 0, 0) q[2];, CX q[1], q[0];]
+[CX q[0], q[1];, tk1(0, 0.5, 0) q[2];, tk1(0.607193, 0.5, 0) q[1];, CX q[1], q[2];, tk1(3.5, 0.425003, 1) q[1];, tk1(1, 0.5, 0.06) q[2];, CX q[1], q[2];, tk1(1, 0.5, 3.68719) q[1];, tk1(3.5, 0, 0) q[2];, CX q[1], q[0];]
 </pre></div>
 </div>
 </div>
@@ -854,7 +854,7 @@ True
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">e455c605f47a</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_29051</span><span class="o">/</span><span class="mf">723866287.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># PauliSimp requires a specific gateset and no conditional gates</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># or mid-circuit measurement, so this will raise an exception</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">comp</span> <span class="o">=</span> <span class="n">SequencePass</span><span class="p">([</span><span class="n">DecomposeBoxes</span><span class="p">(),</span> <span class="n">PauliSimp</span><span class="p">()])</span>
@@ -1048,7 +1048,7 @@ CXs 3
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.75+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.7499999999999999+0j)
 (1.5+0j)
 </pre></div>
 </div>
@@ -1371,11 +1371,11 @@ the main circuit and the postprocessing circuit, returning both.</p>
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
  [0 0]
  [0 0]
+ [0 0]
+ [0 0]
  [1 1]
+ [0 0]
  [1 1]
- [0 0]
- [0 0]
- [0 0]
  [1 1]
  [1 1]]
 </pre></div>

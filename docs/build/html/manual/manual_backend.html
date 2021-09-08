@@ -39,7 +39,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -230,7 +230,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[U3(0.3, 1.2, 0.5) q[0];, U3(0.5, 0, 0) q[1];, CX q[1], q[0];, U1(0.3) q[0];, CX q[1], q[0];, Measure q[0] --&gt; c[0];, Measure q[1] --&gt; c[1];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[tk1(3.7, 0.3, 0) q[0];, tk1(0.5, 0.5, 3.5) q[1];, CX q[1], q[0];, tk1(0, 0, 0.3) q[0];, CX q[1], q[0];, Measure q[0] --&gt; c[0];, Measure q[1] --&gt; c[1];]
 </pre></div>
 </div>
 </div>
@@ -277,21 +277,21 @@
  [0 1]
  [1 1]
  [0 1]
- [0 1]
- [0 1]
  [1 1]
- [1 1]
+ [0 1]
  [0 1]
  [1 1]
  [0 1]
- [1 1]
+ [0 1]
+ [0 1]
+ [0 1]
+ [0 1]
+ [0 1]
  [1 1]
  [0 1]
  [1 1]
- [1 1]
- [1 1]
  [0 1]
- [1 1]
+ [0 1]
  [1 1]]
 </pre></div>
 </div>
@@ -318,8 +318,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1017, (1, 1): 983})
-{(0, 1): 0.5085, (1, 1): 0.4915}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1031, (0, 1): 969})
+{(0, 1): 0.4845, (1, 1): 0.5155}
 </pre></div>
 </div>
 </div>
@@ -344,7 +344,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[0.     +0.j      0.70711+0.j      0.     +0.j      0.     +0.j
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[0.     +0.j      0.70711-0.j      0.     +0.j      0.     +0.j
  0.     +0.j      0.     +0.j      0.     +0.j      0.     +0.70711j]
 </pre></div>
 </div>
@@ -373,8 +373,8 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[ 0.70711+0.j  0.     +0.j  0.70711-0.j  0.     +0.j]
  [ 0.     +0.j  0.70711+0.j  0.     +0.j  0.70711-0.j]
- [ 0.     +0.j  0.70711+0.j  0.     +0.j -0.70711+0.j]
- [ 0.70711+0.j  0.     +0.j -0.70711+0.j  0.     +0.j]]
+ [ 0.     +0.j  0.70711-0.j  0.     +0.j -0.70711+0.j]
+ [ 0.70711-0.j  0.     +0.j -0.70711+0.j  0.     +0.j]]
 </pre></div>
 </div>
 </div>
@@ -491,7 +491,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.018000000000000016
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.03200000000000003
 </pre></div>
 </div>
 </div>
@@ -547,10 +547,12 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[ 0.63003676+0.j -0.32101976+0.j  0.63003676+0.j -0.32101976+0.j
-  0.        +0.j  0.        +0.j  0.        +0.j  0.        +0.j]
-Counter({(0, 0, 0): 790, (1, 0, 0): 762, (1, 0, 1): 234, (0, 0, 1): 214})
-Counter({(0, 0): 1552, (0, 1): 448})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[ 0.63003676+0.00000000e+00j -0.32101976+1.96567911e-17j
+  0.63003676-3.85786248e-17j -0.32101976+3.93135823e-17j
+  0.        +0.00000000e+00j  0.        +0.00000000e+00j
+  0.        +0.00000000e+00j  0.        +0.00000000e+00j]
+Counter({(1, 0, 0): 827, (0, 0, 0): 807, (0, 0, 1): 187, (1, 0, 1): 179})
+Counter({(0, 0): 1634, (0, 1): 366})
 </pre></div>
 </div>
 </div>
@@ -597,10 +599,8 @@ Counter({(0, 0): 1552, (0, 1): 448})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0030000000000000027
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.284+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.02499999999999991
+(0.295+0j)
 </pre></div>
 </div>
 </div>
@@ -628,11 +628,8 @@ Counter({(0, 0): 1552, (0, 1): 448})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 411, (0, 1, 1): 403, (0, 0, 1): 393, (0, 1, 0): 377, (1, 1, 1): 111, (1, 0, 1): 110, (1, 0, 0): 101, (1, 1, 0): 94})
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-0.018000000000000016
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 0): 413, (0, 1, 1): 396, (0, 0, 0): 383, (0, 0, 1): 366, (1, 0, 0): 120, (1, 1, 0): 114, (1, 1, 1): 111, (1, 0, 1): 97})
+-0.010000000000000009
 </pre></div>
 </div>
 </div>
@@ -671,7 +668,7 @@ Counter({(0, 0): 1552, (0, 1): 448})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 157, (1, 1, 1): 141, (0, 1, 0): 134, (1, 0, 0): 124, (0, 0, 0): 123, (0, 0, 1): 115, (0, 1, 1): 111, (1, 1, 0): 95})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 137, (1, 1, 1): 135, (1, 0, 1): 127, (1, 1, 0): 123, (0, 0, 0): 121, (1, 0, 0): 120, (0, 1, 0): 119, (0, 1, 1): 118})
 </pre></div>
 </div>
 </div>
@@ -724,7 +721,7 @@ Counter({(0, 0): 1552, (0, 1): 448})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.016000000000000014
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0030000000000000027
 </pre></div>
 </div>
 </div>
@@ -866,7 +863,9 @@ Counter({(0, 0): 1552, (0, 1): 448})
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-1.0
-0.20000000000000046
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.20000000000000068
 </pre></div>
 </div>
 </div>
@@ -1022,7 +1021,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 7, (1, 1): 3})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 6, (0, 0): 4})
 </pre></div>
 </div>
 </div>
