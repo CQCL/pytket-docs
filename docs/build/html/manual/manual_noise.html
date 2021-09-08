@@ -39,7 +39,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -194,7 +194,7 @@ vary over time, a phenomenon commonly referred to as device drift
 their programming interface. When available, <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>
 objects will populate a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code> object with this information.</p>
 <p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code> object contains a variety of characterisation information supplied by hardware providers.
-Some information, including gate error rates, are stored in prenamed attributes</p>
+Some information, including gate error rates, is stored in attributes with specific names.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
@@ -214,7 +214,7 @@ Some information, including gate error rates, are stored in prenamed attributes<
 </div>
 </div>
 </div>
-<p>While other information is stored in a generic dictionary and is accessible through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> <cite>characterisation</cite> member.</p>
+<p>Other information is stored in a generic dictionary and is accessible through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> <cite>characterisation</cite> member.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">characterisation</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -671,9 +671,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 415, (1, 1): 413, (0, 1): 86, (1, 0): 86})
-Corrected Counts: Counter({(0, 0): 486, (1, 1): 473, (0, 1): 25, (1, 0): 18})
-Noiseless Counts: Counter({(1, 1): 506, (0, 0): 494})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 447, (1, 1): 397, (1, 0): 88, (0, 1): 68})
+Corrected Counts: Counter({(0, 0): 509, (1, 1): 443, (1, 0): 29, (0, 1): 21})
+Noiseless Counts: Counter({(1, 1): 507, (0, 0): 493})
 </pre></div>
 </div>
 </div>
