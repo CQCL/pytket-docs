@@ -48,6 +48,7 @@ c.depth_by_type(OpType.CU1), c.depth_by_type(OpType.H)
 from pytket.circuit.display import render_circuit_jupyter
 render_circuit_jupyter(c)
 
+# Notice that although the `render_circuit_jupyter` method is the recommended way to render a circuit as jupyter cell output, one of the other methods should be used when working with scripts or python shells.
 
 # ### Via the `Graph` class
 
