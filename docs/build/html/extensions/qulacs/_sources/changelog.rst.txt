@@ -1,6 +1,12 @@
 Changelog
 ~~~~~~~~~
 
+0.11.0 (September 2021)
+-----------------------
+
+* Updated qulacs version requirement to 0.3.
+* Updated pytket version requirement to 0.14.
+
 0.10.0 (July 2021)
 ------------------
 

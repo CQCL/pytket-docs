@@ -44,8 +44,10 @@ vary over time, a phenomenon commonly referred to as device drift
 
 Some devices expose error characterisation information through
 their programming interface. When available, :py:class:`Backend`
-objects will populate a characterisation property with this
-information.
+objects will populate a :py:class:`BackendInfo` object with this information. 
+
+A :py:class:`BackendInfo` object contains a variety of characterisation information supplied by hardware providers.   
+Some information, including gate error rates, is stored in attributes with specific names.
 
 
 .. jupyter-input::
@@ -53,93 +55,69 @@ information.
     from pytket.extensions.qiskit import IBMQBackend
 
     backend = IBMQBackend("ibmq_santiago")
-    for key in backend.characterisation:
-        print(key)
+    print(backend.backend_info.averaged_node_gate_errors)
 
 .. jupyter-output::
 
-    NodeErrors
-    EdgeErrors
-    Architecture
-    t1times
-    t2times
-    Frequencies
-    GateTimes
+   {node[0]: 0.0002186159622502225, 
+    node[1]: 0.0002839221599849252, 
+    node[2]: 0.00014610243862697218, 
+    node[3]: 0.00015814094160059136, 
+    node[4]: 0.00013411930305754117}    
 
-.. Device class
+Other information is stored in a generic dictionary and is accessible through the :py:class:`Backend` `characterisation` member.
 
-The ``characterisation`` member of :py:class:`Backend` contains all characterisation information supplied by hardware providers and used in noise aware mapping methods, including single-qubit and two-qubit gate error rates and readout error rates. 
+.. jupyter-input::
+
+    print(backend.characterisation.keys())
+
+.. jupyter-output::
+
+    dict_keys(['t1times', 't2times', 'Frequencies', 'GateTimes'])
 
 There is typically a large variation in device noise characteristics.
 
 .. jupyter-input::
 
-    print(backend.characterisation["NodeErrors"])
-    print(backend.characterisation["EdgeErrors"])
+   from pytket.circuit import Node
+
+   print(backend.backend_info.all_node_gate_errors[Node(0)])
+   print(backend.backend_info.all_node_gate_errors[Node(1)])
     
 .. jupyter-output::
+    
+   {<OpType.noop: 55>: 0.00036435993708370417, 
+    <OpType.Rz: 32>: 0.0, 
+    <OpType.SX: 27>: 0.00036435993708370417, 
+    <OpType.X: 19>: 0.00036435993708370417, 
+    <OpType.Reset: 58>: 0.0}
+    {<OpType.noop: 55>: 0.0004732035999748754, 
+    <OpType.Rz: 32>: 0.0, 
+    <OpType.SX: 27>: 0.0004732035999748754, 
+    <OpType.X: 19>: 0.0004732035999748754, 
+    <OpType.Reset: 58>: 0.0}
 
-    Node Errors:
-    node[0]
-        Readout: 0.041
-        U3: 0.00120274
-        U2: 0.000601552
-        U1: 0
-        noop: 0.000601552
-    node[1]
-        Readout: 0.024
-        U3: 0.000741646
-        U2: 0.000370892
-        U1: 0
-        noop: 0.000370892
-    node[2]
-        Readout: 0.016
-        U3: 0.000747229
-        U2: 0.000373684
-        U1: 0
-        noop: 0.000373684
-    node[3]
-        Readout: 0.032
-        U3: 0.000657834
-        U2: 0.000328971
-        U1: 0
-        noop: 0.000328971
-    node[4]
-        Readout: 0.039
-        U3: 0.000937744
-        U2: 0.000468982
-        U1: 0
-        noop: 0.000468982
+.. jupyter-input::
+ 
+   print(backend.backend_info.all_edge_gate_errors)
 
-    Edge Errors:
-    node[0]->node[1]
-        CX: 0.0215313
-    node[1]->node[0]
-        CX: 0.0215313
-    node[1]->node[2]
-        CX: 0.0234287
-    node[1]->node[3]
-        CX: 0.0201425
-    node[2]->node[1]
-        CX: 0.0234287
-    node[3]->node[1]
-        CX: 0.0201425
-    node[3]->node[4]
-        CX: 0.016031
-    node[4]->node[3]
-        CX: 0.016031
+.. jupyter-output::
 
-
-Consider ``node[0]`` which reports considerably larger error rates for a
-U3 gate than all other nodes.  Given this variety, it is possible, at
-least in principle, to achieve better overall performance by
-preferentially using the qubits and couplings with lowest error rate.
+   {(node[4], node[3]): {<OpType.CX: 37>: 0.01175674116384029}, 
+   (node[3], node[4]): {<OpType.CX: 37>: 0.005878370581920145}, 
+   (node[2], node[3]): {<OpType.CX: 37>: 0.013302220876095505}, 
+   (node[3], node[2]): {<OpType.CX: 37>: 0.006651110438047753}, 
+   (node[2], node[1]): {<OpType.CX: 37>: 0.022572084465386333}, 
+   (node[1], node[2]): {<OpType.CX: 37>: 0.011286042232693166}, 
+   (node[0], node[1]): {<OpType.CX: 37>: 0.026409836177538337}, 
+   (node[1], node[0]): {<OpType.CX: 37>: 0.013204918088769169}}
+   
 
 Recall that mapping in ``pytket`` works in two phases --
 first assigning logical circuit qubits to physical device qubits
 (placement) and then permuting these qubits via ``OpType.SWAP``
 networks (routing).  Device characteristics can inform the choices
-made in both phases.
+made in both phases, by prioritising edges with lower error rates.
 
 .. Noise-Aware placement is effective
 

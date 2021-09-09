@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.transform &mdash; pytket 0.13.0 documentation</title>
+  <title>pytket.transform &mdash; pytket 0.14.0 documentation</title>
   
 
   
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                0.13
+                0.14
               </div>
             
           
@@ -353,13 +353,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.transform.Transform.OptimisePauliGadgets">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">OptimisePauliGadgets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cx_config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.transform.CXConfigType" title="pytket.transform.CXConfigType"><span class="pre">pytket.transform.CXConfigType</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">CXConfigType.Snake</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform"><span class="pre">pytket.transform.Transform</span></a></span></span><a class="headerlink" href="#pytket.transform.Transform.OptimisePauliGadgets" title="Permalink to this definition">¶</a></dt>
-<dd><p>An optimisation pass that identifies the Pauli gadgets corresponding to any non-Clifford rotations and synthesises them pairwise (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>). Results use Z, X, S, V, U1, U2, U3, CX gates.</p>
+<dd><p>An optimisation pass that identifies the Pauli gadgets corresponding to any non-Clifford rotations and synthesises them pairwise (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>). Results use tk1, CX gates.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.transform.Transform.OptimisePhaseGadgets">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">OptimisePhaseGadgets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cx_config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pytket.transform.CXConfigType" title="pytket.transform.CXConfigType"><span class="pre">pytket.transform.CXConfigType</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">CXConfigType.Snake</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform"><span class="pre">pytket.transform.Transform</span></a></span></span><a class="headerlink" href="#pytket.transform.Transform.OptimisePhaseGadgets" title="Permalink to this definition">¶</a></dt>
-<dd><p>An optimisation pass that starts by identifying subcircuits corresponding to phase gadgets (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>) and resynthesises them in a balanced-tree form, followed by applying OptimisePostRouting. Results use U1, U2, U3, CX gates. This will not preserve CX placement or orientation.</p>
+<dd><p>An optimisation pass that starts by identifying subcircuits corresponding to phase gadgets (see Cowtan, Duncan, Dilkes, Simmons, &amp; Sivarajah <a class="reference external" href="https://arxiv.org/abs/1906.01734">https://arxiv.org/abs/1906.01734</a>) and resynthesises them in a balanced-tree form, followed by applying OptimisePostRouting. Results use TK1 and CX gates. This will not preserve CX placement or orientation.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -395,7 +395,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.transform.Transform.RebaseToQiskit">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">RebaseToQiskit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform"><span class="pre">pytket.transform.Transform</span></a></span></span><a class="headerlink" href="#pytket.transform.Transform.RebaseToQiskit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rebase from any gate set into U1, U2, U3, CX.</p>
+<dd><p>Rebase from any gate set into U1, U2, U3, CX. Deprecated.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -413,7 +413,7 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.transform.Transform.ReduceSingles">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">ReduceSingles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.transform.Transform" title="pytket.transform.Transform"><span class="pre">pytket.transform.Transform</span></a></span></span><a class="headerlink" href="#pytket.transform.Transform.ReduceSingles" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reduces any sequence of single qubit rotations into a single U1/U3 gate.</p>
+<dd><p>Reduces each sequence of single-qubit rotations into a single TK1.</p>
 </dd></dl>
 
 <dl class="py method">

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.passes &mdash; pytket 0.13.0 documentation</title>
+  <title>pytket.passes &mdash; pytket 0.14.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.13
+                0.14
               </div>
             
           
@@ -398,6 +398,23 @@ Overloaded function.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pytket.passes.AASRouting">
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">AASRouting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture"><span class="pre">pytket.routing.Architecture</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.AASRouting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a pass to relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> Nodes, and then use architecture-aware synthesis to route the circuit. In the steps of the pass the circuit will be converted to CX, Rz, H gateset. The limited connectivity of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> is used for the routing. The direction of the edges is ignored. The placement used is GraphPlacement. This pass can take a few parameters for the routing, described below.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arc</strong> – The architecture used for connectivity information.</p></li>
+<li><p><strong>**kwargs</strong> – Parameters for routing: (unsigned) lookahead=1: giving parameter for the recursive iteration depth in the synthesis method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a pass to perform the remapping</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.CXMappingPass">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">CXMappingPass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arc</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Architecture" title="pytket.routing.Architecture"><span class="pre">pytket.routing.Architecture</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">placer</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="routing.html#pytket.routing.Placement" title="pytket.routing.Placement"><span class="pre">pytket.routing.Placement</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.CXMappingPass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a pass to convert all gates to CX, relabel <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> Qubits to :py:class’Architecture’ Nodes, route to the connectivty graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Architecture</span></code> and decompose additional routing gates (SWAP and BRIDGE) to CX gates.</p>
@@ -418,7 +435,7 @@ Overloaded function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.CliffordSimp">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">CliffordSimp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">allow_swaps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.CliffordSimp" title="Permalink to this definition">¶</a></dt>
-<dd><p>An optimisation pass that performs a number of rewrite rules for simplifying Clifford gate sequences, similar to Duncan &amp; Fagan (<a class="reference external" href="https://arxiv.org/abs/1901.10114">https://arxiv.org/abs/1901.10114</a>). Given a circuit with CXs and any single-qubit gates, produces a circuit with Z, X, S, V, U1, U2, U3, CX gates.</p>
+<dd><p>An optimisation pass that performs a number of rewrite rules for simplifying Clifford gate sequences, similar to Duncan &amp; Fagan (<a class="reference external" href="https://arxiv.org/abs/1901.10114">https://arxiv.org/abs/1901.10114</a>). Given a circuit with CXs and any single-qubit gates, produces a circuit with tk1, CX gates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>allow_swaps</strong> – dictates whether the rewriting will disregard CX placement or orientation and introduce wire swaps.</p>
@@ -471,15 +488,21 @@ Overloaded function.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pytket.passes.DecomposeMultiQubitsIBM">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DecomposeMultiQubitsIBM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.DecomposeMultiQubitsIBM" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pytket.passes.DecomposeMultiQubitsCX">
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DecomposeMultiQubitsCX</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.DecomposeMultiQubitsCX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts all multi-qubit gates into CX and single-qubit gates.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pytket.passes.DecomposeSingleQubitsIBM">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DecomposeSingleQubitsIBM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.DecomposeSingleQubitsIBM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts all single-qubit gates into U1, U2 and U3 gates.</p>
+<dt class="sig sig-object py" id="pytket.passes.DecomposeMultiQubitsIBM">
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DecomposeMultiQubitsIBM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.DecomposeMultiQubitsIBM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <a class="reference internal" href="#pytket.passes.DecomposeMultiQubitsCX" title="pytket.passes.DecomposeMultiQubitsCX"><code class="xref py py-meth docutils literal notranslate"><span class="pre">DecomposeMultiQubitsCX()</span></code></a> (deprecated).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytket.passes.DecomposeSingleQubitsTK1">
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">DecomposeSingleQubitsTK1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.DecomposeSingleQubitsTK1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all single-qubit gates into TK1 gates.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -577,7 +600,7 @@ Overloaded function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.FullPeepholeOptimise">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">FullPeepholeOptimise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.FullPeepholeOptimise" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs peephole optimisation including resynthesis of 2- and 3-qubit gate sequences, and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
+<dd><p>Performs peephole optimisation including resynthesis of 2- and 3-qubit gate sequences, and converts to a circuit containing only CX and TK1 gates.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -612,37 +635,9 @@ Overloaded function.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="pytket.passes.O1Pass">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">O1Pass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.O1Pass" title="Permalink to this definition">¶</a></dt>
-<dd><p>A recommended, all-purpose circuit optimisation pass for fast compilation. Compiles to the gateset {CX, tk1, Reset, Measure}. This should be applied before the default compilation pass of the target backend.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An optimisation pass that performs only basic circuit simplifications for basic usage</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass">BasePass</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="pytket.passes.O2Pass">
-<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">O2Pass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.O2Pass" title="Permalink to this definition">¶</a></dt>
-<dd><p>A recommended, all-purpose circuit optimisation pass for fast compilation. Compiles to the gateset {CX, tk1, Reset, Measure}. This should be applied before the default compilation pass of the target backend.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>An optimisation pass that performs local circuit simplification techniques</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass">BasePass</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.OptimisePhaseGadgets">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">OptimisePhaseGadgets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cx_config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="transform.html#pytket.transform.CXConfigType" title="pytket.transform.CXConfigType"><span class="pre">pytket.transform.CXConfigType</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">CXConfigType.Snake</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.OptimisePhaseGadgets" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a pass that synthesises phase gadgets and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
+<dd><p>Construct a pass that synthesises phase gadgets and converts to a circuit containing only CX and TK1 gates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>cx_config</strong> – A configuration of CXs to convert phase gadgets into.</p>
@@ -691,7 +686,7 @@ Overloaded function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.PeepholeOptimise2Q">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">PeepholeOptimise2Q</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.PeepholeOptimise2Q" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs peephole optimisation including resynthesis of 2-qubit gate sequences, and converts to a circuit containing only CX, U1, U2 and U3 gates.</p>
+<dd><p>Performs peephole optimisation including resynthesis of 2-qubit gate sequences, and converts to a circuit containing only CX and TK1 gates.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -745,7 +740,7 @@ Overloaded function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.RebaseIBM">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">RebaseIBM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.RebaseIBM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts all gates to CX, U1, U2 and U3 gates.</p>
+<dd><p>Converts all gates to CX, U1, U2 and U3 gates. Deprecated.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -894,13 +889,19 @@ Overloaded function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.SynthesiseIBM">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">SynthesiseIBM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.SynthesiseIBM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Optimises and converts all gates to CX, U1, U2 and U3 gates.</p>
+<dd><p>Optimises and converts all gates to CX, U1, U2 and U3 gates. Deprecated.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.SynthesiseOQC">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">SynthesiseOQC</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.SynthesiseOQC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Optimises and converts all gates to ECR, Rz and SX.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytket.passes.SynthesiseTket">
+<span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">SynthesiseTket</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.SynthesiseTket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimises and converts all gates to CX and TK1 gates.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -923,7 +924,7 @@ Overloaded function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytket.passes.USquashIBM">
 <span class="sig-prename descclassname"><span class="pre">pytket.passes.</span></span><span class="sig-name descname"><span class="pre">USquashIBM</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.passes.BasePass" title="pytket.passes.BasePass"><span class="pre">pytket.passes.BasePass</span></a></span></span><a class="headerlink" href="#pytket.passes.USquashIBM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Squash U1, U2 and U3 gates by converting to them to Rz-Ry-Rz sequences and back. The only single-qubit gates in the resulting circuit are U1 and U3.</p>
+<dd><p>Squash U1, U2 and U3 gates by converting to them to Rz-Ry-Rz sequences and back. The only single-qubit gates in the resulting circuit are U1 and U3. Deprecated.</p>
 </dd></dl>
 
 </div>

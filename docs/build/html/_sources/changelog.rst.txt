@@ -1,6 +1,39 @@
 Changelog
 ==================================
 
+0.14.0 (September 2021)
+-----------------------
+
+Major new features:
+
+* New ``Circuit.add_assertion`` method for applying quantum assertions to circuits.
+  Two new box types  ``StabiliserAssertionBox`` and ``ProjectorAssertionBox``.
+  New ``BackendResult.get_debug_info`` method for summarising assertion results.
+  New ``PauliStabiliser`` class.
+* New compilerpass for architecture aware synthesis of phase polynomials ``AASRouting``.
+
+Minor new features:
+
+* Update circuit display to include extra gate information and use ZX-style colours.
+* `BackendInfo`, `Architecture` and `Node` are now JSON-serializable.
+* `QubitPauliOperator` and `QubitPauliString` are now JSON-serializable.
+* Equality checks on `Architecture` only consider node IDs and coupling.
+* New pass `DecomposeMultiQubitsCX`, equivalent to `DecomposeMultiQubitsIBM` (which is deprecated).
+* New pass `DecomposeSingleQubitsTK1`.
+* New pass `SynthesiseTket`.
+* New ``XXPhase3`` OpType.
+
+API changes:
+
+* The transforms `ReduceSingles`, `OptimisePauliGadgets` and `OptimisePhaseGadgets`, and the passes `CliffordSimp`, `PeepholeOptimise2Q`, `FullPeepholeOptimise` and `OptimisePhaseGadgets`, produce TK1 instead of U gates.
+* The passes `O2Pass`, `O1Pass` and `DecomposeSingleQubitsIBM` are removed (use `FullPeepholeOptimise` and `SynthesiseTket` instead for the first two).
+* `QubitPauliOperator.to_dict()` (deprecated) is replaced by the property `QubitPauliOperator.map`.
+
+Deprecations:
+
+* The passes`DecomposeMultiQubitsIBM` (equivalent to `DecomposeMultiQubitsCX`), `DecomposeSingleQubitsIBM`, `RebaseToQiskit`, `SynthesiseIBM`, `RebaseIBM` and `USquashIBM` are deprecated.
+
+
 0.13.0 (July 2021)
 ------------------
 

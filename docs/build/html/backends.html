@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pytket.backends &mdash; pytket 0.13.0 documentation</title>
+  <title>pytket.backends &mdash; pytket 0.14.0 documentation</title>
   
 
   
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.13
+                0.14
               </div>
             
           
@@ -791,6 +791,23 @@ Defaults to BasisOrder.ilo.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pytket.backends.backendresult.BackendResult.get_debug_info">
+<span class="sig-name descname"><span class="pre">get_debug_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_debug_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the success rate of each assertion averaged across shots.</p>
+<p>Each assertion in pytket is decomposed into a sequence of transformations
+and measurements. An assertion is successful if and only if all its associated
+measurements yield the correct results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The debug results as a map from assertion to average success rate.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pytket.backends.backendresult.BackendResult.get_density_matrix">
 <span class="sig-name descname"><span class="pre">get_density_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qbits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="circuit.html#pytket.circuit.Qubit" title="pytket.circuit.Qubit"><span class="pre">pytket.circuit.Qubit</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="circuit.html#pytket.circuit.BasisOrder" title="pytket.circuit.BasisOrder"><span class="pre">pytket.circuit.BasisOrder</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">BasisOrder.ilo</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#pytket.backends.backendresult.BackendResult.get_density_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return density_matrix if available.</p>
@@ -1103,6 +1120,18 @@ are stored</p>
 <li><p><strong>supports_reset</strong> – Flag for hardware support of reset operation</p></li>
 <li><p><strong>supports_midcircuit_meas</strong> – Flag for hardware support of midcircuit
 measurement.</p></li>
+<li><p><strong>all_node_gate_errors</strong> – Dictionary between architecture Node and error rate
+for different single qubit operations.</p></li>
+<li><p><strong>all_edge_gate_errors</strong> – Dictionary between architecture couplings and error
+rate for different two-qubit operations.</p></li>
+<li><p><strong>all_readout_errors</strong> – Dictionary between architecture Node and uncorrelated
+single qubit readout errors.</p></li>
+<li><p><strong>averaged_node_gate_errors</strong> – Dictionary between architecture Node and averaged
+error rate for all single qubit operations.</p></li>
+<li><p><strong>averaged_edge_gate_errors</strong> – Dictionary between architecture couplings and
+averaged error rate for all two-qubit operations.</p></li>
+<li><p><strong>averaged_readout_errors</strong> – Dictionary between architecture Node and averaged
+readout errors.</p></li>
 <li><p><strong>misc</strong> – key-value map with further provider-specific information</p></li>
 </ul>
 </dd>
@@ -1123,11 +1152,12 @@ measurement.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.from_dict">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.backends.backendinfo.BackendInfo" title="pytket.backends.backendinfo.BackendInfo"><span class="pre">pytket.backends.backendinfo.BackendInfo</span></a></span></span><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.from_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct BackendInfo object from serialised dict.</p>
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pytket.backends.backendinfo.BackendInfo" title="pytket.backends.backendinfo.BackendInfo"><span class="pre">pytket.backends.backendinfo.BackendInfo</span></a></span></span><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct BackendInfo object from JSON serializable dictionary
+representation, as generated by BackendInfo.to_dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>constructed BackendInfo object</p>
+<dd class="field-odd"><p>Instance of BackendInfo constructed from dictionary.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#pytket.backends.backendinfo.BackendInfo" title="pytket.backends.backendinfo.BackendInfo">BackendInfo</a></p>
@@ -1154,14 +1184,15 @@ measurement.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pytket.backends.backendinfo.BackendInfo.to_dict">
-<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get backend information serialised as a dict.</p>
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pytket.backends.backendinfo.BackendInfo.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a dictionary serialized representation of BackendInfo,
+suitable for writing to JSON.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Dictionary output</p>
+<dd class="field-odd"><p>JSON serializable dictionary.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict</p>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>, Any]</p>
 </dd>
 </dl>
 </dd></dl>

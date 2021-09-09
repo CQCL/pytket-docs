@@ -41,6 +41,12 @@ do
         else
             echo "Failed to start Rigetti VMs, skipping notebook."
         fi
+    elif [[ "$name" == "symbolics_example" ]] ; then
+        # symbolics_example FIXME https://github.com/CQCL/pytket/issues/104
+        echo "skipping symbolics_example ..."
+    elif [[ "$name" == "qiskit_integration" ]] ; then
+        # qiskit_integration FIXME https://github.com/CQCL/pytket/issues/103
+        echo "skipping qiskit_integration ..."
     else
         python python/${name}.py
     fi

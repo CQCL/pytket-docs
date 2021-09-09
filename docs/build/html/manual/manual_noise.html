@@ -39,7 +39,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-alpha.0/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -192,102 +192,90 @@ vary over time, a phenomenon commonly referred to as device drift
 <a class="reference internal" href="#white2019" id="id1"><span>[White2019]</span></a>.</p>
 <p>Some devices expose error characterisation information through
 their programming interface. When available, <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>
-objects will populate a characterisation property with this
-information.</p>
+objects will populate a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code> object with this information.</p>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code> object contains a variety of characterisation information supplied by hardware providers.
+Some information, including gate error rates, is stored in attributes with specific names.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 
 <span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_santiago&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">backend</span><span class="o">.</span><span class="n">characterisation</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_node_gate_errors</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>NodeErrors
-EdgeErrors
-Architecture
-t1times
-t2times
-Frequencies
-GateTimes
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{node[0]: 0.0002186159622502225,
+ node[1]: 0.0002839221599849252,
+ node[2]: 0.00014610243862697218,
+ node[3]: 0.00015814094160059136,
+ node[4]: 0.00013411930305754117}
 </pre></div>
 </div>
 </div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">characterisation</span></code> member of <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> contains all characterisation information supplied by hardware providers and used in noise aware mapping methods, including single-qubit and two-qubit gate error rates and readout error rates.</p>
+<p>Other information is stored in a generic dictionary and is accessible through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> <cite>characterisation</cite> member.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">characterisation</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;t1times&#39;, &#39;t2times&#39;, &#39;Frequencies&#39;, &#39;GateTimes&#39;])
+</pre></div>
+</div>
+</div>
+</div>
 <p>There is typically a large variation in device noise characteristics.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">characterisation</span><span class="p">[</span><span class="s2">&quot;NodeErrors&quot;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">characterisation</span><span class="p">[</span><span class="s2">&quot;EdgeErrors&quot;</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Node</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">all_node_gate_errors</span><span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">all_node_gate_errors</span><span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="mi">1</span><span class="p">)])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Node Errors:
-node[0]
-    Readout: 0.041
-    U3: 0.00120274
-    U2: 0.000601552
-    U1: 0
-    noop: 0.000601552
-node[1]
-    Readout: 0.024
-    U3: 0.000741646
-    U2: 0.000370892
-    U1: 0
-    noop: 0.000370892
-node[2]
-    Readout: 0.016
-    U3: 0.000747229
-    U2: 0.000373684
-    U1: 0
-    noop: 0.000373684
-node[3]
-    Readout: 0.032
-    U3: 0.000657834
-    U2: 0.000328971
-    U1: 0
-    noop: 0.000328971
-node[4]
-    Readout: 0.039
-    U3: 0.000937744
-    U2: 0.000468982
-    U1: 0
-    noop: 0.000468982
-
-Edge Errors:
-node[0]-&gt;node[1]
-    CX: 0.0215313
-node[1]-&gt;node[0]
-    CX: 0.0215313
-node[1]-&gt;node[2]
-    CX: 0.0234287
-node[1]-&gt;node[3]
-    CX: 0.0201425
-node[2]-&gt;node[1]
-    CX: 0.0234287
-node[3]-&gt;node[1]
-    CX: 0.0201425
-node[3]-&gt;node[4]
-    CX: 0.016031
-node[4]-&gt;node[3]
-    CX: 0.016031
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{&lt;OpType.noop: 55&gt;: 0.00036435993708370417,
+ &lt;OpType.Rz: 32&gt;: 0.0,
+ &lt;OpType.SX: 27&gt;: 0.00036435993708370417,
+ &lt;OpType.X: 19&gt;: 0.00036435993708370417,
+ &lt;OpType.Reset: 58&gt;: 0.0}
+ {&lt;OpType.noop: 55&gt;: 0.0004732035999748754,
+ &lt;OpType.Rz: 32&gt;: 0.0,
+ &lt;OpType.SX: 27&gt;: 0.0004732035999748754,
+ &lt;OpType.X: 19&gt;: 0.0004732035999748754,
+ &lt;OpType.Reset: 58&gt;: 0.0}
 </pre></div>
 </div>
 </div>
 </div>
-<p>Consider <code class="docutils literal notranslate"><span class="pre">node[0]</span></code> which reports considerably larger error rates for a
-U3 gate than all other nodes.  Given this variety, it is possible, at
-least in principle, to achieve better overall performance by
-preferentially using the qubits and couplings with lowest error rate.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">all_edge_gate_errors</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{(node[4], node[3]): {&lt;OpType.CX: 37&gt;: 0.01175674116384029},
+(node[3], node[4]): {&lt;OpType.CX: 37&gt;: 0.005878370581920145},
+(node[2], node[3]): {&lt;OpType.CX: 37&gt;: 0.013302220876095505},
+(node[3], node[2]): {&lt;OpType.CX: 37&gt;: 0.006651110438047753},
+(node[2], node[1]): {&lt;OpType.CX: 37&gt;: 0.022572084465386333},
+(node[1], node[2]): {&lt;OpType.CX: 37&gt;: 0.011286042232693166},
+(node[0], node[1]): {&lt;OpType.CX: 37&gt;: 0.026409836177538337},
+(node[1], node[0]): {&lt;OpType.CX: 37&gt;: 0.013204918088769169}}
+</pre></div>
+</div>
+</div>
+</div>
 <p>Recall that mapping in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> works in two phases –
 first assigning logical circuit qubits to physical device qubits
 (placement) and then permuting these qubits via <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code>
 networks (routing).  Device characteristics can inform the choices
-made in both phases.</p>
+made in both phases, by prioritising edges with lower error rates.</p>
 <p>The class <code class="xref py py-class docutils literal notranslate"><span class="pre">NoiseAwarePlacement</span></code> uses characteristics stored in
 <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code> to find an initial placement of logical qubits on
 physical qubits which minimises the error accrued during a circuit’s
@@ -596,10 +584,7 @@ Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0):
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase:  16384
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits with rebase: 
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> 256
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits with rebase:  256
 Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
 </pre></div>
 </div>
@@ -686,8 +671,8 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 423, (1, 1): 407, (0, 1): 99, (1, 0): 71})
-Corrected Counts: Counter({(0, 0): 491, (1, 1): 463, (0, 1): 34, (1, 0): 14})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 409, (1, 1): 397, (1, 0): 108, (0, 1): 86})
+Corrected Counts: Counter({(0, 0): 458, (1, 1): 447, (1, 0): 63, (0, 1): 35})
 Noiseless Counts: Counter({(1, 1): 510, (0, 0): 490})
 </pre></div>
 </div>
