@@ -6,10 +6,6 @@
 #
 # `pip install pytket`
 #
-# We will also be using the circuit drawing tool from IBM's Qiskit, although this is only for visualisation and is not necessary to do symbolic compilation using pytket. To use the converter:
-#
-# `pip install pytket_qiskit`
-#
 # To begin, we will import the `Circuit` and `Transform` classes from `pytket`, and the `fresh_symbol` method from `pytket.circuit`.
 
 from pytket.circuit import Circuit, fresh_symbol
@@ -48,22 +44,16 @@ circ.CX(2, 3)
 circ.CX(1, 2)
 circ.CX(0, 1)
 
-# Now we can use IBM's Qiskit visualiser to display the circuit. For more explanation of our converters, see the `transform_example` notebook. Note that Qiskit can, conveniently, use symbolics as well.
+# Now we can use the `render_circuit_jupyter` method to display the circuit.
 
-from pytket.extensions.qiskit import tk_to_qiskit
+from pytket.circuit.display import render_circuit_jupyter
 
-
-def print_tkcirc_via_qiskit(tkcirc):
-    qiskit_qcirc = tk_to_qiskit(tkcirc)
-    print(qiskit_qcirc)
-
-
-print_tkcirc_via_qiskit(circ)
+render_circuit_jupyter(circ)
 
 # Now let's use a transform to shrink the circuit. For more detail on transforms, see the `transform_example` notebook.
 
 Transform.OptimisePhaseGadgets().apply(circ)
-print_tkcirc_via_qiskit(circ)
+render_circuit_jupyter(circ)
 
 # Note that the type of gate has changed to `U1`, but the phase gadgets have been successfully combined. The `U1` gate is an IBM-specific gate that is equivalent to an `Rz`.
 #
@@ -76,11 +66,11 @@ symbol_circ = circ.copy()
 symbol_dict = {a: 0.5, b: 0.75}
 circ.symbol_substitution(symbol_dict)
 
-print_tkcirc_via_qiskit(circ)
+render_circuit_jupyter(circ)
 
 # Because this symbol substitution was called on the copy, we still have our original symbolic circuit.
 
-print_tkcirc_via_qiskit(symbol_circ)
+render_circuit_jupyter(symbol_circ)
 
 # Note: the expression tree for this symbolic expression is very small, consisting of only a couple of different operations, but tket is capable of handling large and complex expressions containing many different types of operation, such as trigonometric functions.
 #

@@ -106,11 +106,11 @@ example_circuit.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 for gate in example_circuit:
     print(gate)
 
-# We can also visualise the `Circuit` using, for example, IBM Qiskit's `QuantumCircuit` printer. To do this, we must use the `pytket.extensions.qiskit` subpackage and import a method from within Qiskit.
+# We can also visualise the `Circuit` using the `render_circuit_jupyter` method.
 
-from pytket.extensions.qiskit import tk_to_qiskit
+from pytket.circuit.display import render_circuit_jupyter
 
-print(tk_to_qiskit(example_circuit))
+render_circuit_jupyter(example_circuit)
 
 # This circuit can not be executed on any of our Architectures without modification. We can see this by looking at the circuits interaction graph, a graph where nodes are logical qubits and edges are some two-qubit gate.
 
@@ -130,7 +130,7 @@ simple_modified_circuit = route(example_circuit, simple_architecture)
 for gate in simple_modified_circuit:
     print(gate)
 
-print(tk_to_qiskit(simple_modified_circuit))
+render_circuit_jupyter(simple_modified_circuit)
 
 draw_graph(id_architecture.coupling)
 
@@ -143,7 +143,7 @@ id_modified_circuit = route(example_circuit, id_architecture)
 for gate in id_modified_circuit:
     print(gate)
 
-print(tk_to_qiskit(id_modified_circuit))
+render_circuit_jupyter(id_modified_circuit)
 
 # Both simple_architecture and id_architecture had the same graph structure, and so we can see that the qubits have been relabelled and ```SWAP``` gates added identically - the only difference is the preservation of the node labelling of id_architecture.
 #
@@ -156,7 +156,7 @@ for gate in cube_modified_circuit:
 
 cmc_copy = cube_modified_circuit.copy()
 cmc_copy.flatten_registers()
-print(tk_to_qiskit(cmc_copy))
+render_circuit_jupyter(cmc_copy)
 
 # Similarly the circuits qubits have been relabelled and ```SWAP``` gates added. In this example though ```route``` is able to utilise the extra connectivity of cube_architecture to reduce the number of ```SWAP``` gates added from 3 to 1.
 #
@@ -167,7 +167,7 @@ quito_modified_circuit = route(example_circuit, quito_characterisation["Architec
 for gate in quito_modified_circuit:
     print(gate)
 
-print(tk_to_qiskit(quito_modified_circuit))
+render_circuit_jupyter(quito_modified_circuit)
 
 # The ```route``` method comes with a set of parameters that can be modified to tune the performance of routing for a circuit to a given Architecture.
 #
@@ -196,9 +196,12 @@ BRIDGE_c.CX(0, 2)
 BRIDGE_decomp_c = Circuit(3)
 BRIDGE_decomp_c.CX(0, 1).CX(1, 2).CX(0, 1).CX(1, 2)
 
-print(tk_to_qiskit(SWAP_c), "\n=\n", tk_to_qiskit(SWAP_decomp_c))
-print(tk_to_qiskit(BRIDGE_c), "\n=\n", tk_to_qiskit(BRIDGE_decomp_c))
-
+render_circuit_jupyter(SWAP_c)
+print("\n=\n")
+render_circuit_jupyter(SWAP_decomp_c)
+render_circuit_jupyter(BRIDGE_c)
+print("\n=\n")
+render_circuit_jupyter(BRIDGE_decomp_c)
 # The ```BRIDGE``` (or Distributed-CX gate distance 2) and ```SWAP``` both introduce a net three ```CX``` gates to the circuit.
 #
 # Considering this, by changing our basic parameters our routed circuit has one less gate added, and so should have net three fewer ```CX``` gates. We can confirm this by calling a ```Transformation``` pass that will decompose our additional gates to ```CX``` gates for us.
@@ -234,8 +237,8 @@ print(
 
 # By changing the routing parameters and cleaning up our circuits after routing we've managed to reduce the number of ```CX``` gates in the final circuit by 5!
 
-print(tk_to_qiskit(id_modified_circuit))
-print(tk_to_qiskit(id_basic_modified_circuit))
+render_circuit_jupyter(id_modified_circuit)
+render_circuit_jupyter(id_basic_modified_circuit)
 
 # We can also confirm their validity:
 
