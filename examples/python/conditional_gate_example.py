@@ -83,9 +83,9 @@ c.add_circbox(
 
 # tket is able to apply essential compilation passes on circuits containing conditional gates. This includes decomposing any boxes into primitive gates and rebasing to other gatesets whilst preserving the conditional data.
 
-from pytket.passes import DecomposeBoxes, RebaseIBM, SequencePass
+from pytket.passes import DecomposeBoxes, RebaseTket, SequencePass
 
-comp_pass = SequencePass([DecomposeBoxes(), RebaseIBM()])
+comp_pass = SequencePass([DecomposeBoxes(), RebaseTket()])
 
 comp_pass.apply(c)
 
