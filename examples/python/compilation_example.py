@@ -11,9 +11,9 @@
 
 # The basic mechanism of compilation is the 'pass', which is a transform that can be applied to a circuit. There is an extensive library of passes in `pytket`, and several standard ways in which they can be combined to form new passes. For example:
 
-from pytket.passes import DecomposeMultiQubitsIBM
+from pytket.passes import DecomposeMultiQubitsCX
 
-pass1 = DecomposeMultiQubitsIBM()
+pass1 = DecomposeMultiQubitsCX()
 
 # This pass converts all multi-qubit gates into CX and single-qubit gates. So let's create a circuit containing some non-CX multi-qubit gates:
 
@@ -64,7 +64,7 @@ pred1.verify(circ1)
 
 # The example above produced a new circuit, leaving the original circuit untouched. It is also possible to apply a pass to a circuit in-place:
 
-DecomposeMultiQubitsIBM().apply(circ)
+DecomposeMultiQubitsCX().apply(circ)
 print(circ.get_commands())
 
 # ## Combining passes
@@ -75,7 +75,7 @@ print(circ.get_commands())
 
 from pytket.passes import SequencePass, OptimisePhaseGadgets
 
-seqpass = SequencePass([DecomposeMultiQubitsIBM(), OptimisePhaseGadgets()])
+seqpass = SequencePass([DecomposeMultiQubitsCX(), OptimisePhaseGadgets()])
 
 # This pass will apply the two transforms in succession:
 
@@ -159,12 +159,12 @@ circ.CX(0, 1).X(1).Y(0).CX(0, 1).X(1).Z(0).CX(0, 1).X(1).Y(0).CX(0, 1).Z(1).CX(1
     1
 ).X(0).CX(1, 0)
 
-# We will repeatedly apply `CommuteThroughMultis`, `DecomposeMultiQubitsIBM` and `RemoveRedundancies` until the `cost` function stops decreasing:
+# We will repeatedly apply `CommuteThroughMultis`, `DecomposeMultiQubitsCX` and `RemoveRedundancies` until the `cost` function stops decreasing:
 
 from pytket.passes import RepeatWithMetricPass
 
 pass1 = SequencePass(
-    [CommuteThroughMultis(), DecomposeMultiQubitsIBM(), RemoveRedundancies()]
+    [CommuteThroughMultis(), DecomposeMultiQubitsCX(), RemoveRedundancies()]
 )
 pass2 = RepeatWithMetricPass(pass1, cost)
 
