@@ -45,16 +45,17 @@ from pytket.passes import (
     CliffordSimp,
     DecomposeBoxes,
     KAKDecomposition,
-    SynthesiseIBM,
+    SynthesiseTket,
 )
 
 DecomposeBoxes().apply(tk_circ)
-optimise = SequencePass([KAKDecomposition(), CliffordSimp(False), SynthesiseIBM()])
+optimise = SequencePass([KAKDecomposition(), CliffordSimp(False), SynthesiseTket()])
 optimise.apply(tk_circ)
 
 # Display the optimised circuit:
 
 from pytket.circuit.display import render_circuit_jupyter
+
 render_circuit_jupyter(tk_circ)
 
 # The Backends in `pytket` abstract away the differences between different devices and simulators as much as possible, allowing painless switching between them. The `pytket_pyquil` package provides two Backends: `ForestBackend` encapsulates both running on physical devices via Rigetti QCS and simulating those devices on the QVM, and `ForestStateBackend` acts as a wrapper to the pyQuil Wavefunction Simulator.

@@ -166,7 +166,7 @@ class MyBackend(Backend):
 #
 # However, a typical high-level user will not be writing `Circuit`s that satisfies all of the `required_predicates`, preferring instead to use the model that is most natural for the algorithm they are implementing. Providing a `default_compilation_pass` gives users an easy starting point for compiling an arbitrary `Circuit` into a form that can be executed (when not blocked by paradigm constraints like `NoMidMeasurePredicate` or `NoClassicalControlPredicate` that cannot easily be solved by compilation).
 #
-# You can provide several options using the `optimisation_level` argument. We tend to use `0` for very basic compilation with no optimisation applied, `1` for the inclusion of fast optimisations (e.g. `SynthesiseIBM` is a pre-defined sequence of optimisation passes that scales well with circuit size), and `2` for heavier optimisation (e.g. `FullPeepholeOptimise` incorporates `SynthesiseIBM` alongside some extra passes that may take longer for large circuits).
+# You can provide several options using the `optimisation_level` argument. We tend to use `0` for very basic compilation with no optimisation applied, `1` for the inclusion of fast optimisations (e.g. `SynthesiseIBM` is a pre-defined sequence of optimisation passes that scales well with circuit size), and `2` for heavier optimisation (e.g. `FullPeepholeOptimise` incorporates `SynthesiseTket` alongside some extra passes that may take longer for large circuits).
 #
 # When designing these compilation pass sequences for a given `Backend`, it can be a good idea to start with the passes that solve individual constraints from `required_predicates` (like `FullMappingPass` for `ConnectivityPredicate` or `RebaseX` for `GateSetPredicate`), and find an ordering such that no later pass invalidates the work of an earlier one.
 #
@@ -179,7 +179,7 @@ from pytket.passes import (
     BasePass,
     SequencePass,
     DecomposeBoxes,
-    SynthesiseIBM,
+    SynthesiseTket,
     FullPeepholeOptimise,
     RebaseCustom,
     SquashCustom,
@@ -251,7 +251,7 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
     squash = SquashCustom({OpType.Rz, OpType.Rx, OpType.Ry}, sq)
     seq = [DecomposeBoxes()]  # Decompose boxes into basic gates
     if optimisation_level == 1:
-        seq.append(SynthesiseIBM())  # Optional fast optimisation
+        seq.append(SynthesiseTket())  # Optional fast optimisation
     elif optimisation_level == 2:
         seq.append(FullPeepholeOptimise())  # Optional heavy optimisation
     seq.append(rebase)  # Map to target gate set
