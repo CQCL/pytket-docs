@@ -68,8 +68,6 @@ qi = QuantumInstance(qis_backend, shots=8192, wait=0.1)
 #
 # We can now run the VQE algorithm. In this example we use only 50 iterations, but greater accuracy may be achieved by increasing this number:
 
-vqe_solve(H2_op, 50, qi)
-
 print("VQE result:", vqe_solve(H2_op, 50, qi))
 
 # Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; we recommend the device-specific default compilation pass, provided by each tket backend. This pass will ensure that all the hardware constrains of the device are met. We can enable tket's most agressive optimisation level by setting the parameter `optimisation_level=2`.
