@@ -81,11 +81,11 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 .. jupyter-execute::
 
     from pytket import Circuit
-    from pytket.passes import RebaseIBM
+    from pytket.passes import RebaseTket
     circ = Circuit(2, 2)
     circ.Rx(0.3, 0).Ry(-0.9, 1).CZ(0, 1).S(0).CX(1, 0).measure_all()
 
-    RebaseIBM().apply(circ)
+    RebaseTket().apply(circ)
 
     print(circ.get_commands())
 
@@ -100,7 +100,6 @@ Pass                        Gateset
                               devices
 :py:class:`RebaseHQS`       | ZZMax, PhasedX and Rz - primitives on hardware
                               from Honeywell Quantum Systems
-:py:class:`RebaseIBM`       | CX, U1, U2 and U3 - primitives on hardware from IBM
 :py:class:`RebaseProjectQ`  | SWAP, CRz, CX, CZ, H, X, Y, Z, S, T, V, Rx, Ry
                               and Rz - gates supported by the ProjectQ simulator
 :py:class:`RebasePyZX`      | SWAP, CX, CZ, H, X, Z, S, T, Rx and Rz - gates
@@ -562,13 +561,13 @@ After solving for the device connectivity, we then need to restrict what optimis
 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
-    from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseIBM, RebaseIBM
+    from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseIBM, RebaseTket
     circ = Circuit(5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3)
     circ.CZ(0, 1).CZ(0, 2).CZ(0, 3)
     circ.CX(3, 4).CX(0, 3).CX(4, 0)
 
-    RebaseIBM().apply(circ)     # Get number of 2qb gates by converting all to CX
+    RebaseTket().apply(circ)     # Get number of 2qb gates by converting all to CX
     print(circ.n_gates_of_type(OpType.CX))
 
     FullPeepholeOptimise().apply(circ)      # Freely rewrite circuit
@@ -576,7 +575,7 @@ After solving for the device connectivity, we then need to restrict what optimis
 
     backend = IBMQBackend("ibmq_quito")
     DefaultMappingPass(backend.backend_info.architecture).apply(circ)
-    RebaseIBM().apply(circ)
+    RebaseTket().apply(circ)
     print(circ.n_gates_of_type(OpType.CX))  # Routing adds gates
     print(circ.get_commands())
 
