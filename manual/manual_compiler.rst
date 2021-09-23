@@ -579,8 +579,8 @@ After solving for the device connectivity, we then need to restrict what optimis
     print(circ.n_gates_of_type(OpType.CX))  # Routing adds gates
     print(circ.get_commands())
 
-    SynthesiseTket().apply(circ)             # Some added gates were redundant
-    print(circ.n_gates_of_type(OpType.CX))
+    SynthesiseTket().apply(circ)            # Some added gates may be redundant
+    print(circ.n_gates_of_type(OpType.CX))  # But not in this case
 
 .. jupyter-output::
 
