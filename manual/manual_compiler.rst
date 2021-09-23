@@ -555,13 +555,13 @@ When targeting a heterogeneous device architecture, solving this constraint in i
 
 .. `Synthesise<>` passes combine light optimisations that preserve qubit connectivity and target a specific gate set
 
-After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won't invalidate this. The set of :py:class:`SynthesiseX` passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. :py:class:`SynthesiseIBM` guarantees the output is in the gateset of ``OpType.CX``, ``OpType.U1``, ``OpType.U2``, ``OpType.U3``, and ``OpType.Measure``). In general, this will not reduce the size of a :py:class:`Circuit` as much as :py:class:`FullPeepholeOptimise`, but has the benefit of removing some redundancies introduced by routing without invalidating it.
+After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won't invalidate this. The set of :py:class:`SynthesiseX` passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. :py:class:`SynthesiseTket` guarantees the output is in the gateset of ``OpType.CX``, ``OpType.TK1``, and ``OpType.Measure``). In general, this will not reduce the size of a :py:class:`Circuit` as much as :py:class:`FullPeepholeOptimise`, but has the benefit of removing some redundancies introduced by routing without invalidating it.
 
 .. jupyter-input::
 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
-    from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseIBM, RebaseTket
+    from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseTket, RebaseTket
     circ = Circuit(5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3)
     circ.CZ(0, 1).CZ(0, 2).CZ(0, 3)
@@ -579,7 +579,7 @@ After solving for the device connectivity, we then need to restrict what optimis
     print(circ.n_gates_of_type(OpType.CX))  # Routing adds gates
     print(circ.get_commands())
 
-    SynthesiseIBM().apply(circ)             # Some added gates were redundant
+    SynthesiseTket().apply(circ)             # Some added gates were redundant
     print(circ.n_gates_of_type(OpType.CX))
 
 .. jupyter-output::
@@ -587,8 +587,8 @@ After solving for the device connectivity, we then need to restrict what optimis
     9
     6
     9
-    [U1(1.5*PI) node[0];, U1(1.5*PI) node[1];, U1(1.5*PI) node[2];, U1(1.5*PI) node[3];, CX node[1], node[0];, U1(0.5*PI) node[0];, CX node[1], node[2];, CX node[1], node[3];, U1(0.5*PI) node[2];, U1(0.5*PI) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[1], node[3];, CX node[3], node[1];, CX node[1], node[3];, CX node[4], node[3];]
-    7
+    [tk1(0, 0, 1.5) node[0];, tk1(0, 0, 1.5) node[1];, tk1(0, 0, 1.5) node[2];, tk1(0, 0, 1.5) node[3];, CX node[1], node[0];, tk1(0, 0, 0.5) node[0];, CX node[1], node[2];, CX node[1], node[3];, tk1(0, 0, 0.5) node[2];, tk1(0, 0, 0.5) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[3], node[4];, CX node[4], node[3];, CX node[3], node[4];, CX node[3], node[1];]
+    9
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
