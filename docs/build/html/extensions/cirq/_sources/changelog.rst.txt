@@ -1,6 +1,12 @@
 Changelog
 ~~~~~~~~~
 
+0.16.0 (September 2021)
+-----------------------
+
+* Updated cirq version requirement to 0.12.
+* Updated pytket version requirement to 0.15.
+
 0.15.0 (September 2021)
 -----------------------
 
