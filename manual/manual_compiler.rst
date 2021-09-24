@@ -81,11 +81,11 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 .. jupyter-execute::
 
     from pytket import Circuit
-    from pytket.passes import RebaseIBM
+    from pytket.passes import RebaseTket
     circ = Circuit(2, 2)
     circ.Rx(0.3, 0).Ry(-0.9, 1).CZ(0, 1).S(0).CX(1, 0).measure_all()
 
-    RebaseIBM().apply(circ)
+    RebaseTket().apply(circ)
 
     print(circ.get_commands())
 
@@ -100,7 +100,6 @@ Pass                        Gateset
                               devices
 :py:class:`RebaseHQS`       | ZZMax, PhasedX and Rz - primitives on hardware
                               from Honeywell Quantum Systems
-:py:class:`RebaseIBM`       | CX, U1, U2 and U3 - primitives on hardware from IBM
 :py:class:`RebaseProjectQ`  | SWAP, CRz, CX, CZ, H, X, Y, Z, S, T, V, Rx, Ry
                               and Rz - gates supported by the ProjectQ simulator
 :py:class:`RebasePyZX`      | SWAP, CX, CZ, H, X, Z, S, T, Rx and Rz - gates
@@ -556,19 +555,19 @@ When targeting a heterogeneous device architecture, solving this constraint in i
 
 .. `Synthesise<>` passes combine light optimisations that preserve qubit connectivity and target a specific gate set
 
-After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won't invalidate this. The set of :py:class:`SynthesiseX` passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. :py:class:`SynthesiseIBM` guarantees the output is in the gateset of ``OpType.CX``, ``OpType.U1``, ``OpType.U2``, ``OpType.U3``, and ``OpType.Measure``). In general, this will not reduce the size of a :py:class:`Circuit` as much as :py:class:`FullPeepholeOptimise`, but has the benefit of removing some redundancies introduced by routing without invalidating it.
+After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won't invalidate this. The set of :py:class:`SynthesiseX` passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. :py:class:`SynthesiseTket` guarantees the output is in the gateset of ``OpType.CX``, ``OpType.TK1``, and ``OpType.Measure``). In general, this will not reduce the size of a :py:class:`Circuit` as much as :py:class:`FullPeepholeOptimise`, but has the benefit of removing some redundancies introduced by routing without invalidating it.
 
 .. jupyter-input::
 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
-    from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseIBM, RebaseIBM
+    from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseTket, RebaseTket
     circ = Circuit(5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3)
     circ.CZ(0, 1).CZ(0, 2).CZ(0, 3)
     circ.CX(3, 4).CX(0, 3).CX(4, 0)
 
-    RebaseIBM().apply(circ)     # Get number of 2qb gates by converting all to CX
+    RebaseTket().apply(circ)     # Get number of 2qb gates by converting all to CX
     print(circ.n_gates_of_type(OpType.CX))
 
     FullPeepholeOptimise().apply(circ)      # Freely rewrite circuit
@@ -576,20 +575,20 @@ After solving for the device connectivity, we then need to restrict what optimis
 
     backend = IBMQBackend("ibmq_quito")
     DefaultMappingPass(backend.backend_info.architecture).apply(circ)
-    RebaseIBM().apply(circ)
+    RebaseTket().apply(circ)
     print(circ.n_gates_of_type(OpType.CX))  # Routing adds gates
     print(circ.get_commands())
 
-    SynthesiseIBM().apply(circ)             # Some added gates were redundant
-    print(circ.n_gates_of_type(OpType.CX))
+    SynthesiseTket().apply(circ)            # Some added gates may be redundant
+    print(circ.n_gates_of_type(OpType.CX))  # But not in this case
 
 .. jupyter-output::
 
     9
     6
     9
-    [U1(1.5*PI) node[0];, U1(1.5*PI) node[1];, U1(1.5*PI) node[2];, U1(1.5*PI) node[3];, CX node[1], node[0];, U1(0.5*PI) node[0];, CX node[1], node[2];, CX node[1], node[3];, U1(0.5*PI) node[2];, U1(0.5*PI) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[1], node[3];, CX node[3], node[1];, CX node[1], node[3];, CX node[4], node[3];]
-    7
+    [tk1(0, 0, 1.5) node[0];, tk1(0, 0, 1.5) node[1];, tk1(0, 0, 1.5) node[2];, tk1(0, 0, 1.5) node[3];, CX node[1], node[0];, tk1(0, 0, 0.5) node[0];, CX node[1], node[2];, CX node[1], node[3];, tk1(0, 0, 0.5) node[2];, tk1(0, 0, 0.5) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[3], node[4];, CX node[4], node[3];, CX node[3], node[4];, CX node[3], node[1];]
+    9
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 

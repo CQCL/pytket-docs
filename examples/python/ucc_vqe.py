@@ -138,7 +138,7 @@ doubles = {
 
 def add_operator_term(circuit: Circuit, term: QubitPauliString, angle: float):
     qubits = []
-    for q, p in term.to_dict().items():
+    for q, p in term.map.items():
         if p != Pauli.I:
             qubits.append(q)
             if p == Pauli.X:
@@ -150,7 +150,7 @@ def add_operator_term(circuit: Circuit, term: QubitPauliString, angle: float):
     circuit.Rz(angle, len(qubits) - 1)
     for i in reversed(range(len(qubits) - 1)):
         circuit.CX(i, i + 1)
-    for q, p in term.to_dict().items():
+    for q, p in term.map.items():
         if p == Pauli.X:
             circuit.H(q)
         elif p == Pauli.Y:
@@ -182,7 +182,7 @@ from pytket.passes import DecomposeBoxes
 
 def add_excitation(circ, term_dict, param):
     for term, coeff in term_dict.items():
-        qubits, paulis = zip(*term.to_dict().items())
+        qubits, paulis = zip(*term.map.items())
         pbox = PauliExpBox(paulis, coeff * param)
         circ.add_pauliexpbox(pbox, qubits)
 
