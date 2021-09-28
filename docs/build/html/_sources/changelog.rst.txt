@@ -1,15 +1,35 @@
 Changelog
 ==================================
 
+0.15.0 (September 2021)
+-----------------------
+
+Minor new features:
+
+* Passes ``PauliSimp``, ``PauliSquash`` and ``GuidedPauliSimp`` can now
+  decompose to three-qubit ``XXPhase3`` gates using the new
+  ``CXConfigType.MultiQGate`` config type.
+* New method ``compilation_pass_from_script`` to construct a compilation pass
+  from a simple textual specification.
+* New transform ``RebaseToTket`` and new pass ``SquashToTK1``.
+
+API changes:
+
+* The deprecated transform ``RebaseToQiskit`` and the deprecated passes
+  ``DecomposeMultiQubitsIBM``, ``RebaseIBM``, ``SynthesiseIBM`` and
+  ``USquashIBM`` are removed.
+* The transform ``OptimisePostRouting`` transforms to TK1 instead of U gates.
+
 0.14.0 (September 2021)
 -----------------------
 
 Major new features:
 
 * New ``Circuit.add_assertion`` method for applying quantum assertions to circuits.
-  Two new box types  ``StabiliserAssertionBox`` and ``ProjectorAssertionBox``.
-  New ``BackendResult.get_debug_info`` method for summarising assertion results.
-  New ``PauliStabiliser`` class.
+* Two new box types  ``StabiliserAssertionBox`` and ``ProjectorAssertionBox``.
+* New ``BackendResult.get_debug_info`` method for summarising assertion results.
+* New ``PauliStabiliser`` class.
+* Native support for MacOS running on M1 (arm64) architecture (Python 3.8 and 3.9 only).
 * New compilerpass for architecture aware synthesis of phase polynomials ``AASRouting``.
 
 Minor new features:

@@ -202,18 +202,18 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
-<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RebaseIBM</span>
+<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RebaseTket</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
-<span class="n">RebaseIBM</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">RebaseTket</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[U3(0.3, 1.5, 0.5) q[0];, U3(3.1, 0, 0) q[1];, U3(0.5, 0, 1) q[1];, CX q[0], q[1];, U1(0.5) q[0];, U3(0.5, 0, 1) q[1];, CX q[1], q[0];, Measure q[0] --&gt; c[0];, Measure q[1] --&gt; c[1];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[tk1(0, 0.3, 0) q[0];, tk1(0.5, 3.1, 3.5) q[1];, tk1(0.5, 0.5, 0.5) q[1];, CX q[0], q[1];, tk1(0, 0, 0.5) q[0];, tk1(0.5, 0.5, 0.5) q[1];, CX q[1], q[0];, Measure q[0] --&gt; c[0];, Measure q[1] --&gt; c[1];]
 </pre></div>
 </div>
 </div>
@@ -244,33 +244,27 @@ from Honeywell Quantum Systems</div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebaseIBM</span></code></p></td>
-<td><div class="line-block">
-<div class="line">CX, U1, U2 and U3 - primitives on hardware from IBM</div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebaseProjectQ</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebaseProjectQ</span></code></p></td>
 <td><div class="line-block">
 <div class="line">SWAP, CRz, CX, CZ, H, X, Y, Z, S, T, V, Rx, Ry
 and Rz - gates supported by the ProjectQ simulator</div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebasePyZX</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebasePyZX</span></code></p></td>
 <td><div class="line-block">
 <div class="line">SWAP, CX, CZ, H, X, Z, S, T, Rx and Rz - gates
 supported by the PyZX software package</div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebaseQuil</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebaseQuil</span></code></p></td>
 <td><div class="line-block">
 <div class="line">CZ, Rx and Rz - primitives on hardware from Rigetti</div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebaseTket</span></code></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">RebaseTket</span></code></p></td>
 <td><div class="line-block">
 <div class="line">CX and TK1 - preferred internal gateset for many
 <code class="docutils literal notranslate"><span class="pre">pytket</span></code> compiler passes</div>
@@ -778,18 +772,18 @@ True
 <p>Knowing what sequences of compiler passes to apply for maximal performance is often a very hard problem and can require a lot of experimentation and intuition to predict reliably. Fortunately, there are often common patterns that are applicable to virtually any scenario, for which <code class="docutils literal notranslate"><span class="pre">pytket</span></code> provides some predefined sequences.</p>
 <p>In practice, peephole and structure-preserving optimisations are almost always stictly beneficial to apply, or at least will never increase the size of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> sequence is a combination of <code class="xref py py-class docutils literal notranslate"><span class="pre">CliffordSimp</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RemoveRedundancies</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CommuteThroughMultis</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">KAKDecomposition</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">EulerAngleReduction</span></code>, and provides a one-size-approximately-fits-all “kitchen sink” solution to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> optimisation. This assumes a universal quantum computer, so will not generally preserve gateset, connectivity, etc.</p>
 <p>When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. <code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultMappingPass</span></code> simply combines these to apply the <code class="xref py py-class docutils literal notranslate"><span class="pre">GraphPlacement</span></code> strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with <code class="xref py py-class docutils literal notranslate"><span class="pre">CXMappingPass</span></code> which also decomposes the introduced <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> and <code class="docutils literal notranslate"><span class="pre">OpType.BRIDGE</span></code> gates into elementary <code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code> gates.</p>
-<p>After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won’t invalidate this. The set of <code class="xref py py-class docutils literal notranslate"><span class="pre">SynthesiseX</span></code> passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">SynthesiseIBM</span></code> guarantees the output is in the gateset of <code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.U1</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.U2</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.U3</span></code>, and <code class="docutils literal notranslate"><span class="pre">OpType.Measure</span></code>). In general, this will not reduce the size of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as much as <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code>, but has the benefit of removing some redundancies introduced by routing without invalidating it.</p>
+<p>After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won’t invalidate this. The set of <code class="xref py py-class docutils literal notranslate"><span class="pre">SynthesiseX</span></code> passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">SynthesiseTket</span></code> guarantees the output is in the gateset of <code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.TK1</span></code>, and <code class="docutils literal notranslate"><span class="pre">OpType.Measure</span></code>). In general, this will not reduce the size of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as much as <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code>, but has the benefit of removing some redundancies introduced by routing without invalidating it.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
-<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">FullPeepholeOptimise</span><span class="p">,</span> <span class="n">DefaultMappingPass</span><span class="p">,</span> <span class="n">SynthesiseIBM</span><span class="p">,</span> <span class="n">RebaseIBM</span>
+<span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">FullPeepholeOptimise</span><span class="p">,</span> <span class="n">DefaultMappingPass</span><span class="p">,</span> <span class="n">SynthesiseTket</span><span class="p">,</span> <span class="n">RebaseTket</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span class="n">RebaseIBM</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>     <span class="c1"># Get number of 2qb gates by converting all to CX</span>
+<span class="n">RebaseTket</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>     <span class="c1"># Get number of 2qb gates by converting all to CX</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>
 
 <span class="n">FullPeepholeOptimise</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>      <span class="c1"># Freely rewrite circuit</span>
@@ -797,12 +791,12 @@ True
 
 <span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
 <span class="n">DefaultMappingPass</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">architecture</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
-<span class="n">RebaseIBM</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">RebaseTket</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>  <span class="c1"># Routing adds gates</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
 
-<span class="n">SynthesiseIBM</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>             <span class="c1"># Some added gates were redundant</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>
+<span class="n">SynthesiseTket</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>            <span class="c1"># Some added gates may be redundant</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>  <span class="c1"># But not in this case</span>
 </pre></div>
 </div>
 </div>
@@ -810,8 +804,8 @@ True
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>9
 6
 9
-[U1(1.5*PI) node[0];, U1(1.5*PI) node[1];, U1(1.5*PI) node[2];, U1(1.5*PI) node[3];, CX node[1], node[0];, U1(0.5*PI) node[0];, CX node[1], node[2];, CX node[1], node[3];, U1(0.5*PI) node[2];, U1(0.5*PI) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[1], node[3];, CX node[3], node[1];, CX node[1], node[3];, CX node[4], node[3];]
-7
+[tk1(0, 0, 1.5) node[0];, tk1(0, 0, 1.5) node[1];, tk1(0, 0, 1.5) node[2];, tk1(0, 0, 1.5) node[3];, CX node[1], node[0];, tk1(0, 0, 0.5) node[0];, CX node[1], node[2];, CX node[1], node[3];, tk1(0, 0, 0.5) node[2];, tk1(0, 0, 0.5) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[3], node[4];, CX node[4], node[3];, CX node[3], node[4];, CX node[3], node[1];]
+9
 </pre></div>
 </div>
 </div>
@@ -1277,12 +1271,12 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
- [1 1]
- [1 1]
  [0 0]
  [0 0]
  [1 1]
+ [1 1]
  [0 0]
+ [1 1]
  [0 0]
  [0 0]
  [0 0]]

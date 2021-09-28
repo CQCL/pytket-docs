@@ -70,21 +70,10 @@ qi = QuantumInstance(qis_backend, shots=8192, wait=0.1)
 
 print("VQE result:", vqe_solve(H2_op, 50, qi))
 
-# Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; in this example we will use `FullPeepholeOptimise`, which is a powerful general-purpose pass.
-#
-# In order to satisfy the gate-set constraints of pytket compilation passes, it is sometimes necessary to get qiskit to "unroll" to a certain gate set first; this we can do by passing a `PassManager` to the `QuantumInstance` constructor, as illustrated below.
+# Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; we recommend the device-specific default compilation pass, provided by each tket backend. This pass will ensure that all the hardware constraints of the device are met. We can enable tket's most aggressive optimisation level by setting the parameter `optimisation_level=2`.
 
-from pytket.passes import FullPeepholeOptimise
-from qiskit.transpiler import PassManager
-from qiskit.transpiler.passes import Unroller
-
-qis_backend2 = TketBackend(b_emu, FullPeepholeOptimise())
-qi2 = QuantumInstance(
-    qis_backend2,
-    pass_manager=PassManager(Unroller(["cx", "h", "rx", "ry", "rz"])),
-    shots=8192,
-    wait=0.1,
-)
+qis_backend2 = TketBackend(b_emu, b_emu.default_compilation_pass(optimisation_level=2))
+qi2 = QuantumInstance(qis_backend2, shots=8192, wait=0.1)
 
 # Let's run the optimisation again:
 
