@@ -31,7 +31,7 @@ A special unsupported case arises when asserting a 3-qubit subspace whose projec
 
 In the following example, we try to prepare a Bell state along with a state obtained by applying an :math:`\mathrm{Rx}(0.3)` rotation to :math:`|0\rangle`; we then use projectors to assert that the circuit construction is correct.
 
-.. jupyter-input::
+.. jupyter-execute::
 
     from pytket.circuit import ProjectorAssertionBox, Circuit
     from pytket.extensions.qiskit import AerBackend
@@ -41,7 +41,7 @@ In the following example, we try to prepare a Bell state along with a state obta
     # construct a circuit that prepares a Bell state for qubits [0,1]
     # and a Rx(0.3)|0> state for qubit 2
     circ = Circuit(3)
-    circ.H(0).CX(0,1).Rx(0.27,2)    # A bug in the circuit
+    circ.H(0).CX(0,1).Rx(0.03,2)    # A bug in the circuit
 
     # prepare a backend
     backend = AerBackend()
@@ -69,16 +69,9 @@ In the following example, we try to prepare a Bell state along with a state obta
     re = backend.get_result(res_handle)
     re.get_debug_info()
 
-.. jupyter-output::
-
-    {'|bell>': 1.0, 'Rx(0.3)|0>': 0.99}
-
-
-
-
 Without the presence of noise, if a state is in the target subspace, then its associated assertion will succeed with certainty; on the other hand, an assertion failure indicates that the state is not in the target subspace.
 In order to really test the program, the debug circuit should be run multiple times to ensure an accurate conclusion. The :py:class:`dict` object returned by :py:meth:`get_debug_info` suggests that the Bell state assertion succeeded for all the 100 shots; hence we are confident that the construction for the Bell state is correct.
-On the contrary, the assertion named "Rx(0.3)|0>" succeeded for 99 out of the 100 shots; this means that the construction for that state is incorrect.
+On the contrary, the assertion named "Rx(0.3)|0>" failed for some shots; this means that the construction for that state is incorrect.
 
 If there is noise in the device, which is the case for all devices in the NISQ era, then the results can be much less clear. The following example demonstrates what the assertion outcome will look like if we compile and run the debug circuit with a noisy backend.
 
@@ -87,6 +80,7 @@ If there is noise in the device, which is the case for all devices in the NISQ e
 
     from qiskit.providers.aer.noise import NoiseModel
     from qiskit import IBMQ
+    IBMQ.load_account()
 
     # prepare a noisy backend
     backend = AerBackend(NoiseModel.from_backend(IBMQ.providers()[0].get_backend('ibmq_santiago')))
@@ -106,7 +100,7 @@ Stabiliser-based
 --------------------------
 
 A stabiliser subspace is a subspace that can be uniquely determined by a stabiliser subgroup.
-Since all Pauli operators in a stabiliser subgroup except the identity have +/- 1 eigenvalues, we can verify if a quantum state is in the +1 eigenspace of such a Pauli operator by repeatedly measuring the following circuit [Niel2010]_.
+Since all Pauli operators in a stabiliser subgroup have +/- 1 eigenvalues, we can verify if a quantum state is in the +1 eigenspace of such a Pauli operator by repeatedly measuring the following circuit [Niel2010]_.
 
 .. jupyter-execute::
     :hide-code:
@@ -129,9 +123,9 @@ These generating sets only contain at most :math:`n` Pauli operators for a n-qub
 
 The following code demonstrates how we use the generating set for the Bell state to assert a circuit construction.
 
-.. jupyter-input::
+.. jupyter-execute::
 
-    from pytket.circuit import StabiliserAssertionBox, Circuit
+    from pytket.circuit import StabiliserAssertionBox, Circuit, Qubit
     from pytket.extensions.qiskit import AerBackend
 
     # prepare a Bell state
@@ -152,17 +146,14 @@ The following code demonstrates how we use the generating set for the Bell state
     res = backend.get_result(res_handle)
     res.get_debug_info()
 
-.. jupyter-output::
-
-    {'|bell>': 1.0}
 
 A :py:class:`StabiliserAssertionBox` can also be constructed with a :py:class:`pytket.pauli.PauliStabiliser`:
 
-.. jupyter-input::
+.. jupyter-execute::
 
     from pytket.pauli import PauliStabiliser, Pauli
 
-    stabilisers = [PauliStabiliser(1,[Pauli.X, Pauli.X]), PauliStabiliser(1,[Pauli.Z, Pauli.Z])]
+    stabilisers = [PauliStabiliser([Pauli.X, Pauli.X], 1), PauliStabiliser([Pauli.Z, Pauli.Z], 1)]
     s = StabiliserAssertionBox(stabilisers)
 
 
