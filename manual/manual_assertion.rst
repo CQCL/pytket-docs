@@ -2,7 +2,7 @@
 Assertion
 ***********************************
 
-In quantum computing, an assertion is a predefined predicate using which can let us test whether an experimentally prepared quantum state is in a specified subspace of the state space.
+In quantum computing, an assertion is a predefined predicate which can let us test whether an experimentally prepared quantum state is in a specified subspace of the state space.
 
 In addition to detecting defects, the assertion schemes in ``pytket`` automatically correct the state if there is no assertion error.
 This property can be potentially exploited to help error mitigation or nondeterministically preparing a quantum state.
