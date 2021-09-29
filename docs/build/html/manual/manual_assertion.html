@@ -88,7 +88,7 @@ The former can be used to assert arbitrary subspaces, but note that we currently
 The latter is useful for asserting that the prepared state lies in a subspace spanned by some stabiliser states.</p>
 <p>When applied to a circuit, the assertion is inserted as a <code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectorAssertionBox</span></code> or a <code class="xref py py-class docutils literal notranslate"><span class="pre">StabiliserAssertionBox</span></code>, and then synthesized into a set of gates and measurements by the <code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposeBoxes</span></code> pass. Be aware that an ancilla qubit might be required for the assertion.
 The results of these measurements will be used later on to determine the outcome of the assertion.</p>
-<p>To test the circuit, compile and process the circuit using a backend in <code class="docutils literal notranslate"><span class="pre">pytket-extensions</span></code> that supports mid-circuit measurement and reset (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>).
+<p>To test the circuit, compile and process the circuit using a backend in <a class="reference external" href="https://github.com/CQCL/pytket-extensions">pytket-extensions</a> that supports mid-circuit measurement and reset (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>).
 Once a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendResult</span></code> object is retrieved, the outcome of the assertion can be checked with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_debug_info()</span></code> method.</p>
 <div class="section" id="projector-based">
 <h2>Projector-based<a class="headerlink" href="#projector-based" title="Permalink to this headline"></a></h2>
@@ -140,7 +140,7 @@ A special unsupported case arises when asserting a 3-qubit subspace whose projec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.84}
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.78}
 </pre></div>
 </div>
 </div>
