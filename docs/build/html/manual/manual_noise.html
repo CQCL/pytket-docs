@@ -1,38 +1,17 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Noise and the Quantum Circuit Model &mdash; pytket-manual  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+      <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
@@ -41,38 +20,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Assertion" href="manual_assertion.html" />
     <link rel="prev" title="Compilation" href="manual_compiler.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> pytket-manual
-          
-
-          
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -80,18 +41,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
@@ -103,81 +53,41 @@
 <li class="toctree-l2"><a class="reference internal" href="#spam-mitigation">SPAM Mitigation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="manual_assertion.html">Assertion</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pytket-manual</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Noise and the Quantum Circuit Model</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/manual_noise.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <div class="section" id="noise-and-the-quantum-circuit-model">
-<h1>Noise and the Quantum Circuit Model<a class="headerlink" href="#noise-and-the-quantum-circuit-model" title="Permalink to this headline">¶</a></h1>
+<h1>Noise and the Quantum Circuit Model<a class="headerlink" href="#noise-and-the-quantum-circuit-model" title="Permalink to this headline"></a></h1>
 <p>NISQ era devices are characterised as having high error rates, meaning the effect of running quantum circuits on these devices is that states are commonly dominated by noise. This is usually to the extent that even for circuits with very few gates, significant errors are accrued quickly enough that the returned results are unusable.</p>
 <p>Compilation of quantum circuits does not have a unique solution. Typically compilation strategies are designed to produce quantum circuits that implement the same logical circuit with fewer total gates and so have less opportunity to accrue errors. Understanding which quantum operations will lead to excessive noise accumulation in devices can help design compilation strategies to reduce this noise. Examples of this are circuit optimistation strategies that target the removal of multi-qubit gates as they typically have worse error rates than single-qubit gates, or designing circuit routing methods that introduce fewer total swap gates when conforming circuits to some device connectivity.</p>
 <p>Given the range of types of quantum devices available and their individual noise profiles, more precise characterisations of where noise accumulates in devices can aid in designing techniques for suppressing specific or general noise - <code class="docutils literal notranslate"><span class="pre">pytket</span></code> has several such techniques available.</p>
 <p>Noise in the quantum circuit model can be viewed as the distance between the expected distribution of measurement outcomes from a quantum state and the distribution returned by the process of repeatedly sampling shots. While some compilation methods aim to reduce this distance by the optimisation of some other metric, such as the number of occurrences of a given device’s multi-qubit primitives, the discussed techniques are explicitly designed to modify the returned distribution favourably by dealing directly with noise levels.</p>
 <div class="section" id="noise-aware-mapping">
-<h2>Noise Aware Mapping<a class="headerlink" href="#noise-aware-mapping" title="Permalink to this headline">¶</a></h2>
+<h2>Noise Aware Mapping<a class="headerlink" href="#noise-aware-mapping" title="Permalink to this headline"></a></h2>
 <p>Many quantum devices place limits on which qubits can
 interact, with these limitations being determined by the device architecture.
 When compiling a circuit to run on one of these devices, the circuit
@@ -335,7 +245,7 @@ better error rates.  This will produce a circuit whose output
 statistics are closer to the ideal, noiseless, distribution.</p>
 </div>
 <div class="section" id="noise-tailoring-methods">
-<h2>Noise Tailoring Methods<a class="headerlink" href="#noise-tailoring-methods" title="Permalink to this headline">¶</a></h2>
+<h2>Noise Tailoring Methods<a class="headerlink" href="#noise-tailoring-methods" title="Permalink to this headline"></a></h2>
 <p>While it is not possible to efficiently characterise and suppress all device noise, it can be advantageous to transform some adverse type of noise into a less damaging type.</p>
 <p>Coherent errors are additional unwanted unitary rotations that may appear throughout a quantum computation. Their effect can be damaging due to a possible faster rate of error accumulation than in the case of probabilistic (incoherent) errors.</p>
 <p>Randomisation protocols can be used to tailor the form of the noise profile. By averaging the n-qubit noise channel over all elements from a group (specifically some subgroup of the full unitary group on n qubits), the resulting noise is invariant under the action of any element from this group.</p>
@@ -592,7 +502,7 @@ Number of sampled Universal Frame Randomisation averaging circuits with rebase: 
 can be used to sample from the full set of averaging circuits. It is recommended to use <code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameRandomisation.sample_circuit()</span></code> over <code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameRandomisation.get_all_circuits()</span></code> for larger circuits with many cycles as the overhead in finding frame permutations becomes significant.</p>
 </div>
 <div class="section" id="spam-mitigation">
-<h2>SPAM Mitigation<a class="headerlink" href="#spam-mitigation" title="Permalink to this headline">¶</a></h2>
+<h2>SPAM Mitigation<a class="headerlink" href="#spam-mitigation" title="Permalink to this headline"></a></h2>
 <p>A prominent source of noise is that occurring during State Preparation and Measurement (SPAM) in the hardware.</p>
 <p>SPAM error mitigation methods can correct for such noise through a post-processing step that modifies the output distribution measured from repeatedly sampling shots. This is possible given the assumption that SPAM noise is not dependent on the quantum computation run.</p>
 <p>By repeatedly preparing and measuring a basis state of the device, a distribution over basis states is procured. While for a perfect device the distribution would be the prepared basis state with probability 1, for devices prone to SPAM noise this distribution is perturbed and other basis states may be returned with (expected) small probability.</p>
@@ -669,9 +579,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 413, (1, 1): 400, (1, 0): 103, (0, 1): 84})
-Corrected Counts: Counter({(0, 0): 476, (1, 1): 463, (1, 0): 46, (0, 1): 18})
-Noiseless Counts: Counter({(1, 1): 532, (0, 0): 468})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 451, (1, 1): 390, (0, 1): 85, (1, 0): 74})
+Corrected Counts: Counter({(0, 0): 519, (1, 1): 447, (0, 1): 26, (1, 0): 10})
+Noiseless Counts: Counter({(1, 1): 522, (0, 0): 478})
 </pre></div>
 </div>
 </div>
@@ -690,49 +600,33 @@ Noiseless Counts: Counter({(1, 1): 532, (0, 0): 468})
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="manual_compiler.html" class="btn btn-neutral float-left" title="Compilation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="manual_assertion.html" class="btn btn-neutral float-right" title="Assertion" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020-2021 Cambridge Quantum Computing Ltd.
-
-    </p>
+    <p>&#169; Copyright 2020-2021 Cambridge Quantum Computing Ltd.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
