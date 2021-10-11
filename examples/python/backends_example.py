@@ -229,4 +229,4 @@ print(ibmq_b_emu.get_result(oldhandle).get_shots())
 
 # The backends in `pytket` are designed to be as similar to one another as possible. The example above using physical devices can be run entirely on a simulator by swapping out the `IBMQBackend` constructor for any other backend supporting shot outputs (e.g. `AerBackend`, `ProjectQBackend`, `ForestBackend`), or passing it the name of a different device. Furthermore, using pytket it is simple to convert between handling shot tables, counts maps and statevectors.
 #
-# For more information on backends and other `pytket` features, read our [documentation](https://cqcl.github.io/pytket) or see the other examples on our [GitHub repo](https://github.com/CQCL/pytket).
+# For more information on backends and other `pytket` features, read our [documentation](https://cqcl.github.io/pytket) or see the other examples on our [GitHub repo](https://github.com/CQCL/tket/pytket/api).

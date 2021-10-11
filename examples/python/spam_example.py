@@ -62,7 +62,11 @@ santiago_spam.calculate_matrices(sim_count_results)
 from pytket import Circuit
 
 ghz_circuit = (
-    Circuit(len(pytket_noisy_sim_backend.backend_info.architecture.nodes)).H(0).CX(0, 1).CX(1, 2).measure_all()
+    Circuit(len(pytket_noisy_sim_backend.backend_info.architecture.nodes))
+    .H(0)
+    .CX(0, 1)
+    .CX(1, 2)
+    .measure_all()
 )
 pytket_noisy_sim_backend.compile_circuit(ghz_circuit)
 ghz_noisy_handle = pytket_noisy_sim_backend.process_circuit(ghz_circuit, n_shots)
@@ -135,7 +139,7 @@ print(
 
 # In our noisy simulated case, spam corrected results produced a distribution closer to the expected distribution.
 #
-# There are two methods available for correcting counts: the default ```bayesian```, and ```invert```. Further information on each method is available at our [documentation](https://cqcl.github.io/pytket/build/html/utils.html#module-pytket.utils.spam).
+# There are two methods available for correcting counts: the default ```bayesian```, and ```invert```. Further information on each method is available at our [documentation](https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.spam).
 #
 # Let's look at how the ```invert``` method performs.
 
@@ -159,7 +163,9 @@ from pytket.extensions.qiskit import IBMQBackend
 
 ibm_backend = IBMQBackend("ibmq_santiago")
 
-santiago_spam_real = SpamCorrecter([ibm_backend.backend_info.architecture.nodes], ibm_backend)
+santiago_spam_real = SpamCorrecter(
+    [ibm_backend.backend_info.architecture.nodes], ibm_backend
+)
 ibm_backend.compile_circuit(ghz_circuit)
 all_circuits = santiago_spam_real.calibration_circuits() + [ghz_circuit]
 ibm_handles = ibm_backend.process_circuits(all_circuits, n_shots)

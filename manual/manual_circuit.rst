@@ -777,7 +777,7 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
     circuit_to_symbolic_unitary(circ)
 
 
-The unitaries are calculated using the unitary representation of each `OpType <https://cqcl.github.io/pytket/build/html/optype.html>`_ , and according to the default `ILO BasisOrder convention used in backends <manual_backend.html#interpreting-results>`_.
+The unitaries are calculated using the unitary representation of each `OpType <https://cqcl.github.io/tket/pytket/api/optype.html>`_ , and according to the default `ILO BasisOrder convention used in backends <manual_backend.html#interpreting-results>`_.
 The outputs are sympy `ImmutableMatrix <https://docs.sympy.org/latest/modules/matrices/immutablematrices.html>`_ objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the `sympy Quantum Mechanics module <https://docs.sympy.org/latest/modules/physics/quantum/index.html>`_, see also the :py:func:`circuit_to_symbolic_gates` and :py:func:`circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 
