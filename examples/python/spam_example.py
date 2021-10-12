@@ -153,44 +153,7 @@ print(
     JSD(ghz_noiseless_probabilities, ghz_invert_probabilities),
 )
 
-# Lets change from our simulator backend to the Santiago IBMQ device to see how SPAM correction performs on real results.
+# To see how SPAM correction performs on results from a real IBMQ quantum device, try replacing `IBMQEmulatorBackend` with `IBMQBackend`.
 
 from pytket.extensions.qiskit import IBMQBackend
-
 ibm_backend = IBMQBackend("ibmq_santiago")
-
-santiago_spam_real = SpamCorrecter([ibm_backend.backend_info.architecture.nodes], ibm_backend)
-ibm_backend.compile_circuit(ghz_circuit)
-all_circuits = santiago_spam_real.calibration_circuits() + [ghz_circuit]
-ibm_handles = ibm_backend.process_circuits(all_circuits, n_shots)
-
-ibm_calibration_results = ibm_backend.get_results(ibm_handles[:-1])
-santiago_spam_real.calculate_matrices(ibm_calibration_results)
-
-ghz_santiago_result = ibm_backend.get_result(ibm_handles[-1])
-ghz_santiago_probabilities = probs_from_counts(ghz_santiago_result)
-
-# Finally we compare performance for our machine results:
-
-ghz_spam_corrected_santiago_result = santiago_spam_real.correct_counts(
-    ghz_santiago_result, ghz_parallel_measure
-)
-ghz_invert_corrected_result = santiago_spam_real.correct_counts(
-    ghz_santiago_result, ghz_parallel_measure, method="invert"
-)
-
-ghz_spam_corrected_santiago_probabilities = probs_from_counts(ghz_spam_corrected_result)
-ghz_invert_probabilities = probs_from_counts(ghz_invert_corrected_result)
-
-print(
-    "Jensen-Shannon Divergence between noiseless simulation probability distribution and santiago probability distribution: ",
-    JSD(ghz_noiseless_probabilities, ghz_santiago_probabilities),
-)
-print(
-    "Jensen-Shannon Divergence between noiseless simulation probability distribution and Bayesian-corrected santiago probability distribution: ",
-    JSD(ghz_noiseless_probabilities, ghz_spam_corrected_santiago_probabilities),
-)
-print(
-    "Jensen-Shannon Divergence between noiseless simulation probability distribution and invert-corrected santiago probability distribution: ",
-    JSD(ghz_noiseless_probabilities, ghz_invert_probabilities),
-)

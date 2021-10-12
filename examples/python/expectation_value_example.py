@@ -26,6 +26,7 @@ for i in range(3):
     ansatz.CX(qubits[i], qubits[i + 1])
 for i in range(4):
     ansatz.Ry(args[4 + i], qubits[i])
+ansatz.measure_all()
 
 for command in ansatz:
     print(command)
@@ -202,12 +203,13 @@ def expectation_value(state_circuit, operator, backend, n_shots):
 
 # ...and then run it for our ansatz. `AerBackend` supports faster expectation value from snapshopts (using the `AerBackend.get_operator_expectation_value` method), but this only works when all the qubits in the circuit are default register qubits that go up from 0. So we will need to rename `synq`.
 
-from pytket.extensions.qiskit import IBMQBackend, AerBackend
+from pytket.extensions.qiskit import IBMQEmulatorBackend, AerBackend
 
 ansatz.rename_units({Qubit("synq", 0): Qubit("q", 4)})
 
 print(expectation_value(ansatz, hamiltonian, AerBackend(), 8000))
-print(expectation_value(ansatz, hamiltonian, IBMQBackend("ibmq_santiago"), 8000))
+# Try replacing IBMQEmulatorBackend with IBMQBackend to submit the circuits to a real IBM Quantum device.
+print(expectation_value(ansatz, hamiltonian, IBMQEmulatorBackend("ibmq_santiago"), 8000))
 
 # For basic practice with using pytket backends and their results, try editing the code here to:
 # * Extend `expectation_value` to work with statevector backends (e.g. `AerStateBackend`)
