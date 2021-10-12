@@ -16,9 +16,9 @@ To install, ensure that you have `pip` version 19 or above, and run
 
 Note: attempting to install from source will not set up the required binaries for the tket compiler, so we recommend the PyPI installation.
 
-See the [Getting Started](https://cqcl.github.io/pytket/build/html/getting_started.html) page for a quick introduction to using `pytket`.
+See the [Getting Started](https://cqcl.github.io/tket/pytket/api/getting_started.html) page for a quick introduction to using `pytket`.
 
-**Documentation** can be found at [cqcl.github.io/pytket](https://cqcl.github.io/pytket)
+**Documentation** can be found at [cqcl.github.io/tket/pytket](https://cqcl.github.io/tket/pytket/api)
 
 To get more in depth on features, see the [examples](https://github.com/CQCL/pytket/tree/main/examples).
 
@@ -42,14 +42,6 @@ For each subpackage:
 * Braket: ``pip install pytket-braket``
 * Qulacs: ``pip install pytket-qulacs``
 * IonQ: ``pip install pytket-ionq``
-
-## LICENCE
-
-Copyright 2019-2021 Cambridge Quantum Computing
-
-You may not use this product except in compliance with the Licence.
-You may obtain a copy of the Licence in the LICENCE file accompanying
-these documents or view them [here](https://cqcl.github.io/pytket/build/html/licence.html).
 
 ## How To Cite
 
@@ -82,4 +74,4 @@ Once a user has opted in to telemetry they will be assigned a telemetry ID by ma
 
 ### Telemetry Data Policy
 
-Our telemetry data policy can be viewed [here](https://cqcl.github.io/pytket/build/html/telemetry_data_policy.html).
+Our telemetry data policy can be viewed [here](https://cqcl.github.io/tket/pytket/api/telemetry_data_policy.html).

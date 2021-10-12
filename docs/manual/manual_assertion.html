@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assertion &mdash; pytket-manual  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/jupyter-sphinx.css" type="text/css" />
+      <link rel="stylesheet" href="_static/thebelab.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/thebelab-helper.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Noise and the Quantum Circuit Model" href="manual_noise.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> pytket-manual
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_circuit.html">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Assertion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#projector-based">Projector-based</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stabiliser-based">Stabiliser-based</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytket-manual</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Assertion</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/manual_assertion.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="assertion">
+<h1>Assertion<a class="headerlink" href="#assertion" title="Permalink to this headline"></a></h1>
+<p>In quantum computing, an assertion is a predefined predicate which can let us test whether an experimentally prepared quantum state is in a specified subspace of the state space.</p>
+<p>In addition to detecting defects, the assertion schemes in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> automatically correct the state if there is no assertion error.
+This property can be potentially exploited to help error mitigation or nondeterministically preparing a quantum state.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> provides two ways to construct an assertion, by a projector matrix or by a set of Pauli stabilisers.
+The former can be used to assert arbitrary subspaces, but note that we currently only support 2x2, 4x4, and 8x8 matrices.
+The latter is useful for asserting that the prepared state lies in a subspace spanned by some stabiliser states.</p>
+<p>When applied to a circuit, the assertion is inserted as a <code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectorAssertionBox</span></code> or a <code class="xref py py-class docutils literal notranslate"><span class="pre">StabiliserAssertionBox</span></code>, and then synthesized into a set of gates and measurements by the <code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposeBoxes</span></code> pass. Be aware that an ancilla qubit might be required for the assertion.
+The results of these measurements will be used later on to determine the outcome of the assertion.</p>
+<p>To test the circuit, compile and process the circuit using a backend in <a class="reference external" href="https://github.com/CQCL/pytket-extensions">pytket-extensions</a> that supports mid-circuit measurement and reset (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>).
+Once a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendResult</span></code> object is retrieved, the outcome of the assertion can be checked with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_debug_info()</span></code> method.</p>
+<div class="section" id="projector-based">
+<h2>Projector-based<a class="headerlink" href="#projector-based" title="Permalink to this headline"></a></h2>
+<p>Projector-based assertion utilises the simple fact that the outcome of a projective measurement can be used to determine if a quantum state is in a specified subspace of the state space.
+The method implemented in pytket transforms an arbitrary projective measurement into measurements on the computational basis <a class="reference internal" href="#gushu2020" id="id1"><span>[Gushu2020]</span></a>.
+However, this approach is not without limitations. Projectors in general require <span class="math notranslate nohighlight">\(n \times n\)</span> matrices to represent them; hence it becomes impractical when the size of the asserted subspace is large.
+Moreover, the transformation technique we have adapted requires synthesis for arbitrary unitary matrices. Since <code class="docutils literal notranslate"><span class="pre">pytket</span></code> currently only supports synthesis for 1, 2, and 3 qubit unitaries, the projectors are limited to 2x2, 4x4, and 8x8 matrices.</p>
+<p>To start asserting with a projector, one should first compute the projector matrix for the target subspace. If the rank of the projector is larger than <span class="math notranslate nohighlight">\(2^{n-1}\)</span> (<span class="math notranslate nohighlight">\(n\)</span> is the number of qubits), an ancilla qubit should be provided to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">add_assert()</span></code> method.
+A special unsupported case arises when asserting a 3-qubit subspace whose projector has a rank larger than <span class="math notranslate nohighlight">\(2^{3-1}\)</span>.</p>
+<p>In the following example, we try to prepare a Bell state along with a state obtained by applying an <span class="math notranslate nohighlight">\(\mathrm{Rx}(0.3)\)</span> rotation to <span class="math notranslate nohighlight">\(|0\rangle\)</span>; we then use projectors to assert that the circuit construction is correct.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">ProjectorAssertionBox</span><span class="p">,</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="c1"># construct a circuit that prepares a Bell state for qubits [0,1]</span>
+<span class="c1"># and a Rx(0.3)|0&gt; state for qubit 2</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.03</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>    <span class="c1"># A bug in the circuit</span>
+
+<span class="c1"># prepare a backend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+
+<span class="c1"># prepare a projector for the Bell state</span>
+<span class="n">bell_projector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+<span class="p">])</span>
+<span class="c1"># prepare a projector for the state Rx(0.3)|0&gt;</span>
+<span class="n">rx_projector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">0.15</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="n">j</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="n">j</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.3</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.15</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="c1"># add the assertions</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_assertion</span><span class="p">(</span><span class="n">ProjectorAssertionBox</span><span class="p">(</span><span class="n">bell_projector</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;|bell&gt;&quot;</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_assertion</span><span class="p">(</span><span class="n">ProjectorAssertionBox</span><span class="p">(</span><span class="n">rx_projector</span><span class="p">),</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Rx(0.3)|0&gt;&quot;</span><span class="p">)</span>
+
+<span class="c1"># compile and run the circuit</span>
+<span class="n">compiled_circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">res_handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">compiled_circ</span><span class="p">,</span><span class="n">n_shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">re</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">res_handle</span><span class="p">)</span>
+<span class="n">re</span><span class="o">.</span><span class="n">get_debug_info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.78}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Without the presence of noise, if a state is in the target subspace, then its associated assertion will succeed with certainty; on the other hand, an assertion failure indicates that the state is not in the target subspace.
+In order to really test the program, the debug circuit should be run multiple times to ensure an accurate conclusion. The <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> object returned by <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_debug_info()</span></code> suggests that the Bell state assertion succeeded for all the 100 shots; hence we are confident that the construction for the Bell state is correct.
+On the contrary, the assertion named “Rx(0.3)|0&gt;” failed for some shots; this means that the construction for that state is incorrect.</p>
+<p>If there is noise in the device, which is the case for all devices in the NISQ era, then the results can be much less clear. The following example demonstrates what the assertion outcome will look like if we compile and run the debug circuit with a noisy backend.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span>
+<span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
+
+<span class="c1"># prepare a noisy backend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">NoiseModel</span><span class="o">.</span><span class="n">from_backend</span><span class="p">(</span><span class="n">IBMQ</span><span class="o">.</span><span class="n">providers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;ibmq_santiago&#39;</span><span class="p">)))</span>
+
+<span class="c1"># compile the previously constructed circuit</span>
+<span class="n">compiled_circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">res_handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">compiled_circ</span><span class="p">,</span><span class="n">n_shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">re</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">res_handle</span><span class="p">)</span>
+<span class="n">re</span><span class="o">.</span><span class="n">get_debug_info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 0.95, &#39;|Rx(0.3)&gt;&#39;: 0.98}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="stabiliser-based">
+<h2>Stabiliser-based<a class="headerlink" href="#stabiliser-based" title="Permalink to this headline"></a></h2>
+<p>A stabiliser subspace is a subspace that can be uniquely determined by a stabiliser subgroup.
+Since all Pauli operators in a stabiliser subgroup have +/- 1 eigenvalues, we can verify if a quantum state is in the +1 eigenspace of such a Pauli operator by repeatedly measuring the following circuit <a class="reference internal" href="#niel2010" id="id2"><span>[Niel2010]</span></a>.</p>
+<div class="jupyter_cell docutils container">
+<div class="cell_output docutils container">
+<div class="output text_html"><pre style="word-wrap: normal;white-space: pre;background: #fff0;line-height: 1.1;font-family: &quot;Courier New&quot;,Courier,monospace">     ┌───┐                  ┌───┐┌─┐
+q_0: ┤ H ├────────■─────────┤ H ├┤M├
+     └───┘┌───────┴────────┐└───┘└╥┘
+q_1: ─────┤ Pauli operator ├──────╫─
+          └────────────────┘      ║ 
+c: 1/═════════════════════════════╩═
+                                  0 </pre></div></div>
+</div>
+<p>To verify if a quantum state is in a stabiliser subspace such a circuit is needed for each Pauli operator so they can be later measured to check if the state falls into the intersection of the +1 eigenspaces.</p>
+<p>To assert using stabilisers, one should provide <code class="docutils literal notranslate"><span class="pre">pytket</span></code> with a set of Pauli operators that uniquely determines the target subspace. The smallest such sets are the generating sets of the stabiliser subgroup stabilising the subspace.
+These generating sets only contain at most <span class="math notranslate nohighlight">\(n\)</span> Pauli operators for a n-qubit subspace. For example, it is known that the set {“XX”, “ZZ”} is a generating set for the stabiliser subgroup that stabilises the Bell state.</p>
+<p>The following code demonstrates how we use the generating set for the Bell state to assert a circuit construction.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">StabiliserAssertionBox</span><span class="p">,</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+
+<span class="c1"># prepare a Bell state</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># add an ancilla qubit for this assertion</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># define the generating set</span>
+<span class="n">stabilisers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;XX&quot;</span><span class="p">,</span> <span class="s2">&quot;ZZ&quot;</span><span class="p">]</span>
+
+<span class="n">circ</span><span class="o">.</span><span class="n">add_assertion</span><span class="p">(</span><span class="n">StabiliserAssertionBox</span><span class="p">(</span><span class="n">stabilisers</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">ancilla</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;|bell&gt;&quot;</span><span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+<span class="n">compiled_circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">res_handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">compiled_circ</span><span class="p">,</span><span class="n">n_shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">res_handle</span><span class="p">)</span>
+<span class="n">res</span><span class="o">.</span><span class="n">get_debug_info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0}
+</pre></div>
+</div>
+</div>
+</div>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">StabiliserAssertionBox</span></code> can also be constructed with a <code class="xref py py-class docutils literal notranslate"><span class="pre">pytket.pauli.PauliStabiliser</span></code>:</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">PauliStabiliser</span><span class="p">,</span> <span class="n">Pauli</span>
+
+<span class="n">stabilisers</span> <span class="o">=</span> <span class="p">[</span><span class="n">PauliStabiliser</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">PauliStabiliser</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">],</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">StabiliserAssertionBox</span><span class="p">(</span><span class="n">stabilisers</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<dl class="citation">
+<dt class="label" id="gushu2020"><span class="brackets"><a class="fn-backref" href="#id1">Gushu2020</a></span></dt>
+<dd><p>Gushu, L., Li, Z., Nengkun, Y., Yufei, D., Mingsheng, Y. and Yuan, X., 2020. Proq: Projection-based Runtime Assertions for Debugging on a Quantum Computer. arXiv preprint arXiv:1911.12855.</p>
+</dd>
+<dt class="label" id="niel2010"><span class="brackets"><a class="fn-backref" href="#id2">Niel2010</a></span></dt>
+<dd><p>Nielsen, M.A. and Chuang, I.L., 2010. Quantum computation and quantum information. Cambridge University Press, p.188.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="manual_noise.html" class="btn btn-neutral float-left" title="Noise and the Quantum Circuit Model" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2021 Cambridge Quantum Computing Ltd.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
