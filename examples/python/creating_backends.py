@@ -712,8 +712,9 @@ def test_sampler_bell() -> None:
     c.measure_all()
     b = MySampler()
     b.compile_circuit(c)
-    assert b.get_shots(c, n_shots=10, seed=3).shape == (10, 2)
-    assert b.get_counts(c, n_shots=10, seed=3) == {(0, 0): 5, (1, 1): 5}
+    res = b.run_circuit(c, n_shots=10, seed=3)
+    assert res.get_shots().shape == (10, 2)
+    assert res.get_counts() == {(0, 0): 5, (1, 1): 5}
 
 
 def test_sampler_basisorder() -> None:
@@ -722,8 +723,9 @@ def test_sampler_basisorder() -> None:
     c.measure_all()
     b = MySampler()
     b.compile_circuit(c)
-    assert b.get_counts(c, n_shots=10, seed=0) == {(0, 1): 10}
-    assert b.get_counts(c, n_shots=10, seed=0, basis=BasisOrder.dlo) == {(1, 0): 10}
+    res = b.run_circuit(c, n_shots=10, seed=0)
+    assert res.get_counts() == {(0, 1): 10}
+    assert res.get_counts(basis=BasisOrder.dlo) == {(1, 0): 10}
 
 
 def test_sampler_compilation_pass() -> None:

@@ -85,7 +85,7 @@ from pytket.extensions.pyquil import ForestBackend
 aspen_backend = ForestBackend("9q-square", simulator=True)
 aspen_backend.compile_circuit(tk_circ)
 
-counts = aspen_backend.get_counts(tk_circ, 2000)
+counts = aspen_backend.run_circuit(tk_circ, 2000).get_counts()
 print(counts)
 
 # Note that attempting to connect to a live quantum device (using a `ForestBackend` with `as_simulator=False`) will fail unless it is running from a QMI instance during a reservation for the named lattice.

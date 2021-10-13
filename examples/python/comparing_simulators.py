@@ -179,7 +179,8 @@ c.X(2)
 
 backend = AerUnitaryBackend()
 backend.compile_circuit(c)
-unitary = backend.get_unitary(c)
+result = backend.run_circuit(c)
+unitary = result.get_unitary()
 print(unitary.round(1).real)
 
 # ## `pytket.extensions.pyquil.ForestBackend`
