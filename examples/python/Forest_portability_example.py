@@ -76,16 +76,18 @@ print(state)
 
 # Connecting to real devices works very similarly. Instead of obtaining the full statevector, we are only able to measure the quantum state and sample from the resulting distribution. Beyond that, the process is pretty much the same.
 #
-# The following shows how to run the circuit on the "9q-square" lattice. The `simulator` switch on the `ForestBackend` will switch between connecting to the real Aspen device and the QVM, allowing you to test your code with a simulator before you reserve your slot with the device.
+# The following shows how to run the circuit on the "9q-square" lattice. The `as_qvm` switch on the `get_qc` method will switch between connecting to the real Aspen device and the QVM, allowing you to test your code with a simulator before you reserve your slot with the device.
 
 tk_circ.measure_all()
 
+from pyquil import get_qc
 from pytket.extensions.pyquil import ForestBackend
 
-aspen_backend = ForestBackend("9q-square", simulator=True)
+aspen_qc = get_qc("9q-square", as_qvm=True)
+aspen_backend = ForestBackend(aspen_qc)
 aspen_backend.compile_circuit(tk_circ)
 
 counts = aspen_backend.run_circuit(tk_circ, 2000).get_counts()
 print(counts)
 
-# Note that attempting to connect to a live quantum device (using a `ForestBackend` with `as_simulator=False`) will fail unless it is running from a QMI instance during a reservation for the named lattice.
+# Note that attempting to connect to a live quantum device (using a `QuantumComputer` constructed with `as_qvm=False`) will fail unless it is running from a QMI instance during a reservation for the named lattice.
