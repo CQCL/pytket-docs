@@ -229,8 +229,8 @@ For each cycle in the circuit, each of the ensemble's operators is prepended to 
 
     print('\nWe can check that the unitary of the circuit is preserved by comparing output counts:')
     backend = AerBackend()
-    print(backend.get_counts(circ, 100))
-    print(backend.get_counts(averaging_circuits[0], 100))
+    print(backend.run_circuit(circ, 100).get_counts())
+    print(backend.run_circuit(averaging_circuits[0], 100).get_counts())
 
 .. preset cycle and frame gates to tailor meaningful noise
 
@@ -264,14 +264,16 @@ The :py:meth:`PauliFrameRandomisation.get_all_circuits` method returns circuits 
     averaging_circuits = backend.get_compiled_circuits(averaging_circuits)
     circ = backend.get_compiled_circuit(circ)
 
-    pfr_counts_list = [backend.get_counts(c, 50) for c in averaging_circuits]
+    pfr_counts_list = [
+        res.get_counts() for res in backend.run_circuits(averaging_circuits, 50)
+    ]
     # combine each averaging circuits counts into a single counts object for comparison
     pfr_counts = {}
     for counts in pfr_counts_list:
         pfr_counts = {key: pfr_counts.get(key,0) + counts.get(key,0) for key in set(pfr_counts)|set(counts)}
 
     print(pfr_counts)
-    print(backend.get_counts(circ, 50*len(averaging_circuits)))
+    print(backend.run_circuit(circ, 50*len(averaging_circuits)).get_counts())
 
 
 For a noise free backend, we can see that the same counts distribution is returned as expected. We can use a basic noise model based on a real device to see how a realistic noise channel can change when applying :py:class:`PauliFrameRandomisation`.
@@ -291,14 +293,14 @@ For a noise free backend, we can see that the same counts distribution is return
     averaging_circuits = noisy_backend.get_compiled_circuits(averaging_circuits)
     circ = noisy_backend.get_compiled_circuit(circ)
 
-    pfr_counts_list = [noisy_backend.get_counts(c, 50) for c in averaging_circuits]
+    pfr_counts_list = [res.get_counts() for res in noisy_backend.run_circuits(averaging_circuits, 50)]
     pfr_counts = {}
     for counts in pfr_counts_list:
         pfr_counts = {key: pfr_counts.get(key,0) + counts.get(key,0) for key in set(pfr_counts)|set(counts)}
 
 
-    print('Noiseless Counts:', AerBackend().get_counts(circ, 50*len(averaging_circuits)))
-    print('Base Noisy Counts:', noisy_backend.get_counts(circ, 50*len(averaging_circuits)))
+    print('Noiseless Counts:', AerBackend().run_circuit(circ, 50*len(averaging_circuits).get_counts()))
+    print('Base Noisy Counts:', noisy_backend.run_circuit(circ, 50*len(averaging_circuits).get_counts()))
     print('Recombined Noisy Counts using PauliFrameRandomisation:', pfr_counts)
 
 
@@ -331,13 +333,13 @@ An alternative class, :py:class:`UniversalFrameRandomisation`, is set with cycle
     averaging_circuits = noisy_backend.get_compiled_circuits(averaging_circuits)
     circ = noisy_backend.get_compiled_circuit(circ)
 
-    ufr_noisy_counts_list = [noisy_backend.get_counts(c, 800) for c in averaging_circuits]
+    ufr_noisy_counts_list = [res.get_counts() for res in noisy_backend.run_circuits(averaging_circuits, 800)]
     ufr_noisy_counts = {}
     for counts in ufr_noisy_counts_list:
         ufr_noisy_counts = {key: ufr_noisy_counts.get(key,0) + counts.get(key,0) for key in set(ufr_noisy_counts)|set(counts)}
 
 
-    ufr_noiseless_counts_list = [AerBackend().get_counts(c, 800) for c in averaging_circuits]
+    ufr_noiseless_counts_list = [res.get_counts() for res in AerBackend().run_circuits(averaging_circuits, 800)]
     ufr_noiseless_counts = {}
     for counts in ufr_noiseless_counts_list:
         ufr_noiseless_counts = {key: ufr_noiseless_counts.get(key,0) + counts.get(key,0) for key in set(ufr_noiseless_counts)|set(counts)}
