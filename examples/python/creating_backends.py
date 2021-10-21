@@ -427,7 +427,10 @@ def test_bell() -> None:
     c.CX(0, 1)
     b = MyBackend()
     b.compile_circuit(c)
-    assert np.allclose(b.get_state(c), np.asarray([1, 0, 0, 1]) * 1 / np.sqrt(2))
+    h = b.process_circuit(c)
+    assert np.allclose(
+        b.get_result(h).get_state(), np.asarray([1, 0, 0, 1]) * 1 / np.sqrt(2)
+    )
 
 
 def test_basisorder() -> None:
@@ -435,8 +438,10 @@ def test_basisorder() -> None:
     c.X(1)
     b = MyBackend()
     b.compile_circuit(c)
-    assert np.allclose(b.get_state(c), np.asarray([0, 1, 0, 0]))
-    assert np.allclose(b.get_state(c, basis=BasisOrder.dlo), np.asarray([0, 0, 1, 0]))
+    h = b.process_circuit(c)
+    r = b.get_result(h)
+    assert np.allclose(r.get_state(), np.asarray([0, 1, 0, 0]))
+    assert np.allclose(r.get_state(basis=BasisOrder.dlo), np.asarray([0, 0, 1, 0]))
 
 
 def test_implicit_perm() -> None:
@@ -450,9 +455,11 @@ def test_implicit_perm() -> None:
     b.compile_circuit(c)
     b.compile_circuit(c1)
     assert c.implicit_qubit_permutation() != c1.implicit_qubit_permutation()
+    h, h1 = b.process_circuits([c, c1])
+    r, r1 = b.get_results([h, h1])
     for bo in [BasisOrder.ilo, BasisOrder.dlo]:
-        s = b.get_state(c, bo)
-        s1 = b.get_state(c1, bo)
+        s = r.get_state(basis=bo)
+        s1 = r1.get_state(basis=bo)
         assert np.allclose(s, s1)
 
 

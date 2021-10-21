@@ -69,10 +69,11 @@ from pytket.extensions.pyquil import ForestStateBackend
 state_backend = ForestStateBackend()
 state_backend.compile_circuit(tk_circ)
 
-state = state_backend.get_state(tk_circ)
+handle = state_backend.process_circuit(tk_circ)
+state = state_backend.get_result(handle).get_state()
 print(state)
 
-# For users who are familiar with the Forest SDK, the association of qubits to indices of bitstrings (and consequently the ordering of statevectors) used by default in `pytket` Backends differs from that described in the [Forest docs](http://docs.rigetti.com/en/stable/wavefunction_simulator.html#multi-qubit-basis-enumeration). You can recover the ordering used by the Forest systems with `state_backend.get_state(tk_circ, basis:pytket.BasisOrder.dlo)` (see our docs on the `BasisOrder` enum for more details).
+# For users who are familiar with the Forest SDK, the association of qubits to indices of bitstrings (and consequently the ordering of statevectors) used by default in `pytket` Backends differs from that described in the [Forest docs](http://docs.rigetti.com/en/stable/wavefunction_simulator.html#multi-qubit-basis-enumeration). You can recover the ordering used by the Forest systems with `BackendResult.get_state(tk_circ, basis:pytket.BasisOrder.dlo)` (see our docs on the `BasisOrder` enum for more details).
 
 # Connecting to real devices works very similarly. Instead of obtaining the full statevector, we are only able to measure the quantum state and sample from the resulting distribution. Beyond that, the process is pretty much the same.
 #
