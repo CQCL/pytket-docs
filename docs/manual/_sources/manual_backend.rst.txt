@@ -128,6 +128,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
     print(probs_from_counts(counts))
 
+.. note:: `Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle is then be used to retrieve the results with `Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a `BackendResult`.
 
 Statevectors and Unitaries
 --------------------------
@@ -146,8 +147,7 @@ Any form of sampling from a distribution will introduce sampling error and (unle
     backend = AerStateBackend()
     backend.compile_circuit(circ)
 
-    handle = backend.process_circuit(circ)
-    state = backend.get_result(handle).get_state()
+    state = backend.run_circuit(circ).get_state()
     print(state.round(5))
 
 .. note:: We have rounded the results here because simulators typically introduce a small amount of floating-point error, so killing near-zero entries gives a much more readable representation.
@@ -165,8 +165,7 @@ The majority of :py:class:`Backend` s will run the :py:class:`Circuit` on the 
     backend = AerUnitaryBackend()
     backend.compile_circuit(circ)
 
-    handle = backend.process_circuit(circ)
-    unitary = backend.get_result(handle).get_unitary()
+    unitary = backend.run_circuit(circ).get_unitary()
     print(unitary.round(5))
 
 .. Useful for obtaining high-precision results as well as verifying correctness of circuits
@@ -189,8 +188,6 @@ Whilst the drive for quantum hardware is driven by the limited scalability of si
 .. Warning that interactions with classical data (conditional gates and measurements) or deliberately collapsing the state (Collapse and Reset) do not yield a deterministic result in this Hilbert space, so will be rejected
 
 Be warned that simulating any :py:class:`Circuit` that interacts with classical data (e.g. conditional gates and measurements) or deliberately collapses the quantum state (e.g. ``OpType.Collapse`` and ``OpType.Reset``) would not yield a deterministic result in the system's Hilbert space, so these will be rejected by the :py:class:`Backend`.
-
-.. note:: The methods described above for retrieving shots, counts, statevectors and unitaries from a :py:class:`ResultHandle` all have "shortcut" forms that can be used to retrieve the data directly by passing a :py:class:`Circuit` to a :py:class:`Backend`. For example, ``mybackend.get_shots(mycircuit)`` will send the circuit to the backend, wait for the result and return a shots table.
 
 Interpreting Results
 --------------------

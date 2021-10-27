@@ -68,14 +68,14 @@ Tket enables this by providing an intermediate language for conversion of circui
 Installation
 ------------
 
-.. Non-commercial license
+.. license
 .. pip install pytket
 
-Tket is currently available through its pythonic realisation ``pytket``, which is freely available under a non-commercial `license <licence.html>`_. To install using the ``pip`` package manager, just run ``pip install pytket`` from your terminal. Each extension module can also be installed similarly as ``pip install pytket_X``, e.g. ``pip install pytket_qiskit``.
+Tket is currently available through its pythonic realisation ``pytket``, which is freely available under the Apache 2 license. To install using the ``pip`` package manager, just run ``pip install pytket`` from your terminal. Each extension module can also be installed similarly as ``pip install pytket_X``, e.g. ``pip install pytket_qiskit``.
 
 .. Link to troubleshooting
 
-``pytket`` is available for python versions 3.7-9 on Linux, MacOS, and Windows. For any difficulties with installation, please consult our `troubleshooting <install.html>`_ page.
+``pytket`` is available for python versions 3.7-9 on Linux, MacOS, and Windows. For any difficulties with installation, please consult our `troubleshooting <https://cqcl.github.io/tket/pytket/api/install.html>`_ page.
 
 How To Cite
 -----------

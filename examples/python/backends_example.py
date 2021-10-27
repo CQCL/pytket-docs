@@ -56,10 +56,16 @@ print(statevector)
 
 # A lesser-used simulator available through Qiskit Aer is their unitary simulator. This will be somewhat more expensive to run, but returns the full unitary matrix for the provided circuit. This is useful in the design of small subcircuits that will be used multiple times within other larger circuits - statevector simulators will only test that they act correctly on the $\lvert 0 \rangle^{\otimes n}$ state, which is not enough to guarantee the circuit's correctness.
 #
-# The `AerUnitaryBackend` provides a convenient access point for this simulator for use with `pytket` circuits. This is a special case for a backend, as it provides a non standard `get_unitary` interface. The other non-standard backend is the `QsharpEstimatorBackend` provided in `pytket_qsharp` which exposes a `get_resources` method for resource estimation.
+# The `AerUnitaryBackend` provides a convenient access point for this simulator for use with `pytket` circuits. The unitary of the circuit can be retrieved from backends that support it using the `BackendResult.get_unitary` interface. In this example, we chose to use `Backend.run_circuit`, which is equivalent to calling `process_circuit` followed by `get_result`.
 
 aer_unitary_b = AerUnitaryBackend()
-print(aer_unitary_b.get_unitary(circ))
+result = aer_unitary_b.run_circuit(circ)
+print(result.get_unitary())
+
+# Note that state vector and unitary simulations are also available in pytket directly. In general, we recommend you use these unless you require another Backend explicitly.
+
+statevector = circ.get_statevector()
+unitary = circ.get_unitary()
 
 # Now suppose we want to measure this Bell state to get some actual results out, so let's append some `Measure` gates to the circuit. The `Circuit` class has the `measure_all` utility function which appends `Measure` gates on every qubit. All of these results will be written to the default classical register ('c'). This function will automatically add the classical bits to the circuit if they are not already there.
 

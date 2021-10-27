@@ -179,12 +179,13 @@ c.X(2)
 
 backend = AerUnitaryBackend()
 backend.compile_circuit(c)
-unitary = backend.get_unitary(c)
+result = backend.run_circuit(c)
+unitary = result.get_unitary()
 print(unitary.round(1).real)
 
 # ## `pytket.extensions.pyquil.ForestBackend`
 
-# Whilst normally used as the method of accessing the Rigetti QPUs, the `ForestBackend` also features a simulator mode which turns it into a noiseless sampling simulator that matches the constraints of the simulated device (e.g. the same gate set, restricted connectivity, measurement model, etc.). This is useful when playing around with custom compilation strategies to ensure that your final circuits are suitable to run on the device and for checking that your overall program works fine before you invest in reserving a QPU.
+# Whilst it can, with suitable credentials, be used to access the Rigetti QPUs, the `ForestBackend` also features a simulator mode which turns it into a noiseless sampling simulator that matches the constraints of the simulated device (e.g. the same gate set, restricted connectivity, measurement model, etc.). This is useful when playing around with custom compilation strategies to ensure that your final circuits are suitable to run on the device and for checking that your overall program works fine before you invest in reserving a QPU.
 #
 # Unique features:
 # - faithful recreation of the circuit constraints of Rigetti QPUs.

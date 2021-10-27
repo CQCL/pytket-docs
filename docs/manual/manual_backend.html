@@ -182,26 +182,26 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
- [1 1]
- [1 1]
- [1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
  [0 1]
  [0 1]
  [1 1]
  [1 1]
- [1 1]
  [0 1]
  [1 1]
+ [1 1]
+ [0 1]
  [0 1]
  [0 1]
  [1 1]
  [0 1]
  [1 1]
- [1 1]
- [1 1]
  [0 1]
- [1 1]]
+ [0 1]
+ [0 1]
+ [0 1]
+ [0 1]
+ [0 1]]
 </pre></div>
 </div>
 </div>
@@ -227,11 +227,15 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1011, (1, 1): 989})
-{(0, 1): 0.5055, (1, 1): 0.4945}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1005, (0, 1): 995})
+{(0, 1): 0.4975, (1, 1): 0.5025}
 </pre></div>
 </div>
 </div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><cite>Backend.process_circuit</cite> returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle is then be used to retrieve the results with <cite>Backend.get_result</cite>. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut <cite>Backend.run_circuit</cite> that will immediately execute the circuit and return a <cite>BackendResult</cite>.</p>
 </div>
 </div>
 <div class="section" id="statevectors-and-unitaries">
@@ -246,8 +250,7 @@
 <span class="n">backend</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
 <span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
-<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
-<span class="n">state</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -273,8 +276,7 @@
 <span class="n">backend</span> <span class="o">=</span> <span class="n">AerUnitaryBackend</span><span class="p">()</span>
 <span class="n">backend</span><span class="o">.</span><span class="n">compile_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
-<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
-<span class="n">unitary</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
+<span class="n">unitary</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">unitary</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -311,10 +313,6 @@ False
 </div>
 </div>
 <p>Be warned that simulating any <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> that interacts with classical data (e.g. conditional gates and measurements) or deliberately collapses the quantum state (e.g. <code class="docutils literal notranslate"><span class="pre">OpType.Collapse</span></code> and <code class="docutils literal notranslate"><span class="pre">OpType.Reset</span></code>) would not yield a deterministic result in the system’s Hilbert space, so these will be rejected by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The methods described above for retrieving shots, counts, statevectors and unitaries from a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> all have “shortcut” forms that can be used to retrieve the data directly by passing a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>. For example, <code class="docutils literal notranslate"><span class="pre">mybackend.get_shots(mycircuit)</span></code> will send the circuit to the backend, wait for the result and return a shots table.</p>
-</div>
 </div>
 <div class="section" id="interpreting-results">
 <h2>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Permalink to this headline"></a></h2>
@@ -400,7 +398,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0020000000000000018
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.04899999999999993
 </pre></div>
 </div>
 </div>
@@ -460,8 +458,8 @@ Counter({(1, 0): 10})
   0.63003676-3.85786248e-17j -0.32101976+3.93135823e-17j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j]
-Counter({(1, 0, 0): 836, (0, 0, 0): 785, (0, 0, 1): 195, (1, 0, 1): 184})
-Counter({(0, 0): 1621, (0, 1): 379})
+Counter({(0, 0, 0): 819, (1, 0, 0): 763, (1, 0, 1): 217, (0, 0, 1): 201})
+Counter({(0, 0): 1582, (0, 1): 418})
 </pre></div>
 </div>
 </div>
@@ -508,8 +506,8 @@ Counter({(0, 0): 1621, (0, 1): 379})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.04200000000000004
-(0.26999999999999996+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.0040000000000000036
+(0.322+0j)
 </pre></div>
 </div>
 </div>
@@ -537,8 +535,8 @@ Counter({(0, 0): 1621, (0, 1): 379})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 416, (0, 1, 1): 404, (0, 1, 0): 403, (0, 0, 1): 383, (1, 0, 1): 101, (1, 1, 1): 99, (1, 1, 0): 98, (1, 0, 0): 96})
-0.019000000000000017
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 406, (0, 1, 1): 401, (0, 0, 0): 378, (0, 1, 0): 368, (1, 1, 0): 127, (1, 1, 1): 118, (1, 0, 0): 115, (1, 0, 1): 87})
+-0.006999999999999895
 </pre></div>
 </div>
 </div>
@@ -577,7 +575,7 @@ Counter({(0, 0): 1621, (0, 1): 379})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 150, (0, 1, 1): 131, (1, 1, 0): 131, (0, 0, 1): 129, (0, 0, 0): 123, (1, 0, 0): 120, (1, 1, 1): 109, (0, 1, 0): 107})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 151, (0, 1, 1): 135, (1, 1, 1): 135, (0, 1, 0): 124, (1, 0, 0): 118, (1, 1, 0): 116, (0, 0, 0): 114, (1, 0, 1): 107})
 </pre></div>
 </div>
 </div>
@@ -630,7 +628,7 @@ Counter({(0, 0): 1621, (0, 1): 379})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.062000000000000055
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.008000000000000007
 </pre></div>
 </div>
 </div>
@@ -772,7 +770,9 @@ Counter({(0, 0): 1621, (0, 1): 379})
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-1.0
-0.20000000000000068
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.20000000000000068
 </pre></div>
 </div>
 </div>
@@ -928,7 +928,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 7, (0, 0): 3})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 5, (1, 1): 5})
 </pre></div>
 </div>
 </div>

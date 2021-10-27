@@ -275,8 +275,8 @@ statistics are closer to the ideal, noiseless, distribution.</p>
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">We can check that the unitary of the circuit is preserved by comparing output counts:&#39;</span><span class="p">)</span>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">100</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -327,14 +327,16 @@ Counter({(1, 1): 100})
 <span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuits</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
-<span class="n">pfr_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="n">pfr_counts_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">backend</span><span class="o">.</span><span class="n">run_circuits</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="p">]</span>
 <span class="c1"># combine each averaging circuits counts into a single counts object for comparison</span>
 <span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">pfr_counts_list</span><span class="p">:</span>
     <span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">pfr_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pfr_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">pfr_counts</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">))</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -386,14 +388,14 @@ Counter({(1, 0): 12800})
 <span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_compiled_circuits</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
-<span class="n">pfr_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="n">pfr_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">run_circuits</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">,</span> <span class="mi">50</span><span class="p">)]</span>
 <span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">pfr_counts_list</span><span class="p">:</span>
     <span class="n">pfr_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">pfr_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pfr_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
 
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noiseless Counts:&#39;</span><span class="p">,</span> <span class="n">AerBackend</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Base Noisy Counts:&#39;</span><span class="p">,</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Noiseless Counts:&#39;</span><span class="p">,</span> <span class="n">AerBackend</span><span class="p">()</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Base Noisy Counts:&#39;</span><span class="p">,</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">,</span> <span class="mi">50</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recombined Noisy Counts using PauliFrameRandomisation:&#39;</span><span class="p">,</span> <span class="n">pfr_counts</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -423,13 +425,13 @@ Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 203, (0, 0): 215
 <span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_compiled_circuits</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
-<span class="n">ufr_noisy_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">noisy_backend</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="n">ufr_noisy_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">noisy_backend</span><span class="o">.</span><span class="n">run_circuits</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">,</span> <span class="mi">800</span><span class="p">)]</span>
 <span class="n">ufr_noisy_counts</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">ufr_noisy_counts_list</span><span class="p">:</span>
     <span class="n">ufr_noisy_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">ufr_noisy_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ufr_noisy_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
 
 
-<span class="n">ufr_noiseless_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">AerBackend</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">averaging_circuits</span><span class="p">]</span>
+<span class="n">ufr_noiseless_counts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">AerBackend</span><span class="p">()</span><span class="o">.</span><span class="n">run_circuits</span><span class="p">(</span><span class="n">averaging_circuits</span><span class="p">,</span> <span class="mi">800</span><span class="p">)]</span>
 <span class="n">ufr_noiseless_counts</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">ufr_noiseless_counts_list</span><span class="p">:</span>
     <span class="n">ufr_noiseless_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">ufr_noiseless_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">ufr_noiseless_counts</span><span class="p">)</span><span class="o">|</span><span class="nb">set</span><span class="p">(</span><span class="n">counts</span><span class="p">)}</span>
@@ -492,9 +494,7 @@ Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase:  16384
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits with rebase:  256
+Number of Universal Frame Randomisation averaging circuits with rebase:  256
 Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
 </pre></div>
 </div>
@@ -581,9 +581,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 429, (0, 0): 406, (1, 0): 86, (0, 1): 79})
-Corrected Counts: Counter({(1, 1): 489, (0, 0): 467, (0, 1): 26, (1, 0): 21})
-Noiseless Counts: Counter({(0, 0): 516, (1, 1): 484})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 432, (0, 0): 394, (0, 1): 90, (1, 0): 84})
+Corrected Counts: Counter({(1, 1): 489, (0, 0): 456, (0, 1): 38, (1, 0): 20})
+Noiseless Counts: Counter({(1, 1): 510, (0, 0): 490})
 </pre></div>
 </div>
 </div>

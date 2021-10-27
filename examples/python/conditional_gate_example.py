@@ -112,7 +112,7 @@ c.Measure(1, 0)
 
 backend = AerBackend()
 backend.compile_circuit(c)
-counts = backend.get_counts(c, 1024)
+counts = backend.run_circuit(c, 1024).get_counts()
 print(counts)
 
 # Beyond the ability to perform conditional gates, we might want to include more complex classical logic in the form of control flow, including loops, branching code, and jumps. Again, several proposed low-level quantum programming languages have sufficient expressivity to capture these, such as the Quil language.

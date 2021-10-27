@@ -76,7 +76,7 @@ def objective(params):
                 circ.V(q)
             circ.Measure(q, i)
         backend.compile_circuit(circ)
-        counts = backend.get_counts(circ, n_shots=4000)
+        counts = backend.run_circuit(circ, n_shots=4000).get_counts()
         energy += coeff * expectation_from_counts(counts)
     return energy + nuclear_repulsion_energy
 
