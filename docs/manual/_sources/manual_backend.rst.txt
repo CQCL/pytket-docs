@@ -128,7 +128,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
     print(probs_from_counts(counts))
 
-.. note:: `Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle is then be used to retrieve the results with `Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a `BackendResult`.
+.. note:: `Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with `Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a `BackendResult`.
 
 Statevectors and Unitaries
 --------------------------
