@@ -27,7 +27,7 @@ from qiskit.opflow.primitive_ops import PauliSumOp
 from qiskit.quantum_info import Pauli
 
 duration = 1.2
-op = PauliSumOp.from_list([("XXI", 0.3), ("YYI", 0.5 + 1j * 0.2), ("ZZZ", -0.4)])
+op = PauliSumOp.from_list([("XXI", 0.3), ("YYI", 0.5), ("ZZZ", -0.4)])
 evolved_op = (duration * op).exp_i()
 evolution_circ = PauliTrotterEvolution(reps=1).convert(evolved_op).to_circuit()
 print(evolution_circ)
