@@ -29,8 +29,9 @@ How to run circuits on different backends.
 [comparing_simulators](https://github.com/CQCL/pytket/blob/main/examples/comparing_simulators.ipynb) -
 An overview of the differences between each of the simulators supported by `pytket`.
 
-[routing_example](https://github.com/CQCL/pytket/blob/main/examples/routing_example.ipynb) -
-An introduction to routing, using Cirq to construct examples.
+[mapping_example](https://github.com/CQCL/pytket/blob/main/examples/mapping_example.ipynb) -
+An introduction to mapping, the process of making logical circuits respect 
+physical quantum computer architecture.
 
 [conditional_gate_example](https://github.com/CQCL/pytket/blob/main/examples/conditional_gate_example.ipynb) -
 Mid-circuit measurements and classical control.
