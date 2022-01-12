@@ -250,12 +250,12 @@ def distance2_CRy_check(circuit: Circuit, architecture: Architecture) -> bool:
     command = circuit.get_commands()[0]
     if command.op.type == OpType.CRy:
         # Architecture stores qubits under `Node` identifier
-        qb0 = Node(command.qubits[0])
-        qb1 = Node(command.qubits[1])
+        n0 = Node(command.qubits[0].reg_name, command.qubits[0].index)
+        n1 = Node(command.qubits[1].reg_name, command.qubits[1].index)
         # qubits could not be placed in circuit, so check before finding distance
-        if qb0 in architecture.nodes and qb1 in architecture.nodes:
+        if n0 in architecture.nodes and n1 in architecture.nodes:
             # means we can run the decomposition
-            if architecture.get_distance(qb0, qb1) == 2:
+            if architecture.get_distance(n0, n1) == 2:
                 return True
     return False
 
@@ -266,21 +266,26 @@ def distance2_CRy_decomp(
 ) -> Tuple[Circuit, Dict[Node, Node], Dict[Node, Node]]:
     command = circuit.get_commands()[0]
     qubits = command.qubits
-    qubit0 = qubits[0]
-    qubit1 = qubits[1]
+    # Architecture stores qubits under `Node` identifier
+    n0 = Node(qubits[0].reg_name, qubits[0].index)
+    n1 = Node(qubits[1].reg_name, qubits[1].index)
 
     # need to find connecting node for decomposition
-    adjacent_nodes_0 = architecture.get_adjacent_nodes(qubit0)
-    adjacent_nodes_1 = architecture.get_adjacent_nodes(qubit1)
+    adjacent_nodes_0 = architecture.get_adjacent_nodes(n0)
+    adjacent_nodes_1 = architecture.get_adjacent_nodes(n1)
     connecting_nodes = adjacent_nodes_0.intersection(adjacent_nodes_1)
 
     if len(connecting_nodes) == 0:
         raise ValueError("Qubits for distance-2 CRy decomp are not at distance 2.")
 
-    connecting_node = connecting_nodes[0]
+    connecting_node = connecting_nodes.pop()
 
     c = Circuit()
+
+    # the "relabelling map" empty, and the permutation map is qubit to qubit, so add here
+    permutation_map = dict()
     for q in circuit.qubits:
+        permutation_map[q] = q
         c.add_qubit(q)
     # rotation, can assume only parameter as CRy
     angle = command.op.params[0]
@@ -294,8 +299,8 @@ def distance2_CRy_decomp(
     c.CX(qubits[0], connecting_node).CX(connecting_node, qubits[1])
     c.CX(qubits[0], connecting_node).CX(connecting_node, qubits[1])
     
-    # as this method does not relabel qubits, or permute them, can return empty Dict for 
-    return (c, {}, {})
+    # the "relabelling map" is just qubit to qubit
+    return (c, {}, permutation_map)
 
 # Before turning this into a `RoutingMethod` we can try it ourselves.
 
@@ -319,20 +324,59 @@ test_c_error = Circuit(4)
 test_c_error.CRy(0.6, 0, 2)
 test_c_error.CRy(0.4, 0, 1)
 place_with_map(test_c_error, naive_map)
-distance2_CRy_check(test_c_error, id_architecture)
+try:
+    distance2_CRy_check(test_c_error, id_architecture)
+except ValueError:
+    print("Error reached!")
 
+# Does the decomposition work?
 
+test_c = Circuit(4)
+test_c.CRy(0.6, 0, 2)
+place_with_map(test_c, naive_map)
+decomp = distance2_CRy_decomp(test_c, id_architecture)
+display.render_circuit_jupyter(decomp[0])
 
+# Great! Our check function and decomposition method are both working. Lets wrap them into a `RoutingMethodCircuit` and try them out.
 
+from pytket.mapping import RoutingMethodCircuit
+cry_rmc = RoutingMethodCircuit(distance2_CRy_decomp, distance2_CRy_check, 1, 1)
 
+# We can use our original `MappingManager` object as it is defined for the same architecture. Lets try it out on a range of circumstances.
 
+# If we pass it a full CX circuit without `LexiRouteRoutingMethod`, we should find that `MappingManager` throws an error, as none of the passed methods can route for the given circuit.
 
+c = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+place_with_map(c, naive_map)
+try:
+    mapping_manager.route_circuit(c, [cry_rmc])
+except RuntimeError:
+    print("Error reached!")
 
+# Alternatively, we can add `LexiRouteRoutingMethod` on top:
 
+c = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+place_with_map(c, naive_map)
+mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
+display.render_circuit_jupyter(c)
 
+# However as there are no CRy gates our new method is unused. We can add one:
 
+c = Circuit(4).CRy(0.6, 0, 2).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+place_with_map(c, naive_map)
+mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
+display.render_circuit_jupyter(c)
 
+# This time we can see our decomposition! If we reorder the methods though `LexiRouteRoutingMethod` is checked first (and returns True), so our new method is unused. The order is important!
 
+# Finally, lets see what happens if the gate is not at the right distance initially.
+
+c = Circuit(4).CRy(0.6, 0, 3).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+place_with_map(c, naive_map)
+mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
+display.render_circuit_jupyter(c)
+
+# Above a SWAP gate is inserted by `LexiRouteRoutingMethod` before anything else.
 
 # For anyone interested, a simple extension exercise could be to extend this to additionally work for distance-2 CRx and CRz. Alternatively one could improve on the method itself - this approach always decomposes a CRy at distance-2, but is this a good idea?
 
