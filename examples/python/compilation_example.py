@@ -178,7 +178,7 @@ print(cu.circuit.get_commands())
 #
 # In `pytket` an architecture is defined by a connectivity graph, i.e. a list of pairs of qubits capable of executing two-qubit operations. For example, we can represent a 5-qubit linear architecture, with qubits labelled `n[i]`, as follows:
 
-from pytket.routing import Architecture
+from pytket.architecture import Architecture
 from pytket.circuit import Node
 
 n = [Node("n", i) for i in range(5)]
