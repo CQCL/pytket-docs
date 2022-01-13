@@ -269,7 +269,7 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
 
 
 from pytket.backends.backendinfo import BackendInfo
-from pytket.routing import FullyConnected
+from pytket.architecture import FullyConnected
 
 
 @property
