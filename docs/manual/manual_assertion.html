@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assertion &mdash; pytket-manual  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -78,7 +79,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="assertion">
+  <section id="assertion">
 <h1>Assertion<a class="headerlink" href="#assertion" title="Permalink to this headline"></a></h1>
 <p>In quantum computing, an assertion is a predefined predicate which can let us test whether an experimentally prepared quantum state is in a specified subspace of the state space.</p>
 <p>In addition to detecting defects, the assertion schemes in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> automatically correct the state if there is no assertion error.
@@ -90,7 +91,7 @@ The latter is useful for asserting that the prepared state lies in a subspace sp
 The results of these measurements will be used later on to determine the outcome of the assertion.</p>
 <p>To test the circuit, compile and process the circuit using a backend in <a class="reference external" href="https://github.com/CQCL/pytket-extensions">pytket-extensions</a> that supports mid-circuit measurement and reset (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>).
 Once a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendResult</span></code> object is retrieved, the outcome of the assertion can be checked with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_debug_info()</span></code> method.</p>
-<div class="section" id="projector-based">
+<section id="projector-based">
 <h2>Projector-based<a class="headerlink" href="#projector-based" title="Permalink to this headline"></a></h2>
 <p>Projector-based assertion utilises the simple fact that the outcome of a projective measurement can be used to determine if a quantum state is in a specified subspace of the state space.
 The method implemented in pytket transforms an arbitrary projective measurement into measurements on the computational basis <a class="reference internal" href="#gushu2020" id="id1"><span>[Gushu2020]</span></a>.
@@ -140,7 +141,7 @@ A special unsupported case arises when asserting a 3-qubit subspace whose projec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.83}
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.8}
 </pre></div>
 </div>
 </div>
@@ -172,8 +173,8 @@ On the contrary, the assertion named “Rx(0.3)|0&gt;” failed for some shots; 
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="stabiliser-based">
+</section>
+<section id="stabiliser-based">
 <h2>Stabiliser-based<a class="headerlink" href="#stabiliser-based" title="Permalink to this headline"></a></h2>
 <p>A stabiliser subspace is a subspace that can be uniquely determined by a stabiliser subgroup.
 Since all Pauli operators in a stabiliser subgroup have +/- 1 eigenvalues, we can verify if a quantum state is in the +1 eigenspace of such a Pauli operator by repeatedly measuring the following circuit <a class="reference internal" href="#niel2010" id="id2"><span>[Niel2010]</span></a>.</p>
@@ -243,8 +244,8 @@ These generating sets only contain at most <span class="math notranslate nohighl
 <dd><p>Nielsen, M.A. and Chuang, I.L., 2010. Quantum computation and quantum information. Cambridge University Press, p.188.</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

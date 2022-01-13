@@ -162,7 +162,7 @@ A placement pass will act in place on a :py:class:`Circuit` by renaming the qubi
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
-    from pytket.placement import GraphPlacement
+    from pytket.routing import GraphPlacement
     circ = Circuit(4, 4)
     circ.H(0).H(1).H(2).V(3)
     circ.CX(0, 1).CX(1, 2).CX(2, 3)
@@ -194,7 +194,7 @@ In some circumstances, the best location is not fully determined immediately and
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
-    from pytket.placement import LinePlacement
+    from pytket.routing import LinePlacement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
@@ -215,7 +215,7 @@ A custom (partial) placement can be applied by providing the appropriate qubit m
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, Qubit, Node
-    from pytket.placement import Placement
+    from pytket.routing import Placement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
@@ -249,7 +249,7 @@ Several heuristics have been implemented for identifying candidate placements. F
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
-    from pytket.placement import GraphPlacement
+    from pytket.routing import GraphPlacement
     circ = Circuit(5)
     circ.CX(0, 1).CX(1, 2).CX(3, 4)
     circ.CX(0, 1).CX(1, 2).CX(3, 4)
@@ -278,7 +278,7 @@ Several heuristics have been implemented for identifying candidate placements. F
 
 .. _compiler-routing:
 
-Mapping
+Routing
 -------
 
 .. Heterogeneous architectures and limited connectivity
@@ -289,14 +289,14 @@ The heterogeneity of quantum architectures and limited connectivity of their qub
 .. Invalid interactions between non-local qubits can be sovled by moving qubits to adjacent positions or by performing a distributed operation using the intervening qubits
 .. Routing takes a placed circuit and finds non-local operations, inserting operations to fix them
 
-One solution here, is to scan through the :py:class:`Circuit` looking for invalid interactions. Each of these can be solved by either moving the qubits around on the architecture by adding ``OpType.SWAP`` gates until they are in adjacent locations, or performing a distributed entangling operation using the intervening qubits (such as the "bridged-CX" ``OpType.BRIDGE`` which uses 4 CX gates and a single shared neighbour). The `routing` procedure used in the ``pytket`` ``RoutingPass`` takes a placed :py:class:`Circuit` and inserts gates to reduce non-local operations to sequences of valid local ones.
+One solution here, is to scan through the :py:class:`Circuit` looking for invalid interactions. Each of these can be solved by either moving the qubits around on the architecture by adding ``OpType.SWAP`` gates until they are in adjacent locations, or performing a distributed entangling operation using the intervening qubits (such as the "bridged-CX" ``OpType.BRIDGE`` which uses 4 CX gates and a single shared neighbour). The `routing` procedure in ``pytket`` takes a placed :py:class:`Circuit` and inserts gates to reduce non-local operations to sequences of valid local ones.
 
 .. jupyter-input::
 
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass, RoutingPass
-    from pytket.placement import GraphPlacement
+    from pytket.routing import GraphPlacement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
     backend = IBMQBackend("ibmq_quito")
@@ -315,11 +315,11 @@ One solution here, is to scan through the :py:class:`Circuit` looking for invali
 .. Given partial placements, selects physical qubits on the fly
 .. Due to swap insertion, logical qubits may be mapped to different physical qubits at the start and end of the circuit
 
-As shown here, if a partial placement is used, the routing procedure will allocate the remaining qubits dynamically. We also see that the logical qubits are mapped to different physical qubits at the start and end because of the inserted ``OpType.SWAP`` gates, such as ``q[1]`` starting at ``node[0]`` and ending at ``node[3]``.
+As shown here, if a partial placement is used, the routing procedure will allocate the remaining qubits on the fly. We also see that the logical qubits are mapped to different physical qubits at the start and end because of the inserted ``OpType.SWAP`` gates, such as ``q[1]`` starting at ``node[0]`` and ending at ``node[3]``.
 
-.. Other Routing options
+.. Kwargs for setting parameters of heuristics
 
-``RoutingPass`` only provides the default option for mapping to physical circuits. The decision making used in Routing is defined in the ``RoutgMethod`` class and the choice of ``RoutingMethod`` used can be defined in the ``FullMappingPass`` compiler pass for producing physical circuits.
+The heuristics of the routing algorithm also have a selection of hyperparameters which can change how well it performs for each instance, such as how far ahead it will look when considering what is the best pair of qubits to swap or whether a distributed operation would work better. These are outlined in more detail in the API reference.
 
 Decomposing Structures
 ----------------------
@@ -741,7 +741,7 @@ Once compiled, we can use :py:meth:`Backend.process_circuits` to submit several 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.predicates import CompilationUnit
-    from pytket.placement import Placement
+    from pytket.routing import Placement
     state_prep = Circuit(4)
     state_prep.H(0)
     state_prep.add_gate(OpType.CnRy, 0.1, [0, 1])
