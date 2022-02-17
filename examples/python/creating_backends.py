@@ -291,17 +291,6 @@ def backend_info(self) -> BackendInfo:
     )
 
 
-# The `characterisation` property functions as an additional information store for a `Backend`. This is intended to hold hardware-specific characterisation information such as gate fidelities. Typically these are held in the `backend_info` `misc` attribute, a bucket dictionary that takes strings as keys and can store any objects as values.
-
-from typing import Dict, Any, Optional
-
-
-@property
-def characterisation(self) -> Optional[Dict[str, Any]]:
-    char = self._backend_info.get_misc("characterisation")
-    return cast(Dict[str, Any], char) if char else None
-
-
 # Asynchronous job management is all managed through the `ResultHandle` associated with a particular `Circuit` that has been submitted. We can use it to inspect the status of the job to see if it has completed, or to look up the results if they are available.
 #
 # For devices, `circuit_status` should query the job to see if it is in a queue, currently being executed, completed successfully, etc. The `CircuitStatus` class is mostly driven by the `StatusEnum` values, but can also contain messages to give more detailed feedback if available. For our simulator, we are not running things asynchronously, so a `Circuit` has either not been run or it will have been completed.
@@ -344,7 +333,7 @@ def circuit_status(self, handle: ResultHandle) -> CircuitStatus:
 
 from pytket.backends.backendresult import BackendResult
 from pytket.utils.results import KwargTypes
-from typing import Iterable
+from typing import Iterable, Optional
 from uuid import uuid4
 
 
@@ -565,7 +554,7 @@ def sample_mycircuit(
 # Since `MyCircuit` doesn't have a representation for measurement gates, our converter must return both the `MyCircuit` object and some way of capturing the measurements. Since we will also want to know how they map into our `Bit` ids, the simplest option is just a dictionary from `Qubit` to `Bit`.
 
 from pytket import Bit
-from typing import Tuple
+from typing import Dict, Tuple
 
 
 def tk_to_mymeasures(tkc: Circuit) -> Tuple[MyCircuit, Dict[Qubit, Bit]]:
