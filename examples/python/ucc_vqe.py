@@ -10,26 +10,26 @@
 #
 # We will start with a basic implementation and then gradually modify it to make it faster, more general, and less noisy. The final solution is given in full at the bottom of the notebook.
 #
-# Suppose we have some electronic configuration problem, expressed via a physical Hamiltonian. (The Hamiltonian and excitations in this example were obtained using `qiskit-aqua` version 0.5.2 and `pyscf` for H2, bond length 0.75A, sto3g basis, Jordan-Wigner encoding, with no qubit reduction or orbital freezing.)
+# Suppose we have some electronic configuration problem, expressed via a physical Hamiltonian. (The Hamiltonian and excitations in this example were obtained using `qiskit-aqua` version 0.5.2 and `pyscf` for H2, bond length 0.75A, sto3g basis, Jordan-Wigner encoding, with no qubit reduction or orbital freezing.). We express it succinctly using the openfermion library:
 
-from openfermion import QubitOperator
+import openfermion as of
 
 hamiltonian = (
-    -0.8153001706270075 * QubitOperator("")
-    + 0.16988452027940318 * QubitOperator("Z0")
-    + -0.21886306781219608 * QubitOperator("Z1")
-    + 0.16988452027940323 * QubitOperator("Z2")
-    + -0.2188630678121961 * QubitOperator("Z3")
-    + 0.12005143072546047 * QubitOperator("Z0 Z1")
-    + 0.16821198673715723 * QubitOperator("Z0 Z2")
-    + 0.16549431486978672 * QubitOperator("Z0 Z3")
-    + 0.16549431486978672 * QubitOperator("Z1 Z2")
-    + 0.1739537877649417 * QubitOperator("Z1 Z3")
-    + 0.12005143072546047 * QubitOperator("Z2 Z3")
-    + 0.04544288414432624 * QubitOperator("X0 X1 X2 X3")
-    + 0.04544288414432624 * QubitOperator("X0 X1 Y2 Y3")
-    + 0.04544288414432624 * QubitOperator("Y0 Y1 X2 X3")
-    + 0.04544288414432624 * QubitOperator("Y0 Y1 Y2 Y3")
+    -0.8153001706270075 * of.QubitOperator("")
+    + 0.16988452027940318 * of.QubitOperator("Z0")
+    + -0.21886306781219608 * of.QubitOperator("Z1")
+    + 0.16988452027940323 * of.QubitOperator("Z2")
+    + -0.2188630678121961 * of.QubitOperator("Z3")
+    + 0.12005143072546047 * of.QubitOperator("Z0 Z1")
+    + 0.16821198673715723 * of.QubitOperator("Z0 Z2")
+    + 0.16549431486978672 * of.QubitOperator("Z0 Z3")
+    + 0.16549431486978672 * of.QubitOperator("Z1 Z2")
+    + 0.1739537877649417 * of.QubitOperator("Z1 Z3")
+    + 0.12005143072546047 * of.QubitOperator("Z2 Z3")
+    + 0.04544288414432624 * of.QubitOperator("X0 X1 X2 X3")
+    + 0.04544288414432624 * of.QubitOperator("X0 X1 Y2 Y3")
+    + 0.04544288414432624 * of.QubitOperator("Y0 Y1 X2 X3")
+    + 0.04544288414432624 * of.QubitOperator("Y0 Y1 Y2 Y3")
 )
 nuclear_repulsion_energy = 0.70556961456
 
@@ -103,8 +103,8 @@ print(energy)
 #
 # This starts by defining the terms of our single and double excitations. These would usually be generated using the orbital configurations, so we will just use a hard-coded example here for the purposes of demonstration.
 
-from pytket.pauli import Pauli, QubitPauliString
 from pytket.circuit import Qubit
+from pytket.pauli import Pauli, QubitPauliString
 
 q = [Qubit(i) for i in range(4)]
 xyii = QubitPauliString([q[0], q[1]], [Pauli.X, Pauli.Y])
@@ -200,14 +200,37 @@ def ucc(params):
     return ansatz
 
 
-# The objective function can also be simplified using a utility method for constructing the measurement circuits and processing for expectation value calculations.
+# The objective function can also be simplified using a utility method for constructing the measurement circuits and processing for expectation value calculations. For that, we convert the Hamiltonian to a pytket QubitPauliOperator:
 
 from pytket.utils.operators import QubitPauliOperator
-from pytket.utils import get_operator_expectation_value
 
-hamiltonian_op = QubitPauliOperator.from_OpenFermion(hamiltonian)
+
+pauli_sym = {"I": Pauli.I, "X": Pauli.X, "Y": Pauli.Y, "Z": Pauli.Z}
+
+
+def qps_from_openfermion(paulis):
+    """Convert OpenFermion tensor of Paulis to pytket QubitPauliString."""
+    qlist = []
+    plist = []
+    for q, p in paulis:
+        qlist.append(Qubit(q))
+        plist.append(pauli_sym[p])
+    return QubitPauliString(qlist, plist)
+
+
+def qpo_from_openfermion(openf_op):
+    """Convert OpenFermion QubitOperator to pytket QubitPauliOperator."""
+    tk_op = dict()
+    for term, coeff in openf_op.terms.items():
+        string = qps_from_openfermion(term)
+        tk_op[string] = coeff
+    return QubitPauliOperator(tk_op)
+
+
+hamiltonian_op = qpo_from_openfermion(hamiltonian)
 
 # Simplified objective function using utilities:
+from pytket.utils import get_operator_expectation_value
 
 
 def objective(params):
@@ -360,7 +383,7 @@ def objective(params):
 
 # For the sake of completeness, the following gives the full code for the final solution, including passing the objective function to a classical optimiser to find the ground state:
 
-from openfermion import QubitOperator
+import openfermion as of
 from scipy.optimize import minimize
 from sympy import symbols
 
@@ -375,25 +398,47 @@ from pytket.utils.operators import QubitPauliOperator
 # Obtain electronic Hamiltonian:
 
 hamiltonian = (
-    -0.8153001706270075 * QubitOperator("")
-    + 0.16988452027940318 * QubitOperator("Z0")
-    + -0.21886306781219608 * QubitOperator("Z1")
-    + 0.16988452027940323 * QubitOperator("Z2")
-    + -0.2188630678121961 * QubitOperator("Z3")
-    + 0.12005143072546047 * QubitOperator("Z0 Z1")
-    + 0.16821198673715723 * QubitOperator("Z0 Z2")
-    + 0.16549431486978672 * QubitOperator("Z0 Z3")
-    + 0.16549431486978672 * QubitOperator("Z1 Z2")
-    + 0.1739537877649417 * QubitOperator("Z1 Z3")
-    + 0.12005143072546047 * QubitOperator("Z2 Z3")
-    + 0.04544288414432624 * QubitOperator("X0 X1 X2 X3")
-    + 0.04544288414432624 * QubitOperator("X0 X1 Y2 Y3")
-    + 0.04544288414432624 * QubitOperator("Y0 Y1 X2 X3")
-    + 0.04544288414432624 * QubitOperator("Y0 Y1 Y2 Y3")
+    -0.8153001706270075 * of.QubitOperator("")
+    + 0.16988452027940318 * of.QubitOperator("Z0")
+    + -0.21886306781219608 * of.QubitOperator("Z1")
+    + 0.16988452027940323 * of.QubitOperator("Z2")
+    + -0.2188630678121961 * of.QubitOperator("Z3")
+    + 0.12005143072546047 * of.QubitOperator("Z0 Z1")
+    + 0.16821198673715723 * of.QubitOperator("Z0 Z2")
+    + 0.16549431486978672 * of.QubitOperator("Z0 Z3")
+    + 0.16549431486978672 * of.QubitOperator("Z1 Z2")
+    + 0.1739537877649417 * of.QubitOperator("Z1 Z3")
+    + 0.12005143072546047 * of.QubitOperator("Z2 Z3")
+    + 0.04544288414432624 * of.QubitOperator("X0 X1 X2 X3")
+    + 0.04544288414432624 * of.QubitOperator("X0 X1 Y2 Y3")
+    + 0.04544288414432624 * of.QubitOperator("Y0 Y1 X2 X3")
+    + 0.04544288414432624 * of.QubitOperator("Y0 Y1 Y2 Y3")
 )
 nuclear_repulsion_energy = 0.70556961456
 
-hamiltonian_op = QubitPauliOperator.from_OpenFermion(hamiltonian)
+pauli_sym = {"I": Pauli.I, "X": Pauli.X, "Y": Pauli.Y, "Z": Pauli.Z}
+
+
+def qps_from_openfermion(paulis):
+    """Convert OpenFermion tensor of Paulis to pytket QubitPauliString."""
+    qlist = []
+    plist = []
+    for q, p in paulis:
+        qlist.append(Qubit(q))
+        plist.append(pauli_sym[p])
+    return QubitPauliString(qlist, plist)
+
+
+def qpo_from_openfermion(openf_op):
+    """Convert OpenFermion QubitOperator to pytket QubitPauliOperator."""
+    tk_op = dict()
+    for term, coeff in openf_op.terms.items():
+        string = qps_from_openfermion(term)
+        tk_op[string] = coeff
+    return QubitPauliOperator(tk_op)
+
+
+hamiltonian_op = qpo_from_openfermion(hamiltonian)
 
 # Obtain terms for single and double excitations:
 

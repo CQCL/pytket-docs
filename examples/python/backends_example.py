@@ -29,7 +29,7 @@ from pytket.extensions.projectq import ProjectQBackend
 
 # We are also going to be making a circuit to run on these backends, so import the `Circuit` class.
 
-from pytket import Circuit
+from pytket import Circuit, Qubit
 
 # Below we generate a circuit which will produce a Bell state, assuming the qubits are all initialised in the |0> state:
 
@@ -137,25 +137,52 @@ print(BackendResult.from_dict(result_dict).get_counts())
 #
 # Note: ProjectQ can also produce statevectors in the style of `AerStateBackend`, and similarly Aer backends can calculate expectation values directly, consult the relevant documentation to see more.
 #
-# Let's create a `QubitOperator` object and a new circuit:
+# Let's create an OpenFermion `QubitOperator` object and a new circuit:
 
-from openfermion import QubitOperator
+import openfermion as of
 
-hamiltonian = 0.5 * QubitOperator("X0 X2") + 0.3 * QubitOperator("Z0")
+hamiltonian = 0.5 * of.QubitOperator("X0 X2") + 0.3 * of.QubitOperator("Z0")
 
 circ2 = Circuit(3)
 circ2.Y(0)
 circ2.H(1)
 circ2.Rx(0.3, 2)
 
+# We convert the OpenFermion Hamiltonian into a pytket QubitPauliOperator:
+from pytket.pauli import Pauli, QubitPauliString
+from pytket.utils.operators import QubitPauliOperator
+
+
+pauli_sym = {"I": Pauli.I, "X": Pauli.X, "Y": Pauli.Y, "Z": Pauli.Z}
+
+
+def qps_from_openfermion(paulis):
+    """Convert OpenFermion tensor of Paulis to pytket QubitPauliString."""
+    qlist = []
+    plist = []
+    for q, p in paulis:
+        qlist.append(Qubit(q))
+        plist.append(pauli_sym[p])
+    return QubitPauliString(qlist, plist)
+
+
+def qpo_from_openfermion(openf_op):
+    """Convert OpenFermion QubitOperator to pytket QubitPauliOperator."""
+    tk_op = dict()
+    for term, coeff in openf_op.terms.items():
+        string = qps_from_openfermion(term)
+        tk_op[string] = coeff
+    return QubitPauliOperator(tk_op)
+
+
+hamiltonian_op = qpo_from_openfermion(hamiltonian)
+
 # Now we can create a `ProjectQBackend` instance and feed it our circuit and `QubitOperator`:
 
 from pytket.utils.operators import QubitPauliOperator
 
 projectq_b = ProjectQBackend()
-expectation = projectq_b.get_operator_expectation_value(
-    circ2, QubitPauliOperator.from_OpenFermion(hamiltonian)
-)
+expectation = projectq_b.get_operator_expectation_value(circ2, hamiltonian_op)
 print(expectation)
 
 # The last leg of this tour includes running a pytket circuit on an actual quantum computer. To do this, you will need an IBM quantum experience account and have your credentials stored on your computer. See https://quantum-computing.ibm.com to make an account and view available devices and their specs.
