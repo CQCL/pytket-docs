@@ -18,30 +18,44 @@ Note: attempting to install from source will not set up the required binaries fo
 
 See the [Getting Started](https://cqcl.github.io/tket/pytket/api/getting_started.html) page for a quick introduction to using `pytket`.
 
-**Documentation** can be found at [cqcl.github.io/tket/pytket](https://cqcl.github.io/tket/pytket/api)
+API documentation can be found at [cqcl.github.io/tket/pytket](https://cqcl.github.io/tket/pytket/api)
 
-To get more in depth on features, see the [examples](https://github.com/CQCL/pytket/tree/main/examples).
+To get more in depth on features, see the [manual](https://cqcl.github.io/pytket/manual/) and [examples](https://github.com/CQCL/pytket/tree/main/examples).
 
 ## Interfaces
 
-We currently support circuits and device architectures from Google [Cirq](https://www.github.com/quantumlib/cirq), IBM [Qiskit](https://qiskit.org), [Pyzx](https://github.com/Quantomatic/pyzx), [ProjectQ](https://github.com/ProjectQ-Framework/ProjectQ), Rigetti [pyQuil](http://rigetti.com/forest), [AQT](https://www.aqt.eu/services/), [Honeywell](https://www.honeywell.com/en-us/company/quantum), Microsoft [QDK](https://docs.microsoft.com/en-us/quantum/), Amazon [Braket](https://aws.amazon.com/braket/), and [Qulacs](http://docs.qulacs.org/en/latest/#), allowing the tket tools to be used in conjunction with projects on these platforms.
+It is easy to use pytket as a front-end for interacting with third-party devices
+and software. We maintain a large and growing number of extensions on the
+[pytket-extensions repository](https://github.com/CQCL/pytket-extensions). These are simple to install with `pip`.
 
-To use `pytket` in conjunction with other platforms you must download an additional separate module for each.
-This can be done from `pip`.
+## Maintenance and support
 
-For each subpackage:
+### Pytket 0.x.y
 
-* Qiskit: ``pip install pytket-qiskit``
-* Cirq: ``pip install pytket-cirq``
-* PyQuil: ``pip install pytket-pyquil``
-* ProjectQ: ``pip install pytket-projectq``
-* PyZX: ``pip install pytket-pyzx``
-* AQT: ``pip install pytket-aqt``
-* Honeywell: ``pip install pytket-honeywell``
-* Q#: ``pip install pytket-qsharp``
-* Braket: ``pip install pytket-braket``
-* Qulacs: ``pip install pytket-qulacs``
-* IonQ: ``pip install pytket-ionq``
+Pytket underwent rapid development from 2018 to 2022, with frequent changes of
+API. Our policy has been to maintain only the latest 0.x relase, and not to port
+bugfixes to older releases. Since version 0.7 (February 2021) we have been
+releasing new versions (0.x.0) on a 4-week cycle, with occasional patch releases
+(0.x.y) for important hotfixes.
+
+### Pytket 1.x.y
+
+With the release of pytket 1.0 in early 2022, we are moving to a different
+process, to facilitate long-term stability. Following the [semver](https://semver.org/)
+conventions, we will not introduce incompatible API changes in the 1.x.y series;
+the minor version (x) will be incremented whenever new functionality is
+introduced; and the patch version (y) will be incremented for bug fixes.
+
+Pytket 1 will be maintained according to this policy for at least a year
+following the release of pytket 2.0. There will be no further maintenance of
+0.x.y versions.
+
+### Pytket 2.x.y
+
+Development work on pytket 2 will begin soon after the release of pytket 1.0.
+This will have a different API. Only pre-release versions will be uploaded to
+pypi until the API has stabilized enough to make a 2.0 release. Thereafter we
+will continue according to the same policy as for pytket 1.x.y.
 
 ## How To Cite
 
@@ -57,6 +71,7 @@ We are also keen for others to benchmark their compilation techniques against us
 
 
 ## Telemetry
+
 `pytket` features a telemetry module which can be used to keep track of `pyktet` usage and will provide usage analytics and error reporting at a later date. Telemetry is disabled by default, but may be enabled either through function calls or in the pytket configuration file.
 
 In order to opt in to telemetry, a helper function is provided in the `pytket.telemetry` module that need only be run once.
