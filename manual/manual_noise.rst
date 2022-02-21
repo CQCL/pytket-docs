@@ -65,11 +65,11 @@ Some information, including gate error rates, is stored in attributes with speci
     node[3]: 0.00015814094160059136, 
     node[4]: 0.00013411930305754117}    
 
-Other information is stored in a generic dictionary and is accessible through the :py:class:`Backend` `characterisation` member.
+Other miscellaneous information, varying between backends, is stored in the `misc` attribute, also accessible through the :py:meth:`BackendInfo.get_misc` method.
 
 .. jupyter-input::
 
-    print(backend.characterisation.keys())
+    print(backend.backend_info.get_misc())
 
 .. jupyter-output::
 
