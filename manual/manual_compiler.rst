@@ -409,11 +409,11 @@ The next step up in scale has optimisations based on optimal decompositions of s
     from pytket.passes import EulerAngleReduction, KAKDecomposition
     circ = Circuit(2)
     circ.CZ(0, 1)
-    circ.Rx(0.4, 0).Rz(0.289, 0).Ry(-0.34, 0).Rz(0.12, 0).Ry(-0.81, 0)
+    circ.Rx(0.4, 0).Ry(0.289, 0).Rx(-0.34, 0).Ry(0.12, 0).Rx(-0.81, 0)
     circ.CX(1, 0)
 
-    # Reduce long chain to a triple of Rz, Rx, Rz
-    EulerAngleReduction(OpType.Rz, OpType.Rx).apply(circ)
+    # Reduce long chain to a triple of Ry, Rx, Ry
+    EulerAngleReduction(OpType.Rx, OpType.Ry).apply(circ) 
     print(circ.get_commands())
 
     circ = Circuit(3)
