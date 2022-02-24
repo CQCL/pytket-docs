@@ -233,7 +233,7 @@ def sq(a, b, c):
     return circ
 
 
-rebase = RebaseCustom({OpType.ZZMax}, cx_circ, {OpType.Rx, OpType.Ry, OpType.Rz}, sq)
+rebase = RebaseCustom({OpType.Rx, OpType.Ry, OpType.Rz, OpType.ZZMax}, cx_circ, sq)
 
 
 def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
