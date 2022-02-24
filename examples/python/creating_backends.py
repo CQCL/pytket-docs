@@ -209,6 +209,33 @@ def required_predicates(self) -> List[Predicate]:
     return preds
 
 
+# Every `Backend` must define a rebasing method, which will normally be called from its default compilation passes (see below), but which may also be called independently. Given the target gate set, it is usually straightforward to define this using the `RebaseCustom` pass, with a couple of helpers defining rebase of an `OpType.CX` and a general `OpType.TK1` gate:
+
+cx_circ = Circuit(2)
+cx_circ.Sdg(0)
+cx_circ.V(1)
+cx_circ.Sdg(1)
+cx_circ.Vdg(1)
+cx_circ.add_gate(OpType.ZZMax, [0, 1])
+cx_circ.Vdg(1)
+cx_circ.Sdg(1)
+cx_circ.add_phase(0.5)
+
+
+def sq(a, b, c):
+    circ = Circuit(1)
+    if c != 0:
+        circ.Rz(c, 0)
+    if b != 0:
+        circ.Rx(b, 0)
+    if a != 0:
+        circ.Rz(a, 0)
+    return circ
+
+
+rebase = RebaseCustom({OpType.ZZMax}, cx_circ, {OpType.Rx, OpType.Ry, OpType.Rz}, sq)
+
+
 def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
     """
     A suggested compilation pass that will guarantee the resulting circuit
@@ -225,29 +252,7 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
     :rtype: BasePass
     """
     assert optimisation_level in range(3)
-    cx_circ = Circuit(2)
-    cx_circ.Sdg(0)
-    cx_circ.V(1)
-    cx_circ.Sdg(1)
-    cx_circ.Vdg(1)
-    cx_circ.add_gate(OpType.ZZMax, [0, 1])
-    cx_circ.Vdg(1)
-    cx_circ.Sdg(1)
-    cx_circ.add_phase(0.5)
 
-    def sq(a, b, c):
-        circ = Circuit(1)
-        if c != 0:
-            circ.Rz(c, 0)
-        if b != 0:
-            circ.Rx(b, 0)
-        if a != 0:
-            circ.Rz(a, 0)
-        return circ
-
-    rebase = RebaseCustom(
-        {OpType.ZZMax}, cx_circ, {OpType.Rx, OpType.Ry, OpType.Rz}, sq
-    )
     squash = SquashCustom({OpType.Rz, OpType.Rx, OpType.Ry}, sq)
     seq = [DecomposeBoxes()]  # Decompose boxes into basic gates
     if optimisation_level == 1:
@@ -406,6 +411,7 @@ class MyBackend(Backend):
         super().__init__()
 
     required_predicates = required_predicates
+    rebase_pass = rebase
     default_compilation_pass = default_compilation_pass
     _result_id_type = _result_id_type
     circuit_status = circuit_status
@@ -623,6 +629,7 @@ class MySampler(Backend):
         """Create a new instance of the MySampler class"""
         super().__init__()
 
+    rebase_pass = rebase
     default_compilation_pass = default_compilation_pass
     _result_id_type = _result_id_type
     circuit_status = circuit_status
@@ -750,16 +757,6 @@ def test_sampler_compilation_pass() -> None:
         assert b.valid_circuit(c)
 
 
-def test_sampler_invalid_conditions() -> None:
-    c = Circuit(2, 2)
-    c.H(0)
-    c.CX(0, 1, condition_bits=[0, 1], condition_value=3)
-    c.measure_all()
-    b = MySampler()
-    b.compile_circuit(c)
-    assert not (b.valid_circuit(c))
-
-
 def test_sampler_expectation_value() -> None:
     c = Circuit(2)
     c.H(0)
@@ -783,7 +780,6 @@ def test_sampler_expectation_value() -> None:
 test_sampler_bell()
 test_sampler_basisorder()
 test_sampler_compilation_pass()
-test_sampler_invalid_conditions()
 test_sampler_expectation_value()
 
 # Exercises:
