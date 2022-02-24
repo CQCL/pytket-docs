@@ -111,15 +111,14 @@ Pass                        Gateset
 
 .. Components of a custom rebase
 
-This set of rebases are provided for convenience, but the facility is available to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of multi-qubit and single-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them ``OpType.CX`` and ``OpType.TK1`` - for any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
+This set of rebases are provided for convenience, but the facility is available to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of one- and two-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them ``OpType.CX`` and ``OpType.TK1`` - for any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
 
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
     from pytket.passes import RebaseCustom
 
-    multiq_gates = {OpType.CY, OpType.ZZPhase}
-    singleq_gates = {OpType.Rz, OpType.Ry}
+    gates = {OpType.Rz, OpType.Ry, OpType.CY, OpType.ZZPhase}
     cx_in_cy = Circuit(2)
     cx_in_cy.Rz(0.5, 1).CY(0, 1).Rz(-0.5, 1)
     def tk1_to_rzry(a, b, c):
@@ -127,7 +126,7 @@ This set of rebases are provided for convenience, but the facility is available 
         circ.Rz(c + 0.5, 0).Ry(b, 0).Rz(a - 0.5, 0)
         return circ
 
-    custom = RebaseCustom(multiq_gates, cx_in_cy, singleq_gates, tk1_to_rzry)
+    custom = RebaseCustom(gates, cx_in_cy, tk1_to_rzry)
 
     circ = Circuit(3)
     circ.X(0).CX(0, 1).Ry(0.2, 1)
