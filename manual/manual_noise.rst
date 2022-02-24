@@ -362,14 +362,16 @@ An alternative class, :py:class:`UniversalFrameRandomisation`, is set with cycle
 
 Similarly as to the previous case, more shots are returning basis states in the expected state.
 
-The :py:meth:`RebaseUFR` can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
+We can use :py:meth:`auto_rebase_pass` to create a pass that can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
 
 .. jupyter-execute::
 
-    from pytket.circuit import PauliExpBox, Pauli, Circuit
+    from pytket.circuit import PauliExpBox, Pauli, Circuit, OpType
     from pytket.transform import Transform
-    from pytket.passes import RebaseUFR
+    from pytket.passes import auto_rebase_pass
     from pytket.tailoring import UniversalFrameRandomisation
+
+    rebase_ufr = auto_rebase_pass({OpType.CX, OpType.H, OpType.Rz})
 
     universal_frame_randomisation = UniversalFrameRandomisation()
 
@@ -390,7 +392,7 @@ The :py:meth:`RebaseUFR` can be applied to a circuit to rebase its gates to {``O
     ufr_averaging_circuits = universal_frame_randomisation.get_all_circuits(circ)
     print('Number of Universal Frame Randomisation averaging circuits without rebase: ', len(ufr_averaging_circuits))
 
-    RebaseUFR().apply(circ)
+    rebase_ufr.apply(circ)
     ufr_averaging_circuits = universal_frame_randomisation.get_all_circuits(circ)
     print('Number of Universal Frame Randomisation averaging circuits with rebase: ', len(ufr_averaging_circuits))
 

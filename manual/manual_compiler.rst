@@ -89,29 +89,7 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 
     print(circ.get_commands())
 
-.. Provided rebases
-
-A number of standard rebase passes are available for common gatesets.
-
-==========================  ====================================================
-Pass                        Gateset
-==========================  ====================================================
-:py:class:`RebaseCirq`      | CZ, PhasedX and Rz - primitives on some Google
-                              devices
-:py:class:`RebaseHQS`       | ZZMax, PhasedX and Rz - primitives on hardware
-                              from Honeywell Quantum Systems
-:py:class:`RebaseProjectQ`  | SWAP, CRz, CX, CZ, H, X, Y, Z, S, T, V, Rx, Ry
-                              and Rz - gates supported by the ProjectQ simulator
-:py:class:`RebasePyZX`      | SWAP, CX, CZ, H, X, Z, S, T, Rx and Rz - gates
-                              supported by the PyZX software package
-:py:class:`RebaseQuil`      | CZ, Rx and Rz - primitives on hardware from Rigetti
-:py:class:`RebaseTket`      | CX and TK1 - preferred internal gateset for many
-                              ``pytket`` compiler passes
-==========================  ====================================================
-
-.. Components of a custom rebase
-
-This set of rebases are provided for convenience, but the facility is available to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of one- and two-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them ``OpType.CX`` and ``OpType.TK1`` - for any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
+:py:class:`RebaseTket` is a standard rebase pass that converts to CX and TK1 gates. This is the preferred internal gateset for many ``pytket`` compiler passes. However, it is possible to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of one- and two-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them ``OpType.CX`` and ``OpType.TK1`` - for any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
 
 .. jupyter-execute::
 
@@ -135,6 +113,8 @@ This set of rebases are provided for convenience, but the facility is available 
     custom.apply(circ)
 
     print(circ.get_commands())
+
+For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful method :py:meth:`auto_rebase_pass` which can take care of this for you. The pass returned is constructed from the gateset alone. An example is given in the "Combinators" section below.
 
 .. _compiler-placement:
 
@@ -487,10 +467,11 @@ The passes encountered so far represent elementary, self-contained transformatio
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.passes import RebaseQuil, EulerAngleReduction, SequencePass
+    from pytket.passes import auto_rebase_pass, EulerAngleReduction, SequencePass
+    rebase_quil = auto_rebase_pass({OpType.CZ, OpType.Rz, OpType.Rx})
     circ = Circuit(3)
     circ.CX(0, 1).Rx(0.3, 1).CX(2, 1).Rz(0.8, 1)
-    comp = SequencePass([RebaseQuil(), EulerAngleReduction(OpType.Rz, OpType.Rx)])
+    comp = SequencePass([rebase_quil, EulerAngleReduction(OpType.Rz, OpType.Rx)])
     comp.apply(circ)
     print(circ.get_commands())
 
