@@ -97,7 +97,7 @@ bell_test.Measure(charlie[0], data[1])
 
 # Run the experiment:
 
-backend.compile_circuit(bell_test)
+bell_test = backend.get_compiled_circuit(bell_test)
 from pytket.circuit.display import render_circuit_jupyter
 
 render_circuit_jupyter(bell_test)
@@ -136,8 +136,7 @@ def gen_tomography_circuits(state, qubits, bits):
 def run_tomography_circuits(state, qubits, bits, backend):
     circs = list(gen_tomography_circuits(state, qubits, bits))
     # Compile and run each circuit
-    for c in circs:
-        backend.compile_circuit(c)
+    circs = backend.get_compiled_circuits(circs)
     handles = backend.process_circuits(circs, n_shots=2000)
     # Get the observed measurement probabilities
     probs_list = []

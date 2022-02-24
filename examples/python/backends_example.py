@@ -199,21 +199,21 @@ ibmq_b_emu.valid_circuit(circ)
 
 # It looks like we need to compile this circuit to be compatible with the device. To simplify this procedure, we provide minimal compilation passes designed for each backend (the `default_compilation_pass()` method) which will guarantee compatibility with the device. These may still fail if the input circuit has too many qubits or unsupported usage of conditional gates. The default passes can have their degree of optimisation by changing an integer parameter (optimisation levels 0, 1, 2), and they can be easily composed with any of tket's other optimisation passes for better performance.
 #
-# For convenience, we also wrap up this pass into the `compile_circuit` method if you just want to compile a single circuit.
+# For convenience, we also wrap up this pass into the `get_compiled_circuit` method if you just want to compile a single circuit.
 
-ibmq_b_emu.compile_circuit(circ)
+compiled_circ = ibmq_b_emu.get_compiled_circuit(circ)
 
 
 # Let's create a backend for running on the actual device and check our compiled circuit is valid for this backend too.
 
 ibmq_b = IBMQBackend("ibmq_santiago")
-ibmq_b.valid_circuit(circ)
+ibmq_b.valid_circuit(compiled_circ)
 
 # We are now good to run this circuit on the device. After submitting, we can use the handle to check on the status of the job, so that we know when results are ready to be retrieved. The `circuit_status` method works for all backends, and returns a `CircuitStatus` object. If we just run `get_result` straight away, the backend will wait for results to complete, blocking any other code from running.
 #
 # In this notebook we will use the emulated backend `ibmq_b_emu` to illustrate, but the workflow is the same as for the real backend `ibmq_b` (except that the latter will typically take much longer because of the size of the queue).
 
-quantum_handle = ibmq_b_emu.process_circuit(circ, n_shots=10)
+quantum_handle = ibmq_b_emu.process_circuit(compiled_circ, n_shots=10)
 
 print(ibmq_b_emu.circuit_status(quantum_handle))
 
@@ -229,8 +229,7 @@ for i in range(5):
     c = Circuit(2)
     c.Rx(0.2 * i, 0).CX(0, 1)
     c.measure_all()
-    ibmq_b_emu.compile_circuit(c)
-    circuits.append(c)
+    circuits.append(ibmq_b_emu.get_compiled_circuit(c))
 handles = ibmq_b_emu.process_circuits(circuits, n_shots=100)
 print(handles)
 
@@ -248,7 +247,7 @@ for handle in handles:
 from pytket.backends import ResultHandle
 
 c = Circuit(2).Rx(0.5, 0).CX(0, 1).measure_all()
-ibmq_b_emu.compile_circuit(c)
+c = ibmq_b_emu.get_compiled_circuit(c)
 handle = ibmq_b_emu.process_circuit(c, n_shots=10)
 handlestring = str(handle)
 print(handlestring)
