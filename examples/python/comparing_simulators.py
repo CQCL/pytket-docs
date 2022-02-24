@@ -28,7 +28,7 @@ c.measure_all()
 # Run on the backend:
 
 backend = AerBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 handle = backend.process_circuit(c, n_shots=2000)
 counts = backend.get_result(handle).get_counts()
 print(counts)
@@ -49,7 +49,7 @@ c.Ry(0.8, 2)
 # Examine the statevector:
 
 backend = AerStateBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 handle = backend.process_circuit(c)
 state = backend.get_result(handle).get_state()
 print(state)
@@ -78,7 +78,7 @@ op = QubitPauliOperator({xxi: -1.8, zzz: 0.7})
 # Run on the backend:
 
 backend = AerBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 exp = backend.get_operator_expectation_value(c, op)
 print(exp)
 
@@ -143,7 +143,7 @@ backend = AerBackend(noise_model=model)
 
 # Run circuit:
 
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 handle = backend.process_circuit(c, n_shots=2000)
 result = backend.get_result(handle)
 counts = result.get_counts([final[0]])
@@ -178,7 +178,7 @@ c.X(2)
 # Examine the unitary:
 
 backend = AerUnitaryBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 result = backend.run_circuit(c)
 unitary = result.get_unitary()
 print(unitary.round(1).real)
@@ -227,7 +227,7 @@ c.X(2)
 # Run on the backend:
 
 backend = QsharpToffoliSimulatorBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 handle = backend.process_circuit(c, n_shots=10)
 counts = backend.get_result(handle).get_counts()
 print(counts)
@@ -254,7 +254,7 @@ c.X(2)
 # Run on the backend:
 
 backend = QsharpEstimatorBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 handle = backend.process_circuit(c, n_shots=10)
 resources = backend.get_resources(handle)
 print(resources)

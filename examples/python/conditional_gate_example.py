@@ -111,7 +111,7 @@ c.X(1, condition_bits=[0], condition_value=0)
 c.Measure(1, 0)
 
 backend = AerBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 counts = backend.run_circuit(c, 1024).get_counts()
 print(counts)
 

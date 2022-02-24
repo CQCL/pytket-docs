@@ -57,8 +57,8 @@ print("Number of CX:", c0.n_gates_of_type(OpType.CX))
 from pytket.extensions.qiskit import AerBackend
 
 b = AerBackend()
-b.compile_circuit(c0)
-h = b.process_circuit(c0, n_shots=10)
+c1 = b.get_compiled_circuit(c0)
+h = b.process_circuit(c1, n_shots=10)
 r = b.get_result(h)
 
 # And finally get the counts or shots, accounting for the classical postprocessing:

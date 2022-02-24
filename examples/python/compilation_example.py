@@ -255,11 +255,10 @@ from pytket.extensions.qiskit import AerBackend
 b = AerBackend()
 b.default_compilation_pass
 
-# To compile a circuit using the default pass of a `Backend` we can simply use the `compile_circuit()` method:
+# To compile a circuit using the default pass of a `Backend` we can simply use the `get_compiled_circuit()` method:
 
 circ = Circuit(2).X(0).Y(1).CRz(0.5, 1, 0)
-circ1 = circ.copy()
-b.compile_circuit(circ1)
+circ1 = b.get_compiled_circuit(circ)
 render_circuit_jupyter(circ1)
 
 # Every `Backend` will have a certain set of requirements that must be met by any circuit in order to run. These are exposed via the `required_predicates` property:
