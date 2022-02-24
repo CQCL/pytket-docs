@@ -212,37 +212,31 @@ Graph(circ_second_partition).get_DAG()
 
 # We now enough about how `MappingManager` works to add our own `RoutingMethodCircuit`. While `LexiRouteRoutingMethod` is implemented in c++ TKET, giving it some advantages, via lambda functions we can define our own `RoutingMethodCircuit` in python.
 
-# A python defined `RoutingMethodCircuit` requires four arguments. The first is a function that given a Circuit (the circuit after the partition) and an Architecture, returns a new Circuit (a modification of the original circuit such as an added SWAP) a Dict between qubits reflecting any relabelling done in the method, and a Dict between qubits giving any implicit permutation of qubits (such as by adding a SWAP). For some clarity (we will write an example later), lets look at an example function declaration.
+# A python defined `RoutingMethodCircuit` requires three arguments. The first is a function that given a Circuit (the circuit after the partition) and an Architecture, returns a bool (determining whether the new circuit should be substitued in a full routing process), a new Circuit (a modification of the original circuit such as an added SWAP) a Dict between qubits reflecting any relabelling done in the method, and a Dict between qubits giving any implicit permutation of qubits (such as by adding a SWAP). For some clarity (we will write an example later), lets look at an example function declaration.
 
 from typing import Dict
 
 def route_subcircuit_func(
     circuit: Circuit, architecture: Architecture
-) -> Tuple[Circuit, Dict[Node, Node], Dict[Node, Node]]:
+) -> Tuple[bool, Circuit, Dict[Node, Node], Dict[Node, Node]]:
     return ()
 
-# The second argument is a function that determines whether the given `RoutingMethodCircuit` is suitable for providing a solution at a given partition. `MappingManager.route_circuit` accepts a List of of `RoutingMethod` defining how solutions are found. At the point the partition circuit is modified, the circuit is passed to a checking method each `RoutingMethodCircuit` has which returns a bool defining whether it can or can't helpfully modify the partition boundary circuit. The first `RoutingMethodCircuit` to return True is then used for modification - meaning the ordering of List elements is important. Similarly, lets look at the type signature:
-
-def check_subcircuit_func(circuit: Circuit, architecture: Architecture) -> bool:
-    return False
+# The first return is a bool which detemrines if a given `RoutingMethodCircuit` is suitable for providing a solution at a given partition. `MappingManager.route_circuit` accepts a List of of `RoutingMethod` defining how solutions are found. At the point the partition circuit is modified, the circuit is passed to `RoutingMethodCircuit.routing_method` which additionally to finding a subcircuit substitution, should determine whether it can or can't helpfully modify the partition boundary circuit, and return True if it can. The first `RoutingMethodCircuit` to return True is then used for modification - meaning the ordering of List elements is important. 
 
 # The third argument sets the maximum number of gates given in the passed Circuit and the fourth argument sets the maximum depth in the passed Circuit. 
 
-# `LexiRouteRoutingMethod` will always return True on the checking method, that is because it inserts SWAP gates it can always find some helpful SWAP to insert, and it can dynamically assign logical to physical qubits. Given this, lets construct a more specialised modification - an architecture-aware decomposition of a distance-2 CRy gate. Lets write our function type declarations for each method:
+# `LexiRouteRoutingMethod` will always return True, which is because it inserts SWAP gates it can always find some helpful SWAP to insert, and it can dynamically assign logical to physical qubits. Given this, lets construct a more specialised modification - an architecture-aware decomposition of a distance-2 CRy gate. Lets write our function type declarations for each method:
 
 def distance2_CRy_decomp(
     circuit: Circuit, architecture: Architecture
-) -> Tuple[Circuit, Dict[Node, Node], Dict[Node, Node]]:
-    return ()
-
-def distance2_CRy_check(circuit: Circuit, architecture: Architecture) -> bool:
-    return False
+) -> Tuple[bool, Circuit, Dict[Node, Node], Dict[Node, Node]]:
+    return (False, Circuit(), {}, {})
 
 # Where do we start? Lets define a simple scope for our solution: for a single gate in the passed circuit (the circuit after the partition) that has OpType CRy, if the two-qubits its acting on are at distance 2 on the architecture, decompose the gate using BRIDGE gates.
 
 # The first restriction is to only have a single gate from the first slice - we can achieve this by setting both the maximum depth and size parameters to 1.
 
-# The second restriction is for the gate to have OpType CRy and for the qubits to be at distance 2 - we can check this restriction in the `distance2_CRy_check` method.
+# The second restriction is for the gate to have OpType CRy and for the qubits to be at distance 2 - we can check this restriction in a `distance2_CRy_check` method.
 
 def distance2_CRy_check(circuit: Circuit, architecture: Architecture) -> bool:
     if circuit.n_gates != 1:
@@ -263,7 +257,11 @@ def distance2_CRy_check(circuit: Circuit, architecture: Architecture) -> bool:
 
 def distance2_CRy_decomp(
     circuit: Circuit, architecture: Architecture
-) -> Tuple[Circuit, Dict[Node, Node], Dict[Node, Node]]:
+) -> Tuple[bool, Circuit, Dict[Node, Node], Dict[Node, Node]]:
+    worthwhile_substitution = distance2_CRy_check(circuit, architecture)
+    if(worthwhile_substitution == False):
+        return (False, Circuit(), {}, {})
+    
     command = circuit.get_commands()[0]
     qubits = command.qubits
     # Architecture stores qubits under `Node` identifier
@@ -300,7 +298,7 @@ def distance2_CRy_decomp(
     c.CX(qubits[0], connecting_node).CX(connecting_node, qubits[1])
     
     # the "relabelling map" is just qubit to qubit
-    return (c, {}, permutation_map)
+    return (True, c, {}, permutation_map)
 
 # Before turning this into a `RoutingMethod` we can try it ourselves.
 
@@ -335,12 +333,12 @@ test_c = Circuit(4)
 test_c.CRy(0.6, 0, 2)
 place_with_map(test_c, naive_map)
 decomp = distance2_CRy_decomp(test_c, id_architecture)
-display.render_circuit_jupyter(decomp[0])
+display.render_circuit_jupyter(decomp[1])
 
 # Great! Our check function and decomposition method are both working. Lets wrap them into a `RoutingMethodCircuit` and try them out.
 
 from pytket.mapping import RoutingMethodCircuit
-cry_rmc = RoutingMethodCircuit(distance2_CRy_decomp, distance2_CRy_check, 1, 1)
+cry_rmc = RoutingMethodCircuit(distance2_CRy_decomp, 1, 1)
 
 # We can use our original `MappingManager` object as it is defined for the same architecture. Lets try it out on a range of circumstances.
 
