@@ -116,6 +116,23 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 
 For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful method :py:meth:`auto_rebase_pass` which can take care of this for you. The pass returned is constructed from the gateset alone. An example is given in the "Combinators" section below.
 
+A similar pair of methods, :py:meth:`SquashCustom` and :py:meth:`auto_squash_pass`, may be used to construct a pass that squashes sequences of single-qubit gates from a given set of single-qubit gates to as short a sequence as possible. Both take a gateset as an argument. :py:meth:`SquashCustom` also takes a function for converting the parameters of a TK1 gate to the target gate set. (Internally, the compiler squashes all gates to TK1 and then applies the supplied function.) :py:meth:`auto_squash_pass` attempts to do the squash using known internal decompositions (but may fail for some gatesets). For example:
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, OpType
+    from pytket.passes import auto_squash_pass
+
+    gates = {OpType.PhasedX, OpType.Rz, OpType.Rx, OpType.Ry}
+    custom = auto_squash_pass(gates)
+
+    circ = Circuit(1).H(0).Ry(0.5, 0).Rx(-0.5, 0).Rz(1.5, 0).Ry(0.5, 0).H(0)
+    custom.apply(circ)
+    print(circ.get_commands())
+
+Note that the H gates (which are not in the specified gateset) are left alone.
+
+
 .. _compiler-placement:
 
 Placement
