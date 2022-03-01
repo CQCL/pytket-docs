@@ -90,8 +90,9 @@ mapping_manager = MappingManager(id_architecture)
 
 # Later we will look at defining our own `RoutingMethodCircuit` objects, but initially lets consider one thats already available.
 
-from pytket.mapping import LexiRouteRoutingMethod
+from pytket.mapping import LexiLabellingMethod, LexiRouteRoutingMethod
 
+lexi_label = LexiLabellingMethod()
 lexi_route = LexiRouteRoutingMethod(10)
 
 # The `lexi_route` object here is of little use outside `MappingManager`. Note that it takes a lookahead parameter, which will effect the performance of the method, defining the number of two-qubit gates it considers when finding `SWAP` gates to add.
@@ -118,9 +119,9 @@ from pytket.utils import Graph
 
 Graph(c).get_qubit_graph()
 
-# By running the `MappingManager.route_circuit` method on our circuit `c` with the `LexiRouteRoutingMethod` object as an argument, qubits in `c` with some physical requirements will be relabelled and the qubit graph modified (by the addition of SWAP gates and relabelling some CX as BRIDGE gates) such that the qubit graph is isomorphic to some subgraph of the full architecture.
+# By running the `MappingManager.route_circuit` method on our circuit `c` with the `LexiLabellingMethod` and `LexiRouteRoutingMethod` objects as an argument, qubits in `c` with some physical requirements will be relabelled and the qubit graph modified (by the addition of SWAP gates and relabelling some CX as BRIDGE gates) such that the qubit graph is isomorphic to some subgraph of the full architecture.
 
-mapping_manager.route_circuit(c, [lexi_route])
+mapping_manager.route_circuit(c, [lexi_label, lexi_route])
 display.render_circuit_jupyter(c)
 
 # The graph:
@@ -140,7 +141,7 @@ c = (
     .CX(0, 1)
     .measure_all()
 )
-mapping_manager.route_circuit(c, [LexiRouteRoutingMethod(1)])
+mapping_manager.route_circuit(c, [lexi_label, LexiRouteRoutingMethod(1)])
 display.render_circuit_jupyter(c)
 
 # We can also pass multiple `RoutingMethod` options for Routing in a ranked List. Each `RoutingMethod` option has a function for checking whether it can usefully modify a subcircuit at a stage in Routing. To choose, each method in the List is checked in order until one returns True. This will be discussed more later.
@@ -172,7 +173,7 @@ display.render_circuit_jupyter(c)
 
 # Different placements will lead to different selections of SWAP gates being added. However each different routed circuit will preserve the original unitary action of the full circuit while respecting connectivity constraints.
 
-mapping_manager.route_circuit(c, [lexi_route])
+mapping_manager.route_circuit(c, [lexi_label, lexi_route])
 display.render_circuit_jupyter(c)
 
 # The graph:
