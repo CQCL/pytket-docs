@@ -3,7 +3,7 @@
 
 # In this tutorial we will show how the problem of mapping from logical quantum circuits to physically permitted circuits is solved automatically in TKET. The basic examples require only the installation of pytket, ```pip install pytket```.
 
-# There is a wide variety of different blueprints for realising quantum computers, including the well known superconducting and ion trap devices. Different devices come with different constraints, such as a limited primitive gate set for universal quantum computing. Often this limited gate set accommodates an additional constraint, that two-qubit gates can not be executed between all pairs of qubits. 
+# There is a wide variety of different blueprints for realising quantum computers, including the well known superconducting and ion trap devices. Different devices come with different constraints, such as a limited primitive gate set for universal quantum computing. Often this limited gate set accommodates an additional constraint, that two-qubit gates can not be executed between all pairs of qubits.
 
 
 # In software, typically this constraint is presented as a "connectivity" graph where vertices connected by an edge represents pairs of physical qubits which two-qubit gates can be executed on. As programmers usually write logical quantum circuits with no sense of architecture (or may want to run their circuit on a range of hardware with different connectivity constraints), most quantum software development kits offer the means to automatically solve this constraint. One common way is to automatically add logical ```SWAP``` gates to a Circuit, changing the position of logical qubits on physical qubits until a two-qubit gate can be realised. This is an active area of research in quantum computing and a problem we discuss in our paper "On The Qubit Routing Problem" - arXiv:1902.08091.
@@ -15,6 +15,7 @@ from pytket.circuit import Node
 
 import networkx as nx
 from typing import List, Union, Tuple
+
 
 def draw_graph(coupling_map: List[Union[Tuple[int, int], Tuple[Node, Node]]]):
     coupling_graph = nx.Graph(coupling_map)
@@ -72,7 +73,7 @@ from pytket.architecture import SquareGrid
 alternative_cube_architecture = SquareGrid(2, 2, 2)
 draw_graph(alternative_cube_architecture.coupling)
 
-# The current range of quantum computers are commonly referred to as Noisy-Intermediate-Scale-Quantum devices i.e. NISQ devices. The impact of noise is a primary concern during compilation and incentivizes producing physically permitted circuits that have a minimal number of gates. For this reason benchmarking in this area is often completed by comparing the final number of two-qubit (or particularly SWAP gates) in compiled circuits. 
+# The current range of quantum computers are commonly referred to as Noisy-Intermediate-Scale-Quantum devices i.e. NISQ devices. The impact of noise is a primary concern during compilation and incentivizes producing physically permitted circuits that have a minimal number of gates. For this reason benchmarking in this area is often completed by comparing the final number of two-qubit (or particularly SWAP gates) in compiled circuits.
 
 # However it is important to remember that adding logical SWAP gates to minimise gate count is not the only way this constraint can be met, with large scale architecture-aware synthesis methods and fidelity aware methods amongst other approaches producing viable physically permitted circuits. It is likely that no SINGLE approach is better for all circuits, but the ability to use different approaches where best fitted will give the best results during compilation.
 
@@ -98,7 +99,17 @@ lexi_route = LexiRouteRoutingMethod(10)
 from pytket import Circuit, OpType
 from pytket.circuit import display
 
-c = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+c = (
+    Circuit(4)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 3)
+    .CX(2, 3)
+    .CX(1, 3)
+    .CX(0, 1)
+    .measure_all()
+)
 display.render_circuit_jupyter(c)
 
 # We can also look at which logical qubits are interacting.
@@ -118,7 +129,17 @@ Graph(c).get_qubit_graph()
 
 # The resulting circuit may also change if we reduce the lookahead parameter.
 
-c = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+c = (
+    Circuit(4)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 3)
+    .CX(2, 3)
+    .CX(1, 3)
+    .CX(0, 1)
+    .measure_all()
+)
 mapping_manager.route_circuit(c, [LexiRouteRoutingMethod(1)])
 display.render_circuit_jupyter(c)
 
@@ -132,7 +153,17 @@ from pytket.placement import Placement, LinePlacement, GraphPlacement
 
 line_placement = LinePlacement(id_architecture)
 
-c = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+c = (
+    Circuit(4)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 3)
+    .CX(2, 3)
+    .CX(1, 3)
+    .CX(0, 1)
+    .measure_all()
+)
 line_placement.place(c)
 
 display.render_circuit_jupyter(c)
@@ -156,8 +187,13 @@ from pytket import Circuit
 
 from pytket.placement import place_with_map
 
-circ = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1)
-naive_map = {circ.qubits[0]: node_0, circ.qubits[1]: node_1, circ.qubits[2]: node_2, circ.qubits[3]: node_3}
+circ = Circuit(4).CX(0, 1).CX(1, 2).CX(0, 2).CX(0, 3).CX(2, 3).CX(1, 3).CX(0, 1)
+naive_map = {
+    circ.qubits[0]: node_0,
+    circ.qubits[1]: node_1,
+    circ.qubits[2]: node_2,
+    circ.qubits[3]: node_3,
+}
 place_with_map(circ, naive_map)
 Graph(circ).get_DAG()
 
@@ -170,11 +206,11 @@ Graph(circ).get_DAG()
 
 # We will construct the partitions ourselves for illustrative purposes. Lets assume we are routing for the four qubit line architecture (qubits are connected to adjacent indices) "simple_architecture" we constructed earlier.
 
-circ_first_partition = Circuit(4).CX(0,1).CX(1,2)
+circ_first_partition = Circuit(4).CX(0, 1).CX(1, 2)
 place_with_map(circ_first_partition, naive_map)
 Graph(circ_first_partition).get_DAG()
 
-circ_second_partition = Circuit(4).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1)
+circ_second_partition = Circuit(4).CX(0, 2).CX(0, 3).CX(2, 3).CX(1, 3).CX(0, 1)
 place_with_map(circ_second_partition, naive_map)
 Graph(circ_second_partition).get_DAG()
 
@@ -184,13 +220,17 @@ Graph(circ_second_partition).get_DAG()
 
 # The option taken by `LexiRouteRoutingethod(1)` is to insert a SWAP gate between the first two nodes of the architecture, swapping their logical states. How does this change the second partition circuit?
 
-circ_second_partition = Circuit(4).SWAP(0,1).CX(1,2).CX(1,3).CX(2,3).CX(0,3).CX(1,0)
+circ_second_partition = (
+    Circuit(4).SWAP(0, 1).CX(1, 2).CX(1, 3).CX(2, 3).CX(0, 3).CX(1, 0)
+)
 place_with_map(circ_second_partition, naive_map)
 Graph(circ_second_partition).get_DAG()
 
 # Leaving the full circuit as:
 
-full_circuit = Circuit(4).CX(0,1).CX(1,2).SWAP(0,1).CX(1,2).CX(1,3).CX(2,3).CX(0,3).CX(1,0)
+full_circuit = (
+    Circuit(4).CX(0, 1).CX(1, 2).SWAP(0, 1).CX(1, 2).CX(1, 3).CX(2, 3).CX(0, 3).CX(1, 0)
+)
 place_with_map(full_circuit, naive_map)
 Graph(full_circuit).get_DAG()
 
@@ -198,13 +238,13 @@ Graph(full_circuit).get_DAG()
 
 # The first partition:
 
-circ_first_partition = Circuit(4).CX(0,1).CX(1,2).SWAP(0,1).CX(1,2)
+circ_first_partition = Circuit(4).CX(0, 1).CX(1, 2).SWAP(0, 1).CX(1, 2)
 place_with_map(circ_first_partition, naive_map)
 Graph(circ_first_partition).get_DAG()
 
 # The second partition:
 
-circ_second_partition = Circuit(4).CX(1,3).CX(2,3).CX(0,3).CX(1,0)
+circ_second_partition = Circuit(4).CX(1, 3).CX(2, 3).CX(0, 3).CX(1, 0)
 place_with_map(circ_second_partition, naive_map)
 Graph(circ_second_partition).get_DAG()
 
@@ -216,21 +256,25 @@ Graph(circ_second_partition).get_DAG()
 
 from typing import Dict
 
+
 def route_subcircuit_func(
     circuit: Circuit, architecture: Architecture
 ) -> Tuple[bool, Circuit, Dict[Node, Node], Dict[Node, Node]]:
     return ()
 
-# The first return is a bool which detemrines if a given `RoutingMethodCircuit` is suitable for providing a solution at a given partition. `MappingManager.route_circuit` accepts a List of of `RoutingMethod` defining how solutions are found. At the point the partition circuit is modified, the circuit is passed to `RoutingMethodCircuit.routing_method` which additionally to finding a subcircuit substitution, should determine whether it can or can't helpfully modify the partition boundary circuit, and return True if it can. The first `RoutingMethodCircuit` to return True is then used for modification - meaning the ordering of List elements is important. 
 
-# The third argument sets the maximum number of gates given in the passed Circuit and the fourth argument sets the maximum depth in the passed Circuit. 
+# The first return is a bool which detemrines if a given `RoutingMethodCircuit` is suitable for providing a solution at a given partition. `MappingManager.route_circuit` accepts a List of of `RoutingMethod` defining how solutions are found. At the point the partition circuit is modified, the circuit is passed to `RoutingMethodCircuit.routing_method` which additionally to finding a subcircuit substitution, should determine whether it can or can't helpfully modify the partition boundary circuit, and return True if it can. The first `RoutingMethodCircuit` to return True is then used for modification - meaning the ordering of List elements is important.
+
+# The third argument sets the maximum number of gates given in the passed Circuit and the fourth argument sets the maximum depth in the passed Circuit.
 
 # `LexiRouteRoutingMethod` will always return True, which is because it inserts SWAP gates it can always find some helpful SWAP to insert, and it can dynamically assign logical to physical qubits. Given this, lets construct a more specialised modification - an architecture-aware decomposition of a distance-2 CRy gate. Lets write our function type declarations for each method:
+
 
 def distance2_CRy_decomp(
     circuit: Circuit, architecture: Architecture
 ) -> Tuple[bool, Circuit, Dict[Node, Node], Dict[Node, Node]]:
     return (False, Circuit(), {}, {})
+
 
 # Where do we start? Lets define a simple scope for our solution: for a single gate in the passed circuit (the circuit after the partition) that has OpType CRy, if the two-qubits its acting on are at distance 2 on the architecture, decompose the gate using BRIDGE gates.
 
@@ -238,9 +282,12 @@ def distance2_CRy_decomp(
 
 # The second restriction is for the gate to have OpType CRy and for the qubits to be at distance 2 - we can check this restriction in a `distance2_CRy_check` method.
 
+
 def distance2_CRy_check(circuit: Circuit, architecture: Architecture) -> bool:
     if circuit.n_gates != 1:
-        raise ValueError("Circuit for CRy check should only have 1 gate, please change parameters of method declaration.")
+        raise ValueError(
+            "Circuit for CRy check should only have 1 gate, please change parameters of method declaration."
+        )
     command = circuit.get_commands()[0]
     if command.op.type == OpType.CRy:
         # Architecture stores qubits under `Node` identifier
@@ -253,15 +300,17 @@ def distance2_CRy_check(circuit: Circuit, architecture: Architecture) -> bool:
                 return True
     return False
 
+
 # The `distance2_CRy_check` confirms whether the required restrictions are respected. Given this, if the `distance2_CRy_decomp` method is called we know where to add the decomposition.
+
 
 def distance2_CRy_decomp(
     circuit: Circuit, architecture: Architecture
 ) -> Tuple[bool, Circuit, Dict[Node, Node], Dict[Node, Node]]:
     worthwhile_substitution = distance2_CRy_check(circuit, architecture)
-    if(worthwhile_substitution == False):
+    if worthwhile_substitution == False:
         return (False, Circuit(), {}, {})
-    
+
     command = circuit.get_commands()[0]
     qubits = command.qubits
     # Architecture stores qubits under `Node` identifier
@@ -292,13 +341,14 @@ def distance2_CRy_decomp(
     c.CX(qubits[0], connecting_node).CX(connecting_node, qubits[1])
     c.CX(qubits[0], connecting_node).CX(connecting_node, qubits[1])
     # rotation
-    c.Ry(-1*angle, qubits[1])
+    c.Ry(-1 * angle, qubits[1])
     # distance-2 CX decomp
     c.CX(qubits[0], connecting_node).CX(connecting_node, qubits[1])
     c.CX(qubits[0], connecting_node).CX(connecting_node, qubits[1])
-    
+
     # the "relabelling map" is just qubit to qubit
     return (True, c, {}, permutation_map)
+
 
 # Before turning this into a `RoutingMethod` we can try it ourselves.
 
@@ -338,13 +388,24 @@ display.render_circuit_jupyter(decomp[1])
 # Great! Our check function and decomposition method are both working. Lets wrap them into a `RoutingMethodCircuit` and try them out.
 
 from pytket.mapping import RoutingMethodCircuit
+
 cry_rmc = RoutingMethodCircuit(distance2_CRy_decomp, 1, 1)
 
 # We can use our original `MappingManager` object as it is defined for the same architecture. Lets try it out on a range of circumstances.
 
 # If we pass it a full CX circuit without `LexiRouteRoutingMethod`, we should find that `MappingManager` throws an error, as none of the passed methods can route for the given circuit.
 
-c = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+c = (
+    Circuit(4)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 3)
+    .CX(2, 3)
+    .CX(1, 3)
+    .CX(0, 1)
+    .measure_all()
+)
 place_with_map(c, naive_map)
 try:
     mapping_manager.route_circuit(c, [cry_rmc])
@@ -353,14 +414,35 @@ except RuntimeError:
 
 # Alternatively, we can add `LexiRouteRoutingMethod` on top:
 
-c = Circuit(4).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+c = (
+    Circuit(4)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 3)
+    .CX(2, 3)
+    .CX(1, 3)
+    .CX(0, 1)
+    .measure_all()
+)
 place_with_map(c, naive_map)
 mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
 display.render_circuit_jupyter(c)
 
 # However as there are no CRy gates our new method is unused. We can add one:
 
-c = Circuit(4).CRy(0.6, 0, 2).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+c = (
+    Circuit(4)
+    .CRy(0.6, 0, 2)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 3)
+    .CX(2, 3)
+    .CX(1, 3)
+    .CX(0, 1)
+    .measure_all()
+)
 place_with_map(c, naive_map)
 mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
 display.render_circuit_jupyter(c)
@@ -369,7 +451,18 @@ display.render_circuit_jupyter(c)
 
 # Finally, lets see what happens if the gate is not at the right distance initially.
 
-c = Circuit(4).CRy(0.6, 0, 3).CX(0,1).CX(1,2).CX(0,2).CX(0,3).CX(2,3).CX(1,3).CX(0,1).measure_all()
+c = (
+    Circuit(4)
+    .CRy(0.6, 0, 3)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 3)
+    .CX(2, 3)
+    .CX(1, 3)
+    .CX(0, 1)
+    .measure_all()
+)
 place_with_map(c, naive_map)
 mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
 display.render_circuit_jupyter(c)
@@ -379,5 +472,3 @@ display.render_circuit_jupyter(c)
 # For anyone interested, a simple extension exercise could be to extend this to additionally work for distance-2 CRx and CRz. Alternatively one could improve on the method itself - this approach always decomposes a CRy at distance-2, but is this a good idea?
 
 # Also note that higher performance solutions are coded straight into the TKET c++ codebase. This provides advantages, including that Circuit construction and substitution is unncessary (as with python) as the circuit can be directly modified, however the ability to produce prototypes at the python level is very helpful. If you have a great python implementation but are finding some runtime bottlenecks, why not try implementing it straight into TKET (the code is open source at https://github.com/CQCL/tket).
-
-
