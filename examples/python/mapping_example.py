@@ -444,8 +444,7 @@ c = (
     .CX(0, 1)
     .measure_all()
 )
-place_with_map(c, naive_map)
-mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
+mapping_manager.route_circuit(c, [lexi_label, cry_rmc, LexiRouteRoutingMethod(10)])
 display.render_circuit_jupyter(c)
 
 # This time we can see our decomposition! If we reorder the methods though `LexiRouteRoutingMethod` is checked first (and returns True), so our new method is unused. The order is important!
@@ -464,8 +463,7 @@ c = (
     .CX(0, 1)
     .measure_all()
 )
-place_with_map(c, naive_map)
-mapping_manager.route_circuit(c, [cry_rmc, LexiRouteRoutingMethod(10)])
+mapping_manager.route_circuit(c, [lexi_label, cry_rmc, LexiRouteRoutingMethod(10)])
 display.render_circuit_jupyter(c)
 
 # Above a SWAP gate is inserted by `LexiRouteRoutingMethod` before anything else.
