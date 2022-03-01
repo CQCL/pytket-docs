@@ -500,4 +500,4 @@ mm.route_circuit(
 )
 display.render_circuit_jupyter(c)
 
-# In this case the order of the method is not that relevant, because in each step of the routing only one of the methods is suitable anyway. In the first part of the circuit is done without inserting swaps, for the second part lexi is adding one swap gate to the circuit.
+# In this case the order of the method is not that relevant, because in each step of the routing only one of the methods is suitable anyway. In the first part of the circuit the mapping is done without inserting swaps by the aas method, for the second part lexi is adding one swap gate to the circuit.
