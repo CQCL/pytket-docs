@@ -493,7 +493,7 @@ When working with quantum circuits we may want access to the quantum state prepa
     circ.H(0).CX(0,1)
     circ.get_statevector()
 
-In addition :py:meth:'Circuit.get_unitary()' can be used to numerically calculate the unitary matrix that will be applied by the circuit.
+In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
 
 The unitary matrix of a quantum circuit is of dimension :math:`(2^n \times 2^n)` where $n$ is the number of qubits. The statevector will be a column vector with :math:`2^n entries` . Due to this exponential scaling it will in general be very inefficent to compute the unitary (or statevector) of a circuit. These methods are intended to be used for sanity checks and spotting mistakes when working with small circuits.
 
