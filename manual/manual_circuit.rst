@@ -485,8 +485,8 @@ Another notable example that is common to many algorithms and high-level circuit
 Statevectors and Unitaries
 --------------------------
 
-When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state.  
-
+When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
+ 
 .. jupyter-execute::
 
     from pytket import Circuit
