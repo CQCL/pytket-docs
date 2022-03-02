@@ -477,6 +477,7 @@ display.render_circuit_jupyter(c)
 from pytket.mapping import AASRouteRoutingMethod, AASLabellingMethod
 from pytket.circuit import PhasePolyBox, Qubit
 import numpy as np
+
 c = Circuit(3, 3)
 n_qb = 3
 qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
