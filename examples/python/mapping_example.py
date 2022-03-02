@@ -471,3 +471,34 @@ display.render_circuit_jupyter(c)
 # For anyone interested, a simple extension exercise could be to extend this to additionally work for distance-2 CRx and CRz. Alternatively one could improve on the method itself - this approach always decomposes a CRy at distance-2, but is this a good idea?
 
 # Also note that higher performance solutions are coded straight into the TKET c++ codebase. This provides advantages, including that Circuit construction and substitution is unncessary (as with python) as the circuit can be directly modified, however the ability to produce prototypes at the python level is very helpful. If you have a great python implementation but are finding some runtime bottlenecks, why not try implementing it straight into TKET (the code is open source at https://github.com/CQCL/tket).
+
+# Besides the `LexiRouteRoutingMethod()` and the `LexiLabellingMethod()` there are other routing methods in pytket, such as the `AASRouteRoutingMethod()` and the corresponding `AASLabellingMethod()`, which are used to route phase-polynomial boxes using architecture-aware synthesis. Usually circuits contain non-phase-polynomial operations as well, so it is a good idea to combine them with the `LexiRouteRoutingMethod()`, as in the following example:
+
+from pytket.mapping import AASRouteRoutingMethod, AASLabellingMethod
+from pytket.circuit import PhasePolyBox, Qubit
+import numpy as np
+
+c = Circuit(3, 3)
+n_qb = 3
+qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
+phase_polynomial = {(True, False, True): 0.333, (False, False, True): 0.05}
+linear_transformation = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
+c.add_phasepolybox(p_box, [0, 1, 2])
+c.CX(0, 1).CX(0, 2).CX(1, 2)
+display.render_circuit_jupyter(c)
+nodes = [Node("test", 0), Node("test", 1), Node("test", 2)]
+arch = Architecture([[nodes[0], nodes[1]], [nodes[1], nodes[2]]])
+mm = MappingManager(arch)
+mm.route_circuit(
+    c,
+    [
+        AASRouteRoutingMethod(1),
+        LexiLabellingMethod(),
+        LexiRouteRoutingMethod(),
+        AASLabellingMethod(),
+    ],
+)
+display.render_circuit_jupyter(c)
+
+# In this case the order of the methods is not very relevant, because in each step of the routing only one of the methods is suitable. In the first part of the circuit the mapping is done without inserting swaps by the AAS method; in the second part one swap gate is added to the circuit.
