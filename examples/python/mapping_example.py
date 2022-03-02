@@ -472,7 +472,7 @@ display.render_circuit_jupyter(c)
 
 # Also note that higher performance solutions are coded straight into the TKET c++ codebase. This provides advantages, including that Circuit construction and substitution is unncessary (as with python) as the circuit can be directly modified, however the ability to produce prototypes at the python level is very helpful. If you have a great python implementation but are finding some runtime bottlenecks, why not try implementing it straight into TKET (the code is open source at https://github.com/CQCL/tket).
 
-# Besides the `LexiRouteRoutingMethod` and the `LexiLabellingMethod()` there are other methods in pytket. One other method is `AASRouteRoutingMethod()` and the corresponding `AASLabellingMethod()`. They are used to route phase poly boxes using the architecture aware synthesis from tket. Usually circuits contain not only phase poly boxes so it is a good idea to combine them with the lexi routing like in the following example.
+# Besides the `LexiRouteRoutingMethod()` and the `LexiLabellingMethod()` there are other routing methods in pytket, such as the `AASRouteRoutingMethod()` and the corresponding `AASLabellingMethod()`, which are used to route phase-polynomial boxes using architecture-aware synthesis. Usually circuits contain non-phase-polynomial operations as well, so it is a good idea to combine them with the `LexiRouteRoutingMethod()`, as in the following example:
 
 from pytket.mapping import AASRouteRoutingMethod, AASLabellingMethod
 from pytket.circuit import PhasePolyBox, Qubit
