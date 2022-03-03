@@ -89,7 +89,7 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 
     print(circ.get_commands())
 
-:py:class:`RebaseTket` is a standard rebase pass that converts to CX and TK1 gates. This is the preferred internal gateset for many ``pytket`` compiler passes. However, it is possible to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of one- and two-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them ``OpType.CX`` and ``OpType.TK1`` - for any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
+:py:class:`RebaseTket` is a standard rebase pass that converts to CX and TK1 gates. This is the preferred internal gateset for many ``pytket`` compiler passes. However, it is possible to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of one- and two-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them for ``OpType.CX`` and ``OpType.TK1``. For any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
 
 .. jupyter-execute::
 
@@ -114,7 +114,7 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 
     print(circ.get_commands())
 
-For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful method :py:meth:`auto_rebase_pass` which can take care of this for you. The pass returned is constructed from the gateset alone. An example is given in the "Combinators" section below.
+For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful function :py:meth:`auto_rebase_pass` which can take care of this for you. The pass returned is constructed from the gateset alone. An example is given in the "Combinators" section below.
 
 A similar pair of methods, :py:meth:`SquashCustom` and :py:meth:`auto_squash_pass`, may be used to construct a pass that squashes sequences of single-qubit gates from a given set of single-qubit gates to as short a sequence as possible. Both take a gateset as an argument. :py:meth:`SquashCustom` also takes a function for converting the parameters of a TK1 gate to the target gate set. (Internally, the compiler squashes all gates to TK1 and then applies the supplied function.) :py:meth:`auto_squash_pass` attempts to do the squash using known internal decompositions (but may fail for some gatesets). For example:
 
