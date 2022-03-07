@@ -45,9 +45,9 @@ Each :py:class:`Backend` object is aware of the restrictions of the underlying d
     [NoClassicalControlPredicate, NoFastFeedforwardPredicate, GateSetPredicate:{ CU1 CZ CX Unitary2qBox Sdg U1 Unitary1qBox SWAP S U2 CCX Y U3 Z X T noop Tdg Reset H }]
 
 .. Can check if a circuit satisfies all requirements with `valid_circuit`
-.. `compile_circuit` modifies a circuit in place to try to satisfy all backend requirements if possible (restrictions on measurements or conditional gate support may not be fixed by compilation)
+.. `get_compiled_circuit` modifies a circuit to try to satisfy all backend requirements if possible (restrictions on measurements or conditional gate support may not be fixed by compilation)
 
-Knowing the requirements of each :py:class:`Backend` is handy in case it has consequences for how you design a :py:class:`Circuit`, but can generally be abstracted away. Calling :py:meth:`Backend.valid_circuit()` can check whether or not a :py:class:`Circuit` satisfies every requirement to run on the :py:class:`Backend`, and if it is not immediately valid then :py:meth:`Backend.compile_circuit` will modify the :py:class:`Circuit` in-place to try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation). To get a copy of the compiled circuit without modifying it in place, use :py:meth:`Backend.get_compiled_circuit`.
+Knowing the requirements of each :py:class:`Backend` is handy in case it has consequences for how you design a :py:class:`Circuit`, but can generally be abstracted away. Calling :py:meth:`Backend.valid_circuit()` can check whether or not a :py:class:`Circuit` satisfies every requirement to run on the :py:class:`Backend`, and if it is not immediately valid then :py:meth:`Backend.get_compiled_circuit` will try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation), and return a new :py:class:`Circuit`.
 
 .. jupyter-execute::
 
@@ -59,10 +59,10 @@ Knowing the requirements of each :py:class:`Backend` is handy in case it has con
 
     backend = AerBackend()
     if not backend.valid_circuit(circ):
-        backend.compile_circuit(circ)
-        assert backend.valid_circuit(circ)
+        compiled_circ = backend.get_compiled_circuit(circ)
+        assert backend.valid_circuit(compiled_circ)
 
-    print(circ.get_commands())
+    print(compiled_circ.get_commands())
 
 Now that we can prepare our :py:class:`Circuit` s to be suitable for a given :py:class:`Backend`, we can send them off to be run and examine the results. This is always done by calling :py:meth:`Backend.process_circuit()` which sends a :py:class:`Circuit` for execution and returns a :py:class:`ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
 
@@ -73,8 +73,8 @@ Now that we can prepare our :py:class:`Circuit` s to be suitable for a given :
     circ = Circuit(2, 2)
     circ.Rx(0.3, 0).Ry(0.5, 1).CRz(-0.6, 1, 0)
     backend = AerStateBackend()
-    backend.compile_circuit(circ)
-    handle = backend.process_circuit(circ)
+    compiled_circ = backend.get_compiled_circuit(circ)
+    handle = backend.process_circuit(compiled_circ)
 
 The exact arguments to :py:meth:`process_circuit` and the means of retrieving results back are dependent on the type of data the :py:class:`Backend` can produce and whether it samples measurements or calculates the internal state of the quantum system.
 
@@ -97,9 +97,9 @@ The interaction with a QPU (or a simulator that tries to imitate a device by sam
     circ = Circuit(2, 2)
     circ.H(0).X(1).measure_all()
     backend = AerBackend()
-    backend.compile_circuit(circ)
+    compiled_circ = backend.get_compiled_circuit(circ)
 
-    handle = backend.process_circuit(circ, n_shots=20)
+    handle = backend.process_circuit(compiled_circ, n_shots=20)
     shots = backend.get_result(handle).get_shots()
     print(shots)
 
@@ -120,9 +120,9 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
     circ = Circuit(2, 2)
     circ.H(0).X(1).measure_all()
     backend = AerBackend()
-    backend.compile_circuit(circ)
+    compiled_circ = backend.get_compiled_circuit(circ)
 
-    handle = backend.process_circuit(circ, n_shots=2000)
+    handle = backend.process_circuit(compiled_circ, n_shots=2000)
     counts = backend.get_result(handle).get_counts()
     print(counts)
 
@@ -145,9 +145,9 @@ Any form of sampling from a distribution will introduce sampling error and (unle
     circ = Circuit(3)
     circ.H(0).CX(0, 1).S(1).X(2)
     backend = AerStateBackend()
-    backend.compile_circuit(circ)
+    compiled_circ = backend.get_compiled_circuit(circ)
 
-    state = backend.run_circuit(circ).get_state()
+    state = backend.run_circuit(compiled_circ).get_state()
     print(state.round(5))
 
 .. note:: We have rounded the results here because simulators typically introduce a small amount of floating-point error, so killing near-zero entries gives a much more readable representation.
@@ -163,9 +163,9 @@ The majority of :py:class:`Backend` s will run the :py:class:`Circuit` on the 
     circ = Circuit(2)
     circ.H(0).CX(0, 1)
     backend = AerUnitaryBackend()
-    backend.compile_circuit(circ)
+    compiled_circ = backend.get_compiled_circuit(circ)
 
-    unitary = backend.run_circuit(circ).get_unitary()
+    unitary = backend.run_circuit(compiled_circ).get_unitary()
     print(unitary.round(5))
 
 .. Useful for obtaining high-precision results as well as verifying correctness of circuits
@@ -205,8 +205,8 @@ By default, the bits in readouts (shots and counts) are ordered in Increasing Le
     circ = Circuit(2, 2)
     circ.X(1).measure_all()     # write 0 to c[0] and 1 to c[1]
     backend = AerBackend()
-    backend.compile_circuit(circ)
-    handle = backend.process_circuit(circ, n_shots=10)
+    compiled_circ = backend.get_compiled_circuit(circ)
+    handle = backend.process_circuit(compiled_circ, n_shots=10)
     result = backend.get_result(handle)
 
     print(result.get_counts())   # ILO gives (c[0], c[1]) == (0, 1)
@@ -222,8 +222,8 @@ The choice of ILO or DLO defines the ordering of a bit sequence, but this can st
     circ = Circuit(2)
     circ.CX(0, 1)
     backend = AerUnitaryBackend()
-    backend.compile_circuit(circ)
-    handle = backend.process_circuit(circ)
+    compiled_circ = backend.get_compiled_circuit(circ)
+    handle = backend.process_circuit(compiled_circ)
     result = backend.get_result(handle)
 
     print(result.get_unitary())
@@ -244,12 +244,12 @@ Suppose that we only care about a subset of the measurements used in a :py:class
     circ.measure_all()
 
     backend = AerBackend()
-    backend.compile_circuit(circ)
-    handle = backend.process_circuit(circ, 2000)
+    compiled_circ = backend.get_compiled_circuit(circ)
+    handle = backend.process_circuit(compiled_circ, 2000)
     shots = backend.get_result(handle).get_shots()
 
     # To extract the expectation value for ZIY, we only want to consider bits c[0] and c[2]
-    bitmap = circ.bit_readout
+    bitmap = compiled_circ.bit_readout
     shots = shots[:, [bitmap[Bit(0)], bitmap[Bit(2)]]]
     print(expectation_from_shots(shots))
 
@@ -276,7 +276,7 @@ For more control over the bits extracted from the results, we can instead call :
     circ = Circuit(3)
     circ.H(0).Ry(-0.3, 2)
     state_b = AerStateBackend()
-    state_b.compile_circuit(circ)
+    circ = state_b.get_compiled_circuit(circ)
     handle = state_b.process_circuit(circ)
 
     # Make q[1] the most-significant qubit, so interesting state uses consecutive coefficients
@@ -285,7 +285,7 @@ For more control over the bits extracted from the results, we can instead call :
 
     circ.measure_all()
     shot_b = AerBackend()
-    shot_b.compile_circuit(circ)
+    circ = shot_b.get_compiled_circuit(circ)
     handle = shot_b.process_circuit(circ, n_shots=2000)
     result = shot_b.get_result(handle)
 
@@ -296,7 +296,7 @@ For more control over the bits extracted from the results, we can instead call :
 Expectation Value Calculations
 ------------------------------
 
-One of the most common calculations performed with a quantum state :math:`\left| \psi \right>` is to obtain an expectation value :math:`\langle \psi | H | \psi \rangle`. For many applications, the operator :math:`H` can be expressed as a tensor product of Pauli matrices, or a linear combination of these. Given any (pure quantum) :py:class:`Circuit` and any :py:class:`Backend`, the utility methods :py:meth:`get_pauli_expectation_value()` and :py:meth:`get_operator_expectation_value()` will generate the expectation value of the state under some operator using whatever results the :py:class:`Backend` supports. This includes adding measurements in the appropriate basis (if needed by the :py:class:`Backend`), running :py:meth:`Backend.compile_circuit()`, and obtaining and interpreting the results. For operators with many terms, it can optionally perform some basic measurement reduction techniques to cut down the number of :py:class:`Circuit` s actually run by measuring multiple terms with simultaneous measurements in the same :py:class:`Circuit`.
+One of the most common calculations performed with a quantum state :math:`\left| \psi \right>` is to obtain an expectation value :math:`\langle \psi | H | \psi \rangle`. For many applications, the operator :math:`H` can be expressed as a tensor product of Pauli matrices, or a linear combination of these. Given any (pure quantum) :py:class:`Circuit` and any :py:class:`Backend`, the utility methods :py:meth:`get_pauli_expectation_value()` and :py:meth:`get_operator_expectation_value()` will generate the expectation value of the state under some operator using whatever results the :py:class:`Backend` supports. This includes adding measurements in the appropriate basis (if needed by the :py:class:`Backend`), running :py:meth:`Backend.get_compiled_circuit()`, and obtaining and interpreting the results. For operators with many terms, it can optionally perform some basic measurement reduction techniques to cut down the number of :py:class:`Circuit` s actually run by measuring multiple terms with simultaneous measurements in the same :py:class:`Circuit`.
 
 .. jupyter-execute::
 
@@ -348,8 +348,8 @@ If you want a greater level of control over the procedure, then you may wish to 
     circ.measure_all()
 
     backend = AerBackend()
-    backend.compile_circuit(circ)
-    handle = backend.process_circuit(circ, 2000)
+    compiled_circ = backend.get_compiled_circuit(circ)
+    handle = backend.process_circuit(compiled_circ, 2000)
     counts = backend.get_result(handle).get_counts()
     print(counts)
     print(expectation_from_counts(counts))
@@ -387,8 +387,8 @@ The first point in an experiment where you might have to act differently between
 
     assert backend.supports_counts  # Using AerStateBackend would fail at this check
     assert NoMidMeasurePredicate() not in backend.required_predicates
-    backend.compile_circuit(qkd)
-    handle = backend.process_circuit(qkd, n_shots=1000)
+    compiled_qkd = backend.get_compiled_circuit(qkd)
+    handle = backend.process_circuit(compiled_qkd, n_shots=1000)
     print(backend.get_result(handle).get_counts())
 
 .. note:: The same effect can be achieved by ``assert backend.valid_circuit(qkd)`` after compilation. However, when designing the compilation procedure manually, it is unclear whether a failure for this assertion would come from the incompatibility of the :py:class:`Backend` for the experiment or from the compilation failing.
@@ -399,9 +399,9 @@ Otherwise, a practical solution around different measurement requirements is to 
 
 At runtime, we can check whether a particular result type is supported using the :py:attr:`Backend.supports_X` properties, whereas restrictions on the :py:class:`Circuit` s supported can be inspected with :py:attr:`Backend.required_predicates`.
 
-.. Compile generically, making use of `compile_circuit`
+.. Compile generically, making use of `get_compiled_circuit`
 
-Whilst the demands of each :py:class:`Backend` on the properties of the :py:class:`Circuit` necessitate different compilation procedures, using the default compilation sequences provided with :py:meth:`Backend.compile_circuit` handles compiling generically.
+Whilst the demands of each :py:class:`Backend` on the properties of the :py:class:`Circuit` necessitate different compilation procedures, using the default compilation sequences provided with :py:meth:`Backend.get_compiled_circuit` handles compiling generically.
 
 .. All backends can `process_circuit` identically
 

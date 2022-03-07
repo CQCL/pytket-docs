@@ -89,37 +89,14 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 
     print(circ.get_commands())
 
-.. Provided rebases
-
-A number of standard rebase passes are available for common gatesets.
-
-==========================  ====================================================
-Pass                        Gateset
-==========================  ====================================================
-:py:class:`RebaseCirq`      | CZ, PhasedX and Rz - primitives on some Google
-                              devices
-:py:class:`RebaseHQS`       | ZZMax, PhasedX and Rz - primitives on hardware
-                              from Honeywell Quantum Systems
-:py:class:`RebaseProjectQ`  | SWAP, CRz, CX, CZ, H, X, Y, Z, S, T, V, Rx, Ry
-                              and Rz - gates supported by the ProjectQ simulator
-:py:class:`RebasePyZX`      | SWAP, CX, CZ, H, X, Z, S, T, Rx and Rz - gates
-                              supported by the PyZX software package
-:py:class:`RebaseQuil`      | CZ, Rx and Rz - primitives on hardware from Rigetti
-:py:class:`RebaseTket`      | CX and TK1 - preferred internal gateset for many
-                              ``pytket`` compiler passes
-==========================  ====================================================
-
-.. Components of a custom rebase
-
-This set of rebases are provided for convenience, but the facility is available to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of multi-qubit and single-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them ``OpType.CX`` and ``OpType.TK1`` - for any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
+:py:class:`RebaseTket` is a standard rebase pass that converts to CX and TK1 gates. This is the preferred internal gateset for many ``pytket`` compiler passes. However, it is possible to define a rebase for an arbitrary gateset. Using :py:class:`RebaseCustom`, we can provide an arbitrary set of one- and two-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them for ``OpType.CX`` and ``OpType.TK1``. For any gate in a given :py:class:`Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a ``OpType.CX`` and ``OpType.TK1`` representation and then map this to the target gateset.
 
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
     from pytket.passes import RebaseCustom
 
-    multiq_gates = {OpType.CY, OpType.ZZPhase}
-    singleq_gates = {OpType.Rz, OpType.Ry}
+    gates = {OpType.Rz, OpType.Ry, OpType.CY, OpType.ZZPhase}
     cx_in_cy = Circuit(2)
     cx_in_cy.Rz(0.5, 1).CY(0, 1).Rz(-0.5, 1)
     def tk1_to_rzry(a, b, c):
@@ -127,7 +104,7 @@ This set of rebases are provided for convenience, but the facility is available 
         circ.Rz(c + 0.5, 0).Ry(b, 0).Rz(a - 0.5, 0)
         return circ
 
-    custom = RebaseCustom(multiq_gates, cx_in_cy, singleq_gates, tk1_to_rzry)
+    custom = RebaseCustom(gates, cx_in_cy, tk1_to_rzry)
 
     circ = Circuit(3)
     circ.X(0).CX(0, 1).Ry(0.2, 1)
@@ -136,6 +113,25 @@ This set of rebases are provided for convenience, but the facility is available 
     custom.apply(circ)
 
     print(circ.get_commands())
+
+For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful function :py:meth:`auto_rebase_pass` which can take care of this for you. The pass returned is constructed from the gateset alone. (It relies on some known decompositions, and will raise an exception if no suitable known decompositions exist.) An example is given in the "Combinators" section below.
+
+A similar pair of methods, :py:meth:`SquashCustom` and :py:meth:`auto_squash_pass`, may be used to construct a pass that squashes sequences of single-qubit gates from a given set of single-qubit gates to as short a sequence as possible. Both take a gateset as an argument. :py:meth:`SquashCustom` also takes a function for converting the parameters of a TK1 gate to the target gate set. (Internally, the compiler squashes all gates to TK1 and then applies the supplied function.) :py:meth:`auto_squash_pass` attempts to do the squash using known internal decompositions (but may fail for some gatesets). For example:
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, OpType
+    from pytket.passes import auto_squash_pass
+
+    gates = {OpType.PhasedX, OpType.Rz, OpType.Rx, OpType.Ry}
+    custom = auto_squash_pass(gates)
+
+    circ = Circuit(1).H(0).Ry(0.5, 0).Rx(-0.5, 0).Rz(1.5, 0).Ry(0.5, 0).H(0)
+    custom.apply(circ)
+    print(circ.get_commands())
+
+Note that the H gates (which are not in the specified gateset) are left alone.
+
 
 .. _compiler-placement:
 
@@ -162,7 +158,7 @@ A placement pass will act in place on a :py:class:`Circuit` by renaming the qubi
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
-    from pytket.routing import GraphPlacement
+    from pytket.placement import GraphPlacement
     circ = Circuit(4, 4)
     circ.H(0).H(1).H(2).V(3)
     circ.CX(0, 1).CX(1, 2).CX(2, 3)
@@ -194,7 +190,7 @@ In some circumstances, the best location is not fully determined immediately and
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
-    from pytket.routing import LinePlacement
+    from pytket.placement import LinePlacement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
@@ -215,7 +211,7 @@ A custom (partial) placement can be applied by providing the appropriate qubit m
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, Qubit, Node
-    from pytket.routing import Placement
+    from pytket.placement import Placement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
@@ -249,7 +245,7 @@ Several heuristics have been implemented for identifying candidate placements. F
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
-    from pytket.routing import GraphPlacement
+    from pytket.placement import GraphPlacement
     circ = Circuit(5)
     circ.CX(0, 1).CX(1, 2).CX(3, 4)
     circ.CX(0, 1).CX(1, 2).CX(3, 4)
@@ -278,7 +274,7 @@ Several heuristics have been implemented for identifying candidate placements. F
 
 .. _compiler-routing:
 
-Routing
+Mapping
 -------
 
 .. Heterogeneous architectures and limited connectivity
@@ -289,14 +285,14 @@ The heterogeneity of quantum architectures and limited connectivity of their qub
 .. Invalid interactions between non-local qubits can be sovled by moving qubits to adjacent positions or by performing a distributed operation using the intervening qubits
 .. Routing takes a placed circuit and finds non-local operations, inserting operations to fix them
 
-One solution here, is to scan through the :py:class:`Circuit` looking for invalid interactions. Each of these can be solved by either moving the qubits around on the architecture by adding ``OpType.SWAP`` gates until they are in adjacent locations, or performing a distributed entangling operation using the intervening qubits (such as the "bridged-CX" ``OpType.BRIDGE`` which uses 4 CX gates and a single shared neighbour). The `routing` procedure in ``pytket`` takes a placed :py:class:`Circuit` and inserts gates to reduce non-local operations to sequences of valid local ones.
+One solution here, is to scan through the :py:class:`Circuit` looking for invalid interactions. Each of these can be solved by either moving the qubits around on the architecture by adding ``OpType.SWAP`` gates until they are in adjacent locations, or performing a distributed entangling operation using the intervening qubits (such as the "bridged-CX" ``OpType.BRIDGE`` which uses 4 CX gates and a single shared neighbour). The `routing` procedure used in the ``pytket`` ``RoutingPass`` takes a placed :py:class:`Circuit` and inserts gates to reduce non-local operations to sequences of valid local ones.
 
 .. jupyter-input::
 
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass, RoutingPass
-    from pytket.routing import GraphPlacement
+    from pytket.placement import GraphPlacement
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
     backend = IBMQBackend("ibmq_quito")
@@ -315,11 +311,11 @@ One solution here, is to scan through the :py:class:`Circuit` looking for invali
 .. Given partial placements, selects physical qubits on the fly
 .. Due to swap insertion, logical qubits may be mapped to different physical qubits at the start and end of the circuit
 
-As shown here, if a partial placement is used, the routing procedure will allocate the remaining qubits on the fly. We also see that the logical qubits are mapped to different physical qubits at the start and end because of the inserted ``OpType.SWAP`` gates, such as ``q[1]`` starting at ``node[0]`` and ending at ``node[3]``.
+As shown here, if a partial placement is used, the routing procedure will allocate the remaining qubits dynamically. We also see that the logical qubits are mapped to different physical qubits at the start and end because of the inserted ``OpType.SWAP`` gates, such as ``q[1]`` starting at ``node[0]`` and ending at ``node[3]``.
 
-.. Kwargs for setting parameters of heuristics
+.. Other Routing options
 
-The heuristics of the routing algorithm also have a selection of hyperparameters which can change how well it performs for each instance, such as how far ahead it will look when considering what is the best pair of qubits to swap or whether a distributed operation would work better. These are outlined in more detail in the API reference.
+``RoutingPass`` only provides the default option for mapping to physical circuits. The decision making used in Routing is defined in the ``RoutgMethod`` class and the choice of ``RoutingMethod`` used can be defined in the ``FullMappingPass`` compiler pass for producing physical circuits.
 
 Decomposing Structures
 ----------------------
@@ -409,11 +405,11 @@ The next step up in scale has optimisations based on optimal decompositions of s
     from pytket.passes import EulerAngleReduction, KAKDecomposition
     circ = Circuit(2)
     circ.CZ(0, 1)
-    circ.Rx(0.4, 0).Rz(0.289, 0).Ry(-0.34, 0).Rz(0.12, 0).Ry(-0.81, 0)
+    circ.Rx(0.4, 0).Ry(0.289, 0).Rx(-0.34, 0).Ry(0.12, 0).Rx(-0.81, 0)
     circ.CX(1, 0)
 
-    # Reduce long chain to a triple of Rz, Rx, Rz
-    EulerAngleReduction(OpType.Rz, OpType.Rx).apply(circ)
+    # Reduce long chain to a triple of Ry, Rx, Ry
+    EulerAngleReduction(OpType.Rx, OpType.Ry).apply(circ) 
     print(circ.get_commands())
 
     circ = Circuit(3)
@@ -488,10 +484,11 @@ The passes encountered so far represent elementary, self-contained transformatio
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.passes import RebaseQuil, EulerAngleReduction, SequencePass
+    from pytket.passes import auto_rebase_pass, EulerAngleReduction, SequencePass
+    rebase_quil = auto_rebase_pass({OpType.CZ, OpType.Rz, OpType.Rx})
     circ = Circuit(3)
     circ.CX(0, 1).Rx(0.3, 1).CX(2, 1).Rz(0.8, 1)
-    comp = SequencePass([RebaseQuil(), EulerAngleReduction(OpType.Rz, OpType.Rx)])
+    comp = SequencePass([rebase_quil, EulerAngleReduction(OpType.Rz, OpType.Rx)])
     comp.apply(circ)
     print(circ.get_commands())
 
@@ -741,7 +738,7 @@ Once compiled, we can use :py:meth:`Backend.process_circuits` to submit several 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.predicates import CompilationUnit
-    from pytket.routing import Placement
+    from pytket.placement import Placement
     state_prep = Circuit(4)
     state_prep.H(0)
     state_prep.add_gate(OpType.CnRy, 0.1, [0, 1])

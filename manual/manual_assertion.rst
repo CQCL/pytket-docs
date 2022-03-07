@@ -23,7 +23,7 @@ Projector-based
 
 Projector-based assertion utilises the simple fact that the outcome of a projective measurement can be used to determine if a quantum state is in a specified subspace of the state space.
 The method implemented in pytket transforms an arbitrary projective measurement into measurements on the computational basis [Gushu2020]_. 
-However, this approach is not without limitations. Projectors in general require :math:`n \times n` matrices to represent them; hence it becomes impractical when the size of the asserted subspace is large.
+However, this approach is not without limitations. Projectors in general require :math:`2^n \times 2^n` matrices to represent them; hence it becomes impractical when the size of the asserted subspace is large.
 Moreover, the transformation technique we have adapted requires synthesis for arbitrary unitary matrices. Since ``pytket`` currently only supports synthesis for 1, 2, and 3 qubit unitaries, the projectors are limited to 2x2, 4x4, and 8x8 matrices.
 
 To start asserting with a projector, one should first compute the projector matrix for the target subspace. If the rank of the projector is larger than :math:`2^{n-1}` (:math:`n` is the number of qubits), an ancilla qubit should be provided to the :py:meth:`add_assert()` method.
