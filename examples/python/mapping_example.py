@@ -472,8 +472,7 @@ display.render_circuit_jupyter(c)
 
 # Also note that higher performance solutions are coded straight into the TKET c++ codebase. This provides advantages, including that Circuit construction and substitution is unncessary (as with python) as the circuit can be directly modified, however the ability to produce prototypes at the python level is very helpful. If you have a great python implementation but are finding some runtime bottlenecks, why not try implementing it straight into TKET (the code is open source at https://github.com/CQCL/tket).
 
-# The LexiLabellingMethod is only labelling qubits that are used by two qubit gates, to labelled qubits with only single qubits gates or qubits without any gates at all this should be combined with a pass for a general placement first.
-
+# The `LexiLabellingMethod()` is only labelling interacting qubits, so qubits with only single qubits gates or qubits without any gates at all will not be labelled.
 
 c = (
     Circuit(4)
@@ -485,7 +484,7 @@ c = (
 )
 display.render_circuit_jupyter(c)
 
-# We can also look at which logical qubits are interacting.
+# In this example the last qubit gets not labelled to the device(it stays q[3]), this could be labelled by using a `pytket.routing.Placement` first.
 
 mapping_manager.route_circuit(c, [lexi_label, lexi_route])
 display.render_circuit_jupyter(c)
