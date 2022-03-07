@@ -90,6 +90,8 @@ mapping_manager = MappingManager(id_architecture)
 
 # Later we will look at defining our own `RoutingMethodCircuit` objects, but initially lets consider one thats already available.
 
+# The LexiLabellingMethod is only labelling qubits that are used by two qubit gates, to labelled qubits with only single qubits gates or qubits without any gates at all this should be combined with a pass for a general placement first.
+
 from pytket.mapping import LexiLabellingMethod, LexiRouteRoutingMethod
 
 lexi_label = LexiLabellingMethod()
