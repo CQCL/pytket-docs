@@ -90,8 +90,6 @@ mapping_manager = MappingManager(id_architecture)
 
 # Later we will look at defining our own `RoutingMethodCircuit` objects, but initially lets consider one thats already available.
 
-# The LexiLabellingMethod is only labelling qubits that are used by two qubit gates, to labelled qubits with only single qubits gates or qubits without any gates at all this should be combined with a pass for a general placement first.
-
 from pytket.mapping import LexiLabellingMethod, LexiRouteRoutingMethod
 
 lexi_label = LexiLabellingMethod()
@@ -473,6 +471,24 @@ display.render_circuit_jupyter(c)
 # For anyone interested, a simple extension exercise could be to extend this to additionally work for distance-2 CRx and CRz. Alternatively one could improve on the method itself - this approach always decomposes a CRy at distance-2, but is this a good idea?
 
 # Also note that higher performance solutions are coded straight into the TKET c++ codebase. This provides advantages, including that Circuit construction and substitution is unncessary (as with python) as the circuit can be directly modified, however the ability to produce prototypes at the python level is very helpful. If you have a great python implementation but are finding some runtime bottlenecks, why not try implementing it straight into TKET (the code is open source at https://github.com/CQCL/tket).
+
+# The LexiLabellingMethod is only labelling qubits that are used by two qubit gates, to labelled qubits with only single qubits gates or qubits without any gates at all this should be combined with a pass for a general placement first.
+
+
+c = (
+    Circuit(4)
+    .CX(0, 1)
+    .CX(1, 2)
+    .CX(0, 2)
+    .CX(0, 1)
+    .measure_all()
+)
+display.render_circuit_jupyter(c)
+
+# We can also look at which logical qubits are interacting.
+
+mapping_manager.route_circuit(c, [lexi_label, lexi_route])
+display.render_circuit_jupyter(c)
 
 # Besides the `LexiRouteRoutingMethod()` and the `LexiLabellingMethod()` there are other routing methods in pytket, such as the `AASRouteRoutingMethod()` and the corresponding `AASLabellingMethod()`, which are used to route phase-polynomial boxes using architecture-aware synthesis. Usually circuits contain non-phase-polynomial operations as well, so it is a good idea to combine them with the `LexiRouteRoutingMethod()`, as in the following example:
 
