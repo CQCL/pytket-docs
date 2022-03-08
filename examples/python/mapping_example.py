@@ -484,7 +484,7 @@ c = (
 )
 display.render_circuit_jupyter(c)
 
-# Observe that qubit q[3] in this example is not labelled (it stays q[3]) as it does not interact with other qubits in the circuit, this could be labelled by using a `pytket.routing.Placement` first.
+# Observe that qubit q[3] in this example is not labelled (it stays q[3]) as it does not interact with other qubits in the circuit. This could be labelled by using a `pytket.routing.Placement` first.
 
 mapping_manager.route_circuit(c, [lexi_label, lexi_route])
 display.render_circuit_jupyter(c)
