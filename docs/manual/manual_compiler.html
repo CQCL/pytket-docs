@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Compilation &mdash; pytket-manual  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,7 +19,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^0.21.0-beta.1/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -104,13 +105,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="compilation">
+  <section id="compilation">
 <h1>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline"></a></h1>
 <p>So far, we have already covered enough to be able to design the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s we want to run, submit them to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code> method. The compilation step maps from the universal computer abstraction presented at <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> construction to the restricted fragment supported by the target <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.</p>
 <p>The necessity of compilation maps over from the world of classical computation: it is much easier to design correct programs when working with higher-level constructions that aren’t natively supported, and it shouldn’t require a programmer to be an expert in the exact device architecture to achieve good performance. There are many possible low-level implementations on the device for each high-level program, which vary in the time and resources taken to execute. However, because QPUs are analog devices, the implementation can have a massive impact on the quality of the final outcomes as a result of changing how susceptible the system is to noise. Using a good compiler and choosing the methods appropriately can automatically find a better low-level implementation. Each aspect of the compilation procedure is exposed through <code class="docutils literal notranslate"><span class="pre">pytket</span></code> to provide users with a way to have full control over what is applied and how.</p>
 <p>The primary goals of compilation are two-fold: solving the constraints of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> to get from the abstract model to something runnable, and optimising/simplifying the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to make it faster, smaller, and less prone to noise. Every step in compilation can generally be split up into one of these two categories (though even the constraint solving steps could have multiple solutions over which we could optimise for noise).</p>
 <p>Each compiler pass inherits from the <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePass</span></code> class, capturing a method of transforming a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The main functionality is built into the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> method, which applies the transformation to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code> method is a wrapper around the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.</p>
-<div class="section" id="predicates">
+<section id="predicates">
 <h2>Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline"></a></h2>
 <p>Solving the constraints of the target <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.required_predicates</span></code> property gives a collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s, describing the necessary properties a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> must satisfy in order to be run.</p>
 <p>Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> can be constructed on its own to impose tests on <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s during construction.</p>
@@ -200,8 +201,8 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 </tbody>
 </table>
 <p>When applying passes, you may find that you apply some constraint-solving pass to satisfy a particular <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code>, but then a subsequent pass will invalidate it by, for example, introducing gates of different gate types or changing which qubits interact via multi-qubit gates. To help understand and manage this, each pass has a set of pre-conditions that specify the requirements assumed on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in order for the pass to successfully be applied, and a set of post-conditions that specify which <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s are guaranteed to hold for the outputs and which are invalidated or preserved by the pass. These can be viewed in the API reference for each pass.</p>
-</div>
-<div class="section" id="rebases">
+</section>
+<section id="rebases">
 <h2>Rebases<a class="headerlink" href="#rebases" title="Permalink to this headline"></a></h2>
 <p>One of the simplest constraints to solve for is the <code class="xref py py-class docutils literal notranslate"><span class="pre">GateSetPredicate</span></code>, since we can just substitute each gate in a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> with an equivalent sequence of gates in the target gateset according to some known gate decompositions. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, such passes are referred to as “rebases”. The intention here is to perform this translation naively, leaving the optimisation of gate sequences to other passes. Rebases can be applied to any <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and will preserve every structural <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code>, only changing the types of gates used.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -311,8 +312,8 @@ supported by the PyZX software package</div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="placement">
+</section>
+<section id="placement">
 <span id="compiler-placement"></span><h2>Placement<a class="headerlink" href="#placement" title="Permalink to this headline"></a></h2>
 <p>Initially, a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> designed without a target device in mind will be expressed in terms of actions on a set of “logical qubits” - those with semantic meaning to the computation. A <cite>placement</cite> (or <cite>initial mapping</cite>) is a map from these logical qubits to the physical qubits of the device that will be used to carry them. A given placement may be preferred over another if the connectivity of the physical qubits better matches the interactions between the logical qubits caused by multi-qubit gates, or if the selection of physical qubits has better noise characteristics. All of the information for connectivity and noise characteristics of a given <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is wrapped up in a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code> object by the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.backend_info</span></code> property.</p>
 <p>The placement only specifies where the logical qubits will be at the start of execution, which is not necessarily where they will end up on termination. Other compiler passes may choose to permute the qubits in the middle of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to either exploit further optimisations or enable interactions between logical qubits that were not assigned to adjacent physical qubits.</p>
@@ -454,8 +455,8 @@ True
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="routing">
+</section>
+<section id="routing">
 <span id="compiler-routing"></span><h2>Routing<a class="headerlink" href="#routing" title="Permalink to this headline"></a></h2>
 <p>The heterogeneity of quantum architectures and limited connectivity of their qubits impose the strict restriction that multi-qubit gates are only allowed between specific pairs of qubits. Given it is far easier to program a high-level operation which is semantically correct and meaningful when assuming full connectivity, a compiler will have to solve this constraint. In general, there won’t be an exact subgraph isomorphism between the graph of interacting logical qubits and the connected physical qubits, so this cannot be solved with placement alone.</p>
 <p>One solution here, is to scan through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> looking for invalid interactions. Each of these can be solved by either moving the qubits around on the architecture by adding <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> gates until they are in adjacent locations, or performing a distributed entangling operation using the intervening qubits (such as the “bridged-CX” <code class="docutils literal notranslate"><span class="pre">OpType.BRIDGE</span></code> which uses 4 CX gates and a single shared neighbour). The <cite>routing</cite> procedure in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> takes a placed <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and inserts gates to reduce non-local operations to sequences of valid local ones.</p>
@@ -486,8 +487,8 @@ True
 </div>
 <p>As shown here, if a partial placement is used, the routing procedure will allocate the remaining qubits on the fly. We also see that the logical qubits are mapped to different physical qubits at the start and end because of the inserted <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> gates, such as <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> starting at <code class="docutils literal notranslate"><span class="pre">node[0]</span></code> and ending at <code class="docutils literal notranslate"><span class="pre">node[3]</span></code>.</p>
 <p>The heuristics of the routing algorithm also have a selection of hyperparameters which can change how well it performs for each instance, such as how far ahead it will look when considering what is the best pair of qubits to swap or whether a distributed operation would work better. These are outlined in more detail in the API reference.</p>
-</div>
-<div class="section" id="decomposing-structures">
+</section>
+<section id="decomposing-structures">
 <h2>Decomposing Structures<a class="headerlink" href="#decomposing-structures" title="Permalink to this headline"></a></h2>
 <p>The numerous Box structures in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> provide practical abstractions for high-level operations to assist in <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> construction, but need to be mapped to low-level gates before we can run the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The <code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposeBoxes</span></code> pass will unwrap any <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code>, substituting it for the corresponding <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, and decompose others like the <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary1qBox</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliExpBox</span></code> into efficient templated patterns of gates.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -516,8 +517,8 @@ True
 </div>
 </div>
 <p>Unwrapping Boxes could introduce arbitrarily complex structures into a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which could possibly invalidate almost all <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s, including <code class="xref py py-class docutils literal notranslate"><span class="pre">GateSetPredicate</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ConnectivityPredicate</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">NoMidMeasurePredicate</span></code>. It is hence recommended to apply this early in the compilation procedure, prior to any pass that solves for these constraints.</p>
-</div>
-<div class="section" id="optimisations">
+</section>
+<section id="optimisations">
 <h2>Optimisations<a class="headerlink" href="#optimisations" title="Permalink to this headline"></a></h2>
 <p>Having covered the primary goal of compilation and reduced our <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to a form where they can be run, we find that there are additional techniques we can use to obtain more reliable results by reducing the noise and probability of error. Most <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> optimisations follow the mantra of “fewer expensive resources gives less opportunity for noise to creep in”, whereby if we find an alternative <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> that is observationally equivalent in a perfect noiseless setting but uses fewer resources (gates, time, ancilla qubits) then it is likely to perform better in a noisy context (though not always guaranteed).</p>
 <p>If we have two <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s that are observationally equivalent, we know that replacing one for the other in any context also gives something that is observationally equivalent. The simplest optimisations will take an inefficient pattern, find all matches in the given <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and replace them by the efficient alternative. A good example from this class of <cite>peephole</cite> optimisations is the <code class="xref py py-class docutils literal notranslate"><span class="pre">RemoveRedundancies</span></code> pass, which looks for a number of easy-to-spot redundant gates, such as zero-parameter rotation gates, gate-inverse pairs, adjacent rotation gates in the same basis, and diagonal rotation gates followed by measurements.</p>
@@ -584,11 +585,11 @@ True
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">EulerAngleReduction</span><span class="p">,</span> <span class="n">KAKDecomposition</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.289</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="o">-</span><span class="mf">0.34</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.12</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="o">-</span><span class="mf">0.81</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.289</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="o">-</span><span class="mf">0.34</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.12</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="o">-</span><span class="mf">0.81</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span class="c1"># Reduce long chain to a triple of Rz, Rx, Rz</span>
-<span class="n">EulerAngleReduction</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Rz</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Rx</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="c1"># Reduce long chain to a triple of Ry, Rx, Ry</span>
+<span class="n">EulerAngleReduction</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Rx</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Ry</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -603,8 +604,8 @@ True
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CZ q[0], q[1];, Rx(0.4) q[0];, Rz(0.289) q[0];, Ry(3.66) q[0];, Rz(0.12) q[0];, Ry(3.19) q[0];, CX q[1], q[0];]
-[CX q[0], q[1];, TK1(0, 0.5, 0) q[2];, TK1(0.607193, 0.5, 0) q[1];, CX q[1], q[2];, TK1(3.5, 0.425003, 1) q[1];, TK1(1, 0.5, 0.06) q[2];, CX q[1], q[2];, TK1(1, 0.5, 3.68719) q[1];, TK1(3.5, 0, 0) q[2];, CX q[1], q[0];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CZ q[0], q[1];, Ry(3.88883) q[0];, Rx(3.2547) q[0];, Ry(3.56808) q[0];, CX q[1], q[0];]
+[CX q[0], q[1];, TK1(0, 0.5, 3) q[2];, TK1(3.39281, 0.5, 1) q[1];, CX q[1], q[2];, TK1(3.5, 0.425003, 1) q[1];, TK1(1, 0.5, 0.06) q[2];, CX q[1], q[2];, TK1(0, 0.5, 3.31281) q[1];, TK1(0.5, 0, 0) q[2];, CX q[1], q[0];]
 </pre></div>
 </div>
 </div>
@@ -682,8 +683,8 @@ True
 </div>
 <img alt="_images/manual_compiler_16_1.svg" src="_images/manual_compiler_16_1.svg" /></div>
 </div>
-</div>
-<div class="section" id="combinators">
+</section>
+<section id="combinators">
 <h2>Combinators<a class="headerlink" href="#combinators" title="Permalink to this headline"></a></h2>
 <p>The passes encountered so far represent elementary, self-contained transformations on <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s. In practice, we will almost always want to apply sequences of these to combine optimisations with solving for many constraints. The passes in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> have a rudimentary compositional structure to describe generic compilation strategies, with the most basic example being just applying a list of passes in order.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -761,7 +762,8 @@ True
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">e455c605f47a</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="nn">Input In [17],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">DecomposeBoxes</span><span class="p">,</span> <span class="n">PauliSimp</span><span class="p">,</span> <span class="n">SequencePass</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># PauliSimp requires a specific gateset and no conditional gates</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># or mid-circuit measurement, so this will raise an exception</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">comp</span> <span class="o">=</span> <span class="n">SequencePass</span><span class="p">([</span><span class="n">DecomposeBoxes</span><span class="p">(),</span> <span class="n">PauliSimp</span><span class="p">()])</span>
@@ -771,8 +773,8 @@ True
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="predefined-sequences">
+</section>
+<section id="predefined-sequences">
 <h2>Predefined Sequences<a class="headerlink" href="#predefined-sequences" title="Permalink to this headline"></a></h2>
 <p>Knowing what sequences of compiler passes to apply for maximal performance is often a very hard problem and can require a lot of experimentation and intuition to predict reliably. Fortunately, there are often common patterns that are applicable to virtually any scenario, for which <code class="docutils literal notranslate"><span class="pre">pytket</span></code> provides some predefined sequences.</p>
 <p>In practice, peephole and structure-preserving optimisations are almost always stictly beneficial to apply, or at least will never increase the size of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> sequence is a combination of <code class="xref py py-class docutils literal notranslate"><span class="pre">CliffordSimp</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RemoveRedundancies</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CommuteThroughMultis</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">KAKDecomposition</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">EulerAngleReduction</span></code>, and provides a one-size-approximately-fits-all “kitchen sink” solution to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> optimisation. This assumes a universal quantum computer, so will not generally preserve gateset, connectivity, etc.</p>
@@ -875,14 +877,14 @@ CXs 3
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="guidance-for-combining-passes">
+</section>
+<section id="guidance-for-combining-passes">
 <h2>Guidance for Combining Passes<a class="headerlink" href="#guidance-for-combining-passes" title="Permalink to this headline"></a></h2>
 <p>We find that the most powerful optimisation techniques (those that have the potential to reduce <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> size the most for some class of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s) tend to have fewer guarantees on the structure of the output, requiring a universal quantum computer with the ability to perform any gates on any qubits. It is recommended to apply these early on in compilation.</p>
 <p>The passes to solve some device constraints might invalidate others: for example, the <code class="xref py py-class docutils literal notranslate"><span class="pre">RoutingPass</span></code> generally invalidates <code class="xref py py-class docutils literal notranslate"><span class="pre">NoMidMeasurePredicate</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">GateSetPredicate</span></code>. Therefore, the order in which these are solved should be chosen with care.</p>
 <p>For most standard use cases, we recommend starting with <code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposeBoxes</span></code> to reduce the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> down to primitive gates, followed by strong optimisation passes like <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliSimp</span></code> (when appropriate for the types of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s being considered) and <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by <code class="xref py py-class docutils literal notranslate"><span class="pre">DelayMeasures</span></code> to push measurements back through any introduced <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> or <code class="docutils literal notranslate"><span class="pre">OpType.BRIDGE</span></code> gates, and then finally rebase to the desired gate set. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.</p>
-</div>
-<div class="section" id="initial-and-final-maps">
+</section>
+<section id="initial-and-final-maps">
 <h2>Initial and Final Maps<a class="headerlink" href="#initial-and-final-maps" title="Permalink to this headline"></a></h2>
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">PlacementPass</span></code> modifies the set of qubits used in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> from the logical names used during construction to the names of the physical addresses on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, so the logical qubit names wiil no longer exist within the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> by design. Knowing the map between the logical qubits and the chosen physical qubits is necessary for understanding the choice of placement, interpreting the final state from a naive simulator, identifying which physical qubits each measurement was made on for error mitigation, and appending additional gates to the logical qubits after applying the pass.</p>
 <p>Other passes like <code class="xref py py-class docutils literal notranslate"><span class="pre">RoutingPass</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">CliffordSimp</span></code> can introduce (explicit or implicit) permutations of the logical qubits in the middle of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, meaning a logical qubit may exist on a different physical qubit at the start of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> compared to the end.</p>
@@ -916,10 +918,10 @@ CXs 3
 <p class="admonition-title">Note</p>
 <p>No passes currently rename or swap classical data, but the classical bits are included in these maps for completeness.</p>
 </div>
-</div>
-<div class="section" id="advanced-topics">
+</section>
+<section id="advanced-topics">
 <h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline"></a></h2>
-<div class="section" id="compiling-symbolic-circuits">
+<section id="compiling-symbolic-circuits">
 <h3>Compiling Symbolic Circuits<a class="headerlink" href="#compiling-symbolic-circuits" title="Permalink to this headline"></a></h3>
 <p>For variational algorithms, the prominent benefit of defining a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> symbolically and only instantiating it with concrete values when needed is that the compilation procedure would only need to be performed once. By saving time here we can cut down the overall time for an experiment; we could invest the time saved into applying more expensive optimisations on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to reduce the impact of noise further.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -955,7 +957,7 @@ CXs 3
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.7499999999999999+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.75+0j)
 (1.5+0j)
 </pre></div>
 </div>
@@ -965,8 +967,8 @@ CXs 3
 <p class="admonition-title">Note</p>
 <p>Every <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> requires <code class="xref py py-class docutils literal notranslate"><span class="pre">NoSymbolsPredicate</span></code>, so it is necessary to instantiate all symbols before running a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 </div>
-</div>
-<div class="section" id="partial-compilation">
+</section>
+<section id="partial-compilation">
 <h3>Partial Compilation<a class="headerlink" href="#partial-compilation" title="Permalink to this headline"></a></h3>
 <p>A common pattern across expectation value and tomography experiments is to run many <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s that have large identical regions, such as a single state preparation with many different measurements. We can further speed up the overall compilation time by splitting up the state preparation from the measurements, compiling each subcircuit only once, and composing together at the end.</p>
 <p>The main technical consideration here is that the compiler will only have the freedom to identify good placements for the first subcircuit to be run. This means that the state preparation should be compiled first, and the placement for the measurements is given by the final map in order to compose well.</p>
@@ -1013,8 +1015,8 @@ CXs 3
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="measurement-reduction">
+</section>
+<section id="measurement-reduction">
 <h3>Measurement Reduction<a class="headerlink" href="#measurement-reduction" title="Permalink to this headline"></a></h3>
 <p>Suppose we have one of these measurement scenarios (i.e. a single state preparation, but many measurements to make on it) and that each of the measurements is a Pauli observable, such as when calculating the expectation value of the state with respect to some <code class="xref py py-class docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code>. Naively, we would need a different measurement <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> per term in the operator, but we can reduce this by exploiting the fact that commuting observables can be measured simultaneously.</p>
 <p>Given a set of observables, we can partition them into subsets that are easy to measure simultaneously. A <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is generated for each subset by diagonalising the observables (reducing all of them to a combination of <span class="math notranslate nohighlight">\(Z\)</span>-measurements).</p>
@@ -1067,8 +1069,8 @@ Invert: False]
 <p class="admonition-title">Note</p>
 <p>Since there could be multiple measurement <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s generating the same observable, we could theoretically use this to extract extra shots (and hence extra precision) for that observable for free; automatically doing this as part of <code class="xref py py-meth docutils literal notranslate"><span class="pre">measurement_reduction()</span></code> is planned for a future release of <code class="docutils literal notranslate"><span class="pre">pytket</span></code>.</p>
 </div>
-</div>
-<div class="section" id="contextual-optimisations">
+</section>
+<section id="contextual-optimisations">
 <h3>Contextual Optimisations<a class="headerlink" href="#contextual-optimisations" title="Permalink to this headline"></a></h3>
 <p>By default, tket makes no assumptions about a circuit’s input state, nor about
 the destiny of its output state. We can therefore compose circuits freely,
@@ -1110,7 +1112,7 @@ qubits.</p>
 <p class="admonition-title">Warning</p>
 <p>Note that we are now restricted in how we can compose our circuit with other circuits. When composing after another circuit, a “created” qubit becomes a Reset operation. Whem composing before another circuit, a “discarded” qubit may not be joined to another qubit unless that qubit has itself been “created” (so that the discarded state gets reset to zero).</p>
 </div>
-<div class="section" id="initial-simplification">
+<section id="initial-simplification">
 <h4>Initial simplification<a class="headerlink" href="#initial-simplification" title="Permalink to this headline"></a></h4>
 <p>When the above circuit is run from an all-zero state, the Y and CX gates at the
 beginning just have the effect of putting both qubits in the <span class="math notranslate nohighlight">\(\lvert 1
@@ -1163,8 +1165,8 @@ argument to <code class="xref py py-meth docutils literal notranslate"><span cla
 pairs of X gates introduced by the simplification. It is a good idea to follow
 it with a <code class="xref py py-meth docutils literal notranslate"><span class="pre">RemoveRedundancies()</span></code> pass in order to perform these
 cancellations.</p>
-</div>
-<div class="section" id="removal-of-discarded-operations">
+</section>
+<section id="removal-of-discarded-operations">
 <h4>Removal of discarded operations<a class="headerlink" href="#removal-of-discarded-operations" title="Permalink to this headline"></a></h4>
 <p>An operation that has no quantum or classical output in its causal future has no
 effect (or rather, no observable effect on an ideal system), and can be removed
@@ -1196,8 +1198,8 @@ operation has a classical output in its causal future so will not be removed.</p
 on qubit 2, have disappeared, because those qubits were discarded. The Hadamard
 following the measurement on qubit 1 remains, because that qubit was not
 discarded.</p>
-</div>
-<div class="section" id="commutation-of-measured-classical-maps">
+</section>
+<section id="commutation-of-measured-classical-maps">
 <h4>Commutation of measured classical maps<a class="headerlink" href="#commutation-of-measured-classical-maps" title="Permalink to this headline"></a></h4>
 <p>The last type of contextual optimization is a little more subtle. Let’s call a
 quantum unitary operation a <cite>classical map</cite> if it sends every computational
@@ -1235,8 +1237,8 @@ diagonal operator, whose effect is unmeasurable.</p>
 </div>
 <p>The CX gate has disappeared, replaced with a classical transform acting on the
 bits after the measurement.</p>
-</div>
-<div class="section" id="contextual-optimisation-in-practice">
+</section>
+<section id="contextual-optimisation-in-practice">
 <h4>Contextual optimisation in practice<a class="headerlink" href="#contextual-optimisation-in-practice" title="Permalink to this headline"></a></h4>
 <p>The above three passes are combined in the <code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextSimp()</span></code> pass, which
 also performs a final <code class="xref py py-meth docutils literal notranslate"><span class="pre">RemoveRedundancies()</span></code>. Normally, before running a
@@ -1275,16 +1277,16 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
  [1 1]
+ [0 0]
+ [0 0]
+ [0 0]
+ [0 0]
  [1 1]
  [0 0]
  [1 1]
- [1 1]
- [0 0]
- [1 1]
- [1 1]
- [0 0]]
+ [1 1]]
 </pre></div>
 </div>
 </div>
@@ -1296,10 +1298,10 @@ then executed a controlled-NOT from bit 0 to bit 1. These details are hidden
 from us (unless we inspect the circuits), and what we end up with is a shots
 table that is indistinguishable from running the original circuit but with less
 noise.</p>
-</div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
+</section>
 
 
            </div>

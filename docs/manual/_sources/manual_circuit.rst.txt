@@ -482,6 +482,29 @@ Another notable example that is common to many algorithms and high-level circuit
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
 
+Statevectors and Unitaries
+--------------------------
+
+When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
+ 
+.. jupyter-execute::
+
+    from pytket import Circuit
+    circ=Circuit(2)
+    circ.H(0).CX(0,1)
+    circ.get_statevector()
+
+In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
+
+.. jupyter-execute::
+
+    from pytket import Circuit
+    circ=Circuit(2)
+    circ.H(0).CZ(0,1).H(1)
+    circ.get_unitary()
+
+.. warning:: The unitary matrix of a quantum circuit is of dimension :math:`(2^n \times 2^n)` where :math:`n` is the number of qubits. The statevector will be a column vector with :math:`2^n` entries . Due to this exponential scaling it will in general be very inefficent to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.
+
 Analysing Circuits
 ------------------
 
