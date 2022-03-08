@@ -484,10 +484,11 @@ c = (
 )
 display.render_circuit_jupyter(c)
 
-# Observe that qubit q[3] in this example is not labelled (it stays q[3]) as it does not interact with other qubits in the circuit. This could be labelled by using a `pytket.routing.Placement` first.
 
 mapping_manager.route_circuit(c, [lexi_label, lexi_route])
 display.render_circuit_jupyter(c)
+
+# Observe that qubit q[3] in this example is not labelled (it stays q[3]) as it does not interact with other qubits in the circuit. This could be labelled by using a `pytket.placement` first.
 
 # Besides the `LexiRouteRoutingMethod()` and the `LexiLabellingMethod()` there are other routing methods in pytket, such as the `AASRouteRoutingMethod()` and the corresponding `AASLabellingMethod()`, which are used to route phase-polynomial boxes using architecture-aware synthesis. Usually circuits contain non-phase-polynomial operations as well, so it is a good idea to combine them with the `LexiRouteRoutingMethod()`, as in the following example:
 
