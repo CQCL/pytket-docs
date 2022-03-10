@@ -504,7 +504,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
 
     (1.2047999999999999-0.0015000000000000013j)
 
-.. note:: Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`AerBackend` simulator can take advantage of batch submission for parallelisation. In other cases, :py:meth:`Backend.process_circuits` will just loop through each :py:class:`Circuit` in turn.
+.. note:: Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`AerBackend` simulator and the :py:class:`QuantinuumBackend` can take advantage of batch submission for parallelisation. In other cases, :py:meth:`Backend.process_circuits` will just loop through each :py:class:`Circuit` in turn.
 
 Embedding into Qiskit
 ---------------------
