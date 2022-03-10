@@ -115,4 +115,4 @@ c = backend.get_compiled_circuit(c)
 counts = backend.run_circuit(c, 1024).get_counts()
 print(counts)
 
-# Try out mid-circuit measurement and conditional gate support on the `AerBackend` simulator, or ask about accessing the `HoneywellBackend` to try on a hardware device.
+# Try out mid-circuit measurement and conditional gate support on the `AerBackend` simulator, or ask about accessing the `QuantinuumBackend` to try on a hardware device.

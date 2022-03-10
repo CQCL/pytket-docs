@@ -7,7 +7,7 @@
 # * Rigetti QCS devices
 # * Rigetti QVM (for device simulation or statevector)
 # * AQT devices
-# * Honeywell devices
+# * Quantinuum devices
 # * Q# simulators
 
 # In this notebook we will focus on the Aer, IBMQ and ProjectQ backends.
@@ -255,7 +255,7 @@ print(handlestring)
 oldhandle = ResultHandle.from_str(handlestring)
 print(ibmq_b_emu.get_result(oldhandle).get_shots())
 
-# For backends which support persistent handles (currently `IBMQBackend`, `HoneywellBackend`, `BraketBackend` and `AQTBackend`) you can even stop your python session and use your result handles in a separate script to retrive results when they are ready, by storing the handle strings. For experiments with long queue times, this enables separate job submission and retrieval. Use `Backend.persistent_handles` to check whether a backend supports this feature.
+# For backends which support persistent handles (e.g. `IBMQBackend`, `QuantinuumBackend`, `BraketBackend` and `AQTBackend`) you can even stop your python session and use your result handles in a separate script to retrive results when they are ready, by storing the handle strings. For experiments with long queue times, this enables separate job submission and retrieval. Use `Backend.persistent_handles` to check whether a backend supports this feature.
 #
 # All backends will also cache all results obtained in the current python session, so you can use the `ResultHandle` to retrieve the results many times if you need to reuse the results. Over a long experiment, this can consume a large amount of RAM, so we recommend removing results from the cache when you are done with them. A simple way to achieve this is by calling `Backend.empty_cache` (e.g. at the end of each loop of a variational algorithm), or removing individual results with `Backend.pop_result`.
 

@@ -12,7 +12,7 @@ A :py:class:`Backend` represents a connection to some co-processor instance, whi
 
 With the wide variety of :py:class:`Backend` s available, they naturally have very different capabilities and limitations. The class is designed to open up this information so that it is easy to examine at runtime and make hardware-dependent choices as needed for maximum performance, whilst providing a basic abstract model that is easy for proof-of-concept testing.
 
-No :py:class:`Backend` s are currently provided with the core ``pytket`` package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`AerBackend` and :py:class:`IBMQBackend` with ``pytket-qiskit`` or the :py:class:`HoneywellBackend` with ``pytket-honeywell``.
+No :py:class:`Backend` s are currently provided with the core ``pytket`` package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`AerBackend` and :py:class:`IBMQBackend` with ``pytket-qiskit`` or the :py:class:`QuantinuumBackend` with ``pytket-quantinuum``.
 
 Backend Requirements
 --------------------
@@ -504,7 +504,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
 
     (1.2047999999999999-0.0015000000000000013j)
 
-.. note:: Currently, only the devices from IBMQ, Honeywell and Amazon Braket support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`AerBackend` simulator can take advantage of batch submission for parallelisation. In all other cases, :py:meth:`Backend.process_circuits` will just loop through each :py:class:`Circuit` in turn.
+.. note:: Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`AerBackend` simulator can take advantage of batch submission for parallelisation. In other cases, :py:meth:`Backend.process_circuits` will just loop through each :py:class:`Circuit` in turn.
 
 Embedding into Qiskit
 ---------------------
@@ -658,7 +658,7 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
 
 In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the :py:meth:`Backend.cancel()` method to cancel the job for a given :py:class:`ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
 
-.. note:: Asynchronous submission is currently available with the :py:class:`IBMQBackend`, :py:class:`AQTBackend`, :py:class:`HoneywellBackend`, :py:class:`BraketBackend` and :py:class:`AerBackend`. It will be extended to others in future updates.
+.. note:: Asynchronous submission is currently available with the :py:class:`IBMQBackend`, :py:class:`AQTBackend`, :py:class:`QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`AerBackend`. It will be extended to others in future updates.
 
 Persistent Handles
 ==================

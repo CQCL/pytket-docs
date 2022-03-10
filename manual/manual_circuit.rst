@@ -963,7 +963,7 @@ See the `API reference <classical.html>`_ for more on the possible expressions a
  The ``AerBackend`` (from ``pytket-qiskit``) can support the OpenQasm model, where gates can only be conditional on an entire classical register being an exact integer value. Bitwise logical operations are not supported. Therefore only conditions of the form
  ``condition=reg_eq(reg, val)`` are valid.
 
- The ``HoneywellBackend`` (from ``pytket-honeywell``)
+ The ``QuantinuumBackend`` (from ``pytket-quantinuum``)
  can support the full range of expressions and comparisons shown above, as long as the `DecomposeClassicalExp <passes.html#pytket.passes.DecomposeClassicalExp>`_ pass  has been run on the circuit first.
  This is part of the default compilation pass for that backend, so if you use that you do not need to run it separately.
 
