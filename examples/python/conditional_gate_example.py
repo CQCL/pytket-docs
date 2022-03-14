@@ -111,25 +111,8 @@ c.X(1, condition_bits=[0], condition_value=0)
 c.Measure(1, 0)
 
 backend = AerBackend()
-backend.compile_circuit(c)
+c = backend.get_compiled_circuit(c)
 counts = backend.run_circuit(c, 1024).get_counts()
 print(counts)
 
-# Beyond the ability to perform conditional gates, we might want to include more complex classical logic in the form of control flow, including loops, branching code, and jumps. Again, several proposed low-level quantum programming languages have sufficient expressivity to capture these, such as the Quil language.
-#
-# This control flow is hard to represent from within the circuit model, so tket contains the `Program` class, which builds up a flow graph whose basic blocks are individual circuits. Currently, you can add conditional blocks and loops, where the conditions are whether an individual classical bit is 1.
-
-from pytket.program import Program
-
-checked_x_p = Program(2, 1)
-checked_x_p.append_circuit(checked_x)
-
-p = Program(2, 1)
-p.append(checked_x_p)
-p.append_if_else(Bit(0), Program(2, 1), checked_x_p)
-
-p
-
-# Support for compiling and optimising `Program`s and full classical data manipulation will be added in a future version of tket.
-
-# Try out mid-circuit measurement and conditional gate support on the `AerBackend` simulator, or ask about accessing the `HoneywellBackend` to try on a hardware device.
+# Try out mid-circuit measurement and conditional gate support on the `AerBackend` simulator, or ask about accessing the `QuantinuumBackend` to try on a hardware device.

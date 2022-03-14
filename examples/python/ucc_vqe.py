@@ -75,8 +75,8 @@ def objective(params):
             elif pauli == "Y":
                 circ.V(q)
             circ.Measure(q, i)
-        backend.compile_circuit(circ)
-        counts = backend.run_circuit(circ, n_shots=4000).get_counts()
+        compiled_circ = backend.get_compiled_circuit(circ)
+        counts = backend.run_circuit(compiled_circ, n_shots=4000).get_counts()
         energy += coeff * expectation_from_counts(counts)
     return energy + nuclear_repulsion_energy
 

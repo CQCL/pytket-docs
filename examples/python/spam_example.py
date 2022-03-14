@@ -68,7 +68,7 @@ ghz_circuit = (
     .CX(1, 2)
     .measure_all()
 )
-pytket_noisy_sim_backend.compile_circuit(ghz_circuit)
+ghz_circuit = pytket_noisy_sim_backend.get_compiled_circuit(ghz_circuit)
 ghz_noisy_handle = pytket_noisy_sim_backend.process_circuit(ghz_circuit, n_shots)
 ghz_noisy_result = pytket_noisy_sim_backend.get_result(ghz_noisy_handle)
 
@@ -160,4 +160,5 @@ print(
 # To see how SPAM correction performs on results from a real IBMQ quantum device, try replacing `IBMQEmulatorBackend` with `IBMQBackend`.
 
 from pytket.extensions.qiskit import IBMQBackend
+
 ibm_backend = IBMQBackend("ibmq_santiago")

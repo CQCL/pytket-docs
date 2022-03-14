@@ -233,7 +233,7 @@ def sq(a, b, c):
     return circ
 
 
-rebase = RebaseCustom({OpType.ZZMax}, cx_circ, {OpType.Rx, OpType.Ry, OpType.Rz}, sq)
+rebase = RebaseCustom({OpType.Rx, OpType.Ry, OpType.Rz, OpType.ZZMax}, cx_circ, sq)
 
 
 def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
@@ -269,7 +269,7 @@ def default_compilation_pass(self, optimisation_level: int = 1) -> BasePass:
 
 
 from pytket.backends.backendinfo import BackendInfo
-from pytket.routing import FullyConnected
+from pytket.architecture import FullyConnected
 
 
 @property
@@ -289,17 +289,6 @@ def backend_info(self) -> BackendInfo:
         supports_midcircuit_measurement=False,
         misc={"characterisation": None},
     )
-
-
-# The `characterisation` property functions as an additional information store for a `Backend`. This is intended to hold hardware-specific characterisation information such as gate fidelities. Typically these are held in the `backend_info` `misc` attribute, a bucket dictionary that takes strings as keys and can store any objects as values.
-
-from typing import Dict, Any, Optional
-
-
-@property
-def characterisation(self) -> Optional[Dict[str, Any]]:
-    char = self._backend_info.get_misc("characterisation")
-    return cast(Dict[str, Any], char) if char else None
 
 
 # Asynchronous job management is all managed through the `ResultHandle` associated with a particular `Circuit` that has been submitted. We can use it to inspect the status of the job to see if it has completed, or to look up the results if they are available.
@@ -344,7 +333,7 @@ def circuit_status(self, handle: ResultHandle) -> CircuitStatus:
 
 from pytket.backends.backendresult import BackendResult
 from pytket.utils.results import KwargTypes
-from typing import Iterable
+from typing import Iterable, Optional
 from uuid import uuid4
 
 
@@ -432,7 +421,7 @@ def test_bell() -> None:
     c.H(0)
     c.CX(0, 1)
     b = MyBackend()
-    b.compile_circuit(c)
+    c = b.get_compiled_circuit(c)
     h = b.process_circuit(c)
     assert np.allclose(
         b.get_result(h).get_state(), np.asarray([1, 0, 0, 1]) * 1 / np.sqrt(2)
@@ -443,7 +432,7 @@ def test_basisorder() -> None:
     c = Circuit(2)
     c.X(1)
     b = MyBackend()
-    b.compile_circuit(c)
+    c = b.get_compiled_circuit(c)
     h = b.process_circuit(c)
     r = b.get_result(h)
     assert np.allclose(r.get_state(), np.asarray([0, 1, 0, 0]))
@@ -458,8 +447,8 @@ def test_implicit_perm() -> None:
     c1 = c.copy()
     CliffordSimp().apply(c1)
     b = MyBackend()
-    b.compile_circuit(c)
-    b.compile_circuit(c1)
+    c = b.get_compiled_circuit(c)
+    c1 = b.get_compiled_circuit(c1)
     assert c.implicit_qubit_permutation() != c1.implicit_qubit_permutation()
     h, h1 = b.process_circuits([c, c1])
     r, r1 = b.get_results([h, h1])
@@ -479,7 +468,7 @@ def test_compilation_pass() -> None:
         c.CX(0, 1)
         c.add_gate(OpType.CRz, 0.35, [1, 0])
         assert not (b.valid_circuit(c))
-        b.compile_circuit(c, optimisation_level=opt_level)
+        c = b.get_compiled_circuit(c, optimisation_level=opt_level)
         assert b.valid_circuit(c)
 
 
@@ -487,7 +476,7 @@ def test_invalid_measures() -> None:
     c = Circuit(2)
     c.H(0).CX(0, 1).measure_all()
     b = MyBackend()
-    b.compile_circuit(c)
+    c = b.get_compiled_circuit(c)
     assert not (b.valid_circuit(c))
 
 
@@ -504,7 +493,7 @@ def test_expectation_value() -> None:
         }
     )
     b = MyBackend()
-    b.compile_circuit(c)
+    c = b.get_compiled_circuit(c)
     assert get_operator_expectation_value(c, op, b) == pytest.approx(1.3)
 
 
@@ -565,7 +554,7 @@ def sample_mycircuit(
 # Since `MyCircuit` doesn't have a representation for measurement gates, our converter must return both the `MyCircuit` object and some way of capturing the measurements. Since we will also want to know how they map into our `Bit` ids, the simplest option is just a dictionary from `Qubit` to `Bit`.
 
 from pytket import Bit
-from typing import Tuple
+from typing import Dict, Tuple
 
 
 def tk_to_mymeasures(tkc: Circuit) -> Tuple[MyCircuit, Dict[Qubit, Bit]]:
@@ -725,7 +714,7 @@ def test_sampler_bell() -> None:
     c.CX(0, 1)
     c.measure_all()
     b = MySampler()
-    b.compile_circuit(c)
+    c = b.get_compiled_circuit(c)
     res = b.run_circuit(c, n_shots=10, seed=3)
     assert res.get_shots().shape == (10, 2)
     assert res.get_counts() == {(0, 0): 5, (1, 1): 5}
@@ -736,7 +725,7 @@ def test_sampler_basisorder() -> None:
     c.X(1)
     c.measure_all()
     b = MySampler()
-    b.compile_circuit(c)
+    c = b.get_compiled_circuit(c)
     res = b.run_circuit(c, n_shots=10, seed=0)
     assert res.get_counts() == {(0, 1): 10}
     assert res.get_counts(basis=BasisOrder.dlo) == {(1, 0): 10}
@@ -753,7 +742,7 @@ def test_sampler_compilation_pass() -> None:
         c.add_gate(OpType.CRz, 0.35, [1, 0])
         c.measure_all()
         assert not (b.valid_circuit(c))
-        b.compile_circuit(c, optimisation_level=opt_level)
+        c = b.get_compiled_circuit(c, optimisation_level=opt_level)
         assert b.valid_circuit(c)
 
 
@@ -770,7 +759,7 @@ def test_sampler_expectation_value() -> None:
         }
     )
     b = MySampler()
-    b.compile_circuit(c)
+    c = b.get_compiled_circuit(c)
     expectation = get_operator_expectation_value(c, op, b, n_shots=2000, seed=0)
     assert (np.real(expectation), np.imag(expectation)) == pytest.approx(
         (1.3, 0.0), abs=0.1

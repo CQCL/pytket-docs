@@ -194,8 +194,8 @@ from pytket.utils import expectation_from_shots
 
 def expectation_value(state_circuit, operator, backend, n_shots):
     if backend.supports_expectation:
-        compiled_circuit = state_circuit.copy()
-        backend.compile_circuit(compiled_circuit)
+        circuit = state_circuit.copy()
+        compiled_circuit = backend.get_compiled_circuit(circuit)
         return backend.get_operator_expectation_value(
             compiled_circuit, qpo_from_openfermion(operator)
         )

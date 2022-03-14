@@ -27,7 +27,7 @@ c = Circuit(5)
 c.H(4)
 c.V(2)
 
-shots_backend.compile_circuit(c)
+c = shots_backend.get_compiled_circuit(c)
 op = QubitPauliOperator(
     {
         QubitPauliString([Qubit(0)], [Pauli.Z]): 0.1,

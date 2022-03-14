@@ -65,11 +65,11 @@ Some information, including gate error rates, is stored in attributes with speci
     node[3]: 0.00015814094160059136, 
     node[4]: 0.00013411930305754117}    
 
-Other information is stored in a generic dictionary and is accessible through the :py:class:`Backend` `characterisation` member.
+Other miscellaneous information, varying between backends, is stored in the `misc` attribute, also accessible through the :py:meth:`BackendInfo.get_misc` method.
 
 .. jupyter-input::
 
-    print(backend.characterisation.keys())
+    print(backend.backend_info.get_misc())
 
 .. jupyter-output::
 
@@ -133,7 +133,7 @@ of our `software overview paper
 
 .. jupyter-input::
 
-    from pytket.routing import NoiseAwarePlacement, GraphPlacement
+    from pytket.placement import NoiseAwarePlacement, GraphPlacement
     from pytket.extensions.qiskit.qiskit_convert import get_avg_characterisation
 
     backend_avg = get_avg_characterisation(backend)
@@ -362,14 +362,16 @@ An alternative class, :py:class:`UniversalFrameRandomisation`, is set with cycle
 
 Similarly as to the previous case, more shots are returning basis states in the expected state.
 
-The :py:meth:`RebaseUFR` can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
+We can use :py:meth:`auto_rebase_pass` to create a pass that can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
 
 .. jupyter-execute::
 
-    from pytket.circuit import PauliExpBox, Pauli, Circuit
+    from pytket.circuit import PauliExpBox, Pauli, Circuit, OpType
     from pytket.transform import Transform
-    from pytket.passes import RebaseUFR
+    from pytket.passes import auto_rebase_pass
     from pytket.tailoring import UniversalFrameRandomisation
+
+    rebase_ufr = auto_rebase_pass({OpType.CX, OpType.H, OpType.Rz})
 
     universal_frame_randomisation = UniversalFrameRandomisation()
 
@@ -390,7 +392,7 @@ The :py:meth:`RebaseUFR` can be applied to a circuit to rebase its gates to {``O
     ufr_averaging_circuits = universal_frame_randomisation.get_all_circuits(circ)
     print('Number of Universal Frame Randomisation averaging circuits without rebase: ', len(ufr_averaging_circuits))
 
-    RebaseUFR().apply(circ)
+    rebase_ufr.apply(circ)
     ufr_averaging_circuits = universal_frame_randomisation.get_all_circuits(circ)
     print('Number of Universal Frame Randomisation averaging circuits with rebase: ', len(ufr_averaging_circuits))
 

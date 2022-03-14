@@ -67,7 +67,7 @@ render_circuit_jupyter(tk_circ)
 from pytket.extensions.pyquil import ForestStateBackend
 
 state_backend = ForestStateBackend()
-state_backend.compile_circuit(tk_circ)
+tk_circ = state_backend.get_compiled_circuit(tk_circ)
 
 handle = state_backend.process_circuit(tk_circ)
 state = state_backend.get_result(handle).get_state()
@@ -86,7 +86,7 @@ from pytket.extensions.pyquil import ForestBackend
 
 aspen_qc = get_qc("9q-square", as_qvm=True)
 aspen_backend = ForestBackend(aspen_qc)
-aspen_backend.compile_circuit(tk_circ)
+tk_circ = aspen_backend.get_compiled_circuit(tk_circ)
 
 counts = aspen_backend.run_circuit(tk_circ, 2000).get_counts()
 print(counts)

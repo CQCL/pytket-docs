@@ -7,7 +7,7 @@
 # * Rigetti QCS devices
 # * Rigetti QVM (for device simulation or statevector)
 # * AQT devices
-# * Honeywell devices
+# * Quantinuum devices
 # * Q# simulators
 
 # In this notebook we will focus on the Aer, IBMQ and ProjectQ backends.
@@ -199,21 +199,21 @@ ibmq_b_emu.valid_circuit(circ)
 
 # It looks like we need to compile this circuit to be compatible with the device. To simplify this procedure, we provide minimal compilation passes designed for each backend (the `default_compilation_pass()` method) which will guarantee compatibility with the device. These may still fail if the input circuit has too many qubits or unsupported usage of conditional gates. The default passes can have their degree of optimisation by changing an integer parameter (optimisation levels 0, 1, 2), and they can be easily composed with any of tket's other optimisation passes for better performance.
 #
-# For convenience, we also wrap up this pass into the `compile_circuit` method if you just want to compile a single circuit.
+# For convenience, we also wrap up this pass into the `get_compiled_circuit` method if you just want to compile a single circuit.
 
-ibmq_b_emu.compile_circuit(circ)
+compiled_circ = ibmq_b_emu.get_compiled_circuit(circ)
 
 
 # Let's create a backend for running on the actual device and check our compiled circuit is valid for this backend too.
 
 ibmq_b = IBMQBackend("ibmq_santiago")
-ibmq_b.valid_circuit(circ)
+ibmq_b.valid_circuit(compiled_circ)
 
 # We are now good to run this circuit on the device. After submitting, we can use the handle to check on the status of the job, so that we know when results are ready to be retrieved. The `circuit_status` method works for all backends, and returns a `CircuitStatus` object. If we just run `get_result` straight away, the backend will wait for results to complete, blocking any other code from running.
 #
 # In this notebook we will use the emulated backend `ibmq_b_emu` to illustrate, but the workflow is the same as for the real backend `ibmq_b` (except that the latter will typically take much longer because of the size of the queue).
 
-quantum_handle = ibmq_b_emu.process_circuit(circ, n_shots=10)
+quantum_handle = ibmq_b_emu.process_circuit(compiled_circ, n_shots=10)
 
 print(ibmq_b_emu.circuit_status(quantum_handle))
 
@@ -229,8 +229,7 @@ for i in range(5):
     c = Circuit(2)
     c.Rx(0.2 * i, 0).CX(0, 1)
     c.measure_all()
-    ibmq_b_emu.compile_circuit(c)
-    circuits.append(c)
+    circuits.append(ibmq_b_emu.get_compiled_circuit(c))
 handles = ibmq_b_emu.process_circuits(circuits, n_shots=100)
 print(handles)
 
@@ -248,7 +247,7 @@ for handle in handles:
 from pytket.backends import ResultHandle
 
 c = Circuit(2).Rx(0.5, 0).CX(0, 1).measure_all()
-ibmq_b_emu.compile_circuit(c)
+c = ibmq_b_emu.get_compiled_circuit(c)
 handle = ibmq_b_emu.process_circuit(c, n_shots=10)
 handlestring = str(handle)
 print(handlestring)
@@ -256,7 +255,7 @@ print(handlestring)
 oldhandle = ResultHandle.from_str(handlestring)
 print(ibmq_b_emu.get_result(oldhandle).get_shots())
 
-# For backends which support persistent handles (currently `IBMQBackend`, `HoneywellBackend`, `BraketBackend` and `AQTBackend`) you can even stop your python session and use your result handles in a separate script to retrive results when they are ready, by storing the handle strings. For experiments with long queue times, this enables separate job submission and retrieval. Use `Backend.persistent_handles` to check whether a backend supports this feature.
+# For backends which support persistent handles (e.g. `IBMQBackend`, `QuantinuumBackend`, `BraketBackend` and `AQTBackend`) you can even stop your python session and use your result handles in a separate script to retrive results when they are ready, by storing the handle strings. For experiments with long queue times, this enables separate job submission and retrieval. Use `Backend.persistent_handles` to check whether a backend supports this feature.
 #
 # All backends will also cache all results obtained in the current python session, so you can use the `ResultHandle` to retrieve the results many times if you need to reuse the results. Over a long experiment, this can consume a large amount of RAM, so we recommend removing results from the cache when you are done with them. A simple way to achieve this is by calling `Backend.empty_cache` (e.g. at the end of each loop of a variational algorithm), or removing individual results with `Backend.pop_result`.
 
