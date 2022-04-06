@@ -68,23 +68,6 @@ If your work is on the topic of specific compilation tasks, it may be more appro
 We are also keen for others to benchmark their compilation techniques against us. We recommend checking our [benchmark repository](https://github.com/CQCL/tket_benchmarking) for examples on how to run basic benchmarks with the latest version of pytket. Please list the release version of pytket with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
 
 
-## Telemetry
-
-Pytket features a telemetry module which can be used to keep track of pyktet usage and will provide usage analytics and error reporting at a later date. Telemetry is disabled by default, but may be enabled either through function calls or in the pytket configuration file.
-
-In order to opt in to telemetry, a helper function is provided in the `pytket.telemetry` module. This function need only be run once:
-
-```python
-from pytket import telemetry
-telemetry.opt_in()
-```
-
-Similarly the `opt_out` function will allow a user to opt out.
-
-Alternatively the configuration file located either at `$HOME/.config/pytket/config.json` or `$XDG_CONFIG_HOME/pytket/config.json` if `$XDG_CONFIG_HOME` is set can be edited manually.
-
-Once a user has opted in to telemetry they will be assigned a telemetry ID by making an HTTP request to a CQC server with some information about their system.
-
 ### Data policy
 
 Our telemetry data policy can be viewed [here](https://cqcl.github.io/tket/pytket/api/telemetry_data_policy.html).
