@@ -66,8 +66,3 @@ If your work is on the topic of specific compilation tasks, it may be more appro
 - ["A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz"](https://arxiv.org/abs/2007.10515) for sequencing of terms in Trotterisation and Pauli diagonalisation.
 
 We are also keen for others to benchmark their compilation techniques against us. We recommend checking our [benchmark repository](https://github.com/CQCL/tket_benchmarking) for examples on how to run basic benchmarks with the latest version of pytket. Please list the release version of pytket with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
-
-
-### Data policy
-
-Our telemetry data policy can be viewed [here](https://cqcl.github.io/tket/pytket/api/telemetry_data_policy.html).
