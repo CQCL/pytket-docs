@@ -13,7 +13,7 @@ n_qubits = 3
 state = random_statevector((1 << n_qubits, 1)).data
 state_prep_circ = QuantumCircuit(n_qubits)
 state_prep_circ.initialize(state)
-state_prep_circ = state_prep_circ.decompose()
+state_prep_circ = state_prep_circ.decompose().decompose()
 state_prep_circ.data = [
     datum for datum in state_prep_circ.data if datum[0].name != "reset"
 ]
