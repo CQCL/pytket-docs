@@ -880,7 +880,7 @@ The primary use for tableaux in ``pytket`` is as a scalable means of specifying 
 
 .. note:: The current decomposition method for tableaux is not particularly efficient in terms of gate count, so consider using higher optimisation levels when compiling to help reduce the gate cost.
 
-The data structure used here for tableaux is intended for compilation use. For fast simulation of Clifford circuits, we recommend using the :py:class:`StimBackend` from ``pytket-stim`` or :py:class:`AerBackend` from ``pytket-qiskit``. Future versions of ``pytket`` may include improved decompositions from tableaux, as well as more flexible tableaux to represent stabilizer states, isometries, and diagonalisation circuits.
+The data structure used here for tableaux is intended for compilation use. For fast simulation of Clifford circuits, we recommend using the :py:class:`StimBackend` from ``pytket-stim``, the :py:class:`SimplexBackend` from ``pytket-pysimplex`` (optimized for large sparse circuits), or the :py:class:`AerBackend` from ``pytket-qiskit``. Future versions of ``pytket`` may include improved decompositions from tableaux, as well as more flexible tableaux to represent stabilizer states, isometries, and diagonalisation circuits.
 
 Conditional Gates
 =================
