@@ -104,9 +104,7 @@ If you spot any bugs or have any feature suggestions, feel free to add to the is
 
 There is a public slack channel for commuinty discussion and support. Click `here <https://join.slack.com/t/tketusers/shared_invite/zt-18qmsamj9-UqQFVdkRzxnXCcKtcarLRA>`_ to join.
 
-
-
-You can also join our `mailing list <https://list.cambridgequantum.com/cgi-bin/mailman/listinfo/tket-users>`_ for updates on new ``pytket`` releases and features. If you would like to open up direct support channels for your team, engage in research collaborations, or inquire about commercial licenses, please get in touch with us (info@cambridgequantum.com). If you have support questions please send them to tket-support@cambridgequantum.com. You can also join our public slack channe
+You can also join our `mailing list <https://list.cambridgequantum.com/cgi-bin/mailman/listinfo/tket-users>`_ for updates on new ``pytket`` releases and features. If you would like to open up direct support channels for your team, engage in research collaborations, or inquire about commercial licenses, please get in touch with us (info@cambridgequantum.com). If you have support questions please send them to tket-support@cambridgequantum.com. 
 
 
 .. [Pres2018] Preskill, J., 2018. Quantum Computing in the NISQ era and beyond. Quantum, 2, p.79.
