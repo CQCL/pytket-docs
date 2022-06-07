@@ -14,7 +14,7 @@ from pytket.utils.spam import SpamCorrecter
 
 # The SpamCorrecter class has methods for generating State Preparation and Measurement (SPAM) calibration experiments for pytket backends and correcting counts generated from those same backends.
 #
-# Let's first mitigate error from a noisy simulation, using a noise model straight from the 5-qubit IBMQ Santiago device. This will require a preloaded IBMQ account.
+# Let's first mitigate error from a noisy simulation, using a noise model straight from the 5-qubit IBMQ bogota device. This will require a preloaded IBMQ account.
 
 from qiskit import IBMQ
 
@@ -23,20 +23,20 @@ IBMQ.load_account()
 from pytket.extensions.qiskit import process_characterisation
 
 ibmq_bogota_backend = IBMQ.providers()[0].get_backend("ibmq_bogota")
-pytket_santiago_characterisation = process_characterisation(ibmq_bogota_backend)
-pytket_santiago_architecture = pytket_santiago_characterisation["Architecture"]
+pytket_bogota_characterisation = process_characterisation(ibmq_bogota_backend)
+pytket_bogota_architecture = pytket_bogota_characterisation["Architecture"]
 
 import networkx as nx
 import matplotlib.pyplot as plt
 
-santiago_graph = nx.Graph(pytket_santiago_architecture.coupling)
-nx.draw(santiago_graph, labels={node: node for node in santiago_graph.nodes()})
+bogota_graph = nx.Graph(pytket_bogota_architecture.coupling)
+nx.draw(bogota_graph, labels={node: node for node in bogota_graph.nodes()})
 
 # SPAM correction requires subsets of qubits which are assumed to only have SPAM errors correlated with each other, and no other qubits.
 #
 # Correlated errors are usually dependent on the connectivity layout of devices, as shown above.
 #
-# As Santiago is a small 5-qubit device with few connections, let's assume that all qubits have correlated SPAM errors. The number of calibration circuits produced is exponential in the maximum number of correlated circuits, so finding good subsets of correlated qubits is important for characterising larger devices with smaller experimental overhead.
+# As bogota is a small 5-qubit device with few connections, let's assume that all qubits have correlated SPAM errors. The number of calibration circuits produced is exponential in the maximum number of correlated circuits, so finding good subsets of correlated qubits is important for characterising larger devices with smaller experimental overhead.
 #
 # We can produce an ```IBMQEmulatorBackend``` to run this. This uses a noise model from ```ibmq_bogota``` produced using qiskit-aer. We can then execute all calibration circuits through the backend.
 
@@ -44,12 +44,12 @@ from pytket.extensions.qiskit import IBMQEmulatorBackend, AerBackend
 
 n_shots = 8192
 pytket_noisy_sim_backend = IBMQEmulatorBackend("ibmq_bogota")
-santiago_node_subsets = pytket_noisy_sim_backend.backend_info.architecture.nodes
-santiago_spam = SpamCorrecter([santiago_node_subsets], pytket_noisy_sim_backend)
+bogota_node_subsets = pytket_noisy_sim_backend.backend_info.architecture.nodes
+bogota_spam = SpamCorrecter([bogota_node_subsets], pytket_noisy_sim_backend)
 
 # The SpamCorrecter uses these subsets of qubits to produce calibration circuits.
 
-calibration_circuits = santiago_spam.calibration_circuits()
+calibration_circuits = bogota_spam.calibration_circuits()
 print("Number of calibration circuits: ", len(calibration_circuits))
 
 sim_handles = pytket_noisy_sim_backend.process_circuits(calibration_circuits, n_shots)
@@ -57,7 +57,7 @@ sim_handles = pytket_noisy_sim_backend.process_circuits(calibration_circuits, n_
 # Count results from the simulator are then used to calculate the matrices used for SPAM correction for ```ibmq_bogota```.
 
 sim_count_results = pytket_noisy_sim_backend.get_results(sim_handles)
-santiago_spam.calculate_matrices(sim_count_results)
+bogota_spam.calculate_matrices(sim_count_results)
 
 from pytket import Circuit
 
@@ -86,9 +86,9 @@ ghz_noiseless_result = pytket_noiseless_sim_backend.get_result(ghz_noiseless_han
 #
 # The ``SpamCorrecter`` class has a helper method ``get_parallel_measure`` for retrieving this object for a Circuit.
 
-ghz_parallel_measure = santiago_spam.get_parallel_measure(ghz_circuit)
+ghz_parallel_measure = bogota_spam.get_parallel_measure(ghz_circuit)
 
-ghz_spam_corrected_result = santiago_spam.correct_counts(
+ghz_spam_corrected_result = bogota_spam.correct_counts(
     ghz_noisy_result, ghz_parallel_measure
 )
 
@@ -143,7 +143,7 @@ print(
 #
 # Let's look at how the ```invert``` method performs.
 
-ghz_invert_corrected_result = santiago_spam.correct_counts(
+ghz_invert_corrected_result = bogota_spam.correct_counts(
     ghz_noisy_result, ghz_parallel_measure, method="invert"
 )
 ghz_invert_probabilities = probs_from_counts(ghz_invert_corrected_result)
