@@ -224,7 +224,7 @@ ansatz.rename_units({Qubit("synq", 0): Qubit("q", 4)})
 print(expectation_value(ansatz, hamiltonian, AerBackend(), 8000))
 # Try replacing IBMQEmulatorBackend with IBMQBackend to submit the circuits to a real IBM Quantum device.
 print(
-    expectation_value(ansatz, hamiltonian, IBMQEmulatorBackend("ibmq_santiago"), 8000)
+    expectation_value(ansatz, hamiltonian, IBMQEmulatorBackend("ibmq_bogota"), 8000)
 )
 
 # For basic practice with using pytket backends and their results, try editing the code here to:

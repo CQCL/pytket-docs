@@ -54,7 +54,7 @@ Some information, including gate error rates, is stored in attributes with speci
 
     from pytket.extensions.qiskit import IBMQBackend
 
-    backend = IBMQBackend("ibmq_santiago")
+    backend = IBMQBackend("ibmq_bogota")
     print(backend.backend_info.averaged_node_gate_errors)
 
 .. jupyter-output::
@@ -173,7 +173,7 @@ of our `software overview paper
 
 Both placement methods will satisfy the device's connectivity
 constraints, however looking at the device characteristics for
-``ibmq_santiago`` above,  we see that the placement provided by
+``ibmq_bogota`` above,  we see that the placement provided by
 :py:class:`NoiseAwarePlacement` is over a set of qubits with generally
 better error rates.  This will produce a circuit whose output
 statistics are closer to the ideal, noiseless, distribution.
@@ -286,7 +286,7 @@ For a noise free backend, we can see that the same counts distribution is return
 
     circ = Circuit(2).X(0).H(1).CX(0,1).Rz(0.3, 1).CX(0,1).measure_all()
 
-    noisy_backend = AerBackend(NoiseModel.from_backend(IBMQ.providers()[0].get_backend('ibmq_santiago')))
+    noisy_backend = AerBackend(NoiseModel.from_backend(IBMQ.providers()[0].get_backend('ibmq_bogota')))
 
     averaging_circuits = pauli_frame_randomisation.get_all_circuits(circ)
 
