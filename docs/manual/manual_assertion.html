@@ -100,7 +100,7 @@ Once a <code class="xref py py-class docutils literal notranslate"><span class="
 <h2>Projector-based<a class="headerlink" href="#projector-based" title="Permalink to this heading"></a></h2>
 <p>Projector-based assertion utilises the simple fact that the outcome of a projective measurement can be used to determine if a quantum state is in a specified subspace of the state space.
 The method implemented in pytket transforms an arbitrary projective measurement into measurements on the computational basis <a class="reference internal" href="#gushu2020" id="id1"><span>[Gushu2020]</span></a>.
-However, this approach is not without limitations. Projectors in general require <span class="math notranslate nohighlight">\(n \times n\)</span> matrices to represent them; hence it becomes impractical when the size of the asserted subspace is large.
+However, this approach is not without limitations. Projectors in general require <span class="math notranslate nohighlight">\(2^{n} \times 2^{n}\)</span> matrices to represent them; hence it becomes impractical when the size of the asserted subspace is large.
 Moreover, the transformation technique we have adapted requires synthesis for arbitrary unitary matrices. Since <code class="docutils literal notranslate"><span class="pre">pytket</span></code> currently only supports synthesis for 1, 2, and 3 qubit unitaries, the projectors are limited to 2x2, 4x4, and 8x8 matrices.</p>
 <p>To start asserting with a projector, one should first compute the projector matrix for the target subspace. If the rank of the projector is larger than <span class="math notranslate nohighlight">\(2^{n-1}\)</span> (<span class="math notranslate nohighlight">\(n\)</span> is the number of qubits), an ancilla qubit should be provided to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">add_assert()</span></code> method.
 A special unsupported case arises when asserting a 3-qubit subspace whose projector has a rank larger than <span class="math notranslate nohighlight">\(2^{3-1}\)</span>.</p>
@@ -146,7 +146,7 @@ A special unsupported case arises when asserting a 3-qubit subspace whose projec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.87}
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.8}
 </pre></div>
 </div>
 </div>
