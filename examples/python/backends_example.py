@@ -192,9 +192,9 @@ print(expectation)
 # To check our code works correctly, we can use the `IBMQEmulatorBackend` to run our code exactly as if it were going to run on a real device, but just execute on a simulator (with a basic noise model adapted from the reported device properties).
 
 
-# Let's create an `IBMQEmulatorBackend` for the `ibmq_santiago` device and check if our circuit is valid to be run.
+# Let's create an `IBMQEmulatorBackend` for the `ibmq_bogota` device and check if our circuit is valid to be run.
 
-ibmq_b_emu = IBMQEmulatorBackend("ibmq_santiago")
+ibmq_b_emu = IBMQEmulatorBackend("ibmq_bogota")
 ibmq_b_emu.valid_circuit(circ)
 
 # It looks like we need to compile this circuit to be compatible with the device. To simplify this procedure, we provide minimal compilation passes designed for each backend (the `default_compilation_pass()` method) which will guarantee compatibility with the device. These may still fail if the input circuit has too many qubits or unsupported usage of conditional gates. The default passes can have their degree of optimisation by changing an integer parameter (optimisation levels 0, 1, 2), and they can be easily composed with any of tket's other optimisation passes for better performance.
@@ -206,7 +206,7 @@ compiled_circ = ibmq_b_emu.get_compiled_circuit(circ)
 
 # Let's create a backend for running on the actual device and check our compiled circuit is valid for this backend too.
 
-ibmq_b = IBMQBackend("ibmq_santiago")
+ibmq_b = IBMQBackend("ibmq_bogota")
 ibmq_b.valid_circuit(compiled_circ)
 
 # We are now good to run this circuit on the device. After submitting, we can use the handle to check on the status of the job, so that we know when results are ready to be retrieved. The `circuit_status` method works for all backends, and returns a `CircuitStatus` object. If we just run `get_result` straight away, the backend will wait for results to complete, blocking any other code from running.

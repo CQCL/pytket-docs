@@ -83,7 +83,7 @@ If there is noise in the device, which is the case for all devices in the NISQ e
     IBMQ.load_account()
 
     # prepare a noisy backend
-    backend = AerBackend(NoiseModel.from_backend(IBMQ.providers()[0].get_backend('ibmq_santiago')))
+    backend = AerBackend(NoiseModel.from_backend(IBMQ.providers()[0].get_backend('ibmq_bogota')))
 
     # compile the previously constructed circuit
     compiled_circ = backend.get_compiled_circuit(circ)

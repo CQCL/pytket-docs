@@ -22,8 +22,8 @@ IBMQ.load_account()
 
 from pytket.extensions.qiskit import process_characterisation
 
-ibmq_santiago_backend = IBMQ.providers()[0].get_backend("ibmq_santiago")
-pytket_santiago_characterisation = process_characterisation(ibmq_santiago_backend)
+ibmq_bogota_backend = IBMQ.providers()[0].get_backend("ibmq_bogota")
+pytket_santiago_characterisation = process_characterisation(ibmq_bogota_backend)
 pytket_santiago_architecture = pytket_santiago_characterisation["Architecture"]
 
 import networkx as nx
@@ -38,12 +38,12 @@ nx.draw(santiago_graph, labels={node: node for node in santiago_graph.nodes()})
 #
 # As Santiago is a small 5-qubit device with few connections, let's assume that all qubits have correlated SPAM errors. The number of calibration circuits produced is exponential in the maximum number of correlated circuits, so finding good subsets of correlated qubits is important for characterising larger devices with smaller experimental overhead.
 #
-# We can produce an ```IBMQEmulatorBackend``` to run this. This uses a noise model from ```ibmq_santiago``` produced using qiskit-aer. We can then execute all calibration circuits through the backend.
+# We can produce an ```IBMQEmulatorBackend``` to run this. This uses a noise model from ```ibmq_bogota``` produced using qiskit-aer. We can then execute all calibration circuits through the backend.
 
 from pytket.extensions.qiskit import IBMQEmulatorBackend, AerBackend
 
 n_shots = 8192
-pytket_noisy_sim_backend = IBMQEmulatorBackend("ibmq_santiago")
+pytket_noisy_sim_backend = IBMQEmulatorBackend("ibmq_bogota")
 santiago_node_subsets = pytket_noisy_sim_backend.backend_info.architecture.nodes
 santiago_spam = SpamCorrecter([santiago_node_subsets], pytket_noisy_sim_backend)
 
@@ -54,7 +54,7 @@ print("Number of calibration circuits: ", len(calibration_circuits))
 
 sim_handles = pytket_noisy_sim_backend.process_circuits(calibration_circuits, n_shots)
 
-# Count results from the simulator are then used to calculate the matrices used for SPAM correction for ```ibmq_santiago```.
+# Count results from the simulator are then used to calculate the matrices used for SPAM correction for ```ibmq_bogota```.
 
 sim_count_results = pytket_noisy_sim_backend.get_results(sim_handles)
 santiago_spam.calculate_matrices(sim_count_results)
@@ -161,4 +161,4 @@ print(
 
 from pytket.extensions.qiskit import IBMQBackend
 
-ibm_backend = IBMQBackend("ibmq_santiago")
+ibm_backend = IBMQBackend("ibmq_bogota")
