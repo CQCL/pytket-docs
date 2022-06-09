@@ -882,21 +882,39 @@ The primary use for tableaux in ``pytket`` is as a scalable means of specifying 
 
 The data structure used here for tableaux is intended for compilation use. For fast simulation of Clifford circuits, we recommend using the :py:class:`StimBackend` from ``pytket-stim``, the :py:class:`SimplexBackend` from ``pytket-pysimplex`` (optimized for large sparse circuits), or the :py:class:`AerBackend` from ``pytket-qiskit``. Future versions of ``pytket`` may include improved decompositions from tableaux, as well as more flexible tableaux to represent stabilizer states, isometries, and diagonalisation circuits.
 
-Conditional Gates
-=================
+Classical and conditional operations
+====================================
 
-.. Performing gates conditional on some classical value or expressions
 
-Moving beyond toy circuit examples, many applications of quantum computing require looking at circuits as POVMs for extra expressivity, or introducing error-correcting schemes to reduce the effective noise. Each of these requires performing measurements mid-circuit and then performing subsequent gates conditional on the classical value of the measurement result.
+Moving beyond toy circuit examples, many applications of quantum computing
+require looking at circuits as POVMs for extra expressivity, or introducing
+error-correcting schemes to reduce the effective noise. Each of these requires
+performing measurements mid-circuit and then performing subsequent gates
+conditional on the classical value of the measurement result, or on the results
+of calculations on the results.
 
-.. Specified by the `condition` kwarg when adding a gate
 
-Any ``pytket`` gate can be made conditional at the point of adding it to the :py:class:`Circuit` by providing the ``condition`` kwarg. The interpretation of ``circ.G(q, condition=reg[0])`` is: "if the  bit ``[reg[0]`` is set, then perform ``G(q)``".
-Conditions on more complicated expressions over the values of `Bit <circuit.html#pytket.circuit.Bit>`_ and `BitRegister <circuit.html#pytket.circuit.BitRegister>`_ are also possible, expressed as conditions on the results of expressions involving bitwise AND (&), OR (|) and XOR (^) operations.
-For example a gate can be made conditional on the result of a bitwise XOR of registers ``a``, ``b``, and ``c`` being larger than 4 by writing ``circ.G(q, condition=reg_gt(a ^ b ^ c, 4))``.
-When such a condition is added, the result of the expression is written to a scratch bit or register, and the gate is made conditional on the value of the scratch variable.
-For comparison of registers, a special ``RangePredicate`` type is used to encode the result of the comparison onto a scratch bit.
-See the `API reference <classical.html>`_ for more on the possible expressions and predicates.
+Any ``pytket`` operation can be made conditional at the point of adding it to
+the :py:class:`Circuit` by providing the ``condition`` kwarg. The interpretation
+of ``circ.G(q, condition=reg[0])`` is: "if the  bit ``reg[0]`` is set to 1, then
+perform ``G(q)``".
+Conditions on more complicated expressions over the values of `Bit
+<../../tket/pytket/api/circuit.html#pytket.circuit.Bit>`_ and `BitRegister
+<../../tket/pytket/api/circuit.html#pytket.circuit.BitRegister>`_ are also
+possible, expressed as conditions on the results of expressions involving
+bitwise AND (&), OR (|) and XOR (^) operations. In the case of registers, you
+can also express arithmetic operations: add (+), subtract (-), multiply (*), 
+floor/integer division (//), left shift (<<) and right shift (>>).
+For example a gate can be made conditional on the result of a bitwise XOR of
+registers ``a``, ``b``, and ``c`` being larger than 4 by writing ``circ.G(q,
+condition=reg_gt(a ^ b ^ c, 4))``.
+When such a condition is added, the result of the expression is written to a
+scratch bit or register, and the gate is made conditional on the value of the
+scratch variable.
+For comparison of registers, a special ``RangePredicate`` type is used to encode
+the result of the comparison onto a scratch bit.
+See the `API reference <../../tket/pytket/api/classical.html>`_ for more on the
+possible expressions and predicates.
 
 
 
@@ -918,6 +936,7 @@ See the `API reference <classical.html>`_ for more on the possible expressions a
     circ = Circuit()
     qreg = circ.add_q_register("q", 10)
     reg_a = circ.add_c_register("a", 4)
+    # another way of adding a register to the Circuit
     reg_b = BitRegister("b", 3)
     circ.add_c_register(reg_b)
     reg_c = circ.add_c_register("c", 3)
@@ -951,21 +970,78 @@ See the `API reference <classical.html>`_ for more on the possible expressions a
     # if (reg_a >= 3)
     circ.T(qreg[7], condition=reg_geq(reg_a, 3))
     # compound register expressions
-    big_reg_exp = reg_a & reg_b | reg_c
+    big_reg_exp = (reg_a & reg_b) | reg_c
     circ.CX(qreg[3], qreg[4], condition=reg_eq(big_reg_exp, 3))
 
-.. Within the OpenQASM2 model, an entire register must be an exact value, the HQS extension enables more flexibility. OpenQASM3 will generalise even further.
+So far we've looked at conditioning the application of a gate on bits,
+registers, or expressions over those. We can also write some more standard
+classical computations by assigning the result of some computation to output
+bits or registers. We can also set the value or copy the contents of one resource
+in to another. Note in the examples below to express something like `<var> =
+<exp>` we use circuit methods (like ``add_c_setreg``, or
+``add_classicalexpbox_register``) that take `<exp>` as the first input and `<var>`
+as the second. Note that these classical operations can be conditional on other
+classical operations, just like quantum operations.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, reg_gt
+
+    # create a circuit and add some classical registers
+    circ = Circuit()
+    reg_a = circ.add_c_register("a", 4)
+    reg_b = circ.add_c_register("b", 3)
+    reg_c = circ.add_c_register("c", 3)
+
+
+    # Write to classical registers
+    
+    # a = 3
+    circ.add_c_setreg(3, reg_a)
+    # a[0] = 1
+    circ.add_c_setbits([1], [reg_a[0]])
+    # Copy: b = a 
+    # b is smaller than a so the first 3 bits of a will be copied
+    circ.add_c_copyreg(reg_a, reg_b)
+    # b[1] = a[2]
+    circ.add_c_copybits([reg_a[2]], [reg_b[1]])
+
+    # Conditional classical operation
+
+    # if (a > 1) b = 3
+    circ.add_c_setreg(3, reg_b, condition=reg_gt(reg_a, 1))
+
+    # Write out the results of logical expressions
+
+    # c = a ^ b
+    circ.add_classicalexpbox_register(reg_a ^ reg_b, reg_c)
+    # c[0] = a[1] & b[2]
+    circ.add_classicalexpbox_bit(reg_a[1] & reg_b[2], [reg_c[0]])
+
+    # Register arithmetic
+
+    # c = a + b // c (note the use of the floor divide symbol)
+    circ.add_classicalexpbox_register(reg_a + reg_b // reg_c, reg_c)
+    # a = a - b * c
+    circ.add_classicalexpbox_register(reg_a - reg_b * reg_c, reg_a)
+    # a = a << 2
+    circ.add_classicalexpbox_register(reg_a << 2, reg_a)
+    # c = b >> 1
+    circ.add_classicalexpbox_register(reg_b >> 1, reg_c)
+
 
 .. warning:: Unlike most uses of readouts in ``pytket``, register comparisons expect a little-endian value, e.g. in the above example ``condition=reg_eq(reg_a, 3)`` (representing the little-endian binary string ``110000...``) is triggered when ``reg_a[0]`` and ``reg_a[1]`` are in state ``1`` and the remainder of the register is in state ``0``.
 
-.. note:: This feature is only usable on a limited selection of devices and simulators which support conditional gates.
+.. note:: This feature is only usable on a limited selection of devices and simulators which support conditional gates or classical operations.
 
- The ``AerBackend`` (from ``pytket-qiskit``) can support the OpenQasm model, where gates can only be conditional on an entire classical register being an exact integer value. Bitwise logical operations are not supported. Therefore only conditions of the form
+ The ``AerBackend`` (from ``pytket-qiskit``) can support the OpenQasm model,
+ where gates can only be conditional on an entire classical register being an
+ exact integer value. Bitwise logical operations and register arithmetic are not supported.
+ Therefore only conditions of the form
  ``condition=reg_eq(reg, val)`` are valid.
 
  The ``QuantinuumBackend`` (from ``pytket-quantinuum``)
- can support the full range of expressions and comparisons shown above, as long as the `DecomposeClassicalExp <passes.html#pytket.passes.DecomposeClassicalExp>`_ pass  has been run on the circuit first.
- This is part of the default compilation pass for that backend, so if you use that you do not need to run it separately.
+ can support the full range of expressions and comparisons shown above.
 
 Circuit-Level Operations
 ========================
