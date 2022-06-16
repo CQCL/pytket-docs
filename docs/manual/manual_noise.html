@@ -115,7 +115,7 @@ Some information, including gate error rates, is stored in attributes with speci
 <div class="cell_input code_cell docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 
-<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_bogota&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_manila&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_node_gate_errors</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -245,7 +245,7 @@ q[2] node[2]
 </div>
 <p>Both placement methods will satisfy the device’s connectivity
 constraints, however looking at the device characteristics for
-<code class="docutils literal notranslate"><span class="pre">ibmq_bogota</span></code> above,  we see that the placement provided by
+<code class="docutils literal notranslate"><span class="pre">ibmq_manila</span></code> above,  we see that the placement provided by
 <code class="xref py py-class docutils literal notranslate"><span class="pre">NoiseAwarePlacement</span></code> is over a set of qubits with generally
 better error rates.  This will produce a circuit whose output
 statistics are closer to the ideal, noiseless, distribution.</p>
@@ -387,7 +387,7 @@ Counter({(1, 0): 12800})
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
-<span class="n">noisy_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">NoiseModel</span><span class="o">.</span><span class="n">from_backend</span><span class="p">(</span><span class="n">IBMQ</span><span class="o">.</span><span class="n">providers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;ibmq_bogota&#39;</span><span class="p">)))</span>
+<span class="n">noisy_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">NoiseModel</span><span class="o">.</span><span class="n">from_backend</span><span class="p">(</span><span class="n">IBMQ</span><span class="o">.</span><span class="n">providers</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;ibmq_manila&#39;</span><span class="p">)))</span>
 
 <span class="n">averaging_circuits</span> <span class="o">=</span> <span class="n">pauli_frame_randomisation</span><span class="o">.</span><span class="n">get_all_circuits</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
@@ -591,9 +591,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 449, (0, 0): 405, (1, 0): 76, (0, 1): 70})
-Corrected Counts: Counter({(1, 1): 515, (0, 0): 463, (1, 0): 18, (0, 1): 7})
-Noiseless Counts: Counter({(1, 1): 529, (0, 0): 471})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 418, (0, 0): 407, (0, 1): 101, (1, 0): 74})
+Corrected Counts: Counter({(1, 1): 479, (0, 0): 461, (0, 1): 39, (1, 0): 23})
+Noiseless Counts: Counter({(1, 1): 520, (0, 0): 480})
 </pre></div>
 </div>
 </div>
