@@ -95,7 +95,7 @@ from pytket.mapping import LexiLabellingMethod, LexiRouteRoutingMethod
 lexi_label = LexiLabellingMethod()
 lexi_route = LexiRouteRoutingMethod(10)
 
-# The `lexi_route` object here is of little use outside `MappingManager`. Note that it takes a lookahead parameter, which will effect the performance of the method, defining the number of two-qubit gates it considers when finding `SWAP` gates to add.
+# The `lexi_route` object here is of little use outside `MappingManager`. Note that it takes a lookahead parameter, which will affect the performance of the method, defining the number of two-qubit gates it considers when finding `SWAP` gates to add.
 
 from pytket import Circuit, OpType
 from pytket.circuit import display
@@ -150,7 +150,7 @@ display.render_circuit_jupyter(c)
 
 from pytket.placement import Placement, LinePlacement, GraphPlacement
 
-# The default ```Placement``` assigns logical q ubits to physical qubits as they are encountered during routing. ```LinePlacement``` uses a strategy described in https://arxiv.org/abs/1902.08091. ```GraphPlacement``` is described in Section 7.1 of https://arxiv.org/abs/2003.10611. Lets look at how we can use the ```LinePlacement``` class.`
+# The default ```Placement``` assigns logical qubits to physical qubits as they are encountered during routing. ```LinePlacement``` uses a strategy described in https://arxiv.org/abs/1902.08091. ```GraphPlacement``` is described in Section 7.1 of https://arxiv.org/abs/2003.10611. Lets look at how we can use the ```LinePlacement``` class.`
 
 line_placement = LinePlacement(id_architecture)
 
@@ -180,7 +180,7 @@ display.render_circuit_jupyter(c)
 
 Graph(c).get_qubit_graph()
 
-# However, small changes to the depth of lookahead or the original assignment of `Architecture` `Node` can greatly effect the resulting physical circuit for the `LexiRouteRoutingMethod` method. Considering this variance, it should be possible to easily throw additional computational resources at the problem if necessary, which is something TKET is leaning towards with the ability to define custom `RoutingCircuitMethod` objects.
+# However, small changes to the depth of lookahead or the original assignment of `Architecture` `Node` can greatly affect the resulting physical circuit for the `LexiRouteRoutingMethod` method. Considering this variance, it should be possible to easily throw additional computational resources at the problem if necessary, which is something TKET is leaning towards with the ability to define custom `RoutingCircuitMethod` objects.
 
 # To define a new `RoutingMethodCircuit` method though, we first need to understand how it is used in `MappingManager` and routing. The `MappingManager.route_circuit` method treats the global problem of mapping to physical circuits as many sequential sub-problems. Consider the following problem.
 
@@ -268,7 +268,7 @@ def route_subcircuit_func(
 
 # The third argument sets the maximum number of gates given in the passed Circuit and the fourth argument sets the maximum depth in the passed Circuit.
 
-# `LexiRouteRoutingMethod` will always return True, which is because it inserts SWAP gates it can always find some helpful SWAP to insert, and it can dynamically assign logical to physical qubits. Given this, lets construct a more specialised modification - an architecture-aware decomposition of a distance-2 CRy gate. Lets write our function type declarations for each method:
+# `LexiRouteRoutingMethod` will always return True, because it can always find some helpful SWAP to insert, and it can dynamically assign logical to physical qubits. Given this, lets construct a more specialised modification - an architecture-aware decomposition of a distance-2 CRy gate. Lets write our function type declarations for each method:
 
 
 def distance2_CRy_decomp(
@@ -277,7 +277,7 @@ def distance2_CRy_decomp(
     return (False, Circuit(), {}, {})
 
 
-# Where do we start? Lets define a simple scope for our solution: for a single gate in the passed circuit (the circuit after the partition) that has OpType CRy, if the two-qubits its acting on are at distance 2 on the architecture, decompose the gate using BRIDGE gates.
+# Where do we start? Lets define a simple scope for our solution: for a single gate in the passed circuit (the circuit after the partition) that has OpType CRy, if the two qubits it's acting on are at distance 2 on the architecture, decompose the gate using BRIDGE gates.
 
 # The first restriction is to only have a single gate from the first slice - we can achieve this by setting both the maximum depth and size parameters to 1.
 
