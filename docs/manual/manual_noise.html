@@ -20,7 +20,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.0-rc.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.0-rc.1/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -113,7 +113,7 @@ objects will populate a <code class="xref py py-class docutils literal notransla
 Some information, including gate error rates, is stored in attributes with specific names.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 
 <span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_manila&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_node_gate_errors</span><span class="p">)</span>
@@ -133,7 +133,7 @@ Some information, including gate error rates, is stored in attributes with speci
 <p>Other miscellaneous information, varying between backends, is stored in the <cite>misc</cite> attribute, also accessible through the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BackendInfo.get_misc()</span></code> method.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">get_misc</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">get_misc</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -146,7 +146,7 @@ Some information, including gate error rates, is stored in attributes with speci
 <p>There is typically a large variation in device noise characteristics.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Node</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Node</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">all_node_gate_errors</span><span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">all_node_gate_errors</span><span class="p">[</span><span class="n">Node</span><span class="p">(</span><span class="mi">1</span><span class="p">)])</span>
@@ -170,7 +170,7 @@ Some information, including gate error rates, is stored in attributes with speci
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">all_edge_gate_errors</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">all_edge_gate_errors</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -202,7 +202,7 @@ rates. Further information on this method is available in section 7.1
 of our <a class="reference external" href="https://doi.org/10.1088/2058-9565/ab8e92">software overview paper</a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">NoiseAwarePlacement</span><span class="p">,</span> <span class="n">GraphPlacement</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">NoiseAwarePlacement</span><span class="p">,</span> <span class="n">GraphPlacement</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit.qiskit_convert</span> <span class="kn">import</span> <span class="n">get_avg_characterisation</span>
 
 <span class="n">backend_avg</span> <span class="o">=</span> <span class="n">get_avg_characterisation</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
@@ -261,7 +261,7 @@ statistics are closer to the ideal, noiseless, distribution.</p>
 <p>For each cycle in the circuit, each of the ensemble’s operators is prepended to the cycle and a new operator is derived to append to the cycle such that the whole unitary operation is unchanged.  When constructing a <code class="xref py py-class docutils literal notranslate"><span class="pre">FrameRandomisation</span></code> object the information required to derive the correct operator to prepend must be provided through a dictionary. An example of this procedure is <em>randomised compilation</em> <a class="reference internal" href="#wallman2015" id="id2"><span>[Wallman2015]</span></a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">FrameRandomisation</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">FrameRandomisation</span>
 <span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
 
@@ -312,7 +312,7 @@ Counter({(1, 1): 100})
 <p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">PauliFrameRandomisation.get_all_circuits()</span></code> method returns circuits that tailor the noise of subcircuits comprised of cycle gates into a stochastic Pauli noise when run on a device (given some assumptions, such as additional frame gates not providing additional incoherent noise).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">PauliFrameRandomisation</span>
 
@@ -381,7 +381,7 @@ Counter({(1, 0): 12800})
 <p>For a noise free backend, we can see that the same counts distribution is returned as expected. We can use a basic noise model based on a real device to see how a realistic noise channel can change when applying <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliFrameRandomisation</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
 <span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span>
 <span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
 
@@ -419,7 +419,7 @@ Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 203, (0, 0): 215
 <p>An alternative class, <code class="xref py py-class docutils literal notranslate"><span class="pre">UniversalFrameRandomisation</span></code>, is set with cycle gates {<code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.H</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code>} and frame gates {<code class="docutils literal notranslate"><span class="pre">OpType.X</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Y</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Z</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.noop</span></code>} and so can treat a whole circuit as a single cycle if rebased appropriately. It providers averaging circuits  while preserving the unitary of the circuit by changing the rotation angle of cycle <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code> gates when prepending and appending frame gates, meaning that the stochastic Pauli noise property is additionally dependent on incoherent noise not being dependent on the rotation angle.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">UniversalFrameRandomisation</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">UniversalFrameRandomisation</span>
 
 <span class="n">universal_frame_randomisation</span> <span class="o">=</span> <span class="n">UniversalFrameRandomisation</span><span class="p">()</span>
 
@@ -465,7 +465,7 @@ Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0):
 <p>We can use <code class="xref py py-meth docutils literal notranslate"><span class="pre">auto_rebase_pass()</span></code> to create a pass that can be applied to a circuit to rebase its gates to {<code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.H</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.Rz</span></code>}, the cycle gate primitives for Universal Frame Randomisation.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">PauliExpBox</span><span class="p">,</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">PauliExpBox</span><span class="p">,</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.transform</span> <span class="kn">import</span> <span class="n">Transform</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">auto_rebase_pass</span>
 <span class="kn">from</span> <span class="nn">pytket.tailoring</span> <span class="kn">import</span> <span class="n">UniversalFrameRandomisation</span>
@@ -502,10 +502,10 @@ Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0):
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase:  16384
-Number of Universal Frame Randomisation averaging circuits with rebase:  256
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits with rebase:  256
+Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
 </pre></div>
 </div>
 </div>
@@ -525,7 +525,7 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> object uses these subsets of qubits to produce calibration circuits.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.utils.spam</span> <span class="kn">import</span> <span class="n">SpamCorrecter</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.utils.spam</span> <span class="kn">import</span> <span class="n">SpamCorrecter</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 
 <span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
@@ -552,7 +552,7 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 <p>First the <code class="xref py py-class docutils literal notranslate"><span class="pre">SpamCorrecter</span></code> is characterised using counts results for calibration circuits executed through the noisy backend of choice using <code class="xref py py-meth docutils literal notranslate"><span class="pre">SpamCorrecter.calculate_matrices()</span></code>. Once characterised, noisy counts for a circuit can be corrected using <code class="xref py py-meth docutils literal notranslate"><span class="pre">SpamCorrecter.correct_counts()</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
 <span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.utils.spam</span> <span class="kn">import</span> <span class="n">SpamCorrecter</span>
 
@@ -591,9 +591,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 439, (0, 0): 407, (0, 1): 86, (1, 0): 68})
-Corrected Counts: Counter({(1, 1): 512, (0, 0): 472, (0, 1): 12, (1, 0): 6})
-Noiseless Counts: Counter({(0, 0): 502, (1, 1): 498})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 425, (0, 0): 389, (1, 0): 94, (0, 1): 92})
+Corrected Counts: Counter({(1, 1): 480, (0, 0): 444, (0, 1): 43, (1, 0): 35})
+Noiseless Counts: Counter({(1, 1): 502, (0, 0): 498})
 </pre></div>
 </div>
 </div>

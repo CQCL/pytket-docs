@@ -20,7 +20,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.0-rc.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.0-rc.1/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -113,7 +113,7 @@
 <p>Given the small scale and lack of dynamic quantum memories for both devices and simulations, we assume each qubit and bit is statically registered and hence each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> has the same number of inputs as outputs. The set of data units (qubits and bits) used by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is hence going to be constant, so we can define it up-front when we construct one. We can also optionally give it a name for easy identification.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">trivial_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>        <span class="c1"># no qubits or bits</span>
 <span class="n">quantum_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>       <span class="c1"># 4 qubits and no bits</span>
 <span class="n">mixed_circ</span>   <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>    <span class="c1"># 4 qubits and 2 bits</span>
@@ -130,7 +130,7 @@
 <p>Basic quantum gates represent some unitary operation applied to some qubits. Adding them to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> just requires specifying which qubits you want to apply them to. For controlled-gates, the convention is to give the control qubit(s) first, followed by the target qubit(s).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>   <span class="c1"># qubits are numbered 0-3</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>           <span class="c1"># first apply an X gate to qubit 0</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>       <span class="c1"># and apply a CX gate with control qubit 1</span>
@@ -148,7 +148,7 @@
 <p>For parameterised gates, such as rotations, the parameter is always given first. Because of the prevalence of rotations with angles given by fractions of <span class="math notranslate nohighlight">\(\pi\)</span> in practical quantum computing, the unit for all angular parameters is the half-turn (1 half-turn is equal to <span class="math notranslate nohighlight">\(\pi\)</span> radians).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>     <span class="c1"># Rx of angle pi/2 radians on qubit 0</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CRz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># Controlled-Rz of angle 0.3pi radians with</span>
@@ -165,7 +165,7 @@
 <p>A large selection of common gates are available in this way, as listed in the API reference for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class. However, for less commonly used gates, a wider variety is available using the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code> enum, which can be added using the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit.add_gate</span></code> method.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CnX</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
     <span class="c1"># add controlled-X with control qubits 0, 1, 4 and target qubit 3</span>
@@ -191,7 +191,7 @@
 <p>Adding a measurement works just like adding any other gate, where the first argument is the qubit to be measured and the second specifies the classical bit to store the result in.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Z-basis measurement on qubit 0, saving result in bit 0</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -210,7 +210,7 @@
 <p>Because the classical bits are treated as statically assigned locations, writing to the same bit multiple times will overwrite the previous value.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># measure the first measurement</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -227,7 +227,7 @@
 <p>Depending on where we plan on running our circuits, the backend or simulator might have different requirements on the structure of measurements in the circuits. For example, statevector simulators will only work deterministically for pure-quantum circuits, so will fail if any measures are present at all. More crucially, near-term quantum hardware almost always requires all measurements to occur in a single parallel layer at the end of the circuit (i.e. we cannot measure a qubit in the middle of the circuit).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ0</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>    <span class="c1"># all measurements at end</span>
 <span class="n">circ0</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">circ0</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -261,7 +261,7 @@
 <p>The simplest way to guarantee this is to finish the circuit by measuring all qubits. There is a short-hand function <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.measure_all()</span></code> to make this easier.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="c1"># measure qubit 0 in Z basis and 1 in X basis</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -283,7 +283,7 @@
 <p>On devices where mid-circuit measurements are available, they may be highly noisy and not apply just a basic projector on the quantum state. We can view these as “effectively destructive” measurements, where the qubit still exists but is in a noisy state. In this case, it is recommended to actively reset a qubit after measurement if it is intended to be reused.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="c1"># Actively reset state to |0&gt;</span>
@@ -313,7 +313,7 @@
 <p>Adding a barrier to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is done using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.add_barrier()</span></code> method. In general, a barrier is placed on some subset of the (qu)bits to impose these ordering restrictions on those (qu)bits specifically (i.e. we don’t care about reorders on the other (qu)bits).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -337,7 +337,7 @@
 <p>Named resources can be added to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s individually, or by declaring a 1-dimensional register. Any of the methods for adding gates can then use these IDs.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
 <span class="n">qreg</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;reg&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>    <span class="c1"># add a qubit register</span>
 
@@ -362,7 +362,7 @@
 <p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> can be inspected to identify what qubits and bits it contains.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">))</span>
@@ -383,7 +383,7 @@
 <p>To help encourage consistency of identifiers, a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> will reject a new (qu)bit or register if it disagrees with existing IDs with the same name; that is, it refers to a different resource type (qubit vs bit), the index has a different dimension, or some resource already exists with the exact same ID in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. Identifiers with the same register name do not have to have contiguous indices (many devices require non-contiguous indices because qubits may be taken offline over the lifetime of the device).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
 <span class="c1"># set up a circuit with qubit a[0]</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
@@ -408,7 +408,7 @@
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># rejected because &quot;a&quot; is already a 1D register</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># rejected because &quot;a&quot; is already a 1D register</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
 </pre></div>
@@ -429,7 +429,7 @@
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># rejected because a[0] is already in the circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># rejected because a[0] is already in the circuit</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -449,7 +449,7 @@
 <p>The basic integer identifiers are actually a special case, referring to the default qubit (<code class="docutils literal notranslate"><span class="pre">q[i]</span></code>) and bit (<code class="docutils literal notranslate"><span class="pre">c[i]</span></code>) registers. We can create the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> using the nameless <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> constructors.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>    <span class="c1"># same as circ.CX(0, 1)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># same as circ.Measure(2, 0)</span>
@@ -465,7 +465,7 @@
 <p>In some circumstances, it may be useful to rename the resources in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. Given a partial map on <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s, <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.rename_units()</span></code> will change the association of IDs to resources (as long as the final labelling would still have consistent types for all registers). Any unspecified IDs will be preserved.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
@@ -493,7 +493,7 @@
 <p>Because <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s are defined to have open inputs and outputs, it is perfectly natural to compose them by unifying the outputs of one with the inputs of another. Appending one <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to the end of another matches the inputs and outputs with the same <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -517,7 +517,7 @@
 <p>If one <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> lacks some unit present in the other, then we treat it as if it is an identity on that unit. In the extreme case where the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s are defined with disjoint sets of <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.append()</span></code> method will compose them in parallel.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -542,7 +542,7 @@
 <p>To change which units get unified, we could use <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.rename_units()</span></code> as seen before, but in the case where we just want to append a subcircuit like a gate, we can do this with <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.add_circuit()</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -580,7 +580,7 @@
 <p>The simplest example of this is a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code>, which wraps up another <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> defined elsewhere into a single black-box. The difference between adding a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> and just appending the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is that the <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span>
 <span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
@@ -601,7 +601,7 @@
 <p>Similarly, if our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary operation), we can construct the controlled version that is applied coherently according to some set of control qubits. If all control qubits are in the <span class="math notranslate nohighlight">\(|1\rangle\)</span> state, then the unitary is applied to the target system, otherwise it acts as an identity.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span><span class="p">,</span> <span class="n">QControlBox</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span><span class="p">,</span> <span class="n">QControlBox</span>
 <span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
@@ -623,7 +623,7 @@
 <p>As well as creating controlled boxes, we can create a controlled version of an arbitrary <code class="xref py py-class docutils literal notranslate"><span class="pre">Op</span></code> as follows.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span><span class="p">,</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">QControlBox</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span><span class="p">,</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">QControlBox</span>
 <span class="n">op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
 <span class="n">ccs</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
@@ -639,7 +639,7 @@
 <p>It is possible to specify small unitaries from <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Unitary1qBox</span><span class="p">,</span> <span class="n">Unitary2qBox</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Unitary1qBox</span><span class="p">,</span> <span class="n">Unitary2qBox</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">u1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.7487011587786401</span><span class="o">+</span><span class="mf">0.4453416229024393</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.4061474383265779</span><span class="o">+</span><span class="mf">0.2759740424295397</span><span class="n">j</span><span class="p">],</span>
                  <span class="p">[</span><span class="o">-</span><span class="mf">0.12329679104996497</span><span class="o">+</span><span class="mf">0.4753054965713359</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8565044726815658</span><span class="o">+</span><span class="mf">0.15900526570629525</span><span class="n">j</span><span class="p">]])</span>
@@ -667,7 +667,7 @@
 <p>Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: <span class="math notranslate nohighlight">\(e^{-i \pi \theta P}\)</span> (<span class="math notranslate nohighlight">\(P \in \{I, X, Y, Z\}^{\otimes n}\)</span>). These occur very naturally in Trotterising evolution operators and as common native device operations.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">PauliExpBox</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">PauliExpBox</span>
 <span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -689,7 +689,7 @@
 <p>When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_statevector()</span></code> method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> state.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span><span class="o">=</span><span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
@@ -705,7 +705,7 @@
 <p>In addition <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_unitary()</span></code> can be used to numerically calculate the unitary matrix that will be applied by the circuit.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span><span class="o">=</span><span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
@@ -732,7 +732,7 @@
 <p>Because the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class identifies circuits up to DAG equivalence, the sequence will be some topological sort of the DAG, but not necessarily identical to the order the operations were added to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -754,7 +754,7 @@ X OpType.X [q[1]]
 <p>If you are working in a Jupyter environment, a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> can be rendered using html for inline display.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.circuit.display</span> <span class="kn">import</span> <span class="n">render_circuit_jupyter</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
@@ -781,7 +781,7 @@ X OpType.X [q[1]]
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.1/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-4c6a4a4e-5c96-416a-9728-15a1e4b2fc96&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-88b36efe-6a2d-4980-90c9-aa144007be4e&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -797,7 +797,7 @@ X OpType.X [q[1]]
             window.pytketCircuitDisplays = {};
         }
 
-        const uid = &#34;4c6a4a4e-5c96-416a-9728-15a1e4b2fc96&#34;;
+        const uid = &#34;88b36efe-6a2d-4980-90c9-aa144007be4e&#34;;
 
         // Create the root Vue component
         window.pytketCircuitDisplays[uid] = createApp({
@@ -816,7 +816,7 @@ X OpType.X [q[1]]
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> also features ways to view the underlying DAG graphically for easier visual inspection.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">Graph</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -831,7 +831,7 @@ X OpType.X [q[1]]
 <p>The visualisation tool can also describe the interaction graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> consisting of only one- and two-qubit gates – that is, the graph of which qubits will share a two-qubit gate at some point during execution.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">Graph</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">ZZPhase</span><span class="p">(</span><span class="mf">0.63</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -845,7 +845,7 @@ X OpType.X [q[1]]
 <p>The full instruction sequence may often be too much detail for a lot of needs, especially for large circuits. Common circuit metrics like gate count and depth are used to approximate the difficulty of running it on a device, providing some basic tools to help distinguish different implementations of a given algorithm.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -865,7 +865,7 @@ X OpType.X [q[1]]
 <p>We can use the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code> enum class to look for the number of gates of a particular type. We also define <span class="math notranslate nohighlight">\(G\)</span>-depth (for a subset of gate types <span class="math notranslate nohighlight">\(G\)</span>) as the minimum number of layers of gates in <span class="math notranslate nohighlight">\(G\)</span> required to run the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, allowing for topological reorderings. Specific cases of this like <span class="math notranslate nohighlight">\(T\)</span>-depth and <span class="math notranslate nohighlight">\(CX\)</span>-depth are common to the literature on circuit simplification <a class="reference internal" href="#amy2014" id="id4"><span>[Amy2014]</span></a> <a class="reference internal" href="#meij2020" id="id5"><span>[Meij2020]</span></a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -902,7 +902,7 @@ X OpType.X [q[1]]
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dict()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_dict()</span></code> methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 
@@ -938,7 +938,7 @@ X OpType.X [q[1]]
 Though less expressive than native dictionary serialization, it is widely supported and so serves as a platform-independent method of storing circuits.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.qasm</span> <span class="kn">import</span> <span class="n">circuit_from_qasm</span><span class="p">,</span> <span class="n">circuit_to_qasm_str</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.qasm</span> <span class="kn">import</span> <span class="n">circuit_from_qasm</span><span class="p">,</span> <span class="n">circuit_to_qasm_str</span>
 <span class="kn">import</span> <span class="nn">tempfile</span><span class="o">,</span> <span class="nn">os</span>
 
 <span class="n">fd</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="s2">&quot;.qasm&quot;</span><span class="p">)</span>
@@ -978,7 +978,7 @@ measure q[1] -&gt; c[1];
 <p>The core <code class="docutils literal notranslate"><span class="pre">pytket</span></code> package additionally features a converter from Quipper, another circuit description language.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.quipper</span> <span class="kn">import</span> <span class="n">circuit_from_quipper</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.quipper</span> <span class="kn">import</span> <span class="n">circuit_from_quipper</span>
 <span class="kn">import</span> <span class="nn">tempfile</span><span class="o">,</span> <span class="nn">os</span>
 
 <span class="n">fd</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span><span class="s2">&quot;.quip&quot;</span><span class="p">)</span>
@@ -1009,7 +1009,7 @@ measure q[1] -&gt; c[1];
 <p>For example, installing the <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code> package will add the <code class="docutils literal notranslate"><span class="pre">tk_to_qiskit</span></code> and <code class="docutils literal notranslate"><span class="pre">qiskit_to_tk</span></code> methods which convert between the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class from <code class="docutils literal notranslate"><span class="pre">pytket</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.QuantumCircuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
 <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -1047,7 +1047,7 @@ c: 3/═══════════╩═════════════
 <p><code class="docutils literal notranslate"><span class="pre">sympy</span></code> is a widely-used python package for symbolic expressions and algebraic manipulation, defining <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Symbol</span></code> objects to represent algebraic variables and using them in <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Expression</span></code> s to build mathematical statements and arithmetic expressions. Symbolic circuits are managed in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> by defining the circuit parameters as <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Symbol</span></code> s, which can be passed in as arguments to the gates and later substituted for concrete values.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
 <span class="n">b</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">)</span>
@@ -1074,7 +1074,7 @@ c: 3/═══════════╩═════════════
 <p>It is important to note that the units of the parameter values will still be in half-turns, and so may need conversion to/from radians if there is important semantic meaning to the parameter values. This can either be done at the point of interpreting the values, or by embedding the conversion into the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">pi</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>     <span class="c1"># suppose that alpha is given in radians</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>       <span class="c1"># convert alpha to half-turns when adding gates</span>
@@ -1095,7 +1095,7 @@ c: 3/═══════════╩═════════════
 <p>Substitution need not be for concrete values, but is defined more generally to allow symbols to be replaced by arbitrary expressions, including other symbols. This allows for alpha-conversion or to look at special cases with redundant parameters.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;a b c&quot;</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1116,7 +1116,7 @@ c: 3/═══════════╩═════════════
 <p>There are currently no simulators or devices that can run symbolic circuits algebraically, so every symbol must be instantiated before running. At any time, you can query the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object for the set of free symbols it contains to check what would need to be instantiated before it can be run.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;a, b&quot;</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1145,10 +1145,10 @@ True
 </div>
 <section id="symbolic-unitaries-and-states">
 <h3>Symbolic unitaries and states<a class="headerlink" href="#symbolic-unitaries-and-states" title="Permalink to this heading"></a></h3>
-<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.3)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
+<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.4)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.utils.symbolic</span> <span class="kn">import</span> <span class="n">circuit_apply_symbolic_statevector</span><span class="p">,</span> <span class="n">circuit_to_symbolic_unitary</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">pi</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
@@ -1182,7 +1182,7 @@ The conversion functions use the <a class="reference external" href="https://doc
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> construction is good for subroutines where the instruction sequence is fixed. The <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGateDef</span></code> construction generalises this to construct parameterised subroutines by binding symbols in the definition circuit and instantiating them at each instance. Any symbolic <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> can be provided as the subroutine definition. Remaining symbols that are not bound are treated as free symbols in the global scope.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CustomGateDef</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CustomGateDef</span>
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;a b&quot;</span><span class="p">)</span>
 <span class="n">def_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -1216,7 +1216,7 @@ The conversion functions use the <a class="reference external" href="https://doc
 <p>Any state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> in the Clifford fragment is uniquely identified by those tensors of Pauli operators that stabilize it (those <span class="math notranslate nohighlight">\(P\)</span> such that <span class="math notranslate nohighlight">\(P|\psi\rangle = |\psi\rangle\)</span>). These stabilizers form a group of size <span class="math notranslate nohighlight">\(2^n\)</span> for an <span class="math notranslate nohighlight">\(n\)</span> qubit state, but it is sufficient to identify <span class="math notranslate nohighlight">\(n\)</span> independent generators to specify the group. If a Clifford gate <span class="math notranslate nohighlight">\(C\)</span> is applied to the state, each generator <span class="math notranslate nohighlight">\(P\)</span> can be updated to <span class="math notranslate nohighlight">\(P' = CPC^\dagger\)</span> since <span class="math notranslate nohighlight">\(C|\psi\rangle = CP|\psi\rangle = (CPC^\dagger)C|\psi\rangle\)</span>. We can therefore characterise each Clifford operation by its actions on generators of the Pauli group, giving us the Clifford tableau form. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitaryTableau</span></code> class uses the binary symplectic representation from Aaronson and Gottesman <a class="reference internal" href="#aaro2004" id="id6"><span>[Aaro2004]</span></a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">Qubit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">Qubit</span>
 <span class="kn">from</span> <span class="nn">pytket.tableau</span> <span class="kn">import</span> <span class="n">UnitaryTableau</span>
 <span class="n">tab</span> <span class="o">=</span> <span class="n">UnitaryTableau</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">tab</span><span class="o">.</span><span class="n">apply_gate_at_end</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">S</span><span class="p">,</span> <span class="p">[</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">)])</span>
@@ -1242,7 +1242,7 @@ Z@q[2]	-&gt;	0 0 0   0 1 1   0
 <p>The primary use for tableaux in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> is as a scalable means of specifying a Clifford unitary for insertion into a circuit as a Box. This can then be decomposed into basic gates during compilation.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">DecomposeBoxes</span>
 <span class="kn">from</span> <span class="nn">pytket.tableau</span> <span class="kn">import</span> <span class="n">UnitaryTableauBox</span>
 <span class="n">box</span> <span class="o">=</span> <span class="n">UnitaryTableauBox</span><span class="p">(</span>
@@ -1301,7 +1301,7 @@ See the <a class="reference external" href="../../tket/pytket/api/classical.html
 possible expressions and predicates.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Circuit</span><span class="p">,</span>
     <span class="n">BitRegister</span><span class="p">,</span>
     <span class="n">if_bit</span><span class="p">,</span>
@@ -1373,7 +1373,7 @@ as the second. Note that these classical operations can be conditional on other
 classical operations, just like quantum operations.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">reg_gt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">reg_gt</span>
 
 <span class="c1"># create a circuit and add some classical registers</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
@@ -1446,7 +1446,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>Systematic modifications to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object can go beyond simply adding gates one at a time. For example, given a unitary <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, we may wish to generate its inverse for the purposes of uncomputation of ancillae or creating conjugation circuits to diagonalise an operator as in the sample below.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="c1"># we want a circuit for E = exp(-i pi (0.3 XX + 0.1 YY))</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
@@ -1476,7 +1476,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class is built as a DAG to help follow the paths of resources and represent the circuit canonically up to trivial commutations. Each of the edges represents a resource passing from one instruction to the next, so we could represent SWAPs (and general permutations) by connecting the predecessors of the SWAP instruction to the opposite successors. This eliminates the SWAP instruction from the graph (meaning we would no longer perform the operation at runtime) and could enable the compiler to spot additional opportunities for simplification. One example of this in practice is the ability to convert a pair of CXs in opposite directions to just a single CX (along with an implicit SWAP that isn’t actually performed).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">Graph</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1497,7 +1497,7 @@ can support the full range of expressions and comparisons shown above.</p>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">CliffordSimp</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">CliffordSimp</span>
 <span class="n">CliffordSimp</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">implicit_qubit_permutation</span><span class="p">())</span>
@@ -1523,7 +1523,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>To add gates or boxes to a circuit with specified op group names, simply pass the name as a keyword argument <code class="docutils literal notranslate"><span class="pre">opgroup</span></code> to the method that adds the gate or box. To substitute all operations in a group, use the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.substitute_named()</span></code> method. This can be used to substitute a circuit, an operation or a box into the existing circuit.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">opgroup</span><span class="o">=</span><span class="s2">&quot;rotations&quot;</span><span class="p">)</span>
@@ -1547,7 +1547,7 @@ can support the full range of expressions and comparisons shown above.</p>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span>
 
 <span class="c1"># Substitute a new 1-qubit circuit for all ops in the &quot;rotations&quot; group:</span>
 <span class="n">newcirc</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.125</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.875</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -1574,7 +1574,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>To add a control to an operation, one can add the original operation as a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> with one unused qubit, and subtitute it with a <code class="xref py py-class docutils literal notranslate"><span class="pre">QControlBox</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">QControlBox</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">QControlBox</span>
 
 <span class="k">def</span> <span class="nf">with_empty_qubit</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CircBox</span><span class="p">:</span>
     <span class="n">n_qb</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">n_qubits</span>
