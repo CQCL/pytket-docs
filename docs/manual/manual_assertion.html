@@ -20,7 +20,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.0-rc.0/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.0-rc.1/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -107,7 +107,7 @@ A special unsupported case arises when asserting a 3-qubit subspace whose projec
 <p>In the following example, we try to prepare a Bell state along with a state obtained by applying an <span class="math notranslate nohighlight">\(\mathrm{Rx}(0.3)\)</span> rotation to <span class="math notranslate nohighlight">\(|0\rangle\)</span>; we then use projectors to assert that the circuit construction is correct.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">ProjectorAssertionBox</span><span class="p">,</span> <span class="n">Circuit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">ProjectorAssertionBox</span><span class="p">,</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">math</span>
@@ -157,7 +157,7 @@ On the contrary, the assertion named “Rx(0.3)|0&gt;” failed for some shots; 
 <p>If there is noise in the device, which is the case for all devices in the NISQ era, then the results can be much less clear. The following example demonstrates what the assertion outcome will look like if we compile and run the debug circuit with a noisy backend.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span>
 <span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span>
 <span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
 
@@ -199,7 +199,7 @@ These generating sets only contain at most <span class="math notranslate nohighl
 <p>The following code demonstrates how we use the generating set for the Bell state to assert a circuit construction.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">StabiliserAssertionBox</span><span class="p">,</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">StabiliserAssertionBox</span><span class="p">,</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
 
 <span class="c1"># prepare a Bell state</span>
@@ -231,7 +231,7 @@ These generating sets only contain at most <span class="math notranslate nohighl
 <p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">StabiliserAssertionBox</span></code> can also be constructed with a <code class="xref py py-class docutils literal notranslate"><span class="pre">pytket.pauli.PauliStabiliser</span></code>:</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">PauliStabiliser</span><span class="p">,</span> <span class="n">Pauli</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">PauliStabiliser</span><span class="p">,</span> <span class="n">Pauli</span>
 
 <span class="n">stabilisers</span> <span class="o">=</span> <span class="p">[</span><span class="n">PauliStabiliser</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">PauliStabiliser</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">],</span> <span class="mi">1</span><span class="p">)]</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">StabiliserAssertionBox</span><span class="p">(</span><span class="n">stabilisers</span><span class="p">)</span>
