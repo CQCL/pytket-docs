@@ -40,9 +40,21 @@ jobs:
         python-version: 3.8
     - name: install python requirements for notebooks
       run: |
+        # if version are updated, update the version in the build-manual file
+        # and the requirements.txt, too.
+        # this duplication is currently necessary because of an issue with the pyjwt
+        # version required from qcs-api-client < 0.21.0
         python -m pip install --upgrade pip
         python -m pip install wheel
-        python -m pip install -r requirements.txt
+        python -m pip install pytket==1.4.3
+        python -m pip install pytket-pyquil==0.25.0
+        python -m pip install qcs-api-client==0.21.0
+        python -m pip install pytket-cirq==0.25.0
+        python -m pip install pytket-projectq==0.23.0
+        python -m pip install pytket-qiskit==0.27.0
+        python -m pip install pytket-qsharp==0.27.0
+        python -m pip install pytket-quantinuum==0.6.0
+        python -m pip install pytket-qulacs==0.21.0
         python -m pip install -c constraints.txt jupyter openfermion plotly
         python -m pip install docker p2j pytest
     - name: install dotnet SDK and iqsharp
