@@ -3,9 +3,21 @@ Pytket User Manual
 
 This manual refers to the following versions of pytket and extensions:
 
+..
+    [comment]: if the versions are updated, update the version in the install-requirements, too.
+    [comment]: this duplication is currently necessary because of an issue with the pyjwt
+    [comment]: version required from qcs-api-client < 0.21.0
+
 .. code-block:: text
 
-REQUIREMENTS
+    pytket == 1.4.3
+    pytket-cirq == 0.25.0
+    pytket-projectq == 0.23.0
+    pytket-pyquil == 0.25.0
+    pytket-qiskit == 0.27.0
+    pytket-qsharp == 0.27.0
+    pytket-quantinuum == 0.6.0
+    pytket-qulacs == 0.21.0
 
 .. toctree::
     :maxdepth: 2
