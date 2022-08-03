@@ -5,13 +5,8 @@ python -m pip install sphinx sphinx-rtd-theme jupyter-sphinx
 
 cd manual/
 
-ESCAPED_REQS=$(awk '{printf "%s%s",sep,$0; sep="\\\n"} END{print ""}' ../requirements.txt)
-sed "s/REQUIREMENTS/$ESCAPED_REQS/" index-rst-template > index.rst
-
 rm -rf build/
 sphinx-build -b html . build
-
-rm index.rst
 
 cd ..
 
