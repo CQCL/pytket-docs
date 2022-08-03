@@ -52,7 +52,6 @@ jobs:
     - name: build manual
       run: |
         cd manual/
-        sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../requirements.txt | tr -d '\n')/" index-rst-template > index.rst
         sphinx-build -b html . build 1>out.txt 2>err.txt
         echo "stdout:"
         cat out.txt
