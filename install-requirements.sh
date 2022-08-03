@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# if version are updated, update the version in the requirements file 
-# and the check-examples.yml, too.
+# if the depedency versions are updated, update the version in the requirements file, too.
 # this duplication is currently necessary because of an issue with the pyjwt
 # version required from qcs-api-client < 0.21.0
 python -m pip install pytket==1.4.3
