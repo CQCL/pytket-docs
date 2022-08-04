@@ -23,11 +23,12 @@ jobs:
         filters: |
           examples:
             - 'examples/**'
+            - 'requirements.txt'
 
   check:
     name: check examples
     needs: changes
-    if: github.event_name == 'schedule' || needs.changes.outputs.examples == 'true' || github.event_name == 'pull_request'
+    if: github.event_name == 'schedule' || needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3

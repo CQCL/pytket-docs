@@ -23,11 +23,12 @@ jobs:
         filters: |
           manual:
             - 'manual/**'
+            - 'requirements.txt'
 
   check:
     name: check manual
     needs: changes
-    if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true' || github.event_name == 'pull_request'
+    if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
