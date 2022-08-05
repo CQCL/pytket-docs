@@ -237,7 +237,8 @@ def make_noise_model(dep_err_rate, ro_err_rate, qubits):
     )
     # Add depolarising error to CX gates between any qubits (implying full connectivity)
     for i, j in product(qubits, repeat=2):
-        model.add_quantum_error(dep_err, ["cx"], [i, j])
+        if(i != j):
+            model.add_quantum_error(dep_err, ["cx"], [i, j])
     # Add readout error for each qubit
     for i in qubits:
         model.add_readout_error(ro_err, qubits=[i])
