@@ -718,6 +718,56 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
 
 .. note:: Every :py:class:`Backend` requires :py:class:`NoSymbolsPredicate`, so it is necessary to instantiate all symbols before running a :py:class:`Circuit`.
 
+Customised Passes
+=================
+
+We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` allowing users to define their own customised circuit transformation using pytket.
+The :py:class:`CustomPass` class accepts a `transform` parameter.This `transform` is a python function that takes a :py:class:`Circuit` as input and returns a :py:class:`Circuit` as output. 
+
+We will illustrate this using a function which simply replaces Pauli Z gates with a Pauli X and two Hadamard gates.
+
+We can now define our :py:class:`CustomPass` using this function and apply it to a :py:class:`Circuit` in the usual way.
+
+.. jupyter-execute::
+
+    from pytket import Circuit, OpType
+    from pytket.passes import CustomPass
+    
+    def z_transform(circ):
+        n_qubits = circ.n_qubits
+        circ_prime = Circuit(n_qubits) # Define a replacement circuit
+
+        for cmd in circ.get_commands(): # Iterate through all the gates in our input Circuit
+            qubit_list = cmd.qubits # Qubit our gate is applied on (as a list)
+            if cmd.op.type == OpType.Z: # If cmd is a Z gate, decompose to a H, X, H sequence.
+                circ_prime.add_gate(OpType.H, qubit_list)
+                circ_prime.add_gate(OpType.X, qubit_list)
+                circ_prime.add_gate(OpType.H, qubit_list)
+            else: 
+                # Otherwise apply the gate as usual
+                params = cmd.op.params
+                circ_prime.add_gate(cmd.op.type, params, qubit_list) 
+                
+        return circ_prime
+
+    DecompseZPass = CustomPass(z_transform) # Define our pass
+
+    test_circ = Circuit(2) # Define a test Circuit for our pass
+    test_circ.Z(0)
+    test_circ.Z(1)
+    test_circ.CX(0, 1)
+    test_circ.Z(1)
+    test_circ.CRy(0.5, 0, 1)
+    
+    DecompseZPass.apply(test_circ) # Apply our pass to the test Circuit
+
+    test_circ.get_commands() # Commands of our transformed Circuit
+
+
+.. warning::
+    pytket does not require that :py:class:`CustomPass` preserves the unitary of the :py:class:`Circuit`.
+
+
 Partial Compilation
 ===================
 
