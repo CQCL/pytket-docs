@@ -718,15 +718,15 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
 
 .. note:: Every :py:class:`Backend` requires :py:class:`NoSymbolsPredicate`, so it is necessary to instantiate all symbols before running a :py:class:`Circuit`.
 
-Customised Passes
-=================
+User-defined Passes
+===================
 
-We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` which allows users to define their own customised circuit transformation using pytket.
+We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` which allows users to define their own custom circuit transformation using pytket.
 The :py:class:`CustomPass` class accepts a ``transform`` parameter. This ``transform`` is a python function that takes a :py:class:`Circuit` as input and returns a :py:class:`Circuit` as output. 
 
-We will show how to use the :py:class:`CustomPass` with a simple Circuit modification that replaces any Pauli Z gate with a Hadamard gate, Pauli X gate, Hadamard gate chain.
+We will show how to use the :py:class:`CustomPass` with a simple tranfromation that replaces any Pauli Z gate in the :py:class:`Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
 
-We can now define our :py:class:`CustomPass` using this function and apply it to a :py:class:`Circuit` in the usual way.
+After we've defined our ``transfrom`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`Circuit`.
 
 .. jupyter-execute::
 
@@ -763,7 +763,7 @@ We can now define our :py:class:`CustomPass` using this function and apply it to
 
 
 .. warning::
-    pytket does not require that :py:class:`CustomPass` preserves the unitary of the :py:class:`Circuit`.
+    pytket does not require that :py:class:`CustomPass` preserves the unitary of the :py:class:`Circuit` .
 
 
 Partial Compilation
