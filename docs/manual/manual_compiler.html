@@ -941,7 +941,7 @@ CXs 3
 <section id="customised-passes">
 <h3>Customised Passes<a class="headerlink" href="#customised-passes" title="Permalink to this heading"></a></h3>
 <p>We have already seen that pytket allows users to combine passes in a desired order using <code class="xref py py-class docutils literal notranslate"><span class="pre">SequencePass</span></code>. An addtional feature is the <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> which allows users to define their own customised circuit transformation using pytket.
-The <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> class accepts a <cite>transform</cite> parameter.This <cite>transform</cite> is a python function that takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as input and returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as output.</p>
+The <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> class accepts a <code class="docutils literal notranslate"><span class="pre">transform</span></code> parameter. This <code class="docutils literal notranslate"><span class="pre">transform</span></code> is a python function that takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as input and returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as output.</p>
 <p>We will show how to use the <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> with a simple Circuit modification that replaces any Pauli Z gate with a Hadamard gate, Pauli X gate, Hadamard gate chain.</p>
 <p>We can now define our <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> using this function and apply it to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in the usual way.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1309,16 +1309,16 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
- [0 0]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
  [1 1]
- [0 0]
- [0 0]
- [0 0]
+ [1 1]
  [1 1]
  [0 0]
  [1 1]
- [1 1]]
+ [0 0]
+ [0 0]
+ [1 1]
+ [0 0]]
 </pre></div>
 </div>
 </div>
