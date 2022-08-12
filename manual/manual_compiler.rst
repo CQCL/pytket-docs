@@ -722,7 +722,7 @@ Customised Passes
 =================
 
 We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` which allows users to define their own customised circuit transformation using pytket.
-The :py:class:`CustomPass` class accepts a `transform` parameter.This `transform` is a python function that takes a :py:class:`Circuit` as input and returns a :py:class:`Circuit` as output. 
+The :py:class:`CustomPass` class accepts a ``transform`` parameter. This ``transform`` is a python function that takes a :py:class:`Circuit` as input and returns a :py:class:`Circuit` as output. 
 
 We will show how to use the :py:class:`CustomPass` with a simple Circuit modification that replaces any Pauli Z gate with a Hadamard gate, Pauli X gate, Hadamard gate chain.
 
@@ -743,7 +743,7 @@ We can now define our :py:class:`CustomPass` using this function and apply it to
                 circ_prime.add_gate(OpType.H, qubit_list)
                 circ_prime.add_gate(OpType.X, qubit_list)
                 circ_prime.add_gate(OpType.H, qubit_list)
-            else:
+            else: 
                 circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list) # Otherwise, apply the gate as usual.
 
         return circ_prime
