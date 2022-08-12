@@ -721,10 +721,10 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
 Customised Passes
 =================
 
-We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` allowing users to define their own customised circuit transformation using pytket.
+We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` which allows users to define their own customised circuit transformation using pytket.
 The :py:class:`CustomPass` class accepts a `transform` parameter.This `transform` is a python function that takes a :py:class:`Circuit` as input and returns a :py:class:`Circuit` as output. 
 
-We will illustrate this using a function which simply replaces Pauli Z gates with a Pauli X and two Hadamard gates.
+We will show how to use the :py:class:`CustomPass` with a simple Circuit modification that replaces any Pauli Z gate with a Hadamard gate, Pauli X gate, Hadamard gate chain.
 
 We can now define our :py:class:`CustomPass` using this function and apply it to a :py:class:`Circuit` in the usual way.
 
@@ -737,17 +737,15 @@ We can now define our :py:class:`CustomPass` using this function and apply it to
         n_qubits = circ.n_qubits
         circ_prime = Circuit(n_qubits) # Define a replacement circuit
 
-        for cmd in circ.get_commands(): # Iterate through all the gates in our input Circuit
-            qubit_list = cmd.qubits # Qubit our gate is applied on (as a list)
+        for cmd in circ.get_commands():
+            qubit_list = cmd.qubits
             if cmd.op.type == OpType.Z: # If cmd is a Z gate, decompose to a H, X, H sequence.
                 circ_prime.add_gate(OpType.H, qubit_list)
                 circ_prime.add_gate(OpType.X, qubit_list)
                 circ_prime.add_gate(OpType.H, qubit_list)
-            else: 
-                # Otherwise apply the gate as usual
-                params = cmd.op.params
-                circ_prime.add_gate(cmd.op.type, params, qubit_list) 
-                
+            else:
+                circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list) # Otherwise, apply the gate as usual.
+
         return circ_prime
 
     DecompseZPass = CustomPass(z_transform) # Define our pass
