@@ -763,7 +763,7 @@ After we've defined our ``transfrom`` we can construct a :py:class:`CustomPass`.
 
 
 .. warning::
-    pytket does not require that :py:class:`CustomPass` preserves the unitary of the :py:class:`Circuit` .
+    pytket does not require that :py:class:`CustomPass` preserves the unitary of the :py:class:`Circuit` . This is for the user to ensure.
 
 
 Partial Compilation
