@@ -952,7 +952,7 @@ The <code class="xref py py-class docutils literal notranslate"><span class="pre
     <span class="n">circ_prime</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span> <span class="c1"># Define a replacement circuit</span>
 
     <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">():</span>
-        <span class="n">qubit_list</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">qubits</span> <span class="c1"># Qubit our gate is applied on (as a list)</span>
+        <span class="n">qubit_list</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">qubits</span> <span class="c1"># Qubit(s) our gate is applied on (as a list)</span>
         <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Z</span><span class="p">:</span> <span class="c1"># If cmd is a Z gate, decompose to a H, X, H sequence.</span>
             <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
             <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
@@ -1318,15 +1318,15 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
- [1 1]
- [0 0]
- [1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
  [1 1]
  [0 0]
  [0 0]
  [0 0]
+ [1 1]
+ [1 1]
  [0 0]
+ [1 1]
  [0 0]]
 </pre></div>
 </div>
