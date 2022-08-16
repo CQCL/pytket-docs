@@ -61,6 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#initial-and-final-maps">Initial and Final Maps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-topics">Advanced Topics</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#compiling-symbolic-circuits">Compiling Symbolic Circuits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#user-defined-passes">User-defined Passes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#partial-compilation">Partial Compilation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#measurement-reduction">Measurement Reduction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#contextual-optimisations">Contextual Optimisations</a><ul>
@@ -573,7 +574,7 @@ True
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CZ q[0], q[1];, Ry(3.88883) q[0];, Rx(3.2547) q[0];, Ry(3.56808) q[0];, CX q[1], q[0];]
-[CX q[0], q[1];, TK1(0, 2.5, 2) q[2];, TK1(3.89281, 0.5, 1) q[1];, CX q[1], q[2];, TK1(0, 1.425, 3.5) q[1];, TK1(0, 1.5, 1.94) q[2];, CX q[1], q[2];, TK1(1, 0.5, 0.187194) q[1];, TK1(0, 0, 2.5) q[2];, CX q[1], q[0];]
+[CX q[0], q[1];, TK1(0, 0.5, 2) q[2];, TK1(3.89281, 0.5, 1) q[1];, CX q[1], q[2];, TK1(0, 1.425, 3.5) q[1];, TK1(0, 1.5, 1.94) q[2];, CX q[1], q[2];, TK1(1, 0.5, 0.187194) q[1];, TK1(0, 0, 2.5) q[2];, CX q[1], q[0];]
 </pre></div>
 </div>
 </div>
@@ -926,7 +927,7 @@ CXs 3
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.7499999999999999+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.75+0j)
 (1.5+0j)
 </pre></div>
 </div>
@@ -935,6 +936,77 @@ CXs 3
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Every <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> requires <code class="xref py py-class docutils literal notranslate"><span class="pre">NoSymbolsPredicate</span></code>, so it is necessary to instantiate all symbols before running a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
+</div>
+</section>
+<section id="user-defined-passes">
+<h3>User-defined Passes<a class="headerlink" href="#user-defined-passes" title="Permalink to this heading"></a></h3>
+<p>We have already seen that pytket allows users to combine passes in a desired order using <code class="xref py py-class docutils literal notranslate"><span class="pre">SequencePass</span></code>. An addtional feature is the <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> which allows users to define their own custom circuit transformation using pytket.
+The <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> class accepts a <code class="docutils literal notranslate"><span class="pre">transform</span></code> parameter, a python function that takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as input and returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as output.</p>
+<p>We will show how to use <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> by defining a simple transformation that replaces any Pauli Z gate in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> with a Hadamard gate, Pauli X gate, Hadamard gate chain.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+
+<span class="k">def</span> <span class="nf">z_transform</span><span class="p">(</span><span class="n">circ</span><span class="p">):</span>
+    <span class="n">n_qubits</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_qubits</span>
+    <span class="n">circ_prime</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span> <span class="c1"># Define a replacement circuit</span>
+
+    <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">():</span>
+        <span class="n">qubit_list</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">qubits</span> <span class="c1"># Qubit(s) our gate is applied on (as a list)</span>
+        <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Z</span><span class="p">:</span> <span class="c1"># If cmd is a Z gate, decompose to a H, X, H sequence.</span>
+            <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
+            <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
+            <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span> <span class="c1"># Otherwise, apply the gate as usual.</span>
+
+    <span class="k">return</span> <span class="n">circ_prime</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>After we’ve defined our <code class="docutils literal notranslate"><span class="pre">transform</span></code> we can construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code>. This pass can then be applied to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">CustomPass</span>
+
+<span class="n">DecompseZPass</span> <span class="o">=</span> <span class="n">CustomPass</span><span class="p">(</span><span class="n">z_transform</span><span class="p">)</span> <span class="c1"># Define our pass</span>
+
+<span class="n">test_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># Define a test Circuit for our pass</span>
+<span class="n">test_circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">test_circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_circ</span><span class="o">.</span><span class="n">CRy</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">DecompseZPass</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">test_circ</span><span class="p">)</span> <span class="c1"># Apply our pass to the test Circuit</span>
+
+<span class="n">test_circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">()</span> <span class="c1"># Commands of our transformed Circuit</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[H q[0];,
+ H q[1];,
+ X q[0];,
+ X q[1];,
+ H q[0];,
+ H q[1];,
+ CX q[0], q[1];,
+ H q[1];,
+ X q[1];,
+ H q[1];,
+ CRy(0.5) q[0], q[1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see from the output above that our newly defined <code class="xref py py-class docutils literal notranslate"><span class="pre">DecompseZPass</span></code> has successfully decomposed the Pauli Z gates to Hadamard, Pauli X, Hadamard chains and left other gates unchanged.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>pytket does not require that <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> preserves the unitary of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> . This is for the user to ensure.</p>
 </div>
 </section>
 <section id="partial-compilation">
@@ -1246,16 +1318,16 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
- [1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
  [1 1]
  [0 0]
  [0 0]
+ [0 0]
  [1 1]
  [1 1]
+ [0 0]
  [1 1]
- [1 1]
- [1 1]]
+ [0 0]]
 </pre></div>
 </div>
 </div>
