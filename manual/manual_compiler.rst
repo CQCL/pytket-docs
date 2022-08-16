@@ -726,8 +726,6 @@ The :py:class:`CustomPass` class accepts a ``transform`` parameter, a python fun
 
 We will show how to use :py:class:`CustomPass` by defining a simple transformation that replaces any Pauli Z gate in the :py:class:`Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
 
-
-
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
@@ -737,7 +735,7 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
         circ_prime = Circuit(n_qubits) # Define a replacement circuit
 
         for cmd in circ.get_commands():
-            qubit_list = cmd.qubits # Qubit our gate is applied on (as a list)
+            qubit_list = cmd.qubits # Qubit(s) our gate is applied on (as a list)
             if cmd.op.type == OpType.Z: # If cmd is a Z gate, decompose to a H, X, H sequence.
                 circ_prime.add_gate(OpType.H, qubit_list)
                 circ_prime.add_gate(OpType.X, qubit_list)
