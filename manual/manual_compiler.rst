@@ -724,9 +724,9 @@ User-defined Passes
 We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` which allows users to define their own custom circuit transformation using pytket.
 The :py:class:`CustomPass` class accepts a ``transform`` parameter, a python function that takes a :py:class:`Circuit` as input and returns a :py:class:`Circuit` as output. 
 
-We will show how to use :py:class:`CustomPass` by defining a simple tranfromation that replaces any Pauli Z gate in the :py:class:`Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
+We will show how to use :py:class:`CustomPass` by defining a simple transformation that replaces any Pauli Z gate in the :py:class:`Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
 
-After we've defined our ``transfrom`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`Circuit`.
+After we've defined our ``transform`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`Circuit`.
 
 .. jupyter-execute::
 
