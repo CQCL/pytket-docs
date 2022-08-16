@@ -726,12 +726,11 @@ The :py:class:`CustomPass` class accepts a ``transform`` parameter, a python fun
 
 We will show how to use :py:class:`CustomPass` by defining a simple transformation that replaces any Pauli Z gate in the :py:class:`Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
 
-After we've defined our ``transform`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`Circuit`.
+
 
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.passes import CustomPass
     
     def z_transform(circ):
         n_qubits = circ.n_qubits
@@ -748,6 +747,12 @@ After we've defined our ``transform`` we can construct a :py:class:`CustomPass`.
 
         return circ_prime
 
+After we've defined our ``transform`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`Circuit`.
+
+.. jupyter-execute::
+
+    from pytket.passes import CustomPass
+
     DecompseZPass = CustomPass(z_transform) # Define our pass
 
     test_circ = Circuit(2) # Define a test Circuit for our pass
@@ -761,6 +766,7 @@ After we've defined our ``transform`` we can construct a :py:class:`CustomPass`.
 
     test_circ.get_commands() # Commands of our transformed Circuit
 
+We see from the output above that our newly defined :py:class:`DecompseZPass` has successfully decomposed the Pauli Z gates to Hadamard, Pauli X, Hadamard chains and left other gates unchanged.
 
 .. warning::
     pytket does not require that :py:class:`CustomPass` preserves the unitary of the :py:class:`Circuit` . This is for the user to ensure.
