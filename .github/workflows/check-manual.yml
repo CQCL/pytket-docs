@@ -23,6 +23,7 @@ jobs:
         filters: |
           manual:
             - 'manual/**'
+            - 'requirements.txt'
 
   check:
     name: check manual
@@ -42,7 +43,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install wheel
-        ./install-requirements
+        python -m pip install -r requirements.txt
         python -m pip install sphinx sphinx-rtd-theme jupyter-sphinx
         python -m pip install ipyparallel
     - name: install graphviz
@@ -52,6 +53,7 @@ jobs:
     - name: build manual
       run: |
         cd manual/
+        sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../requirements.txt | tr -d '\n')/" index-rst-template > index.rst
         sphinx-build -b html . build 1>out.txt 2>err.txt
         echo "stdout:"
         cat out.txt

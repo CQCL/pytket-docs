@@ -23,6 +23,7 @@ jobs:
         filters: |
           examples:
             - 'examples/**'
+            - 'requirements.txt'
 
   check:
     name: check examples
@@ -42,7 +43,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install wheel
-        ./install-requirements
+        python -m pip install -r requirements.txt
         python -m pip install -c constraints.txt jupyter openfermion plotly
         python -m pip install docker p2j pytest
     - name: install dotnet SDK and iqsharp
