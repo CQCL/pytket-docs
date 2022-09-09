@@ -137,8 +137,9 @@ c.Measure(bob[0], final[0])
 model = NoiseModel()
 dep_err = depolarizing_error(0.04, 2)
 for i, j in combinations(range(3), r=2):
-    model.add_quantum_error(dep_err, ["cx"], [i, j])
-    model.add_quantum_error(dep_err, ["cx"], [j, i])
+    if i != j:
+        model.add_quantum_error(dep_err, ["cx"], [i, j])
+        model.add_quantum_error(dep_err, ["cx"], [j, i])
 backend = AerBackend(noise_model=model)
 
 # Run circuit:
