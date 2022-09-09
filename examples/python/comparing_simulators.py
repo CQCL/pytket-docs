@@ -139,12 +139,11 @@ dep_err = depolarizing_error(0.04, 2)
 for i, j in combinations(range(3), r=2):
     if i != j:
         model.add_quantum_error(dep_err, ["cx"], [i, j])
-        model.add_quantum_error(dep_err, ["cx"], [j, i])
 backend = AerBackend(noise_model=model)
 
 # Run circuit:
 
-c = backend.get_compiled_circuit(c)
+c = backend.get_compiled_circuit(c, 0)
 handle = backend.process_circuit(c, n_shots=2000)
 result = backend.get_result(handle)
 counts = result.get_counts([final[0]])
