@@ -20,7 +20,7 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -275,7 +275,7 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[H q[0];, Rz(0.5) q[0];, PhasedX(0.5, 0) q[0];, H q[0];]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[PhasedX(2.5, 0) q[0];, Rz(0.5) q[0];]
 </pre></div>
 </div>
 </div>
@@ -574,7 +574,7 @@ True
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CZ q[0], q[1];, Ry(3.88883) q[0];, Rx(3.2547) q[0];, Ry(3.56808) q[0];, CX q[1], q[0];]
-[CX q[0], q[1];, TK1(0, 0.5, 2) q[2];, TK1(3.89281, 0.5, 1) q[1];, CX q[1], q[2];, TK1(0, 1.425, 3.5) q[1];, TK1(0, 1.5, 1.94) q[2];, CX q[1], q[2];, TK1(1, 0.5, 0.187194) q[1];, TK1(0, 0, 2.5) q[2];, CX q[1], q[0];]
+[CX q[0], q[1];, TK1(0, 2.5, 3) q[2];, TK1(1.10719, 2.5, 0) q[1];, CX q[1], q[2];, TK1(0, 1.425, 3.5) q[1];, TK1(0, 1.5, 1.94) q[2];, CX q[1], q[2];, TK1(0, 2.5, 3.81281) q[1];, TK1(0, 0, 1.5) q[2];, CX q[1], q[0];]
 </pre></div>
 </div>
 </div>
@@ -732,7 +732,7 @@ True
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">Input In [18],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">DecomposeBoxes</span><span class="p">,</span> <span class="n">PauliSimp</span><span class="p">,</span> <span class="n">SequencePass</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># PauliSimp requires a specific gateset and no conditional gates</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># or mid-circuit measurement, so this will raise an exception</span>
@@ -838,7 +838,7 @@ True
 Gates 9
 CXs 1
 Optimisation level 1
-Gates 13
+Gates 12
 CXs 4
 Optimisation level 2
 Gates 12
@@ -927,7 +927,7 @@ CXs 3
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.75+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.7499999999999999+0j)
 (1.5+0j)
 </pre></div>
 </div>
@@ -1319,15 +1319,15 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+ [0 0]
+ [1 1]
+ [0 0]
+ [1 1]
  [1 1]
  [0 0]
  [0 0]
  [0 0]
- [1 1]
- [1 1]
- [0 0]
- [1 1]
- [0 0]]
+ [1 1]]
 </pre></div>
 </div>
 </div>
