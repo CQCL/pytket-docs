@@ -396,7 +396,7 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">Input In [13],</span> in <span class="ni">&lt;cell line: 7&gt;</span><span class="nt">()</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># rejected because &quot;a&quot; is already a qubit register</span>
 <span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_bit</span><span class="p">(</span><span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -417,7 +417,7 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">Input In [14],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># rejected because &quot;a&quot; is already a 1D register</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
@@ -437,7 +437,7 @@
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">Input In [15],</span> in <span class="ni">&lt;cell line: 2&gt;</span><span class="nt">()</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># rejected because a[0] is already in the circuit</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
@@ -727,8 +727,8 @@
 </div>
 </div>
 </div>
-<p>In addition to the box types mentioned above <code class="docutils literal notranslate"><span class="pre">pytket</span></code> also supports a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> structure. <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> can be used to prepare an arbitrary permutation of the computational basis states.
-In order to construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> the user must supply the desired permutation as a dictionary specifying the action of the box on different input states. If no key:value pair is specified for a given basis state then the mapping is just the identity map and the state is unchanged by the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code>.</p>
+<p>In addition to the box types mentioned above <code class="docutils literal notranslate"><span class="pre">pytket</span></code> also supports a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> structure. <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> can be used to prepare an arbitrary permutation of the computational basis states using. Within the box this permutation is performed using the classical reversible gateset <span class="math notranslate nohighlight">\(\{X,CnX\}\)</span>.</p>
+<p>In order to construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> the user must supply the desired permutation as a dictionary specifying the action of the box on different input states. If no key:value pair is specified for a given basis state then the mapping is just the identity map and the state is unchanged by the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -831,7 +831,7 @@ X OpType.X [q[1]]
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.2/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-4be84a54-3e32-4ac6-bb29-a419633ba2a3&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-3e55de42-3a97-4cfc-b290-4e3f36fe1f08&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -844,7 +844,7 @@ X OpType.X [q[1]]
         if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
             window.pytketCircuitDisplays = {};
         }
-        const uid = &#34;4be84a54-3e32-4ac6-bb29-a419633ba2a3&#34;;
+        const uid = &#34;3e55de42-3a97-4cfc-b290-4e3f36fe1f08&#34;;
         // Create the root Vue component
         window.pytketCircuitDisplays[uid] = createApp({
             delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
