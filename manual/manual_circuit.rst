@@ -415,7 +415,7 @@ In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate 
 .. jupyter-execute::
 
     from pytket import Circuit
-    
+
     circ = Circuit(2)
     circ.H(0).CZ(0,1).H(1)
     circ.get_unitary()
@@ -506,6 +506,32 @@ Another notable example that is common to many algorithms and high-level circuit
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X], -0.1), [0, 1])
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
+
+.. jupyter-execute::
+
+    from pytket import Circuit
+    from pytket.circuit import ToffoliBox
+
+    permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}       # Specify the desired permutation of the basis states
+    tb = ToffoliBox(n_qubits=2, permutation=permutation) # Construct a two qubit ToffoliBox to perform the permutation
+
+    circ = Circuit(2)              # Create a two qubit circuit
+    circ.add_toffolibox(tb, [0,1]) # Add the ToffoliBox defined above to our circuit
+    circ.get_commands()            # Display circuit commands
+
+Now lets perform a statevector calculation to ensure that the :py:class:`ToffoliBox` performs the desired permutation. Recall that when calculating the statevector ``pytket`` assumes qubits to be initialised in the :math:`|0\rangle^{\otimes n}` state. 
+
+.. jupyter-execute::
+
+    circ.get_statevector()
+
+We see from the output that the :py:class:`ToffoliBox` prepares the :math:`|11\rangle` basis state from out initial state of :math:`|00\rangle`.
+
+The user may wish to inspect the circuit inside the :py:class:`ToffoliBox`. This can be done with the :py:meth:`ToffoliBox.get_circuit` method.
+
+.. jupyter-execute::
+
+    tb.get_circuit()
 
 Analysing Circuits
 ------------------
