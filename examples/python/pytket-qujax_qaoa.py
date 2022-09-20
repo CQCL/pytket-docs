@@ -23,8 +23,8 @@ n_qubits = 4
 hamiltonian_qubit_inds = [(0, 1), (1, 2), (0, 2), (1, 3)]
 hamiltonian_gates = [['Z', 'Z']] * (len(hamiltonian_qubit_inds))
 
-
 # Notice that in order to use the random package from jax we first need to define a seeded key
+
 seed = 13
 key = random.PRNGKey(seed)
 coefficients = random.uniform(key, shape=(len(hamiltonian_qubit_inds), ))
@@ -51,12 +51,7 @@ def qaoa_circuit(n_qubits, depth):
         circuit.H(i)
         
     for d in range(depth):
-        # Mixing Unitary
-        beta_d = Symbol(f"β_{d}")
-        for i in range(n_qubits):
-            circuit.Rx(beta_d, i)
-        p_keys.append(beta_d)
-        # Hamiltonian
+        # Hamiltonian unitary
         gamma_d = Symbol(f"γ_{d}")
         for index in range(len(hamiltonian_qubit_inds)):
             pair = hamiltonian_qubit_inds[index]
@@ -67,6 +62,12 @@ def qaoa_circuit(n_qubits, depth):
             circuit.CX(pair[0], pair[1])
             circuit.add_barrier(range(0, n_qubits))
         p_keys.append(gamma_d)
+        
+        # Mixing unitary
+        beta_d = Symbol(f"β_{d}")
+        for i in range(n_qubits):
+            circuit.Rx(beta_d, i)
+        p_keys.append(beta_d)
         
     return circuit, p_keys
 
@@ -99,7 +100,8 @@ st_to_expectation = qujax.get_statetensor_to_expectation_func(hamiltonian_gates,
 param_to_expectation = lambda param: st_to_expectation(param_to_st(param))
 
 # # Training process
-# We construct a function that, given a parameter vector, returns the value of the cost function and the gradient (we also `jit` to avoid recompilation):
+# We construct a function that, given a parameter vector, returns the value of the cost function and the gradient.
+# We also `jit` to avoid recompilation, this means that the expensive `cost_and_grad` function is compiled once into a very fast XLA (C++) function which is then executed at each iteration. Alternatively, we could get the same speedup by replacing our `for` loop with `jax.lax.scan`. You can read more about JIT compilation in the [JAX documentation](https://jax.readthedocs.io/en/latest/jax-101/02-jitting.html).
 
 cost_and_grad = jit(value_and_grad(param_to_expectation))
 
