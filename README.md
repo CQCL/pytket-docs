@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/main?filepath=examples)
 
-Pytket is a python module for interfacing with CQC tket, a set of quantum programming tools.
+Pytket is a python module for interfacing with tket, a set of quantum programming tools developed by [Quantinuum](https://www.quantinuum.com/) (formerly Cambridge Quantum).
 
 This repository contains API documentation and example notebooks to get you started using pytket. It does not contain source code. The source code is maintained on the [tket repository](https://github.com/CQCL/tket).
 
@@ -19,6 +19,8 @@ See the [Getting Started](https://cqcl.github.io/tket/pytket/api/getting_started
 API documentation can be found at [cqcl.github.io/tket/pytket](https://cqcl.github.io/tket/pytket/api).
 
 To get more in depth on features, see the [manual](https://cqcl.github.io/pytket/manual/) and [examples](https://github.com/CQCL/pytket/tree/main/examples).
+
+For support and discussion we have a [public slack channel]()
 
 ## Interfaces
 
