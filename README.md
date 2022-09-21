@@ -20,7 +20,7 @@ API documentation can be found at [cqcl.github.io/tket/pytket](https://cqcl.gith
 
 To get more in depth on features, see the [manual](https://cqcl.github.io/pytket/manual/) and [examples](https://github.com/CQCL/pytket/tree/main/examples).
 
-For support and discussion we have a [public slack channel]()
+For support and discussion we have a [public slack channel](https://tketusers.slack.com/join/shared_invite/zt-18qmsamj9-UqQFVdkRzxnXCcKtcarLRA#/shared-invite/email).
 
 ## Interfaces
 
