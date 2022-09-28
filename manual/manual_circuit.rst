@@ -41,11 +41,12 @@ Basic quantum gates represent some unitary operation applied to some qubits. Add
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(4)   # qubits are numbered 0-3
     circ.X(0)           # first apply an X gate to qubit 0
-    circ.CX(1, 3)       # and apply a CX gate with control qubit 1
-                        #   and target qubit 3
+    circ.CX(1, 3)       # and apply a CX gate with control qubit 1 and target qubit 3
     circ.Z(3)           # then apply a Z gate to qubit 3
+    circ.get_commands() # show the commands of the built circuit
 
 .. parameterised gates; parameter first, always in half-turns
 
@@ -507,21 +508,26 @@ Another notable example that is common to many algorithms and high-level circuit
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
 
-In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` structure. :py:class:`ToffoliBox` can be used to prepare an arbitrary permutation of the computational basis states using. Within the box this permutation is performed using the classical reversible gateset :math:`\{X,CnX\}`.
+In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` structure. This box type can be used to prepare an arbitrary permutation of the computational basis states using the :math:`\{\text{X},\text{CnX}\}` gateset.
 
-In order to construct a :py:class:`ToffoliBox` the user must supply the desired permutation as a dictionary specifying the action of the box on different input states. If no key:value pair is specified for a given basis state then the mapping is just the identity map and the state is unchanged by the :py:class:`ToffoliBox`. 
+In order to construct a :py:class:`ToffoliBox` the user must supply the desired permutation as a dictionary specifying the action of the box on different input basis states, where a key:value pair implies that the basis state key should be mapped to the basis state value.
+
+The given dictionary should provide permutations that correspond to complete cycles of basis states, i.e. if a basis state is present as a key then it must also be present as a value in the dictionary. If a valid permutation is supplied then a :py:class:`ToffoliBox` is constructed to perform the permutation and an error is thrown if the provided permutation is invalid.
 
 .. jupyter-execute::
 
     from pytket import Circuit
     from pytket.circuit import ToffoliBox
 
-    permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}       # Specify the desired permutation of the basis states
-    tb = ToffoliBox(n_qubits=2, permutation=permutation) # Construct a two qubit ToffoliBox to perform the permutation
+    # Specify the desired permutation of the basis states
+    permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}     
 
-    circ = Circuit(2)              # Create a two qubit circuit
-    circ.add_toffolibox(tb, [0,1]) # Add the ToffoliBox defined above to our circuit
-    circ.get_commands()            # Display circuit commands
+    # Construct a two qubit ToffoliBox to perform the permutation
+    tb = ToffoliBox(n_qubits=2, permutation=permutation) 
+
+    circ = Circuit(2)               # Create a two qubit circuit
+    circ.add_toffolibox(tb, [0, 1]) # Add the ToffoliBox defined above to our circuit
+    circ.get_commands()             # Display circuit commands
 
 Now lets perform a statevector calculation to ensure that the :py:class:`ToffoliBox` performs the desired permutation. Recall that when calculating the statevector ``pytket`` assumes qubits to be initialised in the :math:`|0\rangle^{\otimes n}` state. 
 
