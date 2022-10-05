@@ -52,8 +52,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#barriers">Barriers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#registers-and-ids">Registers and IDs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#composing-circuits">Composing Circuits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#boxes">Boxes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#boxes">Boxes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#analysing-circuits">Analysing Circuits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#importing-exporting-circuits">Importing/Exporting Circuits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#symbolic-circuits">Symbolic Circuits</a><ul>
@@ -131,16 +131,17 @@
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>   <span class="c1"># qubits are numbered 0-3</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>           <span class="c1"># first apply an X gate to qubit 0</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>       <span class="c1"># and apply a CX gate with control qubit 1</span>
-                    <span class="c1">#   and target qubit 3</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>       <span class="c1"># and apply a CX gate with control qubit 1 and target qubit 3</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>           <span class="c1"># then apply a Z gate to qubit 3</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">()</span> <span class="c1"># show the commands of the built circuit</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[X q[0]; CX q[1], q[3]; Z q[3]; ]
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[X q[0];, CX q[1], q[3];, Z q[3];]
 </pre></div>
 </div>
 </div>
@@ -574,6 +575,50 @@
 <p>This requires the subcircuit to be defined only over the default registers so that the list of arguments given to <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.add_circuit()</span></code> can easily be mapped.</p>
 </div>
 </section>
+<section id="statevectors-and-unitaries">
+<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this heading"></a></h2>
+<p>When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_statevector()</span></code> method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> state.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.70710678+0.j, 0.        +0.j, 0.        +0.j, 0.70710678+0.j])
+</pre></div>
+</div>
+</div>
+</div>
+<p>In addition <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_unitary()</span></code> can be used to numerically calculate the unitary matrix that will be applied by the circuit.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 0.5+0.j,  0.5+0.j,  0.5+0.j,  0.5+0.j],
+       [ 0.5+0.j, -0.5+0.j,  0.5+0.j, -0.5+0.j],
+       [ 0.5+0.j, -0.5+0.j, -0.5+0.j,  0.5+0.j],
+       [ 0.5+0.j,  0.5+0.j, -0.5+0.j, -0.5+0.j]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The unitary matrix of a quantum circuit is of dimension <span class="math notranslate nohighlight">\((2^n \times 2^n)\)</span> where <span class="math notranslate nohighlight">\(n\)</span> is the number of qubits. The statevector will be a column vector with <span class="math notranslate nohighlight">\(2^n\)</span> entries . Due to this exponential scaling it will in general be very inefficient to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.</p>
+</div>
+</section>
 <section id="boxes">
 <h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this heading"></a></h2>
 <p>Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn’t mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit’s design when it is constructed using higher-level constructions. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the concept of a “Box” is to abstract away such complex structures as black-boxes within larger circuits.</p>
@@ -683,47 +728,58 @@
 </div>
 </div>
 </div>
-</section>
-<section id="statevectors-and-unitaries">
-<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this heading"></a></h2>
-<p>When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_statevector()</span></code> method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> state.</p>
+<p>In addition to the box types mentioned above <code class="docutils literal notranslate"><span class="pre">pytket</span></code> also supports a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> structure. This box type can be used to prepare an arbitrary permutation of the computational basis states using the <span class="math notranslate nohighlight">\(\{\text{X},\text{CnX}\}\)</span> gateset.</p>
+<p>In order to construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> the user must supply the desired permutation as a dictionary specifying the action of the box on different input basis states, where a key:value pair implies that the basis state key should be mapped to the basis state value.</p>
+<p>The given dictionary should provide permutations that correspond to complete cycles of basis states, i.e. if a basis state is present as a key then it must also be present as a value in the dictionary. If a valid permutation is supplied then a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> is constructed to perform the permutation and an error is thrown if the provided permutation is invalid.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
-<span class="n">circ</span><span class="o">=</span><span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">ToffoliBox</span>
+
+<span class="c1"># Specify the desired permutation of the basis states</span>
+<span class="n">permutation</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+
+<span class="c1"># Construct a two qubit ToffoliBox to perform the permutation</span>
+<span class="n">tb</span> <span class="o">=</span> <span class="n">ToffoliBox</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">permutation</span><span class="o">=</span><span class="n">permutation</span><span class="p">)</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>               <span class="c1"># Create a two qubit circuit</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_toffolibox</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="c1"># Add the ToffoliBox defined above to our circuit</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">()</span>             <span class="c1"># Display circuit commands</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.70710678+0.j, 0.        +0.j, 0.        +0.j, 0.70710678+0.j])
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[ToffoliBox q[0], q[1];]
 </pre></div>
 </div>
 </div>
 </div>
-<p>In addition <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_unitary()</span></code> can be used to numerically calculate the unitary matrix that will be applied by the circuit.</p>
+<p>Now lets perform a statevector calculation to ensure that the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> performs the desired permutation. Recall that when calculating the statevector <code class="docutils literal notranslate"><span class="pre">pytket</span></code> assumes qubits to be initialised in the <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> state.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
-<span class="n">circ</span><span class="o">=</span><span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([[ 0.5+0.j,  0.5+0.j,  0.5+0.j,  0.5+0.j],
-       [ 0.5+0.j, -0.5+0.j,  0.5+0.j, -0.5+0.j],
-       [ 0.5+0.j, -0.5+0.j, -0.5+0.j,  0.5+0.j],
-       [ 0.5+0.j,  0.5+0.j, -0.5+0.j, -0.5+0.j]])
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j])
 </pre></div>
 </div>
 </div>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The unitary matrix of a quantum circuit is of dimension <span class="math notranslate nohighlight">\((2^n \times 2^n)\)</span> where <span class="math notranslate nohighlight">\(n\)</span> is the number of qubits. The statevector will be a column vector with <span class="math notranslate nohighlight">\(2^n\)</span> entries . Due to this exponential scaling it will in general be very inefficent to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.</p>
+<p>We see from the output that the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> prepares the <span class="math notranslate nohighlight">\(|11\rangle\)</span> basis state from out initial state of <span class="math notranslate nohighlight">\(|00\rangle\)</span>.</p>
+<p>The user may wish to inspect the circuit inside the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code>. This can be done with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">ToffoliBox.get_circuit()</span></code> method.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb</span><span class="o">.</span><span class="n">get_circuit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[X q[1]; CnX q[1], q[0]; X q[1]; CnX q[0], q[1]; X q[1]; CnX q[1], q[0]; X q[1]; ]
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="analysing-circuits">
@@ -780,7 +836,7 @@ X OpType.X [q[1]]
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.2/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-55620ec9-909c-4a61-bf95-73457827e99d&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-41f8f13a-4158-4a46-910a-e538391c8625&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -793,7 +849,7 @@ X OpType.X [q[1]]
         if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
             window.pytketCircuitDisplays = {};
         }
-        const uid = &#34;55620ec9-909c-4a61-bf95-73457827e99d&#34;;
+        const uid = &#34;41f8f13a-4158-4a46-910a-e538391c8625&#34;;
         // Create the root Vue component
         window.pytketCircuitDisplays[uid] = createApp({
             delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
@@ -821,7 +877,7 @@ X OpType.X [q[1]]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_29_0.svg" src="_images/manual_circuit_29_0.svg" /></div>
+<img alt="_images/manual_circuit_32_0.svg" src="_images/manual_circuit_32_0.svg" /></div>
 </div>
 <p>The visualisation tool can also describe the interaction graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> consisting of only one- and two-qubit gates – that is, the graph of which qubits will share a two-qubit gate at some point during execution.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -835,7 +891,7 @@ X OpType.X [q[1]]
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_30_0.svg" src="_images/manual_circuit_30_0.svg" /></div>
+<img alt="_images/manual_circuit_33_0.svg" src="_images/manual_circuit_33_0.svg" /></div>
 </div>
 <p>The full instruction sequence may often be too much detail for a lot of needs, especially for large circuits. Common circuit metrics like gate count and depth are used to approximate the difficulty of running it on a device, providing some basic tools to help distinguish different implementations of a given algorithm.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1488,7 +1544,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1];, CX q[1], q[0];, Rx(0.2) q[1];, CZ q[0], q[1];]
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_48_1.svg" src="_images/manual_circuit_48_1.svg" /></div>
+<img alt="_images/manual_circuit_51_1.svg" src="_images/manual_circuit_51_1.svg" /></div>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1505,7 +1561,7 @@ can support the full range of expressions and comparisons shown above.</p>
 {q[0]: q[1], q[1]: q[0], q[2]: q[2], q[3]: q[3]}
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_49_1.svg" src="_images/manual_circuit_49_1.svg" /></div>
+<img alt="_images/manual_circuit_52_1.svg" src="_images/manual_circuit_52_1.svg" /></div>
 </div>
 <p>This procedure essentially exploits the naturality of the symmetry operator in the resource theory to push it to the end of the circuit: the <code class="docutils literal notranslate"><span class="pre">Rx</span></code> gate has moved from qubit <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> to <code class="docutils literal notranslate"><span class="pre">q[0]</span></code> and can be commuted through to the start. This is automatically considered when composing two <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together.</p>
 <p>The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> backends, but care should be taken when reading from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> directly - two quantum <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.implicit_qubit_permutation()</span></code> method can be used to inspect such a permutation.</p>
