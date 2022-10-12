@@ -532,8 +532,8 @@ Not only is the goal of tket to be a device-agnostic platform, but also interfac
 
     problem = AmplificationProblem(oracle=oracle, is_good_state=is_good_state)
     grover = Grover(quantum_instance=qinstance)
-    result = grover.amplify(problem)
-    print("Top measurement:", result.top_measurement)
+    #result = grover.amplify(problem)
+    #print("Top measurement:", result.top_measurement)
 
 .. note:: Since Qiskit may not be able to solve all of the constraints of the chosen device/simulator, some compilation may be required after a circuit is passed to the :py:class:`TketBackend`, or it may just be preferable to do so to take advantage of the sophisticated compilation solutions provided in ``pytket``. Upon constructing the :py:class:`TketBackend`, you can provide a ``pytket`` compilation pass to apply to each circuit, e.g. ``TketBackend(backend, backend.default_compilation_pass())``. Some experimentation may be required to find a combination of ``qiskit.transpiler.PassManager`` and ``pytket`` compilation passes that executes successfully.
 
