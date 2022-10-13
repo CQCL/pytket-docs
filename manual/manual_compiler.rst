@@ -28,6 +28,7 @@ Each :py:class:`Predicate` can be constructed on its own to impose tests on :py:
 
     from pytket import Circuit, OpType
     from pytket.predicates import GateSetPredicate, NoMidMeasurePredicate
+
     circ = Circuit(2, 2)
     circ.Rx(0.2, 0).CX(0, 1).Rz(-0.7, 1).measure_all()
 
@@ -82,6 +83,7 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
 
     from pytket import Circuit
     from pytket.passes import RebaseTket
+
     circ = Circuit(2, 2)
     circ.Rx(0.3, 0).Ry(-0.9, 1).CZ(0, 1).S(0).CX(1, 0).measure_all()
 
@@ -159,6 +161,7 @@ A placement pass will act in place on a :py:class:`Circuit` by renaming the qubi
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
     from pytket.placement import GraphPlacement
+
     circ = Circuit(4, 4)
     circ.H(0).H(1).H(2).V(3)
     circ.CX(0, 1).CX(1, 2).CX(2, 3)
@@ -191,6 +194,7 @@ In some circumstances, the best location is not fully determined immediately and
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass
     from pytket.placement import LinePlacement
+
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
@@ -212,6 +216,7 @@ A custom (partial) placement can be applied by providing the appropriate qubit m
 
     from pytket.circuit import Circuit, Qubit, Node
     from pytket.placement import Placement
+
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
@@ -226,6 +231,7 @@ A custom placement may also be defined as a pass (which can then be combined wit
 
     from pytket.circuit import Circuit, Qubit, Node
     from pytket.passes import RenameQubitsPass
+
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
 
@@ -246,6 +252,7 @@ Several heuristics have been implemented for identifying candidate placements. F
     from pytket.passes import PlacementPass
     from pytket.predicates import ConnectivityPredicate
     from pytket.placement import GraphPlacement
+
     circ = Circuit(5)
     circ.CX(0, 1).CX(1, 2).CX(3, 4)
     circ.CX(0, 1).CX(1, 2).CX(3, 4)
@@ -293,6 +300,7 @@ One solution here, is to scan through the :py:class:`Circuit` looking for invali
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import PlacementPass, RoutingPass
     from pytket.placement import GraphPlacement
+
     circ = Circuit(4)
     circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
     backend = IBMQBackend("ibmq_quito")
@@ -330,6 +338,7 @@ The numerous Box structures in ``pytket`` provide practical abstractions for hig
     from pytket.circuit import Circuit, CircBox, PauliExpBox
     from pytket.passes import DecomposeBoxes
     from pytket.pauli import Pauli
+
     sub = Circuit(2)
     sub.CZ(0, 1).T(0).Tdg(1)
     sub_box = CircBox(sub)
@@ -360,6 +369,7 @@ If we have two :py:class:`Circuit` s that are observationally equivalent, we k
 
     from pytket import Circuit, OpType
     from pytket.passes import RemoveRedundancies
+
     circ = Circuit(3, 3)
     circ.Rx(0.92, 0).CX(1, 2).Rx(-0.18, 0)  # Adjacent Rx gates can be merged
     circ.CZ(0, 1).Ry(0.11, 2).CZ(0, 1)      # CZ is self-inverse
@@ -379,6 +389,7 @@ Previous iterations of the :py:class:`CliffordSimp` pass would work in this way 
 
     from pytket import Circuit, OpType
     from pytket.passes import CliffordSimp
+
     # A basic inefficient pattern can be reduced by 1 CX
     simple = Circuit(2)
     simple.CX(0, 1).S(1).CX(1, 0)
@@ -403,6 +414,7 @@ The next step up in scale has optimisations based on optimal decompositions of s
 
     from pytket import Circuit, OpType
     from pytket.passes import EulerAngleReduction, KAKDecomposition
+
     circ = Circuit(2)
     circ.CZ(0, 1)
     circ.Rx(0.4, 0).Ry(0.289, 0).Rx(-0.34, 0).Ry(0.12, 0).Rx(-0.81, 0)
@@ -431,6 +443,7 @@ All of these so far are generic optimisations that work for any application, but
     from pytket import Circuit
     from pytket.passes import PauliSimp
     from pytket.utils import Graph
+
     circ = Circuit(3)
     circ.Rz(0.2, 0)
     circ.Rx(0.35, 1)
@@ -454,6 +467,7 @@ Some of these optimisation passes have optional parameters to customise the rout
     from pytket.pauli import Pauli
     from pytket.transform import CXConfigType
     from pytket.utils import Graph
+
     circ = Circuit(8)
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Z], 0.42), [0, 1, 2, 3, 4, 5, 6, 7])
 
@@ -485,6 +499,7 @@ The passes encountered so far represent elementary, self-contained transformatio
 
     from pytket import Circuit, OpType
     from pytket.passes import auto_rebase_pass, EulerAngleReduction, SequencePass
+
     rebase_quil = auto_rebase_pass({OpType.CZ, OpType.Rz, OpType.Rx})
     circ = Circuit(3)
     circ.CX(0, 1).Rx(0.3, 1).CX(2, 1).Rz(0.8, 1)
@@ -500,6 +515,7 @@ When composing optimisation passes, we may find that applying one type of optimi
 
     from pytket import Circuit
     from pytket.passes import RemoveRedundancies, CommuteThroughMultis, RepeatPass, SequencePass
+
     circ = Circuit(4)
     circ.CX(2, 3).CY(1, 2).CX(0, 1).Rz(0.24, 0).CX(0, 1).Rz(0.89, 1).CY(1, 2).Rz(-0.3, 2).CX(2, 3)
     comp = RepeatPass(SequencePass([CommuteThroughMultis(), RemoveRedundancies()]))
@@ -516,6 +532,7 @@ Increased termination safety can be given by only repeating whilst some easy-to-
 
     from pytket import Circuit, OpType
     from pytket.passes import RemoveRedundancies, CommuteThroughMultis, RepeatWithMetricPass, SequencePass
+
     circ = Circuit(4)
     circ.CX(2, 3).CY(1, 2).CX(0, 1).Rz(0.24, 0).CX(0, 1).Rz(0.89, 1).CY(1, 2).Rz(-0.3, 2).CX(2, 3)
     cost = lambda c : c.n_gates_of_type(OpType.CX)
@@ -559,6 +576,7 @@ After solving for the device connectivity, we then need to restrict what optimis
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import FullPeepholeOptimise, DefaultMappingPass, SynthesiseTket, RebaseTket
+
     circ = Circuit(5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3)
     circ.CZ(0, 1).CZ(0, 2).CZ(0, 3)
@@ -603,6 +621,7 @@ Optimisation level  Description
 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import AerBackend
+
     circ = Circuit(3)
     circ.CZ(0, 1)
     circ.H(1)
@@ -655,6 +674,7 @@ We can wrap up a :py:class:`Circuit` in a :py:class:`CompilationUnit` to allow u
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.passes import DefaultMappingPass
     from pytket.predicates import CompilationUnit
+
     circ = Circuit(5, 5)
     circ.CX(0, 1).CX(0, 2).CX(0, 3).CX(0, 4).measure_all()
     backend = IBMQBackend("ibmq_quito")
@@ -690,6 +710,7 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
     from pytket.extensions.qiskit import AerStateBackend
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils.operators import QubitPauliOperator
+
     from sympy import symbols
     a, b = symbols("a b")
     circ = Circuit(2)
@@ -791,6 +812,7 @@ Once compiled, we can use :py:meth:`Backend.process_circuits` to submit several 
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.predicates import CompilationUnit
     from pytket.placement import Placement
+
     state_prep = Circuit(4)
     state_prep.H(0)
     state_prep.add_gate(OpType.CnRy, 0.1, [0, 1])
@@ -849,6 +871,7 @@ This measurement partitioning is built into the :py:meth:`get_operator_expectati
     from pytket import Qubit
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.partition import measurement_reduction, PauliPartitionStrat
+    
     zi = QubitPauliString({Qubit(0):Pauli.Z})
     iz = QubitPauliString({Qubit(1):Pauli.Z})
     zz = QubitPauliString({Qubit(0):Pauli.Z, Qubit(1):Pauli.Z})
