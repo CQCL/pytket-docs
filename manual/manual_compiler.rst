@@ -12,7 +12,7 @@ The primary goals of compilation are two-fold: solving the constraints of the :p
 
 .. Passes capture methods of transforming the circuit, acting in place
 
-Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class:`Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`Circuit` in-place. The :py:meth:`Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`BasePass.apply()` from the :py:class:`Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
+Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class:`Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`Circuit` in-place. The :py:meth:`Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`BasePass.apply()` from the :py:class:`Backend`'s recommended pass sequence . This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
 
 Predicates
 ----------
@@ -45,8 +45,10 @@ Each :py:class:`Predicate` can be constructed on its own to impose tests on :py:
 
 .. Common predicates
 
+Some common predicates are documented in the table below.
+
 ======================================= =======================================
-Common :py:class:`Predicate`            Constraint
+Predicate                               Constraint
 ======================================= =======================================
 :py:class:`GateSetPredicate`            | Every gate is within a set of allowed
                                           :py:class:`OpType` s
@@ -563,7 +565,7 @@ Knowing what sequences of compiler passes to apply for maximal performance is of
 
 .. `FullPeepholeOptimise` kitchen-sink, but assumes a universal quantum computer
 
-In practice, peephole and structure-preserving optimisations are almost always stictly beneficial to apply, or at least will never increase the size of the :py:class:`Circuit`. The :py:class:`FullPeepholeOptimise` sequence is a combination of :py:class:`CliffordSimp`, :py:class:`RemoveRedundancies`, :py:class:`CommuteThroughMultis`, :py:class:`KAKDecomposition`, and :py:class:`EulerAngleReduction`, and provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class:`Circuit` optimisation. This assumes a universal quantum computer, so will not generally preserve gateset, connectivity, etc.
+In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the :py:class:`Circuit`. The :py:class:`FullPeepholeOptimise` applies Clifford simplifications, commutes single qubit gates to the front of the circuit and applies passes to squash subcircuits up to three qubits. This provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class:`Circuit` optimisation. This assumes a universal quantum computer, so will not generally preserve gateset, connectivity, etc.
 
 When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. :py:class:`DefaultMappingPass` simply combines these to apply the :py:class:`GraphPlacement` strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with :py:class:`CXMappingPass` which also decomposes the introduced ``OpType.SWAP`` and ``OpType.BRIDGE`` gates into elementary ``OpType.CX`` gates.
 
@@ -605,9 +607,18 @@ After solving for the device connectivity, we then need to restrict what optimis
     [tk1(0, 0, 1.5) node[0];, tk1(0, 0, 1.5) node[1];, tk1(0, 0, 1.5) node[2];, tk1(0, 0, 1.5) node[3];, CX node[1], node[0];, tk1(0, 0, 0.5) node[0];, CX node[1], node[2];, CX node[1], node[3];, tk1(0, 0, 0.5) node[2];, tk1(0, 0, 0.5) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[3], node[4];, CX node[4], node[3];, CX node[3], node[4];, CX node[3], node[1];]
     9
 
+.. note:: :py:class:`FullPeepholeOptimise` takes an optional ``allow_swaps`` argument. This is a Boolean flag to indicate whether :py:class:`FullPeepholeOptimise` should preserve the circuit connectivity or not. If set to ``False`` the pass will presrve circuit connectivity but the circuit will general be less optimal than if connectivity was ignored.
+          
+          :py:class:`FullPeepholeOptimise` also takes an optional ``target_2qb_gate`` argument to specify whether to target the {:py:class:`OpType.TK1`, :py:class:`OpType.CX`} or {:py:class:`OpType.TK1`, :py:class:`OpType.TK2`} gateset.
+
+.. note:: Prevous iterations of :py:class:`FullPeepholeOptimise` did not apply the :py:class:`ThreeQubitSquash` pass. There is a :py:class:`PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded. 
+
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
+
+Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
+
+
 
 ==================  ========================================================================================================
 Optimisation level  Description
@@ -871,7 +882,7 @@ This measurement partitioning is built into the :py:meth:`get_operator_expectati
     from pytket import Qubit
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.partition import measurement_reduction, PauliPartitionStrat
-    
+
     zi = QubitPauliString({Qubit(0):Pauli.Z})
     iz = QubitPauliString({Qubit(1):Pauli.Z})
     zz = QubitPauliString({Qubit(0):Pauli.Z, Qubit(1):Pauli.Z})
