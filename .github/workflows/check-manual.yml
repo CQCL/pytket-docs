@@ -11,7 +11,7 @@ on:
 jobs:
 
   changes:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       manual: ${{ steps.filter.outputs.manual }}
     steps:
@@ -29,7 +29,7 @@ jobs:
     name: check manual
     needs: changes
     if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
