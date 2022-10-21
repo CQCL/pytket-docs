@@ -618,7 +618,7 @@ After solving for the device connectivity, we then need to restrict what optimis
 
 Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
 
-
+The different levels of optimisation are described below.
 
 ==================  ========================================================================================================
 Optimisation level  Description
@@ -627,6 +627,8 @@ Optimisation level  Description
 1                   Adds basic optimisations (those covered by the :py:meth:`SynthesiseX` passes) for efficient compilation.
 2                   Extends to more intensive optimisations (those covered by the :py:meth:`FullPeepholeOptimise` pass).
 ==================  ========================================================================================================
+
+As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.
 
 .. jupyter-execute::
 
