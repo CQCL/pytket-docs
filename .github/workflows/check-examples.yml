@@ -46,12 +46,12 @@ jobs:
         python -m pip install -r requirements.txt
         python -m pip install -c constraints.txt jupyter openfermion plotly
         python -m pip install docker p2j pytest
-    - name: install dotnet SDK and iqsharp
+    - name: install dotnet SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.0.x'
+    - name: install iqsharp
       run: |
-        curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-        sudo apt-add-repository https://packages.microsoft.com/ubuntu/22.04/prod
-        sudo apt-get install dotnet-sdk-3.1
-        echo "~/.dotnet/tools" >> $GITHUB_PATH
         dotnet tool install -g Microsoft.Quantum.IQSharp
         dotnet iqsharp install --user
     - name: pull docker images
