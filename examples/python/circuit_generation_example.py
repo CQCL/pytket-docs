@@ -108,7 +108,6 @@ QGate["H"](0)
 Subroutine(x2)["sub", shape "([Q,Q],())"] (2,1) -> (2,1)
 QGate["H"](1)
 Outputs: 0:Qbit, 1:Qbit, 2:Qbit
-
 Subroutine: "sub"
 Shape: "([Q,Q],())"
 Controllable: no
