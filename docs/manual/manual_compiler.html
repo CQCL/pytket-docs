@@ -16,9 +16,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
@@ -109,19 +107,20 @@
            <div itemprop="articleBody">
              
   <section id="compilation">
-<h1>Compilation<a class="headerlink" href="#compilation" title="Permalink to this heading"></a></h1>
+<h1>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline"></a></h1>
 <p>So far, we have already covered enough to be able to design the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s we want to run, submit them to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code> method. The compilation step maps from the universal computer abstraction presented at <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> construction to the restricted fragment supported by the target <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.</p>
 <p>The necessity of compilation maps over from the world of classical computation: it is much easier to design correct programs when working with higher-level constructions that aren’t natively supported, and it shouldn’t require a programmer to be an expert in the exact device architecture to achieve good performance. There are many possible low-level implementations on the device for each high-level program, which vary in the time and resources taken to execute. However, because QPUs are analog devices, the implementation can have a massive impact on the quality of the final outcomes as a result of changing how susceptible the system is to noise. Using a good compiler and choosing the methods appropriately can automatically find a better low-level implementation. Each aspect of the compilation procedure is exposed through <code class="docutils literal notranslate"><span class="pre">pytket</span></code> to provide users with a way to have full control over what is applied and how.</p>
 <p>The primary goals of compilation are two-fold: solving the constraints of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> to get from the abstract model to something runnable, and optimising/simplifying the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to make it faster, smaller, and less prone to noise. Every step in compilation can generally be split up into one of these two categories (though even the constraint solving steps could have multiple solutions over which we could optimise for noise).</p>
 <p>Each compiler pass inherits from the <code class="xref py py-class docutils literal notranslate"><span class="pre">BasePass</span></code> class, capturing a method of transforming a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The main functionality is built into the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> method, which applies the transformation to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in-place. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code> method is a wrapper around the <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.</p>
 <section id="predicates">
-<h2>Predicates<a class="headerlink" href="#predicates" title="Permalink to this heading"></a></h2>
+<h2>Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline"></a></h2>
 <p>Solving the constraints of the target <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.required_predicates</span></code> property gives a collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s, describing the necessary properties a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> must satisfy in order to be run.</p>
 <p>Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> can be constructed on its own to impose tests on <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s during construction.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">GateSetPredicate</span><span class="p">,</span> <span class="n">NoMidMeasurePredicate</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
@@ -204,14 +203,41 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 </tbody>
 </table>
 <p>When applying passes, you may find that you apply some constraint-solving pass to satisfy a particular <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code>, but then a subsequent pass will invalidate it by, for example, introducing gates of different gate types or changing which qubits interact via multi-qubit gates. To help understand and manage this, each pass has a set of pre-conditions that specify the requirements assumed on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in order for the pass to successfully be applied, and a set of post-conditions that specify which <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s are guaranteed to hold for the outputs and which are invalidated or preserved by the pass. These can be viewed in the API reference for each pass.</p>
+<p>Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">UserDefinedPredicate</span></code> in pytket based on a function that returns a True/False Value.</p>
+<p>Below is a minimal example where we construct a predicate which checks if our <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> contains less than 3 CX gates.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">UserDefinedPredicate</span>
+
+<span class="k">def</span> <span class="nf">max_cx_count</span><span class="p">(</span><span class="n">circ</span><span class="p">:</span> <span class="n">Circuit</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span>
+
+<span class="c1"># Now construct our predicate using the function defined above</span>
+<span class="n">my_predicate</span> <span class="o">=</span> <span class="n">UserDefinedPredicate</span><span class="p">(</span><span class="n">max_cx_count</span><span class="p">)</span>
+
+<span class="n">test_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># Define a test Circuit</span>
+
+<span class="n">my_predicate</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">test_circ</span><span class="p">)</span>
+<span class="c1"># test_circ satisfies predicate as it contains only 2 CX gates</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="rebases">
-<h2>Rebases<a class="headerlink" href="#rebases" title="Permalink to this heading"></a></h2>
+<h2>Rebases<a class="headerlink" href="#rebases" title="Permalink to this headline"></a></h2>
 <p>One of the simplest constraints to solve for is the <code class="xref py py-class docutils literal notranslate"><span class="pre">GateSetPredicate</span></code>, since we can just substitute each gate in a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> with an equivalent sequence of gates in the target gateset according to some known gate decompositions. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, such passes are referred to as “rebases”. The intention here is to perform this translation naively, leaving the optimisation of gate sequences to other passes. Rebases can be applied to any <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and will preserve every structural <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code>, only changing the types of gates used.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RebaseTket</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
@@ -236,6 +262,7 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 <span class="n">gates</span> <span class="o">=</span> <span class="p">{</span><span class="n">OpType</span><span class="o">.</span><span class="n">Rz</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Ry</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">CY</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">ZZPhase</span><span class="p">}</span>
 <span class="n">cx_in_cy</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">cx_in_cy</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
 <span class="k">def</span> <span class="nf">tk1_to_rzry</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
     <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">circ</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -284,7 +311,7 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 <p>Note that the H gates (which are not in the specified gateset) are left alone.</p>
 </section>
 <section id="placement">
-<span id="compiler-placement"></span><h2>Placement<a class="headerlink" href="#placement" title="Permalink to this heading"></a></h2>
+<span id="compiler-placement"></span><h2>Placement<a class="headerlink" href="#placement" title="Permalink to this headline"></a></h2>
 <p>Initially, a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> designed without a target device in mind will be expressed in terms of actions on a set of “logical qubits” - those with semantic meaning to the computation. A <cite>placement</cite> (or <cite>initial mapping</cite>) is a map from these logical qubits to the physical qubits of the device that will be used to carry them. A given placement may be preferred over another if the connectivity of the physical qubits better matches the interactions between the logical qubits caused by multi-qubit gates, or if the selection of physical qubits has better noise characteristics. All of the information for connectivity and noise characteristics of a given <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> is wrapped up in a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendInfo</span></code> object by the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.backend_info</span></code> property.</p>
 <p>The placement only specifies where the logical qubits will be at the start of execution, which is not necessarily where they will end up on termination. Other compiler passes may choose to permute the qubits in the middle of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to either exploit further optimisations or enable interactions between logical qubits that were not assigned to adjacent physical qubits.</p>
 <p>A placement pass will act in place on a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> by renaming the qubits from their logical names (the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s used at circuit construction) to their physical addresses (the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s recognised by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>). Classical data is never renamed.</p>
@@ -295,6 +322,7 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">PlacementPass</span>
 <span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">ConnectivityPredicate</span>
 <span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">GraphPlacement</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">V</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -327,6 +355,7 @@ True
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">PlacementPass</span>
 <span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">LinePlacement</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
@@ -349,6 +378,7 @@ True
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">Placement</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
@@ -370,6 +400,7 @@ True
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Node</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RenameQubitsPass</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
@@ -395,6 +426,7 @@ True
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">PlacementPass</span>
 <span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">ConnectivityPredicate</span>
 <span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">GraphPlacement</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -427,7 +459,7 @@ True
 </div>
 </section>
 <section id="mapping">
-<span id="compiler-routing"></span><h2>Mapping<a class="headerlink" href="#mapping" title="Permalink to this heading"></a></h2>
+<span id="compiler-routing"></span><h2>Mapping<a class="headerlink" href="#mapping" title="Permalink to this headline"></a></h2>
 <p>The heterogeneity of quantum architectures and limited connectivity of their qubits impose the strict restriction that multi-qubit gates are only allowed between specific pairs of qubits. Given it is far easier to program a high-level operation which is semantically correct and meaningful when assuming full connectivity, a compiler will have to solve this constraint. In general, there won’t be an exact subgraph isomorphism between the graph of interacting logical qubits and the connected physical qubits, so this cannot be solved with placement alone.</p>
 <p>One solution here, is to scan through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> looking for invalid interactions. Each of these can be solved by either moving the qubits around on the architecture by adding <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> gates until they are in adjacent locations, or performing a distributed entangling operation using the intervening qubits (such as the “bridged-CX” <code class="docutils literal notranslate"><span class="pre">OpType.BRIDGE</span></code> which uses 4 CX gates and a single shared neighbour). The <cite>routing</cite> procedure used in the <code class="docutils literal notranslate"><span class="pre">pytket</span></code> <code class="docutils literal notranslate"><span class="pre">RoutingPass</span></code> takes a placed <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and inserts gates to reduce non-local operations to sequences of valid local ones.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -436,6 +468,7 @@ True
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">PlacementPass</span><span class="p">,</span> <span class="n">RoutingPass</span>
 <span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">GraphPlacement</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
@@ -459,13 +492,14 @@ True
 <p><code class="docutils literal notranslate"><span class="pre">RoutingPass</span></code> only provides the default option for mapping to physical circuits. The decision making used in Routing is defined in the <code class="docutils literal notranslate"><span class="pre">RoutgMethod</span></code> class and the choice of <code class="docutils literal notranslate"><span class="pre">RoutingMethod</span></code> used can be defined in the <code class="docutils literal notranslate"><span class="pre">FullMappingPass</span></code> compiler pass for producing physical circuits.</p>
 </section>
 <section id="decomposing-structures">
-<h2>Decomposing Structures<a class="headerlink" href="#decomposing-structures" title="Permalink to this heading"></a></h2>
+<h2>Decomposing Structures<a class="headerlink" href="#decomposing-structures" title="Permalink to this headline"></a></h2>
 <p>The numerous Box structures in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> provide practical abstractions for high-level operations to assist in <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> construction, but need to be mapped to low-level gates before we can run the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The <code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposeBoxes</span></code> pass will unwrap any <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code>, substituting it for the corresponding <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, and decompose others like the <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary1qBox</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliExpBox</span></code> into efficient templated patterns of gates.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span><span class="p">,</span> <span class="n">PauliExpBox</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">DecomposeBoxes</span>
 <span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
+
 <span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">sub</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Tdg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
@@ -489,13 +523,14 @@ True
 <p>Unwrapping Boxes could introduce arbitrarily complex structures into a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which could possibly invalidate almost all <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s, including <code class="xref py py-class docutils literal notranslate"><span class="pre">GateSetPredicate</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ConnectivityPredicate</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">NoMidMeasurePredicate</span></code>. It is hence recommended to apply this early in the compilation procedure, prior to any pass that solves for these constraints.</p>
 </section>
 <section id="optimisations">
-<h2>Optimisations<a class="headerlink" href="#optimisations" title="Permalink to this heading"></a></h2>
+<h2>Optimisations<a class="headerlink" href="#optimisations" title="Permalink to this headline"></a></h2>
 <p>Having covered the primary goal of compilation and reduced our <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to a form where they can be run, we find that there are additional techniques we can use to obtain more reliable results by reducing the noise and probability of error. Most <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> optimisations follow the mantra of “fewer expensive resources gives less opportunity for noise to creep in”, whereby if we find an alternative <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> that is observationally equivalent in a perfect noiseless setting but uses fewer resources (gates, time, ancilla qubits) then it is likely to perform better in a noisy context (though not always guaranteed).</p>
 <p>If we have two <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s that are observationally equivalent, we know that replacing one for the other in any context also gives something that is observationally equivalent. The simplest optimisations will take an inefficient pattern, find all matches in the given <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and replace them by the efficient alternative. A good example from this class of <cite>peephole</cite> optimisations is the <code class="xref py py-class docutils literal notranslate"><span class="pre">RemoveRedundancies</span></code> pass, which looks for a number of easy-to-spot redundant gates, such as zero-parameter rotation gates, gate-inverse pairs, adjacent rotation gates in the same basis, and diagonal rotation gates followed by measurements.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RemoveRedundancies</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.92</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="o">-</span><span class="mf">0.18</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># Adjacent Rx gates can be merged</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>      <span class="c1"># CZ is self-inverse</span>
@@ -521,6 +556,7 @@ True
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">CliffordSimp</span>
+
 <span class="c1"># A basic inefficient pattern can be reduced by 1 CX</span>
 <span class="n">simple</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">simple</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -553,6 +589,7 @@ True
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">EulerAngleReduction</span><span class="p">,</span> <span class="n">KAKDecomposition</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.289</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="o">-</span><span class="mf">0.34</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.12</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="o">-</span><span class="mf">0.81</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -586,6 +623,7 @@ True
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">PauliSimp</span>
 <span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">Graph</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.35</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -599,7 +637,7 @@ True
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_compiler_14_0.svg" src="_images/manual_compiler_14_0.svg" /></div>
+<img alt="_images/manual_compiler_15_0.svg" src="_images/manual_compiler_15_0.svg" /></div>
 </div>
 <p>This can give great benefits for <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s where non-Clifford gates are sparse and there is hence a lot of redundancy in the Clifford change-of-basis sections. But if the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> already has a very efficient usage of Clifford gates, this will be lost when converting to the abstract representation, and so the resynthesis is likely to give less efficient sequences. The large structural changes from abstraction and resynthesis can also make routing harder to perform as the interaction graph of the logical qubits can drastically change. The effectiveness of such optimisations depends on the situation, but can be transformative under the right circumstances.</p>
 <p>Some of these optimisation passes have optional parameters to customise the routine slightly. A good example is adapting the <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliSimp</span></code> pass to have a preference for different forms of <code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code> decompositions. Setting the <code class="docutils literal notranslate"><span class="pre">cx_config</span></code> option to <code class="docutils literal notranslate"><span class="pre">CXConfigType.Snake</span></code> (default) will prefer chains of gates where the target of one becomes the control of the next, whereas <code class="docutils literal notranslate"><span class="pre">CXConfigType.Star</span></code> prefers using a single qubit as the control for many gates, and <code class="docutils literal notranslate"><span class="pre">CXConfigType.Tree</span></code> introduces entanglement in a balanced tree form. Each of these has its own benefits and drawbacks that could make it more effective for a particular routine, like <code class="docutils literal notranslate"><span class="pre">CXConfigType.Snake</span></code> giving circuits that are easier to route on linear nearest-neighbour architectures, <code class="docutils literal notranslate"><span class="pre">CXConfigType.Star</span></code> allowing any of the gates to commute through to cancel out with others at the start or end of the sequence, and <code class="docutils literal notranslate"><span class="pre">CXConfigType.Tree</span></code> giving optimal depth on a fully-connected device.</p>
@@ -610,6 +648,7 @@ True
 <span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
 <span class="kn">from</span> <span class="nn">pytket.transform</span> <span class="kn">import</span> <span class="n">CXConfigType</span>
 <span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">Graph</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">],</span> <span class="mf">0.42</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
 
@@ -623,7 +662,7 @@ True
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[H q[0];, V q[1];, H q[2];, V q[4];, H q[5];, CX q[7], q[6];, CX q[6], q[5];, CX q[5], q[4];, CX q[4], q[3];, CX q[3], q[2];, CX q[2], q[1];, CX q[1], q[0];, Rz(0.42) q[0];, CX q[1], q[0];, H q[0];, CX q[2], q[1];, V q[0];, Vdg q[1];, CX q[3], q[2];, S q[0];, V q[1];, H q[2];, CX q[4], q[3];, H q[0];, S q[1];, V q[2];, V q[3];, CX q[5], q[4];, S q[0];, H q[1];, S q[2];, S q[3];, Vdg q[4];, CX q[6], q[5];, S q[1];, H q[2];, H q[3];, V q[4];, H q[5];, CX q[7], q[6];, S q[2];, S q[3];, S q[4];, V q[5];, V q[6];, V q[7];, H q[4];, S q[5];, S q[6];, S q[7];, S q[4];, H q[5];, H q[6];, H q[7];, S q[5];, S q[6];, S q[7];]
 </pre></div>
 </div>
-<img alt="_images/manual_compiler_15_1.svg" src="_images/manual_compiler_15_1.svg" /></div>
+<img alt="_images/manual_compiler_16_1.svg" src="_images/manual_compiler_16_1.svg" /></div>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -637,7 +676,7 @@ True
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[H q[0];, V q[1];, H q[2];, V q[4];, H q[5];, CX q[7], q[0];, CX q[6], q[0];, CX q[5], q[0];, CX q[4], q[0];, CX q[3], q[0];, CX q[2], q[0];, CX q[1], q[0];, Rz(0.42) q[0];, CX q[1], q[0];, CX q[2], q[0];, Vdg q[1];, CX q[3], q[0];, V q[1];, H q[2];, CX q[4], q[0];, S q[1];, V q[2];, V q[3];, CX q[5], q[0];, H q[1];, S q[2];, S q[3];, Vdg q[4];, CX q[6], q[0];, S q[1];, H q[2];, H q[3];, V q[4];, H q[5];, CX q[7], q[0];, S q[2];, S q[3];, S q[4];, V q[5];, V q[6];, H q[0];, H q[4];, S q[5];, S q[6];, V q[7];, V q[0];, S q[4];, H q[5];, H q[6];, S q[7];, S q[0];, S q[5];, S q[6];, H q[7];, H q[0];, S q[7];, S q[0];]
 </pre></div>
 </div>
-<img alt="_images/manual_compiler_16_1.svg" src="_images/manual_compiler_16_1.svg" /></div>
+<img alt="_images/manual_compiler_17_1.svg" src="_images/manual_compiler_17_1.svg" /></div>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -651,16 +690,17 @@ True
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[H q[0];, V q[1];, H q[2];, V q[4];, H q[5];, CX q[7], q[6];, CX q[1], q[0];, CX q[3], q[2];, CX q[5], q[4];, CX q[2], q[0];, CX q[6], q[4];, CX q[4], q[0];, Rz(0.42) q[0];, CX q[4], q[0];, CX q[2], q[0];, CX q[6], q[4];, CX q[1], q[0];, CX q[3], q[2];, CX q[5], q[4];, CX q[7], q[6];, H q[0];, Vdg q[1];, H q[2];, V q[3];, Vdg q[4];, H q[5];, V q[6];, V q[7];, V q[0];, V q[1];, V q[2];, S q[3];, V q[4];, V q[5];, S q[6];, S q[7];, S q[0];, S q[1];, S q[2];, H q[3];, S q[4];, S q[5];, H q[6];, H q[7];, H q[0];, H q[1];, H q[2];, S q[3];, H q[4];, H q[5];, S q[6];, S q[7];, S q[0];, S q[1];, S q[2];, S q[4];, S q[5];]
 </pre></div>
 </div>
-<img alt="_images/manual_compiler_17_1.svg" src="_images/manual_compiler_17_1.svg" /></div>
+<img alt="_images/manual_compiler_18_1.svg" src="_images/manual_compiler_18_1.svg" /></div>
 </div>
 </section>
 <section id="combinators">
-<h2>Combinators<a class="headerlink" href="#combinators" title="Permalink to this heading"></a></h2>
+<h2>Combinators<a class="headerlink" href="#combinators" title="Permalink to this headline"></a></h2>
 <p>The passes encountered so far represent elementary, self-contained transformations on <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s. In practice, we will almost always want to apply sequences of these to combine optimisations with solving for many constraints. The passes in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> have a rudimentary compositional structure to describe generic compilation strategies, with the most basic example being just applying a list of passes in order.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">auto_rebase_pass</span><span class="p">,</span> <span class="n">EulerAngleReduction</span><span class="p">,</span> <span class="n">SequencePass</span>
+
 <span class="n">rebase_quil</span> <span class="o">=</span> <span class="n">auto_rebase_pass</span><span class="p">({</span><span class="n">OpType</span><span class="o">.</span><span class="n">CZ</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Rz</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Rx</span><span class="p">})</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -681,6 +721,7 @@ True
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RemoveRedundancies</span><span class="p">,</span> <span class="n">CommuteThroughMultis</span><span class="p">,</span> <span class="n">RepeatPass</span><span class="p">,</span> <span class="n">SequencePass</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.24</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.89</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">comp</span> <span class="o">=</span> <span class="n">RepeatPass</span><span class="p">(</span><span class="n">SequencePass</span><span class="p">([</span><span class="n">CommuteThroughMultis</span><span class="p">(),</span> <span class="n">RemoveRedundancies</span><span class="p">()]))</span>
@@ -704,6 +745,7 @@ True
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">RemoveRedundancies</span><span class="p">,</span> <span class="n">CommuteThroughMultis</span><span class="p">,</span> <span class="n">RepeatWithMetricPass</span><span class="p">,</span> <span class="n">SequencePass</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.24</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.89</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">cost</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span> <span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
@@ -733,7 +775,7 @@ True
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">DecomposeBoxes</span><span class="p">,</span> <span class="n">PauliSimp</span><span class="p">,</span> <span class="n">SequencePass</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># PauliSimp requires a specific gateset and no conditional gates</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># or mid-circuit measurement, so this will raise an exception</span>
@@ -746,9 +788,9 @@ True
 </div>
 </section>
 <section id="predefined-sequences">
-<h2>Predefined Sequences<a class="headerlink" href="#predefined-sequences" title="Permalink to this heading"></a></h2>
+<h2>Predefined Sequences<a class="headerlink" href="#predefined-sequences" title="Permalink to this headline"></a></h2>
 <p>Knowing what sequences of compiler passes to apply for maximal performance is often a very hard problem and can require a lot of experimentation and intuition to predict reliably. Fortunately, there are often common patterns that are applicable to virtually any scenario, for which <code class="docutils literal notranslate"><span class="pre">pytket</span></code> provides some predefined sequences.</p>
-<p>In practice, peephole and structure-preserving optimisations are almost always stictly beneficial to apply, or at least will never increase the size of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> sequence is a combination of <code class="xref py py-class docutils literal notranslate"><span class="pre">CliffordSimp</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RemoveRedundancies</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CommuteThroughMultis</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">KAKDecomposition</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">EulerAngleReduction</span></code>, and provides a one-size-approximately-fits-all “kitchen sink” solution to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> optimisation. This assumes a universal quantum computer, so will not generally preserve gateset, connectivity, etc.</p>
+<p>In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> applies Clifford simplifications, commutes single qubit gates to the front of the circuit and applies passes to squash subcircuits up to three qubits. This provides a one-size-approximately-fits-all “kitchen sink” solution to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> optimisation. This assumes no device constraints by default, so will not generally preserve gateset, connectivity, etc.</p>
 <p>When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. <code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultMappingPass</span></code> simply combines these to apply the <code class="xref py py-class docutils literal notranslate"><span class="pre">GraphPlacement</span></code> strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with <code class="xref py py-class docutils literal notranslate"><span class="pre">CXMappingPass</span></code> which also decomposes the introduced <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> and <code class="docutils literal notranslate"><span class="pre">OpType.BRIDGE</span></code> gates into elementary <code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code> gates.</p>
 <p>After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won’t invalidate this. The set of <code class="xref py py-class docutils literal notranslate"><span class="pre">SynthesiseX</span></code> passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">SynthesiseTket</span></code> guarantees the output is in the gateset of <code class="docutils literal notranslate"><span class="pre">OpType.CX</span></code>, <code class="docutils literal notranslate"><span class="pre">OpType.TK1</span></code>, and <code class="docutils literal notranslate"><span class="pre">OpType.Measure</span></code>). In general, this will not reduce the size of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as much as <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code>, but has the benefit of removing some redundancies introduced by routing without invalidating it.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -756,6 +798,7 @@ True
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">FullPeepholeOptimise</span><span class="p">,</span> <span class="n">DefaultMappingPass</span><span class="p">,</span> <span class="n">SynthesiseTket</span><span class="p">,</span> <span class="n">RebaseTket</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -788,7 +831,16 @@ True
 </div>
 </div>
 </div>
-<p>Also in this category, we have the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> which is run by <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code>. These give a recommended compiler pass to solve the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s constraints with a choice of optimisation levels.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> takes an optional allow_swaps argument. This is a Boolean flag to indicate whether <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> should preserve the circuit connectivity or not. If set to False the pass will presrve circuit connectivity but the circuit will general be less optimal than if connectivity was ignored.</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> also takes an optional target_2qb_gate argument to specify whether to target the {<code class="xref py py-class docutils literal notranslate"><span class="pre">OpType.TK1</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType.CX</span></code>} or {<code class="xref py py-class docutils literal notranslate"><span class="pre">OpType.TK1</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType.TK2</span></code>} gateset.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Prevous iterations of <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> did not apply the <code class="xref py py-class docutils literal notranslate"><span class="pre">ThreeQubitSquash</span></code> pass. There is a <code class="xref py py-class docutils literal notranslate"><span class="pre">PeepholeOptimise2Q</span></code> pass which applies the old pass sequence with the <code class="xref py py-class docutils literal notranslate"><span class="pre">ThreeQubitSquash</span></code> pass excluded.</p>
+</div>
+<p>Also in this category of pre-defined sequences, we have the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> which is run by <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code>. These give a recommended compiler pass to solve the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> ‘s constraints with a choice of optimisation levels.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -811,52 +863,73 @@ True
 </tr>
 </tbody>
 </table>
+<p>We will now demonstrate the <code class="xref py py-meth docutils literal notranslate"><span class="pre">default_compilation_pass()</span></code> with the different levels of optimisation using the IBMQ Quito device.</p>
+<p>As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
-<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
-<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># Define a circuit to be compiled to the backend</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.42</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">YYPhase</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">ol</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="n">test</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">b</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">(</span><span class="n">ol</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">b</span><span class="o">.</span><span class="n">valid_circuit</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimisation level&quot;</span><span class="p">,</span> <span class="n">ol</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">n_gates</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CXs&quot;</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span> <span class="c1"># Initialise Backend</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total gate count before compilation =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_gates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CX count before compilation =&quot;</span><span class="p">,</span>  <span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>
+
+<span class="c1"># Now apply the default_compilation_pass at different levels of optimisation.</span>
+
+<span class="k">for</span> <span class="n">optimisation_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">test_circ</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">(</span><span class="n">optimisation_level</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">test_circ</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">backend</span><span class="o">.</span><span class="n">valid_circuit</span><span class="p">(</span><span class="n">test_circ</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimisation level&quot;</span><span class="p">,</span> <span class="n">optimisation_level</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="n">test_circ</span><span class="o">.</span><span class="n">n_gates</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CXs&quot;</span><span class="p">,</span> <span class="n">test_circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Optimisation level 0
-Gates 9
-CXs 1
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total gate count before compilation = 13
+CX count before compilation = 5
+Optimisation level 0
+Gates 22
+CXs 8
 Optimisation level 1
 Gates 12
-CXs 4
+CXs 5
 Optimisation level 2
-Gates 12
-CXs 3
+Gates 6
+CXs 1
 </pre></div>
 </div>
 </div>
 </div>
+<p><strong>Explanation</strong></p>
+<p>We see that compiling the circuit to IBMQ Quito at optimisation level 0 actaully increases the gate count. This is because IBM Quito has connectivity constraints which require additional CX gates to be added to validate the circuit.
+The single qubit gates in our circuit also need to be decomposed into the IBM gatset.</p>
+<p>We see that compiling at optimisation level 1 manages to reduce the CX count to 5. Our connectivity constraints are satisfied without increasing the CX gate count. Single qubit gates are also combined to reduce the overall gate count further.</p>
+<p>Finally we see that the default pass for optimisation level 2 manages to reduce the overall gate count to just 6 with only one CX gate. This is because more intensive optimisations are applied at this level including squashing passes that enable optimal two and three qubit circuits to be synthesised. Applying these more powerful passes comes with a runtime overhead that may be noticebale for larger circuits.</p>
 </section>
 <section id="guidance-for-combining-passes">
-<h2>Guidance for Combining Passes<a class="headerlink" href="#guidance-for-combining-passes" title="Permalink to this heading"></a></h2>
+<h2>Guidance for Combining Passes<a class="headerlink" href="#guidance-for-combining-passes" title="Permalink to this headline"></a></h2>
 <p>We find that the most powerful optimisation techniques (those that have the potential to reduce <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> size the most for some class of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s) tend to have fewer guarantees on the structure of the output, requiring a universal quantum computer with the ability to perform any gates on any qubits. It is recommended to apply these early on in compilation.</p>
 <p>The passes to solve some device constraints might invalidate others: for example, the <code class="xref py py-class docutils literal notranslate"><span class="pre">RoutingPass</span></code> generally invalidates <code class="xref py py-class docutils literal notranslate"><span class="pre">NoMidMeasurePredicate</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">GateSetPredicate</span></code>. Therefore, the order in which these are solved should be chosen with care.</p>
 <p>For most standard use cases, we recommend starting with <code class="xref py py-class docutils literal notranslate"><span class="pre">DecomposeBoxes</span></code> to reduce the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> down to primitive gates, followed by strong optimisation passes like <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliSimp</span></code> (when appropriate for the types of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s being considered) and <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by <code class="xref py py-class docutils literal notranslate"><span class="pre">DelayMeasures</span></code> to push measurements back through any introduced <code class="docutils literal notranslate"><span class="pre">OpType.SWAP</span></code> or <code class="docutils literal notranslate"><span class="pre">OpType.BRIDGE</span></code> gates, and then finally rebase to the desired gate set. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.</p>
 </section>
 <section id="initial-and-final-maps">
-<h2>Initial and Final Maps<a class="headerlink" href="#initial-and-final-maps" title="Permalink to this heading"></a></h2>
+<h2>Initial and Final Maps<a class="headerlink" href="#initial-and-final-maps" title="Permalink to this headline"></a></h2>
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">PlacementPass</span></code> modifies the set of qubits used in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> from the logical names used during construction to the names of the physical addresses on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, so the logical qubit names wiil no longer exist within the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> by design. Knowing the map between the logical qubits and the chosen physical qubits is necessary for understanding the choice of placement, interpreting the final state from a naive simulator, identifying which physical qubits each measurement was made on for error mitigation, and appending additional gates to the logical qubits after applying the pass.</p>
 <p>Other passes like <code class="xref py py-class docutils literal notranslate"><span class="pre">RoutingPass</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">CliffordSimp</span></code> can introduce (explicit or implicit) permutations of the logical qubits in the middle of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, meaning a logical qubit may exist on a different physical qubit at the start of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> compared to the end.</p>
 <p>We can wrap up a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in a <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code> to allow us to track any changes to the locations of the logical qubits when passes are applied. The <code class="xref py py-attr docutils literal notranslate"><span class="pre">CompilationUnit.initial_map</span></code> is a dictionary mapping the original <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s to the corresponding <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> used in <code class="xref py py-attr docutils literal notranslate"><span class="pre">CompilationUnit.circuit</span></code>, and similarly <code class="xref py py-attr docutils literal notranslate"><span class="pre">CompilationUnit.final_map</span></code> for outputs. Applying <code class="xref py py-meth docutils literal notranslate"><span class="pre">BasePass.apply()</span></code> to a <code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationUnit</span></code> will apply the transformation to the underlying <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and track the changes to the initial and final maps.</p>
@@ -866,6 +939,7 @@ CXs 3
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">DefaultMappingPass</span>
 <span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">CompilationUnit</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">IBMQBackend</span><span class="p">(</span><span class="s2">&quot;ibmq_quito&quot;</span><span class="p">)</span>
@@ -891,9 +965,9 @@ CXs 3
 </div>
 </section>
 <section id="advanced-topics">
-<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this heading"></a></h2>
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline"></a></h2>
 <section id="compiling-symbolic-circuits">
-<h3>Compiling Symbolic Circuits<a class="headerlink" href="#compiling-symbolic-circuits" title="Permalink to this heading"></a></h3>
+<h3>Compiling Symbolic Circuits<a class="headerlink" href="#compiling-symbolic-circuits" title="Permalink to this headline"></a></h3>
 <p>For variational algorithms, the prominent benefit of defining a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> symbolically and only instantiating it with concrete values when needed is that the compilation procedure would only need to be performed once. By saving time here we can cut down the overall time for an experiment; we could invest the time saved into applying more expensive optimisations on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to reduce the impact of noise further.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -901,6 +975,7 @@ CXs 3
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerStateBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">QubitPauliString</span>
 <span class="kn">from</span> <span class="nn">pytket.utils.operators</span> <span class="kn">import</span> <span class="n">QubitPauliOperator</span>
+
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;a b&quot;</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -928,7 +1003,7 @@ CXs 3
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.7499999999999999+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.75+0j)
 (1.5+0j)
 </pre></div>
 </div>
@@ -940,7 +1015,7 @@ CXs 3
 </div>
 </section>
 <section id="user-defined-passes">
-<h3>User-defined Passes<a class="headerlink" href="#user-defined-passes" title="Permalink to this heading"></a></h3>
+<h3>User-defined Passes<a class="headerlink" href="#user-defined-passes" title="Permalink to this headline"></a></h3>
 <p>We have already seen that pytket allows users to combine passes in a desired order using <code class="xref py py-class docutils literal notranslate"><span class="pre">SequencePass</span></code>. An addtional feature is the <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> which allows users to define their own custom circuit transformation using pytket.
 The <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> class accepts a <code class="docutils literal notranslate"><span class="pre">transform</span></code> parameter, a python function that takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as input and returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> as output.</p>
 <p>We will show how to use <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomPass</span></code> by defining a simple transformation that replaces any Pauli Z gate in the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> with a Hadamard gate, Pauli X gate, Hadamard gate chain.</p>
@@ -1011,7 +1086,7 @@ The <code class="xref py py-class docutils literal notranslate"><span class="pre
 </div>
 </section>
 <section id="partial-compilation">
-<h3>Partial Compilation<a class="headerlink" href="#partial-compilation" title="Permalink to this heading"></a></h3>
+<h3>Partial Compilation<a class="headerlink" href="#partial-compilation" title="Permalink to this headline"></a></h3>
 <p>A common pattern across expectation value and tomography experiments is to run many <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s that have large identical regions, such as a single state preparation with many different measurements. We can further speed up the overall compilation time by splitting up the state preparation from the measurements, compiling each subcircuit only once, and composing together at the end.</p>
 <p>The main technical consideration here is that the compiler will only have the freedom to identify good placements for the first subcircuit to be run. This means that the state preparation should be compiled first, and the placement for the measurements is given by the final map in order to compose well.</p>
 <p>Once compiled, we can use <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code> to submit several circuits at once for execution on the backend. The circuits to be executed are passed as list. If the backend is shot-based, the number of shots can be passed using the <cite>n_shots</cite> parameter, which can be a single integer or a list of integers of the same length as the list of circuits to be executed. In the following example, 4000 shots are measured for the first circuit and 2000 for the second.</p>
@@ -1021,6 +1096,7 @@ The <code class="xref py py-class docutils literal notranslate"><span class="pre
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">IBMQBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">CompilationUnit</span>
 <span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">Placement</span>
+
 <span class="n">state_prep</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">state_prep</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">state_prep</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CnRy</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
@@ -1059,7 +1135,7 @@ The <code class="xref py py-class docutils literal notranslate"><span class="pre
 </div>
 </section>
 <section id="measurement-reduction">
-<h3>Measurement Reduction<a class="headerlink" href="#measurement-reduction" title="Permalink to this heading"></a></h3>
+<h3>Measurement Reduction<a class="headerlink" href="#measurement-reduction" title="Permalink to this headline"></a></h3>
 <p>Suppose we have one of these measurement scenarios (i.e. a single state preparation, but many measurements to make on it) and that each of the measurements is a Pauli observable, such as when calculating the expectation value of the state with respect to some <code class="xref py py-class docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code>. Naively, we would need a different measurement <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> per term in the operator, but we can reduce this by exploiting the fact that commuting observables can be measured simultaneously.</p>
 <p>Given a set of observables, we can partition them into subsets that are easy to measure simultaneously. A <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is generated for each subset by diagonalising the observables (reducing all of them to a combination of <span class="math notranslate nohighlight">\(Z\)</span>-measurements).</p>
 <p>Diagonalising a mutually commuting set of Pauli observables could require an arbitrary Clifford circuit in general. If we are considering the near-term regime where “every gate counts”, the diagonalisation of the observables could introduce more of the (relatively) expensive two-qubit gates, giving us the speedup at the cost of some extra noise. <code class="docutils literal notranslate"><span class="pre">pytket</span></code> can partition the Pauli observables into either general commuting sets for improved reduction in the number of measurement <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s, or into smaller sets which can be diagonalised without introducing any multi-qubit gates - this is possible when all observables are substrings of some measured Pauli string (e.g. <cite>XYI</cite> and <cite>IYZ</cite> is fine, but <cite>ZZZ</cite> and <cite>XZX</cite> is not).</p>
@@ -1069,6 +1145,7 @@ The <code class="xref py py-class docutils literal notranslate"><span class="pre
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Qubit</span>
 <span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">QubitPauliString</span>
 <span class="kn">from</span> <span class="nn">pytket.partition</span> <span class="kn">import</span> <span class="n">measurement_reduction</span><span class="p">,</span> <span class="n">PauliPartitionStrat</span>
+
 <span class="n">zi</span> <span class="o">=</span> <span class="n">QubitPauliString</span><span class="p">({</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">})</span>
 <span class="n">iz</span> <span class="o">=</span> <span class="n">QubitPauliString</span><span class="p">({</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">})</span>
 <span class="n">zz</span> <span class="o">=</span> <span class="n">QubitPauliString</span><span class="p">({</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">})</span>
@@ -1113,7 +1190,7 @@ Invert: False]
 </div>
 </section>
 <section id="contextual-optimisations">
-<h3>Contextual Optimisations<a class="headerlink" href="#contextual-optimisations" title="Permalink to this heading"></a></h3>
+<h3>Contextual Optimisations<a class="headerlink" href="#contextual-optimisations" title="Permalink to this headline"></a></h3>
 <p>By default, tket makes no assumptions about a circuit’s input state, nor about
 the destiny of its output state. We can therefore compose circuits freely,
 construct boxes from them that we can then place inside other circuits, and so
@@ -1155,7 +1232,7 @@ qubits.</p>
 <p>Note that we are now restricted in how we can compose our circuit with other circuits. When composing after another circuit, a “created” qubit becomes a Reset operation. Whem composing before another circuit, a “discarded” qubit may not be joined to another qubit unless that qubit has itself been “created” (so that the discarded state gets reset to zero).</p>
 </div>
 <section id="initial-simplification">
-<h4>Initial simplification<a class="headerlink" href="#initial-simplification" title="Permalink to this heading"></a></h4>
+<h4>Initial simplification<a class="headerlink" href="#initial-simplification" title="Permalink to this headline"></a></h4>
 <p>When the above circuit is run from an all-zero state, the Y and CX gates at the
 beginning just have the effect of putting both qubits in the <span class="math notranslate nohighlight">\(\lvert 1
 \rangle\)</span> state (ignoring unobservable global phase), so they could be replaced
@@ -1209,7 +1286,7 @@ it with a <code class="xref py py-meth docutils literal notranslate"><span class
 cancellations.</p>
 </section>
 <section id="removal-of-discarded-operations">
-<h4>Removal of discarded operations<a class="headerlink" href="#removal-of-discarded-operations" title="Permalink to this heading"></a></h4>
+<h4>Removal of discarded operations<a class="headerlink" href="#removal-of-discarded-operations" title="Permalink to this headline"></a></h4>
 <p>An operation that has no quantum or classical output in its causal future has no
 effect (or rather, no observable effect on an ideal system), and can be removed
 from the circuit. By marking a qubit as discarded, we tell the compiler that it
@@ -1242,7 +1319,7 @@ following the measurement on qubit 1 remains, because that qubit was not
 discarded.</p>
 </section>
 <section id="commutation-of-measured-classical-maps">
-<h4>Commutation of measured classical maps<a class="headerlink" href="#commutation-of-measured-classical-maps" title="Permalink to this heading"></a></h4>
+<h4>Commutation of measured classical maps<a class="headerlink" href="#commutation-of-measured-classical-maps" title="Permalink to this headline"></a></h4>
 <p>The last type of contextual optimization is a little more subtle. Let’s call a
 quantum unitary operation a <cite>classical map</cite> if it sends every computational
 basis state to a computational basis state, possibly composed with a diagonal
@@ -1281,7 +1358,7 @@ diagonal operator, whose effect is unmeasurable.</p>
 bits after the measurement.</p>
 </section>
 <section id="contextual-optimisation-in-practice">
-<h4>Contextual optimisation in practice<a class="headerlink" href="#contextual-optimisation-in-practice" title="Permalink to this heading"></a></h4>
+<h4>Contextual optimisation in practice<a class="headerlink" href="#contextual-optimisation-in-practice" title="Permalink to this headline"></a></h4>
 <p>The above three passes are combined in the <code class="xref py py-meth docutils literal notranslate"><span class="pre">ContextSimp()</span></code> pass, which
 also performs a final <code class="xref py py-meth docutils literal notranslate"><span class="pre">RemoveRedundancies()</span></code>. Normally, before running a
 circuit on a device you will want to apply this pass (after using
@@ -1320,14 +1397,14 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+ [1 1]
  [0 0]
- [0 0]
+ [1 1]
  [1 1]
  [0 0]
  [0 0]
  [1 1]
  [0 0]
- [1 1]
  [0 0]]
 </pre></div>
 </div>
