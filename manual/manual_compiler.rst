@@ -584,7 +584,7 @@ Knowing what sequences of compiler passes to apply for maximal performance is of
 
 .. `FullPeepholeOptimise` kitchen-sink, but assumes a universal quantum computer
 
-In practice, peephole and structure-preserving optimisations are almost always stictly beneficial to apply, or at least will never increase the size of the :py:class:`Circuit`. The :py:class:`FullPeepholeOptimise` sequence is a combination of :py:class:`CliffordSimp`, :py:class:`RemoveRedundancies`, :py:class:`CommuteThroughMultis`, :py:class:`KAKDecomposition`, and :py:class:`EulerAngleReduction`, and provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class:`Circuit` optimisation. This assumes a universal quantum computer, so will not generally preserve gateset, connectivity, etc.
+In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the :py:class:`Circuit`. The :py:class:`FullPeepholeOptimise` applies Clifford simplifications, commutes single qubit gates to the front of the circuit and applies passes to squash subcircuits up to three qubits. This provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class:`Circuit` optimisation. This assumes no device constraints by default, so will not generally preserve gateset, connectivity, etc.
 
 When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. :py:class:`DefaultMappingPass` simply combines these to apply the :py:class:`GraphPlacement` strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with :py:class:`CXMappingPass` which also decomposes the introduced ``OpType.SWAP`` and ``OpType.BRIDGE`` gates into elementary ``OpType.CX`` gates.
 
@@ -626,9 +626,18 @@ After solving for the device connectivity, we then need to restrict what optimis
     [tk1(0, 0, 1.5) node[0];, tk1(0, 0, 1.5) node[1];, tk1(0, 0, 1.5) node[2];, tk1(0, 0, 1.5) node[3];, CX node[1], node[0];, tk1(0, 0, 0.5) node[0];, CX node[1], node[2];, CX node[1], node[3];, tk1(0, 0, 0.5) node[2];, tk1(0, 0, 0.5) node[3];, CX node[3], node[4];, CX node[1], node[3];, CX node[3], node[4];, CX node[4], node[3];, CX node[3], node[4];, CX node[3], node[1];]
     9
 
+
+.. Note::
+    :py:class:`FullPeepholeOptimise` takes an optional allow_swaps argument. This is a Boolean flag to indicate whether :py:class:`FullPeepholeOptimise` should preserve the circuit connectivity or not. If set to False the pass will presrve circuit connectivity but the circuit will general be less optimal than if connectivity was ignored.
+    
+    :py:class:`FullPeepholeOptimise` also takes an optional target_2qb_gate argument to specify whether to target the {:py:class:`OpType.TK1`, :py:class:`OpType.CX`} or {:py:class:`OpType.TK1`, :py:class:`OpType.TK2`} gateset.
+
+.. Note::
+    Prevous iterations of :py:class:`FullPeepholeOptimise` did not apply the :py:class:`ThreeQubitSquash` pass. There is a :py:class:`PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded.
+
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
+Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
 
 ==================  ========================================================================================================
 Optimisation level  Description
@@ -639,6 +648,8 @@ Optimisation level  Description
 ==================  ========================================================================================================
 
 We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using the IBMQ Quito device. 
+
+As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.
 
 .. jupyter-execute::
 
