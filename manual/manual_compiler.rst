@@ -599,26 +599,49 @@ Optimisation level  Description
 2                   Extends to more intensive optimisations (those covered by the :py:meth:`FullPeepholeOptimise` pass).
 ==================  ========================================================================================================
 
+We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using the IBMQ Quito device. 
+
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.extensions.qiskit import AerBackend
-    circ = Circuit(3)
-    circ.CZ(0, 1)
+    from pytket.extensions.qiskit import IBMQBackend
+
+    circ = Circuit(3) # Define a circuit to be compiled to the backend
+    circ.CX(0, 1)
     circ.H(1)
     circ.Rx(0.42, 1)
     circ.S(1)
-    circ.add_gate(OpType.YYPhase, 0.96, [1, 2])
+    circ.CX(0, 2)
+    circ.CX(2, 1)
+    circ.Z(2)
+    circ.Y(1)
     circ.CX(0, 1)
+    circ.CX(2, 0)
     circ.measure_all()
-    b = AerBackend()
-    for ol in range(3):
-        test = circ.copy()
-        b.default_compilation_pass(ol).apply(test)
-        assert b.valid_circuit(test)
-        print("Optimisation level", ol)
-        print("Gates", test.n_gates)
-        print("CXs", test.n_gates_of_type(OpType.CX))
+
+    backend = IBMQBackend("ibmq_quito") # Initialise Backend
+
+    print("Total gate count before compilation =", circ.n_gates)
+    print("CX count before compilation =",  circ.n_gates_of_type(OpType.CX))
+
+    # Now apply the default_compilation_pass at different levels of optimisation.
+
+    for optimisation_level in range(3):
+        test_circ = circ.copy()
+        backend.default_compilation_pass(optimisation_level).apply(test_circ)
+        assert backend.valid_circuit(test_circ)
+        print("Optimisation level", optimisation_level)
+        print("Gates", test_circ.n_gates)
+        print("CXs", test_circ.n_gates_of_type(OpType.CX))
+
+**Explanation**
+
+We see that compiling the circuit to IBMQ Quito at optimisation level 0 actaully increases the gate count. This is because IBM Quito has connectivity constraints which require additional CX gates to be added to validate the circuit.
+The single qubit gates in our circuit also need to be decomposed into the IBM gatset.
+
+We see that compiling at optimisation level 1 manages to reduce the CX count to 5. Our connectivity constraints are satisfied without increasing the CX gate count. Single qubit gates are also combined to reduce the overall gate count further.
+
+Finally we see that the default pass for optimisation level 2 manages to reduce the overall gate count to just 6 with only one CX gate. This is because more intensive optimisations are applied at this level including squashing passes that enable optimal two and three qubit circuits to be synthesised. Applying these more powerful passes comes with a runtime overhead that may be noticebale for larger circuits.
 
 Guidance for Combining Passes
 -----------------------------
