@@ -11,7 +11,7 @@ on:
 jobs:
 
   changes:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       manual: ${{ steps.filter.outputs.manual }}
     steps:
@@ -29,14 +29,14 @@ jobs:
     name: check manual
     needs: changes
     if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: '0'
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
     - name: Set up Python 3.8
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: 3.8
     - name: install python requirements for manual

@@ -41,11 +41,12 @@ Basic quantum gates represent some unitary operation applied to some qubits. Add
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(4)   # qubits are numbered 0-3
     circ.X(0)           # first apply an X gate to qubit 0
-    circ.CX(1, 3)       # and apply a CX gate with control qubit 1
-                        #   and target qubit 3
+    circ.CX(1, 3)       # and apply a CX gate with control qubit 1 and target qubit 3
     circ.Z(3)           # then apply a Z gate to qubit 3
+    circ.get_commands() # show the commands of the built circuit
 
 .. parameterised gates; parameter first, always in half-turns
 
@@ -397,6 +398,31 @@ To change which units get unified, we could use :py:meth:`Circuit.rename_units` 
 
 .. note:: This requires the subcircuit to be defined only over the default registers so that the list of arguments given to :py:meth:`Circuit.add_circuit` can easily be mapped.
 
+Statevectors and Unitaries
+--------------------------
+
+When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
+ 
+.. jupyter-execute::
+
+    from pytket import Circuit
+
+    circ = Circuit(2)
+    circ.H(0).CX(0,1)
+    circ.get_statevector()
+
+In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
+
+.. jupyter-execute::
+
+    from pytket import Circuit
+
+    circ = Circuit(2)
+    circ.H(0).CZ(0,1).H(1)
+    circ.get_unitary()
+
+.. warning:: The unitary matrix of a quantum circuit is of dimension :math:`(2^n \times 2^n)` where :math:`n` is the number of qubits. The statevector will be a column vector with :math:`2^n` entries . Due to this exponential scaling it will in general be very inefficient to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.
+
 Boxes
 -----
 
@@ -482,28 +508,40 @@ Another notable example that is common to many algorithms and high-level circuit
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
 
-Statevectors and Unitaries
---------------------------
+In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` structure. This box type can be used to prepare an arbitrary permutation of the computational basis states using the :math:`\{\text{X},\text{CnX}\}` gateset.
 
-When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
- 
+In order to construct a :py:class:`ToffoliBox` the user must supply the desired permutation as a dictionary specifying the action of the box on different input basis states, where a key:value pair implies that the basis state key should be mapped to the basis state value.
+
+The given dictionary should provide permutations that correspond to complete cycles of basis states, i.e. if a basis state is present as a key then it must also be present as a value in the dictionary. If a valid permutation is supplied then a :py:class:`ToffoliBox` is constructed to perform the permutation and an error is thrown if the provided permutation is invalid.
+
 .. jupyter-execute::
 
     from pytket import Circuit
-    circ=Circuit(2)
-    circ.H(0).CX(0,1)
+    from pytket.circuit import ToffoliBox
+
+    # Specify the desired permutation of the basis states
+    permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}     
+
+    # Construct a two qubit ToffoliBox to perform the permutation
+    tb = ToffoliBox(n_qubits=2, permutation=permutation) 
+
+    circ = Circuit(2)               # Create a two qubit circuit
+    circ.add_toffolibox(tb, [0, 1]) # Add the ToffoliBox defined above to our circuit
+    circ.get_commands()             # Display circuit commands
+
+Now lets perform a statevector calculation to ensure that the :py:class:`ToffoliBox` performs the desired permutation. Recall that when calculating the statevector ``pytket`` assumes qubits to be initialised in the :math:`|0\rangle^{\otimes n}` state. 
+
+.. jupyter-execute::
+
     circ.get_statevector()
 
-In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
+We see from the output that the :py:class:`ToffoliBox` prepares the :math:`|11\rangle` basis state from out initial state of :math:`|00\rangle`.
+
+The user may wish to inspect the circuit inside the :py:class:`ToffoliBox`. This can be done with the :py:meth:`ToffoliBox.get_circuit` method.
 
 .. jupyter-execute::
 
-    from pytket import Circuit
-    circ=Circuit(2)
-    circ.H(0).CZ(0,1).H(1)
-    circ.get_unitary()
-
-.. warning:: The unitary matrix of a quantum circuit is of dimension :math:`(2^n \times 2^n)` where :math:`n` is the number of qubits. The statevector will be a column vector with :math:`2^n` entries . Due to this exponential scaling it will in general be very inefficent to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.
+    tb.get_circuit()
 
 Analysing Circuits
 ------------------

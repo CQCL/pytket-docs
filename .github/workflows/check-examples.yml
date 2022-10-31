@@ -11,7 +11,7 @@ on:
 jobs:
 
   changes:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     outputs:
       examples: ${{ steps.filter.outputs.examples }}
     steps:
@@ -24,19 +24,20 @@ jobs:
           examples:
             - 'examples/**'
             - 'requirements.txt'
+            - '.github/workflows/check-examples.yml'
 
   check:
     name: check examples
     needs: changes
     if: github.event_name == 'schedule' || needs.changes.outputs.examples == 'true'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
       with:
         fetch-depth: '0'
     - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* +refs/heads/*:refs/remotes/origin/*
     - name: Set up Python 3.8
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4
       with:
         python-version: 3.8
     - name: install python requirements for notebooks
@@ -46,12 +47,12 @@ jobs:
         python -m pip install -r requirements.txt
         python -m pip install -c constraints.txt jupyter openfermion plotly
         python -m pip install docker p2j pytest
-    - name: install dotnet SDK and iqsharp
+    - name: install dotnet SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'
+    - name: install iqsharp
       run: |
-        curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-        sudo apt-add-repository https://packages.microsoft.com/ubuntu/20.04/prod
-        sudo apt-get install dotnet-sdk-3.1
-        echo "~/.dotnet/tools" >> $GITHUB_PATH
         dotnet tool install -g Microsoft.Quantum.IQSharp
         dotnet iqsharp install --user
     - name: pull docker images

@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/main?filepath=examples)
 
-Pytket is a python module for interfacing with CQC tket, a set of quantum programming tools.
+Pytket is a python module for interfacing with tket, a quantum computing toolkit and optimising compiler developed by Quantinuum.
 
 This repository contains API documentation and example notebooks to get you started using pytket. It does not contain source code. The source code is maintained on the [tket repository](https://github.com/CQCL/tket).
 
@@ -12,7 +12,9 @@ This repository contains API documentation and example notebooks to get you star
 Pytket is available for Python 3.8, 3.9 and 3.10, on Linux, MacOS and Windows.
 To install, run:
 
-``pip install pytket``
+```shell
+pip install pytket
+```
 
 See the [Getting Started](https://cqcl.github.io/tket/pytket/api/getting_started.html) page for a quick introduction to using pytket.
 
@@ -27,6 +29,10 @@ and software. We maintain a large and growing number of extensions on the
 [pytket-extensions repository](https://github.com/CQCL/pytket-extensions). These are simple to install with `pip`.
 
 ## Maintenance and support
+
+If you think you've found a bug or have an idea for a feature then please raise an issue [here](https://github.com/CQCL/tket/issues).
+
+There is also a slack channel for discussion and support. click [here](https://tketusers.slack.com/join/shared_invite/zt-18qmsamj9-UqQFVdkRzxnXCcKtcarLRA#/shared-invite/email) to join.
 
 ### Pytket 0.x.y
 
