@@ -651,12 +651,12 @@ Optimisation level  Description
 
 As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.
 
-We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using an emulator for the IBMQ Quito device. The emulator has the same gateset and connectivity constraints as the real device.
+We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using the IBMQ Quito device. 
 
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.extensions.qiskit import IBMQEmulatorBackend
+    from pytket.extensions.qiskit import IBMQBackend
 
     circ = Circuit(3) # Define a circuit to be compiled to the backend
     circ.CX(0, 1)
@@ -671,7 +671,7 @@ We will now demonstrate the :py:meth:`default_compilation_pass` with the differe
     circ.CX(2, 0)
     circ.measure_all()
 
-    backend = IBMQEmulatorBackend("ibmq_quito") # Initialise Backend
+    backend = IBMQBackend("ibmq_quito") # Initialise Backend
 
     print("Total gate count before compilation =", circ.n_gates)
     print("CX count before compilation =",  circ.n_gates_of_type(OpType.CX))
