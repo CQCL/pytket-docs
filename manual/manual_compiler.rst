@@ -72,7 +72,7 @@ Common :py:class:`Predicate`            Constraint
 
 When applying passes, you may find that you apply some constraint-solving pass to satisfy a particular :py:class:`Predicate`, but then a subsequent pass will invalidate it by, for example, introducing gates of different gate types or changing which qubits interact via multi-qubit gates. To help understand and manage this, each pass has a set of pre-conditions that specify the requirements assumed on the :py:class:`Circuit` in order for the pass to successfully be applied, and a set of post-conditions that specify which :py:class:`Predicate` s are guaranteed to hold for the outputs and which are invalidated or preserved by the pass. These can be viewed in the API reference for each pass.
 
-Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a :py:class:`UserDefinedPredicate` in pytket based on a function that returns a True/False Value.
+Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a :py:class:`UserDefinedPredicate` in pytket based on a function that returns a True/False value.
 
 Below is a minimal example where we construct a predicate which checks if our :py:class:`Circuit` contains less than 3 CX gates.
 
@@ -676,11 +676,11 @@ As more intensive optimisations are applied by level 2 the pass may take a long 
 
     # Now apply the default_compilation_pass at different levels of optimisation.
 
-    for optimisation_level in range(3):
+    for ol in range(3):
         test_circ = circ.copy()
-        backend.default_compilation_pass(optimisation_level).apply(test_circ)
+        backend.default_compilation_pass(optimisation_level=ol).apply(test_circ)
         assert backend.valid_circuit(test_circ)
-        print("Optimisation level", optimisation_level)
+        print("Optimisation level", ol)
         print("Gates", test_circ.n_gates)
         print("CXs", test_circ.n_gates_of_type(OpType.CX))
 
