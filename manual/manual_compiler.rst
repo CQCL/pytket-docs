@@ -651,27 +651,50 @@ Optimisation level  Description
 
 As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.
 
+We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using an emulator for the IBMQ Quito device. The emulator has the same gateset and connectivity constraints as the real device.
+
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.extensions.qiskit import AerBackend
+    from pytket.extensions.qiskit import IBMQEmulatorBackend
 
-    circ = Circuit(3)
-    circ.CZ(0, 1)
+    circ = Circuit(3) # Define a circuit to be compiled to the backend
+    circ.CX(0, 1)
     circ.H(1)
     circ.Rx(0.42, 1)
     circ.S(1)
-    circ.add_gate(OpType.YYPhase, 0.96, [1, 2])
+    circ.CX(0, 2)
+    circ.CX(2, 1)
+    circ.Z(2)
+    circ.Y(1)
     circ.CX(0, 1)
+    circ.CX(2, 0)
     circ.measure_all()
-    b = AerBackend()
-    for ol in range(3):
-        test = circ.copy()
-        b.default_compilation_pass(ol).apply(test)
-        assert b.valid_circuit(test)
-        print("Optimisation level", ol)
-        print("Gates", test.n_gates)
-        print("CXs", test.n_gates_of_type(OpType.CX))
+
+    backend = IBMQEmulatorBackend("ibmq_quito") # Initialise Backend
+
+    print("Total gate count before compilation =", circ.n_gates)
+    print("CX count before compilation =",  circ.n_gates_of_type(OpType.CX))
+
+    # Now apply the default_compilation_pass at different levels of optimisation.
+
+    for optimisation_level in range(3):
+        test_circ = circ.copy()
+        backend.default_compilation_pass(optimisation_level).apply(test_circ)
+        assert backend.valid_circuit(test_circ)
+        print("Optimisation level", optimisation_level)
+        print("Gates", test_circ.n_gates)
+        print("CXs", test_circ.n_gates_of_type(OpType.CX))
+
+**Explanation**
+
+We see that compiling the circuit to IBMQ Quito at optimisation level 0 actaully increases the gate count. This is because IBM Quito has connectivity constraints which require additional CX gates to be added to validate the circuit.
+The single qubit gates in our circuit also need to be decomposed into the IBM gatset.
+
+We see that compiling at optimisation level 1 manages to reduce the CX count to 5. Our connectivity constraints are satisfied without increasing the CX gate count. Single qubit gates are also combined to reduce the overall gate count further.
+
+Finally we see that the default pass for optimisation level 2 manages to reduce the overall gate count to just 6 with only one CX gate. This is because more intensive optimisations are applied at this level including squashing passes that enable optimal two and three qubit circuits to be synthesised. Applying these more powerful passes comes with a runtime overhead that may be noticebale for larger circuits.
+
 
 Guidance for Combining Passes
 -----------------------------
@@ -744,8 +767,8 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
     from pytket.extensions.qiskit import AerStateBackend
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils.operators import QubitPauliOperator
-
     from sympy import symbols
+
     a, b = symbols("a b")
     circ = Circuit(2)
     circ.Ry(a, 0)
@@ -791,12 +814,14 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
 
         for cmd in circ.get_commands():
             qubit_list = cmd.qubits # Qubit(s) our gate is applied on (as a list)
-            if cmd.op.type == OpType.Z: # If cmd is a Z gate, decompose to a H, X, H sequence.
+            if cmd.op.type == OpType.Z: 
+            # If cmd is a Z gate, decompose to a H, X, H sequence.
                 circ_prime.add_gate(OpType.H, qubit_list)
                 circ_prime.add_gate(OpType.X, qubit_list)
                 circ_prime.add_gate(OpType.H, qubit_list)
             else: 
-                circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list) # Otherwise, apply the gate as usual.
+            # Otherwise, apply the gate as usual.
+                circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list)
 
         return circ_prime
 
