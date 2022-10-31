@@ -657,6 +657,7 @@ We will now demonstrate the :py:meth:`default_compilation_pass` with the differe
 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
+    from pytket.extensions.qiskit import IBMQEmulatorBackend
 
     circ = Circuit(3) # Define a circuit to be compiled to the backend
     circ.CX(0, 1)
