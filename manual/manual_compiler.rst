@@ -74,6 +74,26 @@ Predicate                               Constraint
 
 When applying passes, you may find that you apply some constraint-solving pass to satisfy a particular :py:class:`Predicate`, but then a subsequent pass will invalidate it by, for example, introducing gates of different gate types or changing which qubits interact via multi-qubit gates. To help understand and manage this, each pass has a set of pre-conditions that specify the requirements assumed on the :py:class:`Circuit` in order for the pass to successfully be applied, and a set of post-conditions that specify which :py:class:`Predicate` s are guaranteed to hold for the outputs and which are invalidated or preserved by the pass. These can be viewed in the API reference for each pass.
 
+Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a :py:class:`UserDefinedPredicate` in pytket based on a function that returns a True/False Value.
+
+Below is a minimal example where we construct a predicate which checks if our :py:class:`Circuit` contains less than 3 CX gates.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, OpType
+    from pytket.predicates import UserDefinedPredicate
+
+    def max_cx_count(circ: Circuit) -> bool:
+        return circ.n_gates_of_type(OpType.CX) < 3
+
+    # Now construct our predicate using the function defined above
+    my_predicate = UserDefinedPredicate(max_cx_count)
+
+    test_circ = Circuit(2).CX(0, 1).Rz(0.25, 1).CX(0, 1) # Define a test Circuit
+
+    my_predicate.verify(test_circ)
+    # test_circ satisfies predicate as it contains only 2 CX gates
+
 Rebases
 -------
 
@@ -103,6 +123,7 @@ One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`
     gates = {OpType.Rz, OpType.Ry, OpType.CY, OpType.ZZPhase}
     cx_in_cy = Circuit(2)
     cx_in_cy.Rz(0.5, 1).CY(0, 1).Rz(-0.5, 1)
+
     def tk1_to_rzry(a, b, c):
         circ = Circuit(1)
         circ.Rz(c + 0.5, 0).Ry(b, 0).Rz(a - 0.5, 0)
