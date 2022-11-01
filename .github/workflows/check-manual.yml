@@ -7,6 +7,9 @@ on:
   schedule:
     # 03:00 every Saturday morning
     - cron: '0 3 * * 6'
+  push:
+    branches:
+      - check-manual
 
 jobs:
 
@@ -28,7 +31,7 @@ jobs:
   check:
     name: check manual
     needs: changes
-    if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
+    # if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
