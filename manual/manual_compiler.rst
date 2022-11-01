@@ -674,7 +674,7 @@ As more intensive optimisations are applied by level 2 the pass may take a long 
     print("Total gate count before compilation =", circ.n_gates)
     print("CX count before compilation =",  circ.n_gates_of_type(OpType.CX))
 
-    # Now apply the default_compilation_pass at different levels of optimisation.
+     # Now apply the default_compilation_pass at different levels of optimisation.
 
     for ol in range(3):
         test_circ = circ.copy()
@@ -764,8 +764,8 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
     from pytket.extensions.qiskit import AerStateBackend
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils.operators import QubitPauliOperator
-
     from sympy import symbols
+
     a, b = symbols("a b")
     circ = Circuit(2)
     circ.Ry(a, 0)
@@ -811,11 +811,13 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
 
         for cmd in circ.get_commands():
             qubit_list = cmd.qubits # Qubit(s) our gate is applied on (as a list)
-            if cmd.op.type == OpType.Z: # If cmd is a Z gate, decompose to a H, X, H sequence.
+            if cmd.op.type == OpType.Z:
+                # If cmd is a Z gate, decompose to a H, X, H sequence.
                 circ_prime.add_gate(OpType.H, qubit_list)
                 circ_prime.add_gate(OpType.X, qubit_list)
                 circ_prime.add_gate(OpType.H, qubit_list)
             else: 
+                # Otherwise, apply the gate as usual.
                 circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list) # Otherwise, apply the gate as usual.
 
         return circ_prime
@@ -872,6 +874,7 @@ Once compiled, we can use :py:meth:`Backend.process_circuits` to submit several 
     state_prep.add_gate(OpType.CnRy, 0.1, [0, 1])
     state_prep.add_gate(OpType.CnRy, 0.2, [0, 2])
     state_prep.add_gate(OpType.CnRy, 0.3, [0, 3])
+
     measure0 = Circuit(4, 4)
     measure0.H(1).H(3).measure_all()
     measure1 = Circuit(4, 4)
