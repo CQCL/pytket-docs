@@ -651,7 +651,7 @@ We will now demonstrate the :py:meth:`default_compilation_pass` with the differe
 
 As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.
 
-.. jupyter-execute::
+.. jupyter-input::
 
     from pytket import Circuit, OpType
     from pytket.extensions.qiskit import IBMQBackend
@@ -683,6 +683,20 @@ As more intensive optimisations are applied by level 2 the pass may take a long 
         print("Optimisation level", ol)
         print("Gates", test_circ.n_gates)
         print("CXs", test_circ.n_gates_of_type(OpType.CX))
+    
+.. jupyter-output::
+
+    Total gate count before compilation = 13
+    CX count before compilation = 5
+    Optimisation level 0
+    Gates 22
+    CXs 8
+    Optimisation level 1
+    Gates 12
+    CXs 5
+    Optimisation level 2
+    Gates 6
+    CXs 1
 
 **Explanation**
 
@@ -824,7 +838,7 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
 
 After we've defined our ``transform`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`Circuit`.
 
-.. jupyter-execute::
+.. jupyter-input::
 
     from pytket.passes import CustomPass
 
