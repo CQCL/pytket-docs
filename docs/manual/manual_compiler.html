@@ -203,7 +203,7 @@ or the <code class="xref py py-class docutils literal notranslate"><span class="
 </tbody>
 </table>
 <p>When applying passes, you may find that you apply some constraint-solving pass to satisfy a particular <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code>, but then a subsequent pass will invalidate it by, for example, introducing gates of different gate types or changing which qubits interact via multi-qubit gates. To help understand and manage this, each pass has a set of pre-conditions that specify the requirements assumed on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> in order for the pass to successfully be applied, and a set of post-conditions that specify which <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s are guaranteed to hold for the outputs and which are invalidated or preserved by the pass. These can be viewed in the API reference for each pass.</p>
-<p>Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">UserDefinedPredicate</span></code> in pytket based on a function that returns a True/False Value.</p>
+<p>Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">UserDefinedPredicate</span></code> in pytket based on a function that returns a True/False value.</p>
 <p>Below is a minimal example where we construct a predicate which checks if our <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> contains less than 3 CX gates.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -888,13 +888,13 @@ True
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total gate count before compilation =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_gates</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CX count before compilation =&quot;</span><span class="p">,</span>  <span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>
 
-<span class="c1"># Now apply the default_compilation_pass at different levels of optimisation.</span>
+ <span class="c1"># Now apply the default_compilation_pass at different levels of optimisation.</span>
 
-<span class="k">for</span> <span class="n">optimisation_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">ol</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
     <span class="n">test_circ</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">backend</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">(</span><span class="n">optimisation_level</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">test_circ</span><span class="p">)</span>
+    <span class="n">backend</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">(</span><span class="n">optimisation_level</span><span class="o">=</span><span class="n">ol</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">test_circ</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">backend</span><span class="o">.</span><span class="n">valid_circuit</span><span class="p">(</span><span class="n">test_circ</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimisation level&quot;</span><span class="p">,</span> <span class="n">optimisation_level</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimisation level&quot;</span><span class="p">,</span> <span class="n">ol</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates&quot;</span><span class="p">,</span> <span class="n">test_circ</span><span class="o">.</span><span class="n">n_gates</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CXs&quot;</span><span class="p">,</span> <span class="n">test_circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">))</span>
 </pre></div>
@@ -975,8 +975,8 @@ The single qubit gates in our circuit also need to be decomposed into the IBM ga
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerStateBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">QubitPauliString</span>
 <span class="kn">from</span> <span class="nn">pytket.utils.operators</span> <span class="kn">import</span> <span class="n">QubitPauliOperator</span>
-
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
+
 <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;a b&quot;</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -1029,11 +1029,13 @@ The <code class="xref py py-class docutils literal notranslate"><span class="pre
 
     <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">():</span>
         <span class="n">qubit_list</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">qubits</span> <span class="c1"># Qubit(s) our gate is applied on (as a list)</span>
-        <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Z</span><span class="p">:</span> <span class="c1"># If cmd is a Z gate, decompose to a H, X, H sequence.</span>
+        <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">OpType</span><span class="o">.</span><span class="n">Z</span><span class="p">:</span>
+            <span class="c1"># If cmd is a Z gate, decompose to a H, X, H sequence.</span>
             <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
             <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
             <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Otherwise, apply the gate as usual.</span>
             <span class="n">circ_prime</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">cmd</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">qubit_list</span><span class="p">)</span> <span class="c1"># Otherwise, apply the gate as usual.</span>
 
     <span class="k">return</span> <span class="n">circ_prime</span>
@@ -1102,6 +1104,7 @@ The <code class="xref py py-class docutils literal notranslate"><span class="pre
 <span class="n">state_prep</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CnRy</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">state_prep</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CnRy</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="n">state_prep</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CnRy</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
 <span class="n">measure0</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">measure0</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 <span class="n">measure1</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1398,12 +1401,12 @@ the main circuit and the postprocessing circuit, returning both.</p>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
  [0 0]
- [0 0]
- [1 1]
- [1 1]
  [1 1]
  [1 1]
  [0 0]
+ [1 1]
+ [0 0]
+ [1 1]
  [1 1]
  [0 0]]
 </pre></div>
