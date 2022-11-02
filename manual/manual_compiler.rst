@@ -637,7 +637,7 @@ After solving for the device connectivity, we then need to restrict what optimis
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
+Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` s constraints with a choice of optimisation levels.
 
 ==================  ========================================================================================================
 Optimisation level  Description
@@ -700,7 +700,7 @@ As more intensive optimisations are applied by level 2 the pass may take a long 
 
 **Explanation**
 
-We see that compiling the circuit to ``ibmq_quito`` at optimisation level 0 actaully increases the gate count. This is because ``ibmq_quito`` has connectivity constraints which require additional CX gates to be added to validate the circuit.
+We see that compiling the circuit to ``ibmq_quito`` at optimisation level 0 actually increases the gate count. This is because ``ibmq_quito`` has connectivity constraints which require additional CX gates to be added to validate the circuit.
 The single-qubit gates in our circuit also need to be decomposed into the IBM gatset.
 
 We see that compiling at optimisation level 1 manages to reduce the CX count to 5. Our connectivity constraints are satisfied without increasing the CX gate count. Single-qubit gates are also combined to reduce the overall gate count further.
