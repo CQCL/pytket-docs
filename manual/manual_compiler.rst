@@ -637,7 +637,7 @@ After solving for the device connectivity, we then need to restrict what optimis
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` s constraints with a choice of optimisation levels.
+Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` s constraints with a choice of optimisation levels.
 
 ==================  ========================================================================================================
 Optimisation level  Description
