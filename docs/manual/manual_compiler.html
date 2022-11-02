@@ -842,7 +842,7 @@ True
 <p class="admonition-title">Note</p>
 <p>Prevous versions of <code class="xref py py-class docutils literal notranslate"><span class="pre">FullPeepholeOptimise</span></code> did not apply the <code class="xref py py-class docutils literal notranslate"><span class="pre">ThreeQubitSquash</span></code> pass. There is a <code class="xref py py-class docutils literal notranslate"><span class="pre">PeepholeOptimise2Q</span></code> pass which applies the old pass sequence with the <code class="xref py py-class docutils literal notranslate"><span class="pre">ThreeQubitSquash</span></code> pass excluded.</p>
 </div>
-<p>Also in this category of pre-defined sequences, we have the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> which is run by <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code>. These give a recommended compiler pass to solve the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s constraints with a choice of optimisation levels.</p>
+<p>Also in this category of pre-defined sequences, we have the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.default_compilation_pass()</span></code> which is run by <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code>. These give a recommended compiler pass to solve the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s constraints with a choice of optimisation levels.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -919,7 +919,7 @@ CXs 1
 </div>
 </div>
 <p><strong>Explanation</strong></p>
-<p>We see that compiling the circuit to <code class="docutils literal notranslate"><span class="pre">ibmq_quito</span></code> at optimisation level 0 actaully increases the gate count. This is because <code class="docutils literal notranslate"><span class="pre">ibmq_quito</span></code> has connectivity constraints which require additional CX gates to be added to validate the circuit.
+<p>We see that compiling the circuit to <code class="docutils literal notranslate"><span class="pre">ibmq_quito</span></code> at optimisation level 0 actually increases the gate count. This is because <code class="docutils literal notranslate"><span class="pre">ibmq_quito</span></code> has connectivity constraints which require additional CX gates to be added to validate the circuit.
 The single-qubit gates in our circuit also need to be decomposed into the IBM gatset.</p>
 <p>We see that compiling at optimisation level 1 manages to reduce the CX count to 5. Our connectivity constraints are satisfied without increasing the CX gate count. Single-qubit gates are also combined to reduce the overall gate count further.</p>
 <p>Finally we see that the default pass for optimisation level 2 manages to reduce the overall gate count to just 6 with only one CX gate. This is because more intensive optimisations are applied at this level including squashing passes that enable optimal two and three-qubit circuits to be synthesised. Applying these more powerful passes comes with a runtime overhead that may be noticeable for larger circuits.</p>
@@ -1405,11 +1405,11 @@ the main circuit and the postprocessing circuit, returning both.</p>
  [0 0]
  [0 0]
  [0 0]
+ [0 0]
  [1 1]
+ [0 0]
  [1 1]
- [1 1]
- [1 1]
- [1 1]
+ [0 0]
  [1 1]]
 </pre></div>
 </div>
