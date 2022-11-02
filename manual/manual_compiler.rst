@@ -74,7 +74,7 @@ When applying passes, you may find that you apply some constraint-solving pass t
 
 Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a :py:class:`UserDefinedPredicate` in pytket based on a function that returns a True/False value.
 
-Below is a minimal example where we construct a predicate which checks if our :py:class:`Circuit` contains less than 3 CX gates.
+Below is a minimal example where we construct a predicate which checks if our :py:class:`Circuit` contains fewer than 3 CX gates.
 
 .. jupyter-execute::
 
@@ -584,7 +584,7 @@ Knowing what sequences of compiler passes to apply for maximal performance is of
 
 .. `FullPeepholeOptimise` kitchen-sink, but assumes a universal quantum computer
 
-In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the :py:class:`Circuit`. The :py:class:`FullPeepholeOptimise` applies Clifford simplifications, commutes single qubit gates to the front of the circuit and applies passes to squash subcircuits up to three qubits. This provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class:`Circuit` optimisation. This assumes no device constraints by default, so will not generally preserve gateset, connectivity, etc.
+In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the :py:class:`Circuit`. The :py:class:`FullPeepholeOptimise` pass applies Clifford simplifications, commutes single-qubit gates to the front of the circuit and applies passes to squash subcircuits of up to three qubits. This provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class:`Circuit` optimisation. This assumes no device constraints by default, so will not generally preserve gateset, connectivity, etc.
 
 When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. :py:class:`DefaultMappingPass` simply combines these to apply the :py:class:`GraphPlacement` strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with :py:class:`CXMappingPass` which also decomposes the introduced ``OpType.SWAP`` and ``OpType.BRIDGE`` gates into elementary ``OpType.CX`` gates.
 
@@ -628,16 +628,16 @@ After solving for the device connectivity, we then need to restrict what optimis
 
 
 .. Note::
-    :py:class:`FullPeepholeOptimise` takes an optional allow_swaps argument. This is a Boolean flag to indicate whether :py:class:`FullPeepholeOptimise` should preserve the circuit connectivity or not. If set to False the pass will presrve circuit connectivity but the circuit will general be less optimal than if connectivity was ignored.
+    :py:class:`FullPeepholeOptimise` takes an optional ``allow_swaps`` argument. This is a boolean flag to indicate whether :py:class:`FullPeepholeOptimise` should preserve the circuit connectivity or not. If set to ``False`` the pass will presrve circuit connectivity but the circuit will generally be less optimised than if connectivity was ignored.
     
-    :py:class:`FullPeepholeOptimise` also takes an optional target_2qb_gate argument to specify whether to target the {:py:class:`OpType.TK1`, :py:class:`OpType.CX`} or {:py:class:`OpType.TK1`, :py:class:`OpType.TK2`} gateset.
+    :py:class:`FullPeepholeOptimise` also takes an optional ``target_2qb_gate`` argument to specify whether to target the {:py:class:`OpType.TK1`, :py:class:`OpType.CX`} or {:py:class:`OpType.TK1`, :py:class:`OpType.TK2`} gateset.
 
 .. Note::
-    Prevous iterations of :py:class:`FullPeepholeOptimise` did not apply the :py:class:`ThreeQubitSquash` pass. There is a :py:class:`PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded.
+    Prevous versions of :py:class:`FullPeepholeOptimise` did not apply the :py:class:`ThreeQubitSquash` pass. There is a :py:class:`PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded.
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` 's constraints with a choice of optimisation levels.
+Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend`'s constraints with a choice of optimisation levels.
 
 ==================  ========================================================================================================
 Optimisation level  Description
@@ -647,7 +647,7 @@ Optimisation level  Description
 2                   Extends to more intensive optimisations (those covered by the :py:meth:`FullPeepholeOptimise` pass).
 ==================  ========================================================================================================
 
-We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using the IBMQ Quito device. 
+We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using the ``ibmq_quito`` device. 
 
 As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.
 
@@ -700,12 +700,12 @@ As more intensive optimisations are applied by level 2 the pass may take a long 
 
 **Explanation**
 
-We see that compiling the circuit to IBMQ Quito at optimisation level 0 actaully increases the gate count. This is because IBM Quito has connectivity constraints which require additional CX gates to be added to validate the circuit.
-The single qubit gates in our circuit also need to be decomposed into the IBM gatset.
+We see that compiling the circuit to ``ibmq_quito`` at optimisation level 0 actaully increases the gate count. This is because ``ibmq_quito`` has connectivity constraints which require additional CX gates to be added to validate the circuit.
+The single-qubit gates in our circuit also need to be decomposed into the IBM gatset.
 
-We see that compiling at optimisation level 1 manages to reduce the CX count to 5. Our connectivity constraints are satisfied without increasing the CX gate count. Single qubit gates are also combined to reduce the overall gate count further.
+We see that compiling at optimisation level 1 manages to reduce the CX count to 5. Our connectivity constraints are satisfied without increasing the CX gate count. Single-qubit gates are also combined to reduce the overall gate count further.
 
-Finally we see that the default pass for optimisation level 2 manages to reduce the overall gate count to just 6 with only one CX gate. This is because more intensive optimisations are applied at this level including squashing passes that enable optimal two and three qubit circuits to be synthesised. Applying these more powerful passes comes with a runtime overhead that may be noticebale for larger circuits.
+Finally we see that the default pass for optimisation level 2 manages to reduce the overall gate count to just 6 with only one CX gate. This is because more intensive optimisations are applied at this level including squashing passes that enable optimal two and three-qubit circuits to be synthesised. Applying these more powerful passes comes with a runtime overhead that may be noticeable for larger circuits.
 
 Guidance for Combining Passes
 -----------------------------
