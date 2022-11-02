@@ -245,6 +245,9 @@ A custom (partial) placement can be applied by providing the appropriate qubit m
     Placement.place_with_map(circ, q_map)
 
     print(circ.get_commands())
+    import warnings
+    warnings.warn('This is a warning message')
+    
 
 A custom placement may also be defined as a pass (which can then be combined with others to construct a more complex pass).
 
