@@ -838,7 +838,7 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
 
 After we've defined our ``transform`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`Circuit`.
 
-.. jupyter-input::
+.. jupyter-execute::
 
     from pytket.passes import CustomPass
 
