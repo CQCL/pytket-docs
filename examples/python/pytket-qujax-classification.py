@@ -49,9 +49,7 @@ render_circuit_jupyter(c)
 
 # We can use `pytket-qujax` to generate our `angles_to_statetensor` function.
 # We'll parameterise each angle as
-# $$
-# \theta_k = b_k + w_k * x_k
-# $$
+# $$ \theta_k = b_k + w_k * x_k $$
 # where $b_k, w_k$ are variational parameters to be learnt and $x_k = x_0$ if $k$ even, $x_k = x_1$ if $k$ odd for a single bivariate input point $(x_0, x_1)$.
 
 angles_to_st = tk_to_qujax(c)
@@ -79,14 +77,10 @@ def param_and_x_to_probability(param, x_single):
     return first_qubit_probs[0]
 
 # We'll then use a Bernoulli likelihood (aka cross-entropy loss) where $y$ is the data label and $q$ is the probability of the first qubit being zero
-# $$
-# p(y \mid q) = q^{\mathbb{I}[y = 0]} (1-q)^{\mathbb{I}[y = 1]} \\
-# \log p(y \mid q) = {\mathbb{I}[y = 0]}\log(q) + {\mathbb{I}[y = 1]} \log(1-q)
-# $$
+# $$ p(y \mid q) = q^{\mathbb{I}[y = 0]} (1-q)^{\mathbb{I}[y = 1]} $$
+# $$ \log p(y \mid q) = {\mathbb{I}[y = 0]}\log(q) + {\mathbb{I}[y = 1]} \log(1-q) $$
 # Thus the cost function we want to _minimise_ becomes
-# $$
-# - \sum_{i=1}^N \log p(y_i \mid q_{(b, w)}(x_i))
-# $$
+# $$ - \sum_{i=1}^N \log p(y_i \mid q_{(b, w)}(x_i)) $$
 # where $q_{(b, w)}(x_i)$ is the probability the quantum circuit classifies input $x_i$ as zero given variational parameter vectors $(b, w)$.
 # Note that to calculate the cost function we need to evaluate the statetensor for every input point $x_i$. If the dataset becomes too large, we can easily minibatch. On an actual quantum device, the statetensor is intractable and the cost function (and its gradient) is instead approximated unbiasedly with shots.
 
