@@ -47,12 +47,13 @@ for layer in range(depth):
 
 render_circuit_jupyter(c)
 
-# We can use `pytket-qujax` to generate our `angles_to_statetensor` function.
+# We can use `pytket-qujax` to generate our angles-to-statetensor function.
+
+angles_to_st = tk_to_qujax(c)
+
 # We'll parameterise each angle as
 # $$ \theta_k = b_k + w_k * x_k $$
 # where $b_k, w_k$ are variational parameters to be learnt and $x_k = x_0$ if $k$ even, $x_k = x_1$ if $k$ odd for a single bivariate input point $(x_0, x_1)$.
-
-angles_to_st = tk_to_qujax(c)
 
 n_angles = 3 * n_qubits * depth
 n_params = 2 * n_angles
@@ -74,27 +75,29 @@ def param_and_x_to_probability(param, x_single):
     st = param_and_x_to_st(param, x_single)
     all_probs = jnp.square(jnp.abs(st))
     first_qubit_probs = jnp.sum(all_probs, axis=range(1, n_qubits))
-    return first_qubit_probs[0]
+    return first_qubit_probs[1]
 
-# We'll then use a Bernoulli likelihood (aka cross-entropy loss) where $y$ is the data label and $q$ is the probability of the first qubit being zero
-# $$ p(y \mid q) = q^{\mathbb{I}[y = 0]} (1-q)^{\mathbb{I}[y = 1]} $$
-# $$ \log p(y \mid q) = {\mathbb{I}[y = 0]}\log(q) + {\mathbb{I}[y = 1]} \log(1-q) $$
-# Thus the cost function we want to _minimise_ becomes
-# $$ - \sum_{i=1}^N \log p(y_i \mid q_{(b, w)}(x_i)) $$
-# where $q_{(b, w)}(x_i)$ is the probability the quantum circuit classifies input $x_i$ as zero given variational parameter vectors $(b, w)$.
-# Note that to calculate the cost function we need to evaluate the statetensor for every input point $x_i$. If the dataset becomes too large, we can easily minibatch. On an actual quantum device, the statetensor is intractable and the cost function (and its gradient) is instead approximated unbiasedly with shots.
+# The ideal loss function is the log-likelihood
+# $$ \log p(y \mid q_{(b, w)}(x)) = {\mathbb{I}[y = 0]}\log(1 - q_{(b, w)}(x)) + {\mathbb{I}[y = 1]} \log(q_{(b, w)}(x))$$
+# where $q_{(b, w)}(x)$ is the probability the quantum circuit classifies input $x$ as donut given variational parameter vectors $(b, w)$. However this cannot be approximated unbiasedly with shots (in qujax simulations we can use the statetensor to calculate this exactly, but it is still good to keep in mind loss functions that can also be used with shots from a quantum device).
+
+# Instead we can minimise the expected Hamming distance between shots and data
+# $$ C(b, w, x, y) = \mathbb{E}_{y' \sim p(\cdot \mid q_{(b, w)}(x))}[\ell(y', y)] = (1 - q_{(b, w)}(x)) \ell(0, y) + q_{(b, w)}(x)\ell(1, y), $$
+# where $y'$ are shots, $y$ are the data labels and $\ell$ is the Hamming distance. The full batch cost function is $C(b, w) = \frac1N \sum_{i=1}^N C(b, w, x_i, y_i)$.
+# Note that to calculate the cost function we need to evaluate the statetensor for every input point $x_i$. If the dataset becomes too large, we can easily minibatch.
 
 def param_to_cost(param):
-    zero_probs = vmap(param_and_x_to_probability, in_axes=(None, 0))(param, x)
-    log_lik = jnp.log(jnp.where(y, 1-zero_probs, zero_probs))
-    return - log_lik.sum()
+    donut_probs = vmap(param_and_x_to_probability, in_axes=(None, 0))(param, x)
+    costs = jnp.where(y, 1-donut_probs, donut_probs)
+    return costs.mean()
 
 # # Ready to descend some gradients?
+# We'll just use vanilla gradient descent here
 
 param_to_cost_and_grad = jit(value_and_grad(param_to_cost))
 
 n_iter = 1000
-stepsize = 1e-4
+stepsize = 1e-1
 param = random.uniform(random.PRNGKey(1), shape=(n_params,), minval=0, maxval=2)
 costs = jnp.zeros(n_iter)
 for i in range(n_iter):
@@ -103,7 +106,9 @@ for i in range(n_iter):
     param = param - stepsize * grad
     print(i, 'Cost: ', cost, end='\r')
 
-plt.plot(costs);
+plt.plot(costs)
+plt.xlabel('Iteration')
+plt.ylabel('Cost');
 
 # # Visualise trained classifier
 
@@ -114,3 +119,5 @@ plt.contourf(linsp, linsp, Z, cmap='Purples', alpha=0.8)
 circle_linsp = jnp.linspace(0, 2 * jnp.pi, 100)
 plt.plot(inner_rad * jnp.cos(circle_linsp), inner_rad * jnp.sin(circle_linsp), c='red')
 plt.plot(outer_rad * jnp.cos(circle_linsp), outer_rad * jnp.sin(circle_linsp), c='red');
+
+# Looks good, it has clearly grasped the donut shape. Sincerest apologies if you are now hungry! 🍩
