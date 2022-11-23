@@ -60,7 +60,7 @@ print(c.get_commands())
 #
 # Here is a simple example:
 
-from pytket.qasm import circuit_to_qasm, circuit_from_qasm
+from pytket.qasm import circuit_from_qasm, circuit_to_qasm
 
 c = Circuit(3, 1)
 c.H(0)
@@ -107,8 +107,7 @@ with open(quipfile, "w") as f:
 QGate["H"](0)
 Subroutine(x2)["sub", shape "([Q,Q],())"] (2,1) -> (2,1)
 QGate["H"](1)
-Outputs: 0:Qbit, 1:Qbit, 2:Qbit
-
+Outputs: 0:Qbit, 1:Qbit, 2:Qbit \n
 Subroutine: "sub"
 Shape: "([Q,Q],())"
 Controllable: no
@@ -139,10 +138,11 @@ print(boxed_circuit.get_commands())
 
 # An example will illustrate how these various box types are added to a circuit:
 
-from pytket.circuit import CircBox, Unitary1qBox, Unitary2qBox, ExpBox, PauliExpBox
-from pytket.pauli import Pauli
-import numpy as np
 from math import sqrt
+
+import numpy as np
+from pytket.circuit import CircBox, ExpBox, PauliExpBox, Unitary1qBox, Unitary2qBox
+from pytket.pauli import Pauli
 
 boxycirc = Circuit(3)
 
