@@ -832,7 +832,7 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
                 circ_prime.add_gate(OpType.H, qubit_list)
             else: 
                 # Otherwise, apply the gate as usual.
-                circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list) # Otherwise, apply the gate as usual.
+                circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list)
 
         return circ_prime
 
