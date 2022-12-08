@@ -15,6 +15,8 @@ extensions = [
     "jupyter_sphinx",
 ]
 
+pygments_style = "pastie"
+
 html_theme = "sphinx_book_theme"
 
 html_theme_options = {
@@ -23,7 +25,9 @@ html_theme_options = {
     "use_issues_button": True
 }
 
-#pygments_style = "pastie"
+html_static_path = ["_static"]
+
+html_css_files = ["custom.css"]
 
 # -- Extension configuration -------------------------------------------------
 
