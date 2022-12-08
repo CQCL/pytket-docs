@@ -55,6 +55,7 @@ For parameterised gates, such as rotations, the parameter is always given first.
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(2)
     circ.Rx(0.5, 0)     # Rx of angle pi/2 radians on qubit 0
     circ.CRz(0.3, 1, 0) # Controlled-Rz of angle 0.3pi radians with
@@ -70,6 +71,7 @@ A large selection of common gates are available in this way, as listed in the AP
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
+
     circ = Circuit(5)
     circ.add_gate(OpType.CnX, [0, 1, 4, 3])
         # add controlled-X with control qubits 0, 1, 4 and target qubit 3
@@ -98,6 +100,7 @@ Adding a measurement works just like adding any other gate, where the first argu
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(4, 2)
     circ.Measure(0, 0)  # Z-basis measurement on qubit 0, saving result in bit 0
     circ.CX(1, 2)
@@ -112,6 +115,7 @@ Because the classical bits are treated as statically assigned locations, writing
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(2, 1)
     circ.Measure(0, 0)  # measure the first measurement
     circ.CX(0, 1)
@@ -124,6 +128,7 @@ Depending on where we plan on running our circuits, the backend or simulator mig
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ0 = Circuit(2, 2)    # all measurements at end
     circ0.H(1)
     circ0.Measure(0, 0)
@@ -153,6 +158,7 @@ The simplest way to guarantee this is to finish the circuit by measuring all qub
 .. jupyter-execute::
 
     from pytket import Circuit
+
     # measure qubit 0 in Z basis and 1 in X basis
     circ = Circuit(2, 2)
     circ.H(1)
@@ -168,6 +174,7 @@ On devices where mid-circuit measurements are available, they may be highly nois
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
+
     circ = Circuit(2, 2)
     circ.Measure(0, 0)
     # Actively reset state to |0>
@@ -197,6 +204,7 @@ Adding a barrier to a :py:class:`Circuit` is done using the :py:meth:`Circuit.ad
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(4, 2)
     circ.H(0)
     circ.CX(1, 2)
@@ -221,6 +229,7 @@ Named resources can be added to :py:class:`Circuit` s individually, or by decl
 .. jupyter-execute::
 
     from pytket import Circuit, Qubit, Bit
+
     circ = Circuit()
     qreg = circ.add_q_register("reg", 2)    # add a qubit register
 
@@ -241,6 +250,7 @@ A :py:class:`Circuit` can be inspected to identify what qubits and bits it conta
 .. jupyter-execute::
 
     from pytket import Circuit, Qubit
+
     circ = Circuit()
     circ.add_q_register("a", 4)
     circ.add_qubit(Qubit("b"))
@@ -284,6 +294,7 @@ The basic integer identifiers are actually a special case, referring to the defa
 .. jupyter-execute::
 
     from pytket import Circuit, Qubit, Bit
+
     circ = Circuit(4, 2)
     circ.CX(Qubit(0), Qubit("q", 1))    # same as circ.CX(0, 1)
     circ.Measure(Qubit(2), Bit("c", 0)) # same as circ.Measure(2, 0)
@@ -295,6 +306,7 @@ In some circumstances, it may be useful to rename the resources in the :py:class
 .. jupyter-execute::
 
     from pytket import Circuit, Qubit, Bit
+
     circ = Circuit(2, 2)
     circ.add_qubit(Qubit("a", 0))
 
@@ -317,6 +329,7 @@ Because :py:class:`Circuit` s are defined to have open inputs and outputs, it 
 .. jupyter-execute::
 
     from pytket import Circuit, Qubit, Bit
+
     circ = Circuit(2, 2)
     circ.CX(0, 1)
     circ.Rz(0.3, 1)
@@ -336,6 +349,7 @@ If one :py:class:`Circuit` lacks some unit present in the other, then we treat i
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit()
     a = circ.add_q_register("a", 2)
     circ.Rx(0.2, a[0])
@@ -451,6 +465,7 @@ Similarly, if our subcircuit is a pure quantum circuit (i.e. it corresponds to a
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, CircBox, QControlBox
+
     sub = Circuit(2)
     sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
     sub_box = CircBox(sub)
@@ -466,6 +481,7 @@ As well as creating controlled boxes, we can create a controlled version of an a
 .. jupyter-execute::
 
     from pytket.circuit import Op, OpType, QControlBox
+
     op = Op.create(OpType.S)
     ccs = QControlBox(op, 2)
 
@@ -478,6 +494,7 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
+
     import numpy as np
     u1 = np.asarray([[-0.7487011587786401+0.4453416229024393j, 0.4061474383265779+0.2759740424295397j],
                      [-0.12329679104996497+0.4753054965713359j, -0.8565044726815658+0.15900526570629525j]])
@@ -502,6 +519,7 @@ Another notable example that is common to many algorithms and high-level circuit
 
     from pytket.circuit import Circuit, PauliExpBox
     from pytket.pauli import Pauli
+
     circ = Circuit(4)
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y], 0.1), [0, 1])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X], -0.1), [0, 1])
@@ -555,6 +573,7 @@ Because the :py:class:`Circuit` class identifies circuits up to DAG equivalence,
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
 
@@ -581,6 +600,7 @@ If you are working in a Jupyter environment, a :py:class:`Circuit` can be render
 
     from pytket import Circuit
     from pytket.utils import Graph
+
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
     Graph(circ).get_DAG()   # Displays in interactive python notebooks
@@ -592,6 +612,7 @@ The visualisation tool can also describe the interaction graph of a :py:class:`C
 
     from pytket import Circuit
     from pytket.utils import Graph
+
     circ = Circuit(4)
     circ.CX(0, 1).CZ(1, 2).ZZPhase(0.63, 2, 3).CX(1, 3).CY(0, 1)
     Graph(circ).get_qubit_graph()
@@ -603,6 +624,7 @@ The full instruction sequence may often be too much detail for a lot of needs, e
 .. jupyter-execute::
 
     from pytket import Circuit
+
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
 
@@ -616,6 +638,7 @@ We can use the :py:class:`OpType` enum class to look for the number of gates of 
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
+
     circ = Circuit(4)
     circ.T(0)
     circ.CX(0, 1)
@@ -723,6 +746,7 @@ For example, installing the ``pytket-qiskit`` package will add the ``tk_to_qiski
 
     from qiskit import QuantumCircuit
     from math import pi
+
     qc = QuantumCircuit(3)
     qc.h(0)
     qc.cx(0, 1)
@@ -753,6 +777,7 @@ In practice, it is very common for an experiment to use many circuits with simil
 
     from pytket import Circuit, OpType
     from sympy import Symbol
+
     a = Symbol("alpha")
     b = Symbol("beta")
     circ = Circuit(2)
@@ -774,6 +799,7 @@ It is important to note that the units of the parameter values will still be in 
 
     from pytket import Circuit
     from sympy import Symbol, pi
+
     a = Symbol("alpha")     # suppose that alpha is given in radians
     circ = Circuit(2)       # convert alpha to half-turns when adding gates
     circ.Rx(a/pi, 0).CX(0, 1).Ry(-a/pi, 0)
@@ -790,6 +816,7 @@ Substitution need not be for concrete values, but is defined more generally to a
 
     from pytket import Circuit
     from sympy import symbols
+
     a, b, c = symbols("a b c")
     circ = Circuit(2)
     circ.Rx(a, 0).Rx(b, 1).CX(0, 1).Ry(c, 0).Ry(c, 1)
@@ -807,6 +834,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
 
     from pytket import Circuit
     from sympy import symbols
+
     a, b = symbols("a, b")
     circ = Circuit(2)
     circ.Rx(a, 0).Rx(b, 1).CZ(0, 1)
@@ -831,6 +859,7 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
     from pytket import Circuit
     from pytket.utils.symbolic import circuit_apply_symbolic_statevector, circuit_to_symbolic_unitary
     from sympy import Symbol, pi
+
     a = Symbol("alpha")
     circ = Circuit(2)
     circ.Rx(a/pi, 0).CX(0, 1)
@@ -862,6 +891,7 @@ The :py:class:`CircBox` construction is good for subroutines where the instructi
 
     from pytket.circuit import Circuit, CustomGateDef
     from sympy import symbols
+
     a, b = symbols("a b")
     def_circ = Circuit(2)
     def_circ.CZ(0, 1)
@@ -889,6 +919,7 @@ Any state :math:`|\psi\rangle` in the Clifford fragment is uniquely identified b
 
     from pytket.circuit import OpType, Qubit
     from pytket.tableau import UnitaryTableau
+
     tab = UnitaryTableau(3)
     tab.apply_gate_at_end(OpType.S, [Qubit(0)])
     tab.apply_gate_at_end(OpType.CX, [Qubit(1), Qubit(2)])
@@ -903,6 +934,7 @@ The primary use for tableaux in ``pytket`` is as a scalable means of specifying 
     from pytket.circuit import Circuit
     from pytket.passes import DecomposeBoxes
     from pytket.tableau import UnitaryTableauBox
+
     box = UnitaryTableauBox(
         np.asarray([[1,1,0],[0,1,0],[0,0,1]], dtype=bool),
         np.asarray([[0,0,0],[0,0,0],[0,0,1]], dtype=bool),
@@ -970,6 +1002,7 @@ possible expressions and predicates.
         reg_lt,
         reg_neq,
     )
+
     # create a circuit and add quantum and classical registers
     circ = Circuit()
     qreg = circ.add_q_register("q", 10)
@@ -1092,6 +1125,7 @@ Systematic modifications to a :py:class:`Circuit` object can go beyond simply ad
 .. jupyter-execute::
 
     from pytket import Circuit
+
     # we want a circuit for E = exp(-i pi (0.3 XX + 0.1 YY))
     circ = Circuit(2)
 
@@ -1123,6 +1157,7 @@ The :py:class:`Circuit` class is built as a DAG to help follow the paths of reso
 
     from pytket import Circuit
     from pytket.utils import Graph
+    
     circ = Circuit(4)
     circ.CX(0, 1)
     circ.CX(1, 0)
