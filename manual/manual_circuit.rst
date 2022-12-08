@@ -22,6 +22,7 @@ Given the small scale and lack of dynamic quantum memories for both devices and 
 .. jupyter-execute::
 
     from pytket import Circuit
+
     trivial_circ = Circuit()        # no qubits or bits
     quantum_circ = Circuit(4)       # 4 qubits and no bits
     mixed_circ   = Circuit(4, 2)    # 4 qubits and 2 bits
@@ -267,6 +268,7 @@ To help encourage consistency of identifiers, a :py:class:`Circuit` will reject 
     :raises: RuntimeError
 
     from pytket import Circuit, Qubit, Bit
+
     circ = Circuit()
     # set up a circuit with qubit a[0]
     circ.add_qubit(Qubit("a", 0))
@@ -392,6 +394,7 @@ To change which units get unified, we could use :py:meth:`Circuit.rename_units` 
 .. jupyter-execute::
 
     from pytket import Circuit, Qubit
+
     circ = Circuit()
     a = circ.add_q_register("a", 2)
     circ.Rx(0.2, a[0])
@@ -451,6 +454,7 @@ The simplest example of this is a :py:class:`CircBox`, which wraps up another :p
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, CircBox
+    
     sub = Circuit(2)
     sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
     sub_box = CircBox(sub)
@@ -1157,7 +1161,7 @@ The :py:class:`Circuit` class is built as a DAG to help follow the paths of reso
 
     from pytket import Circuit
     from pytket.utils import Graph
-    
+
     circ = Circuit(4)
     circ.CX(0, 1)
     circ.CX(1, 0)
