@@ -498,11 +498,12 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
-
     import numpy as np
-    u1 = np.asarray([[-0.7487011587786401+0.4453416229024393j, 0.4061474383265779+0.2759740424295397j],
-                     [-0.12329679104996497+0.4753054965713359j, -0.8565044726815658+0.15900526570629525j]])
+
+    u1 = np.asarray([[2/3, (-2+1j)/3],
+                     [(2+1j)/3, 2/3]])
     u1box = Unitary1qBox(u1)
+
     u2 = np.asarray([[0, 1, 0, 0],
                      [0, 0, 0, -1],
                      [1, 0, 0, 0],
@@ -757,7 +758,7 @@ For example, installing the ``pytket-qiskit`` package will add the ``tk_to_qiski
     qc.rz(pi/2, 1)
 
     from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
-    
+
     circ = qiskit_to_tk(qc)
     circ.CX(1, 2)
     circ.measure_all()
@@ -1250,6 +1251,7 @@ To add a control to an operation, one can add the original operation as a :py:cl
         return CircBox(Circuit(n_qb + 1).add_gate(op, list(range(1, n_qb + 1))))
     def with_control_qubit(op: Op) -> QControlBox:
         return QControlBox(op, 1)
+        
     c = Circuit(3)
     h_op = Op.create(OpType.H)
     cx_op = Op.create(OpType.CX)
