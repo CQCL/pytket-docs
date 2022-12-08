@@ -819,7 +819,7 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
 
     from pytket import Circuit, OpType
     
-    def z_transform(circ):
+    def z_transform(circ: Circuit) -> Circuit:
         n_qubits = circ.n_qubits
         circ_prime = Circuit(n_qubits) # Define a replacement circuit
 
