@@ -454,7 +454,7 @@ The simplest example of this is a :py:class:`CircBox`, which wraps up another :p
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, CircBox
-    
+
     sub = Circuit(2)
     sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
     sub_box = CircBox(sub)
@@ -757,6 +757,7 @@ For example, installing the ``pytket-qiskit`` package will add the ``tk_to_qiski
     qc.rz(pi/2, 1)
 
     from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
+    
     circ = qiskit_to_tk(qc)
     circ.CX(1, 2)
     circ.measure_all()
@@ -1174,6 +1175,7 @@ The :py:class:`Circuit` class is built as a DAG to help follow the paths of reso
 .. jupyter-execute::
 
     from pytket.passes import CliffordSimp
+
     CliffordSimp().apply(circ)
     print(circ.get_commands())
     print(circ.implicit_qubit_permutation())
