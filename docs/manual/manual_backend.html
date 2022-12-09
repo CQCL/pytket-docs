@@ -16,9 +16,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
         <script src="_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
@@ -100,13 +98,13 @@
            <div itemprop="articleBody">
              
   <section id="running-on-backends">
-<h1>Running on Backends<a class="headerlink" href="#running-on-backends" title="Permalink to this heading"></a></h1>
+<h1>Running on Backends<a class="headerlink" href="#running-on-backends" title="Permalink to this headline"></a></h1>
 <p>The interaction model for quantum computing in the near future is set to follow the co-processor model: there is a main program running on the classical host computer which routinely sends off jobs to a specialist device that can handle that class of computation efficiently, similar to interacting with GPUs and cloud HPC resources. We have already seen how to use <code class="docutils literal notranslate"><span class="pre">pytket</span></code> to describe a job to be performed with the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class; the next step is to look at how we interact with the co-processor to run it.</p>
 <p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> represents a connection to some co-processor instance, which can be either quantum hardware or a simulator. It presents a uniform interface for submitting <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to be processed and retrieving the results, allowing the general workflow of “generate, compile, process, retrieve, interpret” to be performed with little dependence on the specific co-processor used. This is to promote the development of platform-independent software, helping the code that you write to be more future-proof and encouraging exploration of the ever-changing landscape of quantum hardware solutions.</p>
 <p>With the wide variety of <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s available, they naturally have very different capabilities and limitations. The class is designed to open up this information so that it is easy to examine at runtime and make hardware-dependent choices as needed for maximum performance, whilst providing a basic abstract model that is easy for proof-of-concept testing.</p>
 <p>No <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s are currently provided with the core <code class="docutils literal notranslate"><span class="pre">pytket</span></code> package, but most extension modules will add simulators or devices from the given provider, such as the <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">IBMQBackend</span></code> with <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code> or the <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantinuumBackend</span></code> with <code class="docutils literal notranslate"><span class="pre">pytket-quantinuum</span></code>.</p>
 <section id="backend-requirements">
-<h2>Backend Requirements<a class="headerlink" href="#backend-requirements" title="Permalink to this heading"></a></h2>
+<h2>Backend Requirements<a class="headerlink" href="#backend-requirements" title="Permalink to this headline"></a></h2>
 <p>Every device and simulator will have some restrictions to allow for a simpler implementation or because of the limits of engineering or noise within a device. For example, devices and simulators are typically designed to only support a small (but universal) gate set, so a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> containing other gate types could not be run immediately. However, as long as the fragment supported is universal, it is enough to be able to compile down to a semantically-equivalent <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which satisfies the requirements, for example, by translating each unknown gate into sequences of known gates.</p>
 <p>Other common restrictions presented by QPUs include the number of available qubits and their connectivity (multi-qubit gates may only be performed between adjacent qubits on the architecture). Measurements may also be noisy or take a long time on some QPUs, leading to the destruction or decoherence of any remaining quantum state, so they are artificially restricted to only happen in a single layer at the end of execution and mid-circuit measurements are rejected. More extremely, some classes of classical simulators will reject measurements entirely as they are designed to simulate pure quantum circuits (for example, when looking to yield a statevector or unitary deterministically).</p>
 <p>Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> object is aware of the restrictions of the underlying device or simulator, encoding them as a collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s. Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> is essentially a Boolean property of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> which must return <code class="docutils literal notranslate"><span class="pre">True</span></code> for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to successfully run. The set of <code class="xref py py-class docutils literal notranslate"><span class="pre">Predicate</span></code> s required by a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> can be queried with <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.required_predicates</span></code>.</p>
@@ -170,7 +168,7 @@
 <p>The exact arguments to <code class="xref py py-meth docutils literal notranslate"><span class="pre">process_circuit()</span></code> and the means of retrieving results back are dependent on the type of data the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> can produce and whether it samples measurements or calculates the internal state of the quantum system.</p>
 </section>
 <section id="shots-and-sampling">
-<h2>Shots and Sampling<a class="headerlink" href="#shots-and-sampling" title="Permalink to this heading"></a></h2>
+<h2>Shots and Sampling<a class="headerlink" href="#shots-and-sampling" title="Permalink to this headline"></a></h2>
 <p>Running a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> on a quantum computer invovles applying the instructions to some quantum system to modify its state. Whilst we know that this state will form a vector (or linear map) in some Hilbert space, we cannot directly inspect it and obtain a complex vector/matrix to return to the classical host process. The best we can achieve is performing measurements to collapse the state and obtain a bit of information in the process. Since the measurements are not deterministic, each run of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> samples from some distribution. By obtaining many <em>shots</em> (the classical readout from each full run of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> from the initial state), we can start to predict what the underlying measurement distrubution looks like.</p>
 <p>The interaction with a QPU (or a simulator that tries to imitate a device by sampling from the underlying complex statevector) is focused around requesting shots for a given <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>. The number of shots required is passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuit()</span></code>. The result is retrieved using <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_result()</span></code>; and the shots are then given as a table from <code class="xref py py-meth docutils literal notranslate"><span class="pre">BackendResult.get_shots()</span></code>: each row of the table describes a shot in the order of execution, and the columns are the classical bits from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -189,24 +187,24 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
+ [1 1]
+ [1 1]
+ [1 1]
+ [1 1]
+ [1 1]
+ [1 1]
  [0 1]
+ [1 1]
+ [1 1]
+ [0 1]
+ [1 1]
+ [1 1]
+ [1 1]
  [0 1]
  [0 1]
  [1 1]
  [0 1]
- [0 1]
- [0 1]
- [0 1]
- [0 1]
- [0 1]
- [1 1]
- [0 1]
- [0 1]
- [0 1]
- [0 1]
- [1 1]
- [1 1]
  [0 1]
  [0 1]]
 </pre></div>
@@ -234,8 +232,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1041, (0, 1): 959})
-{(0, 1): 0.4795, (1, 1): 0.5205}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1016, (1, 1): 984})
+{(0, 1): 0.508, (1, 1): 0.492}
 </pre></div>
 </div>
 </div>
@@ -246,7 +244,7 @@
 </div>
 </section>
 <section id="statevectors-and-unitaries">
-<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this heading"></a></h2>
+<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this headline"></a></h2>
 <p>Any form of sampling from a distribution will introduce sampling error and (unless it is a seeded simulator) non-deterministic results, whereas we could get much better accuracy and repeatability if we have the exact state of the underlying physical quantum system. Some simulators will provide direct access to this. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">BackendResult.get_state()</span></code> method will give the full representation of the physical state as a vector in the <span class="math notranslate nohighlight">\(2^n\)</span>-dimensional Hilbert space, whenever the underlying simulator provides this.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -322,7 +320,7 @@ False
 <p>Be warned that simulating any <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> that interacts with classical data (e.g. conditional gates and measurements) or deliberately collapses the quantum state (e.g. <code class="docutils literal notranslate"><span class="pre">OpType.Collapse</span></code> and <code class="docutils literal notranslate"><span class="pre">OpType.Reset</span></code>) would not yield a deterministic result in the system’s Hilbert space, so these will be rejected by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>.</p>
 </section>
 <section id="interpreting-results">
-<h2>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Permalink to this heading"></a></h2>
+<h2>Interpreting Results<a class="headerlink" href="#interpreting-results" title="Permalink to this headline"></a></h2>
 <p>Once we have obtained these results, we still have the matter of understanding what they mean. This corresponds to asking “which (qu)bit is which in this data structure?”</p>
 <p>By default, the bits in readouts (shots and counts) are ordered in Increasing Lexicographical Order (ILO) with respect to their <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s. That is, the register <code class="docutils literal notranslate"><span class="pre">c</span></code> will be listed completely before any bits in register <code class="docutils literal notranslate"><span class="pre">d</span></code>, and within each register the indices are given in increasing order. Many quantum software platforms including Qiskit and pyQuil will natively use the reverse order (Decreasing Lexicographical Order - DLO), so users familiar with them may wish to request that the order is changed when retrieving results.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -405,7 +403,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0010000000000000009
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.028000000000000025
 </pre></div>
 </div>
 </div>
@@ -465,15 +463,17 @@ Counter({(1, 0): 10})
   0.63003676-3.85786248e-17j -0.32101976+3.93135823e-17j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j]
-Counter({(0, 0, 0): 817, (1, 0, 0): 794, (1, 0, 1): 205, (0, 0, 1): 184})
-Counter({(0, 0): 1611, (0, 1): 389})
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 795, (1, 0, 0): 765, (0, 0, 1): 234, (1, 0, 1): 206})
+Counter({(0, 0): 1560, (0, 1): 440})
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="expectation-value-calculations">
-<h2>Expectation Value Calculations<a class="headerlink" href="#expectation-value-calculations" title="Permalink to this heading"></a></h2>
+<h2>Expectation Value Calculations<a class="headerlink" href="#expectation-value-calculations" title="Permalink to this headline"></a></h2>
 <p>One of the most common calculations performed with a quantum state <span class="math notranslate nohighlight">\(\left| \psi \right&gt;\)</span> is to obtain an expectation value <span class="math notranslate nohighlight">\(\langle \psi | H | \psi \rangle\)</span>. For many applications, the operator <span class="math notranslate nohighlight">\(H\)</span> can be expressed as a tensor product of Pauli matrices, or a linear combination of these. Given any (pure quantum) <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and any <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, the utility methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_pauli_expectation_value()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_operator_expectation_value()</span></code> will generate the expectation value of the state under some operator using whatever results the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> supports. This includes adding measurements in the appropriate basis (if needed by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>), running <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_compiled_circuit()</span></code>, and obtaining and interpreting the results. For operators with many terms, it can optionally perform some basic measurement reduction techniques to cut down the number of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s actually run by measuring multiple terms with simultaneous measurements in the same <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -513,8 +513,13 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.0029999999999998916
-(0.3549999999999999+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.007000000000000006
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.324+0j)
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -542,8 +547,11 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 428, (0, 1, 1): 410, (0, 0, 1): 382, (0, 1, 0): 373, (1, 0, 1): 114, (1, 0, 0): 109, (1, 1, 0): 92, (1, 1, 1): 92})
-0.04400000000000004
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 0): 409, (0, 0, 1): 406, (0, 0, 0): 396, (0, 1, 1): 383, (1, 0, 0): 104, (1, 1, 1): 102, (1, 1, 0): 101, (1, 0, 1): 99})
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+-0.020999999999999908
 </pre></div>
 </div>
 </div>
@@ -554,7 +562,7 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </section>
 <section id="guidance-for-writing-hardware-agnostic-code">
-<h2>Guidance for Writing Hardware-Agnostic Code<a class="headerlink" href="#guidance-for-writing-hardware-agnostic-code" title="Permalink to this heading"></a></h2>
+<h2>Guidance for Writing Hardware-Agnostic Code<a class="headerlink" href="#guidance-for-writing-hardware-agnostic-code" title="Permalink to this headline"></a></h2>
 <p>Writing code for experiments that can be retargeted to different <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s can be a challenge, but has many great payoffs for long-term developments. Being able to experiment with new devices and simulators helps to identify which is best for the needs of the experiment and how this changes with the experiment parameters (such as size of chemical molecule being simulated, or choice of model to train for a neural network). Being able to react to changes in device availability helps get your results faster when contesting against queues for device access or downtime for maintenance, in addition to moving on if a device is retired from live service and taking advantage of the newest devices as soon as they come online. This is especially important in the near future as there is no clear frontrunner in terms of device, manufacturer, or even fundamental quantum technology, and the rate at which they are improving performance and scale is so high that it is essential to not get left behind with old systems.</p>
 <p>One of the major counter-arguments against developing hardware-agnostic experiments is that the manual incorporation of the target architecture’s connectivity and noise characteristics into the circuit design and choice of error mitigation/detection/correction strategies obtains the optimal performance from the device. The truth is that hardware characteristics are highly variable over time, invalidating noise models after only a few hours <a class="reference internal" href="#wils2020" id="id2"><span>[Wils2020]</span></a> and requiring regular recalibration. Over the lifetime of the device, this could lead to some qubits or couplers becoming so ineffective that they are removed from the system by the providers, giving drastic changes to the connectivity and admissible circuit designs. The instability of the experiment designs is difficult to argue when the optimal performance on one of today’s devices is likely to be surpassed by an average performance on another device a short time after.</p>
 <p>We have already seen that devices and simulators will have different sets of requirements on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s they can accept and different types of results they can return, so hardware-agnosticism will not always come for free. The trick is to spot these differences and handle them on-the-fly at runtime. The design of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> class in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> aims to expose the fundamental requirements that require consideration for circuit design, compilation, and result interpretation in such a way that they can easily be queried at runtime to dynamically adapt the experiment procedure. All other aspects of backend interaction that are shared between different <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s are then unified for ease of integration. In practice, the constraints of the algorithm might limit the choice of <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>, or we might choose to forego the ability to run on statevector simulators so that we only have to define the algorithm to calculate using counts, but we can still be agnostic within these categories.</p>
@@ -582,7 +590,7 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 140, (1, 1, 0): 136, (1, 0, 0): 133, (1, 1, 1): 124, (0, 0, 0): 123, (0, 1, 0): 119, (1, 0, 1): 115, (0, 1, 1): 110})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 1): 136, (1, 0, 0): 134, (0, 0, 1): 131, (0, 1, 0): 125, (0, 0, 0): 121, (1, 1, 1): 121, (1, 1, 0): 117, (1, 0, 1): 115})
 </pre></div>
 </div>
 </div>
@@ -635,14 +643,14 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0040000000000000036
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.02400000000000002
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="batch-submission">
-<h2>Batch Submission<a class="headerlink" href="#batch-submission" title="Permalink to this heading"></a></h2>
+<h2>Batch Submission<a class="headerlink" href="#batch-submission" title="Permalink to this headline"></a></h2>
 <p>Current public-access quantum computers tend to implement either a queueing or a reservation system for mediating access. Whilst the queue-based access model gives relative fairness, guarantees availability, and maximises throughput and utilisation of the hardware, it also presents a big problem to the user with regards to latency. Whenever a circuit is submitted, not only must the user wait for it to be run on the hardware, but they must wait longer for their turn before it can even start running. This can end up dominating the time taken for the overall experiment, especially when demand is high for a particular device.</p>
 <p>We can mitigate the problem of high queue latency by batching many <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together. This means that we only have to wait the queue time once, since after the first <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is run the next one is run immediately rather than joining the end of the queue.</p>
 <p>To maximise the benefits of batch submission, it is advisable to generate as many of your <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuits()</span></code> (plural) will then submit all the provided <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s simultaneously and return a <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> for each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to allow each result to be extracted individually for interpretation. Since there is no longer a single <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> s to extract for each <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> or the coefficient to multiply the expectation value by.</p>
@@ -698,19 +706,20 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </section>
 <section id="embedding-into-qiskit">
-<h2>Embedding into Qiskit<a class="headerlink" href="#embedding-into-qiskit" title="Permalink to this heading"></a></h2>
+<h2>Embedding into Qiskit<a class="headerlink" href="#embedding-into-qiskit" title="Permalink to this headline"></a></h2>
 <p>Not only is the goal of tket to be a device-agnostic platform, but also interface-agnostic, so users are not obliged to have to work entirely in tket to benefit from the wide range of devices supported. For example, Qiskit is currently the most widely adopted quantum software development platform, providing its own modules for building and compiling circuits, submitting to backends, applying error mitigation techniques and combining these into higher-level algorithms. Each <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> can be wrapped up to imitate a Qiskit backend, allowing the benefits of tket to be felt in existing Qiskit projects with minimal work.</p>
+<p>Below we show how the <code class="xref py py-class docutils literal notranslate"><span class="pre">CirqStateSampleBackend</span></code> from the pytket-cirq extension can be used with its <code class="xref py py-meth docutils literal notranslate"><span class="pre">default_compilation_pass()</span></code> directly in qiskit.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.utils</span> <span class="kn">import</span> <span class="n">QuantumInstance</span>
 <span class="kn">from</span> <span class="nn">qiskit.algorithms</span> <span class="kn">import</span> <span class="n">Grover</span><span class="p">,</span> <span class="n">AmplificationProblem</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 
-<span class="kn">from</span> <span class="nn">pytket.extensions.qulacs</span> <span class="kn">import</span> <span class="n">QulacsBackend</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.cirq</span> <span class="kn">import</span> <span class="n">CirqStateSampleBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit.tket_backend</span> <span class="kn">import</span> <span class="n">TketBackend</span>
 
-<span class="n">b</span> <span class="o">=</span> <span class="n">QulacsBackend</span><span class="p">()</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">TketBackend</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">())</span>
+<span class="n">cirq_simulator</span> <span class="o">=</span> <span class="n">CirqStateSampleBackend</span><span class="p">()</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">TketBackend</span><span class="p">(</span><span class="n">cirq_simulator</span><span class="p">,</span> <span class="n">cirq_simulator</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">())</span>
 <span class="n">qinstance</span> <span class="o">=</span> <span class="n">QuantumInstance</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
 
 <span class="n">oracle</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -738,9 +747,9 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </section>
 <section id="advanced-topics">
-<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this heading"></a></h2>
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline"></a></h2>
 <section id="simulator-support-for-expectation-values">
-<h3>Simulator Support for Expectation Values<a class="headerlink" href="#simulator-support-for-expectation-values" title="Permalink to this heading"></a></h3>
+<h3>Simulator Support for Expectation Values<a class="headerlink" href="#simulator-support-for-expectation-values" title="Permalink to this headline"></a></h3>
 <p>Some simulators will have dedicated support for fast expectation value calculations. In this special case, they will provide extra methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_pauli_expectation_value()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_operator_expectation_value()</span></code>, which take a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and some operator and directly return the expectation value. Again, we can check whether a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> has this feature with <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.supports_expectation</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -784,7 +793,7 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </section>
 <section id="asynchronous-job-submission">
-<h3>Asynchronous Job Submission<a class="headerlink" href="#asynchronous-job-submission" title="Permalink to this heading"></a></h3>
+<h3>Asynchronous Job Submission<a class="headerlink" href="#asynchronous-job-submission" title="Permalink to this headline"></a></h3>
 <p>In the near future, as we look to more sophisticated algorithms and larger problem instances, the quantity and size of <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to be run per experiment and the number of shots required to obtain satisfactory precision will mean the time taken for the quantum computation could exceed that of the classical computation. At this point, the overall algorithm can be sped up by maintaining maximum throughput on the quantum device and minimising how often the quantum device is left idle whilst the classical system is determining the next <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s to send. This can be achieved by writing your algorithm to operate asynchronously.</p>
 <p>The intended semantics of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuit&lt;s&gt;()</span></code> will submit the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> (s) and immediately return.</p>
 <p>The progress can be checked by querying <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.circuit_status()</span></code>. If this returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitStatus</span></code> matching <code class="docutils literal notranslate"><span class="pre">StatusEnum.COMPLETED</span></code>, then <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_X()</span></code> will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.</p>
@@ -857,7 +866,7 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </section>
 <section id="persistent-handles">
-<h3>Persistent Handles<a class="headerlink" href="#persistent-handles" title="Permalink to this heading"></a></h3>
+<h3>Persistent Handles<a class="headerlink" href="#persistent-handles" title="Permalink to this headline"></a></h3>
 <p>Being able to split your processing into distinct procedures for <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> generation and result interpretation can help improve throughput on the quantum device, but it can also provide a way to split the processing between different Python sessions. This may be desirable when the classical computation to interpret the results and determine the next experiment parameters is sufficiently intensive that we would prefer to perform it offline and only reserve a quantum device once we are ready to run more. Furthermore, resuming with previously-generated results could benefit repeatability of experiments and better error-safety since the logged results can be saved and reused.</p>
 <p>Some <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s support persistent handles, in that the <code class="xref py py-class docutils literal notranslate"><span class="pre">ResultHandle</span></code> object can be stored and the associated results obtained from another instance of the same <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> in a different session. This is indicated by the boolean <code class="docutils literal notranslate"><span class="pre">persistent_handles</span></code> property of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code>. Use of persistent handles can greatly reduce the amount of logging you would need to do to take advantage of this workflow.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -905,7 +914,7 @@ Counter({(0, 0): 1611, (0, 1): 389})
 </div>
 </section>
 <section id="result-serialization">
-<h3>Result Serialization<a class="headerlink" href="#result-serialization" title="Permalink to this heading"></a></h3>
+<h3>Result Serialization<a class="headerlink" href="#result-serialization" title="Permalink to this headline"></a></h3>
 <p>When performing experiments using <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> s, it is often useful to be able to easily store and retrieve the results for later analysis or backup.
 This can be achieved using native serialiaztion and deserialization of <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendResult</span></code> objects from JSON compatible dictionaries, using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dict()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_dict()</span></code> methods.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -933,7 +942,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 6, (1, 1): 4})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 8, (0, 0): 2})
 </pre></div>
 </div>
 </div>
