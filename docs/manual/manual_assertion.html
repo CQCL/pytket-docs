@@ -147,7 +147,7 @@ A special unsupported case arises when asserting a 3-qubit subspace whose projec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.78}
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;|bell&gt;&#39;: 1.0, &#39;Rx(0.3)|0&gt;&#39;: 0.79}
 </pre></div>
 </div>
 </div>
@@ -191,8 +191,8 @@ q_0: ┤ H ├────────■─────────┤ H ├┤
      └───┘┌───────┴────────┐└───┘└╥┘
 q_1: ─────┤ Pauli operator ├──────╫─
           └────────────────┘      ║ 
-  c: ═════════════════════════════╩═
-                                    </pre></div></div>
+c: 1/═════════════════════════════╩═
+                                  0 </pre></div></div>
 </div>
 <p>To verify if a quantum state is in a stabiliser subspace such a circuit is needed for each Pauli operator so they can be later measured to check if the state falls into the intersection of the +1 eigenspaces.</p>
 <p>To assert using stabilisers, one should provide <code class="docutils literal notranslate"><span class="pre">pytket</span></code> with a set of Pauli operators that uniquely determines the target subspace. The smallest such sets are the generating sets of the stabiliser subgroup stabilising the subspace.
