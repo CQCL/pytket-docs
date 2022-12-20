@@ -2,7 +2,18 @@
 
 set -e
 
-for name in `cat maintained-notebooks.txt`
+# TODO Find a way to test the others. There are two issues:
+# - IBMQ credential loading for IBMQEmulatorBackend:
+#   - expectation_value
+#   - spam
+#   - backends
+#   - qiskit-integration
+# - Some take an impractical amount of time to run:
+#   - entanglement_swapping
+#   - qiskit_integration
+#   - ucc_vqe
+# for name in `cat maintained-notebooks.txt`
+for name in `cat ci-tested-notebooks.txt`
 do
     echo "Checking: ${name} ..."
     # Check that notebook is generated from script:
