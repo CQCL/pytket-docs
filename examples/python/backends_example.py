@@ -71,18 +71,14 @@ unitary = circ.get_unitary()
 
 circ.measure_all()
 
-# We can get some measured shots out from the `AerBackend`, which is an interface to the Qiskit Aer QASM simulator. Suppose we would like to get 10 shots out (10 repeats of the circuit and measurement). We can seed the simulator's random-number generator in order to make the results reproducible, using an optional keyword argument to `process_circuit`.
+# We can get some measured counts out from the `AerBackend`, which is an interface to the Qiskit Aer QASM simulator. Suppose we would like to get 10 shots out (10 repeats of the circuit and measurement). We can seed the simulator's random-number generator in order to make the results reproducible, using an optional keyword argument to `process_circuit`.
 
 aer_b = AerBackend()
-shots_handle = aer_b.process_circuit(circ, n_shots=10, seed=1)
+handle = aer_b.process_circuit(circ, n_shots=10, seed=1)
 
-shots = aer_b.get_result(shots_handle).get_shots()
-print(shots)
+counts = aer_b.get_result(handle).get_counts()
+print(counts)
 
-# Shot tables are just numpy arrays where each row gives the final readout for each circuit run, and each column represents one of the classical bits in the circuit (ordered lexicographically, so the row `[1 0]` means bit 0 had value 1 and bit 1 had value 0).
-#
-# In this case there is a 40/60 split between $00$ and $11$ results. If we change the seed, or remove it, we will get varying results according to the pseudo-random number generation internal to Qiskit's QASM simulator.
-#
 # What happens if we simulate some noise in our imagined device, using the Qiskit Aer noise model?
 
 # To investigate this, we will require an import from Qiskit. For more information about noise modelling using Qiskit Aer, see the [Qiskit device noise](https://qiskit.org/documentation/apidoc/aer_noise.html) documentation.
@@ -99,30 +95,24 @@ for q in range(2):
 # This simple noise model gives a 20% chance that, upon measurement, a qubit that would otherwise have been measured as $0$ would instead be measured as $1$, and vice versa. Let's see what our shot table looks like with this model:
 
 noisy_aer_b = AerBackend(my_noise_model)
-noisy_shots_handle = noisy_aer_b.process_circuit(
+noisy_handle = noisy_aer_b.process_circuit(
     circ, n_shots=10, seed=1, valid_check=False
 )
-noisy_shots = noisy_aer_b.get_result(noisy_shots_handle).get_shots()
-print(noisy_shots)
+noisy_counts = noisy_aer_b.get_result(noisy_handle).get_counts()
+print(noisy_counts)
 
 # We now have some spurious $01$ and $10$ measurements, which could never happen when measuring a Bell state on a noiseless device.
 #
 # The `AerBackend` class can accept any Qiskit noise model.
-
-# Suppose that we don't need the full shot table, but just want a summary of the results. The most common summary is the counts map, mapping the readout state to the number of times it was observed. We can retrieve this directly using `backend.get_counts` for those backends that support it, or use a utility function.
-
-from pytket.utils import counts_from_shot_table
-
-print(counts_from_shot_table(noisy_shots))
-
+#
 # All backends expose a generic `get_result` method which takes a `ResultHandle` and returns the respective result in the form of a `BackendResult` object. This object may hold measured results in the form of shots or counts, or an exact statevector from simulation. Measured results are stored as `OutcomeArray` objects, which compresses measured bit values into 8-bit integers. We can extract the bitwise values using `to_readouts`.
 #
 # Instead of an assumed ILO or DLO convention, we can use this object to request only the `Bit` measurements we want, in the order we want. Let's try reversing the bits of the noisy results.
 
-backend_result = noisy_aer_b.get_result(noisy_shots_handle)
+backend_result = noisy_aer_b.get_result(noisy_handle)
 bits = circ.bits
 
-outcomes = backend_result.get_shots([bits[1], bits[0]])
+outcomes = backend_result.get_counts([bits[1], bits[0]])
 print(outcomes)
 
 # `BackendResult` objects can be natively serialized to and deserialized from a dictionary. This dictionary can be immediately dumped to `json` for storing results.
@@ -217,8 +207,8 @@ quantum_handle = ibmq_b_emu.process_circuit(compiled_circ, n_shots=10)
 
 print(ibmq_b_emu.circuit_status(quantum_handle))
 
-quantum_shots = ibmq_b_emu.get_result(quantum_handle).get_shots()
-print(quantum_shots)
+quantum_counts = ibmq_b_emu.get_result(quantum_handle).get_counts()
+print(quantum_counts)
 
 # These are from an actual device, so it's impossible to perfectly predict what the results will be. However, because of the problem of noise, it would be unsurprising to find a few $01$ or $10$ results in the table. The circuit is very short, so it should be fairly close to the ideal result.
 #
@@ -233,13 +223,13 @@ for i in range(5):
 handles = ibmq_b_emu.process_circuits(circuits, n_shots=100)
 print(handles)
 
-# We can now retrieve the results and process them. As we measured each circuit in the $Z$-basis, we can obtain the expectation value for the $ZZ$ operator immediately from these measurement results. We can calculate this using the `expectation_value_from_shots` utility method in `pytket`.
+# We can now retrieve the results and process them. As we measured each circuit in the $Z$-basis, we can obtain the expectation value for the $ZZ$ operator immediately from these measurement results. We can calculate this using the `expectation_from_counts` utility method in `pytket`.
 
-from pytket.utils import expectation_from_shots
+from pytket.utils import expectation_from_counts
 
 for handle in handles:
-    shots = ibmq_b_emu.get_result(handle).get_shots()
-    exp_val = expectation_from_shots(shots)
+    counts = ibmq_b_emu.get_result(handle).get_counts()
+    exp_val = expectation_from_counts(counts)
     print(exp_val)
 
 # A `ResultHandle` can be easily stored in its string representaton and later reconstructed using the `from_str` method. For example, we could do something like this:
@@ -253,7 +243,7 @@ handlestring = str(handle)
 print(handlestring)
 # ... later ...
 oldhandle = ResultHandle.from_str(handlestring)
-print(ibmq_b_emu.get_result(oldhandle).get_shots())
+print(ibmq_b_emu.get_result(oldhandle).get_counts())
 
 # For backends which support persistent handles (e.g. `IBMQBackend`, `QuantinuumBackend`, `BraketBackend` and `AQTBackend`) you can even stop your python session and use your result handles in a separate script to retrive results when they are ready, by storing the handle strings. For experiments with long queue times, this enables separate job submission and retrieval. Use `Backend.persistent_handles` to check whether a backend supports this feature.
 #
