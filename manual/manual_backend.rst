@@ -34,6 +34,7 @@ Each :py:class:`Backend` object is aware of the restrictions of the underlying d
 .. jupyter-input::
 
     from pytket.extensions.qiskit import IBMQBackend, AerStateBackend
+
     dev_b = IBMQBackend("ibmq_quito")
     sim_b = AerStateBackend()
     print(dev_b.required_predicates)
@@ -70,6 +71,7 @@ Now that we can prepare our :py:class:`Circuit` s to be suitable for a given :
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerStateBackend
+
     circ = Circuit(2, 2)
     circ.Rx(0.3, 0).Ry(0.5, 1).CRz(-0.6, 1, 0)
     backend = AerStateBackend()
@@ -94,6 +96,7 @@ The interaction with a QPU (or a simulator that tries to imitate a device by sam
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend
+
     circ = Circuit(2, 2)
     circ.H(0).X(1).measure_all()
     backend = AerBackend()
@@ -117,6 +120,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend
     from pytket.utils import probs_from_counts
+
     circ = Circuit(2, 2)
     circ.H(0).X(1).measure_all()
     backend = AerBackend()
@@ -142,6 +146,7 @@ Any form of sampling from a distribution will introduce sampling error and (unle
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerStateBackend
+
     circ = Circuit(3)
     circ.H(0).CX(0, 1).S(1).X(2)
     backend = AerStateBackend()
@@ -160,6 +165,7 @@ The majority of :py:class:`Backend` s will run the :py:class:`Circuit` on the 
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerUnitaryBackend
+
     circ = Circuit(2)
     circ.H(0).CX(0, 1)
     backend = AerUnitaryBackend()
@@ -202,6 +208,7 @@ By default, the bits in readouts (shots and counts) are ordered in Increasing Le
 
     from pytket.circuit import Circuit, BasisOrder
     from pytket.extensions.qiskit import AerBackend
+
     circ = Circuit(2, 2)
     circ.X(1).measure_all()     # write 0 to c[0] and 1 to c[1]
     backend = AerBackend()
@@ -219,6 +226,7 @@ The choice of ILO or DLO defines the ordering of a bit sequence, but this can st
 
     from pytket.circuit import Circuit, BasisOrder
     from pytket.extensions.qiskit import AerUnitaryBackend
+
     circ = Circuit(2)
     circ.CX(0, 1)
     backend = AerUnitaryBackend()
@@ -235,6 +243,7 @@ Suppose that we only care about a subset of the measurements used in a :py:class
 
     from pytket import Circuit, Bit
     from pytket.extensions.qiskit import AerBackend
+
     from pytket.utils import expectation_from_shots
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
@@ -273,6 +282,7 @@ For more control over the bits extracted from the results, we can instead call :
 
     from pytket import Circuit, Bit, Qubit
     from pytket.extensions.qiskit import AerBackend, AerStateBackend
+
     circ = Circuit(3)
     circ.H(0).Ry(-0.3, 2)
     state_b = AerStateBackend()
@@ -306,6 +316,7 @@ One of the most common calculations performed with a quantum state :math:`\left|
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils import get_pauli_expectation_value, get_operator_expectation_value
     from pytket.utils.operators import QubitPauliOperator
+
     circ = Circuit(3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
     backend = AerBackend()
@@ -340,6 +351,7 @@ If you want a greater level of control over the procedure, then you may wish to 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend
     from pytket.utils import expectation_from_counts
+
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
@@ -376,6 +388,7 @@ The first point in an experiment where you might have to act differently between
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend #, AerStateBackend
     from pytket.predicates import NoMidMeasurePredicate
+
     backend = AerBackend()      # Choose backend in one place
     # backend = AerStateBackend()   # A backend that is incompatible with the experiment
 
@@ -416,6 +429,7 @@ For the final steps of retrieving and interpreting the results, it suffices to j
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend #, AerStateBackend
     from pytket.utils import expectation_from_counts
+
     import numpy as np
     backend = AerBackend()      # Choose backend in one place
     # backend = AerStateBackend()   # Alternative backend with different requirements and result type
@@ -467,6 +481,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.utils import expectation_from_counts
+
     backend = IBMQBackend("ibmq_quito")
 
     state = Circuit(3)
@@ -563,6 +578,7 @@ Some simulators will have dedicated support for fast expectation value calculati
     from pytket.extensions.qiskit import AerStateBackend
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils.operators import QubitPauliOperator
+
     backend = AerStateBackend()
 
     state = Circuit(3)
@@ -607,6 +623,7 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
     from pytket.backends import StatusEnum
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.utils import expectation_from_counts
+
     backend = IBMQBackend("ibmq_quito")
 
     state = Circuit(3)
@@ -673,6 +690,7 @@ Some :py:class:`Backend` s support persistent handles, in that the :py:class:`
 
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
+
     backend = IBMQBackend("ibmq_quito")
 
     circ = Circuit(3, 3)
@@ -694,6 +712,7 @@ Some :py:class:`Backend` s support persistent handles, in that the :py:class:`
 
     from pytket.backends import ResultHandle
     from pytket.extensions.qiskit import IBMQBackend
+    
     backend = IBMQBackend("ibmq_quito")
 
     handle = ResultHandle.from_str("('5e8f3dcbbb7d8500119cfbf6', 0)")
