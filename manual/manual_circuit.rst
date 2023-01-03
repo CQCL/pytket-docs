@@ -479,9 +479,11 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
     from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
     import numpy as np
-    u1 = np.asarray([[-0.7487011587786401+0.4453416229024393j, 0.4061474383265779+0.2759740424295397j],
-                     [-0.12329679104996497+0.4753054965713359j, -0.8565044726815658+0.15900526570629525j]])
+
+    u1 = np.asarray([[2/3, (-2+1j)/3],
+                     [(2+1j)/3, 2/3]])
     u1box = Unitary1qBox(u1)
+
     u2 = np.asarray([[0, 1, 0, 0],
                      [0, 0, 0, -1],
                      [1, 0, 0, 0],
@@ -493,6 +495,8 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     circ.add_unitary2qbox(u2box, 1, 2)
     circ.add_unitary1qbox(u1box, 2)
     circ.add_unitary2qbox(u2box, 1, 0)
+
+.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three qubit synthesis can be accomplished with :py:class:`Unitary3qBox`.
 
 .. `PauliExpBox` for simulations and general interactions
 
