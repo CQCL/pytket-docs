@@ -1152,7 +1152,7 @@ title="Print to PDF"
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three qubit synthesis can be accomplished with <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary3qBox</span></code>.</p>
+<p>For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary3qBox</span></code>.</p>
 </div>
 <p>Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: <span class="math notranslate nohighlight">\(e^{-i \pi \theta P}\)</span> (<span class="math notranslate nohighlight">\(P \in \{I, X, Y, Z\}^{\otimes n}\)</span>). These occur very naturally in Trotterising evolution operators and as common native device operations.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1283,7 +1283,7 @@ X OpType.X [q[1]]
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.3/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-dbd56495-17f1-4c15-b02a-8dffa9d3ac91&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-91149cf7-746f-4b8a-a44f-c5776028341a&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1296,7 +1296,7 @@ X OpType.X [q[1]]
         if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
             window.pytketCircuitDisplays = {};
         }
-        const uid = &#34;dbd56495-17f1-4c15-b02a-8dffa9d3ac91&#34;;
+        const uid = &#34;91149cf7-746f-4b8a-a44f-c5776028341a&#34;;
         // Create the root Vue component
         const app = createApp({
             delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
@@ -1316,7 +1316,7 @@ X OpType.X [q[1]]
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX Calculus representation. Other interactive features include adjustable zoom, circuit wrapping and image export.</p>
+<p>The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX representation. Other interactive features include adjustable zoom, circuit wrapping and image export.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> also features methods to visualise the underlying circuit DAG graphically for easier visual inspection.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1396,7 +1396,7 @@ Circuit depth = 3
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;T gate count =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#1qb gates =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_1qb_gates</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#2qb gates =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_2qb_gates</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#3qb gates =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_nqb_gates</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="c1"># count the single 3 qubit CnRy gate</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#3qb gates =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_nqb_gates</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="c1"># count the single CnRy gate (n=3)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;T gate depth =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2qb gate depth =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">({</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">CZ</span><span class="p">}))</span>
 </pre></div>
@@ -1419,7 +1419,7 @@ Circuit depth = 3
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.3/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-ec3934e6-1066-4d1f-8d90-fb9a2d6da19b&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-607084d2-ac32-4903-8a16-e7f21b91d953&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;params&#34;: [&#34;0.6&#34;], &#34;type&#34;: &#34;CnRy&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1432,7 +1432,7 @@ Circuit depth = 3
         if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
             window.pytketCircuitDisplays = {};
         }
-        const uid = &#34;ec3934e6-1066-4d1f-8d90-fb9a2d6da19b&#34;;
+        const uid = &#34;607084d2-ac32-4903-8a16-e7f21b91d953&#34;;
         // Create the root Vue component
         const app = createApp({
             delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
