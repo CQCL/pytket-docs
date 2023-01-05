@@ -515,7 +515,7 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     circ.add_unitary1qbox(u1box, 2)
     circ.add_unitary2qbox(u2box, 1, 0)
 
-.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three qubit synthesis can be accomplished with :py:class:`Unitary3qBox`.
+.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox`.
 
 .. `PauliExpBox` for simulations and general interactions
 
@@ -600,7 +600,7 @@ If you are working in a Jupyter environment, a :py:class:`Circuit` can be render
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
     render_circuit_jupyter(circ) # Render interactive circuit diagram
 
-.. note:: The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX Calculus representation. Other interactive features include adjustable zoom, circuit wrapping and image export. 
+.. note:: The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX representation. Other interactive features include adjustable zoom, circuit wrapping and image export. 
 
 ``pytket`` also features methods to visualise the underlying circuit DAG graphically for easier visual inspection.
 
