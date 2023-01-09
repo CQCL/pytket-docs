@@ -530,7 +530,7 @@ Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`
 
 .. jupyter-execute::
 
-    from qiskit.utils import QuantumInstance
+    from qiskit.primitives import BackendSampler
     from qiskit.algorithms import Grover, AmplificationProblem
     from qiskit.circuit import QuantumCircuit
 
@@ -539,7 +539,8 @@ Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`
 
     cirq_simulator = CirqStateSampleBackend()
     backend = TketBackend(cirq_simulator, cirq_simulator.default_compilation_pass())
-    qinstance = QuantumInstance(backend)
+    sampler_options = {"shots":1024}
+    qsampler = BackendSampler(backend, options=sampler_options)
 
     oracle = QuantumCircuit(2)
     oracle.cz(0, 1)
@@ -548,7 +549,7 @@ Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`
         return sum(map(int, bitstr)) == 2
 
     problem = AmplificationProblem(oracle=oracle, is_good_state=is_good_state)
-    grover = Grover(quantum_instance=qinstance)
+    grover = Grover(sampler=qsampler)
     result = grover.amplify(problem)
     print("Top measurement:", result.top_measurement)
 
