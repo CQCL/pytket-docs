@@ -879,8 +879,8 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
 
     from pytket import Circuit
     from pytket.utils.symbolic import circuit_apply_symbolic_statevector, circuit_to_symbolic_unitary
-
     from sympy import Symbol, pi
+    
     a = Symbol("alpha")
     circ = Circuit(2)
     circ.Rx(a/pi, 0).CX(0, 1)
