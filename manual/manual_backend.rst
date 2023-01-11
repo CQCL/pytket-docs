@@ -429,8 +429,8 @@ For the final steps of retrieving and interpreting the results, it suffices to j
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend #, AerStateBackend
     from pytket.utils import expectation_from_counts
-
     import numpy as np
+    
     backend = AerBackend()      # Choose backend in one place
     # backend = AerStateBackend()   # Alternative backend with different requirements and result type
 
