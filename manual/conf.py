@@ -12,6 +12,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
     "jupyter_sphinx",
+    "sphinx_copybutton",
 ]
 
 html_theme = "sphinx_book_theme"
