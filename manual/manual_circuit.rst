@@ -268,6 +268,7 @@ To help encourage consistency of identifiers, a :py:class:`Circuit` will reject 
     :raises: RuntimeError
 
     from pytket import Circuit, Qubit, Bit
+    
     circ = Circuit()
     # set up a circuit with qubit a[0]
     circ.add_qubit(Qubit("a", 0))
@@ -880,7 +881,7 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
     from pytket import Circuit
     from pytket.utils.symbolic import circuit_apply_symbolic_statevector, circuit_to_symbolic_unitary
     from sympy import Symbol, pi
-    
+
     a = Symbol("alpha")
     circ = Circuit(2)
     circ.Rx(a/pi, 0).CX(0, 1)
