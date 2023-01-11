@@ -3,7 +3,7 @@
 # Configuration file for the Sphinx documentation builder.
 # See https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-copyright = "2020-2022 Cambridge Quantum Computing Ltd"
+copyright = "2020-2023 Cambridge Quantum Computing Ltd"
 author = "Cambridge Quantum Computing Ltd"
 
 extensions = [
