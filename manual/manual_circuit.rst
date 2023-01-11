@@ -733,6 +733,8 @@ Though less expressive than native dictionary serialization, it is widely suppor
 
 .. Quipper
 
+.. note:: The OpenQASM converters do not support circuits with `implicit qubit permutations <https://cqcl.github.io/pytket/manual/manual_circuit.html#implicit-qubit-permutations>`_ . This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
+
 The core ``pytket`` package additionally features a converter from Quipper, another circuit description language.
 
 .. jupyter-execute::
@@ -752,7 +754,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
     print(circ.get_commands())
     os.remove(path)
 
-.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `Quipper API reference <quipper.html>`_.
+.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `Quipper documentation <https://www.mathstat.dal.ca/~selinger/quipper/doc/>`_.
 
 .. Extension modules; example with qiskit, cirq, pyquil; caution that they may not support all gate sets or features (e.g. conditional gates with qiskit only)
 
