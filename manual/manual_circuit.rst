@@ -590,7 +590,7 @@ Because the :py:class:`Circuit` class identifies circuits up to DAG equivalence,
 
     for com in circ: # equivalently, circ.get_commands()
         print(com.op, com.op.type, com.args)
-    # NOTE: com is not a reference to something inside circ; this cannot be used to modify the circuit
+        # NOTE: com is not a reference to something inside circ; this cannot be used to modify the circuit
 
 .. To see more succinctly, can visualise in circuit form or the underlying DAG
 
