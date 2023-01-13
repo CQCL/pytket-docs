@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -34,6 +35,8 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/thebelab-helper.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
@@ -78,6 +81,11 @@
         <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/Quantinuum_logo.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">pytket user manual</h1>
@@ -122,13 +130,23 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  More documentation:
+  More Documentation:
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/index.html">
+  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">
    pytket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">
+   Extensions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">
+   Example notebooks
   </a>
  </li>
 </ul>
@@ -1189,7 +1207,7 @@ True
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.24</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.89</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">cost</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span> <span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
 <span class="n">comp</span> <span class="o">=</span> <span class="n">RepeatWithMetricPass</span><span class="p">(</span><span class="n">SequencePass</span><span class="p">([</span><span class="n">CommuteThroughMultis</span><span class="p">(),</span> <span class="n">RemoveRedundancies</span><span class="p">()]),</span> <span class="n">cost</span><span class="p">)</span>
-<span class="n">comp</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>            <span class="c1"># Stops earlier than before, since removing CYs doesn&#39;t change the number of CXs</span>
+<span class="n">comp</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>  <span class="c1"># Stops earlier than before, since removing CYs doesn&#39;t change the number of CXs</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -1427,7 +1445,9 @@ The single-qubit gates in our circuit also need to be decomposed into the IBM ga
 <span class="n">op</span> <span class="o">=</span> <span class="n">QubitPauliOperator</span><span class="p">({</span><span class="n">xx</span> <span class="p">:</span> <span class="mf">1.5</span><span class="p">})</span>
 
 <span class="n">backend</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
-<span class="n">circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>   <span class="c1"># Compile once outside of the objective function</span>
+
+<span class="c1"># Compile once outside of the objective function</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">circ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1442,7 +1462,7 @@ The single-qubit gates in our circuit also need to be decomposed into the IBM ga
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.7499999999999999+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.75+0j)
 (1.5+0j)
 </pre></div>
 </div>
@@ -1839,15 +1859,15 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
- [0 0]
- [0 0]
- [0 0]
  [1 1]
  [0 0]
  [0 0]
+ [1 1]
+ [1 1]
+ [0 0]
  [0 0]
  [1 1]
- [1 1]]
+ [0 0]]
 </pre></div>
 </div>
 </div>
@@ -1895,7 +1915,7 @@ noise.</p>
   
     By Cambridge Quantum Computing Ltd<br/>
   
-      &copy; Copyright 2020-2022 Cambridge Quantum Computing Ltd.<br/>
+      &copy; Copyright 2020-2023 Cambridge Quantum Computing Ltd.<br/>
 </p>
         </footer>
     </div>

@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -34,6 +35,8 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/thebelab-helper.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
@@ -78,6 +81,11 @@
         <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/Quantinuum_logo.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">pytket user manual</h1>
@@ -122,13 +130,23 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  More documentation:
+  More Documentation:
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/index.html">
+  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">
    pytket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">
+   Extensions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">
+   Example notebooks
   </a>
  </li>
 </ul>
@@ -816,6 +834,7 @@ title="Print to PDF"
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Bit</span>
+
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
 <span class="c1"># set up a circuit with qubit a[0]</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
@@ -828,10 +847,10 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># rejected because &quot;a&quot; is already a qubit register</span>
-<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_bit</span><span class="p">(</span><span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># rejected because &quot;a&quot; is already a qubit register</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_bit</span><span class="p">(</span><span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="ne">RuntimeError</span>: Cannot add bit with ID &quot;a[1]&quot; as register is not compatible
 </pre></div>
@@ -1088,12 +1107,16 @@ title="Print to PDF"
 <span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
-<span class="n">cont</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>              <span class="c1"># Define the controlled operation with 2 control qubits</span>
+
+<span class="c1"># Define the controlled operation with 2 control qubits</span>
+<span class="n">cont</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_qcontrolbox</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>    <span class="c1"># Add to circuit with controls q[0], q[1], and targets q[2], q[3]</span>
+
+<span class="c1"># Add to circuit with controls q[0], q[1], and targets q[2], q[3]</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_qcontrolbox</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1283,7 +1306,7 @@ X OpType.X [q[1]]
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.3/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-dc4e29a8-6747-4912-ae3a-3538c90c14d9&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-49c6fbd0-f4b1-405c-b39d-57af68060825&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1296,7 +1319,7 @@ X OpType.X [q[1]]
         if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
             window.pytketCircuitDisplays = {};
         }
-        const uid = &#34;dc4e29a8-6747-4912-ae3a-3538c90c14d9&#34;;
+        const uid = &#34;49c6fbd0-f4b1-405c-b39d-57af68060825&#34;;
         // Create the root Vue component
         const app = createApp({
             delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
@@ -1419,7 +1442,7 @@ Circuit depth = 3
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.3/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-d4ce7f50-0f0c-427a-961f-a12fda0b59f4&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-dba40261-1b26-4401-a271-f4e777092d57&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;params&#34;: [&#34;0.6&#34;], &#34;type&#34;: &#34;CnRy&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1432,7 +1455,7 @@ Circuit depth = 3
         if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
             window.pytketCircuitDisplays = {};
         }
-        const uid = &#34;d4ce7f50-0f0c-427a-961f-a12fda0b59f4&#34;;
+        const uid = &#34;dba40261-1b26-4401-a271-f4e777092d57&#34;;
         // Create the root Vue component
         const app = createApp({
             delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
@@ -1713,7 +1736,7 @@ True
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>There are some minor drawbacks associated with symbolic compilation. When using <a class="reference external" href="passes.html#pytket._tket.passes.EulerAngleReduction">Euler-angle equations</a> or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the <a class="reference external" href="passes.html#pytket._tket.passes.KAKDecomposition">KAK decomposition</a> to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.</p>
+<p>There are some minor drawbacks associated with symbolic compilation. When using <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.EulerAngleReduction">Euler-angle equations</a> or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.KAKDecomposition">KAK decomposition</a> to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.</p>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1726,12 +1749,14 @@ True
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 <span class="kn">from</span> <span class="nn">pytket.utils.symbolic</span> <span class="kn">import</span> <span class="n">circuit_apply_symbolic_statevector</span><span class="p">,</span> <span class="n">circuit_to_symbolic_unitary</span>
-
 <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">pi</span>
+
 <span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">circuit_apply_symbolic_statevector</span><span class="p">(</span><span class="n">circ</span><span class="p">))</span> <span class="c1"># all zero input state is default if None is provided</span>
+
+<span class="c1"># All zero input state is assumed if no initial state is provided</span>
+<span class="n">display</span><span class="p">(</span><span class="n">circuit_apply_symbolic_statevector</span><span class="p">(</span><span class="n">circ</span><span class="p">))</span>
 <span class="n">circuit_to_symbolic_unitary</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2246,7 +2271,7 @@ can support the full range of expressions and comparisons shown above.</p>
   
     By Cambridge Quantum Computing Ltd<br/>
   
-      &copy; Copyright 2020-2022 Cambridge Quantum Computing Ltd.<br/>
+      &copy; Copyright 2020-2023 Cambridge Quantum Computing Ltd.<br/>
 </p>
         </footer>
     </div>

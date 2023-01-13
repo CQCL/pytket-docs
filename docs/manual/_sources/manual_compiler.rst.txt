@@ -558,7 +558,7 @@ Increased termination safety can be given by only repeating whilst some easy-to-
     circ.CX(2, 3).CY(1, 2).CX(0, 1).Rz(0.24, 0).CX(0, 1).Rz(0.89, 1).CY(1, 2).Rz(-0.3, 2).CX(2, 3)
     cost = lambda c : c.n_gates_of_type(OpType.CX)
     comp = RepeatWithMetricPass(SequencePass([CommuteThroughMultis(), RemoveRedundancies()]), cost)
-    comp.apply(circ)            # Stops earlier than before, since removing CYs doesn't change the number of CXs
+    comp.apply(circ)  # Stops earlier than before, since removing CYs doesn't change the number of CXs
     print(circ.get_commands())
 
 .. May reject compositions if pre/post-conditions don't match up; some passes will fail to complete or fail to achieve their objective if a circuit does not match their pre-conditions, so we prevent compositions where the latter's pre-conditions cannot be guaranteed
@@ -791,7 +791,9 @@ For variational algorithms, the prominent benefit of defining a :py:class:`Circu
     op = QubitPauliOperator({xx : 1.5})
 
     backend = AerStateBackend()
-    circ = backend.get_compiled_circuit(circ)   # Compile once outside of the objective function
+
+    # Compile once outside of the objective function
+    circ = backend.get_compiled_circuit(circ)  
 
     def objective(params):
         state = circ.copy()
