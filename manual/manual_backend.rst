@@ -485,6 +485,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
+    
     # Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX
     zzz = Circuit(3, 3)
     zzz.measure_all()
@@ -492,11 +493,13 @@ To maximise the benefits of batch submission, it is advisable to generate as man
     xzz.H(0).measure_all()
     xxx = Circuit(3, 3)
     xxx.H(0).H(1).H(2).measure_all()
+
     circ_list = []
     for m in [zzz, xzz, xxx]:
         c = state.copy()
         c.append(m)
         circ_list.append(c)
+
     coeff_list = [
         -0.3j,  # ZZZ
         0.8,    # XZZ
