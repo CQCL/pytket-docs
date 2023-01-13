@@ -247,7 +247,7 @@ Suppose that we only care about a subset of the measurements used in a :py:class
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)                           # Measure ZXY operator qubit-wise
+    circ.H(1)   # Measure ZXY operator qubit-wise
     circ.Rx(0.5, 2)
     circ.measure_all()
 
@@ -354,8 +354,8 @@ If you want a greater level of control over the procedure, then you may wish to 
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)                           # Want to measure expectation for Pauli ZXY
-    circ.Rx(0.5, 2)                     # Measure ZII, IXI, IIY separately
+    circ.H(1)         # Want to measure expectation for Pauli ZXY
+    circ.Rx(0.5, 2)   # Measure ZII, IXI, IIY separately
     circ.measure_all()
 
     backend = AerBackend()
@@ -485,7 +485,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
-    
+
     # Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX
     zzz = Circuit(3, 3)
     zzz.measure_all()
