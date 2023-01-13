@@ -217,8 +217,7 @@ By default, the bits in readouts (shots and counts) are ordered in Increasing Le
     result = backend.get_result(handle)
 
     print(result.get_counts())   # ILO gives (c[0], c[1]) == (0, 1)
-    print(result.get_counts(basis=BasisOrder.dlo))
-                                        # DLO gives (c[1], c[0]) == (1, 0)
+    print(result.get_counts(basis=BasisOrder.dlo))  # DLO gives (c[1], c[0]) == (1, 0)
 
 The choice of ILO or DLO defines the ordering of a bit sequence, but this can still be interpreted into the index of a statevector in two ways: by mapping the bits to a big-endian (BE) or little-endian (LE) integer. Every statevector and unitary in ``pytket`` uses a BE encoding (if LE is preferred, note that the ILO-LE interpretation gives the same result as DLO-BE for statevectors and unitaries, so just change the ``basis`` argument accordingly). The ILO-BE convention gives unitaries of individual gates as they typically appear in common textbooks [Niel2001]_.
 
