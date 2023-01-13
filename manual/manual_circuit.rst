@@ -473,12 +473,16 @@ Similarly, if our subcircuit is a pure quantum circuit (i.e. it corresponds to a
     sub = Circuit(2)
     sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
     sub_box = CircBox(sub)
-    cont = QControlBox(sub_box, 2)              # Define the controlled operation with 2 control qubits
+
+    # Define the controlled operation with 2 control qubits
+    cont = QControlBox(sub_box, 2)
 
     circ = Circuit(4)
     circ.add_circbox(sub_box, [2, 3])
     circ.Ry(0.3, 0).Ry(0.8, 1)
-    circ.add_qcontrolbox(cont, [0, 1, 2, 3])    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
+
+    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
+    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
 
 As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
 
@@ -586,7 +590,7 @@ Because the :py:class:`Circuit` class identifies circuits up to DAG equivalence,
 
     for com in circ: # equivalently, circ.get_commands()
         print(com.op, com.op.type, com.args)
-        # NOTE: com is not a reference to something inside circ; this cannot be used to modify the circuit
+    # NOTE: com is not a reference to something inside circ; this cannot be used to modify the circuit
 
 .. To see more succinctly, can visualise in circuit form or the underlying DAG
 
@@ -885,7 +889,9 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
     a = Symbol("alpha")
     circ = Circuit(2)
     circ.Rx(a/pi, 0).CX(0, 1)
-    display(circuit_apply_symbolic_statevector(circ)) # all zero input state is default if None is provided
+
+    # All zero input state is assumed if no initial state is provided
+    display(circuit_apply_symbolic_statevector(circ)) 
     circuit_to_symbolic_unitary(circ)
 
 
