@@ -242,8 +242,8 @@ Suppose that we only care about a subset of the measurements used in a :py:class
 
     from pytket import Circuit, Bit
     from pytket.extensions.qiskit import AerBackend
-
     from pytket.utils import expectation_from_shots
+
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
@@ -628,6 +628,7 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
+
     # Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX
     zzz = Circuit(3, 3)
     zzz.measure_all()
@@ -635,11 +636,13 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
     xzz.H(0).measure_all()
     xxx = Circuit(3, 3)
     xxx.H(0).H(1).H(2).measure_all()
+    
     circ_list = []
     for m in [zzz, xzz, xxx]:
         c = state.copy()
         c.append(m)
         circ_list.append(backend.get_compiled_circuit(c))
+
     coeff_list = [
         -0.3j,  # ZZZ
         0.8,    # XZZ
