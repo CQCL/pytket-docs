@@ -3,7 +3,7 @@
 # Configuration file for the Sphinx documentation builder.
 # See https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-copyright = "2020-2022 Cambridge Quantum Computing Ltd"
+copyright = "2020-2023 Cambridge Quantum Computing Ltd"
 author = "Cambridge Quantum Computing Ltd"
 
 extensions = [
@@ -12,11 +12,12 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
     "jupyter_sphinx",
+    "sphinx_copybutton",
 ]
 
 html_theme = "sphinx_book_theme"
 
-pygments_style = "pastie"
+pygments_style = "borland"
 
 html_title = "pytket user manual"
 
@@ -31,6 +32,8 @@ html_theme_options = {
 html_static_path = ["_static"]
 
 html_css_files = ["custom.css"]
+
+html_logo = "_static/Quantinuum_logo.png"
 
 # -- Extension configuration -------------------------------------------------
 

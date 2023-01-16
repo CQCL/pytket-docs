@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -34,6 +35,8 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/thebelab-helper.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
@@ -76,6 +79,11 @@
         <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="#">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/Quantinuum_logo.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">pytket user manual</h1>
@@ -86,7 +94,12 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Manual Sections:
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="manual_intro.html">
    What is tket?
@@ -120,13 +133,23 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  More documentation:
+  More Documentation:
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/index.html">
+  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">
    pytket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">
+   Extensions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">
+   Example notebooks
   </a>
  </li>
 </ul>
@@ -371,6 +394,7 @@ pytket-qsharp == 0.31.0
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Manual Sections:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="manual_intro.html#nisq-considerations">NISQ Considerations</a></li>
@@ -435,9 +459,11 @@ pytket-qsharp == 0.31.0
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">More documentation:</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">More Documentation:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/tket/pytket/api/index.html">pytket</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">pytket</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">Extensions</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">Example notebooks</a></li>
 </ul>
 </div>
 </section>
@@ -474,7 +500,7 @@ pytket-qsharp == 0.31.0
   
     By Cambridge Quantum Computing Ltd<br/>
   
-      &copy; Copyright 2020-2022 Cambridge Quantum Computing Ltd.<br/>
+      &copy; Copyright 2020-2023 Cambridge Quantum Computing Ltd.<br/>
 </p>
         </footer>
     </div>

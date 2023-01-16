@@ -132,7 +132,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
     print(probs_from_counts(counts))
 
-.. note:: `Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with `Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a `BackendResult`.
+.. note:: :py:meth:`Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:meth:`Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`BackendResult`.
 
 Statevectors and Unitaries
 --------------------------
@@ -217,8 +217,7 @@ By default, the bits in readouts (shots and counts) are ordered in Increasing Le
     result = backend.get_result(handle)
 
     print(result.get_counts())   # ILO gives (c[0], c[1]) == (0, 1)
-    print(result.get_counts(basis=BasisOrder.dlo))
-                                        # DLO gives (c[1], c[0]) == (1, 0)
+    print(result.get_counts(basis=BasisOrder.dlo))  # DLO gives (c[1], c[0]) == (1, 0)
 
 The choice of ILO or DLO defines the ordering of a bit sequence, but this can still be interpreted into the index of a statevector in two ways: by mapping the bits to a big-endian (BE) or little-endian (LE) integer. Every statevector and unitary in ``pytket`` uses a BE encoding (if LE is preferred, note that the ILO-LE interpretation gives the same result as DLO-BE for statevectors and unitaries, so just change the ``basis`` argument accordingly). The ILO-BE convention gives unitaries of individual gates as they typically appear in common textbooks [Niel2001]_.
 
@@ -243,12 +242,12 @@ Suppose that we only care about a subset of the measurements used in a :py:class
 
     from pytket import Circuit, Bit
     from pytket.extensions.qiskit import AerBackend
-
     from pytket.utils import expectation_from_shots
+
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)                           # Measure ZXY operator qubit-wise
+    circ.H(1)   # Measure ZXY operator qubit-wise
     circ.Rx(0.5, 2)
     circ.measure_all()
 
@@ -355,8 +354,8 @@ If you want a greater level of control over the procedure, then you may wish to 
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)                           # Want to measure expectation for Pauli ZXY
-    circ.Rx(0.5, 2)                     # Measure ZII, IXI, IIY separately
+    circ.H(1)         # Want to measure expectation for Pauli ZXY
+    circ.Rx(0.5, 2)   # Measure ZII, IXI, IIY separately
     circ.measure_all()
 
     backend = AerBackend()
@@ -429,8 +428,8 @@ For the final steps of retrieving and interpreting the results, it suffices to j
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend #, AerStateBackend
     from pytket.utils import expectation_from_counts
-
     import numpy as np
+    
     backend = AerBackend()      # Choose backend in one place
     # backend = AerStateBackend()   # Alternative backend with different requirements and result type
 
@@ -486,6 +485,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
+
     # Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX
     zzz = Circuit(3, 3)
     zzz.measure_all()
@@ -493,11 +493,13 @@ To maximise the benefits of batch submission, it is advisable to generate as man
     xzz.H(0).measure_all()
     xxx = Circuit(3, 3)
     xxx.H(0).H(1).H(2).measure_all()
+
     circ_list = []
     for m in [zzz, xzz, xxx]:
         c = state.copy()
         c.append(m)
         circ_list.append(c)
+
     coeff_list = [
         -0.3j,  # ZZZ
         0.8,    # XZZ
@@ -629,6 +631,7 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
+
     # Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX
     zzz = Circuit(3, 3)
     zzz.measure_all()
@@ -636,11 +639,13 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
     xzz.H(0).measure_all()
     xxx = Circuit(3, 3)
     xxx.H(0).H(1).H(2).measure_all()
+    
     circ_list = []
     for m in [zzz, xzz, xxx]:
         c = state.copy()
         c.append(m)
         circ_list.append(backend.get_compiled_circuit(c))
+
     coeff_list = [
         -0.3j,  # ZZZ
         0.8,    # XZZ
