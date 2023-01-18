@@ -8,18 +8,21 @@
 
     <title>Noise and the Quantum Circuit Model &#8212; pytket user manual</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-
+  
     
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
@@ -27,9 +30,8 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-
+    <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -52,7 +54,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
 <!-- Checkboxes to toggle the left sidebar -->
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
 <label class="overlay overlay-navbar" for="__navigation">
@@ -391,13 +393,13 @@ title="Print to PDF"
               <div>
                 
   <section id="noise-and-the-quantum-circuit-model">
-<h1>Noise and the Quantum Circuit Model<a class="headerlink" href="#noise-and-the-quantum-circuit-model" title="Permalink to this headline">#</a></h1>
+<h1>Noise and the Quantum Circuit Model<a class="headerlink" href="#noise-and-the-quantum-circuit-model" title="Permalink to this headline">¶</a></h1>
 <p>NISQ era devices are characterised as having high error rates, meaning the effect of running quantum circuits on these devices is that states are commonly dominated by noise. This is usually to the extent that even for circuits with very few gates, significant errors are accrued quickly enough that the returned results are unusable.</p>
 <p>Compilation of quantum circuits does not have a unique solution. Typically compilation strategies are designed to produce quantum circuits that implement the same logical circuit with fewer total gates and so have less opportunity to accrue errors. Understanding which quantum operations will lead to excessive noise accumulation in devices can help design compilation strategies to reduce this noise. Examples of this are circuit optimistation strategies that target the removal of multi-qubit gates as they typically have worse error rates than single-qubit gates, or designing circuit routing methods that introduce fewer total swap gates when conforming circuits to some device connectivity.</p>
 <p>Given the range of types of quantum devices available and their individual noise profiles, more precise characterisations of where noise accumulates in devices can aid in designing techniques for suppressing specific or general noise - <code class="docutils literal notranslate"><span class="pre">pytket</span></code> has several such techniques available.</p>
 <p>Noise in the quantum circuit model can be viewed as the distance between the expected distribution of measurement outcomes from a quantum state and the distribution returned by the process of repeatedly sampling shots. While some compilation methods aim to reduce this distance by the optimisation of some other metric, such as the number of occurrences of a given device’s multi-qubit primitives, the discussed techniques are explicitly designed to modify the returned distribution favourably by dealing directly with noise levels.</p>
 <section id="noise-aware-mapping">
-<h2>Noise Aware Mapping<a class="headerlink" href="#noise-aware-mapping" title="Permalink to this headline">#</a></h2>
+<h2>Noise Aware Mapping<a class="headerlink" href="#noise-aware-mapping" title="Permalink to this headline">¶</a></h2>
 <p>Many quantum devices place limits on which qubits can
 interact, with these limitations being determined by the device architecture.
 When compiling a circuit to run on one of these devices, the circuit
@@ -555,7 +557,7 @@ better error rates.  This will produce a circuit whose output
 statistics are closer to the ideal, noiseless, distribution.</p>
 </section>
 <section id="noise-tailoring-methods">
-<h2>Noise Tailoring Methods<a class="headerlink" href="#noise-tailoring-methods" title="Permalink to this headline">#</a></h2>
+<h2>Noise Tailoring Methods<a class="headerlink" href="#noise-tailoring-methods" title="Permalink to this headline">¶</a></h2>
 <p>While it is not possible to efficiently characterise and suppress all device noise, it can be advantageous to transform some adverse type of noise into a less damaging type.</p>
 <p>Coherent errors are additional unwanted unitary rotations that may appear throughout a quantum computation. Their effect can be damaging due to a possible faster rate of error accumulation than in the case of probabilistic (incoherent) errors.</p>
 <p>Randomisation protocols can be used to tailor the form of the noise profile. By averaging the n-qubit noise channel over all elements from a group (specifically some subgroup of the full unitary group on n qubits), the resulting noise is invariant under the action of any element from this group.</p>
@@ -805,12 +807,11 @@ Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase: 
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase:  16384
+Number of Universal Frame Randomisation averaging circuits with rebase:  256
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> 16384
-Number of Universal Frame Randomisation averaging circuits with rebase:  256
-Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
 </pre></div>
 </div>
 </div>
@@ -819,7 +820,7 @@ Number of sampled Universal Frame Randomisation averaging circuits with rebase: 
 can be used to sample from the full set of averaging circuits. It is recommended to use <code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameRandomisation.sample_circuit()</span></code> over <code class="xref py py-meth docutils literal notranslate"><span class="pre">FrameRandomisation.get_all_circuits()</span></code> for larger circuits with many cycles as the overhead in finding frame permutations becomes significant.</p>
 </section>
 <section id="spam-mitigation">
-<h2>SPAM Mitigation<a class="headerlink" href="#spam-mitigation" title="Permalink to this headline">#</a></h2>
+<h2>SPAM Mitigation<a class="headerlink" href="#spam-mitigation" title="Permalink to this headline">¶</a></h2>
 <p>A prominent source of noise is that occurring during State Preparation and Measurement (SPAM) in the hardware.</p>
 <p>SPAM error mitigation methods can correct for such noise through a post-processing step that modifies the output distribution measured from repeatedly sampling shots. This is possible given the assumption that SPAM noise is not dependent on the quantum computation run.</p>
 <p>By repeatedly preparing and measuring a basis state of the device, a distribution over basis states is procured. While for a perfect device the distribution would be the prepared basis state with probability 1, for devices prone to SPAM noise this distribution is perturbed and other basis states may be returned with (expected) small probability.</p>
@@ -896,9 +897,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(1, 1): 408, (0, 0): 402, (0, 1): 100, (1, 0): 90})
-Corrected Counts: Counter({(0, 0): 469, (1, 1): 469, (1, 0): 32, (0, 1): 31})
-Noiseless Counts: Counter({(0, 0): 510, (1, 1): 490})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 421, (1, 1): 391, (0, 1): 100, (1, 0): 88})
+Corrected Counts: Counter({(0, 0): 477, (1, 1): 445, (0, 1): 58, (1, 0): 23})
+Noiseless Counts: Counter({(1, 1): 527, (0, 0): 473})
 </pre></div>
 </div>
 </div>
@@ -957,9 +958,8 @@ Noiseless Counts: Counter({(0, 0): 510, (1, 1): 490})
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+    <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  
 
   </body>
 </html>
