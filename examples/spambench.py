@@ -3,14 +3,14 @@
 from collections import Counter
 from random import seed, random, randrange
 from time import perf_counter
-from pytket.circuit import Node, Bit # type: ignore
+from pytket.circuit import Node, Bit  # type: ignore
 from pytket.utils.spam import SpamCorrecter
 from pytket.backends.backendresult import BackendResult
 from pytket.utils.outcomearray import OutcomeArray
 
 
 def fake_counts(n_qbs, n_shots):
-    """ Uniformly random results """
+    """Uniformly random results"""
     counts = dict()
     for i in range(n_shots):
         readout = tuple(randrange(2) for _ in range(n_qbs))
