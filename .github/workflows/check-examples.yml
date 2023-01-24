@@ -46,7 +46,7 @@ jobs:
         python -m pip install wheel
         python -m pip install -r requirements.txt
         python -m pip install -c constraints.txt jupyter openfermion plotly
-        python -m pip install docker p2j pytest
+        python -m pip install docker p2j pytest black==22.6.0
     - name: install dotnet SDK
       uses: actions/setup-dotnet@v3
       with:
@@ -58,7 +58,10 @@ jobs:
     - name: pull docker images
       run: |
         docker pull rigetti/quilc
-        docker pull rigetti/qvm
+        docker pull rigetti/qvmA
+    - name: check format with black
+      run: |
+        black --check .
     - name: test example notebooks
       run: |
         cd examples
