@@ -62,7 +62,7 @@ from pytket.extensions.qiskit.tket_backend import TketBackend
 from qiskit.primitives import BackendEstimator
 
 qis_backend = TketBackend(b_emu)
-qestimator = BackendEstimator(qis_backend, options={"shots":8192})
+qestimator = BackendEstimator(qis_backend, options={"shots": 8192})
 
 # Note that we could have used any other pytket shots backend instead of `b_emu` here. The `pytket` extension modules provide an interface to a wide variety of devices and simulators from different quantum software platforms.
 #
@@ -73,7 +73,7 @@ print("VQE result:", vqe_solve(H2_op, 50, qestimator))
 # Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; we recommend the device-specific default compilation pass, provided by each tket backend. This pass will ensure that all the hardware constraints of the device are met. We can enable tket's most aggressive optimisation level by setting the parameter `optimisation_level=2`.
 
 qis_backend2 = TketBackend(b_emu, b_emu.default_compilation_pass(optimisation_level=2))
-qestimator2 = BackendEstimator(qis_backend2, options={"shots":8192})
+qestimator2 = BackendEstimator(qis_backend2, options={"shots": 8192})
 
 # Let's run the optimisation again:
 

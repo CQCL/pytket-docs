@@ -156,7 +156,7 @@ def fit_tomography_outcomes(probs_list, n_qbs):
     basis[(Pauli.Y, 1)] = np.asarray([[0.5, 0.5j], [-0.5j, 0.5]])
     basis[(Pauli.Z, 0)] = np.asarray([[1, 0], [0, 0]])
     basis[(Pauli.Z, 1)] = np.asarray([[0, 0], [0, 1]])
-    dim = 2 ** n_qbs
+    dim = 2**n_qbs
     # Define vector all_probs as a concatenation of probability vectors for each measurement (2**n x 3**n, 1)
     # Define matrix all_ops mapping a (vectorised) density matrix to a vector of probabilities for each measurement
     # (2**n x 3**n, 2**n x 2**n)
@@ -237,7 +237,7 @@ def make_noise_model(dep_err_rate, ro_err_rate, qubits):
     )
     # Add depolarising error to CX gates between any qubits (implying full connectivity)
     for i, j in product(qubits, repeat=2):
-        if(i != j):
+        if i != j:
             model.add_quantum_error(dep_err, ["cx"], [i, j])
     # Add readout error for each qubit
     for i in qubits:
