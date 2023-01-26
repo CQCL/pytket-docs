@@ -6,34 +6,39 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Circuit Construction &#8212; pytket-manual  documentation</title>
+    <title>Circuit Construction &#8212; pytket user manual</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+    <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 <link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-
+  
     
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
+    <link rel="stylesheet"
+      href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+      href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+    
+      
+  
+    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
-
+    <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/thebelab-helper.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
@@ -49,7 +54,7 @@
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
 <!-- Checkboxes to toggle the left sidebar -->
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
 <label class="overlay overlay-navbar" for="__navigation">
@@ -78,9 +83,14 @@
         <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
       
       
-      <h1 class="site-logo" id="site-title">pytket-manual  documentation</h1>
+      <img src="_static/Quantinuum_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">pytket user manual</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -88,7 +98,12 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Manual Sections:
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="manual_intro.html">
    What is tket?
@@ -122,13 +137,23 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  More documentation:
+  More Documentation:
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/index.html">
+  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">
    pytket
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">
+   Extensions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">
+   Example notebooks
   </a>
  </li>
 </ul>
@@ -391,7 +416,7 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#implicit-qubit-permutations">
+    <a class="reference internal nav-link" href="#id7">
      Implicit Qubit Permutations
     </a>
    </li>
@@ -504,7 +529,7 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#implicit-qubit-permutations">
+    <a class="reference internal nav-link" href="#id7">
      Implicit Qubit Permutations
     </a>
    </li>
@@ -526,7 +551,7 @@ title="Print to PDF"
               <div>
                 
   <section id="circuit-construction">
-<h1>Circuit Construction<a class="headerlink" href="#circuit-construction" title="Permalink to this headline">#</a></h1>
+<h1>Circuit Construction<a class="headerlink" href="#circuit-construction" title="Permalink to this headline">¶</a></h1>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class forms the unit of computation that we can send off to a quantum co-processor. Each instruction is to be performed in order, potentially parallelising when they use disjoint sets of (qu)bits. To capture this freedom of parallelisation, we treat the circuit as a Directed Acyclic Graph with a vertex for each instruction and directed edges following the paths of resources (e.g. qubits and bits) between them. This DAG representation describes the abstract circuit ignoring these trivial commutations/parallel instructions.</p>
 <p>In general, we consider <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> instances to represent open circuits; that is, they can be used within arbitrary contexts, so any input state can be supplied and there is no assumption on how the output state should be used. In practice, when we send a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> off to be executed, it will be run with all qubits in the initial state <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> and all bits set to <span class="math notranslate nohighlight">\(0\)</span>, then the classical outputs returned and the quantum state discarded.</p>
 <p>Each circuit can be represented as a POVM on the combined quantum/classical state space by composing the representations assigned to each basic instruction. However, many use cases will live predominantly in the pure quantum space where the operations are simply unitaries acting on the quantum state. One practical distinction between these cases is the relevance of global phase: something that cannot be identified at the POVM level but has importance for pure states as it affects how we interpret the system and has an observable difference when the system is then coherently controlled. For example, an Rz gate and a U1 gate give equivalent effects on the quantum state but have a different global phase, meaning their unitaries <em>look</em> different, and a controlled-Rz is different from a controlled-U1. A <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> will track global phase to make working with pure quantum processes easier, though this becomes meaningless once measurements and other classical interaction are applied and has no impact on the instructions sent to a quantum device when we eventually run it.</p>
@@ -546,7 +571,7 @@ title="Print to PDF"
 </div>
 </div>
 <section id="basic-gates">
-<h2>Basic Gates<a class="headerlink" href="#basic-gates" title="Permalink to this headline">#</a></h2>
+<h2>Basic Gates<a class="headerlink" href="#basic-gates" title="Permalink to this headline">¶</a></h2>
 <p>The bulk of the interaction with a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object will be in building up the sequence of instructions to be run. The simplest way to do this is by adding each instruction in execution order to the end of the circuit.</p>
 <p>Basic quantum gates represent some unitary operation applied to some qubits. Adding them to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> just requires specifying which qubits you want to apply them to. For controlled-gates, the convention is to give the control qubit(s) first, followed by the target qubit(s).</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -610,7 +635,7 @@ title="Print to PDF"
 <p>In the above example, we asked for a <code class="docutils literal notranslate"><span class="pre">PhasedX</span></code> with angles <code class="docutils literal notranslate"><span class="pre">[-0.1,</span> <span class="pre">0.5]</span></code>, but received <code class="docutils literal notranslate"><span class="pre">PhasedX(3.9,</span> <span class="pre">0.5)</span></code>. <code class="docutils literal notranslate"><span class="pre">pytket</span></code> will freely map angles into the range <span class="math notranslate nohighlight">\(\left[0, r\right)\)</span> for some range parameter <span class="math notranslate nohighlight">\(r\)</span> that depends on the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code>, preserving the unitary matrix (including global phase).</p>
 </section>
 <section id="measurements">
-<h2>Measurements<a class="headerlink" href="#measurements" title="Permalink to this headline">#</a></h2>
+<h2>Measurements<a class="headerlink" href="#measurements" title="Permalink to this headline">¶</a></h2>
 <p>Measurements go a step further by interacting with both the quantum and classical data. The convention used in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> is that all measurements are non-destructive, single-qubit measurements in the <span class="math notranslate nohighlight">\(Z\)</span> basis; other forms of measurements can be constructed by combining these with other operations.</p>
 <p>Adding a measurement works just like adding any other gate, where the first argument is the qubit to be measured and the second specifies the classical bit to store the result in.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -732,7 +757,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="barriers">
-<h2>Barriers<a class="headerlink" href="#barriers" title="Permalink to this headline">#</a></h2>
+<h2>Barriers<a class="headerlink" href="#barriers" title="Permalink to this headline">¶</a></h2>
 <p>The concept of barriers comes from low-level classical programming. They exist as instructions but perform no active operation. Instead, their function is twofold:</p>
 <ul class="simple">
 <li><p>At compile-time, prevent the compiler from reordering operations around the barrier.</p></li>
@@ -761,7 +786,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="registers-and-ids">
-<h2>Registers and IDs<a class="headerlink" href="#registers-and-ids" title="Permalink to this headline">#</a></h2>
+<h2>Registers and IDs<a class="headerlink" href="#registers-and-ids" title="Permalink to this headline">¶</a></h2>
 <p>Using integer values to refer to each of our qubits and bits works fine for small-scale experiments, but when building up larger and more complicated programs, it is much easier to manage if we are able to name the resources to attach semantic meaning to them and group them into related collections. <code class="docutils literal notranslate"><span class="pre">pytket</span></code> enables this by supporting registers and named IDs.</p>
 <p>Each unit resource is associated with a <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> (typically the subclasses <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code>), which gives a name and some (<span class="math notranslate nohighlight">\(n\)</span>-dimensional) index. A (quantum/classical) register is hence some collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s with the same name, dimension of index, and type of associated resource. These identifiers are not necessarily tied to a specific <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and can be reused between many of them.</p>
 <p>Named resources can be added to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s individually, or by declaring a 1-dimensional register. Any of the methods for adding gates can then use these IDs.</p>
@@ -829,7 +854,7 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># rejected because &quot;a&quot; is already a qubit register</span>
 <span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_bit</span><span class="p">(</span><span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -850,7 +875,7 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># rejected because &quot;a&quot; is already a 1D register</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
@@ -870,7 +895,7 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># rejected because a[0] is already in the circuit</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
@@ -924,7 +949,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="composing-circuits">
-<h2>Composing Circuits<a class="headerlink" href="#composing-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Composing Circuits<a class="headerlink" href="#composing-circuits" title="Permalink to this headline">¶</a></h2>
 <p>Because <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s are defined to have open inputs and outputs, it is perfectly natural to compose them by unifying the outputs of one with the inputs of another. Appending one <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to the end of another matches the inputs and outputs with the same <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1013,7 +1038,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="statevectors-and-unitaries">
-<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this headline">#</a></h2>
+<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this headline">¶</a></h2>
 <p>When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_statevector()</span></code> method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> state.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1057,7 +1082,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="boxes">
-<h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this headline">#</a></h2>
+<h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this headline">¶</a></h2>
 <p>Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn’t mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit’s design when it is constructed using higher-level constructions. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the concept of a “Box” is to abstract away such complex structures as black-boxes within larger circuits.</p>
 <p>The simplest example of this is a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code>, which wraps up another <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> defined elsewhere into a single black-box. The difference between adding a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> and just appending the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is that the <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1089,12 +1114,16 @@ title="Print to PDF"
 <span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
-<span class="n">cont</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>              <span class="c1"># Define the controlled operation with 2 control qubits</span>
+
+<span class="c1"># Define the controlled operation with 2 control qubits</span>
+<span class="n">cont</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_qcontrolbox</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>    <span class="c1"># Add to circuit with controls q[0], q[1], and targets q[2], q[3]</span>
+
+<span class="c1"># Add to circuit with controls q[0], q[1], and targets q[2], q[3]</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_qcontrolbox</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1150,6 +1179,10 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary3qBox</span></code>.</p>
 </div>
 <p>Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: <span class="math notranslate nohighlight">\(e^{-i \pi \theta P}\)</span> (<span class="math notranslate nohighlight">\(P \in \{I, X, Y, Z\}^{\otimes n}\)</span>). These occur very naturally in Trotterising evolution operators and as common native device operations.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1226,7 +1259,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="analysing-circuits">
-<h2>Analysing Circuits<a class="headerlink" href="#analysing-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Analysing Circuits<a class="headerlink" href="#analysing-circuits" title="Permalink to this headline">¶</a></h2>
 <p>After creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, we will typically want to inspect what we have constructed to ensure that it agrees with the design we planned. The most basic form of this is to just get the object to return the sequence of operations back to us. Iterating through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object will give back the operations as <code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code> s (specifying the operations performed and what (qu)bits they are performed on).</p>
 <p>Because the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class identifies circuits up to DAG equivalence, the sequence will be some topological sort of the DAG, but not necessarily identical to the order the operations were added to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1259,7 +1292,7 @@ X OpType.X [q[1]]
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span> <span class="c1"># Render interactive circuit diagram</span>
 </pre></div>
 </div>
 </div>
@@ -1280,7 +1313,7 @@ X OpType.X [q[1]]
     &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.3/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-b14be8af-abc2-4cfd-b745-8d04b2df3e20&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-0a43606c-2c6a-42c4-aa5b-18a5eb05faef&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1293,7 +1326,7 @@ X OpType.X [q[1]]
         if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
             window.pytketCircuitDisplays = {};
         }
-        const uid = &#34;b14be8af-abc2-4cfd-b745-8d04b2df3e20&#34;;
+        const uid = &#34;0a43606c-2c6a-42c4-aa5b-18a5eb05faef&#34;;
         // Create the root Vue component
         const app = createApp({
             delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
@@ -1311,7 +1344,11 @@ X OpType.X [q[1]]
 
 </div></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> also features ways to view the underlying DAG graphically for easier visual inspection.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX representation. Other interactive features include adjustable zoom, circuit wrapping and image export.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> also features methods to visualise the underlying circuit DAG graphically for easier visual inspection.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -1320,7 +1357,6 @@ X OpType.X [q[1]]
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="n">Graph</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span><span class="o">.</span><span class="n">get_DAG</span><span class="p">()</span>   <span class="c1"># Displays in interactive python notebooks</span>
-            <span class="c1"># In normal python scripts, use Graph.save_DAG or Graph.view_DAG</span>
 </pre></div>
 </div>
 </div>
@@ -1328,6 +1364,11 @@ X OpType.X [q[1]]
 <img alt="_images/manual_circuit_32_0.svg" src="_images/manual_circuit_32_0.svg" /></div>
 </div>
 <p>The visualisation tool can also describe the interaction graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> consisting of only one- and two-qubit gates – that is, the graph of which qubits will share a two-qubit gate at some point during execution.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The visualisations above are shown in ipython notebook cells. When working with a normal python script one can view rendered circuits in the browser with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">view_browser()</span></code> function from the display module.</p>
+<p>There are also the methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">Graph.save_DAG()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Graph.view_DAG()</span></code> for saving and visualising the circuit DAG.</p>
+</div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -1350,46 +1391,99 @@ X OpType.X [q[1]]
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">depth</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total gate count =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_gates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Circuit depth =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">depth</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>4
-3
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Total gate count = 4
+Circuit depth = 3
 </pre></div>
 </div>
 </div>
 </div>
 <p>As characteristics of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier <a class="reference internal" href="manual_intro.html#arut2019" id="id1"><span>[Arut2019]</span></a>. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic <span class="math notranslate nohighlight">\(T\)</span> gates to require expensive distillation procedures <a class="reference internal" href="#brav2005" id="id2"><span>[Brav2005]</span></a> <a class="reference internal" href="#brav2012" id="id3"><span>[Brav2012]</span></a>.</p>
-<p>We can use the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code> enum class to look for the number of gates of a particular type. We also define <span class="math notranslate nohighlight">\(G\)</span>-depth (for a subset of gate types <span class="math notranslate nohighlight">\(G\)</span>) as the minimum number of layers of gates in <span class="math notranslate nohighlight">\(G\)</span> required to run the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, allowing for topological reorderings. Specific cases of this like <span class="math notranslate nohighlight">\(T\)</span>-depth and <span class="math notranslate nohighlight">\(CX\)</span>-depth are common to the literature on circuit simplification <a class="reference internal" href="#amy2014" id="id4"><span>[Amy2014]</span></a> <a class="reference internal" href="#meij2020" id="id5"><span>[Meij2020]</span></a>.</p>
+<p>We can use the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code> enum class to look for the number of gates of a particular type. Additionally, the methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">n_1qb_gates()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">n_2qb_gates()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">n_nqb_gates()</span></code> can be used to count the number of gates in terms of how many qubits they act upon irrespective of type.</p>
+<p>We also define <span class="math notranslate nohighlight">\(G\)</span>-depth (for a subset of gate types <span class="math notranslate nohighlight">\(G\)</span>) as the minimum number of layers of gates in <span class="math notranslate nohighlight">\(G\)</span> required to run the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, allowing for topological reorderings. Specific cases of this like <span class="math notranslate nohighlight">\(T\)</span>-depth and <span class="math notranslate nohighlight">\(CX\)</span>-depth are common to the literature on circuit simplification <a class="reference internal" href="#amy2014" id="id4"><span>[Amy2014]</span></a> <a class="reference internal" href="#meij2020" id="id5"><span>[Meij2020]</span></a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit.display</span> <span class="kn">import</span> <span class="n">render_circuit_jupyter</span>
 
-<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CnRy</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">T</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)</span>
-    <span class="o">+</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CZ</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">({</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">CZ</span><span class="p">}))</span>
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span> <span class="c1"># draw circuit diagram</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;T gate count =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#1qb gates =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_1qb_gates</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#2qb gates =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_2qb_gates</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#3qb gates =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">n_nqb_gates</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="c1"># count the single CnRy gate (n=3)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;T gate depth =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2qb gate depth =&quot;</span><span class="p">,</span> <span class="n">circ</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">({</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">,</span> <span class="n">OpType</span><span class="o">.</span><span class="n">CZ</span><span class="p">}))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>3
-4
-2
-2
+<div class="output text_html">
+
+
+
+
+
+<iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+    &lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.3/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+    &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.3/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&#34;circuit-display-vue-container-9937d600-a3b6-4316-be96-9d60de894e40&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;params&#34;: [&#34;0.6&#34;], &#34;type&#34;: &#34;CnRy&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;&gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+        const { createApp } = Vue;
+        const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+        // Init variables to be shared between circuit display instances
+        if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+            window.pytketCircuitDisplays = {};
+        }
+        const uid = &#34;9937d600-a3b6-4316-be96-9d60de894e40&#34;;
+        // Create the root Vue component
+        const app = createApp({
+            delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+            components: { circuitDisplayContainer },
+        })
+        app.config.unwrapInjectedRef = true;
+        app.mount(&#34;#circuit-display-vue-container-&#34;+uid);
+        window.pytketCircuitDisplays[uid] = app;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"
+        width="100%" height="200px"
+        style="border: none; outline: none; resize: vertical; overflow: auto"></iframe>
+
+</div><div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>T gate count = 3
+#1qb gates = 3
+#2qb gates = 4
+#3qb gates = 1
+T gate depth = 3
+2qb gate depth = 4
 </pre></div>
 </div>
 </div>
@@ -1400,7 +1494,7 @@ X OpType.X [q[1]]
 </div>
 </section>
 <section id="importing-exporting-circuits">
-<h2>Importing/Exporting Circuits<a class="headerlink" href="#importing-exporting-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Importing/Exporting Circuits<a class="headerlink" href="#importing-exporting-circuits" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dict()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_dict()</span></code> methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1477,6 +1571,10 @@ measure q[1] -&gt; c[1];
 </div>
 </div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The OpenQASM converters do not support circuits with <a class="reference external" href="https://cqcl.github.io/pytket/manual/manual_circuit.html#implicit-qubit-permutations">implicit qubit permutations</a> . This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.</p>
+</div>
 <p>The core <code class="docutils literal notranslate"><span class="pre">pytket</span></code> package additionally features a converter from Quipper, another circuit description language.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1505,7 +1603,7 @@ measure q[1] -&gt; c[1];
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>There are a few features of the Quipper language that are not supported by the converter, which are outlined in the <a class="reference external" href="quipper.html">Quipper API reference</a>.</p>
+<p>There are a few features of the Quipper language that are not supported by the converter, which are outlined in the <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/quipper.html">pytket.quipper documentation</a>.</p>
 </div>
 <p>Converters for other quantum software frameworks can optionally be included by installing the corresponding extension module. These are additional PyPI packages with names <code class="docutils literal notranslate"><span class="pre">pytket-X</span></code>, which extend the <code class="docutils literal notranslate"><span class="pre">pytket</span></code> namespace with additional features to interact with other systems, either using them as a front-end for circuit construction and high-level algorithms or targeting simulators and devices as backends.</p>
 <p>For example, installing the <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code> package will add the <code class="docutils literal notranslate"><span class="pre">tk_to_qiskit</span></code> and <code class="docutils literal notranslate"><span class="pre">qiskit_to_tk</span></code> methods which convert between the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class from <code class="docutils literal notranslate"><span class="pre">pytket</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">qiskit.QuantumCircuit</span></code>.</p>
@@ -1538,15 +1636,19 @@ q_1: ─────┤ X ├─╫─┤ Rz(π/2) ├──■──┤M├─�
           └───┘ ║ └─────────┘┌─┴─┐└╥┘┌─┐
 q_2: ───────────╫────────────┤ X ├─╫─┤M├
                 ║            └───┘ ║ └╥┘
-c: 3/═══════════╩══════════════════╩══╩═
-                0                  1  2 
+c_0: ═══════════╩══════════════════╬══╬═
+                                   ║  ║ 
+c_1: ══════════════════════════════╩══╬═
+                                      ║ 
+c_2: ═════════════════════════════════╩═
+                                        
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="symbolic-circuits">
-<h2>Symbolic Circuits<a class="headerlink" href="#symbolic-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Symbolic Circuits<a class="headerlink" href="#symbolic-circuits" title="Permalink to this headline">¶</a></h2>
 <p>In practice, it is very common for an experiment to use many circuits with similar structure but with varying gate parameters. In variational algorithms like VQE and QAOA, we are trying to explore the energy landscape with respect to the circuit parameters, realised as the angles of rotation gates. The only differences between iterations of the optimisation procedure are the specific angles of rotations in the circuits. Because the procedures of generating and compiling the circuits typically won’t care what the exact angles are, we can define the circuits abstractly, treating each parameter as an algebraic symbol. The circuit generation and compilation can then be pulled outside of the optimisation loop, being performed once and for all rather than once for each set of parameter values.</p>
 <p><code class="docutils literal notranslate"><span class="pre">sympy</span></code> is a widely-used python package for symbolic expressions and algebraic manipulation, defining <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Symbol</span></code> objects to represent algebraic variables and using them in <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Expression</span></code> s to build mathematical statements and arithmetic expressions. Symbolic circuits are managed in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> by defining the circuit parameters as <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Symbol</span></code> s, which can be passed in as arguments to the gates and later substituted for concrete values.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1645,15 +1747,15 @@ True
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>There are some minor drawbacks associated with symbolic compilation. When using <a class="reference external" href="passes.html#pytket._tket.passes.EulerAngleReduction">Euler-angle equations</a> or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the <a class="reference external" href="passes.html#pytket._tket.passes.KAKDecomposition">KAK decomposition</a> to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.</p>
+<p>There are some minor drawbacks associated with symbolic compilation. When using <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.EulerAngleReduction">Euler-angle equations</a> or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.KAKDecomposition">KAK decomposition</a> to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.</p>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>To see how to use symbolic compilation in a variational experiment, have a look at our <a class="reference external" href="https://github.com/CQCL/pytket/blob/main/examples/ucc_vqe.ipynb">VQE (UCCSD) example</a>.</p>
 </div>
 <section id="symbolic-unitaries-and-states">
-<h3>Symbolic unitaries and states<a class="headerlink" href="#symbolic-unitaries-and-states" title="Permalink to this headline">#</a></h3>
-<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
+<h3>Symbolic unitaries and states<a class="headerlink" href="#symbolic-unitaries-and-states" title="Permalink to this headline">¶</a></h3>
+<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.11)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -1663,7 +1765,9 @@ True
 <span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="n">a</span><span class="o">/</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">circuit_apply_symbolic_statevector</span><span class="p">(</span><span class="n">circ</span><span class="p">))</span> <span class="c1"># all zero input state is default if None is provided</span>
+
+<span class="c1"># All zero input state is assumed if no initial state is provided</span>
+<span class="n">display</span><span class="p">(</span><span class="n">circuit_apply_symbolic_statevector</span><span class="p">(</span><span class="n">circ</span><span class="p">))</span>
 <span class="n">circuit_to_symbolic_unitary</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1685,9 +1789,9 @@ The conversion functions use the <a class="reference external" href="https://doc
 </section>
 </section>
 <section id="advanced-topics">
-<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline">#</a></h2>
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline">¶</a></h2>
 <section id="custom-parameterised-gates">
-<h3>Custom parameterised Gates<a class="headerlink" href="#custom-parameterised-gates" title="Permalink to this headline">#</a></h3>
+<h3>Custom parameterised Gates<a class="headerlink" href="#custom-parameterised-gates" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> construction is good for subroutines where the instruction sequence is fixed. The <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGateDef</span></code> construction generalises this to construct parameterised subroutines by binding symbols in the definition circuit and instantiating them at each instance. Any symbolic <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> can be provided as the subroutine definition. Remaining symbols that are not bound are treated as free symbols in the global scope.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1721,7 +1825,7 @@ The conversion functions use the <a class="reference external" href="https://doc
 </div>
 </section>
 <section id="clifford-tableaux">
-<h3>Clifford Tableaux<a class="headerlink" href="#clifford-tableaux" title="Permalink to this headline">#</a></h3>
+<h3>Clifford Tableaux<a class="headerlink" href="#clifford-tableaux" title="Permalink to this headline">¶</a></h3>
 <p>The Clifford (a.k.a. stabilizer) fragment of quantum theory is known to exhibit efficient classical representations of states and unitaries. This allows for short descriptions that can fully characterise a state/unitary and efficient circuit simulation. Whilst the Clifford group can be characterised as the operations generated by <cite>CX</cite>, <cite>H</cite>, and <cite>S</cite> gates with qubit initialisation in the <span class="math notranslate nohighlight">\(|0\rangle\)</span> state, it is also the largest group of operations under which the Pauli group is closed, i.e. for any tensor of Paulis <span class="math notranslate nohighlight">\(P\)</span> and Clifford operation <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(CPC^\dagger\)</span> is also a tensor of Paulis.</p>
 <p>Any state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> in the Clifford fragment is uniquely identified by those tensors of Pauli operators that stabilize it (those <span class="math notranslate nohighlight">\(P\)</span> such that <span class="math notranslate nohighlight">\(P|\psi\rangle = |\psi\rangle\)</span>). These stabilizers form a group of size <span class="math notranslate nohighlight">\(2^n\)</span> for an <span class="math notranslate nohighlight">\(n\)</span> qubit state, but it is sufficient to identify <span class="math notranslate nohighlight">\(n\)</span> independent generators to specify the group. If a Clifford gate <span class="math notranslate nohighlight">\(C\)</span> is applied to the state, each generator <span class="math notranslate nohighlight">\(P\)</span> can be updated to <span class="math notranslate nohighlight">\(P' = CPC^\dagger\)</span> since <span class="math notranslate nohighlight">\(C|\psi\rangle = CP|\psi\rangle = (CPC^\dagger)C|\psi\rangle\)</span>. We can therefore characterise each Clifford operation by its actions on generators of the Pauli group, giving us the Clifford tableau form. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitaryTableau</span></code> class uses the binary symplectic representation from Aaronson and Gottesman <a class="reference internal" href="#aaro2004" id="id6"><span>[Aaro2004]</span></a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1785,7 +1889,7 @@ Z@q[2]	-&gt;	0 0 0   0 1 1   0
 <p>The data structure used here for tableaux is intended for compilation use. For fast simulation of Clifford circuits, we recommend using the <code class="xref py py-class docutils literal notranslate"><span class="pre">StimBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-stim</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-pysimplex</span></code> (optimized for large sparse circuits), or the <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>. Future versions of <code class="docutils literal notranslate"><span class="pre">pytket</span></code> may include improved decompositions from tableaux, as well as more flexible tableaux to represent stabilizer states, isometries, and diagonalisation circuits.</p>
 </section>
 <section id="classical-and-conditional-operations">
-<h3>Classical and conditional operations<a class="headerlink" href="#classical-and-conditional-operations" title="Permalink to this headline">#</a></h3>
+<h3>Classical and conditional operations<a class="headerlink" href="#classical-and-conditional-operations" title="Permalink to this headline">¶</a></h3>
 <p>Moving beyond toy circuit examples, many applications of quantum computing
 require looking at circuits as POVMs for extra expressivity, or introducing
 error-correcting schemes to reduce the effective noise. Each of these requires
@@ -1955,7 +2059,7 @@ can support the full range of expressions and comparisons shown above.</p>
 </div>
 </section>
 <section id="circuit-level-operations">
-<h3>Circuit-Level Operations<a class="headerlink" href="#circuit-level-operations" title="Permalink to this headline">#</a></h3>
+<h3>Circuit-Level Operations<a class="headerlink" href="#circuit-level-operations" title="Permalink to this headline">¶</a></h3>
 <p>Systematic modifications to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object can go beyond simply adding gates one at a time. For example, given a unitary <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, we may wish to generate its inverse for the purposes of uncomputation of ancillae or creating conjugation circuits to diagonalise an operator as in the sample below.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1985,8 +2089,8 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>Since it is not possible to construct the inverse of an arbitrary POVM, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.dagger()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.transpose()</span></code> methods will fail if there are any measurements, resets, or other operations that they cannot directly invert.</p>
 </div>
 </section>
-<section id="implicit-qubit-permutations">
-<h3>Implicit Qubit Permutations<a class="headerlink" href="#implicit-qubit-permutations" title="Permalink to this headline">#</a></h3>
+<section id="id7">
+<h3>Implicit Qubit Permutations<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class is built as a DAG to help follow the paths of resources and represent the circuit canonically up to trivial commutations. Each of the edges represents a resource passing from one instruction to the next, so we could represent SWAPs (and general permutations) by connecting the predecessors of the SWAP instruction to the opposite successors. This eliminates the SWAP instruction from the graph (meaning we would no longer perform the operation at runtime) and could enable the compiler to spot additional opportunities for simplification. One example of this in practice is the ability to convert a pair of CXs in opposite directions to just a single CX (along with an implicit SWAP that isn’t actually performed).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -2032,7 +2136,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> backends, but care should be taken when reading from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> directly - two quantum <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.implicit_qubit_permutation()</span></code> method can be used to inspect such a permutation.</p>
 </section>
 <section id="modifying-operations-within-circuits">
-<h3>Modifying Operations Within Circuits<a class="headerlink" href="#modifying-operations-within-circuits" title="Permalink to this headline">#</a></h3>
+<h3>Modifying Operations Within Circuits<a class="headerlink" href="#modifying-operations-within-circuits" title="Permalink to this headline">¶</a></h3>
 <p>Symbolic parameters allow one to construct a circuit with some not-yet-assigned parameters, and later (perhaps after some optimization), to instantiate them with different values. Occasionally, however, one may desire more flexibility in substituting operations within a circuit. For example, one may wish to apply controls from a certain qubit to certain operations, or to insert or remove certain operations.</p>
 <p>This can be achieved with <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, provided the mutable operations are tagged during circuit construction with identifying names (which can be arbitrary strings). If two operations are given the same name then they belong to the same “operation group”; they can (and must) then be substituted simultaneously.</p>
 <p>Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substituted operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)</p>
@@ -2095,6 +2199,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <span class="k">def</span> <span class="nf">with_empty_qubit</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CircBox</span><span class="p">:</span>
     <span class="n">n_qb</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">n_qubits</span>
     <span class="k">return</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">Circuit</span><span class="p">(</span><span class="n">n_qb</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_qb</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))))</span>
+
 <span class="k">def</span> <span class="nf">with_control_qubit</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="n">Op</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QControlBox</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -2177,7 +2282,7 @@ can support the full range of expressions and comparisons shown above.</p>
   
     By Cambridge Quantum Computing Ltd<br/>
   
-      &copy; Copyright 2020-2022 Cambridge Quantum Computing Ltd.<br/>
+      &copy; Copyright 2020-2023 Cambridge Quantum Computing Ltd.<br/>
 </p>
         </footer>
     </div>
@@ -2188,9 +2293,8 @@ can support the full range of expressions and comparisons shown above.</p>
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+    <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  
 
   </body>
 </html>

@@ -268,7 +268,7 @@ To help encourage consistency of identifiers, a :py:class:`Circuit` will reject 
     :raises: RuntimeError
 
     from pytket import Circuit, Qubit, Bit
-
+    
     circ = Circuit()
     # set up a circuit with qubit a[0]
     circ.add_qubit(Qubit("a", 0))
@@ -473,12 +473,16 @@ Similarly, if our subcircuit is a pure quantum circuit (i.e. it corresponds to a
     sub = Circuit(2)
     sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
     sub_box = CircBox(sub)
-    cont = QControlBox(sub_box, 2)              # Define the controlled operation with 2 control qubits
+
+    # Define the controlled operation with 2 control qubits
+    cont = QControlBox(sub_box, 2)
 
     circ = Circuit(4)
     circ.add_circbox(sub_box, [2, 3])
     circ.Ry(0.3, 0).Ry(0.8, 1)
-    circ.add_qcontrolbox(cont, [0, 1, 2, 3])    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
+
+    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
+    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
 
 As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
 
@@ -515,6 +519,8 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     circ.add_unitary2qbox(u2box, 1, 2)
     circ.add_unitary1qbox(u1box, 2)
     circ.add_unitary2qbox(u2box, 1, 0)
+
+.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox`.
 
 .. `PauliExpBox` for simulations and general interactions
 
@@ -597,9 +603,11 @@ If you are working in a Jupyter environment, a :py:class:`Circuit` can be render
 
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
-    render_circuit_jupyter(circ)
+    render_circuit_jupyter(circ) # Render interactive circuit diagram
 
-``pytket`` also features ways to view the underlying DAG graphically for easier visual inspection.
+.. note:: The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX representation. Other interactive features include adjustable zoom, circuit wrapping and image export. 
+
+``pytket`` also features methods to visualise the underlying circuit DAG graphically for easier visual inspection.
 
 .. jupyter-execute::
 
@@ -609,9 +617,12 @@ If you are working in a Jupyter environment, a :py:class:`Circuit` can be render
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
     Graph(circ).get_DAG()   # Displays in interactive python notebooks
-                # In normal python scripts, use Graph.save_DAG or Graph.view_DAG
 
 The visualisation tool can also describe the interaction graph of a :py:class:`Circuit` consisting of only one- and two-qubit gates -- that is, the graph of which qubits will share a two-qubit gate at some point during execution.
+
+.. note:: The visualisations above are shown in ipython notebook cells. When working with a normal python script one can view rendered circuits in the browser with the :py:meth:`view_browser` function from the display module.
+
+     There are also the methods :py:meth:`Graph.save_DAG` and :py:meth:`Graph.view_DAG` for saving and visualising the circuit DAG. 
 
 .. jupyter-execute::
 
@@ -633,31 +644,38 @@ The full instruction sequence may often be too much detail for a lot of needs, e
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
 
-    print(circ.n_gates)
-    print(circ.depth())
+    print("Total gate count =", circ.n_gates)
+    print("Circuit depth =", circ.depth())
 
 As characteristics of a :py:class:`Circuit` go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier [Arut2019]_. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic :math:`T` gates to require expensive distillation procedures [Brav2005]_ [Brav2012]_.
 
-We can use the :py:class:`OpType` enum class to look for the number of gates of a particular type. We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the minimum number of layers of gates in :math:`G` required to run the :py:class:`Circuit`, allowing for topological reorderings. Specific cases of this like :math:`T`-depth and :math:`CX`-depth are common to the literature on circuit simplification [Amy2014]_ [Meij2020]_.
+We can use the :py:class:`OpType` enum class to look for the number of gates of a particular type. Additionally, the methods :py:meth:`n_1qb_gates`, :py:meth:`n_2qb_gates` and :py:meth:`n_nqb_gates` can be used to count the number of gates in terms of how many qubits they act upon irrespective of type.
+
+We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the minimum number of layers of gates in :math:`G` required to run the :py:class:`Circuit`, allowing for topological reorderings. Specific cases of this like :math:`T`-depth and :math:`CX`-depth are common to the literature on circuit simplification [Amy2014]_ [Meij2020]_.
 
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
+    from pytket.circuit.display import render_circuit_jupyter
 
-    circ = Circuit(4)
+    circ = Circuit(3)
     circ.T(0)
     circ.CX(0, 1)
-    circ.CX(2, 3)
-    circ.T(3)
-    circ.CZ(0, 2)
-    circ.CZ(1, 3)
+    circ.CX(2, 0)
+    circ.add_gate(OpType.CnRy, [0.6], [0, 1, 2])
+    circ.T(2)
+    circ.CZ(0, 1)
+    circ.CZ(1, 2)
     circ.T(1)
 
-    print(circ.n_gates_of_type(OpType.T))
-    print(circ.n_gates_of_type(OpType.CX)
-        + circ.n_gates_of_type(OpType.CZ))
-    print(circ.depth_by_type(OpType.T))
-    print(circ.depth_by_type({OpType.CX, OpType.CZ}))
+    render_circuit_jupyter(circ) # draw circuit diagram
+
+    print("T gate count =", circ.n_gates_of_type(OpType.T))
+    print("#1qb gates =", circ.n_1qb_gates())
+    print("#2qb gates =", circ.n_2qb_gates())
+    print("#3qb gates =", circ.n_nqb_gates(3)) # count the single CnRy gate (n=3)
+    print("T gate depth =", circ.depth_by_type(OpType.T))
+    print("2qb gate depth =", circ.depth_by_type({OpType.CX, OpType.CZ}))
 
 .. note:: Each of these metrics will analyse the :py:class:`Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a :math:`CZ` gate would contribute 1 to :math:`CX`-count in practice).
 
@@ -720,6 +738,8 @@ Though less expressive than native dictionary serialization, it is widely suppor
 
 .. Quipper
 
+.. note:: The OpenQASM converters do not support circuits with `implicit qubit permutations <https://cqcl.github.io/pytket/manual/manual_circuit.html#implicit-qubit-permutations>`_ . This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
+
 The core ``pytket`` package additionally features a converter from Quipper, another circuit description language.
 
 .. jupyter-execute::
@@ -739,7 +759,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
     print(circ.get_commands())
     os.remove(path)
 
-.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `Quipper API reference <quipper.html>`_.
+.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `pytket.quipper documentation <https://cqcl.github.io/tket/pytket/api/quipper.html>`_.
 
 .. Extension modules; example with qiskit, cirq, pyquil; caution that they may not support all gate sets or features (e.g. conditional gates with qiskit only)
 
@@ -850,7 +870,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
     print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 
 
-.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <passes.html#pytket._tket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition <passes.html#pytket._tket.passes.KAKDecomposition>`_ to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
+.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.KAKDecomposition>`_ to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 
 .. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://github.com/CQCL/pytket/blob/main/examples/ucc_vqe.ipynb>`_.
 
@@ -869,7 +889,9 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
     a = Symbol("alpha")
     circ = Circuit(2)
     circ.Rx(a/pi, 0).CX(0, 1)
-    display(circuit_apply_symbolic_statevector(circ)) # all zero input state is default if None is provided
+
+    # All zero input state is assumed if no initial state is provided
+    display(circuit_apply_symbolic_statevector(circ)) 
     circuit_to_symbolic_unitary(circ)
 
 
@@ -1249,9 +1271,10 @@ To add a control to an operation, one can add the original operation as a :py:cl
     def with_empty_qubit(op: Op) -> CircBox:
         n_qb = op.n_qubits
         return CircBox(Circuit(n_qb + 1).add_gate(op, list(range(1, n_qb + 1))))
+
     def with_control_qubit(op: Op) -> QControlBox:
         return QControlBox(op, 1)
-        
+
     c = Circuit(3)
     h_op = Op.create(OpType.H)
     cx_op = Op.create(OpType.CX)

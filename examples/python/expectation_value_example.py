@@ -124,6 +124,7 @@ ansatz.Measure(syn, syn_res)
 
 # Using this, we can define a filter function which removes the shots which the syndrome qubit detected as erroneous. `BackendResult` objects allow retrieval of shots in any bit order, so we can retrieve the `synres` results separately and use them to filter the shots from the remaining bits. The Backends example notebook describes this in more detail.
 
+from collections import Counter
 
 def filter_shots(backend_result, syn_res_bit):
     bits = sorted(backend_result.get_bitlist())
@@ -131,9 +132,17 @@ def filter_shots(backend_result, syn_res_bit):
     syn_shots = backend_result.get_shots([syn_res])[:, 0]
     main_shots = backend_result.get_shots(bits)
     return main_shots[syn_shots == 0]
-    filtered_rows = shot_table[shot_table[:, syn_res_index] == 0]
-    return np.delete(filtered_rows, syn_res_index, axis=1)
 
+def filter_counts(backend_result, syn_res_bit):
+    bits = sorted(backend_result.get_bitlist())
+    syn_index = bits.index(syn_res_bit)
+    counts = backend_result.get_counts()
+    filtered_counts = Counter()
+    for readout, count in counts.items():
+        if readout[syn_index] == 0:
+            filtered_readout = tuple(v for i, v in enumerate(readout) if i != syn_index)
+            filtered_counts[filtered_readout] += count
+    return filtered_counts
 
 # Depending on which backend we will be using, we will need to compile each circuit we run to conform to the gate set and connectivity constraints. We can define a compilation pass for each backend that optimises the circuit and maps it onto the backend's gate set and connectivity constraints. We don't expect this to change our circuit too much as it is already near-optimal.
 
@@ -189,7 +198,7 @@ def gen_pauli_measurement_circuits(state_circuit, compiler_pass, operator):
 
 # We can now start composing these together to get our generalisable expectation value function. Passing all of our circuits to `process_circuits` allows them to be submitted to IBM Quantum devices at the same time, giving substantial savings in overall queueing time. Since the backend will cache any results from `Backend.process_circuits`, we will remove the results when we are done with them to prevent memory bloating when this method is called many times.
 
-from pytket.utils import expectation_from_shots
+from pytket.utils import expectation_from_shots, expectation_from_counts
 
 
 def expectation_value(state_circuit, operator, backend, n_shots):
@@ -211,8 +220,20 @@ def expectation_value(state_circuit, operator, backend, n_shots):
             energy += coeff * expectation_from_shots(filtered)
             backend.pop_result(handle)
         return energy
+    elif backend.supports_counts:
+        syn_res_index = state_circuit.bit_readout[syn_res]
+        pauli_circuits, coeffs, energy = gen_pauli_measurement_circuits(
+            state_circuit, compiler_pass(backend), operator
+        )
+        handles = backend.process_circuits(pauli_circuits, n_shots=n_shots)
+        for handle, coeff in zip(handles, coeffs):
+            res = backend.get_result(handle)
+            filtered = filter_counts(res, syn_res)
+            energy += coeff * expectation_from_counts(filtered)
+            backend.pop_result(handle)
+        return energy
     else:
-        raise NotImplementedError("Implementation for state and counts to be written")
+        raise NotImplementedError("Implementation for state to be written")
 
 
 # ...and then run it for our ansatz. `AerBackend` supports faster expectation value from snapshopts (using the `AerBackend.get_operator_expectation_value` method), but this only works when all the qubits in the circuit are default register qubits that go up from 0. So we will need to rename `synq`.

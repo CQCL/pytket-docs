@@ -34,17 +34,17 @@ es = NumPyEigensolver(k=1)
 exact_result = es.compute_eigenvalues(H2_op).eigenvalues[0].real
 print("Exact result:", exact_result)
 
-# The following function will attempt to find an approximation to this using VQE, given a qiskit QuantumInstance on which to run circuits:
+# The following function will attempt to find an approximation to this using VQE, given a qiskit BackendEstimator on which to run circuits:
 
-from qiskit.algorithms import VQE
+from qiskit.algorithms.minimum_eigensolvers.vqe import VQE
 from qiskit.algorithms.optimizers import SPSA
 from qiskit.circuit.library import EfficientSU2
 
 
-def vqe_solve(op, maxiter, quantum_instance):
+def vqe_solve(op, maxiter, qestimator):
     optimizer = SPSA(maxiter=maxiter)
     ansatz = EfficientSU2(op.num_qubits, entanglement="linear")
-    vqe = VQE(ansatz=ansatz, optimizer=optimizer, quantum_instance=quantum_instance)
+    vqe = VQE(estimator=qestimator, ansatz=ansatz, optimizer=optimizer)
     return vqe.compute_minimum_eigenvalue(op).eigenvalue
 
 
@@ -56,27 +56,27 @@ from qiskit import IBMQ
 IBMQ.load_account()
 b_emu = IBMQEmulatorBackend("ibmq_belem", hub="ibm-q", group="open", project="main")
 
-# Most qiskit algorithms require a qiskit `QuantumInstance` as input; this in turn is constructed from a `qiskit.providers.Backend`. The `TketBackend` class wraps a pytket backend as a `qiskit.providers.Backend`.
+# Most qiskit algorithms require a qiskit `primitive` as input; this in turn is constructed from a `qiskit.providers.Backend`. The `TketBackend` class wraps a pytket backend as a `qiskit.providers.Backend`.
 
 from pytket.extensions.qiskit.tket_backend import TketBackend
-from qiskit.utils import QuantumInstance
+from qiskit.primitives import BackendEstimator
 
 qis_backend = TketBackend(b_emu)
-qi = QuantumInstance(qis_backend, shots=8192, wait=0.1)
+qestimator = BackendEstimator(qis_backend, options={"shots":8192})
 
 # Note that we could have used any other pytket shots backend instead of `b_emu` here. The `pytket` extension modules provide an interface to a wide variety of devices and simulators from different quantum software platforms.
 #
 # We can now run the VQE algorithm. In this example we use only 50 iterations, but greater accuracy may be achieved by increasing this number:
 
-print("VQE result:", vqe_solve(H2_op, 50, qi))
+print("VQE result:", vqe_solve(H2_op, 50, qestimator))
 
 # Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; we recommend the device-specific default compilation pass, provided by each tket backend. This pass will ensure that all the hardware constraints of the device are met. We can enable tket's most aggressive optimisation level by setting the parameter `optimisation_level=2`.
 
 qis_backend2 = TketBackend(b_emu, b_emu.default_compilation_pass(optimisation_level=2))
-qi2 = QuantumInstance(qis_backend2, shots=8192, wait=0.1)
+qestimator2 = BackendEstimator(qis_backend2, options={"shots":8192})
 
 # Let's run the optimisation again:
 
-print("VQE result (with optimisation):", vqe_solve(H2_op, 50, qi2))
+print("VQE result (with optimisation):", vqe_solve(H2_op, 50, qestimator2))
 
 # These are small two-qubit circuits, so the improvement may be small, but with larger, more complex circuits, the reduction in noise from compilation will make a greater difference and allow VQE experiments to converge with fewer iterations.

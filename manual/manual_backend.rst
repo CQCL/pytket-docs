@@ -34,6 +34,7 @@ Each :py:class:`Backend` object is aware of the restrictions of the underlying d
 .. jupyter-input::
 
     from pytket.extensions.qiskit import IBMQBackend, AerStateBackend
+
     dev_b = IBMQBackend("ibmq_quito")
     sim_b = AerStateBackend()
     print(dev_b.required_predicates)
@@ -70,6 +71,7 @@ Now that we can prepare our :py:class:`Circuit` s to be suitable for a given :
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerStateBackend
+
     circ = Circuit(2, 2)
     circ.Rx(0.3, 0).Ry(0.5, 1).CRz(-0.6, 1, 0)
     backend = AerStateBackend()
@@ -94,6 +96,7 @@ The interaction with a QPU (or a simulator that tries to imitate a device by sam
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend
+
     circ = Circuit(2, 2)
     circ.H(0).X(1).measure_all()
     backend = AerBackend()
@@ -117,6 +120,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend
     from pytket.utils import probs_from_counts
+
     circ = Circuit(2, 2)
     circ.H(0).X(1).measure_all()
     backend = AerBackend()
@@ -128,7 +132,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
     print(probs_from_counts(counts))
 
-.. note:: `Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with `Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a `BackendResult`.
+.. note:: :py:meth:`Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:meth:`Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`BackendResult`.
 
 Statevectors and Unitaries
 --------------------------
@@ -142,6 +146,7 @@ Any form of sampling from a distribution will introduce sampling error and (unle
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerStateBackend
+
     circ = Circuit(3)
     circ.H(0).CX(0, 1).S(1).X(2)
     backend = AerStateBackend()
@@ -160,6 +165,7 @@ The majority of :py:class:`Backend` s will run the :py:class:`Circuit` on the 
 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerUnitaryBackend
+
     circ = Circuit(2)
     circ.H(0).CX(0, 1)
     backend = AerUnitaryBackend()
@@ -202,6 +208,7 @@ By default, the bits in readouts (shots and counts) are ordered in Increasing Le
 
     from pytket.circuit import Circuit, BasisOrder
     from pytket.extensions.qiskit import AerBackend
+
     circ = Circuit(2, 2)
     circ.X(1).measure_all()     # write 0 to c[0] and 1 to c[1]
     backend = AerBackend()
@@ -210,8 +217,7 @@ By default, the bits in readouts (shots and counts) are ordered in Increasing Le
     result = backend.get_result(handle)
 
     print(result.get_counts())   # ILO gives (c[0], c[1]) == (0, 1)
-    print(result.get_counts(basis=BasisOrder.dlo))
-                                        # DLO gives (c[1], c[0]) == (1, 0)
+    print(result.get_counts(basis=BasisOrder.dlo))  # DLO gives (c[1], c[0]) == (1, 0)
 
 The choice of ILO or DLO defines the ordering of a bit sequence, but this can still be interpreted into the index of a statevector in two ways: by mapping the bits to a big-endian (BE) or little-endian (LE) integer. Every statevector and unitary in ``pytket`` uses a BE encoding (if LE is preferred, note that the ILO-LE interpretation gives the same result as DLO-BE for statevectors and unitaries, so just change the ``basis`` argument accordingly). The ILO-BE convention gives unitaries of individual gates as they typically appear in common textbooks [Niel2001]_.
 
@@ -219,6 +225,7 @@ The choice of ILO or DLO defines the ordering of a bit sequence, but this can st
 
     from pytket.circuit import Circuit, BasisOrder
     from pytket.extensions.qiskit import AerUnitaryBackend
+
     circ = Circuit(2)
     circ.CX(0, 1)
     backend = AerUnitaryBackend()
@@ -236,10 +243,11 @@ Suppose that we only care about a subset of the measurements used in a :py:class
     from pytket import Circuit, Bit
     from pytket.extensions.qiskit import AerBackend
     from pytket.utils import expectation_from_shots
+
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)                           # Measure ZXY operator qubit-wise
+    circ.H(1)   # Measure ZXY operator qubit-wise
     circ.Rx(0.5, 2)
     circ.measure_all()
 
@@ -273,6 +281,7 @@ For more control over the bits extracted from the results, we can instead call :
 
     from pytket import Circuit, Bit, Qubit
     from pytket.extensions.qiskit import AerBackend, AerStateBackend
+
     circ = Circuit(3)
     circ.H(0).Ry(-0.3, 2)
     state_b = AerStateBackend()
@@ -306,6 +315,7 @@ One of the most common calculations performed with a quantum state :math:`\left|
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils import get_pauli_expectation_value, get_operator_expectation_value
     from pytket.utils.operators import QubitPauliOperator
+
     circ = Circuit(3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
     backend = AerBackend()
@@ -340,11 +350,12 @@ If you want a greater level of control over the procedure, then you may wish to 
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend
     from pytket.utils import expectation_from_counts
+
     circ = Circuit(3, 3)
     circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)                           # Want to measure expectation for Pauli ZXY
-    circ.Rx(0.5, 2)                     # Measure ZII, IXI, IIY separately
+    circ.H(1)         # Want to measure expectation for Pauli ZXY
+    circ.Rx(0.5, 2)   # Measure ZII, IXI, IIY separately
     circ.measure_all()
 
     backend = AerBackend()
@@ -376,6 +387,7 @@ The first point in an experiment where you might have to act differently between
     from pytket import Circuit
     from pytket.extensions.qiskit import AerBackend #, AerStateBackend
     from pytket.predicates import NoMidMeasurePredicate
+
     backend = AerBackend()      # Choose backend in one place
     # backend = AerStateBackend()   # A backend that is incompatible with the experiment
 
@@ -417,6 +429,7 @@ For the final steps of retrieving and interpreting the results, it suffices to j
     from pytket.extensions.qiskit import AerBackend #, AerStateBackend
     from pytket.utils import expectation_from_counts
     import numpy as np
+    
     backend = AerBackend()      # Choose backend in one place
     # backend = AerStateBackend()   # Alternative backend with different requirements and result type
 
@@ -467,10 +480,12 @@ To maximise the benefits of batch submission, it is advisable to generate as man
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.utils import expectation_from_counts
+
     backend = IBMQBackend("ibmq_quito")
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
+
     # Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX
     zzz = Circuit(3, 3)
     zzz.measure_all()
@@ -478,11 +493,13 @@ To maximise the benefits of batch submission, it is advisable to generate as man
     xzz.H(0).measure_all()
     xxx = Circuit(3, 3)
     xxx.H(0).H(1).H(2).measure_all()
+
     circ_list = []
     for m in [zzz, xzz, xxx]:
         c = state.copy()
         c.append(m)
         circ_list.append(c)
+
     coeff_list = [
         -0.3j,  # ZZZ
         0.8,    # XZZ
@@ -511,18 +528,21 @@ Embedding into Qiskit
 
 Not only is the goal of tket to be a device-agnostic platform, but also interface-agnostic, so users are not obliged to have to work entirely in tket to benefit from the wide range of devices supported. For example, Qiskit is currently the most widely adopted quantum software development platform, providing its own modules for building and compiling circuits, submitting to backends, applying error mitigation techniques and combining these into higher-level algorithms. Each :py:class:`Backend` in ``pytket`` can be wrapped up to imitate a Qiskit backend, allowing the benefits of tket to be felt in existing Qiskit projects with minimal work.
 
+Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`` extension can be used with its :py:meth:`default_compilation_pass` directly in qiskit.
+
 .. jupyter-execute::
 
-    from qiskit.utils import QuantumInstance
+    from qiskit.primitives import BackendSampler
     from qiskit.algorithms import Grover, AmplificationProblem
     from qiskit.circuit import QuantumCircuit
 
-    from pytket.extensions.qulacs import QulacsBackend
+    from pytket.extensions.cirq import CirqStateSampleBackend
     from pytket.extensions.qiskit.tket_backend import TketBackend
 
-    b = QulacsBackend()
-    backend = TketBackend(b, b.default_compilation_pass())
-    qinstance = QuantumInstance(backend)
+    cirq_simulator = CirqStateSampleBackend()
+    backend = TketBackend(cirq_simulator, cirq_simulator.default_compilation_pass())
+    sampler_options = {"shots":1024}
+    qsampler = BackendSampler(backend, options=sampler_options)
 
     oracle = QuantumCircuit(2)
     oracle.cz(0, 1)
@@ -531,7 +551,7 @@ Not only is the goal of tket to be a device-agnostic platform, but also interfac
         return sum(map(int, bitstr)) == 2
 
     problem = AmplificationProblem(oracle=oracle, is_good_state=is_good_state)
-    grover = Grover(quantum_instance=qinstance)
+    grover = Grover(sampler=qsampler)
     result = grover.amplify(problem)
     print("Top measurement:", result.top_measurement)
 
@@ -561,6 +581,7 @@ Some simulators will have dedicated support for fast expectation value calculati
     from pytket.extensions.qiskit import AerStateBackend
     from pytket.pauli import Pauli, QubitPauliString
     from pytket.utils.operators import QubitPauliOperator
+
     backend = AerStateBackend()
 
     state = Circuit(3)
@@ -605,10 +626,12 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
     from pytket.backends import StatusEnum
     from pytket.extensions.qiskit import IBMQBackend
     from pytket.utils import expectation_from_counts
+
     backend = IBMQBackend("ibmq_quito")
 
     state = Circuit(3)
     state.H(0).CX(0, 1).CX(1, 2).X(0)
+
     # Compute expectation value for -0.3i ZZZ + 0.8 XZZ + 1.2 XXX
     zzz = Circuit(3, 3)
     zzz.measure_all()
@@ -616,11 +639,13 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
     xzz.H(0).measure_all()
     xxx = Circuit(3, 3)
     xxx.H(0).H(1).H(2).measure_all()
+    
     circ_list = []
     for m in [zzz, xzz, xxx]:
         c = state.copy()
         c.append(m)
         circ_list.append(backend.get_compiled_circuit(c))
+
     coeff_list = [
         -0.3j,  # ZZZ
         0.8,    # XZZ
@@ -671,6 +696,7 @@ Some :py:class:`Backend` s support persistent handles, in that the :py:class:`
 
     from pytket import Circuit
     from pytket.extensions.qiskit import IBMQBackend
+
     backend = IBMQBackend("ibmq_quito")
 
     circ = Circuit(3, 3)
@@ -692,6 +718,7 @@ Some :py:class:`Backend` s support persistent handles, in that the :py:class:`
 
     from pytket.backends import ResultHandle
     from pytket.extensions.qiskit import IBMQBackend
+    
     backend = IBMQBackend("ibmq_quito")
 
     handle = ResultHandle.from_str("('5e8f3dcbbb7d8500119cfbf6', 0)")
