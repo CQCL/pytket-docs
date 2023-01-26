@@ -4,7 +4,7 @@ Pull requests are welcome. To make a PR, first fork the repo, make your proposed
 changes on the `main` branch, and open a PR from your fork. If it passes
 the checks and is accepted after review, it will be merged in.
 If there are any changes to the manual part of the repo the
-manual needs to be rebuild locally.
+manual needs to be rebuilt locally.
 
 ## pre-commit
 
