@@ -10,9 +10,9 @@ from pytket.extensions.qujax import tk_to_qujax
 # We place barriers to stop tket automatically rearranging gates and we also store the number of circuit parameters as we'll need this later.
 
 def get_circuit(n_qubits, depth):
-    
+
     n_params = 2 * n_qubits * (depth + 1)
-    
+
     param = jnp.zeros((n_params,))
 
     circuit = Circuit(n_qubits)
@@ -84,7 +84,7 @@ plt.bar(jnp.arange(statevector.size), sample_probs);
 
 hamiltonian_gates = [['X', 'X'], ['Y', 'Y'], ['Z', 'Z']] * (n_qubits - 1)
 hamiltonian_qubit_inds = [[int(i), int(i) + 1] for i in jnp.repeat(jnp.arange(n_qubits), 3)]
-coefficients = [1.] * len(hamiltonian_qubit_inds) 
+coefficients = [1.] * len(hamiltonian_qubit_inds)
 
 print('Gates:\t', hamiltonian_gates)
 print('Qubits:\t', hamiltonian_qubit_inds)
@@ -127,10 +127,10 @@ cost_and_grad(params)
 def vqe(init_param, n_steps, stepsize):
     params = jnp.zeros((n_steps, n_params))
     params = params.at[0].set(init_param)
-    
+
     cost_vals = jnp.zeros(n_steps)
     cost_vals = cost_vals.at[0].set(param_to_expectation(init_param))
-    
+
     for step in range(1, n_steps):
         cost_val, cost_grad = cost_and_grad(params[step - 1])
         cost_vals = cost_vals.at[step].set(cost_val)

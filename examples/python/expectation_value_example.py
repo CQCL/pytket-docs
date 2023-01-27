@@ -126,12 +126,14 @@ ansatz.Measure(syn, syn_res)
 
 from collections import Counter
 
+
 def filter_shots(backend_result, syn_res_bit):
     bits = sorted(backend_result.get_bitlist())
     bits.remove(syn_res_bit)
     syn_shots = backend_result.get_shots([syn_res])[:, 0]
     main_shots = backend_result.get_shots(bits)
     return main_shots[syn_shots == 0]
+
 
 def filter_counts(backend_result, syn_res_bit):
     bits = sorted(backend_result.get_bitlist())
@@ -143,6 +145,7 @@ def filter_counts(backend_result, syn_res_bit):
             filtered_readout = tuple(v for i, v in enumerate(readout) if i != syn_index)
             filtered_counts[filtered_readout] += count
     return filtered_counts
+
 
 # Depending on which backend we will be using, we will need to compile each circuit we run to conform to the gate set and connectivity constraints. We can define a compilation pass for each backend that optimises the circuit and maps it onto the backend's gate set and connectivity constraints. We don't expect this to change our circuit too much as it is already near-optimal.
 
@@ -244,9 +247,7 @@ ansatz.rename_units({Qubit("synq", 0): Qubit("q", 4)})
 
 print(expectation_value(ansatz, hamiltonian, AerBackend(), 8000))
 # Try replacing IBMQEmulatorBackend with IBMQBackend to submit the circuits to a real IBM Quantum device.
-print(
-    expectation_value(ansatz, hamiltonian, IBMQEmulatorBackend("ibmq_manila"), 8000)
-)
+print(expectation_value(ansatz, hamiltonian, IBMQEmulatorBackend("ibmq_manila"), 8000))
 
 # For basic practice with using pytket backends and their results, try editing the code here to:
 # * Extend `expectation_value` to work with statevector backends (e.g. `AerStateBackend`)

@@ -59,6 +59,10 @@ jobs:
       run: |
         docker pull rigetti/quilc
         docker pull rigetti/qvm
+    - name: install pre-commit hooks and check format with black
+      run: |
+        pre-commit install
+        pre-commit run --all-files black
     - name: test example notebooks
       run: |
         cd examples

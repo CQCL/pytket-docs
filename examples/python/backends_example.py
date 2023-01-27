@@ -95,9 +95,7 @@ for q in range(2):
 # This simple noise model gives a 20% chance that, upon measurement, a qubit that would otherwise have been measured as $0$ would instead be measured as $1$, and vice versa. Let's see what our shot table looks like with this model:
 
 noisy_aer_b = AerBackend(my_noise_model)
-noisy_handle = noisy_aer_b.process_circuit(
-    circ, n_shots=10, seed=1, valid_check=False
-)
+noisy_handle = noisy_aer_b.process_circuit(circ, n_shots=10, seed=1, valid_check=False)
 noisy_counts = noisy_aer_b.get_result(noisy_handle).get_counts()
 print(noisy_counts)
 
