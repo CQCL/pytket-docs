@@ -509,11 +509,10 @@ of our <a class="reference external" href="https://doi.org/10.1088/2058-9565/ab8
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">NoiseAwarePlacement</span><span class="p">,</span> <span class="n">GraphPlacement</span>
-<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit.qiskit_convert</span> <span class="kn">import</span> <span class="n">get_avg_characterisation</span>
 
-<span class="n">backend_avg</span> <span class="o">=</span> <span class="n">get_avg_characterisation</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+<span class="n">noise_placer</span> <span class="o">=</span> <span class="n">NoiseAwarePlacement</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">architecture</span><span class="p">,</span>
+             <span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_node_gate_errors</span><span class="p">)</span>
 
-<span class="n">noise_placer</span> <span class="o">=</span> <span class="n">NoiseAwarePlacement</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">architecture</span><span class="p">,</span> <span class="o">**</span><span class="n">backend_avg</span><span class="p">)</span>
 <span class="n">graph_placer</span> <span class="o">=</span> <span class="n">GraphPlacement</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">architecture</span><span class="p">)</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
@@ -807,11 +806,12 @@ Recombined Noisy Counts using UniversalFrameRandomisation: {(0, 1): 208, (0, 0):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase:  16384
-Number of Universal Frame Randomisation averaging circuits with rebase:  256
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of Universal Frame Randomisation averaging circuits without rebase: 
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span> 16384
+Number of Universal Frame Randomisation averaging circuits with rebase:  256
+Number of sampled Universal Frame Randomisation averaging circuits with rebase:  200
 </pre></div>
 </div>
 </div>
@@ -897,9 +897,9 @@ Simply applying the inverse of this transition matrix to the distribution of a q
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 421, (1, 1): 391, (0, 1): 100, (1, 0): 88})
-Corrected Counts: Counter({(0, 0): 477, (1, 1): 445, (0, 1): 58, (1, 0): 23})
-Noiseless Counts: Counter({(1, 1): 527, (0, 0): 473})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Noisy Counts: Counter({(0, 0): 423, (1, 1): 402, (0, 1): 94, (1, 0): 81})
+Corrected Counts: Counter({(0, 0): 489, (1, 1): 450, (0, 1): 46, (1, 0): 18})
+Noiseless Counts: Counter({(1, 1): 501, (0, 0): 499})
 </pre></div>
 </div>
 </div>

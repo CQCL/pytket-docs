@@ -134,11 +134,10 @@ of our `software overview paper
 .. jupyter-input::
 
     from pytket.placement import NoiseAwarePlacement, GraphPlacement
-    from pytket.extensions.qiskit.qiskit_convert import get_avg_characterisation
 
-    backend_avg = get_avg_characterisation(backend)
-
-    noise_placer = NoiseAwarePlacement(backend.backend_info.architecture, **backend_avg)
+    noise_placer = NoiseAwarePlacement(backend.backend_info.architecture,
+                 backend.backend_info.averaged_node_gate_errors)
+                 
     graph_placer = GraphPlacement(backend.backend_info.architecture)
 
     circ = Circuit(3).CX(0,1).CX(0,2)
