@@ -32,7 +32,8 @@ evolved_op = (duration * op).exp_i()
 evolution_circ = PauliTrotterEvolution(reps=1).convert(evolved_op).to_circuit()
 print(evolution_circ)
 
-state_prep_circ += evolution_circ
+for op in evolution_circ:
+    state_prep_circ.append(op)
 
 # Now that we have a circuit, `pytket` can take this and start operating on it directly. For example, we can apply some basic compilation passes to simplify it.
 
