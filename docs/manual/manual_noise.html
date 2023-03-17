@@ -509,7 +509,9 @@ of our <a class="reference external" href="https://doi.org/10.1088/2058-9565/ab8
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.placement</span> <span class="kn">import</span> <span class="n">NoiseAwarePlacement</span><span class="p">,</span> <span class="n">GraphPlacement</span>
 
 <span class="n">noise_placer</span> <span class="o">=</span> <span class="n">NoiseAwarePlacement</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">architecture</span><span class="p">,</span>
-             <span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_node_gate_errors</span><span class="p">)</span>
+             <span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_readout_errors</span><span class="p">,</span>
+             <span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_node_gate_errors</span><span class="p">,</span>
+             <span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">averaged_edge_gate_errors</span><span class="p">)</span>
 
 <span class="n">graph_placer</span> <span class="o">=</span> <span class="n">GraphPlacement</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">backend_info</span><span class="o">.</span><span class="n">architecture</span><span class="p">)</span>
 
