@@ -136,7 +136,9 @@ of our `software overview paper
     from pytket.placement import NoiseAwarePlacement, GraphPlacement
 
     noise_placer = NoiseAwarePlacement(backend.backend_info.architecture,
-                 backend.backend_info.averaged_node_gate_errors)
+                 backend.backend_info.averaged_readout_errors,
+                 backend.backend_info.averaged_node_gate_errors,
+                 backend.backend_info.averaged_edge_gate_errors)
                  
     graph_placer = GraphPlacement(backend.backend_info.architecture)
 
