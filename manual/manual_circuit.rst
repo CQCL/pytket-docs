@@ -274,20 +274,20 @@ To help encourage consistency of identifiers, a :py:class:`Circuit` will reject 
     circ.add_qubit(Qubit("a", 0))
 
     # rejected because "a" is already a qubit register
-    # circ.add_bit(Bit("a", 1))
+    circ.add_bit(Bit("a", 1))
 
 .. jupyter-execute::
     :raises: RuntimeError
 
     # rejected because "a" is already a 1D register
-    # circ.add_qubit(Qubit("a", [1, 2]))
-    # circ.add_qubit(Qubit("a"))
+    circ.add_qubit(Qubit("a", [1, 2]))
+    circ.add_qubit(Qubit("a"))
 
 .. jupyter-execute::
     :raises: RuntimeError
 
     # rejected because a[0] is already in the circuit
-    # circ.add_qubit(Qubit("a", 0))
+    circ.add_qubit(Qubit("a", 0))
 
 .. Integer labels correspond to default registers (example of using explicit labels from `Circuit(n)`)
 
