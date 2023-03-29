@@ -1,0 +1,305 @@
+***********
+ZX Diagrams
+***********
+
+Aside from optimisation methods focussed on localised sequences of gates, the ZX-calculus has shown itself to be a useful representation for quantum operations that can highlight and exploit some specific kinds of higher-level redundancy in the structure of the circuit. In this section, we will assume the reader is familiar with the theory of ZX-calculus in terms of how to construct diagrams, apply rewrites to them, and interpret them as linear maps. We will focus on how to make use of the ZX module in ``pytket`` to help automate and scale your ideas.
+
+The graph representation used in the ZX module is intended to be sufficiently generalised to support experimentation with other graphical calculi like ZH, algebraic ZX, and MBQC patterns. This includes:
+
+* Port annotations on edges to differentiate between multiple incident edges on a vertex for asymmetric generators such as subdiagram abstractions (:py:class:`ZXBox`) or the triangle generator of algebraic ZX.
+
+* Structured generators for varied parameterisations, such as continuous real parameters of ZX spiders and discrete (Boolean) parameters of specialised Clifford generators.
+
+* Mixed quantum-classical diagram support via annotating edges and some generators with :py:class:`QuantumType.Quantum` for doubled diagrams (shorthand notation for a pair of adjoint edges/generators) or :py:class:`QuantumType.Classical` for the singular variants (sometimes referred to as decoherent/bastard generators).
+
+.. note:: Providing this flexibility comes at the expense of some efficiency in both memory and speed of operations. For data structures more focussed on the core ZX-calculus and its well-developed simplification strategies, we recommend checking out ``pyzx`` (https://github.com/Quantomatic/pyzx) and its Rust port ``quizx`` (https://github.com/Quantomatic/quizx). Some functionality for interoperation between ``pytket`` and ``pyzx`` circuits is provided in the ``pytket-pyzx`` extension package. There is no intention to support non-qubit calculi or SZX scalable notation in the near future as the additional complexity required by the data structure would introduce excessive beaurocracy to maintain during every rewrite.
+
+Generator Types
+---------------
+
+Before we start building diagrams, it is useful to cover the kinds of generators we can populate them with. A full list and details can be found in the API reference.
+
+* Boundary generators: :py:class:`ZXType.Input`, :py:class:`ZXType.Output`, :py:class:`ZXType.Open`. These are used to turn some edges of the diagram into half-edges, indicating the input, output, or unspecified boundaries of the diagram. These will be maintained in an ordered list in a :py:class:`ZXDiagram` to specify the intended order of indices when interpreting the diagram as a tensor.
+
+* Symmetric ZXH generators: :py:class:`ZXType.ZSpider`, :py:class:`ZXType.XSpider`, :py:class:`ZXType.HBox`. These are the familiar generators. All indicent edges are exchangeable, so no port information is used (all edges attach at port ``None``). The degenerate :py:class:`QuantumType.Classical` variants support both :py:class:`QuantumType.Classical` and :py:class:`QuantumType.Quantum` incident edges, with the latter being treated as two distinct edges.
+
+* MBQC generators: :py:class:`ZXType.XY`, :py:class:`ZXType.XZ`, :py:class:`ZXType.YZ`, :py:class:`ZXType.PX`, :py:class:`ZXType.PY`, :py:class:`ZXType.PZ`. These represent qubits in a measurement pattern that are postselected into the correct outcome (i.e. we do not consider errors and corrections as these can be inferred by flow detection). Each of them can be thought of as shorthand for a :py:class:`ZXType.ZSpider` with an adjacent spider indicating the postselection projector. The different types indicate either planar measurements with a continuous-parameter angle or a Pauli measurement with a Boolean angle selecting which outcome is the intended. Entanglement between qubits can be established with a :py:class:`ZXWireType.H` edge between vertices, with :py:class:`ZXWireType.Basic` edges connecting to a :py:class:`ZXType.Input` to indicate input qubits. Unmeasured output qubits can be indicated using a :py:class:`ZXType.PX` vertex (essentially a zero phase :py:class:`ZXType.ZSpider`) attached to a :py:class:`ZXType.Output`.
+
+* :py:class:`ZXType.ZXBox`. Similar to the concept of a :py:class:`CircBox` for circuits, a :py:class:`ZXBox` contains another :py:class:`ZXDiagram` abstracted away which can later be expanded in-place. The ports and :py:class:`QuantumType` of incident edges will align with the indices and types of the boundaries on the inner diagram.
+
+Each generator in a diagram is described by a :py:class:`ZXGen` object, or rather an object of one of its concrete subtypes depending on the data needed to describe the generator.
+
+Creating Diagrams
+-----------------
+
+Let's start by making the standard diagram for the qubit teleportation algorithm to showcase the capacity for mixed quantum-classical diagrams. Assuming that the Bell pair will be written in as initialised ancillas rather than open inputs, we just need to start with a diagram with just one quantum input and one quantum output.
+
+.. jupyter-execute::
+
+    import pytket
+    from pytket.zx import ZXDiagram, ZXType, QuantumType, ZXWireType
+    import graphviz as gv
+
+    tele = ZXDiagram(1, 1, 0, 0)
+    (in_v, out_v) = tele.get_boundary()
+    gv.Source(tele.to_graphviz_str())
+
+We will choose to represent the Bell state as a cup (i.e. an edge connecting one side of the CX to the first correction). In terms of vertices, we need two for the CX gate, two for the measurements, and four for the encoding and application of corrections. The CX and corrections need to be coherent operations so will be :py:class:`QuantumType.Quantum` as opposed to the measurements and encodings. We can then link them up by adding edges of the appropriate :py:class:`QuantumType`.
+
+.. jupyter-execute::
+
+    cx_c = tele.add_vertex(ZXType.ZSpider)
+    cx_t = tele.add_vertex(ZXType.XSpider)
+    z_meas = tele.add_vertex(ZXType.ZSpider, qtype=QuantumType.Classical)
+    x_meas = tele.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
+    z_enc = tele.add_vertex(ZXType.ZSpider, qtype=QuantumType.Classical)
+    x_enc = tele.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
+    z_correct = tele.add_vertex(ZXType.ZSpider)
+    x_correct = tele.add_vertex(ZXType.XSpider)
+
+    # Bell pair between CX and first correction
+    tele.add_wire(cx_t, x_correct)
+
+    # Apply CX between input and first ancilla
+    tele.add_wire(in_v, cx_c)
+    tele.add_wire(cx_c, cx_t)
+
+    # Measure first two qubits
+    tele.add_wire(cx_c, x_meas)
+    tele.add_wire(cx_t, z_meas)
+
+    # Feed measurement outcomes to corrections
+    tele.add_wire(x_meas, x_enc, qtype=QuantumType.Classical)
+    tele.add_wire(x_enc, z_correct)
+    tele.add_wire(z_meas, z_enc, qtype=QuantumType.Classical)
+    tele.add_wire(z_enc, x_correct)
+
+    # Apply corrections to second ancilla
+    tele.add_wire(x_correct, z_correct)
+    tele.add_wire(z_correct, out_v)
+
+    gv.Source(tele.to_graphviz_str())
+
+We can use this teleportation algorithm as a component in a larger diagram using a :py:class:`ZXBox`. Here, we insert it in the middle of a two qubit circuit.
+
+.. jupyter-execute::
+
+    circ_diag = ZXDiagram(2, 1, 0, 1)
+    qin0 = circ_diag.get_boundary(ZXType.Input)[0]
+    qin1 = circ_diag.get_boundary(ZXType.Input)[1]
+    qout = circ_diag.get_boundary(ZXType.Output)[0]
+    cout = circ_diag.get_boundary(ZXType.Output)[1]
+
+    cz_c = circ_diag.add_vertex(ZXType.ZSpider)
+    cz_t = circ_diag.add_vertex(ZXType.ZSpider)
+    # Phases of spiders are given in half-turns, so this is a pi/4 rotation
+    rx = circ_diag.add_vertex(ZXType.XSpider, 0.25)
+    x_meas = circ_diag.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
+    box = circ_diag.add_zxbox(tele)
+
+    # CZ between inputs
+    circ_diag.add_wire(qin0, cz_c)
+    circ_diag.add_wire(qin1, cz_t)
+    circ_diag.add_wire(cz_c, cz_t, type=ZXWireType.H)
+
+    # Rx on first qubit
+    circ_diag.add_wire(cz_c, rx)
+
+    # Teleport first qubit
+    # The inputs appear first in the boundary, so port 0 is the input
+    circ_diag.add_wire(u=rx, v=tele, v_port=0)
+    # Port 1 for the output
+    circ_diag.add_wire(u=tele, v=cout, u_port=1)
+
+    # Measure second qubit destructively and output result
+    circ_diag.add_wire(cz_t, x_meas)
+    circ_diag.add_wire(x_meas, cout, type=ZXWireType.H, qtype=QuantumType.Classical)
+
+    gv.Source(circ_diag.to_graphviz_str())
+
+.. Validity conditions of a diagram
+
+As the entire graph data structure is exposed, it is very easy to construct objects that cannot be interpreted as a valid diagram. This is to be expected from intermediate states during the construction of a diagram or in the middle of applying a rewrite, before the state is returned to something sensible. The :py:meth:`ZXDiagram.check_validity()` method will perform a number of sanity checks on a given diagram object and it will raise an exception if any of them fail. We recommend using this during debugging to check that the diagram is not left in an invalid state. A diagram is deemed valid if it satisfies each of the following:
+
+* Any vertex with of a boundary type (:py:class:`ZXType.Input`, :py:class:`ZXType.Output`, or :py:class:`ZXType.Open`) must have degree 1 (they uniquely identify a single edge as open) and exist in the boundary list.
+
+* Undirected vertices (those without port information, such as :py:class:`ZXType.ZSpider`, or :py:class:`ZXType.HBox`) have no port annotations on incident edges.
+
+* Directed vertices (such as :py:class:`ZXType.Triangle` or :py:class:`ZXType.ZXBox`) have exactly one incident edge at each port.
+
+* The :py:class:`QuantumType` of each edge is compatible with the vertices and ports they attach to. For example, a :py:class:`ZXType.ZSpider` with :py:class:`QuantumType.Quantum` requires all incident edges to also have :py:class:`QuantumType.Quantum`, whereas a :py:class:`QuantumType.Classical` vertex accepts any edge, and for a :py:class:`ZXType.ZXBox` the :py:class:`QuantumType` of an edge must match the signature at the corresponding port.
+
+Tensor Evaluation
+-----------------
+
+Evaluating a diagram as a tensor is beneficial for practical use cases in scalar diagram evaluation (e.g. as part of expectation value calculations or simulation tasks), or for verification of correctness of diagram designs or rewrites. Evaluation is performed by building a tensor network out of the definitions of the generators and using a contraction strategy to reduce it down to a single tensor. Each diagram carries a global scalar which is multiplied into the tensor.
+
+.. Mixed diagrams and different evaluation methods (global phase/scalar); reasons to use Quantum or Classical
+
+As the pytket ZX diagrams represent mixed diagrams, this impacts the interpretation of the tensors. Traditionally, we expect each edge of a ZX diagram to have dimension 2. This is the case for :py:class:`QuantumType.Classical` edges, but since :py:class:`QuantumType.Quantum` edges represent a pair via doubling, they instead have dimension 4. The convention set by density matrix notation is to split this into two different indices, so :py:meth:`tensor_from_mixed_diagram()` will first expand the doubling notation in the diagram explicitly to give a diagram with only :py:class:`QuantumType.Classical` edges and then evaluate it, meaning there will be an index for each original :py:class:`QuantumType.Quantum` edge and a new one for its conjugate. In particular, this will increase the number of boundary edges and therefore the expected rank of the overall tensor. The ordering of the indices will primarily follow the boundary order in the original diagram, subordered by doubling index for each :py:class:`QuantumType.Quantum` boundary as in the following example.
+
+.. jupyter-execute::
+
+    from pytket.zx.zx_tensor import tensor_from_mixed_diagram
+    ten = tensor_from_mixed_diagram(circ_diag)
+    # Indices are (qin0, qin0_conj, qin1, qin1_conj, qout, qout_conj, cout)
+    print(ten.shape)
+    print(ten)
+
+In many cases, we work with pure quantum diagrams. This doubling would cause substantial blowup in time and memory for evaluation, as well as making the tensor difficult to navigate for large diagrams. :py:meth:`tensor_from_quantum_diagram()` achieves the same as converting all :py:class:`QuantumType.Quantum` components to :py:class:`QuantumType.Classical`, meaning every edge is reduced down to dimension 2. Since the global scalar is maintained with respect to a doubled diagram, its square root is incorporated into the tensor, though we do not maintain the coherent global phase of a pure quantum diagram in this way. For diagrams like this, :py:meth:`unitary_from_quantum_diagram()` reformats the tensor into the conventional unitary (with big-endian indexing).
+
+.. jupyter-execute::
+
+    from pytket.zx.zx_tensor import tensor_from_quantum_diagram, unitary_from_quantum_diagram
+    u_diag = ZXDiagram(2, 2, 0, 0)
+    ins = u_diag.get_boundary(ZXType.Input)
+    outs = u_diag.get_boundary(ZXType.Output)
+    cx_c = u_diag.add_vertex(ZXType.ZSpider)
+    cx_t = u_diag.add_vertex(ZXType.XSpider)
+    rz = u_diag.add_vertex(ZXType.ZSpider, -0.25)
+
+    u_diag.add_wire(ins[0], cx_c)
+    u_diag.add_wire(ins[1], cx_t)
+    u_diag.add_wire(cx_c, cx_t)
+    u_diag.add_wire(cx_t, rz)
+    u_diag.add_wire(cx_c, outs[0])
+    u_diag.add_wire(rz, outs[1])
+
+    print(tensor_from_quantum_diagram(u_diag))
+    print(unitary_from_quantum_diagram(u_diag))
+
+Similarly, one may use :py:meth:`density_matrix_from_cptp_diagram()` to obtain a density matrix when all boundaries are :py:class:`QuantumType.Quantum` but the diagram itself contains mixed components. When input boundaries exist, this gives the density matrix under the Choi-Jamiołkovski isomorphism. For example, we can verify that our teleportation diagram from earlier really does reduce to the identity.
+
+.. jupyter-execute::
+
+    from pytket.zx.zx_tensor import density_matrix_from_cptp_diagram
+
+    print(density_matrix_from_cptp_diagram(tele))
+
+.. Tensor indices, unitaries and states; initialisation and post-selection
+
+Another way to potentially reduce the computational load for tensor evaluation is to fix basis states at the boundary vertices, corresponding to initialising inputs or post-selecting on outputs. There are utility methods for setting all inputs/outputs to values or specific boundary vertices. For example, we can recover statevector simulation of a quantum circuit by setting all inputs to the zero state and calling :py:meth:`unitary_from_quantum_diagram()`.
+
+.. jupyter-execute::
+
+    from pytket.zx.zx_tensor import fix_inputs_to_binary_state
+    state_diag = fix_inputs_to_binary_state(u_diag, [1, 0])
+    print(unitary_from_quantum_diagram(state_diag))
+
+.. Note on location in test folder
+
+Graph Traversal, Inspection, and Manual Rewriting
+-------------------------------------------------
+
+The ability to build static diagrams is fine for visualisation and simulation needs, but the bulk of interest in graphical calculi is in rewriting for simplification. For this, it is enough to traverse the graph to search for relevant subgraphs and manipulate the graph in place. We will illustrate this by gradually rewriting the teleportation diagram to be the identity.
+
+.. Boundaries (ordering, types and incident edges, not associated to UnitIDs)
+
+The boundary vertices offer a useful starting point for traversals. Each :py:class:`ZXDiagram` maintains an ordered list of its boundaries to help distinguish them (note that this is different from the :py:class:`UnitID` system used by :py:class:`Circuit` objects), which we can retrieve with :py:meth:`ZXDiagram.get_boundary()`. Each boundary vertex should have a unique incident edge which we can access through :py:meth:`ZXDiagram.adj_wires()`.
+
+.. Semi-ordered edges, incident edge order and traversal, edge properties and editing
+
+Once we have an edge, we can inspect and modify its properties, specifically its :py:class:`QuantumType` with :py:meth:`ZXDiagram.get/set_wire_qtype()` (whether it represents a single wire or a pair of wires under the doubling construction) and :py:class:`ZXWireType` with :py:meth:`ZXDiagram.get/set_wire_type()` (whether it is equivalent to an identity process or a Hadamard gate). To change the end points of a wire (even just moving it to another port on the same vertex), it is conventional to remove it and create a new wire.
+
+The diagram is presented as an undirected graph. We can inspect the end points of an edge with :py:meth:`ZXDiagram.get_wire_ends()`, which returns pairs of vertex and port. If we simply wish to traverse the edge to the next vertex, we use :py:meth:`ZXDiagram.other_end()`. Or we can skip wire traversal altogether using :py:meth:`ZXDiagram.neighbours()` to enumerate the neighbours of a given vertex. This is mostly useful when the wires in a diagram have a consistent form, such as in a graphlike or MBQC diagram (every wire is a Hadamard except for boundary wires).
+
+.. Vertex contents, generators, and editing vertex
+
+Similarly, each vertex contains a :py:class:`ZXGen` object describing the particular generator it represents which we can retrieve using :py:meth:`ZXDiagram.get_vertex_ZXGen()`. As each kind of generator has different data, when using a diagram with many kinds of generators it is useful to inspect the :py:class:`ZXType` or the subclass of :py:class:`ZXGen` first. For example, if :py:meth:`ZXDiagram.get_zxtype()` returns :py:class:`ZXType.ZSpider`, we know the generator is a :py:class:`PhasedGen` and hence has the :py:meth:`PhasedGen.param` field describing the phase of the spider.
+
+Each generator object is immutable, so updating a vertex requires creating a new :py:class:`ZXGen` object with the desired properties and passing it to :py:meth:`ZXDiagram.set_vertex_ZXGen()`.
+
+.. Removing vertices and edges versus editing in-place
+
+If you are searching the diagram for a pattern that is simple enough that a full traversal would be excessive, :py:meth:`ZXDiagram.vertices` and :py:meth:`ZXDiagram.wires` return lists of all vertices or edges in the diagram at that moment (in a deterministic but not semantically relevant order) which you can iterate over to search the graph quickly. Be aware that inserting or removing components of the diagram during iteration will not update these lists.
+
+A number of other methods for inspecting and traversing a diagram are available and can be found in the API reference.
+
+Built-in Rewrite Passes
+-----------------------
+
+.. Not just individual rewrites but maximal (not necessarily exhaustive) applications
+
+The pytket ZX module comes with a handful of common rewrite procedures built-in to prevent the need to write manual traversals in many cases. These procedures work in a similar way to the pytket compilation passes in applying a particular strategy across the entire diagram, saving computational time by potentially applying many rewrites in a single traversal. In the cases where there are overlapping patterns or rewrites that introduce new target patterns in the output diagram, these rewrites may not always be applied exhaustively to save time backtracking.
+
+.. Inteded to support common optimisation strategies; focussed on reducing to specific forms and work in graphlike form
+
+The particular rewrites available are intended to support common optimisation strategies. In particular, they mostly focus on converting a diagram to graphlike form and working on graphlike diagrams to reduce the number of vertices as much as possible. These have close correspondences with MBQC patterns, and the rewrites preserve the existence of flow, which helps guarantee an efficient extraction procedure.
+
+.. May not work as intended if diagram is not in inteded form, especially for classical or mixed diagrams
+
+.. warning:: Because of the focus on strategies using graphlike diagrams, many of the rewrites expect the inputs to be of a particular form. This may cause some issues when trying to rewrite other kinds of diagrams, especially classical or mixed diagrams.
+
+.. Types (decompositions into generating sets, graphlike form, graphlike reduction, MBQC)
+
+The rewrite passes can be broken down into a few categories depending on the form of the diagrams expected and the function of the passes. Full descriptions of each pass are given in the API reference.
+
+=================================== ===========================================
+Decompositions into generating sets | :py:meth:`Rewrite.decompose_boxes()`, 
+                                      :py:meth:`Rewrite.basic_wires()`, 
+                                      :py:meth:`Rewrite.rebase_to_zx()`, 
+                                      :py:meth:`Rewrite.rebase_to_mbqc()`
+Rewriting into graphlike form       | :py:meth:`Rewrite.red_to_green()`,
+                                      :py:meth:`Rewrite.spider_fusion()`,
+                                      :py:meth:`Rewrite.self_loop_removal()`,
+                                      :py:meth:`Rewrite.parallel_h_removal()`,
+                                      :py:meth:`Rewrite.separate_boundaries()`,
+                                      :py:meth:`Rewrite.io_extension()`
+Reduction within graphlike form     | :py:meth:`Rewrite.remove_interior_cliffords()`,
+                                      :py:meth:`Rewrite.remove_interior_paulis()`, 
+                                      :py:meth:`Rewrite.gadgetise_interior_paulis()`, 
+                                      :py:meth:`Rewrite.merge_gadgets()`, 
+                                      :py:meth:`Rewrite.extend_at_boundary_paulis()`
+MBQC                                | :py:meth:`Rewrite.extend_for_PX_outputs()`, 
+                                      :py:meth:`Rewrite.internalise_gadgets()`
+Composite sequences                 | :py:meth:`Rewrite.to_graphlike_form()`,
+                                      :py:meth:`Rewrite.reduce_graphlike_form()`,
+                                      :py:meth:`Rewrite.to_MBQC_diag()`
+=================================== ===========================================
+
+.. Current implementations may not track global scalar; semantics is only preserved up to scalar; warning if attempting to use for scalar diagram evaluation
+
+.. warning:: Current implementations of rewrite passes may not track the global scalar. Semantics of diagrams is only preserved up to scalar. This is fine for simplification of states or unitaries as they can be renormalised but this may cause issues if attempting to use rewrites for scalar diagram evaluation.
+
+MBQC Flow Detection
+-------------------
+
+.. MBQC diagrams only show intended branch, order and corrections handled by flow
+
+.. Causal flow, gflow, Pauli flow (completeness of extended Pauli flow and hence Pauli flow)
+
+.. Verification and focussing
+
+.. Warning that does not update on rewriting
+
+Conversions & Extraction
+------------------------
+
+.. Circuits to ZX diagram by gate definitions
+
+.. Created and discarded qubits are not open boundaries; indexing of boundaries made by qubit and bit order; conversion returns a map between boundaries and UnitIDs
+
+.. Extraction is not computationally feasible for general diagrams; known to be efficient for MBQC diagrams with flow; current method permits unitary diagrams with gflow, based on Backens et al.; more methods will be written in future for different extraction methods, e.g. causal flow, MBQC, pauli flow, mixed diagram extraction
+
+Compiler Passes Using ZX
+------------------------
+
+.. Prepackaged into ZXGraphlikeOptimisation pass for convenience to try out 
+
+.. Since ZX does resynthesis and completely abstracts away circuit structure, there is little point in running optimisations before ZX
+
+.. Extraction is not optimised so best to run other passes afterwards
+
+.. Extraction techniques are not optimal so starting with a well-structured circuit, abstracting away that structure and starting from scratch is likely to increase gate counts; since graphlike form abstracts away Cliffords to focus on non-Cliffords, most likely to give good results on Clifford-dense circuits
+
+Advanced Topics
+---------------
+
+C++ Implementation
+==================
+
+.. Use for speed and more control
+
+.. Underlying graph structure is directed to distinguish between ends of an edge for port data
+
+.. Tensor evaluation only available in python, so easiest to expose in pybind for testing
