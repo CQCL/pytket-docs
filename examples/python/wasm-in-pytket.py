@@ -1,4 +1,4 @@
-# pip install pytket~=1.13.0
+# pip install pytket~=1.13
 
 # # WASM function calls with pytket
 # The WASM module in python allows you to add external classical functions from a compiled web assembly (WASM) to the circuit.
@@ -36,7 +36,7 @@ c.add_wasm(
     [Bit(0), Bit(1), Bit(2), Bit(3), Bit(4)],
 )  # list of bits where the wasm op will be added to
 
-# When adding functions with multible parameters this can be done in the same way:
+# When adding functions with multiple parameters this can be done in the same way:
 
 c.add_wasm(
     "multi",  # name of the function
@@ -96,7 +96,7 @@ c.add_wasm("add_two", wfh, [1], [1], [Bit(4), Bit(4)], [])
 for g in c:
     print(g)
 
-# One helpful feature might be to plot the DAG of the circuit to get an overview of the different
+# One helpful feature might be to plot the DAG of the circuit to get an overview of the different components of the circuit
 
 from pytket.utils import Graph
 
