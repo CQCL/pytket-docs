@@ -255,9 +255,10 @@ c.X(2)
 
 backend = QsharpEstimatorBackend()
 c = backend.get_compiled_circuit(c)
-handle = backend.process_circuit(c, n_shots=10)
-resources = backend.get_resources(handle)
-print(resources)
+# (disabled because of https://github.com/CQCL/pytket-qsharp/issues/37)
+# handle = backend.process_circuit(c, n_shots=10)
+# resources = backend.get_resources(handle)
+# print(resources)
 
 # ## `pytket.extensions.qulacs.QulacsBackend`
 
