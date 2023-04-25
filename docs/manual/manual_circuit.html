@@ -1,555 +1,384 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Circuit Construction &#8212; pytket user manual</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="_static/thebelab.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-    
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/thebelab-helper.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'manual_circuit';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Running on Backends" href="manual_backend.html" />
     <link rel="prev" title="What is tket?" href="manual_intro.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="_static/Quantinuum_logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">pytket user manual</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Manual Sections:
- </span>
-</p>
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Manual Sections:</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="manual_intro.html">
-   What is tket?
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Circuit Construction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="manual_backend.html">
-   Running on Backends
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="manual_compiler.html">
-   Compilation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="manual_noise.html">
-   Noise and the Quantum Circuit Model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="manual_assertion.html">
-   Assertion
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="manual_intro.html">What is tket?</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Circuit Construction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_assertion.html">Assertion</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  More Documentation:
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">More Documentation:</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">
-   pytket
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">
-   Extensions
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">
-   Example notebooks
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">pytket</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">Extensions</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">Example notebooks</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CQCL/tket" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CQCL/tket/issues/new?title=Issue%20on%20page%20%2Fmanual_circuit.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
 
 
-          
-
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/manual_circuit.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/CQCL/tket"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/CQCL/tket/issues/new?title=Issue%20on%20page%20%2Fmanual_circuit.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="_sources/manual_circuit.rst.txt"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.rst</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#basic-gates">
-   Basic Gates
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#measurements">
-   Measurements
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#barriers">
-   Barriers
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#registers-and-ids">
-   Registers and IDs
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#composing-circuits">
-   Composing Circuits
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#statevectors-and-unitaries">
-   Statevectors and Unitaries
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#boxes">
-   Boxes
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#analysing-circuits">
-   Analysing Circuits
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#importing-exporting-circuits">
-   Importing/Exporting Circuits
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#symbolic-circuits">
-   Symbolic Circuits
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#symbolic-unitaries-and-states">
-     Symbolic unitaries and states
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#advanced-topics">
-   Advanced Topics
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#custom-parameterised-gates">
-     Custom parameterised Gates
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#clifford-tableaux">
-     Clifford Tableaux
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#classical-and-conditional-operations">
-     Classical and conditional operations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#circuit-level-operations">
-     Circuit-Level Operations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     Implicit Qubit Permutations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#modifying-operations-within-circuits">
-     Modifying Operations Within Circuits
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Circuit Construction</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#basic-gates">
-   Basic Gates
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#measurements">
-   Measurements
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#barriers">
-   Barriers
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#registers-and-ids">
-   Registers and IDs
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#composing-circuits">
-   Composing Circuits
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#statevectors-and-unitaries">
-   Statevectors and Unitaries
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#boxes">
-   Boxes
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#analysing-circuits">
-   Analysing Circuits
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#importing-exporting-circuits">
-   Importing/Exporting Circuits
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#symbolic-circuits">
-   Symbolic Circuits
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#symbolic-unitaries-and-states">
-     Symbolic unitaries and states
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#advanced-topics">
-   Advanced Topics
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#custom-parameterised-gates">
-     Custom parameterised Gates
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#clifford-tableaux">
-     Clifford Tableaux
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#classical-and-conditional-operations">
-     Classical and conditional operations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#circuit-level-operations">
-     Circuit-Level Operations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id7">
-     Implicit Qubit Permutations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#modifying-operations-within-circuits">
-     Modifying Operations Within Circuits
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Circuit Construction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-gates">Basic Gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measurements">Measurements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barriers">Barriers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#registers-and-ids">Registers and IDs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composing-circuits">Composing Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-circuits">Analysing Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-exporting-circuits">Importing/Exporting Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-circuits">Symbolic Circuits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-unitaries-and-states">Symbolic unitaries and states</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics">Advanced Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-parameterised-gates">Custom parameterised Gates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-tableaux">Clifford Tableaux</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-and-conditional-operations">Classical and conditional operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-level-operations">Circuit-Level Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Implicit Qubit Permutations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-operations-within-circuits">Modifying Operations Within Circuits</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="circuit-construction">
-<h1>Circuit Construction<a class="headerlink" href="#circuit-construction" title="Permalink to this headline">#</a></h1>
+<h1>Circuit Construction<a class="headerlink" href="#circuit-construction" title="Permalink to this heading">#</a></h1>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class forms the unit of computation that we can send off to a quantum co-processor. Each instruction is to be performed in order, potentially parallelising when they use disjoint sets of (qu)bits. To capture this freedom of parallelisation, we treat the circuit as a Directed Acyclic Graph with a vertex for each instruction and directed edges following the paths of resources (e.g. qubits and bits) between them. This DAG representation describes the abstract circuit ignoring these trivial commutations/parallel instructions.</p>
 <p>In general, we consider <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> instances to represent open circuits; that is, they can be used within arbitrary contexts, so any input state can be supplied and there is no assumption on how the output state should be used. In practice, when we send a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> off to be executed, it will be run with all qubits in the initial state <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> and all bits set to <span class="math notranslate nohighlight">\(0\)</span>, then the classical outputs returned and the quantum state discarded.</p>
 <p>Each circuit can be represented as a POVM on the combined quantum/classical state space by composing the representations assigned to each basic instruction. However, many use cases will live predominantly in the pure quantum space where the operations are simply unitaries acting on the quantum state. One practical distinction between these cases is the relevance of global phase: something that cannot be identified at the POVM level but has importance for pure states as it affects how we interpret the system and has an observable difference when the system is then coherently controlled. For example, an Rz gate and a U1 gate give equivalent effects on the quantum state but have a different global phase, meaning their unitaries <em>look</em> different, and a controlled-Rz is different from a controlled-U1. A <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> will track global phase to make working with pure quantum processes easier, though this becomes meaningless once measurements and other classical interaction are applied and has no impact on the instructions sent to a quantum device when we eventually run it.</p>
@@ -569,7 +398,7 @@ title="Print to PDF"
 </div>
 </div>
 <section id="basic-gates">
-<h2>Basic Gates<a class="headerlink" href="#basic-gates" title="Permalink to this headline">#</a></h2>
+<h2>Basic Gates<a class="headerlink" href="#basic-gates" title="Permalink to this heading">#</a></h2>
 <p>The bulk of the interaction with a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object will be in building up the sequence of instructions to be run. The simplest way to do this is by adding each instruction in execution order to the end of the circuit.</p>
 <p>Basic quantum gates represent some unitary operation applied to some qubits. Adding them to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> just requires specifying which qubits you want to apply them to. For controlled-gates, the convention is to give the control qubit(s) first, followed by the target qubit(s).</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -633,7 +462,7 @@ title="Print to PDF"
 <p>In the above example, we asked for a <code class="docutils literal notranslate"><span class="pre">PhasedX</span></code> with angles <code class="docutils literal notranslate"><span class="pre">[-0.1,</span> <span class="pre">0.5]</span></code>, but received <code class="docutils literal notranslate"><span class="pre">PhasedX(3.9,</span> <span class="pre">0.5)</span></code>. <code class="docutils literal notranslate"><span class="pre">pytket</span></code> will freely map angles into the range <span class="math notranslate nohighlight">\(\left[0, r\right)\)</span> for some range parameter <span class="math notranslate nohighlight">\(r\)</span> that depends on the <code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code>, preserving the unitary matrix (including global phase).</p>
 </section>
 <section id="measurements">
-<h2>Measurements<a class="headerlink" href="#measurements" title="Permalink to this headline">#</a></h2>
+<h2>Measurements<a class="headerlink" href="#measurements" title="Permalink to this heading">#</a></h2>
 <p>Measurements go a step further by interacting with both the quantum and classical data. The convention used in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> is that all measurements are non-destructive, single-qubit measurements in the <span class="math notranslate nohighlight">\(Z\)</span> basis; other forms of measurements can be constructed by combining these with other operations.</p>
 <p>Adding a measurement works just like adding any other gate, where the first argument is the qubit to be measured and the second specifies the classical bit to store the result in.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -755,7 +584,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="barriers">
-<h2>Barriers<a class="headerlink" href="#barriers" title="Permalink to this headline">#</a></h2>
+<h2>Barriers<a class="headerlink" href="#barriers" title="Permalink to this heading">#</a></h2>
 <p>The concept of barriers comes from low-level classical programming. They exist as instructions but perform no active operation. Instead, their function is twofold:</p>
 <ul class="simple">
 <li><p>At compile-time, prevent the compiler from reordering operations around the barrier.</p></li>
@@ -784,7 +613,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="registers-and-ids">
-<h2>Registers and IDs<a class="headerlink" href="#registers-and-ids" title="Permalink to this headline">#</a></h2>
+<h2>Registers and IDs<a class="headerlink" href="#registers-and-ids" title="Permalink to this heading">#</a></h2>
 <p>Using integer values to refer to each of our qubits and bits works fine for small-scale experiments, but when building up larger and more complicated programs, it is much easier to manage if we are able to name the resources to attach semantic meaning to them and group them into related collections. <code class="docutils literal notranslate"><span class="pre">pytket</span></code> enables this by supporting registers and named IDs.</p>
 <p>Each unit resource is associated with a <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> (typically the subclasses <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code>), which gives a name and some (<span class="math notranslate nohighlight">\(n\)</span>-dimensional) index. A (quantum/classical) register is hence some collection of <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code> s with the same name, dimension of index, and type of associated resource. These identifiers are not necessarily tied to a specific <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and can be reused between many of them.</p>
 <p>Named resources can be added to <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s individually, or by declaring a 1-dimensional register. Any of the methods for adding gates can then use these IDs.</p>
@@ -947,7 +776,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="composing-circuits">
-<h2>Composing Circuits<a class="headerlink" href="#composing-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Composing Circuits<a class="headerlink" href="#composing-circuits" title="Permalink to this heading">#</a></h2>
 <p>Because <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s are defined to have open inputs and outputs, it is perfectly natural to compose them by unifying the outputs of one with the inputs of another. Appending one <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to the end of another matches the inputs and outputs with the same <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1036,7 +865,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="statevectors-and-unitaries">
-<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this headline">#</a></h2>
+<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this heading">#</a></h2>
 <p>When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.get_statevector()</span></code> method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> state.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1080,7 +909,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="boxes">
-<h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this headline">#</a></h2>
+<h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this heading">#</a></h2>
 <p>Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn’t mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit’s design when it is constructed using higher-level constructions. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the concept of a “Box” is to abstract away such complex structures as black-boxes within larger circuits.</p>
 <p>The simplest example of this is a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code>, which wraps up another <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> defined elsewhere into a single black-box. The difference between adding a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> and just appending the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is that the <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1257,7 +1086,7 @@ title="Print to PDF"
 </div>
 </section>
 <section id="analysing-circuits">
-<h2>Analysing Circuits<a class="headerlink" href="#analysing-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Analysing Circuits<a class="headerlink" href="#analysing-circuits" title="Permalink to this heading">#</a></h2>
 <p>After creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, we will typically want to inspect what we have constructed to ensure that it agrees with the design we planned. The most basic form of this is to just get the object to return the sequence of operations back to us. Iterating through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object will give back the operations as <code class="xref py py-class docutils literal notranslate"><span class="pre">Command</span></code> s (specifying the operations performed and what (qu)bits they are performed on).</p>
 <p>Because the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class identifies circuits up to DAG equivalence, the sequence will be some topological sort of the DAG, but not necessarily identical to the order the operations were added to the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1313,14 +1142,14 @@ X OpType.X [q[1]]
 &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.5/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-e8b02a97-ff3d-42dd-a03b-c0bbb0ac6840&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-2e951f2b-dec2-4091-89db-151d88f03089&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
         &lt;circuit-display-container :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;&gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;e8b02a97-ff3d-42dd-a03b-c0bbb0ac6840&#34;;
+      const circuitRendererUid = &#34;2e951f2b-dec2-4091-89db-151d88f03089&#34;;
 
       // Script to initialise the circuit renderer app
 
@@ -1454,14 +1283,14 @@ Circuit depth = 3
 &lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.5/dist/pytket-circuit-renderer.css&#34;&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&#34;circuit-display-vue-container-700c0d34-0b63-4e68-a3c3-1ff521ec89d9&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-3a2f9f76-8dd0-43e7-874e-4d59eb50c45f&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;params&#34;: [&#34;0.6&#34;], &#34;type&#34;: &#34;CnRy&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
         &lt;circuit-display-container :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;&gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;700c0d34-0b63-4e68-a3c3-1ff521ec89d9&#34;;
+      const circuitRendererUid = &#34;3a2f9f76-8dd0-43e7-874e-4d59eb50c45f&#34;;
 
       // Script to initialise the circuit renderer app
 
@@ -1502,7 +1331,7 @@ T gate depth = 3
 </div>
 </section>
 <section id="importing-exporting-circuits">
-<h2>Importing/Exporting Circuits<a class="headerlink" href="#importing-exporting-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Importing/Exporting Circuits<a class="headerlink" href="#importing-exporting-circuits" title="Permalink to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pytket</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dict()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_dict()</span></code> methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1652,7 +1481,7 @@ c: 3/═══════════╩═════════════
 </div>
 </section>
 <section id="symbolic-circuits">
-<h2>Symbolic Circuits<a class="headerlink" href="#symbolic-circuits" title="Permalink to this headline">#</a></h2>
+<h2>Symbolic Circuits<a class="headerlink" href="#symbolic-circuits" title="Permalink to this heading">#</a></h2>
 <p>In practice, it is very common for an experiment to use many circuits with similar structure but with varying gate parameters. In variational algorithms like VQE and QAOA, we are trying to explore the energy landscape with respect to the circuit parameters, realised as the angles of rotation gates. The only differences between iterations of the optimisation procedure are the specific angles of rotations in the circuits. Because the procedures of generating and compiling the circuits typically won’t care what the exact angles are, we can define the circuits abstractly, treating each parameter as an algebraic symbol. The circuit generation and compilation can then be pulled outside of the optimisation loop, being performed once and for all rather than once for each set of parameter values.</p>
 <p><code class="docutils literal notranslate"><span class="pre">sympy</span></code> is a widely-used python package for symbolic expressions and algebraic manipulation, defining <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Symbol</span></code> objects to represent algebraic variables and using them in <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Expression</span></code> s to build mathematical statements and arithmetic expressions. Symbolic circuits are managed in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> by defining the circuit parameters as <code class="xref py py-class docutils literal notranslate"><span class="pre">sympy.Symbol</span></code> s, which can be passed in as arguments to the gates and later substituted for concrete values.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1758,8 +1587,8 @@ True
 <p>To see how to use symbolic compilation in a variational experiment, have a look at our <a class="reference external" href="https://github.com/CQCL/pytket/blob/main/examples/ucc_vqe.ipynb">VQE (UCCSD) example</a>.</p>
 </div>
 <section id="symbolic-unitaries-and-states">
-<h3>Symbolic unitaries and states<a class="headerlink" href="#symbolic-unitaries-and-states" title="Permalink to this headline">#</a></h3>
-<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.13)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
+<h3>Symbolic unitaries and states<a class="headerlink" href="#symbolic-unitaries-and-states" title="Permalink to this heading">#</a></h3>
+<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.14)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -1793,9 +1622,9 @@ The conversion functions use the <a class="reference external" href="https://doc
 </section>
 </section>
 <section id="advanced-topics">
-<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline">#</a></h2>
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this heading">#</a></h2>
 <section id="custom-parameterised-gates">
-<h3>Custom parameterised Gates<a class="headerlink" href="#custom-parameterised-gates" title="Permalink to this headline">#</a></h3>
+<h3>Custom parameterised Gates<a class="headerlink" href="#custom-parameterised-gates" title="Permalink to this heading">#</a></h3>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> construction is good for subroutines where the instruction sequence is fixed. The <code class="xref py py-class docutils literal notranslate"><span class="pre">CustomGateDef</span></code> construction generalises this to construct parameterised subroutines by binding symbols in the definition circuit and instantiating them at each instance. Any symbolic <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> can be provided as the subroutine definition. Remaining symbols that are not bound are treated as free symbols in the global scope.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1829,7 +1658,7 @@ The conversion functions use the <a class="reference external" href="https://doc
 </div>
 </section>
 <section id="clifford-tableaux">
-<h3>Clifford Tableaux<a class="headerlink" href="#clifford-tableaux" title="Permalink to this headline">#</a></h3>
+<h3>Clifford Tableaux<a class="headerlink" href="#clifford-tableaux" title="Permalink to this heading">#</a></h3>
 <p>The Clifford (a.k.a. stabilizer) fragment of quantum theory is known to exhibit efficient classical representations of states and unitaries. This allows for short descriptions that can fully characterise a state/unitary and efficient circuit simulation. Whilst the Clifford group can be characterised as the operations generated by <cite>CX</cite>, <cite>H</cite>, and <cite>S</cite> gates with qubit initialisation in the <span class="math notranslate nohighlight">\(|0\rangle\)</span> state, it is also the largest group of operations under which the Pauli group is closed, i.e. for any tensor of Paulis <span class="math notranslate nohighlight">\(P\)</span> and Clifford operation <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(CPC^\dagger\)</span> is also a tensor of Paulis.</p>
 <p>Any state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> in the Clifford fragment is uniquely identified by those tensors of Pauli operators that stabilize it (those <span class="math notranslate nohighlight">\(P\)</span> such that <span class="math notranslate nohighlight">\(P|\psi\rangle = |\psi\rangle\)</span>). These stabilizers form a group of size <span class="math notranslate nohighlight">\(2^n\)</span> for an <span class="math notranslate nohighlight">\(n\)</span> qubit state, but it is sufficient to identify <span class="math notranslate nohighlight">\(n\)</span> independent generators to specify the group. If a Clifford gate <span class="math notranslate nohighlight">\(C\)</span> is applied to the state, each generator <span class="math notranslate nohighlight">\(P\)</span> can be updated to <span class="math notranslate nohighlight">\(P' = CPC^\dagger\)</span> since <span class="math notranslate nohighlight">\(C|\psi\rangle = CP|\psi\rangle = (CPC^\dagger)C|\psi\rangle\)</span>. We can therefore characterise each Clifford operation by its actions on generators of the Pauli group, giving us the Clifford tableau form. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitaryTableau</span></code> class uses the binary symplectic representation from Aaronson and Gottesman <a class="reference internal" href="#aaro2004" id="id6"><span>[Aaro2004]</span></a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1893,7 +1722,7 @@ Z@q[2]	-&gt;	0 0 0   0 1 1   0
 <p>The data structure used here for tableaux is intended for compilation use. For fast simulation of Clifford circuits, we recommend using the <code class="xref py py-class docutils literal notranslate"><span class="pre">StimBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-stim</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">SimplexBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-pysimplex</span></code> (optimized for large sparse circuits), or the <code class="xref py py-class docutils literal notranslate"><span class="pre">AerBackend</span></code> from <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>. Future versions of <code class="docutils literal notranslate"><span class="pre">pytket</span></code> may include improved decompositions from tableaux, as well as more flexible tableaux to represent stabilizer states, isometries, and diagonalisation circuits.</p>
 </section>
 <section id="classical-and-conditional-operations">
-<h3>Classical and conditional operations<a class="headerlink" href="#classical-and-conditional-operations" title="Permalink to this headline">#</a></h3>
+<h3>Classical and conditional operations<a class="headerlink" href="#classical-and-conditional-operations" title="Permalink to this heading">#</a></h3>
 <p>Moving beyond toy circuit examples, many applications of quantum computing
 require looking at circuits as POVMs for extra expressivity, or introducing
 error-correcting schemes to reduce the effective noise. Each of these requires
@@ -2063,7 +1892,7 @@ can support the full range of expressions and comparisons shown above.</p>
 </div>
 </section>
 <section id="circuit-level-operations">
-<h3>Circuit-Level Operations<a class="headerlink" href="#circuit-level-operations" title="Permalink to this headline">#</a></h3>
+<h3>Circuit-Level Operations<a class="headerlink" href="#circuit-level-operations" title="Permalink to this heading">#</a></h3>
 <p>Systematic modifications to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object can go beyond simply adding gates one at a time. For example, given a unitary <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>, we may wish to generate its inverse for the purposes of uncomputation of ancillae or creating conjugation circuits to diagonalise an operator as in the sample below.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -2094,7 +1923,7 @@ can support the full range of expressions and comparisons shown above.</p>
 </div>
 </section>
 <section id="id7">
-<h3>Implicit Qubit Permutations<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<h3>Implicit Qubit Permutations<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class is built as a DAG to help follow the paths of resources and represent the circuit canonically up to trivial commutations. Each of the edges represents a resource passing from one instruction to the next, so we could represent SWAPs (and general permutations) by connecting the predecessors of the SWAP instruction to the opposite successors. This eliminates the SWAP instruction from the graph (meaning we would no longer perform the operation at runtime) and could enable the compiler to spot additional opportunities for simplification. One example of this in practice is the ability to convert a pair of CXs in opposite directions to just a single CX (along with an implicit SWAP that isn’t actually performed).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -2140,7 +1969,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> backends, but care should be taken when reading from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> directly - two quantum <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.implicit_qubit_permutation()</span></code> method can be used to inspect such a permutation.</p>
 </section>
 <section id="modifying-operations-within-circuits">
-<h3>Modifying Operations Within Circuits<a class="headerlink" href="#modifying-operations-within-circuits" title="Permalink to this headline">#</a></h3>
+<h3>Modifying Operations Within Circuits<a class="headerlink" href="#modifying-operations-within-circuits" title="Permalink to this heading">#</a></h3>
 <p>Symbolic parameters allow one to construct a circuit with some not-yet-assigned parameters, and later (perhaps after some optimization), to instantiate them with different values. Occasionally, however, one may desire more flexibility in substituting operations within a circuit. For example, one may wish to apply controls from a certain qubit to certain operations, or to insert or remove certain operations.</p>
 <p>This can be achieved with <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, provided the mutable operations are tagged during circuit construction with identifying names (which can be arbitrary strings). If two operations are given the same name then they belong to the same “operation group”; they can (and must) then be substituted simultaneously.</p>
 <p>Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substituted operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)</p>
@@ -2234,72 +2063,147 @@ can support the full range of expressions and comparisons shown above.</p>
 </div>
 </div>
 </div>
-<dl class="citation">
-<dt class="label" id="aaro2004"><span class="brackets"><a class="fn-backref" href="#id6">Aaro2004</a></span></dt>
-<dd><p>Aaronson, S. and Gottesman, D., 2004. Improved Simulation of Stabilizer Circuits. Physical Review A, 70(5), p.052328.</p>
-</dd>
-<dt class="label" id="brav2005"><span class="brackets"><a class="fn-backref" href="#id2">Brav2005</a></span></dt>
-<dd><p>Bravyi, S. and Kitaev, A., 2005. Universal quantum computation with ideal Clifford gates and noisy ancillas. Physical Review A, 71(2), p.022316.</p>
-</dd>
-<dt class="label" id="brav2012"><span class="brackets"><a class="fn-backref" href="#id3">Brav2012</a></span></dt>
-<dd><p>Bravyi, S. and Haah, J., 2012. Magic-state distillation with low overhead. Physical Review A, 86(5), p.052329.</p>
-</dd>
-<dt class="label" id="amy2014"><span class="brackets"><a class="fn-backref" href="#id4">Amy2014</a></span></dt>
-<dd><p>Amy, M., Maslov, D. and Mosca, M., 2014. Polynomial-time T-depth optimization of Clifford+ T circuits via matroid partitioning. IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems, 33(10), pp.1476-1489.</p>
-</dd>
-<dt class="label" id="meij2020"><span class="brackets"><a class="fn-backref" href="#id5">Meij2020</a></span></dt>
-<dd><p>de Griend, A.M.V. and Duncan, R., 2020. Architecture-aware synthesis of phase polynomials for NISQ devices. arXiv preprint arXiv:2004.06052.</p>
-</dd>
-</dl>
+<div role="list" class="citation-list">
+<div class="citation" id="aaro2004" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">Aaro2004</a><span class="fn-bracket">]</span></span>
+<p>Aaronson, S. and Gottesman, D., 2004. Improved Simulation of Stabilizer Circuits. Physical Review A, 70(5), p.052328.</p>
+</div>
+<div class="citation" id="brav2005" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Brav2005</a><span class="fn-bracket">]</span></span>
+<p>Bravyi, S. and Kitaev, A., 2005. Universal quantum computation with ideal Clifford gates and noisy ancillas. Physical Review A, 71(2), p.022316.</p>
+</div>
+<div class="citation" id="brav2012" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Brav2012</a><span class="fn-bracket">]</span></span>
+<p>Bravyi, S. and Haah, J., 2012. Magic-state distillation with low overhead. Physical Review A, 86(5), p.052329.</p>
+</div>
+<div class="citation" id="amy2014" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">Amy2014</a><span class="fn-bracket">]</span></span>
+<p>Amy, M., Maslov, D. and Mosca, M., 2014. Polynomial-time T-depth optimization of Clifford+ T circuits via matroid partitioning. IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems, 33(10), pp.1476-1489.</p>
+</div>
+<div class="citation" id="meij2020" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">Meij2020</a><span class="fn-bracket">]</span></span>
+<p>de Griend, A.M.V. and Duncan, R., 2020. Architecture-aware synthesis of phase polynomials for NISQ devices. arXiv preprint arXiv:2004.06052.</p>
+</div>
+</div>
 </section>
 </section>
 </section>
 
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="manual_intro.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">What is tket?</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="manual_intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">What is tket?</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="manual_backend.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="manual_backend.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Running on Backends</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-gates">Basic Gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measurements">Measurements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barriers">Barriers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#registers-and-ids">Registers and IDs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composing-circuits">Composing Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-circuits">Analysing Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-exporting-circuits">Importing/Exporting Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-circuits">Symbolic Circuits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-unitaries-and-states">Symbolic unitaries and states</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics">Advanced Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-parameterised-gates">Custom parameterised Gates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-tableaux">Clifford Tableaux</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-and-conditional-operations">Classical and conditional operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-level-operations">Circuit-Level Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Implicit Qubit Permutations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-operations-within-circuits">Modifying Operations Within Circuits</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
   
-    By Cambridge Quantum Computing Ltd<br/>
-  
-      &copy; Copyright 2020-2023 Cambridge Quantum Computing Ltd.<br/>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
-</div>
+<p class="component-author">
+By Cambridge Quantum Computing Ltd
+</p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2020-2023 Cambridge Quantum Computing Ltd.
+      <br/>
+    
+  </p>
 
-      </div>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
