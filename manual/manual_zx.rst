@@ -107,9 +107,9 @@ We can use this teleportation algorithm as a component in a larger diagram using
 
     # Teleport first qubit
     # The inputs appear first in the boundary, so port 0 is the input
-    circ_diag.add_wire(u=rx, v=tele, v_port=0)
+    circ_diag.add_wire(u=rx, v=box, v_port=0)
     # Port 1 for the output
-    circ_diag.add_wire(u=tele, v=cout, u_port=1)
+    circ_diag.add_wire(u=box, v=cout, u_port=1)
 
     # Measure second qubit destructively and output result
     circ_diag.add_wire(cz_t, x_meas)
@@ -264,33 +264,71 @@ Composite sequences                 | :py:meth:`Rewrite.to_graphlike_form()`,
 MBQC Flow Detection
 -------------------
 
+.. MBQC form of diagrams
+
+So far, we have focussed mostly on the circuit model of quantum computing, but the ZX module is also geared towards assisting for MBQC. The most practical measurement patterns are those with uniform, stepwise, strong determinism - that is, performing an individual measurement and its associated corrections will yield exactly the same residual state, and furthermore this is the case for any choice of angle parameter the qubit is measured in (within a particular plane of the Bloch sphere or choice of polarity of a Pauli measurement, according to the label of the measurement). In this case, the order of measurements and corrections can be described by a Flow over the entanglement graph.
+
 .. MBQC diagrams only show intended branch, order and corrections handled by flow
+
+When using the ZX module to represent measurement patterns, we care about representing the semantics and so it is sufficient to consider post-selecting the intended branch outcome at each qubit. This simplifies the diagram by eliminating the corrections and any need to track the order of measurements internally to the diagram. Instead, we may track these externally using a :py:class:`Flow` object.
+
+Each of the MBQC :py:class:`ZXType` options represent a qubit that is initialised and post-selected into the plane/Pauli specified by the type, at the angle/polarity given by the parameter of the :py:class:`ZXGen`. Entanglement between these qubits is given by :py:class:`ZXWireType.H` edges, representing CZ gates. We identify input and output qubits using :py:class:`ZXWireType.Basic` edges connecting them to :py:class:`ZXType.Input` or :py:class:`ZXType.Output` vertices (since output qubits are unmeasured, their semantics as tensors are equivalent to :py:class:`ZXType.PX` vertices with `False` polarity). The :py:meth:`Rewrite.to_MBQC_diag()` rewrite will transform any ZX diagram into one of this form.
 
 .. Causal flow, gflow, Pauli flow (completeness of extended Pauli flow and hence Pauli flow)
 
+Given a ZX diagram in MBQC form, there are algorithms that can find a suitable :py:class:`Flow` if one exists. Since there are several classifications of flow (e.g. causal flow, gflow, Pauli flow, extended Pauli flow) with varying levels of generality, we offer multiple algorithms for identifying them. For example, any diagram supporting a uniform, stepwise, strongly deterministic measurement and correction scheme will have a Pauli flow, but identification of this is :math:`O(n^4)` in the number of qubits (vertices) in the pattern. On the other hand, causal flow is a particular special case that may not always exist but can be identified in :math:`O(n^2 \log n)` time.
+
+The :py:class:`Flow` object that is returned abstracts away the partial ordering of the measured qubits of the diagram by just giving the depth from the outputs, i.e. all output qubits and those with no corrections have depth :math:`0`, all qubits with depth :math:`n` can be measured simultaneously and only require corrections on qubits at depth strictly less than :math:`n`. The measurement corrections can also be inferred from the flow, where :py:meth:`Flow.c()` gives the correction set for a given measured qubit (the qubits which require an :math:`X` correction if a measurement error occurs) and :py:meth:`Flow.odd()` gives its odd neighbourhood (the qubits which require a :math:`Z` correction).
+
+.. note:: In accordance with the Pauli flow criteria, :py:meth:`Flow.c()` and :py:meth:`Flow.odd()` may return qubits that have already been measured, but this may only happen in cases where the required correction would not have affected the past measurement such as a :math:`Z` on a :py:class:`ZXType.PZ` qubit.
+
 .. Verification and focussing
 
+In general, multiple valid flows may exist for a given diagram, but a pattern with equal numbers of inputs and outputs will always have a unique focussed flow (where the corrections permitted on each qubit are restricted to be a single Pauli based on its label, e.g. if qubit :math:`q` is labelled as :py:class:`ZXType.XY`, then we may only apply :math:`X` corrections to :math:`q`). Given any flow, we may transform it to a focussed flow using :py:meth:`Flow.focus()`.
+
 .. Warning that does not update on rewriting
+
+.. warning:: A :py:class:`Flow` object is always with respect to a particular :py:class:`ZXDiagram` in a particular state. It cannot be applied to other diagrams and does not automatically update on rewriting the diagram.
 
 Conversions & Extraction
 ------------------------
 
 .. Circuits to ZX diagram by gate definitions
 
+Up to this point, we have only examined the ZX module in a vacuum, so now we will look at integrating it with the rest of tket's functionality by converting between :py:class:`ZXDiagram` and :py:class:`Circuit` objects. The :py:meth:`circuit_to_zx()` function will reconstruct a :py:class:`Circuit` as a :py:class:`ZXDiagram` by replacing each gate with a choice of representation in the ZX-calculus.
+
 .. Created and discarded qubits are not open boundaries; indexing of boundaries made by qubit and bit order; conversion returns a map between boundaries and UnitIDs
 
+The boundaries of the resulting :py:class:`ZXDiagram` will match up with the open boundaries of the :py:class:`Circuit`. However, :py:class:`OpType.Create` and :py:class:`OpType.Discard` operations will be replaced with an initialisation and a discard map respectively, meaning the number of boundary vertices in the resulting diagram may not match up with the number of qubits and bits in the original :py:class:`Circuit`. This makes it difficult to have a sensible policy for knowing where in the linear boundary of the :py:class:`ZXDiagram` is the input/output of a particular qubit. The second return value of :py:math:`circuit_to_zx()` is a map sending a :py:class:`UnitID` to the pair of :py:class:`ZXVert` objects for the corresponding input and output.
+
 .. Extraction is not computationally feasible for general diagrams; known to be efficient for MBQC diagrams with flow; current method permits unitary diagrams with gflow, based on Backens et al.; more methods will be written in future for different extraction methods, e.g. causal flow, MBQC, pauli flow, mixed diagram extraction
+
+From here, we are able to rewrite our circuit as a ZX diagram, and even though we may aim to preserve the semantics, there is often little guarantee that the diagram will resemble the structure of a circuit after rewriting. The extraction problem concerns taking a ZX diagram and attempting to identify an equivalent circuit, and this is known to be #P-Hard for arbitrary diagrams equivalent to a unitary circuit which is not computationally feasible. However, if we can guarantee that our rewriting leaves us with a diagram in MBQC form which admits a flow of some kind, then there exist efficient methods for extracting an equivalent circuit.
+
+The current method implemented in :py:meth:`zx_to_circuit()` permits extraction of a circuit from a unitary ZX diagram with gflow, based on the method of Backens et al. More methods may be added in the future for different extraction methods, such as fast extraction with causal flow, MBQC (i.e. a :py:class:`Circuit` with explicit measurement and correction operations), extraction from Pauli flow, and mixed diagram extraction.
+
+Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to each boundary vertex, :py:class:`zx_to_circuit()` also returns a map sending each boundary :py:class:`ZXVert` to the corresponding :py:class:`UnitID` in the resulting :py:class:`Circuit`.
 
 Compiler Passes Using ZX
 ------------------------
 
 .. Prepackaged into ZXGraphlikeOptimisation pass for convenience to try out 
 
+The known methods for circuit rewriting and optimisation lend themselves to a single common routine of mapping to graphlike form, reducing within that form, and extracting back out. :py:class:`ZXGraphlikeOptimisation` is a standard pytket compiler pass that packages this routine up for convenience to save the user from manually digging into the ZX module before they can test out using the compilation routine on their circuits.
+
+The specific nature of optimising circuits via ZX diagrams gives rise to some general advice regarding how to use :py:class:`ZXGraphlikeOptimisation` in compilation sequences and what to expect from its performance:
+
+.. Extraction techniques are not optimal so starting with a well-structured circuit, abstracting away that structure and starting from scratch is likely to increase gate counts; since graphlike form abstracts away Cliffords to focus on non-Cliffords, most likely to give good results on Clifford-dense circuits
+
+* The routine can broadly be thought of as a resynthesis pass: converting to a graphlike ZX diagram completely abstracts away most of the circuit structure and attempts to extract a new circuit from scratch. Coupling this with the difficulty of optimal extraction means that if the original circuit is already well-structured or close to optimal, it is likely that the process of forgetting that structure and trying to extract something new will increase gate counts. Since the graphlike form abstracts away the structure from Clifford gates to focus on the non-Cliffords, it is most likely going to give its best results on very Clifford-dense circuits. Even in cases where this improves on gate counts, it may be the case that the new circuit structure is harder to efficiently route on a device with restricted qubit connectivity, so it is important to consider the context of a full compilation sequence when analysing the benefits of using this routine.
+
 .. Since ZX does resynthesis and completely abstracts away circuit structure, there is little point in running optimisations before ZX
+
+* Similarly, because the convertion to a graphlike ZX diagram completely abstracts away the Clifford gates, there is often little-to-no benefit in running most simple optimisations before applying :py:class:`ZXGraphlikeOptimisation` since it will largely ignore them and achieve the same graphlike form regardless.
 
 .. Extraction is not optimised so best to run other passes afterwards
 
-.. Extraction techniques are not optimal so starting with a well-structured circuit, abstracting away that structure and starting from scratch is likely to increase gate counts; since graphlike form abstracts away Cliffords to focus on non-Cliffords, most likely to give good results on Clifford-dense circuits
+* The implementation of the extraction routine in pytket follows the steps from Backens et al. very closely without optimising the gate sequences as they are produced. It is recommended to run additional peephole optimisation passes afterwards to account for redundancies introduced by the extraction procedure.
 
 Advanced Topics
 ---------------
@@ -300,6 +338,24 @@ C++ Implementation
 
 .. Use for speed and more control
 
+As with the rest of pytket, the ZX module features a python interface that has enough flexibility to realise any diagram a user would wish to construct or a rewrite they would like to apply, but the data structure itself is defined in the core C++ library for greater speed for longer rewrite passes and analysis tasks. This comes with the downside that interacting via the python interface is slowed down by the need to convert data through the bindings. After experimenting with the python interface and devising new rewrite strategies, we recommend users use the C++ library directly when attempting to write heavy-duty implementations for speed and greater control over the data structure.
+
 .. Underlying graph structure is directed to distinguish between ends of an edge for port data
 
+The interface to the ``ZXDiagram`` C++ class is extremely similar to the python interface. The main difference is that, whilst the edges of a ZX diagram are semantically undirected, the underlying data structure for the graph itself uses directed edges. This allows us to attach the port data for an edge to the edge metadata and distinguish between its two end-points by referring to the source and target of the edge - for example, an edge between :math:`(u,1)` and :math:`(v,-)` (where :math:`v` is a symmetric generator without port information) can be represented as an edge from :math:`u` to :math:`v` whose metadata carries ``(source_port = 1, target_port = std::nullopt)``.
+
 .. Tensor evaluation only available in python, so easiest to expose in pybind for testing
+
+When implementing a rewrite in C++, we recommend exposing your method via the pybind interface and testing it using pytket when possible. The primary reason for this is that the tensor evaluation available uses the ``quimb`` python package to scale to large numbers of nodes in the tensor network, which is particularly useful for testing that your rewrite preserves the diagram semantics.
+
+In place of API reference and code examples, we recommend looking at the following parts of the tket source code to see how the ZX module is already used:
+
+* ZXDiagram.hpp gives inline summaries for the interface to the core diagram data structure.
+
+* ``Rewrite::spider_fusion_fun()`` in ZXRWAxioms.cpp is an example of a simple rewrite that is applied across the entire graph by iterating over each vertex and looking for patterns in its immediate neighbourhood. It demonstrates the relevance of checking edge data for its :py:class:`ZXWireType` and :py:class:`QuantumType` and maintaining track of these throughout a rewrite.
+
+* ``Rewrite::remove_interior_paulis_fun()`` in ZXRWGraphLikeSimplification.cpp demonstrates how the checks and management of the format of vertices and edges can be simplified a little once it is established that the diagram is of a particular form (e.g. graphlike).
+
+* ``ZXGraphlikeOptimisation()`` in PassLibrary.cpp uses a sequence of rewrites along with the converters to build a compilation pass for circuits. Most of the method contents is just there to define the expectations of the form of the circuit using the tket :py:class:`Predicate` system, which saves the need for the pass to be fully generic and be constantly maintained to accept arbitrary circuits.
+
+* ``zx_to_circuit()`` in ZXConverters.cpp implements the extraction procedure. It is advised to read this alongside the algorithm description in Backens et al. for more detail on the intent and intuition around each step.
