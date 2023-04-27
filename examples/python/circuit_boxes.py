@@ -3,9 +3,9 @@
 
 # # Circuit Boxes in pytket
 # 
-# Quantum algorithms are often described at the level of individual logic gates. Thinking of quantum circuits in this way can have some benefits as quantum device performance is still influenced by low level implementation details.
+# Quantum algorithms are often described at the level of individual logic gates. Thinking of quantum circuits in this way can have some benefits as quantum device performance is greatly influenced by low level implementation details such as gate count and circuit depth.
 # 
-# However quantum circuits can be challenging to interpret if expressed in terms of primtive gates only. This motivates the idea of circuit boxes which contain circuits performing a subroutine in a quantum algorithm.
+# However quantum circuits can be challenging to interpret if expressed in terms of primtive gates only. This motivates the idea of circuit boxes which contain circuits performing higher level subroutines.
 
 # As a minimal example lets build a circuit to prepare a GHZ state and wrap it up in a `CircBox`.
 
@@ -177,6 +177,34 @@ render_circuit_jupyter(test_circ)
 render_circuit_jupyter(u2_box.get_circuit())
 
 
+# Synthesising a circuit for a general unitary is only supported in pytket for up to 3 qubits. This is because unitary synthesis scales poorly with respect to both runtime and circuit complexity.
+# 
+# However for special cases unitary synthesis becomes an easier problem. The `DiagonalBox` allows the user to synthesise circuits for diagoanl unitaries. Here the `DiagonalBox` can be constructed using a numpy array of the diagonal elements rather than the entire unitary.
+# 
+# As an example let's synthesise a circuit for the following 4 qubit diagoanl unitary.
+# 
+# $$
+# \begin{equation}
+# U_{4q} = \text{diag}(1, i, 1, i, 1, i, 1, i, 1, i, 1, i, 1, i, 1, i)
+# \end{equation}
+# $$
+
+# In[9]:
+
+
+from pytket.circuit import Qubit, DiagonalBox
+
+diagonal_4q = [1, 1j] * 8
+diag_box = DiagonalBox(diagonal_4q)
+
+circ_4q = Circuit(4)
+circ_4q.add_diagonal_box(diag_box, [Qubit(i) for i in range(circ_4q.n_qubits)])
+
+render_circuit_jupyter(circ_4q)
+
+
+# The `DiagonalBox` will be constructed using a sequence of `Mutliplexor` operations - more on these later.
+
 # ## Controlled Unitary Operations with `QControlBox`
 
 # TKET also supports the use of "Controlled-U" operations where U is some unitary box defined by the user.
@@ -185,7 +213,7 @@ render_circuit_jupyter(u2_box.get_circuit())
 
 # Lets define a multicontrolled $\sqrt{Z}$ gate using the `Unitary1qBox` that we defined above.
 
-# In[9]:
+# In[10]:
 
 
 from pytket.circuit import QControlBox
@@ -204,7 +232,6 @@ render_circuit_jupyter(test_circ2)
 # In[11]:
 
 
-from pytket import Qubit
 from pytket.circuit import PhasePolyBox
 
 c = Circuit(3)
@@ -236,7 +263,7 @@ render_circuit_jupyter(p_box.get_circuit())
 # 
 # $$
 # \begin{equation}
-# U_P = e^{i \theta P}\,, \quad \theta \in \mathbb{R}, \,\,P \in \{I,\, X,\, Y,\, Z \}
+# U_P = e^{i \frac{\theta}{2} P}\,, \quad \theta \in \mathbb{R}, \,\,P \in \{I,\, X,\, Y,\, Z \}
 # \end{equation}
 # $$
 # 
@@ -254,7 +281,7 @@ render_circuit_jupyter(p_box.get_circuit())
 # 
 # $$
 # \begin{equation}
-# U_{XYYZ} = e^{i \theta XYYZ}\,, \quad U_{ZZYX} = e^{i \theta ZZYX}
+# U_{XYYZ} = e^{i \frac{\theta}{2} XYYZ}\,, \quad U_{ZZYX} = e^{i \frac{\theta}{2} ZZYX}
 # \end{equation}
 # $$
 # 
@@ -266,8 +293,9 @@ render_circuit_jupyter(p_box.get_circuit())
 
 
 from pytket.circuit import PauliExpBox
-from pytket.pauli import Pauli, QubitPauliString
+from pytket.pauli import Pauli
 
+# Construct PauliExpBox(es) with a list of Paulis followed by the phase
 xyyz = PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Z], -0.2)
 zzyx = PauliExpBox([Pauli.Z, Pauli.Z, Pauli.Y, Pauli.X], 0.7)
 
@@ -295,60 +323,147 @@ render_circuit_jupyter(zzyx.get_circuit())
 
 # ## Multiplexors, State Preperation and ToffoliBox
 
-# In the context of quantum circuits a multiplexor is type of generalised multicontrolled gate. 
+# In the context of quantum circuits a multiplexor is type of generalised multicontrolled gate. Multiplexors grant us the flexibilty to specify different operations on target qubits for different control states.
+# 
+# To create a multiplexor we simply construct a dictionary where the keys are the state of the control qubits and the values represent the operation perfomed on the target.
+# 
+# Lets implement a multiplexor with the following logic. Here we treat the first two qubits a controls and the third qubit as the target.
+# 
+# ```
+# input state |000>
+# 
+# if control qubits in |00>:
+#     do Rz(0.3) on third qubit
+# else if control qubits in |11>:
+#      do H on third qubit
+# else:
+#     do identity (aka do nothing)
+# ```
 
-# In[25]:
+# In[14]:
 
 
 from pytket.circuit import Op, MultiplexorBox
 
+# Define both gates as an Op
+rz_op = Op.create(OpType.Rz, 0.3)
+h_op = Op.create(OpType.H)
 
-op_map = {(0, 0): Op.create(OpType.Rz, 0.3), (1, 1): Op.create(OpType.H)}
+op_map = {(0, 0): rz_op, (1, 1): h_op}
 multiplexor = MultiplexorBox(op_map)
 
 
-mutli_circ = Circuit(3).add_multiplexor(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
+# In[15]:
 
 
-# In[ ]:
+# Assume all qubits initialised to |0> here
+multi_circ = Circuit(3)
+multi_circ.X(0).X(1) # Put both control qubits in the state |1>
+multi_circ.add_multiplexor(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
+
+render_circuit_jupyter(multi_circ)
 
 
+# Notice how in the example above the control qubits are both in the $|1\rangle$ state and so the multiplexor applies the Hadamard operation to the third qubit. If we calculate our statevector we see that the third qubit is in the $|+\rangle = H|0\rangle$ state.
+
+# In[16]:
 
 
+print("Statevector =", multi_circ.get_statevector()) # amplitudes of |+> approx 0.707...
+
+
+# One place where multiplexor operations are useful is in state preperation algorithms. 
+# 
+# TKET supports the preperation of arbitrary quantum states via the `StatePreparationBox`. This box takes a $ (1\times 2^n)$ numpy array representing the $n$ qubit statevector where the entries represent the amplitudes of the quantum state.
+# 
+# Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in (arXiv:quant-ph/0406176).
+# 
+# Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. For statevectors with only real amplitudes only multiplexed Ry is needed to accomplish the state prepartion.   
+# 
+# Lets prepare the following quantum state encoding the binomial distribution. Here $p$ is a probability so the state is always normalised.
+# 
 
 # $$
 # \begin{equation}
-# |\psi \rangle = \sqrt{p} |00\rangle + \sqrt{1-p} |11 \rangle
+# |\psi \rangle = \sqrt{p} |00\rangle + \sqrt{1-p} |11 \rangle\,, \quad p \in [0, 1]
 # \end{equation}
 # $$
 
-# In[21]:
+# In[17]:
 
 
-prob = 0.4
+prob = 0.4 # Pick a value of p
 
-prob_state = np.array([np.sqrt(prob), 0, 0,  np.sqrt(1 - prob)])
-
-
-# In[22]:
+prob_state = np.array([np.sqrt(prob), 0, 0,  np.sqrt(1 - prob)]) # Statevector array
 
 
-prob_state
+# In[18]:
 
 
-# In[23]:
+np.round(prob_state, 3)
+
+
+# In[19]:
 
 
 from pytket.circuit import StatePreparationBox
 
 prob_state_box = StatePreparationBox(prob_state)
 
-circ = Circuit(2)
-circ.add_state_preparation_box(prob_state_box, [Qubit(0), Qubit(1)])
+state_circ = Circuit(2)
+state_circ.add_state_preparation_box(prob_state_box, [Qubit(0), Qubit(1)])
+render_circuit_jupyter(state_circ)
 
 
-# In[24]:
+# In[20]:
 
 
+# Verify state preperation
+np.round(state_circ.get_statevector().real, 3) 
+
+
+# Finally lets consider another box type namely the `ToffoliBox`. This box can be used to prepare an arbitary permutation of the computational basis states.
+# 
+# To construct the box we need to specify the permuation as a key:value pair where the key is the input basis state and the value is output. 
+# 
+# Lets construct a `ToffoliBox` to perform the following mapping
+# 
+# $$
+# \begin{equation}
+# |001\rangle \longmapsto |111\rangle \\
+# |111\rangle \longmapsto |001\rangle
+# \end{equation}
+# $$
+# 
+# For consistency if a basis state appears as key in the permutation dictionary then it must also appear and a value.
+
+# In[21]:
+
+
+from pytket.circuit import ToffoliBox
+
+# Specify the desired permutation of the basis states
+mapping = {(0, 0, 1): (1, 1, 1), (1, 1, 1): (0, 0, 1)}
+
+# Define box to perform the permutation
+perm_box = ToffoliBox(permutation=mapping)
+
+circ = Circuit(3)
+circ.X(2)
+circ.add_toffolibox(perm_box, [0, 1, 2]) 
 render_circuit_jupyter(circ)
+
+
+# In[22]:
+
+
+np.round(circ.get_statevector().real, 3) #|001> input -> |111> output 
+
+
+# The permutation is implemented using a sequence of multiplexed rotations followed by a `DiagonalBox`.
+
+# In[23]:
+
+
+render_circuit_jupyter(perm_box.get_circuit())
 
