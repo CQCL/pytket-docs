@@ -221,33 +221,7 @@ test_circ2.add_qcontrolbox(c2_rootz, [0, 1, 2])
 render_circuit_jupyter(test_circ2)
 
 
-# ## Phase Polynomials and Pauli Exponentials
-
-# In[11]:
-
-
-from pytket.circuit import PhasePolyBox
-
-c = Circuit(3)
-
-n_qb = 3
-
-qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
-
-phase_polynomial = {
-    (True, False, True): 0.333,
-    (False, False, True): 0.05,
-    (False, True, False): 1.05,
-}
-
-linear_transformation = np.array([[1, 1, 0], [0, 1, 0], [0, 0, 1]])
-
-p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
-
-c.add_phasepolybox(p_box, [0, 1, 2])
-
-render_circuit_jupyter(p_box.get_circuit())
-
+# ## Pauli Exponentials and Phase Polynomials
 
 # Exponentiated Pauli operators appear in many applications of quantum computing.
 #
@@ -312,6 +286,44 @@ render_circuit_jupyter(zzyx.get_circuit())
 # We see that the Pauli exponential $e^{i\theta \text{ZZYX}}$ has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 #
 # These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For further discussion see the research publication on phase gadget synthesis ( 	arXiv:1906.01734). Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets` and `PauliSimp` optimisation passes.
+
+# Phase polynomial circuits are a special class of circuits that use the {CX, Rz} gateset.
+#
+# A phase polynomial $p(x_1,...,x_n)$ is defined as follows
+#
+# $$
+# \begin{equation}
+# |x_1, x_2, x_3, x_4 \rangle \longmapsto e^{ip(x_1, x_2, x_3, x_4)}|x_1 \oplus x_2 \oplus x_3, x_1  \oplus x_3 \oplus x_4, x_3, x_4 \rangle
+# \end{equation}
+# $$
+#
+# A phase polynomial circuit can be synthesisied in pytket using the `PhasePolyBox`. The `PhasePolyBox` is constructed using the number of qubits, qubit indices as well as a dictionary indicating whether or not a phase should be applied to specific qubits. Finally a `linear_transfromation` parameter needs to be specified encoding the linear permutation between the bitsrings in the equation above.
+
+# In[11]:
+
+
+from pytket.circuit import PhasePolyBox
+
+c = Circuit(3)
+
+n_qb = 3
+
+qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
+
+phase_polynomial = {
+    (True, False, True): 0.333,
+    (False, False, True): 0.05,
+    (False, True, False): 1.05,
+}
+
+linear_transformation = np.array([[1, 1, 0], [0, 1, 0], [0, 0, 1]])
+
+p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
+
+c.add_phasepolybox(p_box, [0, 1, 2])
+
+render_circuit_jupyter(p_box.get_circuit())
+
 
 # ## Multiplexors, State Preperation and ToffoliBox
 
