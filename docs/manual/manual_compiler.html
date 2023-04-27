@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -37,8 +37,8 @@
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/doctools.js"></script>
@@ -427,47 +427,32 @@ False
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">GateSetPredicate</span></code></p></td>
-<td><div class="line-block">
-<div class="line">Every gate is within a set of allowed
-<code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code> s</div>
-</div>
-</td>
+<td><p>Every gate is within a set of allowed
+<code class="xref py py-class docutils literal notranslate"><span class="pre">OpType</span></code> s</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ConnectivityPredicate</span></code></p></td>
-<td><div class="line-block">
-<div class="line">Every multi-qubit gate acts on
+<td><p>Every multi-qubit gate acts on
 adjacent qubits according to some
-connectivity graph</div>
-</div>
-</td>
+connectivity graph</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DirectednessPredicate</span></code></p></td>
-<td><div class="line-block">
-<div class="line">Extends
+<td><p>Extends
 <code class="xref py py-class docutils literal notranslate"><span class="pre">ConnectivityPredicate</span></code>
 where <code class="docutils literal notranslate"><span class="pre">OpType::CX</span></code> gates are only
 supported in a specific orientation
-between adjacent qubits</div>
-</div>
-</td>
+between adjacent qubits</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NoClassicalControlPredicate</span></code></p></td>
-<td><div class="line-block">
-<div class="line">The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> does not
+<td><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> does not
 contain any gates that act
-conditionally on classical data</div>
-</div>
-</td>
+conditionally on classical data</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NoMidMeasurePredicate</span></code></p></td>
-<td><div class="line-block">
-<div class="line">All <code class="docutils literal notranslate"><span class="pre">OpType::Measure</span></code> gates act at
+<td><p>All <code class="docutils literal notranslate"><span class="pre">OpType::Measure</span></code> gates act at
 the end of the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>
 (there are no subsequent gates on
 either the <code class="xref py py-class docutils literal notranslate"><span class="pre">Qubit</span></code> measured
-or the <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> written to)</div>
-</div>
-</td>
+or the <code class="xref py py-class docutils literal notranslate"><span class="pre">Bit</span></code> written to)</p></td>
 </tr>
 </tbody>
 </table>
@@ -1667,14 +1652,14 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
+ [0 0]
+ [1 1]
  [1 1]
  [0 0]
  [0 0]
  [1 1]
- [1 1]
- [1 1]
  [0 0]
- [0 0]
+ [1 1]
  [1 1]]
 </pre></div>
 </div>
@@ -1699,10 +1684,7 @@ noise.</p>
               
               
                 <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="manual_backend.html"
@@ -1722,10 +1704,7 @@ noise.</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1772,7 +1751,7 @@ noise.</p>
             
           </div>
           <footer class="bd-footer-content">
-            
+            <div class="bd-footer-content__inner">
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -1802,7 +1781,7 @@ By Cambridge Quantum Computing Ltd
     
   </div>
   
-</div>
+</div></div>
           </footer>
         
 
@@ -1811,8 +1790,8 @@ By Cambridge Quantum Computing Ltd
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
   <footer class="bd-footer">
   </footer>
