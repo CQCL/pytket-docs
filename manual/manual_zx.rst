@@ -109,7 +109,7 @@ We can use this teleportation algorithm as a component in a larger diagram using
     # The inputs appear first in the boundary, so port 0 is the input
     circ_diag.add_wire(u=rx, v=box, v_port=0)
     # Port 1 for the output
-    circ_diag.add_wire(u=box, v=cout, u_port=1)
+    circ_diag.add_wire(u=box, v=qout, u_port=1)
 
     # Measure second qubit destructively and output result
     circ_diag.add_wire(cz_t, x_meas)
@@ -140,7 +140,7 @@ As the pytket ZX diagrams represent mixed diagrams, this impacts the interpretat
 
 .. jupyter-execute::
 
-    from pytket.zx.zx_tensor import tensor_from_mixed_diagram
+    from pytket.zx.tensor_eval import tensor_from_mixed_diagram
     ten = tensor_from_mixed_diagram(circ_diag)
     # Indices are (qin0, qin0_conj, qin1, qin1_conj, qout, qout_conj, cout)
     print(ten.shape)
@@ -150,7 +150,7 @@ In many cases, we work with pure quantum diagrams. This doubling would cause sub
 
 .. jupyter-execute::
 
-    from pytket.zx.zx_tensor import tensor_from_quantum_diagram, unitary_from_quantum_diagram
+    from pytket.zx.tensor_eval import tensor_from_quantum_diagram, unitary_from_quantum_diagram
     u_diag = ZXDiagram(2, 2, 0, 0)
     ins = u_diag.get_boundary(ZXType.Input)
     outs = u_diag.get_boundary(ZXType.Output)
@@ -172,7 +172,7 @@ Similarly, one may use :py:meth:`density_matrix_from_cptp_diagram()` to obtain a
 
 .. jupyter-execute::
 
-    from pytket.zx.zx_tensor import density_matrix_from_cptp_diagram
+    from pytket.zx.tensor_eval import density_matrix_from_cptp_diagram
 
     print(density_matrix_from_cptp_diagram(tele))
 
@@ -182,7 +182,7 @@ Another way to potentially reduce the computational load for tensor evaluation i
 
 .. jupyter-execute::
 
-    from pytket.zx.zx_tensor import fix_inputs_to_binary_state
+    from pytket.zx.tensor_eval import fix_inputs_to_binary_state
     state_diag = fix_inputs_to_binary_state(u_diag, [1, 0])
     print(unitary_from_quantum_diagram(state_diag))
 
