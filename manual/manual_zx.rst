@@ -235,24 +235,29 @@ The particular rewrites available are intended to support common optimisation st
 The rewrite passes can be broken down into a few categories depending on the form of the diagrams expected and the function of the passes. Full descriptions of each pass are given in the API reference.
 
 =================================== ===========================================
-Decompositions into generating sets | :py:meth:`Rewrite.decompose_boxes()`, 
+Decompositions into generating sets 
+                                      :py:meth:`Rewrite.decompose_boxes()`, 
                                       :py:meth:`Rewrite.basic_wires()`, 
                                       :py:meth:`Rewrite.rebase_to_zx()`, 
                                       :py:meth:`Rewrite.rebase_to_mbqc()`
-Rewriting into graphlike form       | :py:meth:`Rewrite.red_to_green()`,
+Rewriting into graphlike form       
+                                      :py:meth:`Rewrite.red_to_green()`,
                                       :py:meth:`Rewrite.spider_fusion()`,
                                       :py:meth:`Rewrite.self_loop_removal()`,
                                       :py:meth:`Rewrite.parallel_h_removal()`,
                                       :py:meth:`Rewrite.separate_boundaries()`,
                                       :py:meth:`Rewrite.io_extension()`
-Reduction within graphlike form     | :py:meth:`Rewrite.remove_interior_cliffords()`,
+Reduction within graphlike form     
+                                      :py:meth:`Rewrite.remove_interior_cliffords()`,
                                       :py:meth:`Rewrite.remove_interior_paulis()`, 
                                       :py:meth:`Rewrite.gadgetise_interior_paulis()`, 
                                       :py:meth:`Rewrite.merge_gadgets()`, 
                                       :py:meth:`Rewrite.extend_at_boundary_paulis()`
-MBQC                                | :py:meth:`Rewrite.extend_for_PX_outputs()`, 
+MBQC                                
+                                      :py:meth:`Rewrite.extend_for_PX_outputs()`, 
                                       :py:meth:`Rewrite.internalise_gadgets()`
-Composite sequences                 | :py:meth:`Rewrite.to_graphlike_form()`,
+Composite sequences                 
+                                      :py:meth:`Rewrite.to_graphlike_form()`,
                                       :py:meth:`Rewrite.reduce_graphlike_form()`,
                                       :py:meth:`Rewrite.to_MBQC_diag()`
 =================================== ===========================================
