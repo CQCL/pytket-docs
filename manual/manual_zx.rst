@@ -144,7 +144,7 @@ As the pytket ZX diagrams represent mixed diagrams, this impacts the interpretat
     ten = tensor_from_mixed_diagram(circ_diag)
     # Indices are (qin0, qin0_conj, qin1, qin1_conj, qout, qout_conj, cout)
     print(ten.shape)
-    print(ten)
+    print(ten[:, :, 1, 1, 0, 0, :])
 
 In many cases, we work with pure quantum diagrams. This doubling would cause substantial blowup in time and memory for evaluation, as well as making the tensor difficult to navigate for large diagrams. :py:meth:`tensor_from_quantum_diagram()` achieves the same as converting all :py:class:`QuantumType.Quantum` components to :py:class:`QuantumType.Classical`, meaning every edge is reduced down to dimension 2. Since the global scalar is maintained with respect to a doubled diagram, its square root is incorporated into the tensor, though we do not maintain the coherent global phase of a pure quantum diagram in this way. For diagrams like this, :py:meth:`unitary_from_quantum_diagram()` reformats the tensor into the conventional unitary (with big-endian indexing).
 
@@ -193,6 +193,10 @@ Graph Traversal, Inspection, and Manual Rewriting
 
 The ability to build static diagrams is fine for visualisation and simulation needs, but the bulk of interest in graphical calculi is in rewriting for simplification. For this, it is enough to traverse the graph to search for relevant subgraphs and manipulate the graph in place. We will illustrate this by gradually rewriting the teleportation diagram to be the identity.
 
+.. jupyter-execute::
+
+    gv.Source(tele.to_graphviz_str())
+
 .. Boundaries (ordering, types and incident edges, not associated to UnitIDs)
 
 The boundary vertices offer a useful starting point for traversals. Each :py:class:`ZXDiagram` maintains an ordered list of its boundaries to help distinguish them (note that this is different from the :py:class:`UnitID` system used by :py:class:`Circuit` objects), which we can retrieve with :py:meth:`ZXDiagram.get_boundary()`. Each boundary vertex should have a unique incident edge which we can access through :py:meth:`ZXDiagram.adj_wires()`.
@@ -201,17 +205,140 @@ The boundary vertices offer a useful starting point for traversals. Each :py:cla
 
 Once we have an edge, we can inspect and modify its properties, specifically its :py:class:`QuantumType` with :py:meth:`ZXDiagram.get/set_wire_qtype()` (whether it represents a single wire or a pair of wires under the doubling construction) and :py:class:`ZXWireType` with :py:meth:`ZXDiagram.get/set_wire_type()` (whether it is equivalent to an identity process or a Hadamard gate). To change the end points of a wire (even just moving it to another port on the same vertex), it is conventional to remove it and create a new wire.
 
+.. jupyter-execute::
+
+    (in_v, out_v) = tele.get_boundary()
+    in_edge = tele.adj_wires(in_v)[0]
+    print(tele.get_wire_qtype(in_edge))
+    print(tele.get_wire_type(in_edge))
+
 The diagram is presented as an undirected graph. We can inspect the end points of an edge with :py:meth:`ZXDiagram.get_wire_ends()`, which returns pairs of vertex and port. If we simply wish to traverse the edge to the next vertex, we use :py:meth:`ZXDiagram.other_end()`. Or we can skip wire traversal altogether using :py:meth:`ZXDiagram.neighbours()` to enumerate the neighbours of a given vertex. This is mostly useful when the wires in a diagram have a consistent form, such as in a graphlike or MBQC diagram (every wire is a Hadamard except for boundary wires).
+
+If you are searching the diagram for a pattern that is simple enough that a full traversal would be excessive, :py:meth:`ZXDiagram.vertices` and :py:meth:`ZXDiagram.wires` return lists of all vertices or edges in the diagram at that moment (in a deterministic but not semantically relevant order) which you can iterate over to search the graph quickly. Be aware that inserting or removing components of the diagram during iteration will not update these lists.
+
+.. jupyter-execute::
+
+    cx_c = tele.other_end(in_edge, in_v)
+    assert tele.get_wire_ends(in_edge) == ((in_v, None), (cx_c, None))
+
+    for v in tele.vertices:
+        print(tele.get_zxtype(v))
+
+Using this, we can scan our diagram for adjacent spiders of the same colour connected by a basic edge to apply spider fusion. In general, this will require us to also inspect the generators of the vertex to be able to add the phases and update the :py:class:`QuantumType` in case of merging with a :py:class:`QuantumType.Classical` spider.
 
 .. Vertex contents, generators, and editing vertex
 
-Similarly, each vertex contains a :py:class:`ZXGen` object describing the particular generator it represents which we can retrieve using :py:meth:`ZXDiagram.get_vertex_ZXGen()`. As each kind of generator has different data, when using a diagram with many kinds of generators it is useful to inspect the :py:class:`ZXType` or the subclass of :py:class:`ZXGen` first. For example, if :py:meth:`ZXDiagram.get_zxtype()` returns :py:class:`ZXType.ZSpider`, we know the generator is a :py:class:`PhasedGen` and hence has the :py:meth:`PhasedGen.param` field describing the phase of the spider.
+Similar to edges, each vertex contains a :py:class:`ZXGen` object describing the particular generator it represents which we can retrieve using :py:meth:`ZXDiagram.get_vertex_ZXGen()`. As each kind of generator has different data, when using a diagram with many kinds of generators it is useful to inspect the :py:class:`ZXType` or the subclass of :py:class:`ZXGen` first. For example, if :py:meth:`ZXDiagram.get_zxtype()` returns :py:class:`ZXType.ZSpider`, we know the generator is a :py:class:`PhasedGen` and hence has the :py:meth:`PhasedGen.param` field describing the phase of the spider.
 
 Each generator object is immutable, so updating a vertex requires creating a new :py:class:`ZXGen` object with the desired properties and passing it to :py:meth:`ZXDiagram.set_vertex_ZXGen()`.
 
-.. Removing vertices and edges versus editing in-place
+.. jupyter-execute::
 
-If you are searching the diagram for a pattern that is simple enough that a full traversal would be excessive, :py:meth:`ZXDiagram.vertices` and :py:meth:`ZXDiagram.wires` return lists of all vertices or edges in the diagram at that moment (in a deterministic but not semantically relevant order) which you can iterate over to search the graph quickly. Be aware that inserting or removing components of the diagram during iteration will not update these lists.
+    from pytket.zx import PhasedGen
+
+    def fuse():
+        removed = []
+        for v in tele.vertices:
+            if v in removed or tele.get_zxtype(v) not in (ZXType.ZSpider, ZXType.XSpider):
+                continue
+            for w in tele.adj_wires(v):
+                if tele.get_wire_type(w) != ZXWireType.Basic:
+                    continue
+                
+                n = tele.other_end(w, v)
+                if tele.get_zxtype(n) != tele.get_zxtype(v):
+                    continue
+                
+                # Match found, copy n's edges onto v
+                for nw in tele.adj_wires(n):
+                    if nw != w:
+                        # We know all vertices here are symmetric generators so we 
+                        # don't need to care about port information
+                        nn = tele.other_end(nw, n)
+                        wtype = tele.get_wire_type(nw)
+                        qtype = tele.get_wire_qtype(nw)
+                        tele.add_wire(v, nn, wtype, qtype)
+                # Update v to have total phase
+                n_spid = tele.get_vertex_ZXGen(n)
+                v_spid = tele.get_vertex_ZXGen(v)
+                v_qtype = QuantumType.Classical if n_spid.qtype == QuantumType.Classical or v_spid.qtype == QuantumType.Classical else QuantumType.Quantum
+                tele.set_vertex_ZXGen(v, PhasedGen(v_spid.type, v_spid.param + n_spid.param, v_qtype))
+                # Remove n
+                tele.remove_vertex(n)
+                removed.append(n)
+    
+    fuse()
+    
+    gv.Source(tele.to_graphviz_str())
+
+Similarly, we can scan for a pair of adjacent basic edges between a green and a red spider for the strong complementarity rule.
+
+.. jupyter-execute::
+
+    def strong_comp():
+        gr_edges = dict()
+        for w in tele.wires:
+            if tele.get_wire_type(w) != ZXWireType.Basic:
+                continue
+            ((u, u_port), (v, v_port)) = tele.get_wire_ends(w)
+            gr_match = None
+            if tele.get_zxtype(u) == ZXType.ZSpider and tele.get_zxtype(v) == ZXType.XSpider:
+                gr_match = (u, v)
+            elif tele.get_zxtype(u) == ZXType.XSpider and tele.get_zxtype(v) == ZXType.ZSpider:
+                gr_match = (v, u)
+            
+            if gr_match:
+                if gr_match in gr_edges:
+                    # Found a matching pair, remove them
+                    other_w = gr_edges[gr_match]
+                    tele.remove_wire(w)
+                    tele.remove_wire(other_w)
+                    del gr_edges[gr_match]
+                else:
+                    # Record the edge for later
+                    gr_edges[gr_match] = w
+    
+    strong_comp()
+
+    gv.Source(tele.to_graphviz_str())
+
+Finally, we write a procedure that finds spiders of degree 2 which act like an identity. We need to check that the phase on the spider is zero, and that the :py:class:`QuantumType` of the generator matches those of the incident edges (so we don't accidentally remove decoherence spiders).
+
+.. jupyter-execute::
+
+    def id_remove():
+        for v in tele.vertices:
+            if tele.degree(v) == 2 and tele.get_zxtype(v) in (ZXType.ZSpider, ZXType.XSpider):
+                spid = tele.get_vertex_ZXGen(v)
+                ws = tele.adj_wires(v)
+                if spid.param == 0 and tele.get_wire_qtype(ws[0]) == spid.qtype and tele.get_wire_qtype(ws[1]) == spid.qtype:
+                    # Found an identity
+                    n0 = tele.other_end(ws[0], v)
+                    n1 = tele.other_end(ws[1], v)
+                    wtype = ZXWireType.H if (tele.get_wire_type(ws[0]) == ZXWireType.H) != (tele.get_wire_type(ws[1]) == ZXWireType.H) else ZXWireType.Basic
+                    tele.add_wire(n0, n1, wtype, spid.qtype)
+                    tele.remove_vertex(v)
+    
+    id_remove()
+
+    gv.Source(tele.to_graphviz_str())
+
+.. jupyter-execute::
+
+    fuse()
+    gv.Source(tele.to_graphviz_str())
+
+.. jupyter-execute::
+
+    strong_comp()
+    gv.Source(tele.to_graphviz_str())
+
+.. jupyter-execute::
+
+    id_remove()
+    gv.Source(tele.to_graphviz_str())
+
+.. Removing vertices and edges versus editing in-place
 
 A number of other methods for inspecting and traversing a diagram are available and can be found in the API reference.
 
@@ -304,7 +431,7 @@ Up to this point, we have only examined the ZX module in a vacuum, so now we wil
 
 .. Created and discarded qubits are not open boundaries; indexing of boundaries made by qubit and bit order; conversion returns a map between boundaries and UnitIDs
 
-The boundaries of the resulting :py:class:`ZXDiagram` will match up with the open boundaries of the :py:class:`Circuit`. However, :py:class:`OpType.Create` and :py:class:`OpType.Discard` operations will be replaced with an initialisation and a discard map respectively, meaning the number of boundary vertices in the resulting diagram may not match up with the number of qubits and bits in the original :py:class:`Circuit`. This makes it difficult to have a sensible policy for knowing where in the linear boundary of the :py:class:`ZXDiagram` is the input/output of a particular qubit. The second return value of :py:math:`circuit_to_zx()` is a map sending a :py:class:`UnitID` to the pair of :py:class:`ZXVert` objects for the corresponding input and output.
+The boundaries of the resulting :py:class:`ZXDiagram` will match up with the open boundaries of the :py:class:`Circuit`. However, :py:class:`OpType.Create` and :py:class:`OpType.Discard` operations will be replaced with an initialisation and a discard map respectively, meaning the number of boundary vertices in the resulting diagram may not match up with the number of qubits and bits in the original :py:class:`Circuit`. This makes it difficult to have a sensible policy for knowing where in the linear boundary of the :py:class:`ZXDiagram` is the input/output of a particular qubit. The second return value of :py:meth:`circuit_to_zx()` is a map sending a :py:class:`UnitID` to the pair of :py:class:`ZXVert` objects for the corresponding input and output.
 
 .. Extraction is not computationally feasible for general diagrams; known to be efficient for MBQC diagrams with flow; current method permits unitary diagrams with gflow, based on Backens et al.; more methods will be written in future for different extraction methods, e.g. causal flow, MBQC, pauli flow, mixed diagram extraction
 
