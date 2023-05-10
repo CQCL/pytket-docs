@@ -463,24 +463,24 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
  [1 1]
  [1 1]
  [0 1]
- [0 1]
- [1 1]
- [1 1]
  [1 1]
  [0 1]
  [0 1]
  [0 1]
- [1 1]
  [0 1]
+ [1 1]
  [1 1]
  [0 1]
  [1 1]
  [0 1]
  [1 1]
+ [0 1]
+ [1 1]
+ [0 1]
  [1 1]
  [0 1]]
 </pre></div>
@@ -509,8 +509,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1026, (0, 1): 974})
-{(0, 1): 0.487, (1, 1): 0.513}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1063, (0, 1): 937})
+{(0, 1): 0.4685, (1, 1): 0.5315}
 </pre></div>
 </div>
 </div>
@@ -684,7 +684,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.018000000000000016
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.0040000000000000036
 </pre></div>
 </div>
 </div>
@@ -745,11 +745,8 @@ Counter({(1, 0): 10})
   0.63003676-3.85786248e-17j -0.32101976+3.93135823e-17j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j]
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-Counter({(1, 0, 0): 825, (0, 0, 0): 762, (0, 0, 1): 221, (1, 0, 1): 192})
-Counter({(0, 0): 1587, (0, 1): 413})
+Counter({(1, 0, 0): 793, (0, 0, 0): 785, (0, 0, 1): 234, (1, 0, 1): 188})
+Counter({(0, 0): 1578, (0, 1): 422})
 </pre></div>
 </div>
 </div>
@@ -797,8 +794,10 @@ Counter({(0, 0): 1587, (0, 1): 413})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.018000000000000016
-(0.284+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.015000000000000013
+</pre></div>
+</div>
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.23900000000000005+0j)
 </pre></div>
 </div>
 </div>
@@ -827,8 +826,8 @@ Counter({(0, 0): 1587, (0, 1): 413})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 407, (0, 1, 1): 388, (0, 1, 0): 387, (0, 0, 0): 381, (1, 1, 1): 119, (1, 0, 0): 109, (1, 0, 1): 109, (1, 1, 0): 100})
--0.02200000000000002
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 416, (0, 0, 1): 410, (0, 1, 0): 410, (0, 1, 1): 363, (1, 1, 1): 113, (1, 1, 0): 103, (1, 0, 1): 95, (1, 0, 0): 90})
+-0.02299999999999991
 </pre></div>
 </div>
 </div>
@@ -868,7 +867,7 @@ Counter({(0, 0): 1587, (0, 1): 413})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 134, (0, 0, 0): 131, (0, 0, 1): 131, (0, 1, 1): 128, (0, 1, 0): 125, (1, 1, 1): 123, (1, 0, 0): 114, (1, 1, 0): 114})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 144, (1, 1, 1): 132, (1, 0, 0): 128, (0, 1, 1): 127, (0, 0, 0): 124, (1, 1, 0): 119, (1, 0, 1): 118, (0, 1, 0): 108})
 </pre></div>
 </div>
 </div>
@@ -922,7 +921,7 @@ Counter({(0, 0): 1587, (0, 1): 413})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.01200000000000001
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.014999999999999902
 </pre></div>
 </div>
 </div>
@@ -998,31 +997,29 @@ Counter({(0, 0): 1587, (0, 1): 413})
 <span class="kn">from</span> <span class="nn">qiskit.algorithms</span> <span class="kn">import</span> <span class="n">Grover</span><span class="p">,</span> <span class="n">AmplificationProblem</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 
-<span class="kn">from</span> <span class="nn">pytket.extensions.cirq</span> <span class="kn">import</span> <span class="n">CirqStateSampleBackend</span>
+<span class="c1"># disabled because of https://github.com/CQCL/pytket-cirq/issues/25</span>
+<span class="c1"># from pytket.extensions.cirq import CirqStateSampleBackend</span>
 <span class="kn">from</span> <span class="nn">pytket.extensions.qiskit.tket_backend</span> <span class="kn">import</span> <span class="n">TketBackend</span>
 
-<span class="n">cirq_simulator</span> <span class="o">=</span> <span class="n">CirqStateSampleBackend</span><span class="p">()</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">TketBackend</span><span class="p">(</span><span class="n">cirq_simulator</span><span class="p">,</span> <span class="n">cirq_simulator</span><span class="o">.</span><span class="n">default_compilation_pass</span><span class="p">())</span>
-<span class="n">sampler_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;shots&quot;</span><span class="p">:</span><span class="mi">1024</span><span class="p">}</span>
-<span class="n">qsampler</span> <span class="o">=</span> <span class="n">BackendSampler</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">sampler_options</span><span class="p">)</span>
+<span class="c1"># cirq_simulator = CirqStateSampleBackend()</span>
+<span class="c1"># backend = TketBackend(cirq_simulator, cirq_simulator.default_compilation_pass())</span>
+<span class="c1"># sampler_options = {&quot;shots&quot;:1024}</span>
+<span class="c1"># qsampler = BackendSampler(backend, options=sampler_options)</span>
 
-<span class="n">oracle</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">oracle</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1"># oracle = QuantumCircuit(2)</span>
+<span class="c1"># oracle.cz(0, 1)</span>
 
 <span class="k">def</span> <span class="nf">is_good_state</span><span class="p">(</span><span class="n">bitstr</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">bitstr</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span>
 
-<span class="n">problem</span> <span class="o">=</span> <span class="n">AmplificationProblem</span><span class="p">(</span><span class="n">oracle</span><span class="o">=</span><span class="n">oracle</span><span class="p">,</span> <span class="n">is_good_state</span><span class="o">=</span><span class="n">is_good_state</span><span class="p">)</span>
-<span class="n">grover</span> <span class="o">=</span> <span class="n">Grover</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">qsampler</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">grover</span><span class="o">.</span><span class="n">amplify</span><span class="p">(</span><span class="n">problem</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Top measurement:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">top_measurement</span><span class="p">)</span>
+<span class="c1"># problem = AmplificationProblem(oracle=oracle, is_good_state=is_good_state)</span>
+<span class="c1"># grover = Grover(sampler=qsampler)</span>
+<span class="c1"># result = grover.amplify(problem)</span>
+<span class="c1"># print(&quot;Top measurement:&quot;, result.top_measurement)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Top measurement: 11
-</pre></div>
-</div>
 </div>
 </div>
 <div class="admonition note">
@@ -1233,7 +1230,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 6, (0, 0): 4})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 6, (1, 1): 4})
 </pre></div>
 </div>
 </div>
