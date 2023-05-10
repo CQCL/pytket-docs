@@ -48,20 +48,25 @@ Each :py:class:`Predicate` can be constructed on its own to impose tests on :py:
 ======================================= =======================================
 Common :py:class:`Predicate`            Constraint
 ======================================= =======================================
-:py:class:`GateSetPredicate`            | Every gate is within a set of allowed
+:py:class:`GateSetPredicate`           
+                                          Every gate is within a set of allowed
                                           :py:class:`OpType` s
-:py:class:`ConnectivityPredicate`       | Every multi-qubit gate acts on
+:py:class:`ConnectivityPredicate`       
+                                          Every multi-qubit gate acts on
                                           adjacent qubits according to some
                                           connectivity graph
-:py:class:`DirectednessPredicate`       | Extends
+:py:class:`DirectednessPredicate`       
+                                          Extends
                                           :py:class:`ConnectivityPredicate`
                                           where ``OpType::CX`` gates are only
                                           supported in a specific orientation
                                           between adjacent qubits
-:py:class:`NoClassicalControlPredicate` | The :py:class:`Circuit` does not
+:py:class:`NoClassicalControlPredicate` 
+                                          The :py:class:`Circuit` does not
                                           contain any gates that act
                                           conditionally on classical data
-:py:class:`NoMidMeasurePredicate`       | All ``OpType::Measure`` gates act at
+:py:class:`NoMidMeasurePredicate`      
+                                          All ``OpType::Measure`` gates act at
                                           the end of the :py:class:`Circuit`
                                           (there are no subsequent gates on
                                           either the :py:class:`Qubit` measured
