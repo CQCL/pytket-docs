@@ -5,10 +5,10 @@ This manual refers to the following versions of pytket and extensions:
 
 .. code-block:: text
 
-    pytket == 1.13.1
+    pytket == 1.15.0
     pytket-projectq == 0.27.0
-    pytket-qiskit == 0.37.0
-    pytket-qsharp == 0.32.0
+    pytket-qiskit == 0.39.0
+    pytket-qsharp == 0.33.0
 
 .. toctree::
     :caption: Manual Sections:
