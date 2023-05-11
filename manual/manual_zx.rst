@@ -349,6 +349,85 @@ Built-in Rewrite Passes
 
 The pytket ZX module comes with a handful of common rewrite procedures built-in to prevent the need to write manual traversals in many cases. These procedures work in a similar way to the pytket compilation passes in applying a particular strategy across the entire diagram, saving computational time by potentially applying many rewrites in a single traversal. In the cases where there are overlapping patterns or rewrites that introduce new target patterns in the output diagram, these rewrites may not always be applied exhaustively to save time backtracking.
 
+.. jupyter-execute::
+
+    # This diagram follows from section A of https://arxiv.org/pdf/1902.03178.pdf
+    diag = ZXDiagram(4, 4, 0, 0)
+    ins = diag.get_boundary(ZXType.Input)
+    outs = diag.get_boundary(ZXType.Output)
+    v11 = diag.add_vertex(ZXType.ZSpider, 1.5)
+    v12 = diag.add_vertex(ZXType.ZSpider, 0.5)
+    v13 = diag.add_vertex(ZXType.ZSpider)
+    v14 = diag.add_vertex(ZXType.XSpider)
+    v15 = diag.add_vertex(ZXType.ZSpider, 0.25)
+    v21 = diag.add_vertex(ZXType.ZSpider, 0.5)
+    v22 = diag.add_vertex(ZXType.ZSpider)
+    v23 = diag.add_vertex(ZXType.ZSpider)
+    v24 = diag.add_vertex(ZXType.ZSpider, 0.25)
+    v25 = diag.add_vertex(ZXType.ZSpider)
+    v31 = diag.add_vertex(ZXType.XSpider)
+    v32 = diag.add_vertex(ZXType.XSpider)
+    v33 = diag.add_vertex(ZXType.ZSpider, 0.5)
+    v34 = diag.add_vertex(ZXType.ZSpider, 0.5)
+    v35 = diag.add_vertex(ZXType.XSpider)
+    v41 = diag.add_vertex(ZXType.ZSpider)
+    v42 = diag.add_vertex(ZXType.ZSpider)
+    v43 = diag.add_vertex(ZXType.ZSpider, 1.5)
+    v44 = diag.add_vertex(ZXType.XSpider, 1.0)
+    v45 = diag.add_vertex(ZXType.ZSpider, 0.5)
+    v46 = diag.add_vertex(ZXType.XSpider, 1.0)
+
+    diag.add_wire(ins[0], v11)
+    diag.add_wire(v11, v12, ZXWireType.H)
+    diag.add_wire(v12, v13)
+    diag.add_wire(v13, v41, ZXWireType.H)
+    diag.add_wire(v13, v14)
+    diag.add_wire(v14, v42)
+    diag.add_wire(v14, v15, ZXWireType.H)
+    diag.add_wire(v15, outs[0], ZXWireType.H)
+
+    diag.add_wire(ins[1], v21)
+    diag.add_wire(v21, v22)
+    diag.add_wire(v22, v31)
+    diag.add_wire(v22, v23, ZXWireType.H)
+    diag.add_wire(v23, v32)
+    diag.add_wire(v23, v24)
+    diag.add_wire(v24, v25, ZXWireType.H)
+    diag.add_wire(v25, v35)
+    diag.add_wire(outs[1], v25)
+
+    diag.add_wire(ins[2], v31)
+    diag.add_wire(v31, v32)
+    diag.add_wire(v32, v33)
+    diag.add_wire(v33, v34, ZXWireType.H)
+    diag.add_wire(v34, v35)
+    diag.add_wire(v35, outs[2])
+
+    diag.add_wire(ins[3], v41, ZXWireType.H)
+    diag.add_wire(v41, v42)
+    diag.add_wire(v42, v43, ZXWireType.H)
+    diag.add_wire(v43, v44)
+    diag.add_wire(v44, v45)
+    diag.add_wire(v45, v46)
+    diag.add_wire(v46, outs[3])
+    diag.check_validity()
+
+    gv.Source(diag.to_graphviz_str())
+
+.. jupyter-execute::
+
+    from pytket.zx import Rewrite
+    
+    Rewrite.red_to_green().apply(diag)
+    Rewrite.spider_fusion().apply(diag)
+    Rewrite.io_extension().apply(diag)
+    gv.Source(diag.to_graphviz_str())
+
+.. jupyter-execute::
+
+    Rewrite.reduce_graphlike_form().apply(diag)
+    gv.Source(diag.to_graphviz_str())
+
 .. Inteded to support common optimisation strategies; focussed on reducing to specific forms and work in graphlike form
 
 The particular rewrites available are intended to support common optimisation strategies. In particular, they mostly focus on converting a diagram to graphlike form and working on graphlike diagrams to reduce the number of vertices as much as possible. These have close correspondences with MBQC patterns, and the rewrites preserve the existence of flow, which helps guarantee an efficient extraction procedure.
@@ -406,11 +485,36 @@ When using the ZX module to represent measurement patterns, we care about repres
 
 Each of the MBQC :py:class:`ZXType` options represent a qubit that is initialised and post-selected into the plane/Pauli specified by the type, at the angle/polarity given by the parameter of the :py:class:`ZXGen`. Entanglement between these qubits is given by :py:class:`ZXWireType.H` edges, representing CZ gates. We identify input and output qubits using :py:class:`ZXWireType.Basic` edges connecting them to :py:class:`ZXType.Input` or :py:class:`ZXType.Output` vertices (since output qubits are unmeasured, their semantics as tensors are equivalent to :py:class:`ZXType.PX` vertices with `False` polarity). The :py:meth:`Rewrite.to_MBQC_diag()` rewrite will transform any ZX diagram into one of this form.
 
+.. jupyter-execute::
+
+    Rewrite.to_MBQC_diag().apply(diag)
+    gv.Source(diag.to_graphviz_str())
+
 .. Causal flow, gflow, Pauli flow (completeness of extended Pauli flow and hence Pauli flow)
 
 Given a ZX diagram in MBQC form, there are algorithms that can find a suitable :py:class:`Flow` if one exists. Since there are several classifications of flow (e.g. causal flow, gflow, Pauli flow, extended Pauli flow) with varying levels of generality, we offer multiple algorithms for identifying them. For example, any diagram supporting a uniform, stepwise, strongly deterministic measurement and correction scheme will have a Pauli flow, but identification of this is :math:`O(n^4)` in the number of qubits (vertices) in the pattern. On the other hand, causal flow is a particular special case that may not always exist but can be identified in :math:`O(n^2 \log n)` time.
 
 The :py:class:`Flow` object that is returned abstracts away the partial ordering of the measured qubits of the diagram by just giving the depth from the outputs, i.e. all output qubits and those with no corrections have depth :math:`0`, all qubits with depth :math:`n` can be measured simultaneously and only require corrections on qubits at depth strictly less than :math:`n`. The measurement corrections can also be inferred from the flow, where :py:meth:`Flow.c()` gives the correction set for a given measured qubit (the qubits which require an :math:`X` correction if a measurement error occurs) and :py:meth:`Flow.odd()` gives its odd neighbourhood (the qubits which require a :math:`Z` correction).
+
+.. jupyter-execute::
+
+    from pytket.zx import Flow
+
+    fl = Flow.identify_pauli_flow(diag)
+
+    # We can look up the flow data for a particular vertex
+    # For example, let's take the first input qubit
+    vertex_ids = { v : i for (i, v) in enumerate(diag.vertices) }
+    in0 = diag.get_boundary(ZXType.Input)[0]
+    v = diag.neighbours(in0)[0]
+    print(vertex_ids[v])
+    print(fl.d(v))
+    print([vertex_ids[c] for c in fl.c(v)])
+    print([vertex_ids[o] for o in fl.odd(v, diag)])
+
+    # Or we can obtain the entire flow as maps for easy iteration
+    print({ vertex_ids[v] : d for (v, d) in fl.dmap.items() })
+    print({ vertex_ids[v] : [vertex_ids[c] for c in cs] for (v, cs) in fl.cmap.items() })
 
 .. note:: In accordance with the Pauli flow criteria, :py:meth:`Flow.c()` and :py:meth:`Flow.odd()` may return qubits that have already been measured, but this may only happen in cases where the required correction would not have affected the past measurement such as a :math:`Z` on a :py:class:`ZXType.PZ` qubit.
 
@@ -433,13 +537,59 @@ Up to this point, we have only examined the ZX module in a vacuum, so now we wil
 
 The boundaries of the resulting :py:class:`ZXDiagram` will match up with the open boundaries of the :py:class:`Circuit`. However, :py:class:`OpType.Create` and :py:class:`OpType.Discard` operations will be replaced with an initialisation and a discard map respectively, meaning the number of boundary vertices in the resulting diagram may not match up with the number of qubits and bits in the original :py:class:`Circuit`. This makes it difficult to have a sensible policy for knowing where in the linear boundary of the :py:class:`ZXDiagram` is the input/output of a particular qubit. The second return value of :py:meth:`circuit_to_zx()` is a map sending a :py:class:`UnitID` to the pair of :py:class:`ZXVert` objects for the corresponding input and output.
 
+.. jupyter-execute::
+
+    from pytket import Circuit, Qubit
+    from pytket.zx import circuit_to_zx
+
+    c = Circuit(4)
+    c.CZ(0, 1)
+    c.CX(1, 2)
+    c.H(1)
+    c.X(0)
+    c.Rx(0.7, 0)
+    c.Rz(0.2, 1)
+    c.X(3)
+    c.H(2)
+    c.qubit_create(Qubit(2))
+    c.qubit_discard(Qubit(3))
+    diag, bound_map = circuit_to_zx(c)
+
+    in3, out3 = bound_map[Qubit(3)]
+    # Qubit 3 was discarded, so out3 will be None
+    print(out3)
+    # Look at the neighbour of the input to check the first operation is the X
+    n = diag.neighbours(in3)[0]
+    print(diag.get_vertex_ZXGen(n))
+
 .. Extraction is not computationally feasible for general diagrams; known to be efficient for MBQC diagrams with flow; current method permits unitary diagrams with gflow, based on Backens et al.; more methods will be written in future for different extraction methods, e.g. causal flow, MBQC, pauli flow, mixed diagram extraction
 
 From here, we are able to rewrite our circuit as a ZX diagram, and even though we may aim to preserve the semantics, there is often little guarantee that the diagram will resemble the structure of a circuit after rewriting. The extraction problem concerns taking a ZX diagram and attempting to identify an equivalent circuit, and this is known to be #P-Hard for arbitrary diagrams equivalent to a unitary circuit which is not computationally feasible. However, if we can guarantee that our rewriting leaves us with a diagram in MBQC form which admits a flow of some kind, then there exist efficient methods for extracting an equivalent circuit.
 
-The current method implemented in :py:meth:`zx_to_circuit()` permits extraction of a circuit from a unitary ZX diagram with gflow, based on the method of Backens et al. More methods may be added in the future for different extraction methods, such as fast extraction with causal flow, MBQC (i.e. a :py:class:`Circuit` with explicit measurement and correction operations), extraction from Pauli flow, and mixed diagram extraction.
+The current method implemented in :py:meth:`ZXDiagram.to_circuit()` permits extraction of a circuit from a unitary ZX diagram with gflow, based on the method of Backens et al. More methods may be added in the future for different extraction methods, such as fast extraction with causal flow, MBQC (i.e. a :py:class:`Circuit` with explicit measurement and correction operations), extraction from Pauli flow, and mixed diagram extraction.
 
-Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to each boundary vertex, :py:class:`zx_to_circuit()` also returns a map sending each boundary :py:class:`ZXVert` to the corresponding :py:class:`UnitID` in the resulting :py:class:`Circuit`.
+Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to each boundary vertex, :py:meth:`ZXDiagram.to_circuit()` also returns a map sending each boundary :py:class:`ZXVert` to the corresponding :py:class:`UnitID` in the resulting :py:class:`Circuit`.
+
+.. jupyter-execute::
+
+    from pytket import OpType
+    from pytket.circuit.display import render_circuit_jupyter
+    from pytket.passes import auto_rebase_pass
+
+    c = Circuit(5)
+    c.CCX(0, 1, 4)
+    c.CCX(2, 4, 3)
+    c.CCX(0, 1, 4)
+    # Conversion is only defined for a subset of gate types - rebase as needed
+    auto_rebase_pass({ OpType.Rx, OpType.Rz, OpType.X, OpType.Z, OpType.H, OpType.CZ, OpType.CX }).apply(c)
+    diag, _ = circuit_to_zx(c)
+
+    Rewrite.to_graphlike_form().apply(diag)
+    Rewrite.reduce_graphlike_form().apply(diag)
+    Rewrite.to_MBQC_diag().apply(diag)
+
+    circ, _ = diag.to_circuit()
+    render_circuit_jupyter(circ)
 
 Compiler Passes Using ZX
 ------------------------
@@ -447,6 +597,14 @@ Compiler Passes Using ZX
 .. Prepackaged into ZXGraphlikeOptimisation pass for convenience to try out 
 
 The known methods for circuit rewriting and optimisation lend themselves to a single common routine of mapping to graphlike form, reducing within that form, and extracting back out. :py:class:`ZXGraphlikeOptimisation` is a standard pytket compiler pass that packages this routine up for convenience to save the user from manually digging into the ZX module before they can test out using the compilation routine on their circuits.
+
+.. jupyter-execute::
+
+    from pytket.passes import ZXGraphlikeOptimisation
+
+    # Use the same CCX example from above
+    ZXGraphlikeOptimisation().apply(c)
+    render_circuit_jupyter(c)
 
 The specific nature of optimising circuits via ZX diagrams gives rise to some general advice regarding how to use :py:class:`ZXGraphlikeOptimisation` in compilation sequences and what to expect from its performance:
 
