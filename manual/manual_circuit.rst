@@ -425,7 +425,7 @@ When working with quantum circuits we may want access to the quantum state prepa
     from pytket import Circuit
 
     circ = Circuit(2)
-    circ.H(0).CX(0,1)
+    circ.H(0).CX(0, 1)
     circ.get_statevector()
 
 In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
@@ -435,13 +435,16 @@ In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate 
     from pytket import Circuit
 
     circ = Circuit(2)
-    circ.H(0).CZ(0,1).H(1)
+    circ.H(0).CZ(0, 1).H(1)
     circ.get_unitary()
 
 .. warning:: The unitary matrix of a quantum circuit is of dimension :math:`(2^n \times 2^n)` where :math:`n` is the number of qubits. The statevector will be a column vector with :math:`2^n` entries . Due to this exponential scaling it will in general be very inefficient to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.
 
 Boxes
 -----
+
+Circuit Boxes and Controlled Unitaries
+======================================
 
 .. Boxes abstract away complex structures as black-box units within larger circuits
 
@@ -497,6 +500,9 @@ As well as creating controlled boxes, we can create a controlled version of an a
 
 .. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
 
+Boxes for Unitary synthesis
+===========================
+
 It is possible to specify small unitaries from ``numpy`` arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.
 
 .. jupyter-execute::
@@ -524,6 +530,9 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
 .. `PauliExpBox` for simulations and general interactions
 
+Pauli Exponential Boxes
+=======================
+
 Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: :math:`e^{-i \pi \theta P}` (:math:`P \in \{I, X, Y, Z\}^{\otimes n}`). These occur very naturally in Trotterising evolution operators and as common native device operations.
 
 .. jupyter-execute::
@@ -536,6 +545,9 @@ Another notable example that is common to many algorithms and high-level circuit
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X], -0.1), [0, 1])
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
+
+Multiplexors, State Preperation Boxes and :py:class:`ToffoliBox`
+================================================================
 
 In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` operation. This box type can be used to prepare an arbitrary permutation of the computational basis states.
 
