@@ -537,7 +537,7 @@ Another notable example that is common to many algorithms and high-level circuit
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
 
-In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` structure. This box type can be used to prepare an arbitrary permutation of the computational basis states.
+In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` operation. This box type can be used to prepare an arbitrary permutation of the computational basis states.
 
 In order to construct a :py:class:`ToffoliBox` the user must supply the desired permutation as a dictionary specifying the action of the box on different input basis states, where a key:value pair implies that the basis state key should be mapped to the basis state value.
 
