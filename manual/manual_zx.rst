@@ -21,7 +21,7 @@ Before we start building diagrams, it is useful to cover the kinds of generators
 
 * Boundary generators: :py:class:`ZXType.Input`, :py:class:`ZXType.Output`, :py:class:`ZXType.Open`. These are used to turn some edges of the diagram into half-edges, indicating the input, output, or unspecified boundaries of the diagram. These will be maintained in an ordered list in a :py:class:`ZXDiagram` to specify the intended order of indices when interpreting the diagram as a tensor.
 
-* Symmetric ZXH generators: :py:class:`ZXType.ZSpider`, :py:class:`ZXType.XSpider`, :py:class:`ZXType.HBox`. These are the familiar generators. All indicent edges are exchangeable, so no port information is used (all edges attach at port ``None``). The degenerate :py:class:`QuantumType.Classical` variants support both :py:class:`QuantumType.Classical` and :py:class:`QuantumType.Quantum` incident edges, with the latter being treated as two distinct edges.
+* Symmetric ZXH generators: :py:class:`ZXType.ZSpider`, :py:class:`ZXType.XSpider`, :py:class:`ZXType.HBox`. These are the familiar generators from standard literature. All indicent edges are exchangeable, so no port information is used (all edges attach at port ``None``). The degenerate :py:class:`QuantumType.Classical` variants support both :py:class:`QuantumType.Classical` and :py:class:`QuantumType.Quantum` incident edges, with the latter being treated as two distinct edges.
 
 * MBQC generators: :py:class:`ZXType.XY`, :py:class:`ZXType.XZ`, :py:class:`ZXType.YZ`, :py:class:`ZXType.PX`, :py:class:`ZXType.PY`, :py:class:`ZXType.PZ`. These represent qubits in a measurement pattern that are postselected into the correct outcome (i.e. we do not consider errors and corrections as these can be inferred by flow detection). Each of them can be thought of as shorthand for a :py:class:`ZXType.ZSpider` with an adjacent spider indicating the postselection projector. The different types indicate either planar measurements with a continuous-parameter angle or a Pauli measurement with a Boolean angle selecting which outcome is the intended. Entanglement between qubits can be established with a :py:class:`ZXWireType.H` edge between vertices, with :py:class:`ZXWireType.Basic` edges connecting to a :py:class:`ZXType.Input` to indicate input qubits. Unmeasured output qubits can be indicated using a :py:class:`ZXType.PX` vertex (essentially a zero phase :py:class:`ZXType.ZSpider`) attached to a :py:class:`ZXType.Output`.
 
@@ -106,7 +106,7 @@ We can use this teleportation algorithm as a component in a larger diagram using
     circ_diag.add_wire(cz_c, rx)
 
     # Teleport first qubit
-    # The inputs appear first in the boundary, so port 0 is the input
+    # The inputs appear first in the boundary of tele, so port 0 is the input
     circ_diag.add_wire(u=rx, v=box, v_port=0)
     # Port 1 for the output
     circ_diag.add_wire(u=box, v=qout, u_port=1)
@@ -178,7 +178,7 @@ Similarly, one may use :py:meth:`density_matrix_from_cptp_diagram()` to obtain a
 
 .. Tensor indices, unitaries and states; initialisation and post-selection
 
-Another way to potentially reduce the computational load for tensor evaluation is to fix basis states at the boundary vertices, corresponding to initialising inputs or post-selecting on outputs. There are utility methods for setting all inputs/outputs to values or specific boundary vertices. For example, we can recover statevector simulation of a quantum circuit by setting all inputs to the zero state and calling :py:meth:`unitary_from_quantum_diagram()`.
+Another way to potentially reduce the computational load for tensor evaluation is to fix basis states at the boundary vertices, corresponding to initialising inputs or post-selecting on outputs. There are utility methods for setting all inputs/outputs or specific boundary vertices to Z-basis states. For example, we can recover statevector simulation of a quantum circuit by setting all inputs to the zero state and calling :py:meth:`unitary_from_quantum_diagram()`.
 
 .. jupyter-execute::
 
@@ -214,7 +214,7 @@ Once we have an edge, we can inspect and modify its properties, specifically its
 
 The diagram is presented as an undirected graph. We can inspect the end points of an edge with :py:meth:`ZXDiagram.get_wire_ends()`, which returns pairs of vertex and port. If we simply wish to traverse the edge to the next vertex, we use :py:meth:`ZXDiagram.other_end()`. Or we can skip wire traversal altogether using :py:meth:`ZXDiagram.neighbours()` to enumerate the neighbours of a given vertex. This is mostly useful when the wires in a diagram have a consistent form, such as in a graphlike or MBQC diagram (every wire is a Hadamard except for boundary wires).
 
-If you are searching the diagram for a pattern that is simple enough that a full traversal would be excessive, :py:meth:`ZXDiagram.vertices` and :py:meth:`ZXDiagram.wires` return lists of all vertices or edges in the diagram at that moment (in a deterministic but not semantically relevant order) which you can iterate over to search the graph quickly. Be aware that inserting or removing components of the diagram during iteration will not update these lists.
+If you are searching the diagram for a pattern that is simple enough that a full traversal would be excessive, :py:class:`ZXDiagram.vertices` and :py:class:`ZXDiagram.wires` return lists of all vertices or edges in the diagram at that moment (in a deterministic but not semantically relevant order) which you can iterate over to search the graph quickly. Be aware that inserting or removing components of the diagram during iteration will not update these lists.
 
 .. jupyter-execute::
 
@@ -228,7 +228,7 @@ Using this, we can scan our diagram for adjacent spiders of the same colour conn
 
 .. Vertex contents, generators, and editing vertex
 
-Similar to edges, each vertex contains a :py:class:`ZXGen` object describing the particular generator it represents which we can retrieve using :py:meth:`ZXDiagram.get_vertex_ZXGen()`. As each kind of generator has different data, when using a diagram with many kinds of generators it is useful to inspect the :py:class:`ZXType` or the subclass of :py:class:`ZXGen` first. For example, if :py:meth:`ZXDiagram.get_zxtype()` returns :py:class:`ZXType.ZSpider`, we know the generator is a :py:class:`PhasedGen` and hence has the :py:meth:`PhasedGen.param` field describing the phase of the spider.
+Similar to edges, each vertex contains a :py:class:`ZXGen` object describing the particular generator it represents which we can retrieve using :py:meth:`ZXDiagram.get_vertex_ZXGen()`. As each kind of generator has different data, when using a diagram with many kinds of generators it is useful to inspect the :py:class:`ZXType` or the subclass of :py:class:`ZXGen` first. For example, if :py:meth:`ZXDiagram.get_zxtype()` returns :py:class:`ZXType.ZSpider`, we know the generator is a :py:class:`PhasedGen` and hence has the :py:class:`PhasedGen.param` field describing the phase of the spider.
 
 Each generator object is immutable, so updating a vertex requires creating a new :py:class:`ZXGen` object with the desired properties and passing it to :py:meth:`ZXDiagram.set_vertex_ZXGen()`.
 
@@ -434,7 +434,7 @@ The particular rewrites available are intended to support common optimisation st
 
 .. May not work as intended if diagram is not in inteded form, especially for classical or mixed diagrams
 
-.. warning:: Because of the focus on strategies using graphlike diagrams, many of the rewrites expect the inputs to be of a particular form. This may cause some issues when trying to rewrite other kinds of diagrams, especially classical or mixed diagrams.
+.. warning:: Because of the focus on strategies using graphlike diagrams, many of the rewrites expect the inputs to be of a particular form. This may cause some issues if you attempt to apply them to diagrams that aren't in the intended form, especially when working with classical or mixed diagrams.
 
 .. Types (decompositions into generating sets, graphlike form, graphlike reduction, MBQC)
 
@@ -483,7 +483,7 @@ So far, we have focussed mostly on the circuit model of quantum computing, but t
 
 When using the ZX module to represent measurement patterns, we care about representing the semantics and so it is sufficient to consider post-selecting the intended branch outcome at each qubit. This simplifies the diagram by eliminating the corrections and any need to track the order of measurements internally to the diagram. Instead, we may track these externally using a :py:class:`Flow` object.
 
-Each of the MBQC :py:class:`ZXType` options represent a qubit that is initialised and post-selected into the plane/Pauli specified by the type, at the angle/polarity given by the parameter of the :py:class:`ZXGen`. Entanglement between these qubits is given by :py:class:`ZXWireType.H` edges, representing CZ gates. We identify input and output qubits using :py:class:`ZXWireType.Basic` edges connecting them to :py:class:`ZXType.Input` or :py:class:`ZXType.Output` vertices (since output qubits are unmeasured, their semantics as tensors are equivalent to :py:class:`ZXType.PX` vertices with `False` polarity). The :py:meth:`Rewrite.to_MBQC_diag()` rewrite will transform any ZX diagram into one of this form.
+Each of the MBQC :py:class:`ZXType` options represent a qubit that is initialised and post-selected into the plane/Pauli specified by the type, at the angle/polarity given by the parameter of the :py:class:`ZXGen`. Entanglement between these qubits is given by :py:class:`ZXWireType.H` edges, representing CZ gates. We identify input and output qubits using :py:class:`ZXWireType.Basic` edges connecting them to :py:class:`ZXType.Input` or :py:class:`ZXType.Output` vertices (since output qubits are unmeasured, their semantics as tensors are equivalent to :py:class:`ZXType.PX` vertices with ``False`` polarity). The :py:meth:`Rewrite.to_MBQC_diag()` rewrite will transform any ZX diagram into one of this form.
 
 .. jupyter-execute::
 
@@ -566,7 +566,7 @@ The boundaries of the resulting :py:class:`ZXDiagram` will match up with the ope
 
 From here, we are able to rewrite our circuit as a ZX diagram, and even though we may aim to preserve the semantics, there is often little guarantee that the diagram will resemble the structure of a circuit after rewriting. The extraction problem concerns taking a ZX diagram and attempting to identify an equivalent circuit, and this is known to be #P-Hard for arbitrary diagrams equivalent to a unitary circuit which is not computationally feasible. However, if we can guarantee that our rewriting leaves us with a diagram in MBQC form which admits a flow of some kind, then there exist efficient methods for extracting an equivalent circuit.
 
-The current method implemented in :py:meth:`ZXDiagram.to_circuit()` permits extraction of a circuit from a unitary ZX diagram with gflow, based on the method of Backens et al. More methods may be added in the future for different extraction methods, such as fast extraction with causal flow, MBQC (i.e. a :py:class:`Circuit` with explicit measurement and correction operations), extraction from Pauli flow, and mixed diagram extraction.
+The current method implemented in :py:meth:`ZXDiagram.to_circuit()` permits extraction of a circuit from a unitary ZX diagram with gflow, based on the method of Backens et al. [Back2021]_. More methods may be added in the future for different extraction methods, such as fast extraction with causal flow, MBQC (i.e. a :py:class:`Circuit` with explicit measurement and correction operations), extraction from Pauli flow, and mixed diagram extraction.
 
 Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to each boundary vertex, :py:meth:`ZXDiagram.to_circuit()` also returns a map sending each boundary :py:class:`ZXVert` to the corresponding :py:class:`UnitID` in the resulting :py:class:`Circuit`.
 
@@ -618,7 +618,7 @@ The specific nature of optimising circuits via ZX diagrams gives rise to some ge
 
 .. Extraction is not optimised so best to run other passes afterwards
 
-* The implementation of the extraction routine in pytket follows the steps from Backens et al. very closely without optimising the gate sequences as they are produced. It is recommended to run additional peephole optimisation passes afterwards to account for redundancies introduced by the extraction procedure.
+* The implementation of the extraction routine in pytket follows the steps from Backens et al. [Back2021]_ very closely without optimising the gate sequences as they are produced. It is recommended to run additional peephole optimisation passes afterwards to account for redundancies introduced by the extraction procedure.
 
 Advanced Topics
 ---------------
@@ -649,3 +649,6 @@ In place of API reference and code examples, we recommend looking at the followi
 * ``ZXGraphlikeOptimisation()`` in PassLibrary.cpp uses a sequence of rewrites along with the converters to build a compilation pass for circuits. Most of the method contents is just there to define the expectations of the form of the circuit using the tket :py:class:`Predicate` system, which saves the need for the pass to be fully generic and be constantly maintained to accept arbitrary circuits.
 
 * ``zx_to_circuit()`` in ZXConverters.cpp implements the extraction procedure. It is advised to read this alongside the algorithm description in Backens et al. for more detail on the intent and intuition around each step.
+
+
+.. [Back2021] Backens, M. et al., 2021. There and back again: A circuit extraction tale. Quantum, 5, p.451.
