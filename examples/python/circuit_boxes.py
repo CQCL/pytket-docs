@@ -226,7 +226,9 @@ diagonal_4q = [1, 1j] * 8
 diag_box = DiagonalBox(diagonal_4q)
 
 circ_4q = Circuit(4)
-circ_4q.add_diagonal_box(diag_box, [Qubit(i) for i in range(circ_4q.n_qubits)])
+qubits = [Qubit(i) for i in range(circ_4q.n_qubits)]
+circ_4q.add_diagonal_box(diag_box, qubits)
+                         
 
 render_circuit_jupyter(circ_4q)
 
@@ -324,24 +326,30 @@ render_circuit_jupyter(zzyx.get_circuit())
 
 # Phase polynomial circuits are a special class of circuits that use the {CX, Rz} gateset.
 # 
-# A phase polynomial $p(x_1,...,x_n)$ is defined as follows
+# A phase polynomial $p(x)$ is defined as as a linear combination of Boolean linear functions $f_i(x)$
 # 
 # $$
 # \begin{equation}
-# |x_1, x_2, x_3, x_4 \rangle \longmapsto e^{ip(x_1, x_2, x_3, x_4)}|x_1 \oplus x_2 \oplus x_3, x_1  \oplus x_3 \oplus x_4, x_3, x_4 \rangle 
+# p(x) = \sum_{i=1}^{2^n} \theta_i f_i(x)
+# \end{equation}
+# $$
+# A phase polynomial circuit is a circuit which has the following action on computational basis states $|x\rangle$
+# $$
+# \begin{equation}
+# |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
 # \end{equation}
 # $$
 # 
-# A phase polynomial circuit can be synthesisied in pytket using the `PhasePolyBox`. The `PhasePolyBox` is constructed using the number of qubits, qubit indices as well as a dictionary indicating whether or not a phase should be applied to specific qubits. Finally a `linear_transfromation` parameter needs to be specified encoding the linear permutation between the bitsrings in the equation above.
+# A phase polynomial circuit can be synthesisied in pytket using the `PhasePolyBox`. The `PhasePolyBox` is constructed using the number of qubits, qubit indices as well as a dictionary indicating whether or not a phase should be applied to specific qubits.
+# 
+# Finally a `linear_transfromation` parameter needs to be specified  which is a matrix encoding the linear permutation between the bitsrings $|x\rangle$ and $|g(x)\rangle$ in the equation above.
 
-# In[16]:
+# In[17]:
 
 
 from pytket.circuit import PhasePolyBox
 
-c = Circuit(3)
-
-n_qb = 3
+phase_poly_circ = Circuit(3)
 
 qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
 
@@ -350,6 +358,8 @@ phase_polynomial = {
         (False, False, True): 0.05,
         (False, True, False): 1.05,}
 
+n_qb = 3
+
 linear_transformation = np.array([[1, 1, 0], [0, 1, 0], [0, 0, 1]])
 
 p_box = PhasePolyBox(n_qb,
@@ -357,7 +367,7 @@ p_box = PhasePolyBox(n_qb,
                      phase_polynomial,
                      linear_transformation)
 
-c.add_phasepolybox(p_box, [0, 1, 2])
+phase_poly_circ.add_phasepolybox(p_box, [0, 1, 2])
 
 render_circuit_jupyter(p_box.get_circuit())
 
@@ -379,7 +389,7 @@ render_circuit_jupyter(p_box.get_circuit())
 #     do identity (i.e. do nothing)
 # ```
 
-# In[17]:
+# In[18]:
 
 
 from pytket.circuit import Op, MultiplexorBox
@@ -392,7 +402,7 @@ op_map = {(0, 0): rz_op, (1, 1): h_op}
 multiplexor = MultiplexorBox(op_map)
 
 
-# In[18]:
+# In[19]:
 
 
 # Assume all qubits initialised to |0> here
@@ -405,7 +415,7 @@ render_circuit_jupyter(multi_circ)
 
 # Notice how in the example above the control qubits are both in the $|1\rangle$ state and so the multiplexor applies the Hadamard operation to the third qubit. If we calculate our statevector we see that the third qubit is in the $|+\rangle = H|0\rangle$ state.
 
-# In[19]:
+# In[20]:
 
 
 print("Statevector =", multi_circ.get_statevector()) # amplitudes of |+> approx 0.707...
@@ -417,44 +427,33 @@ print("Statevector =", multi_circ.get_statevector()) # amplitudes of |+> approx 
 # 
 # Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in (arXiv:quant-ph/0406176).
 # 
-# Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. For statevectors with only real amplitudes only multiplexed Ry is needed to accomplish the state prepartion.   
-# 
-# Lets prepare the following quantum state encoding the binomial distribution. Here $p$ is a probability so the state is always normalised.
-# 
+# Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real valued amplitudes only multiplexed Ry operations are needed to accomplish the state prepartion.   
 
 # $$
 # \begin{equation}
-# |\psi \rangle = \sqrt{p} |00\rangle + \sqrt{1-p} |11 \rangle\,, \quad p \in [0, 1]
+# |W\rangle = \frac{1}{\sqrt{3}} \big(|001\rangle + |010\rangle + |100\rangle
 # \end{equation}
 # $$
-
-# In[20]:
-
-
-prob = 0.4 # Pick a value of p
-
-prob_state = np.array([np.sqrt(prob), 0, 0,  np.sqrt(1 - prob)]) # Statevector array
-
 
 # In[21]:
 
 
-np.round(prob_state, 3)
+werner_state = 1 / np.sqrt(3) * np.array([0, 1, 1, 0, 1, 0, 0, 0])
 
 
-# In[22]:
+# In[23]:
 
 
 from pytket.circuit import StatePreparationBox
 
-prob_state_box = StatePreparationBox(prob_state)
+prob_state_box = StatePreparationBox(werner_state)
 
-state_circ = Circuit(2)
-state_circ.add_state_preparation_box(prob_state_box, [Qubit(0), Qubit(1)])
+state_circ = Circuit(3)
+state_circ.add_state_preparation_box(prob_state_box, [Qubit(0), Qubit(1), Qubit(2)])
 render_circuit_jupyter(state_circ)
 
 
-# In[23]:
+# In[24]:
 
 
 # Verify state preperation
@@ -470,39 +469,48 @@ np.round(state_circ.get_statevector().real, 3)
 # $$
 # \begin{equation}
 # |001\rangle \longmapsto |111\rangle \\
-# |111\rangle \longmapsto |001\rangle
+# |111\rangle \longmapsto |001\rangle \\
+# |100\rangle \longmapsto |000\rangle \\
+# |000\rangle \longmapsto |100\rangle
 # \end{equation}
 # $$
 # 
-# For consistency if a basis state appears as key in the permutation dictionary then it must also appear and a value.
+# For correctness if a basis state appears as key in the permutation dictionary then it must also appear and a value.
 
-# In[24]:
+# In[26]:
 
 
 from pytket.circuit import ToffoliBox
 
 # Specify the desired permutation of the basis states
-mapping = {(0, 0, 1): (1, 1, 1), (1, 1, 1): (0, 0, 1)}
+mapping = {(0, 0, 1): (1, 1, 1), (1, 1, 1): (0, 0, 1),
+           (1, 0, 0): (0, 0, 0), (0, 0, 0):(1, 0, 0)}
 
 # Define box to perform the permutation
 perm_box = ToffoliBox(permutation=mapping)
 
-circ = Circuit(3)
-circ.X(2)
-circ.add_toffolibox(perm_box, [0, 1, 2]) 
-render_circuit_jupyter(circ)
-
-
-# In[25]:
-
-
-np.round(circ.get_statevector().real, 3) #|001> input -> |111> output 
-
 
 # The permutation is implemented using a sequence of multiplexed rotations followed by a `DiagonalBox`.
 
-# In[26]:
+# In[27]:
 
 
 render_circuit_jupyter(perm_box.get_circuit())
 
+
+# Finally lets append the `ToffoliBox` onto our circuit preparing our Werner state to perfom the permutation of basis states specifed above.
+
+# In[30]:
+
+
+state_circ.add_toffolibox(perm_box, [0, 1, 2]) 
+render_circuit_jupyter(state_circ)
+
+
+# In[29]:
+
+
+np.round(state_circ.get_statevector().real, 3) 
+
+
+# Looking at the statevector calculation we see that our `ToffoliBox` has exchanged the coefficents of our Werner state so that the non-zero coefficents are now on the `000` and `111` bitstrings with the coefficent of `010` remaining unchanged.
