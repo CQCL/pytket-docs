@@ -425,7 +425,7 @@ When working with quantum circuits we may want access to the quantum state prepa
     from pytket import Circuit
 
     circ = Circuit(2)
-    circ.H(0).CX(0,1)
+    circ.H(0).CX(0, 1)
     circ.get_statevector()
 
 In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
@@ -435,13 +435,16 @@ In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate 
     from pytket import Circuit
 
     circ = Circuit(2)
-    circ.H(0).CZ(0,1).H(1)
+    circ.H(0).CZ(0, 1).H(1)
     circ.get_unitary()
 
 .. warning:: The unitary matrix of a quantum circuit is of dimension :math:`(2^n \times 2^n)` where :math:`n` is the number of qubits. The statevector will be a column vector with :math:`2^n` entries . Due to this exponential scaling it will in general be very inefficient to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.
 
 Boxes
 -----
+
+Circuit Boxes and Controlled Unitaries
+======================================
 
 .. Boxes abstract away complex structures as black-box units within larger circuits
 
@@ -497,6 +500,9 @@ As well as creating controlled boxes, we can create a controlled version of an a
 
 .. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
 
+Boxes for Unitary synthesis
+===========================
+
 It is possible to specify small unitaries from ``numpy`` arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.
 
 .. jupyter-execute::
@@ -524,7 +530,10 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
 .. `PauliExpBox` for simulations and general interactions
 
-Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: :math:`e^{-i \pi \theta P}` (:math:`P \in \{I, X, Y, Z\}^{\otimes n}`). These occur very naturally in Trotterising evolution operators and as common native device operations.
+Pauli Exponential Boxes
+=======================
+
+Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: :math:`e^{-i \pi \theta P}` (:math:`P \in \{I, X, Y, Z\}^{\otimes n}`). These occur very naturally when Trotterising time evolution operators and are sometimes used as native device operations.
 
 .. jupyter-execute::
 
@@ -537,7 +546,10 @@ Another notable example that is common to many algorithms and high-level circuit
     circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
     circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
 
-In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` structure. This box type can be used to prepare an arbitrary permutation of the computational basis states using the :math:`\{\text{X},\text{CnX}\}` gateset.
+Multiplexors, State Preperation Boxes and :py:class:`ToffoliBox`
+================================================================
+
+In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` operation. This box type can be used to prepare an arbitrary permutation of the computational basis states.
 
 In order to construct a :py:class:`ToffoliBox` the user must supply the desired permutation as a dictionary specifying the action of the box on different input basis states, where a key:value pair implies that the basis state key should be mapped to the basis state value.
 
@@ -552,7 +564,7 @@ The given dictionary should provide permutations that correspond to complete cyc
     permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}     
 
     # Construct a two qubit ToffoliBox to perform the permutation
-    tb = ToffoliBox(n_qubits=2, permutation=permutation) 
+    tb = ToffoliBox(permutation=permutation) 
 
     circ = Circuit(2)               # Create a two qubit circuit
     circ.add_toffolibox(tb, [0, 1]) # Add the ToffoliBox defined above to our circuit
@@ -562,11 +574,11 @@ Now lets perform a statevector calculation to ensure that the :py:class:`Toffoli
 
 .. jupyter-execute::
 
-    circ.get_statevector()
+    np.round(circ.get_statevector().real, 3)
 
 We see from the output that the :py:class:`ToffoliBox` prepares the :math:`|11\rangle` basis state from out initial state of :math:`|00\rangle`.
 
-The user may wish to inspect the circuit inside the :py:class:`ToffoliBox`. This can be done with the :py:meth:`ToffoliBox.get_circuit` method.
+The user may wish to inspect the circuit inside the :py:class:`ToffoliBox`. This can be done with the :py:meth:`ToffoliBox.get_circuit` method. These state permutations can be efficiently implemented as a sequence of multiplexor operations followed by a single :py:class:`DiagonalBox`.
 
 .. jupyter-execute::
 
