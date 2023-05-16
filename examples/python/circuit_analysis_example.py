@@ -73,10 +73,11 @@ from pytket.extensions.qiskit import tk_to_qiskit
 print(tk_to_qiskit(c))
 
 # ### Via Cirq
+# disabled because of https://github.com/CQCL/pytket-cirq/issues/25
 
-from pytket.extensions.cirq import tk_to_cirq
+# from pytket.extensions.cirq import tk_to_cirq
 
-print(tk_to_cirq(c))
+# print(tk_to_cirq(c))
 
 # (Note that Cirq cannot represent all gates diagrammatically.)
 

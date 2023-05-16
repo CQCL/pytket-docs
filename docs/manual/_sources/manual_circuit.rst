@@ -552,7 +552,7 @@ The given dictionary should provide permutations that correspond to complete cyc
     permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}     
 
     # Construct a two qubit ToffoliBox to perform the permutation
-    tb = ToffoliBox(n_qubits=2, permutation=permutation) 
+    tb = ToffoliBox(permutation=permutation) 
 
     circ = Circuit(2)               # Create a two qubit circuit
     circ.add_toffolibox(tb, [0, 1]) # Add the ToffoliBox defined above to our circuit
