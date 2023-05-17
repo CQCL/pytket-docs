@@ -793,6 +793,24 @@ Notice how in the example above the control qubits are both in the :math:`|1\ran
     # Assume all qubits initialised to |0> here
     print("Statevector =", multi_circ.get_statevector())  # amplitudes of |+> approx 0.707...
 
+In addition to the general :py:class:`Multiplexor` pytket has several other type of Multiplexor box operations available.
+
+======================================= =================================================
+Multiplexor                             Description
+======================================= =================================================
+:py:class:`MultiplexorBox`              The most general type of multiplexor (see above)
+                               
+:py:class:`MultiplexedRotationBox`      Multiplexor where the operation applied to the 
+                                        target is a rotation gate about a single axis
+                                        
+:py:class:`MultiplexedU2Box`            Multiplexor for unifromly controlled single
+                                        qubit gates (U(2) operations)
+
+:py:class:`MultiplexedTensoredU2Box`    Multiplexor where the operation applied to the
+                                        target is a tensor product of single qubit gates
+                                                                       
+======================================= =================================================
+
 
 One place where multiplexor operations are useful is in state preparation algorithms.
 
