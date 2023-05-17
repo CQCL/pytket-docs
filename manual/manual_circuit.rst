@@ -659,8 +659,8 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
 .. `PauliExpBox` for simulations and general interactions
 
-Pauli Exponential Boxes and Phase Polynommial Boxes
-===================================================
+Pauli Exponential Boxes and Phase Polynommials
+==============================================
 
 Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
 
@@ -697,7 +697,54 @@ All Pauli Exponetials of the form above can be implemented in terms of a single 
 
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
-These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis (arXiv:1906.01734). Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+
+Phase polynomial circuits are a special class of circuits that use the {CX, Rz} gateset.
+
+A phase polynomial :math:`p(x)` is defined as as a linear combination of Boolean linear functions :math:`f_i(x)`
+
+.. math::
+
+    \begin{equation}
+    p(x) = \sum_{i=1}^{2^n} \theta_i f_i(x)
+    \end{equation}
+
+A phase polynomial circuit is a circuit which has the following action on computational basis states :math:`|x\rangle`
+
+.. math::
+
+    \begin{equation}
+    |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
+    \end{equation}
+
+
+A phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. The :py:class:`PhasePolyBox` is constructed using the number of qubits, qubit indices as well as a dictionary indicating whether or not a phase should be applied to specific qubits.
+
+Finally a ``linear_transfromation`` parameter needs to be specified  which is a matrix encoding the linear permutation between the bitsrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
+
+.. jupyter-execute::
+
+    from pytket.circuit import PhasePolyBox
+
+    phase_poly_circ = Circuit(3)
+
+    qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
+
+    phase_polynomial = {
+        (True, False, True): 0.333,
+        (False, False, True): 0.05,
+        (False, True, False): 1.05,
+    }
+
+    n_qb = 3
+
+    linear_transformation = np.array([[1, 1, 0], [0, 1, 0], [0, 0, 1]])
+
+    p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
+
+    phase_poly_circ.add_phasepolybox(p_box, [0, 1, 2])
+
+    render_circuit_jupyter(p_box.get_circuit())
 
 Multiplexors, State Preperation Boxes and :py:class:`ToffoliBox`
 ================================================================
@@ -748,7 +795,7 @@ One place where multiplexor operations are useful is in state preparation algori
 
 TKET supports the preperation of arbitrary quantum states via the :py:class:`StatePreparationBox`. This box takes a  :math:`(1\times 2^n)` numpy array representing the :math:`n` qubit statevector where the entries represent the amplitudes of the quantum state.
 
-Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in (arXiv:quant-ph/0406176).
+Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in [Shen2004]_.
 
 To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werner state :math:`|W\rangle`.
 
@@ -792,7 +839,7 @@ Lets construct a :py:class:`ToffoliBox` to perform the following mapping
     |000\rangle \longmapsto |100\rangle
     \end{gather}
 
-
+We can construct a :py:class:`ToffoliBox` with a python dictionary where the basis states above are entered as key:value pairs.
 For correctness if a basis state appears as key in the permutation dictionary then it must also appear and a value
 
 .. jupyter-execute::
@@ -811,7 +858,7 @@ For correctness if a basis state appears as key in the permutation dictionary th
     perm_box = ToffoliBox(permutation=mapping)
 
 
-The permutation is implemented using a sequence of multiplexed rotations followed by a :py:class:`DiagonalBox`.
+The permutation is implemented efficently using a sequence of multiplexed rotations followed by a :py:class:`DiagonalBox`.
 
 
 .. jupyter-execute::
@@ -1450,7 +1497,8 @@ To add a control to an operation, one can add the original operation as a :py:cl
 
     print(c.get_commands())
 
-
+.. [Cowt2020] Cowtan, A. and Dilkes, S. and Duncan and R., Simmons, W and Sivarajah, S., 2020. Phase Gadget Synthesis for Shallow Circuits. Electronic Proceedings in Theoretical Computer Science
+.. [Shen2004] V.V. Shende and S.S. Bullock and I.L. Markov, 2004. Synthesis of quantum-logic circuits. {IEEE} Transactions on Computer-Aided Design of Integrated Circuits and Systems
 .. [Aaro2004] Aaronson, S. and Gottesman, D., 2004. Improved Simulation of Stabilizer Circuits. Physical Review A, 70(5), p.052328.
 .. [Brav2005] Bravyi, S. and Kitaev, A., 2005. Universal quantum computation with ideal Clifford gates and noisy ancillas. Physical Review A, 71(2), p.022316.
 .. [Brav2012] Bravyi, S. and Haah, J., 2012. Magic-state distillation with low overhead. Physical Review A, 86(5), p.052329.
