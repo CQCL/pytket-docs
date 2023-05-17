@@ -659,6 +659,9 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
 .. `PauliExpBox` for simulations and general interactions
 
+Also in this category of synthesis boxes is :py:class:`DiagonalBox`. This allows synthesis of circuits for diagonal unitaries. 
+This box can be constructed by passing in a :math:`(1 \times 2^n)` numpy array representing the diagonal entries of the desired unitary matrix.
+
 Pauli Exponential Boxes and Phase Polynommials
 ==============================================
 
