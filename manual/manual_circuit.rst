@@ -659,21 +659,45 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
 .. `PauliExpBox` for simulations and general interactions
 
-Pauli Exponential Boxes
-=======================
+Pauli Exponential Boxes and Phase Polynommial Boxes
+===================================================
 
-Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: :math:`e^{-i \pi \theta P}` (:math:`P \in \{I, X, Y, Z\}^{\otimes n}`). These occur very naturally in Trotterising evolution operators and as common native device operations.
+Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
+
+.. math::
+    
+    \begin{equation}
+    e^{-i \frac{\pi}{2} \theta P}\,, \quad P \in \{I, X, Y, Z\}^{\otimes n}
+    \end{equation} 
+
+
+These occur very naturally in Trotterising evolution operators and sometimes as native device operations.
 
 .. jupyter-execute::
 
-    from pytket.circuit import Circuit, PauliExpBox
+    from pytket.circuit import PauliExpBox
     from pytket.pauli import Pauli
 
-    circ = Circuit(4)
-    circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y], 0.1), [0, 1])
-    circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X], -0.1), [0, 1])
-    circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
-    circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
+    # Construct PauliExpBox(es) with a list of Paulis followed by the phase
+    xyyz = PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Z], -0.2)
+    zzyx = PauliExpBox([Pauli.Z, Pauli.Z, Pauli.Y, Pauli.X], 0.7)
+
+    pauli_circ = Circuit(5)
+
+    pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
+    pauli_circ.add_pauliexpbox(zzyx, [1, 2, 3, 4])
+
+To understand what happens inside a :py:class:`PauliExpBox` lets take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta ZZYX}`
+
+.. jupyter-execute::
+
+    render_circuit_jupyter(zzyx.get_circuit())
+
+All Pauli Exponetials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli Gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
+
+We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
+
+These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis (arXiv:1906.01734). Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
 
 Multiplexors, State Preperation Boxes and :py:class:`ToffoliBox`
 ================================================================
@@ -684,9 +708,9 @@ To create a multiplexor we simply construct a dictionary where the keys are the 
 Lets implement a multiplexor with the following logic. Here we treat the first two qubits a controls and the third qubit as the target.
 
 
-if control qubits in (0, 0):
+if control qubits in :math:`|00\rangle`:
     do Rz(0.3) on third qubit
-else if control qubits in (1, 1):
+else if control qubits in :math:`|11\rangle`:
      do H on third qubit
 else:
     do identity (i.e. do nothing)
@@ -703,7 +727,6 @@ else:
     op_map = {(0, 0): rz_op, (1, 1): h_op}
     multiplexor = MultiplexorBox(op_map)
 
-    # Assume all qubits initialised to |0> here
     multi_circ = Circuit(3)
     multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
     multi_circ.add_multiplexor(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
@@ -717,6 +740,7 @@ Notice how in the example above the control qubits are both in the :math:`|1\ran
 
 .. jupyter-execute::
 
+    # Assume all qubits initialised to |0> here
     print("Statevector =", multi_circ.get_statevector())  # amplitudes of |+> approx 0.707...
 
 
@@ -726,12 +750,12 @@ TKET supports the preperation of arbitrary quantum states via the :py:class:`Sta
 
 Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in (arXiv:quant-ph/0406176).
 
-Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real valued amplitudes only multiplexed Ry operations are needed to accomplish the state prepartion.
+To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werner state :math:`|W\rangle`.
 
 .. math::
 
     \begin{equation}
-    |W\rangle = \frac{1}{\sqrt{3}} \big(|001\rangle + |010\rangle + |100\rangle
+    |W\rangle = \frac{1}{\sqrt{3}} \big(|001\rangle + |010\rangle + |100\rangle \big)
     \end{equation}
 
 
@@ -745,13 +769,14 @@ Note that generic state preperation circuits can be very complex with the gateco
 
     state_circ = Circuit(3)
     state_circ.add_state_preparation_box(werner_state_box, [Qubit(0), Qubit(1), Qubit(2)])
-    render_circuit_jupyter(state_circ)
 
 
 .. jupyter-execute::
 
     # Verify state preperation
     np.round(state_circ.get_statevector().real, 3)
+
+Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real valued amplitudes only multiplexed Ry operations are needed to accomplish the state prepartion.
 
 
 Finally lets consider another box type namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitary permutation of the computational basis states.
@@ -807,7 +832,7 @@ Finally lets append the :py:class:`ToffoliBox` onto our circuit preparing our We
     np.round(state_circ.get_statevector().real, 3)
 
 
-# Looking at the statevector calculation we see that our :py:class:`ToffoliBox` has exchanged the coefficents of our Werner state so that the non-zero coefficents are now on the `000` and `111` bitstrings with the coefficent of `010` remaining unchanged.
+Looking at the statevector calculation we see that our :py:class:`ToffoliBox` has exchanged the coefficents of our Werner state so that the non-zero coefficents are now on the :math:`|000\rangle` and :math:`|111\rangle` bitstrings with the coefficent of :math:`|010\rangle` remaining unchanged.
 
 
 Importing/Exporting Circuits
