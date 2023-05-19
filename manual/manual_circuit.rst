@@ -552,8 +552,8 @@ Boxes
 
 Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn't mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit's design when it is constructed using higher-level constructions. In ``pytket``, the concept of a "Box" is to abstract away such complex structures as black-boxes within larger circuits.
 
-Circuit Boxes and Controlled Unitaries
-======================================
+Circuit Boxes
+=============
 
 .. Boxes abstract away complex structures as black-box units within larger circuits
 
@@ -596,37 +596,6 @@ Now that we've built our circuit we can wrap it up in a :py:class:`CircBox` and 
 
 Note how the name appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
 
-If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary operation), we can construct the controlled version that is applied coherently according to some set of control qubits. If all control qubits are in the :math:`|1\rangle` state, then the unitary is applied to the target system, otherwise it acts as an identity.
-
-.. jupyter-execute::
-
-    from pytket.circuit import Circuit, CircBox, QControlBox
-
-    sub = Circuit(2)
-    sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
-    sub_box = CircBox(sub)
-
-    # Define the controlled operation with 2 control qubits
-    cont = QControlBox(sub_box, 2)
-
-    circ = Circuit(4)
-    circ.add_circbox(sub_box, [2, 3])
-    circ.Ry(0.3, 0).Ry(0.8, 1)
-
-    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
-    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
-
-As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
-
-.. jupyter-execute::
-
-    from pytket.circuit import Op, OpType, QControlBox
-
-    op = Op.create(OpType.S)
-    ccs = QControlBox(op, 2)
-
-.. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
-
 .. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
 
 Boxes for Unitary Synthesis
@@ -661,6 +630,57 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
 Also in this category of synthesis boxes is :py:class:`DiagonalBox`. This allows synthesis of circuits for diagonal unitaries. 
 This box can be constructed by passing in a :math:`(1 \times 2^n)` numpy array representing the diagonal entries of the desired unitary matrix.
+
+Controlled Box Operations
+=========================
+If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary operation), we can construct the controlled version that is applied coherently according to some set of control qubits. If all control qubits are in the :math:`|1\rangle` state, then the unitary is applied to the target system, otherwise it acts as an identity.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, CircBox, QControlBox
+
+    sub = Circuit(2)
+    sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
+    sub_box = CircBox(sub)
+
+    # Define the controlled operation with 2 control qubits
+    cont = QControlBox(sub_box, 2)
+
+    circ = Circuit(4)
+    circ.add_circbox(sub_box, [2, 3])
+    circ.Ry(0.3, 0).Ry(0.8, 1)
+
+    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
+    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
+
+As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Op, OpType, QControlBox
+
+    op = Op.create(OpType.S)
+    ccs = QControlBox(op, 2)
+
+In addition, we can construct a :py:class:`QControlBox` from any other box type. 
+We can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`QControlBox` from the box implementing :math:`\sqrt{Y}`. 
+
+
+
+.. jupyter-execute::
+
+    from pytket.circuit import Unitary1qBox, QControlBox
+    import numpy as np
+
+    # Unitary for sqrt(Y)
+    sqrt_y = np.asarray([[1/2+1j/2, -1/2-1j/2],
+                         [1/2+1j/2, 1/2+1j/2]])
+
+    sqrt_y_box = Unitary1qBox(sqrt_y)
+    c2_root_y = QControlBox(sqrt_y_box, 2)
+
+
+.. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
 Pauli Exponential Boxes and Phase Polynommials
 ==============================================
@@ -721,7 +741,7 @@ A phase polynomial circuit :math:`C` has the following action on computational b
     \end{equation}
 
 
-A phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. The :py:class:`PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
+Such a phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. A :py:class:`PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
 
 Finally a ``linear_transfromation`` parameter needs to be specified:  This is a matrix encoding the linear permutation between the bitstrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
 
@@ -759,9 +779,9 @@ Lets implement a multiplexor with the following logic. Here we treat the first t
 
 
 if control qubits in :math:`|00\rangle`:
-    do Rz(0.3) on third qubit
+    do Rz(0.3) on the third qubit
 else if control qubits in :math:`|11\rangle`:
-     do H on third qubit
+     do H on the third qubit
 else:
     do identity (i.e. do nothing)
 
@@ -842,7 +862,7 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
 .. jupyter-execute::
 
     # Verify state preperation
-    np.round(state_circ.get_statevector().real, 3)
+    np.round(state_circ.get_statevector().real, 3) # 1/sqrt(3) approx 0.577
 
 Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
 
