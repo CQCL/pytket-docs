@@ -898,8 +898,8 @@ For correctness if a basis state appears as key in the permutation dictionary th
     # Define box to perform the permutation
     perm_box = ToffoliBox(permutation=mapping)
 
-
-The permutation is implemented efficently using a sequence of multiplexed rotations followed by a :py:class:`DiagonalBox`.
+This permutation of basis states can be achieved with purely classical operations {X, CnX} hence the name :py:class:`ToffoliBox`.
+In pytket however, the permutation is implemented efficently using a sequence of multiplexed rotations followed by a :py:class:`DiagonalBox`.
 
 
 .. jupyter-execute::
