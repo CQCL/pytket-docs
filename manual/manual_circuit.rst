@@ -724,7 +724,7 @@ These Pauli gadget circuits have interesting algebraic properties which are usef
 
 Now we move on to discuss another class of quantum circuits known as phase polynomials. Phase polynomial circuits are a special type of circuits that use the {CX, Rz} gateset.
 
-A phase polynomial :math:`p(x)` is defined as as a linear combination of Boolean linear functions :math:`f_i(x)`:
+A phase polynomial :math:`p(x)` is defined as a weighted sum of Boolean linear functions :math:`f_i(x)`:
 
 .. math::
 
