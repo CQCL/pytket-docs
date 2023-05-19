@@ -562,7 +562,7 @@ Circuit Boxes
 The simplest example of this is a :py:class:`CircBox`, which wraps up another :py:class:`Circuit` defined elsewhere into a single black-box. The difference between adding a :py:class:`CircBox` and just appending the :py:class:`Circuit` is that the :py:class:`CircBox` allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main :py:class:`Circuit`.
 
 Let's first build a basic quantum circuit which implements a simplified version of a Grover oracle and then add
-it to another circuit as a subroutine.
+it to another circuit as part of a larger algorithm.
 
 .. jupyter-execute::
 
@@ -594,7 +594,10 @@ Now that we've built our circuit we can wrap it up in a :py:class:`CircBox` and 
     render_circuit_jupyter(circ)
 
 
-Note how the name appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
+See how the name circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
+
+.. Note:: Despite the :py:class:`Circuit` class having methods for adding each type of box, the :py:meth:`Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`Circuit`.
+
 
 .. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
 
@@ -662,7 +665,7 @@ As well as creating controlled boxes, we can create a controlled version of an a
     op = Op.create(OpType.S)
     ccs = QControlBox(op, 2)
 
-In addition, we can construct a :py:class:`QControlBox` from any other box type. 
+In addition, we can construct a :py:class:`QControlBox` from any other pure quantum box type in pytket. 
 We can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`QControlBox` from the box implementing :math:`\sqrt{Y}`. 
 
 
