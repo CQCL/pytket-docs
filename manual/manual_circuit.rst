@@ -561,7 +561,7 @@ Circuit Boxes and Controlled Unitaries
 
 The simplest example of this is a :py:class:`CircBox`, which wraps up another :py:class:`Circuit` defined elsewhere into a single black-box. The difference between adding a :py:class:`CircBox` and just appending the :py:class:`Circuit` is that the :py:class:`CircBox` allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main :py:class:`Circuit`.
 
-Lets first build a basic quantum circuit which implements a simplified version of a Grover oracle and then add
+Let's first build a basic quantum circuit which implements a simplified version of a Grover oracle and then add
 it to another circuit as a subroutine.
 
 .. jupyter-execute::
@@ -629,7 +629,7 @@ As well as creating controlled boxes, we can create a controlled version of an a
 
 .. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
 
-Boxes for Unitary synthesis
+Boxes for Unitary Synthesis
 ===========================
 
 It is possible to specify small unitaries from ``numpy`` arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.
@@ -655,7 +655,7 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     circ.add_unitary1qbox(u1box, 2)
     circ.add_unitary2qbox(u2box, 1, 0)
 
-.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox` using the same syntax as above.
+.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox` using a similar syntax.
 
 .. `PauliExpBox` for simulations and general interactions
 
@@ -665,7 +665,7 @@ This box can be constructed by passing in a :math:`(1 \times 2^n)` numpy array r
 Pauli Exponential Boxes and Phase Polynommials
 ==============================================
 
-Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
+Another notable construct that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
 
 .. math::
     
@@ -674,7 +674,7 @@ Another notable example that is common to many algorithms and high-level circuit
     \end{equation} 
 
 
-These occur very naturally in Trotterising evolution operators and sometimes as native device operations.
+These occur very naturally in Trotterising evolution operators and native device operations.
 
 .. jupyter-execute::
 
@@ -690,21 +690,21 @@ These occur very naturally in Trotterising evolution operators and sometimes as 
     pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
     pauli_circ.add_pauliexpbox(zzyx, [1, 2, 3, 4])
 
-To understand what happens inside a :py:class:`PauliExpBox` lets take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta ZZYX}`
+To understand what happens inside a :py:class:`PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta ZZYX}`
 
 .. jupyter-execute::
 
     render_circuit_jupyter(zzyx.get_circuit())
 
-All Pauli Exponetials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli Gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
+All Pauli exponetials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
 
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
 These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
 
-Phase polynomial circuits are a special class of circuits that use the {CX, Rz} gateset.
+Now we move on to discuss another class of quantum circuits known as phase polynomials. Phase polynomial circuits are a special type of circuits that use the {CX, Rz} gateset.
 
-A phase polynomial :math:`p(x)` is defined as as a linear combination of Boolean linear functions :math:`f_i(x)`
+A phase polynomial :math:`p(x)` is defined as as a linear combination of Boolean linear functions :math:`f_i(x)`:
 
 .. math::
 
@@ -712,18 +712,18 @@ A phase polynomial :math:`p(x)` is defined as as a linear combination of Boolean
     p(x) = \sum_{i=1}^{2^n} \theta_i f_i(x)
     \end{equation}
 
-A phase polynomial circuit is a circuit which has the following action on computational basis states :math:`|x\rangle`
+A phase polynomial circuit :math:`C` has the following action on computational basis states :math:`|x\rangle`:
 
 .. math::
 
     \begin{equation}
-    |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
+    C: |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
     \end{equation}
 
 
-A phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. The :py:class:`PhasePolyBox` is constructed using the number of qubits, qubit indices as well as a dictionary indicating whether or not a phase should be applied to specific qubits.
+A phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. The :py:class:`PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
 
-Finally a ``linear_transfromation`` parameter needs to be specified  which is a matrix encoding the linear permutation between the bitsrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
+Finally a ``linear_transfromation`` parameter needs to be specified:  This is a matrix encoding the linear permutation between the bitstrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
 
 .. jupyter-execute::
 
@@ -755,7 +755,7 @@ Multiplexors, State Preperation Boxes and :py:class:`ToffoliBox`
 In the context of quantum circuits a multiplexor is type of generalised multicontrolled gate. Multiplexors grant us the flexibility to specify different operations on target qubits for different control states.
 To create a multiplexor we simply construct a dictionary where the keys are the state of the control qubits and the values represent the operation performed on the target.
 
-Lets implement a multiplexor with the following logic. Here we treat the first two qubits a controls and the third qubit as the target.
+Lets implement a multiplexor with the following logic. Here we treat the first two qubits as controls and the third qubit as the target.
 
 
 if control qubits in :math:`|00\rangle`:
@@ -793,7 +793,7 @@ Notice how in the example above the control qubits are both in the :math:`|1\ran
     # Assume all qubits initialised to |0> here
     print("Statevector =", multi_circ.get_statevector())  # amplitudes of |+> approx 0.707...
 
-In addition to the general :py:class:`Multiplexor` pytket has several other type of Multiplexor box operations available.
+In addition to the general :py:class:`Multiplexor` pytket has several other type of multiplexor box operations available.
 
 ======================================= =================================================
 Multiplexor                             Description
@@ -814,7 +814,7 @@ Multiplexor                             Description
 
 One place where multiplexor operations are useful is in state preparation algorithms.
 
-TKET supports the preperation of arbitrary quantum states via the :py:class:`StatePreparationBox`. This box takes a  :math:`(1\times 2^n)` numpy array representing the :math:`n` qubit statevector where the entries represent the amplitudes of the quantum state.
+TKET supports the preparation of arbitrary quantum states via the :py:class:`StatePreparationBox`. This box takes a  :math:`(1\times 2^n)` numpy array representing the :math:`n` qubit statevector where the entries represent the amplitudes of the quantum state.
 
 Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in [Shen2004]_.
 
@@ -844,12 +844,12 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
     # Verify state preperation
     np.round(state_circ.get_statevector().real, 3)
 
-Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real valued amplitudes only multiplexed Ry operations are needed to accomplish the state prepartion.
+Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
 
 
-Finally lets consider another box type namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitary permutation of the computational basis states.
-To construct the box we need to specify the permuation as a key:value pair where the key is the input basis state and the value is output.
-Lets construct a :py:class:`ToffoliBox` to perform the following mapping
+Finally let's consider another box type, namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitrary permutation of the computational basis states.
+To construct the box we need to specify the permutation as a key-value pair where the key is the input basis state and the value is output.
+Let's construct a :py:class:`ToffoliBox` to perform the following mapping:
 
 .. math::
 
@@ -860,8 +860,8 @@ Lets construct a :py:class:`ToffoliBox` to perform the following mapping
     |000\rangle \longmapsto |100\rangle
     \end{gather}
 
-We can construct a :py:class:`ToffoliBox` with a python dictionary where the basis states above are entered as key:value pairs.
-For correctness if a basis state appears as key in the permutation dictionary then it must also appear and a value
+We can construct a :py:class:`ToffoliBox` with a python dictionary where the basis states above are entered as key-value pairs.
+For correctness if a basis state appears as key in the permutation dictionary then it must also appear and a value.
 
 .. jupyter-execute::
 
@@ -887,7 +887,7 @@ The permutation is implemented efficently using a sequence of multiplexed rotati
     render_circuit_jupyter(perm_box.get_circuit())
 
 
-Finally lets append the :py:class:`ToffoliBox` onto our circuit preparing our Werner state to perform the permutation of basis states specifed above.
+Finally let's append the :py:class:`ToffoliBox` onto our circuit preparing our Werner state to perform the permutation of basis states specified above.
 
 
 .. jupyter-execute::
