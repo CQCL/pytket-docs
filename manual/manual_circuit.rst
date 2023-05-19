@@ -864,7 +864,7 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
     # Verify state preperation
     np.round(state_circ.get_statevector().real, 3) # 1/sqrt(3) approx 0.577
 
-Note that generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
+.. Note:: Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
 
 
 Finally let's consider another box type, namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitrary permutation of the computational basis states.
