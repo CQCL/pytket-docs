@@ -594,7 +594,7 @@ Now that we've built our circuit we can wrap it up in a :py:class:`CircBox` and 
     render_circuit_jupyter(circ)
 
 
-See how the name circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
+See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
 
 .. Note:: Despite the :py:class:`Circuit` class having methods for adding each type of box, the :py:meth:`Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`Circuit`.
 
@@ -666,7 +666,7 @@ As well as creating controlled boxes, we can create a controlled version of an a
     ccs = QControlBox(op, 2)
 
 In addition, we can construct a :py:class:`QControlBox` from any other pure quantum box type in pytket. 
-We can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`QControlBox` from the box implementing :math:`\sqrt{Y}`. 
+For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`QControlBox` from the box implementing :math:`\sqrt{Y}`. 
 
 
 
@@ -746,7 +746,7 @@ A phase polynomial circuit :math:`C` has the following action on computational b
 
 Such a phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. A :py:class:`PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
 
-Finally a ``linear_transfromation`` parameter needs to be specified:  This is a matrix encoding the linear permutation between the bitstrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
+Finally a ``linear_transfromation`` parameter needs to be specified:  this is a matrix encoding the linear permutation between the bitstrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
 
 .. jupyter-execute::
 
@@ -901,7 +901,7 @@ For correctness if a basis state appears as key in the permutation dictionary th
     # Define box to perform the permutation
     perm_box = ToffoliBox(permutation=mapping)
 
-This permutation of basis states can be achieved with purely classical operations {X, CnX} hence the name :py:class:`ToffoliBox`.
+This permutation of basis states can be achieved with purely classical operations {X, CCX} hence the name :py:class:`ToffoliBox`.
 In pytket however, the permutation is implemented efficently using a sequence of multiplexed rotations followed by a :py:class:`DiagonalBox`.
 
 
