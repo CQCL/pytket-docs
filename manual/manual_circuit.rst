@@ -719,7 +719,7 @@ To understand what happens inside a :py:class:`PauliExpBox` let's take a look at
 
     render_circuit_jupyter(zzyx.get_circuit())
 
-All Pauli exponetials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
+All Pauli exponentials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
 
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
