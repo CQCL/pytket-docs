@@ -350,8 +350,15 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#registers-and-ids">Registers and IDs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composing-circuits">Composing Circuits</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-circuits">Analysing Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-boxes">Circuit Boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes-for-unitary-synthesis">Boxes for Unitary Synthesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controlled-box-operations">Controlled Box Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-exponential-boxes-and-phase-polynommials">Pauli Exponential Boxes and Phase Polynommials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiplexors-state-preperation-boxes-and-toffolibox">Multiplexors, State Preperation Boxes and <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-exporting-circuits">Importing/Exporting Circuits</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-circuits">Symbolic Circuits</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-unitaries-and-states">Symbolic unitaries and states</a></li>
@@ -362,7 +369,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-tableaux">Clifford Tableaux</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-and-conditional-operations">Classical and conditional operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-level-operations">Circuit-Level Operations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Implicit Qubit Permutations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Implicit Qubit Permutations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-operations-within-circuits">Modifying Operations Within Circuits</a></li>
 </ul>
 </li>
@@ -872,7 +879,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -889,7 +896,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
 
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -906,184 +913,6 @@ document.write(`
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The unitary matrix of a quantum circuit is of dimension <span class="math notranslate nohighlight">\((2^n \times 2^n)\)</span> where <span class="math notranslate nohighlight">\(n\)</span> is the number of qubits. The statevector will be a column vector with <span class="math notranslate nohighlight">\(2^n\)</span> entries . Due to this exponential scaling it will in general be very inefficient to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.</p>
-</div>
-</section>
-<section id="boxes">
-<h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this heading">#</a></h2>
-<p>Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn’t mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit’s design when it is constructed using higher-level constructions. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the concept of a “Box” is to abstract away such complex structures as black-boxes within larger circuits.</p>
-<p>The simplest example of this is a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code>, which wraps up another <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> defined elsewhere into a single black-box. The difference between adding a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> and just appending the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is that the <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span>
-
-<span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
-
-<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[CircBox q[0], q[1]; X q[1]; CircBox q[1], q[2]; ]
-</pre></div>
-</div>
-</div>
-</div>
-<p>Similarly, if our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary operation), we can construct the controlled version that is applied coherently according to some set of control qubits. If all control qubits are in the <span class="math notranslate nohighlight">\(|1\rangle\)</span> state, then the unitary is applied to the target system, otherwise it acts as an identity.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span><span class="p">,</span> <span class="n">QControlBox</span>
-
-<span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
-
-<span class="c1"># Define the controlled operation with 2 control qubits</span>
-<span class="n">cont</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-
-<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Add to circuit with controls q[0], q[1], and targets q[2], q[3]</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_qcontrolbox</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Ry(0.3) q[0]; Ry(0.8) q[1]; CircBox q[2], q[3]; qif (q[0], q[1]) CircBox q[2], q[3]; ]
-</pre></div>
-</div>
-</div>
-</div>
-<p>As well as creating controlled boxes, we can create a controlled version of an arbitrary <code class="xref py py-class docutils literal notranslate"><span class="pre">Op</span></code> as follows.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span><span class="p">,</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">QControlBox</span>
-
-<span class="n">op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
-<span class="n">ccs</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.</p>
-</div>
-<p>It is possible to specify small unitaries from <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Unitary1qBox</span><span class="p">,</span> <span class="n">Unitary2qBox</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">u1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">],</span>
-                 <span class="p">[(</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">]])</span>
-<span class="n">u1box</span> <span class="o">=</span> <span class="n">Unitary1qBox</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
-
-<span class="n">u2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                 <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-<span class="n">u2box</span> <span class="o">=</span> <span class="n">Unitary2qBox</span><span class="p">(</span><span class="n">u2</span><span class="p">)</span>
-
-<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary1qbox</span><span class="p">(</span><span class="n">u1box</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary2qbox</span><span class="p">(</span><span class="n">u2box</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary1qbox</span><span class="p">(</span><span class="n">u1box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary2qbox</span><span class="p">(</span><span class="n">u2box</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Unitary1qBox q[0]; Unitary2qBox q[1], q[2]; Unitary2qBox q[1], q[0]; Unitary1qBox q[2]; ]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary3qBox</span></code>.</p>
-</div>
-<p>Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: <span class="math notranslate nohighlight">\(e^{-i \pi \theta P}\)</span> (<span class="math notranslate nohighlight">\(P \in \{I, X, Y, Z\}^{\otimes n}\)</span>). These occur very naturally in Trotterising evolution operators and as common native device operations.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">PauliExpBox</span>
-<span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
-
-<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">],</span> <span class="mf">0.1</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">),</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[PauliExpBox q[0], q[1]; PauliExpBox q[0], q[1]; PauliExpBox q[0], q[1], q[2], q[3]; PauliExpBox q[0], q[1], q[2], q[3]; ]
-</pre></div>
-</div>
-</div>
-</div>
-<p>In addition to the box types mentioned above <code class="docutils literal notranslate"><span class="pre">pytket</span></code> also supports a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> structure. This box type can be used to prepare an arbitrary permutation of the computational basis states using the <span class="math notranslate nohighlight">\(\{\text{X},\text{CnX}\}\)</span> gateset.</p>
-<p>In order to construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> the user must supply the desired permutation as a dictionary specifying the action of the box on different input basis states, where a key:value pair implies that the basis state key should be mapped to the basis state value.</p>
-<p>The given dictionary should provide permutations that correspond to complete cycles of basis states, i.e. if a basis state is present as a key then it must also be present as a value in the dictionary. If a valid permutation is supplied then a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> is constructed to perform the permutation and an error is thrown if the provided permutation is invalid.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
-<span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">ToffoliBox</span>
-
-<span class="c1"># Specify the desired permutation of the basis states</span>
-<span class="n">permutation</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
-
-<span class="c1"># Construct a two qubit ToffoliBox to perform the permutation</span>
-<span class="n">tb</span> <span class="o">=</span> <span class="n">ToffoliBox</span><span class="p">(</span><span class="n">permutation</span><span class="o">=</span><span class="n">permutation</span><span class="p">)</span>
-
-<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>               <span class="c1"># Create a two qubit circuit</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">add_toffolibox</span><span class="p">(</span><span class="n">tb</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="c1"># Add the ToffoliBox defined above to our circuit</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">()</span>             <span class="c1"># Display circuit commands</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[ToffoliBox q[0], q[1];]
-</pre></div>
-</div>
-</div>
-</div>
-<p>Now lets perform a statevector calculation to ensure that the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> performs the desired permutation. Recall that when calculating the statevector <code class="docutils literal notranslate"><span class="pre">pytket</span></code> assumes qubits to be initialised in the <span class="math notranslate nohighlight">\(|0\rangle^{\otimes n}\)</span> state.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([ 2.22044605e-16-6.16297582e-32j, -2.22044605e-16+0.00000000e+00j,
-        0.00000000e+00+0.00000000e+00j,  1.00000000e+00-2.77555756e-16j])
-</pre></div>
-</div>
-</div>
-</div>
-<p>We see from the output that the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> prepares the <span class="math notranslate nohighlight">\(|11\rangle\)</span> basis state from out initial state of <span class="math notranslate nohighlight">\(|00\rangle\)</span>.</p>
-<p>The user may wish to inspect the circuit inside the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code>. This can be done with the <code class="xref py py-meth docutils literal notranslate"><span class="pre">ToffoliBox.get_circuit()</span></code> method.</p>
-<div class="jupyter_cell jupyter_container docutils container">
-<div class="cell_input code_cell docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tb</span><span class="o">.</span><span class="n">get_circuit</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[MultiplexedRotationBox q[1], q[0]; MultiplexedRotationBox q[0], q[1]; MultiplexedRotationBox q[1], q[0]; DiagonalBox q[0], q[1]; ]
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="analysing-circuits">
@@ -1147,7 +976,7 @@ X OpType.X [q[1]]
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-544baa8c-ced3-4b23-9030-dc2908748728&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-325e0a69-17da-405b-bfb9-093a726d4d97&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1157,7 +986,7 @@ X OpType.X [q[1]]
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;544baa8c-ced3-4b23-9030-dc2908748728&#34;;
+      const circuitRendererUid = &#34;325e0a69-17da-405b-bfb9-093a726d4d97&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1211,7 +1040,7 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_32_0.svg" src="_images/manual_circuit_32_0.svg" /></div>
+<img alt="_images/manual_circuit_24_0.svg" src="_images/manual_circuit_24_0.svg" /></div>
 </div>
 <p>The visualisation tool can also describe the interaction graph of a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> consisting of only one- and two-qubit gates – that is, the graph of which qubits will share a two-qubit gate at some point during execution.</p>
 <div class="admonition note">
@@ -1231,7 +1060,7 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/manual_circuit_33_0.svg" src="_images/manual_circuit_33_0.svg" /></div>
+<img alt="_images/manual_circuit_25_0.svg" src="_images/manual_circuit_25_0.svg" /></div>
 </div>
 <p>The full instruction sequence may often be too much detail for a lot of needs, especially for large circuits. Common circuit metrics like gate count and depth are used to approximate the difficulty of running it on a device, providing some basic tools to help distinguish different implementations of a given algorithm.</p>
 <div class="jupyter_cell jupyter_container docutils container">
@@ -1305,7 +1134,7 @@ Circuit depth = 3
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-ad03c74c-195e-47df-8d9c-25c0706ab762&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-881720da-e73d-4fdd-a921-65c5f51802f9&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;params&#34;: [&#34;0.6&#34;], &#34;type&#34;: &#34;CnRy&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1315,7 +1144,7 @@ Circuit depth = 3
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;ad03c74c-195e-47df-8d9c-25c0706ab762&#34;;
+      const circuitRendererUid = &#34;881720da-e73d-4fdd-a921-65c5f51802f9&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1364,6 +1193,907 @@ T gate depth = 3
 <p class="admonition-title">Note</p>
 <p>Each of these metrics will analyse the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> “as is”, so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don’t just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a <span class="math notranslate nohighlight">\(CZ\)</span> gate would contribute 1 to <span class="math notranslate nohighlight">\(CX\)</span>-count in practice).</p>
 </div>
+</section>
+<section id="boxes">
+<h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this heading">#</a></h2>
+<p>Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn’t mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit’s design when it is constructed using higher-level constructions. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the concept of a “Box” is to abstract away such complex structures as black-boxes within larger circuits.</p>
+<section id="circuit-boxes">
+<h3>Circuit Boxes<a class="headerlink" href="#circuit-boxes" title="Permalink to this heading">#</a></h3>
+<p>The simplest example of this is a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code>, which wraps up another <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> defined elsewhere into a single black-box. The difference between adding a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> and just appending the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> is that the <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
+<p>Let’s first build a basic quantum circuit which implements a simplified version of a Grover oracle and then add
+it to another circuit as part of a larger algorithm.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">OpType</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit.display</span> <span class="kn">import</span> <span class="n">render_circuit_jupyter</span>
+
+<span class="n">oracle_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Oracle&quot;</span><span class="p">)</span>
+<span class="n">oracle_circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">oracle_circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">oracle_circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">oracle_circ</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CnZ</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">oracle_circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">oracle_circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">oracle_circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">oracle_circ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-9cb5fc2d-3a0d-46c0-af8b-64d23425a058&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;type&#34;: &#34;CnZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;name&#34;: &#34;Oracle&#34;, &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;9cb5fc2d-3a0d-46c0-af8b-64d23425a058&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+<p>Now that we’ve built our circuit we can wrap it up in a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircBox</span></code> and add it to a another circuit as a subroutine.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">CircBox</span>
+
+<span class="n">oracle_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">oracle_circ</span><span class="p">)</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">oracle_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-8edbd034-8f39-4fdf-b47b-977ba2ccd5ad&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;circuit&#34;: {&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;type&#34;: &#34;CnZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;name&#34;: &#34;Oracle&#34;, &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}, &#34;id&#34;: &#34;f6a9330c-47ee-4946-a7ec-75e17a39c901&#34;, &#34;type&#34;: &#34;CircBox&#34;}, &#34;type&#34;: &#34;CircBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;8edbd034-8f39-4fdf-b47b-977ba2ccd5ad&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+<p>See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Despite the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class having methods for adding each type of box, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.add_gate()</span></code> is sufficiently general to append any pytket OpType to a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p>
+</div>
+</section>
+<section id="boxes-for-unitary-synthesis">
+<h3>Boxes for Unitary Synthesis<a class="headerlink" href="#boxes-for-unitary-synthesis" title="Permalink to this heading">#</a></h3>
+<p>It is possible to specify small unitaries from <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Unitary1qBox</span><span class="p">,</span> <span class="n">Unitary2qBox</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">u1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">],</span>
+                 <span class="p">[(</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">u1box</span> <span class="o">=</span> <span class="n">Unitary1qBox</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
+
+<span class="n">u2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">u2box</span> <span class="o">=</span> <span class="n">Unitary2qBox</span><span class="p">(</span><span class="n">u2</span><span class="p">)</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary1qbox</span><span class="p">(</span><span class="n">u1box</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary2qbox</span><span class="p">(</span><span class="n">u2box</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary1qbox</span><span class="p">(</span><span class="n">u1box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_unitary2qbox</span><span class="p">(</span><span class="n">u2box</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Unitary1qBox q[0]; Unitary2qBox q[1], q[2]; Unitary2qBox q[1], q[0]; Unitary1qBox q[2]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary3qBox</span></code> using a similar syntax.</p>
+</div>
+<p>Also in this category of synthesis boxes is <code class="xref py py-class docutils literal notranslate"><span class="pre">DiagonalBox</span></code>. This allows synthesis of circuits for diagonal unitaries.
+This box can be constructed by passing in a <span class="math notranslate nohighlight">\((1 \times 2^n)\)</span> numpy array representing the diagonal entries of the desired unitary matrix.</p>
+</section>
+<section id="controlled-box-operations">
+<h3>Controlled Box Operations<a class="headerlink" href="#controlled-box-operations" title="Permalink to this heading">#</a></h3>
+<p>If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary operation), we can construct the controlled version that is applied coherently according to some set of control qubits. If all control qubits are in the <span class="math notranslate nohighlight">\(|1\rangle\)</span> state, then the unitary is applied to the target system, otherwise it acts as an identity.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">CircBox</span><span class="p">,</span> <span class="n">QControlBox</span>
+
+<span class="n">sub</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sub</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">sub_box</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+
+<span class="c1"># Define the controlled operation with 2 control qubits</span>
+<span class="n">cont</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">sub_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Add to circuit with controls q[0], q[1], and targets q[2], q[3]</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_qcontrolbox</span><span class="p">(</span><span class="n">cont</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[Ry(0.3) q[0]; Ry(0.8) q[1]; CircBox q[2], q[3]; qif (q[0], q[1]) CircBox q[2], q[3]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>As well as creating controlled boxes, we can create a controlled version of an arbitrary <code class="xref py py-class docutils literal notranslate"><span class="pre">Op</span></code> as follows.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span><span class="p">,</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">QControlBox</span>
+
+<span class="n">op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+<span class="n">ccs</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>In addition, we can construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">QControlBox</span></code> from any other pure quantum box type in pytket.
+For example, we can construct a multicontrolled <span class="math notranslate nohighlight">\(\sqrt{Y}\)</span> operation as by first synthesising the base unitary with <code class="xref py py-class docutils literal notranslate"><span class="pre">Unitary1qBox</span></code> and then constructing a <code class="xref py py-class docutils literal notranslate"><span class="pre">QControlBox</span></code> from the box implementing <span class="math notranslate nohighlight">\(\sqrt{Y}\)</span>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Unitary1qBox</span><span class="p">,</span> <span class="n">QControlBox</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Unitary for sqrt(Y)</span>
+<span class="n">sqrt_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span>
+                     <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="mi">2</span><span class="p">]])</span>
+
+<span class="n">sqrt_y_box</span> <span class="o">=</span> <span class="n">Unitary1qBox</span><span class="p">(</span><span class="n">sqrt_y</span><span class="p">)</span>
+<span class="n">c2_root_y</span> <span class="o">=</span> <span class="n">QControlBox</span><span class="p">(</span><span class="n">sqrt_y_box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.</p>
+</div>
+</section>
+<section id="pauli-exponential-boxes-and-phase-polynommials">
+<h3>Pauli Exponential Boxes and Phase Polynommials<a class="headerlink" href="#pauli-exponential-boxes-and-phase-polynommials" title="Permalink to this heading">#</a></h3>
+<p>Another notable construct that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor:</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+e^{-i \frac{\pi}{2} \theta P}\,, \quad P \in \{I, X, Y, Z\}^{\otimes n}
+\end{equation}\]</div>
+<p>These occur very naturally in Trotterising evolution operators and native device operations.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">PauliExpBox</span>
+<span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
+
+<span class="c1"># Construct PauliExpBox(es) with a list of Paulis followed by the phase</span>
+<span class="n">xyyz</span> <span class="o">=</span> <span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">zzyx</span> <span class="o">=</span> <span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">],</span> <span class="mf">0.7</span><span class="p">)</span>
+
+<span class="n">pauli_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">pauli_circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">xyyz</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">pauli_circ</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">zzyx</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[PauliExpBox q[0], q[1], q[2], q[3]; PauliExpBox q[1], q[2], q[3], q[4]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>To understand what happens inside a <code class="xref py py-class docutils literal notranslate"><span class="pre">PauliExpBox</span></code> let’s take a look at the underlying circuit for <span class="math notranslate nohighlight">\(e^{-i \frac{\pi}{2}\theta ZZYX}\)</span></p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">zzyx</span><span class="o">.</span><span class="n">get_circuit</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-45b3580a-0420-4832-bc9b-5d276be81f4e&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;V&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.7&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;Vdg&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]], [[&#34;q&#34;, [3]], [&#34;q&#34;, [3]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;45b3580a-0420-4832-bc9b-5d276be81f4e&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+<p>All Pauli exponentials of the form above can be implemented in terms of a single Rz(<span class="math notranslate nohighlight">\(\theta\)</span>) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to “Z only” Pauli strings are referred to as phase gadgets.</p>
+<p>We see that the Pauli exponential <span class="math notranslate nohighlight">\(e^{i\frac{\pi}{2} \theta \text{ZZYX}}\)</span> has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.</p>
+<p>These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis <a class="reference internal" href="#cowt2020" id="id6"><span>[Cowt2020]</span></a>. Ideas from this paper are implemented in TKET as the <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets">OptimisePhaseGadgets</a> and <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp">PauliSimp</a> optimisation passes.</p>
+<p>Now we move on to discuss another class of quantum circuits known as phase polynomials. Phase polynomial circuits are a special type of circuits that use the {CX, Rz} gateset.</p>
+<p>A phase polynomial <span class="math notranslate nohighlight">\(p(x)\)</span> is defined as a weighted sum of Boolean linear functions <span class="math notranslate nohighlight">\(f_i(x)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+p(x) = \sum_{i=1}^{2^n} \theta_i f_i(x)
+\end{equation}\]</div>
+<p>A phase polynomial circuit <span class="math notranslate nohighlight">\(C\)</span> has the following action on computational basis states <span class="math notranslate nohighlight">\(|x\rangle\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+C: |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
+\end{equation}\]</div>
+<p>Such a phase polynomial circuit can be synthesisied in pytket using the <code class="xref py py-class docutils literal notranslate"><span class="pre">PhasePolyBox</span></code>. A <code class="xref py py-class docutils literal notranslate"><span class="pre">PhasePolyBox</span></code> is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.</p>
+<p>Finally a <code class="docutils literal notranslate"><span class="pre">linear_transfromation</span></code> parameter needs to be specified:  this is a matrix encoding the linear permutation between the bitstrings <span class="math notranslate nohighlight">\(|x\rangle\)</span> and <span class="math notranslate nohighlight">\(|g(x)\rangle\)</span> in the equation above.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">PhasePolyBox</span>
+
+<span class="n">phase_poly_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">qubit_indices</span> <span class="o">=</span> <span class="p">{</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="mi">2</span><span class="p">}</span>
+
+<span class="n">phase_polynomial</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span> <span class="mf">0.333</span><span class="p">,</span>
+    <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span> <span class="mf">1.05</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">n_qb</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">linear_transformation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="n">p_box</span> <span class="o">=</span> <span class="n">PhasePolyBox</span><span class="p">(</span><span class="n">n_qb</span><span class="p">,</span> <span class="n">qubit_indices</span><span class="p">,</span> <span class="n">phase_polynomial</span><span class="p">,</span> <span class="n">linear_transformation</span><span class="p">)</span>
+
+<span class="n">phase_poly_circ</span><span class="o">.</span><span class="n">add_phasepolybox</span><span class="p">(</span><span class="n">p_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">p_box</span><span class="o">.</span><span class="n">get_circuit</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-0a86774e-6efc-4850-a66d-38d9993f70e9&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;1.05&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.05&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.333&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;0a86774e-6efc-4850-a66d-38d9993f70e9&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+</section>
+<section id="multiplexors-state-preperation-boxes-and-toffolibox">
+<h3>Multiplexors, State Preperation Boxes and <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code><a class="headerlink" href="#multiplexors-state-preperation-boxes-and-toffolibox" title="Permalink to this heading">#</a></h3>
+<p>In the context of quantum circuits a multiplexor is type of generalised multicontrolled gate. Multiplexors grant us the flexibility to specify different operations on target qubits for different control states.
+To create a multiplexor we simply construct a dictionary where the keys are the state of the control qubits and the values represent the operation performed on the target.</p>
+<p>Lets implement a multiplexor with the following logic. Here we treat the first two qubits as controls and the third qubit as the target.</p>
+<dl class="simple">
+<dt>if control qubits in <span class="math notranslate nohighlight">\(|00\rangle\)</span>:</dt><dd><p>do Rz(0.3) on the third qubit</p>
+</dd>
+<dt>else if control qubits in <span class="math notranslate nohighlight">\(|11\rangle\)</span>:</dt><dd><p>do H on the third qubit</p>
+</dd>
+<dt>else:</dt><dd><p>do identity (i.e. do nothing)</p>
+</dd>
+</dl>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Op</span><span class="p">,</span> <span class="n">MultiplexorBox</span>
+
+<span class="c1"># Define both gates as an Op</span>
+<span class="n">rz_op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Rz</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+<span class="n">h_op</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">H</span><span class="p">)</span>
+
+<span class="n">op_map</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">rz_op</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="n">h_op</span><span class="p">}</span>
+<span class="n">multiplexor</span> <span class="o">=</span> <span class="n">MultiplexorBox</span><span class="p">(</span><span class="n">op_map</span><span class="p">)</span>
+
+<span class="n">multi_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">multi_circ</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Put both control qubits in the state |1&gt;</span>
+<span class="n">multi_circ</span><span class="o">.</span><span class="n">add_multiplexor</span><span class="p">(</span><span class="n">multiplexor</span><span class="p">,</span> <span class="p">[</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">multi_circ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-87034f20-d3c5-46d6-ba63-e8af8d814548&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;329e5415-f93d-4358-8d13-b33e1d0b9e66&#34;, &#34;op_map&#34;: [[[false, false], {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rz&#34;}], [[true, true], {&#34;type&#34;: &#34;H&#34;}]], &#34;type&#34;: &#34;MultiplexorBox&#34;}, &#34;type&#34;: &#34;MultiplexorBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;87034f20-d3c5-46d6-ba63-e8af8d814548&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+<p>Notice how in the example above the control qubits are both in the <span class="math notranslate nohighlight">\(|1\rangle\)</span> state and so the multiplexor applies the Hadamard operation to the third qubit. If we calculate our statevector we see that the third qubit is in the
+<span class="math notranslate nohighlight">\(|+\rangle = H|0\rangle\)</span> state.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assume all qubits initialised to |0&gt; here</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Statevector =&quot;</span><span class="p">,</span> <span class="n">multi_circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">())</span>  <span class="c1"># amplitudes of |+&gt; approx 0.707...</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Statevector = [0.        +0.j 0.        +0.j 0.        +0.j 0.        +0.j
+ 0.        +0.j 0.        +0.j 0.70710678+0.j 0.70710678+0.j]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In addition to the general <code class="xref py py-class docutils literal notranslate"><span class="pre">Multiplexor</span></code> pytket has several other type of multiplexor box operations available.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Multiplexor</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiplexorBox</span></code></p></td>
+<td><p>The most general type of multiplexor (see above)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiplexedRotationBox</span></code></p></td>
+<td><p>Multiplexor where the operation applied to the
+target is a rotation gate about a single axis</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiplexedU2Box</span></code></p></td>
+<td><p>Multiplexor for unifromly controlled single
+qubit gates (U(2) operations)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiplexedTensoredU2Box</span></code></p></td>
+<td><p>Multiplexor where the operation applied to the
+target is a tensor product of single qubit gates</p></td>
+</tr>
+</tbody>
+</table>
+<p>One place where multiplexor operations are useful is in state preparation algorithms.</p>
+<p>TKET supports the preparation of arbitrary quantum states via the <code class="xref py py-class docutils literal notranslate"><span class="pre">StatePreparationBox</span></code>. This box takes a  <span class="math notranslate nohighlight">\((1\times 2^n)\)</span> numpy array representing the <span class="math notranslate nohighlight">\(n\)</span> qubit statevector where the entries represent the amplitudes of the quantum state.</p>
+<p>Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in <a class="reference internal" href="#shen2004" id="id7"><span>[Shen2004]</span></a>.</p>
+<p>To demonstrate <code class="xref py py-class docutils literal notranslate"><span class="pre">StatePreparationBox</span></code> let’s use it to prepare the Werner state <span class="math notranslate nohighlight">\(|W\rangle\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+|W\rangle = \frac{1}{\sqrt{3}} \big(|001\rangle + |010\rangle + |100\rangle \big)
+\end{equation}\]</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">StatePreparationBox</span>
+
+<span class="n">werner_state</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">werner_state_box</span> <span class="o">=</span> <span class="n">StatePreparationBox</span><span class="p">(</span><span class="n">werner_state</span><span class="p">)</span>
+
+<span class="n">state_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">state_circ</span><span class="o">.</span><span class="n">add_state_preparation_box</span><span class="p">(</span><span class="n">werner_state_box</span><span class="p">,</span> <span class="p">[</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>[StatePreparationBox q[0], q[1], q[2]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Verify state preperation</span>
+<span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">state_circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># 1/sqrt(3) approx 0.577</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([-0.   ,  0.577,  0.577,  0.   ,  0.577,  0.   ,  0.   ,  0.   ])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.</p>
+</div>
+<p>Finally let’s consider another box type, namely the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code>. This box can be used to prepare an arbitrary permutation of the computational basis states.
+To construct the box we need to specify the permutation as a key-value pair where the key is the input basis state and the value is output.
+Let’s construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> to perform the following mapping:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gather}
+|001\rangle \longmapsto |111\rangle \\
+|111\rangle \longmapsto |001\rangle \\
+|100\rangle \longmapsto |000\rangle \\
+|000\rangle \longmapsto |100\rangle
+\end{gather}\end{split}\]</div>
+<p>We can construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> with a python dictionary where the basis states above are entered as key-value pairs.
+For correctness if a basis state appears as key in the permutation dictionary then it must also appear and a value.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">ToffoliBox</span>
+
+<span class="c1"># Specify the desired permutation of the basis states</span>
+<span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c1"># Define box to perform the permutation</span>
+<span class="n">perm_box</span> <span class="o">=</span> <span class="n">ToffoliBox</span><span class="p">(</span><span class="n">permutation</span><span class="o">=</span><span class="n">mapping</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+<p>This permutation of basis states can be achieved with purely classical operations {X, CCX}, hence the name <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code>.
+In pytket however, the permutation is implemented efficently using a sequence of multiplexed rotations followed by a <code class="xref py py-class docutils literal notranslate"><span class="pre">DiagonalBox</span></code>.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">perm_box</span><span class="o">.</span><span class="n">get_circuit</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-89be8080-e3f7-447e-8a61-5ae8b4580fa9&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;84210e89-3d5f-4afd-a395-b8e4bb0bdc8a&#34;, &#34;op_map&#34;: [[[false, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;a54c98bb-1e0c-4525-af2f-15166b287dc2&#34;, &#34;op_map&#34;: [[[true, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;adc51354-6cab-48a2-a4a3-57710d2d9151&#34;, &#34;op_map&#34;: [[[false, false], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}], [[false, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;diagonal&#34;: [[[-1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[-1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]]], &#34;id&#34;: &#34;52e136f6-b911-4073-adbd-28ddcd455029&#34;, &#34;type&#34;: &#34;DiagonalBox&#34;, &#34;upper_triangle&#34;: true}, &#34;type&#34;: &#34;DiagonalBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;89be8080-e3f7-447e-8a61-5ae8b4580fa9&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+<p>Finally let’s append the <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> onto our circuit preparing our Werner state to perform the permutation of basis states specified above.</p>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state_circ</span><span class="o">.</span><span class="n">add_toffolibox</span><span class="p">(</span><span class="n">perm_box</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">state_circ</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-c41a8ba7-2605-4d5b-88e9-0e96514f15fd&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;899365bb-5a6e-46c6-9bcf-227f677442cd&#34;, &#34;is_inverse&#34;: false, &#34;statevector&#34;: [[[0.0, 0.0]], [[0.5773502691896258, 0.0]], [[0.5773502691896258, 0.0]], [[0.0, 0.0]], [[0.5773502691896258, 0.0]], [[0.0, 0.0]], [[0.0, 0.0]], [[0.0, 0.0]]], &#34;type&#34;: &#34;StatePreparationBox&#34;}, &#34;type&#34;: &#34;StatePreparationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;009d19a5-8ddd-4f2e-931b-df88435e3f18&#34;, &#34;permutation&#34;: [[[false, false, false], [true, false, false]], [[false, false, true], [true, true, true]], [[true, false, false], [false, false, false]], [[true, true, true], [false, false, true]]], &#34;rotation_axis&#34;: &#34;Ry&#34;, &#34;type&#34;: &#34;ToffoliBox&#34;}, &#34;type&#34;: &#34;ToffoliBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;c41a8ba7-2605-4d5b-88e9-0e96514f15fd&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+<div class="jupyter_cell jupyter_container docutils container">
+<div class="cell_input code_cell docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">state_circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.577, 0.   , 0.577, 0.   , 0.   , 0.   , 0.   , 0.577])
+</pre></div>
+</div>
+</div>
+</div>
+<p>Looking at the statevector calculation we see that our <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code> has exchanged the coefficents of our Werner state so that the non-zero coefficents are now on the <span class="math notranslate nohighlight">\(|000\rangle\)</span> and <span class="math notranslate nohighlight">\(|111\rangle\)</span> bitstrings with the coefficent of <span class="math notranslate nohighlight">\(|010\rangle\)</span> remaining unchanged.</p>
+</section>
 </section>
 <section id="importing-exporting-circuits">
 <h2>Importing/Exporting Circuits<a class="headerlink" href="#importing-exporting-circuits" title="Permalink to this heading">#</a></h2>
@@ -1695,7 +2425,7 @@ The conversion functions use the <a class="reference external" href="https://doc
 <section id="clifford-tableaux">
 <h3>Clifford Tableaux<a class="headerlink" href="#clifford-tableaux" title="Permalink to this heading">#</a></h3>
 <p>The Clifford (a.k.a. stabilizer) fragment of quantum theory is known to exhibit efficient classical representations of states and unitaries. This allows for short descriptions that can fully characterise a state/unitary and efficient circuit simulation. Whilst the Clifford group can be characterised as the operations generated by <cite>CX</cite>, <cite>H</cite>, and <cite>S</cite> gates with qubit initialisation in the <span class="math notranslate nohighlight">\(|0\rangle\)</span> state, it is also the largest group of operations under which the Pauli group is closed, i.e. for any tensor of Paulis <span class="math notranslate nohighlight">\(P\)</span> and Clifford operation <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(CPC^\dagger\)</span> is also a tensor of Paulis.</p>
-<p>Any state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> in the Clifford fragment is uniquely identified by those tensors of Pauli operators that stabilize it (those <span class="math notranslate nohighlight">\(P\)</span> such that <span class="math notranslate nohighlight">\(P|\psi\rangle = |\psi\rangle\)</span>). These stabilizers form a group of size <span class="math notranslate nohighlight">\(2^n\)</span> for an <span class="math notranslate nohighlight">\(n\)</span> qubit state, but it is sufficient to identify <span class="math notranslate nohighlight">\(n\)</span> independent generators to specify the group. If a Clifford gate <span class="math notranslate nohighlight">\(C\)</span> is applied to the state, each generator <span class="math notranslate nohighlight">\(P\)</span> can be updated to <span class="math notranslate nohighlight">\(P' = CPC^\dagger\)</span> since <span class="math notranslate nohighlight">\(C|\psi\rangle = CP|\psi\rangle = (CPC^\dagger)C|\psi\rangle\)</span>. We can therefore characterise each Clifford operation by its actions on generators of the Pauli group, giving us the Clifford tableau form. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitaryTableau</span></code> class uses the binary symplectic representation from Aaronson and Gottesman <a class="reference internal" href="#aaro2004" id="id6"><span>[Aaro2004]</span></a>.</p>
+<p>Any state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> in the Clifford fragment is uniquely identified by those tensors of Pauli operators that stabilize it (those <span class="math notranslate nohighlight">\(P\)</span> such that <span class="math notranslate nohighlight">\(P|\psi\rangle = |\psi\rangle\)</span>). These stabilizers form a group of size <span class="math notranslate nohighlight">\(2^n\)</span> for an <span class="math notranslate nohighlight">\(n\)</span> qubit state, but it is sufficient to identify <span class="math notranslate nohighlight">\(n\)</span> independent generators to specify the group. If a Clifford gate <span class="math notranslate nohighlight">\(C\)</span> is applied to the state, each generator <span class="math notranslate nohighlight">\(P\)</span> can be updated to <span class="math notranslate nohighlight">\(P' = CPC^\dagger\)</span> since <span class="math notranslate nohighlight">\(C|\psi\rangle = CP|\psi\rangle = (CPC^\dagger)C|\psi\rangle\)</span>. We can therefore characterise each Clifford operation by its actions on generators of the Pauli group, giving us the Clifford tableau form. In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, the <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitaryTableau</span></code> class uses the binary symplectic representation from Aaronson and Gottesman <a class="reference internal" href="#aaro2004" id="id8"><span>[Aaro2004]</span></a>.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">Qubit</span>
@@ -1957,8 +2687,8 @@ can support the full range of expressions and comparisons shown above.</p>
 <p>Since it is not possible to construct the inverse of an arbitrary POVM, the <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.dagger()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.transpose()</span></code> methods will fail if there are any measurements, resets, or other operations that they cannot directly invert.</p>
 </div>
 </section>
-<section id="id7">
-<h3>Implicit Qubit Permutations<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<section id="id9">
+<h3>Implicit Qubit Permutations<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> class is built as a DAG to help follow the paths of resources and represent the circuit canonically up to trivial commutations. Each of the edges represents a resource passing from one instruction to the next, so we could represent SWAPs (and general permutations) by connecting the predecessors of the SWAP instruction to the opposite successors. This eliminates the SWAP instruction from the graph (meaning we would no longer perform the operation at runtime) and could enable the compiler to spot additional opportunities for simplification. One example of this in practice is the ability to convert a pair of CXs in opposite directions to just a single CX (along with an implicit SWAP that isn’t actually performed).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1980,7 +2710,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1];, CX q[1], q[0];, Rx(0.2) q[1];, CZ q[0], q[1];]
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_51_1.svg" src="_images/manual_circuit_51_1.svg" /></div>
+<img alt="_images/manual_circuit_60_1.svg" src="_images/manual_circuit_60_1.svg" /></div>
 </div>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -1998,7 +2728,7 @@ can support the full range of expressions and comparisons shown above.</p>
 {q[0]: q[1], q[1]: q[0], q[2]: q[2], q[3]: q[3]}
 </pre></div>
 </div>
-<img alt="_images/manual_circuit_52_1.svg" src="_images/manual_circuit_52_1.svg" /></div>
+<img alt="_images/manual_circuit_61_1.svg" src="_images/manual_circuit_61_1.svg" /></div>
 </div>
 <p>This procedure essentially exploits the naturality of the symmetry operator in the resource theory to push it to the end of the circuit: the <code class="docutils literal notranslate"><span class="pre">Rx</span></code> gate has moved from qubit <code class="docutils literal notranslate"><span class="pre">q[1]</span></code> to <code class="docutils literal notranslate"><span class="pre">q[0]</span></code> and can be commuted through to the start. This is automatically considered when composing two <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s together.</p>
 <p>The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different <code class="xref py py-class docutils literal notranslate"><span class="pre">UnitID</span></code>. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> backends, but care should be taken when reading from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> directly - two quantum <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">Circuit.implicit_qubit_permutation()</span></code> method can be used to inspect such a permutation.</p>
@@ -2099,8 +2829,16 @@ can support the full range of expressions and comparisons shown above.</p>
 </div>
 </div>
 <div role="list" class="citation-list">
+<div class="citation" id="cowt2020" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">Cowt2020</a><span class="fn-bracket">]</span></span>
+<p>Cowtan, A. and Dilkes, S. and Duncan and R., Simmons, W and Sivarajah, S., 2020. Phase Gadget Synthesis for Shallow Circuits. Electronic Proceedings in Theoretical Computer Science</p>
+</div>
+<div class="citation" id="shen2004" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">Shen2004</a><span class="fn-bracket">]</span></span>
+<p>V.V. Shende and S.S. Bullock and I.L. Markov, 2004. Synthesis of quantum-logic circuits. {IEEE} Transactions on Computer-Aided Design of Integrated Circuits and Systems</p>
+</div>
 <div class="citation" id="aaro2004" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">Aaro2004</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">Aaro2004</a><span class="fn-bracket">]</span></span>
 <p>Aaronson, S. and Gottesman, D., 2004. Improved Simulation of Stabilizer Circuits. Physical Review A, 70(5), p.052328.</p>
 </div>
 <div class="citation" id="brav2005" role="doc-biblioentry">
@@ -2178,8 +2916,15 @@ can support the full range of expressions and comparisons shown above.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#registers-and-ids">Registers and IDs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#composing-circuits">Composing Circuits</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-circuits">Analysing Circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-boxes">Circuit Boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes-for-unitary-synthesis">Boxes for Unitary Synthesis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controlled-box-operations">Controlled Box Operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-exponential-boxes-and-phase-polynommials">Pauli Exponential Boxes and Phase Polynommials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiplexors-state-preperation-boxes-and-toffolibox">Multiplexors, State Preperation Boxes and <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-exporting-circuits">Importing/Exporting Circuits</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-circuits">Symbolic Circuits</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-unitaries-and-states">Symbolic unitaries and states</a></li>
@@ -2190,7 +2935,7 @@ can support the full range of expressions and comparisons shown above.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-tableaux">Clifford Tableaux</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-and-conditional-operations">Classical and conditional operations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-level-operations">Circuit-Level Operations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Implicit Qubit Permutations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Implicit Qubit Permutations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-operations-within-circuits">Modifying Operations Within Circuits</a></li>
 </ul>
 </li>
