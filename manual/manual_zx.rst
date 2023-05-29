@@ -2,7 +2,7 @@
 ZX Diagrams
 ***********
 
-Aside from optimisation methods focussed on localised sequences of gates, the ZX-calculus has shown itself to be a useful representation for quantum operations that can highlight and exploit some specific kinds of higher-level redundancy in the structure of the circuit. In this section, we will assume the reader is familiar with the theory of ZX-calculus in terms of how to construct diagrams, apply rewrites to them, and interpret them as linear maps. We will focus on how to make use of the ZX module in ``pytket`` to help automate and scale your ideas.
+Aside from optimisation methods focussed on localised sequences of gates, the ZX-calculus has shown itself to be a useful representation for quantum operations that can highlight and exploit some specific kinds of higher-level redundancy in the structure of the circuit. In this section, we will assume the reader is familiar with the theory of ZX-calculus in terms of how to construct diagrams, apply rewrites to them, and interpret them as linear maps. We will focus on how to make use of the ZX module in ``pytket`` to help automate and scale your ideas. For a comprehensive introduction to the theory, we recommend reading van de Wetering's overview paper [vdWet2020]_ or taking a look at the resources available at `zxcalculus.com <https://zxcalculus.com>`_.
 
 The graph representation used in the ZX module is intended to be sufficiently generalised to support experimentation with other graphical calculi like ZH, algebraic ZX, and MBQC patterns. This includes:
 
@@ -41,13 +41,13 @@ Let's start by making the standard diagram for the qubit teleportation algorithm
     import graphviz as gv
 
     tele = ZXDiagram(1, 1, 0, 0)
-    (in_v, out_v) = tele.get_boundary()
     gv.Source(tele.to_graphviz_str())
 
-We will choose to represent the Bell state as a cup (i.e. an edge connecting one side of the CX to the first correction). In terms of vertices, we need two for the CX gate, two for the measurements, and four for the encoding and application of corrections. The CX and corrections need to be coherent operations so will be :py:class:`QuantumType.Quantum` as opposed to the measurements and encodings. We can then link them up by adding edges of the appropriate :py:class:`QuantumType`.
+We will choose to represent the Bell state as a cup (i.e. an edge connecting one side of the CX to the first correction). In terms of vertices, we need two for the CX gate, two for the measurements, and four for the encoding and application of corrections. The CX and corrections need to be coherent operations so will be :py:class:`QuantumType.Quantum` as opposed to the measurements and encodings. We can then link them up by adding edges of the appropriate :py:class:`QuantumType`. The visualisations will show :py:class:`QuantumType.Quantum` generators and edges with thick lines and :py:class:`QuantumType.Classical` with thinner lines as per standard notation conventions.
 
 .. jupyter-execute::
 
+    (in_v, out_v) = tele.get_boundary()
     cx_c = tele.add_vertex(ZXType.ZSpider)
     cx_t = tele.add_vertex(ZXType.XSpider)
     z_meas = tele.add_vertex(ZXType.ZSpider, qtype=QuantumType.Classical)
@@ -144,7 +144,7 @@ As the pytket ZX diagrams represent mixed diagrams, this impacts the interpretat
     ten = tensor_from_mixed_diagram(circ_diag)
     # Indices are (qin0, qin0_conj, qin1, qin1_conj, qout, qout_conj, cout)
     print(ten.shape)
-    print(ten[:, :, 1, 1, 0, 0, :])
+    print(ten[:, :, 1, 1, 0, 0, :].round(4))
 
 In many cases, we work with pure quantum diagrams. This doubling would cause substantial blowup in time and memory for evaluation, as well as making the tensor difficult to navigate for large diagrams. :py:meth:`tensor_from_quantum_diagram()` achieves the same as converting all :py:class:`QuantumType.Quantum` components to :py:class:`QuantumType.Classical`, meaning every edge is reduced down to dimension 2. Since the global scalar is maintained with respect to a doubled diagram, its square root is incorporated into the tensor, though we do not maintain the coherent global phase of a pure quantum diagram in this way. For diagrams like this, :py:meth:`unitary_from_quantum_diagram()` reformats the tensor into the conventional unitary (with big-endian indexing).
 
@@ -165,10 +165,10 @@ In many cases, we work with pure quantum diagrams. This doubling would cause sub
     u_diag.add_wire(cx_c, outs[0])
     u_diag.add_wire(rz, outs[1])
 
-    print(tensor_from_quantum_diagram(u_diag))
-    print(unitary_from_quantum_diagram(u_diag))
+    print(tensor_from_quantum_diagram(u_diag).round(4))
+    print(unitary_from_quantum_diagram(u_diag).round(4))
 
-Similarly, one may use :py:meth:`density_matrix_from_cptp_diagram()` to obtain a density matrix when all boundaries are :py:class:`QuantumType.Quantum` but the diagram itself contains mixed components. When input boundaries exist, this gives the density matrix under the Choi-Jamiołkovski isomorphism. For example, we can verify that our teleportation diagram from earlier really does reduce to the identity.
+Similarly, one may use :py:meth:`density_matrix_from_cptp_diagram()` to obtain a density matrix when all boundaries are :py:class:`QuantumType.Quantum` but the diagram itself contains mixed components. When input boundaries exist, this gives the density matrix under the Choi-Jamiołkovski isomorphism. For example, we can verify that our teleportation diagram from earlier really does reduce to the identity (recall that the Choi-Jamiołkovski isomorphism maps the identity channel to a Bell state).
 
 .. jupyter-execute::
 
@@ -184,7 +184,7 @@ Another way to potentially reduce the computational load for tensor evaluation i
 
     from pytket.zx.tensor_eval import fix_inputs_to_binary_state
     state_diag = fix_inputs_to_binary_state(u_diag, [1, 0])
-    print(unitary_from_quantum_diagram(state_diag))
+    print(unitary_from_quantum_diagram(state_diag).round(4))
 
 .. Note on location in test folder
 
@@ -556,8 +556,7 @@ The boundaries of the resulting :py:class:`ZXDiagram` will match up with the ope
     diag, bound_map = circuit_to_zx(c)
 
     in3, out3 = bound_map[Qubit(3)]
-    # Qubit 3 was discarded, so out3 will be None
-    print(out3)
+    # Qubit 3 was discarded, so out3 won't give a vertex
     # Look at the neighbour of the input to check the first operation is the X
     n = diag.neighbours(in3)[0]
     print(diag.get_vertex_ZXGen(n))
@@ -586,8 +585,9 @@ Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to
 
     Rewrite.to_graphlike_form().apply(diag)
     Rewrite.reduce_graphlike_form().apply(diag)
-    Rewrite.to_MBQC_diag().apply(diag)
 
+    # Extraction requires the diagram to use MBQC generators
+    Rewrite.to_MBQC_diag().apply(diag)
     circ, _ = diag.to_circuit()
     render_circuit_jupyter(circ)
 
@@ -618,7 +618,7 @@ The specific nature of optimising circuits via ZX diagrams gives rise to some ge
 
 .. Extraction is not optimised so best to run other passes afterwards
 
-* The implementation of the extraction routine in pytket follows the steps from Backens et al. [Back2021]_ very closely without optimising the gate sequences as they are produced. It is recommended to run additional peephole optimisation passes afterwards to account for redundancies introduced by the extraction procedure.
+* The implementation of the extraction routine in pytket follows the steps from Backens et al. [Back2021]_ very closely without optimising the gate sequences as they are produced. It is recommended to run additional peephole optimisation passes afterwards to account for redundancies introduced by the extraction procedure. For example, we can see in the above example that there are many sequences of successive Hadamard gates that could be removed using a pass like :py:class:`RemoveRedundancies`. :py:class:`FullPeepholeOptimise` is a good catch-all that incorporates many peephole optimisations and could further reduce the extracted circuit. 
 
 Advanced Topics
 ---------------
@@ -652,3 +652,5 @@ In place of API reference and code examples, we recommend looking at the followi
 
 
 .. [Back2021] Backens, M. et al., 2021. There and back again: A circuit extraction tale. Quantum, 5, p.451.
+
+.. [vdWet2020] van de Wetering, J., 2020. ZX-calculus for the working quantum computer scientist. https://arxiv.org/abs/2012.13966
