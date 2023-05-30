@@ -985,7 +985,7 @@ Though less expressive than native dictionary serialization, it is widely suppor
 
 .. Quipper
 
-.. note:: The OpenQASM converters do not support circuits with `implicit qubit permutations <https://cqcl.github.io/pytket/manual/manual_circuit.html#implicit-qubit-permutations>`_ . This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
+.. note:: The OpenQASM converters do not support circuits with :ref:`implicit qubit permutations <Implicit Qubit Permutations>`. This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
 
 The core ``pytket`` package additionally features a converter from Quipper, another circuit description language.
 
@@ -1149,8 +1149,8 @@ The conversion functions use the `sympy Quantum Mechanics module <https://docs.s
 .. warning::
     Unitaries corresponding to circuits with :math:`n` qubits have dimensions :math:`2^n \times 2^n`, so are computationally very expensive to calculate. Symbolic calculation is also computationally costly, meaning calculation of symbolic unitaries is only really feasible for very small circuits (of up to a few qubits in size). These utilities are provided as way to test the design of small subcircuits to check they are performing the intended unitary. Note also that as mentioned above, compilation of a symbolic circuit can generate long symbolic expressions; converting these circuits to a symbolic unitary could then result in a matrix object that is very hard to work with or interpret.
 
-Advanced Topics
----------------
+Advanced Circuit Construction Topics
+------------------------------------
 
 Custom parameterised Gates
 ==========================

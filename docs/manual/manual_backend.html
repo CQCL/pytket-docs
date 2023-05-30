@@ -346,13 +346,13 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-requirements">Backend Requirements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shots-and-sampling">Shots and Sampling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevector-and-unitary-simulation-with-tket-backends">Statevector and Unitary Simulation with TKET Backends</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-results">Interpreting Results</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-value-calculations">Expectation Value Calculations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidance-for-writing-hardware-agnostic-code">Guidance for Writing Hardware-Agnostic Code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-submission">Batch Submission</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-into-qiskit">Embedding into Qiskit</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics">Advanced Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-backend-topics">Advanced Backend Topics</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulator-support-for-expectation-values">Simulator Support for Expectation Values</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-job-submission">Asynchronous Job Submission</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistent-handles">Persistent Handles</a></li>
@@ -463,25 +463,25 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 1]
- [0 1]
- [1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
  [0 1]
  [0 1]
- [1 1]
- [1 1]
- [1 1]
- [1 1]
  [0 1]
  [1 1]
- [0 1]
- [0 1]
  [1 1]
  [0 1]
  [0 1]
  [0 1]
  [1 1]
  [1 1]
+ [0 1]
+ [0 1]
+ [1 1]
+ [0 1]
+ [1 1]
+ [1 1]
+ [0 1]
+ [0 1]
  [0 1]]
 </pre></div>
 </div>
@@ -509,8 +509,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1): 1025, (1, 1): 975})
-{(0, 1): 0.5125, (1, 1): 0.4875}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1038, (0, 1): 962})
+{(0, 1): 0.481, (1, 1): 0.519}
 </pre></div>
 </div>
 </div>
@@ -520,8 +520,8 @@ document.write(`
 <p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.process_circuit()</span></code> returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_result()</span></code>. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut <cite>Backend.run_circuit</cite> that will immediately execute the circuit and return a <code class="xref py py-class docutils literal notranslate"><span class="pre">BackendResult</span></code>.</p>
 </div>
 </section>
-<section id="statevectors-and-unitaries">
-<h2>Statevectors and Unitaries<a class="headerlink" href="#statevectors-and-unitaries" title="Permalink to this heading">#</a></h2>
+<section id="statevector-and-unitary-simulation-with-tket-backends">
+<h2>Statevector and Unitary Simulation with TKET Backends<a class="headerlink" href="#statevector-and-unitary-simulation-with-tket-backends" title="Permalink to this heading">#</a></h2>
 <p>Any form of sampling from a distribution will introduce sampling error and (unless it is a seeded simulator) non-deterministic results, whereas we could get much better accuracy and repeatability if we have the exact state of the underlying physical quantum system. Some simulators will provide direct access to this. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">BackendResult.get_state()</span></code> method will give the full representation of the physical state as a vector in the <span class="math notranslate nohighlight">\(2^n\)</span>-dimensional Hilbert space, whenever the underlying simulator provides this.</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
@@ -684,7 +684,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.020000000000000018
 </pre></div>
 </div>
 </div>
@@ -745,8 +745,8 @@ Counter({(1, 0): 10})
   0.63003676-3.85786248e-17j -0.32101976+3.93135823e-17j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j]
-Counter({(1, 0, 0): 804, (0, 0, 0): 772, (0, 0, 1): 213, (1, 0, 1): 211})
-Counter({(0, 0): 1576, (0, 1): 424})
+Counter({(0, 0, 0): 797, (1, 0, 0): 778, (1, 0, 1): 215, (0, 0, 1): 210})
+Counter({(0, 0): 1575, (0, 1): 425})
 </pre></div>
 </div>
 </div>
@@ -794,10 +794,11 @@ Counter({(0, 0): 1576, (0, 1): 424})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.0129999999999999
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.050000000000000044
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.317+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
+(0.29+0j)
 </pre></div>
 </div>
 </div>
@@ -826,8 +827,8 @@ Counter({(0, 0): 1576, (0, 1): 424})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 0): 453, (0, 1, 1): 405, (0, 0, 1): 381, (0, 1, 0): 375, (1, 1, 0): 106, (1, 1, 1): 100, (1, 0, 0): 95, (1, 0, 1): 85})
-0.049000000000000044
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 446, (0, 1, 0): 418, (0, 0, 0): 407, (0, 1, 1): 342, (1, 0, 0): 104, (1, 1, 0): 102, (1, 1, 1): 97, (1, 0, 1): 84})
+-0.06499999999999995
 </pre></div>
 </div>
 </div>
@@ -867,7 +868,7 @@ Counter({(0, 0): 1576, (0, 1): 424})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 1): 145, (1, 1, 1): 131, (0, 1, 0): 126, (1, 1, 0): 125, (0, 0, 0): 122, (0, 0, 1): 122, (1, 0, 1): 115, (1, 0, 0): 114})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 0, 1): 134, (0, 0, 1): 130, (0, 1, 0): 130, (0, 0, 0): 126, (1, 1, 0): 125, (1, 0, 0): 124, (1, 1, 1): 119, (0, 1, 1): 112})
 </pre></div>
 </div>
 </div>
@@ -921,7 +922,7 @@ Counter({(0, 0): 1576, (0, 1): 424})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.004999999999999893
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.02400000000000002
 </pre></div>
 </div>
 </div>
@@ -1027,8 +1028,8 @@ Counter({(0, 0): 1576, (0, 1): 424})
 <p>Since Qiskit may not be able to solve all of the constraints of the chosen device/simulator, some compilation may be required after a circuit is passed to the <code class="xref py py-class docutils literal notranslate"><span class="pre">TketBackend</span></code>, or it may just be preferable to do so to take advantage of the sophisticated compilation solutions provided in <code class="docutils literal notranslate"><span class="pre">pytket</span></code>. Upon constructing the <code class="xref py py-class docutils literal notranslate"><span class="pre">TketBackend</span></code>, you can provide a <code class="docutils literal notranslate"><span class="pre">pytket</span></code> compilation pass to apply to each circuit, e.g. <code class="docutils literal notranslate"><span class="pre">TketBackend(backend,</span> <span class="pre">backend.default_compilation_pass())</span></code>. Some experimentation may be required to find a combination of <code class="docutils literal notranslate"><span class="pre">qiskit.transpiler.PassManager</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket</span></code> compilation passes that executes successfully.</p>
 </div>
 </section>
-<section id="advanced-topics">
-<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this heading">#</a></h2>
+<section id="advanced-backend-topics">
+<h2>Advanced Backend Topics<a class="headerlink" href="#advanced-backend-topics" title="Permalink to this heading">#</a></h2>
 <section id="simulator-support-for-expectation-values">
 <h3>Simulator Support for Expectation Values<a class="headerlink" href="#simulator-support-for-expectation-values" title="Permalink to this heading">#</a></h3>
 <p>Some simulators will have dedicated support for fast expectation value calculations. In this special case, they will provide extra methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_pauli_expectation_value()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Backend.get_operator_expectation_value()</span></code>, which take a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> and some operator and directly return the expectation value. Again, we can check whether a <code class="xref py py-class docutils literal notranslate"><span class="pre">Backend</span></code> has this feature with <code class="xref py py-attr docutils literal notranslate"><span class="pre">Backend.supports_expectation</span></code>.</p>
@@ -1230,7 +1231,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 6, (1, 1): 4})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 5, (1, 1): 5})
 </pre></div>
 </div>
 </div>
@@ -1299,13 +1300,13 @@ This can be achieved using native serialiaztion and deserialization of <code cla
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-requirements">Backend Requirements</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shots-and-sampling">Shots and Sampling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevector-and-unitary-simulation-with-tket-backends">Statevector and Unitary Simulation with TKET Backends</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpreting-results">Interpreting Results</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-value-calculations">Expectation Value Calculations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidance-for-writing-hardware-agnostic-code">Guidance for Writing Hardware-Agnostic Code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-submission">Batch Submission</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-into-qiskit">Embedding into Qiskit</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics">Advanced Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-backend-topics">Advanced Backend Topics</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulator-support-for-expectation-values">Simulator Support for Expectation Values</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-job-submission">Asynchronous Job Submission</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistent-handles">Persistent Handles</a></li>
