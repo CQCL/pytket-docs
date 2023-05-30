@@ -765,8 +765,8 @@ We can wrap up a :py:class:`Circuit` in a :py:class:`CompilationUnit` to allow u
 
 .. note:: No passes currently rename or swap classical data, but the classical bits are included in these maps for completeness.
 
-Advanced Topics
----------------
+Advanced Compilation Topics
+---------------------------
 
 Compiling Symbolic Circuits
 ===========================
