@@ -628,7 +628,7 @@ C++ Implementation
 
 .. Use for speed and more control
 
-As with the rest of pytket, the ZX module features a python interface that has enough flexibility to realise any diagram a user would wish to construct or a rewrite they would like to apply, but the data structure itself is defined in the core C++ library for greater speed for longer rewrite passes and analysis tasks. This comes with the downside that interacting via the python interface is slowed down by the need to convert data through the bindings. After experimenting with the python interface and devising new rewrite strategies, we recommend users use the C++ library directly when attempting to write heavy-duty implementations for speed and greater control over the data structure.
+As with the rest of pytket, the ZX module features a python interface that has enough flexibility to realise any diagram a user would wish to construct or a rewrite they would like to apply, but the data structure itself is defined in the core C++ library for greater speed for longer rewrite passes and analysis tasks. This comes with the downside that interacting via the python interface is slowed down by the need to convert data through the bindings. After experimenting with the python interface and devising new rewrite strategies, we recommend users use the C++ library directly for speed and greater control over the data structure when attempting to write heavy-duty implementations that require the use of this module's unique features (for simpler rewriting tasks, it may be faster to use ``quizx`` [https://github.com/Quantomatic/quizx] which sacrifices some flexibility for even more performance).
 
 .. Underlying graph structure is directed to distinguish between ends of an edge for port data
 
