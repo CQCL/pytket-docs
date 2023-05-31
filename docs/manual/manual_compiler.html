@@ -354,7 +354,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predefined-sequences">Predefined Sequences</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidance-for-combining-passes">Guidance for Combining Passes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-and-final-maps">Initial and Final Maps</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics">Advanced Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-compilation-topics">Advanced Compilation Topics</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-symbolic-circuits">Compiling Symbolic Circuits</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-defined-passes">User-defined Passes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#partial-compilation">Partial Compilation</a></li>
@@ -1214,8 +1214,8 @@ The single-qubit gates in our circuit also need to be decomposed into the IBM ga
 <p>No passes currently rename or swap classical data, but the classical bits are included in these maps for completeness.</p>
 </div>
 </section>
-<section id="advanced-topics">
-<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this heading">#</a></h2>
+<section id="advanced-compilation-topics">
+<h2>Advanced Compilation Topics<a class="headerlink" href="#advanced-compilation-topics" title="Permalink to this heading">#</a></h2>
 <section id="compiling-symbolic-circuits">
 <h3>Compiling Symbolic Circuits<a class="headerlink" href="#compiling-symbolic-circuits" title="Permalink to this heading">#</a></h3>
 <p>For variational algorithms, the prominent benefit of defining a <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> symbolically and only instantiating it with concrete values when needed is that the compilation procedure would only need to be performed once. By saving time here we can cut down the overall time for an experiment; we could invest the time saved into applying more expensive optimisations on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> to reduce the impact of noise further.</p>
@@ -1651,16 +1651,16 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
  [1 1]
- [1 1]
- [0 0]
- [1 1]
- [0 0]
  [0 0]
  [1 1]
  [0 0]
- [1 1]]
+ [0 0]
+ [1 1]
+ [0 0]
+ [1 1]
+ [0 0]]
 </pre></div>
 </div>
 </div>
@@ -1735,7 +1735,7 @@ noise.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predefined-sequences">Predefined Sequences</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#guidance-for-combining-passes">Guidance for Combining Passes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-and-final-maps">Initial and Final Maps</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-topics">Advanced Topics</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-compilation-topics">Advanced Compilation Topics</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-symbolic-circuits">Compiling Symbolic Circuits</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#user-defined-passes">User-defined Passes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#partial-compilation">Partial Compilation</a></li>
