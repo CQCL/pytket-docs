@@ -12,7 +12,7 @@ The graph representation used in the ZX module is intended to be sufficiently ge
 
 * Mixed quantum-classical diagram support via annotating edges and some generators with :py:class:`QuantumType.Quantum` for doubled diagrams (shorthand notation for a pair of adjoint edges/generators) or :py:class:`QuantumType.Classical` for the singular variants (sometimes referred to as decoherent/bastard generators).
 
-.. note:: Providing this flexibility comes at the expense of some efficiency in both memory and speed of operations. For data structures more focussed on the core ZX-calculus and its well-developed simplification strategies, we recommend checking out ``pyzx`` (https://github.com/Quantomatic/pyzx) and its Rust port ``quizx`` (https://github.com/Quantomatic/quizx). Some functionality for interoperation between ``pytket`` and ``pyzx`` circuits is provided in the ``pytket-pyzx`` extension package. There is no intention to support non-qubit calculi or SZX scalable notation in the near future as the additional complexity required by the data structure would introduce excessive beaurocracy to maintain during every rewrite.
+.. note:: Providing this flexibility comes at the expense of some efficiency in both memory and speed of operations. For data structures more focussed on the core ZX-calculus and its well-developed simplification strategies, we recommend checking out ``pyzx`` (https://github.com/Quantomatic/pyzx) and its Rust port ``quizx`` (https://github.com/Quantomatic/quizx). Some functionality for interoperation between ``pytket`` and ``pyzx`` circuits is provided in the ``pytket-pyzx`` extension package. There is no intention to support non-qubit calculi or SZX scalable notation in the near future as the additional complexity required by the data structure would introduce excessive bureaucracy to maintain during every rewrite.
 
 Generator Types
 ---------------
@@ -21,7 +21,7 @@ Before we start building diagrams, it is useful to cover the kinds of generators
 
 * Boundary generators: :py:class:`ZXType.Input`, :py:class:`ZXType.Output`, :py:class:`ZXType.Open`. These are used to turn some edges of the diagram into half-edges, indicating the input, output, or unspecified boundaries of the diagram. These will be maintained in an ordered list in a :py:class:`ZXDiagram` to specify the intended order of indices when interpreting the diagram as a tensor.
 
-* Symmetric ZXH generators: :py:class:`ZXType.ZSpider`, :py:class:`ZXType.XSpider`, :py:class:`ZXType.HBox`. These are the familiar generators from standard literature. All indicent edges are exchangeable, so no port information is used (all edges attach at port ``None``). The degenerate :py:class:`QuantumType.Classical` variants support both :py:class:`QuantumType.Classical` and :py:class:`QuantumType.Quantum` incident edges, with the latter being treated as two distinct edges.
+* Symmetric ZXH generators: :py:class:`ZXType.ZSpider`, :py:class:`ZXType.XSpider`, :py:class:`ZXType.HBox`. These are the familiar generators from standard literature. All incident edges are exchangeable, so no port information is used (all edges attach at port ``None``). The degenerate :py:class:`QuantumType.Classical` variants support both :py:class:`QuantumType.Classical` and :py:class:`QuantumType.Quantum` incident edges, with the latter being treated as two distinct edges.
 
 * MBQC generators: :py:class:`ZXType.XY`, :py:class:`ZXType.XZ`, :py:class:`ZXType.YZ`, :py:class:`ZXType.PX`, :py:class:`ZXType.PY`, :py:class:`ZXType.PZ`. These represent qubits in a measurement pattern that are postselected into the correct outcome (i.e. we do not consider errors and corrections as these can be inferred by flow detection). Each of them can be thought of as shorthand for a :py:class:`ZXType.ZSpider` with an adjacent spider indicating the postselection projector. The different types indicate either planar measurements with a continuous-parameter angle or a Pauli measurement with a Boolean angle selecting which outcome is the intended. Entanglement between qubits can be established with a :py:class:`ZXWireType.H` edge between vertices, with :py:class:`ZXWireType.Basic` edges connecting to a :py:class:`ZXType.Input` to indicate input qubits. Unmeasured output qubits can be indicated using a :py:class:`ZXType.PX` vertex (essentially a zero phase :py:class:`ZXType.ZSpider`) attached to a :py:class:`ZXType.Output`.
 
@@ -32,7 +32,7 @@ Each generator in a diagram is described by a :py:class:`ZXGen` object, or rathe
 Creating Diagrams
 -----------------
 
-Let's start by making the standard diagram for the qubit teleportation algorithm to showcase the capacity for mixed quantum-classical diagrams. Assuming that the Bell pair will be written in as initialised ancillas rather than open inputs, we just need to start with a diagram with just one quantum input and one quantum output.
+Let's start by making the standard diagram for the qubit teleportation algorithm to showcase the capacity for mixed quantum-classical diagrams. Assuming that the Bell pair will be written in as initialised ancillae rather than open inputs, we just need to start with a diagram with just one quantum input and one quantum output.
 
 .. jupyter-execute::
 
@@ -428,11 +428,11 @@ The pytket ZX module comes with a handful of common rewrite procedures built-in 
     Rewrite.reduce_graphlike_form().apply(diag)
     gv.Source(diag.to_graphviz_str())
 
-.. Inteded to support common optimisation strategies; focussed on reducing to specific forms and work in graphlike form
+.. Intended to support common optimisation strategies; focussed on reducing to specific forms and work in graphlike form
 
 The particular rewrites available are intended to support common optimisation strategies. In particular, they mostly focus on converting a diagram to graphlike form and working on graphlike diagrams to reduce the number of vertices as much as possible. These have close correspondences with MBQC patterns, and the rewrites preserve the existence of flow, which helps guarantee an efficient extraction procedure.
 
-.. May not work as intended if diagram is not in inteded form, especially for classical or mixed diagrams
+.. May not work as intended if diagram is not in intended form, especially for classical or mixed diagrams
 
 .. warning:: Because of the focus on strategies using graphlike diagrams, many of the rewrites expect the inputs to be of a particular form. This may cause some issues if you attempt to apply them to diagrams that aren't in the intended form, especially when working with classical or mixed diagrams.
 
@@ -614,7 +614,7 @@ The specific nature of optimising circuits via ZX diagrams gives rise to some ge
 
 .. Since ZX does resynthesis and completely abstracts away circuit structure, there is little point in running optimisations before ZX
 
-* Similarly, because the convertion to a graphlike ZX diagram completely abstracts away the Clifford gates, there is often little-to-no benefit in running most simple optimisations before applying :py:class:`ZXGraphlikeOptimisation` since it will largely ignore them and achieve the same graphlike form regardless.
+* Similarly, because the conversion to a graphlike ZX diagram completely abstracts away the Clifford gates, there is often little-to-no benefit in running most simple optimisations before applying :py:class:`ZXGraphlikeOptimisation` since it will largely ignore them and achieve the same graphlike form regardless.
 
 .. Extraction is not optimised so best to run other passes afterwards
 
