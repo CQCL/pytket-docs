@@ -13,7 +13,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "jupyter_sphinx",
     "sphinx_copybutton",
-    "sphinx.ext.autosectionlabel"
+    "sphinx.ext.autosectionlabel",
 ]
 
 html_theme = "sphinx_book_theme"
