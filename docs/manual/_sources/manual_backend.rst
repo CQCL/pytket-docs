@@ -134,8 +134,8 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
 .. note:: :py:meth:`Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:meth:`Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`BackendResult`.
 
-Statevectors and Unitaries
---------------------------
+Statevector and Unitary Simulation with TKET Backends
+-----------------------------------------------------
 
 .. Any form of sampling introduces non-deterministic error, so for better accuracy we will want the exact state of the physical system; some simulators will provide direct access to this
 .. `get_state` gives full representation of that system's state in the 2^n-dimensional complex Hilbert space
@@ -564,8 +564,8 @@ Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`
 .. Goals of the assistant
 .. How to set up and push/pull results
 
-Advanced Topics
----------------
+Advanced Backend Topics
+-----------------------
 
 Simulator Support for Expectation Values
 ========================================
