@@ -143,6 +143,7 @@
 <li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual_assertion.html">Assertion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual_zx.html">ZX Diagrams</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">More Documentation:</span></p>
 <ul class="nav bd-sidenav">
@@ -361,7 +362,7 @@ document.write(`
   <section id="pytket-user-manual">
 <h1>Pytket User Manual<a class="headerlink" href="#pytket-user-manual" title="Permalink to this heading">#</a></h1>
 <p>This manual refers to the following versions of pytket and extensions:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pytket == 1.15.0
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pytket[ZX] == 1.16.0rc0
 pytket-projectq == 0.27.0
 pytket-qiskit == 0.39.0
 pytket-qsharp == 0.33.0
@@ -386,23 +387,23 @@ pytket-qsharp == 0.33.0
 <li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#registers-and-ids">Registers and IDs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#composing-circuits">Composing Circuits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#boxes">Boxes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#analysing-circuits">Analysing Circuits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#boxes">Boxes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#importing-exporting-circuits">Importing/Exporting Circuits</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#symbolic-circuits">Symbolic Circuits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_circuit.html#advanced-circuit-construction-topics">Advanced Circuit Construction Topics</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="manual_backend.html">Running on Backends</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="manual_backend.html#backend-requirements">Backend Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_backend.html#shots-and-sampling">Shots and Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual_backend.html#statevectors-and-unitaries">Statevectors and Unitaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_backend.html#statevector-and-unitary-simulation-with-tket-backends">Statevector and Unitary Simulation with TKET Backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_backend.html#interpreting-results">Interpreting Results</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_backend.html#expectation-value-calculations">Expectation Value Calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_backend.html#guidance-for-writing-hardware-agnostic-code">Guidance for Writing Hardware-Agnostic Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_backend.html#batch-submission">Batch Submission</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_backend.html#embedding-into-qiskit">Embedding into Qiskit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual_backend.html#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_backend.html#advanced-backend-topics">Advanced Backend Topics</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="manual_compiler.html">Compilation</a><ul>
@@ -416,7 +417,7 @@ pytket-qsharp == 0.33.0
 <li class="toctree-l2"><a class="reference internal" href="manual_compiler.html#predefined-sequences">Predefined Sequences</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_compiler.html#guidance-for-combining-passes">Guidance for Combining Passes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_compiler.html#initial-and-final-maps">Initial and Final Maps</a></li>
-<li class="toctree-l2"><a class="reference internal" href="manual_compiler.html#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_compiler.html#advanced-compilation-topics">Advanced Compilation Topics</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="manual_noise.html">Noise and the Quantum Circuit Model</a><ul>
@@ -428,6 +429,18 @@ pytket-qsharp == 0.33.0
 <li class="toctree-l1"><a class="reference internal" href="manual_assertion.html">Assertion</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="manual_assertion.html#projector-based">Projector-based</a></li>
 <li class="toctree-l2"><a class="reference internal" href="manual_assertion.html#stabiliser-based">Stabiliser-based</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="manual_zx.html">ZX Diagrams</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#generator-types">Generator Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#creating-diagrams">Creating Diagrams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#tensor-evaluation">Tensor Evaluation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#graph-traversal-inspection-and-manual-rewriting">Graph Traversal, Inspection, and Manual Rewriting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#built-in-rewrite-passes">Built-in Rewrite Passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#mbqc-flow-detection">MBQC Flow Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#conversions-extraction">Conversions &amp; Extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#compiler-passes-using-zx">Compiler Passes Using ZX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual_zx.html#advanced-topics">Advanced Topics</a></li>
 </ul>
 </li>
 </ul>

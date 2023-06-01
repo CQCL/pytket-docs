@@ -425,7 +425,7 @@ When working with quantum circuits we may want access to the quantum state prepa
     from pytket import Circuit
 
     circ = Circuit(2)
-    circ.H(0).CX(0,1)
+    circ.H(0).CX(0, 1)
     circ.get_statevector()
 
 In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
@@ -435,142 +435,10 @@ In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate 
     from pytket import Circuit
 
     circ = Circuit(2)
-    circ.H(0).CZ(0,1).H(1)
+    circ.H(0).CZ(0, 1).H(1)
     circ.get_unitary()
 
 .. warning:: The unitary matrix of a quantum circuit is of dimension :math:`(2^n \times 2^n)` where :math:`n` is the number of qubits. The statevector will be a column vector with :math:`2^n` entries . Due to this exponential scaling it will in general be very inefficient to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.
-
-Boxes
------
-
-.. Boxes abstract away complex structures as black-box units within larger circuits
-
-Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn't mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit's design when it is constructed using higher-level constructions. In ``pytket``, the concept of a "Box" is to abstract away such complex structures as black-boxes within larger circuits.
-
-.. Simplest case is the `CircBox`
-
-The simplest example of this is a :py:class:`CircBox`, which wraps up another :py:class:`Circuit` defined elsewhere into a single black-box. The difference between adding a :py:class:`CircBox` and just appending the :py:class:`Circuit` is that the :py:class:`CircBox` allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main :py:class:`Circuit`.
-
-.. jupyter-execute::
-
-    from pytket.circuit import Circuit, CircBox
-
-    sub = Circuit(2)
-    sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
-    sub_box = CircBox(sub)
-
-    circ = Circuit(3)
-    circ.add_circbox(sub_box, [0, 1])
-    circ.X(1)
-    circ.add_circbox(sub_box, [1, 2])
-
-Similarly, if our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary operation), we can construct the controlled version that is applied coherently according to some set of control qubits. If all control qubits are in the :math:`|1\rangle` state, then the unitary is applied to the target system, otherwise it acts as an identity.
-
-.. jupyter-execute::
-
-    from pytket.circuit import Circuit, CircBox, QControlBox
-
-    sub = Circuit(2)
-    sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
-    sub_box = CircBox(sub)
-
-    # Define the controlled operation with 2 control qubits
-    cont = QControlBox(sub_box, 2)
-
-    circ = Circuit(4)
-    circ.add_circbox(sub_box, [2, 3])
-    circ.Ry(0.3, 0).Ry(0.8, 1)
-
-    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
-    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
-
-As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
-
-.. jupyter-execute::
-
-    from pytket.circuit import Op, OpType, QControlBox
-
-    op = Op.create(OpType.S)
-    ccs = QControlBox(op, 2)
-
-.. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
-
-.. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
-
-It is possible to specify small unitaries from ``numpy`` arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.
-
-.. jupyter-execute::
-
-    from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
-    import numpy as np
-
-    u1 = np.asarray([[2/3, (-2+1j)/3],
-                     [(2+1j)/3, 2/3]])
-    u1box = Unitary1qBox(u1)
-
-    u2 = np.asarray([[0, 1, 0, 0],
-                     [0, 0, 0, -1],
-                     [1, 0, 0, 0],
-                     [0, 0, -1j, 0]])
-    u2box = Unitary2qBox(u2)
-
-    circ = Circuit(3)
-    circ.add_unitary1qbox(u1box, 0)
-    circ.add_unitary2qbox(u2box, 1, 2)
-    circ.add_unitary1qbox(u1box, 2)
-    circ.add_unitary2qbox(u2box, 1, 0)
-
-.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox`.
-
-.. `PauliExpBox` for simulations and general interactions
-
-Another notable example that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: :math:`e^{-i \pi \theta P}` (:math:`P \in \{I, X, Y, Z\}^{\otimes n}`). These occur very naturally in Trotterising evolution operators and as common native device operations.
-
-.. jupyter-execute::
-
-    from pytket.circuit import Circuit, PauliExpBox
-    from pytket.pauli import Pauli
-
-    circ = Circuit(4)
-    circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y], 0.1), [0, 1])
-    circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X], -0.1), [0, 1])
-    circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
-    circ.add_pauliexpbox(PauliExpBox([Pauli.Y, Pauli.X, Pauli.Y, Pauli.Y], -0.2), [0, 1, 2, 3])
-
-In addition to the box types mentioned above ``pytket`` also supports a :py:class:`ToffoliBox` structure. This box type can be used to prepare an arbitrary permutation of the computational basis states using the :math:`\{\text{X},\text{CnX}\}` gateset.
-
-In order to construct a :py:class:`ToffoliBox` the user must supply the desired permutation as a dictionary specifying the action of the box on different input basis states, where a key:value pair implies that the basis state key should be mapped to the basis state value.
-
-The given dictionary should provide permutations that correspond to complete cycles of basis states, i.e. if a basis state is present as a key then it must also be present as a value in the dictionary. If a valid permutation is supplied then a :py:class:`ToffoliBox` is constructed to perform the permutation and an error is thrown if the provided permutation is invalid.
-
-.. jupyter-execute::
-
-    from pytket import Circuit
-    from pytket.circuit import ToffoliBox
-
-    # Specify the desired permutation of the basis states
-    permutation = {(0, 0): (1, 1), (1, 1): (0, 0)}     
-
-    # Construct a two qubit ToffoliBox to perform the permutation
-    tb = ToffoliBox(permutation=permutation) 
-
-    circ = Circuit(2)               # Create a two qubit circuit
-    circ.add_toffolibox(tb, [0, 1]) # Add the ToffoliBox defined above to our circuit
-    circ.get_commands()             # Display circuit commands
-
-Now lets perform a statevector calculation to ensure that the :py:class:`ToffoliBox` performs the desired permutation. Recall that when calculating the statevector ``pytket`` assumes qubits to be initialised in the :math:`|0\rangle^{\otimes n}` state. 
-
-.. jupyter-execute::
-
-    circ.get_statevector()
-
-We see from the output that the :py:class:`ToffoliBox` prepares the :math:`|11\rangle` basis state from out initial state of :math:`|00\rangle`.
-
-The user may wish to inspect the circuit inside the :py:class:`ToffoliBox`. This can be done with the :py:meth:`ToffoliBox.get_circuit` method.
-
-.. jupyter-execute::
-
-    tb.get_circuit()
 
 Analysing Circuits
 ------------------
@@ -679,6 +547,385 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 
 .. note:: Each of these metrics will analyse the :py:class:`Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a :math:`CZ` gate would contribute 1 to :math:`CX`-count in practice).
 
+Boxes
+-----
+
+Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn't mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit's design when it is constructed using higher-level constructions. In ``pytket``, the concept of a "Box" is to abstract away such complex structures as black-boxes within larger circuits.
+
+Circuit Boxes
+=============
+
+.. Boxes abstract away complex structures as black-box units within larger circuits
+
+.. Simplest case is the `CircBox`
+
+The simplest example of this is a :py:class:`CircBox`, which wraps up another :py:class:`Circuit` defined elsewhere into a single black-box. The difference between adding a :py:class:`CircBox` and just appending the :py:class:`Circuit` is that the :py:class:`CircBox` allows us to wrap up and abstract away the internal structure of the subcircuit we are adding so it appears as if it were a single gate when we view the main :py:class:`Circuit`.
+
+Let's first build a basic quantum circuit which implements a simplified version of a Grover oracle and then add
+it to another circuit as part of a larger algorithm.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, OpType
+    from pytket.circuit.display import render_circuit_jupyter
+
+    oracle_circ = Circuit(3, name="Oracle")
+    oracle_circ.X(0)
+    oracle_circ.X(1)
+    oracle_circ.X(2)
+    oracle_circ.add_gate(OpType.CnZ, [0, 1, 2])
+    oracle_circ.X(0)
+    oracle_circ.X(1)
+    oracle_circ.X(2)
+
+    render_circuit_jupyter(oracle_circ)
+
+Now that we've built our circuit we can wrap it up in a :py:class:`CircBox` and add it to a another circuit as a subroutine.
+
+.. jupyter-execute::
+
+    from pytket.circuit import CircBox
+
+    oracle_box = CircBox(oracle_circ)
+    circ = Circuit(3)
+    circ.H(0).H(1).H(2)
+    circ.add_circbox(oracle_box, [0, 1, 2])
+
+    render_circuit_jupyter(circ)
+
+
+See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
+
+.. Note:: Despite the :py:class:`Circuit` class having methods for adding each type of box, the :py:meth:`Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`Circuit`.
+
+
+.. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
+
+Boxes for Unitary Synthesis
+===========================
+
+It is possible to specify small unitaries from ``numpy`` arrays and embed them directly into circuits as boxes, which can then be synthesised into gate sequences during compilation.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
+    import numpy as np
+
+    u1 = np.asarray([[2/3, (-2+1j)/3],
+                     [(2+1j)/3, 2/3]])
+    u1box = Unitary1qBox(u1)
+
+    u2 = np.asarray([[0, 1, 0, 0],
+                     [0, 0, 0, -1],
+                     [1, 0, 0, 0],
+                     [0, 0, -1j, 0]])
+    u2box = Unitary2qBox(u2)
+
+    circ = Circuit(3)
+    circ.add_unitary1qbox(u1box, 0)
+    circ.add_unitary2qbox(u2box, 1, 2)
+    circ.add_unitary1qbox(u1box, 2)
+    circ.add_unitary2qbox(u2box, 1, 0)
+
+.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox` using a similar syntax.
+
+.. `PauliExpBox` for simulations and general interactions
+
+Also in this category of synthesis boxes is :py:class:`DiagonalBox`. This allows synthesis of circuits for diagonal unitaries. 
+This box can be constructed by passing in a :math:`(1 \times 2^n)` numpy array representing the diagonal entries of the desired unitary matrix.
+
+Controlled Box Operations
+=========================
+If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary operation), we can construct the controlled version that is applied coherently according to some set of control qubits. If all control qubits are in the :math:`|1\rangle` state, then the unitary is applied to the target system, otherwise it acts as an identity.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit, CircBox, QControlBox
+
+    sub = Circuit(2)
+    sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
+    sub_box = CircBox(sub)
+
+    # Define the controlled operation with 2 control qubits
+    cont = QControlBox(sub_box, 2)
+
+    circ = Circuit(4)
+    circ.add_circbox(sub_box, [2, 3])
+    circ.Ry(0.3, 0).Ry(0.8, 1)
+
+    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
+    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
+
+As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Op, OpType, QControlBox
+
+    op = Op.create(OpType.S)
+    ccs = QControlBox(op, 2)
+
+In addition, we can construct a :py:class:`QControlBox` from any other pure quantum box type in pytket. 
+For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`QControlBox` from the box implementing :math:`\sqrt{Y}`. 
+
+
+
+.. jupyter-execute::
+
+    from pytket.circuit import Unitary1qBox, QControlBox
+    import numpy as np
+
+    # Unitary for sqrt(Y)
+    sqrt_y = np.asarray([[1/2+1j/2, -1/2-1j/2],
+                         [1/2+1j/2, 1/2+1j/2]])
+
+    sqrt_y_box = Unitary1qBox(sqrt_y)
+    c2_root_y = QControlBox(sqrt_y_box, 2)
+
+
+.. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
+
+Pauli Exponential Boxes and Phase Polynommials
+==============================================
+
+Another notable construct that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
+
+.. math::
+    
+    \begin{equation}
+    e^{-i \frac{\pi}{2} \theta P}\,, \quad P \in \{I, X, Y, Z\}^{\otimes n}
+    \end{equation} 
+
+
+These occur very naturally in Trotterising evolution operators and native device operations.
+
+.. jupyter-execute::
+
+    from pytket.circuit import PauliExpBox
+    from pytket.pauli import Pauli
+
+    # Construct PauliExpBox(es) with a list of Paulis followed by the phase
+    xyyz = PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Z], -0.2)
+    zzyx = PauliExpBox([Pauli.Z, Pauli.Z, Pauli.Y, Pauli.X], 0.7)
+
+    pauli_circ = Circuit(5)
+
+    pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
+    pauli_circ.add_pauliexpbox(zzyx, [1, 2, 3, 4])
+
+To understand what happens inside a :py:class:`PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta ZZYX}`
+
+.. jupyter-execute::
+
+    render_circuit_jupyter(zzyx.get_circuit())
+
+All Pauli exponentials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
+
+We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
+
+These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+
+Now we move on to discuss another class of quantum circuits known as phase polynomials. Phase polynomial circuits are a special type of circuits that use the {CX, Rz} gateset.
+
+A phase polynomial :math:`p(x)` is defined as a weighted sum of Boolean linear functions :math:`f_i(x)`:
+
+.. math::
+
+    \begin{equation}
+    p(x) = \sum_{i=1}^{2^n} \theta_i f_i(x)
+    \end{equation}
+
+A phase polynomial circuit :math:`C` has the following action on computational basis states :math:`|x\rangle`:
+
+.. math::
+
+    \begin{equation}
+    C: |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
+    \end{equation}
+
+
+Such a phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. A :py:class:`PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
+
+Finally a ``linear_transfromation`` parameter needs to be specified:  this is a matrix encoding the linear permutation between the bitstrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
+
+.. jupyter-execute::
+
+    from pytket.circuit import PhasePolyBox
+
+    phase_poly_circ = Circuit(3)
+
+    qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
+
+    phase_polynomial = {
+        (True, False, True): 0.333,
+        (False, False, True): 0.05,
+        (False, True, False): 1.05,
+    }
+
+    n_qb = 3
+
+    linear_transformation = np.array([[1, 1, 0], [0, 1, 0], [0, 0, 1]])
+
+    p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
+
+    phase_poly_circ.add_phasepolybox(p_box, [0, 1, 2])
+
+    render_circuit_jupyter(p_box.get_circuit())
+
+Multiplexors, State Preperation Boxes and :py:class:`ToffoliBox`
+================================================================
+
+In the context of quantum circuits a multiplexor is type of generalised multicontrolled gate. Multiplexors grant us the flexibility to specify different operations on target qubits for different control states.
+To create a multiplexor we simply construct a dictionary where the keys are the state of the control qubits and the values represent the operation performed on the target.
+
+Lets implement a multiplexor with the following logic. Here we treat the first two qubits as controls and the third qubit as the target.
+
+
+if control qubits in :math:`|00\rangle`:
+    do Rz(0.3) on the third qubit
+else if control qubits in :math:`|11\rangle`:
+     do H on the third qubit
+else:
+    do identity (i.e. do nothing)
+
+
+.. jupyter-execute::
+
+    from pytket.circuit import Op, MultiplexorBox
+
+    # Define both gates as an Op
+    rz_op = Op.create(OpType.Rz, 0.3)
+    h_op = Op.create(OpType.H)
+
+    op_map = {(0, 0): rz_op, (1, 1): h_op}
+    multiplexor = MultiplexorBox(op_map)
+
+    multi_circ = Circuit(3)
+    multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
+    multi_circ.add_multiplexor(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
+
+    render_circuit_jupyter(multi_circ)
+
+
+Notice how in the example above the control qubits are both in the :math:`|1\rangle` state and so the multiplexor applies the Hadamard operation to the third qubit. If we calculate our statevector we see that the third qubit is in the 
+:math:`|+\rangle = H|0\rangle` state.
+
+
+.. jupyter-execute::
+
+    # Assume all qubits initialised to |0> here
+    print("Statevector =", multi_circ.get_statevector())  # amplitudes of |+> approx 0.707...
+
+In addition to the general :py:class:`Multiplexor` pytket has several other type of multiplexor box operations available.
+
+======================================= =================================================
+Multiplexor                             Description
+======================================= =================================================
+:py:class:`MultiplexorBox`              The most general type of multiplexor (see above)
+                               
+:py:class:`MultiplexedRotationBox`      Multiplexor where the operation applied to the 
+                                        target is a rotation gate about a single axis
+                                        
+:py:class:`MultiplexedU2Box`            Multiplexor for unifromly controlled single
+                                        qubit gates (U(2) operations)
+
+:py:class:`MultiplexedTensoredU2Box`    Multiplexor where the operation applied to the
+                                        target is a tensor product of single qubit gates
+                                                                       
+======================================= =================================================
+
+
+One place where multiplexor operations are useful is in state preparation algorithms.
+
+TKET supports the preparation of arbitrary quantum states via the :py:class:`StatePreparationBox`. This box takes a  :math:`(1\times 2^n)` numpy array representing the :math:`n` qubit statevector where the entries represent the amplitudes of the quantum state.
+
+Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in [Shen2004]_.
+
+To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werner state :math:`|W\rangle`.
+
+.. math::
+
+    \begin{equation}
+    |W\rangle = \frac{1}{\sqrt{3}} \big(|001\rangle + |010\rangle + |100\rangle \big)
+    \end{equation}
+
+
+.. jupyter-execute::
+
+    from pytket.circuit import StatePreparationBox
+
+    werner_state = 1 / np.sqrt(3) * np.array([0, 1, 1, 0, 1, 0, 0, 0])
+
+    werner_state_box = StatePreparationBox(werner_state)
+
+    state_circ = Circuit(3)
+    state_circ.add_state_preparation_box(werner_state_box, [Qubit(0), Qubit(1), Qubit(2)])
+
+
+.. jupyter-execute::
+
+    # Verify state preperation
+    np.round(state_circ.get_statevector().real, 3) # 1/sqrt(3) approx 0.577
+
+.. Note:: Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
+
+
+Finally let's consider another box type, namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitrary permutation of the computational basis states.
+To construct the box we need to specify the permutation as a key-value pair where the key is the input basis state and the value is output.
+Let's construct a :py:class:`ToffoliBox` to perform the following mapping:
+
+.. math::
+
+    \begin{gather}
+    |001\rangle \longmapsto |111\rangle \\
+    |111\rangle \longmapsto |001\rangle \\
+    |100\rangle \longmapsto |000\rangle \\
+    |000\rangle \longmapsto |100\rangle
+    \end{gather}
+
+We can construct a :py:class:`ToffoliBox` with a python dictionary where the basis states above are entered as key-value pairs.
+For correctness if a basis state appears as key in the permutation dictionary then it must also appear and a value.
+
+.. jupyter-execute::
+
+    from pytket.circuit import ToffoliBox
+
+    # Specify the desired permutation of the basis states
+    mapping = {
+        (0, 0, 1): (1, 1, 1),
+        (1, 1, 1): (0, 0, 1),
+        (1, 0, 0): (0, 0, 0),
+        (0, 0, 0): (1, 0, 0),
+    }
+
+    # Define box to perform the permutation
+    perm_box = ToffoliBox(permutation=mapping)
+
+This permutation of basis states can be achieved with purely classical operations {X, CCX}, hence the name :py:class:`ToffoliBox`.
+In pytket however, the permutation is implemented efficently using a sequence of multiplexed rotations followed by a :py:class:`DiagonalBox`.
+
+
+.. jupyter-execute::
+
+    render_circuit_jupyter(perm_box.get_circuit())
+
+
+Finally let's append the :py:class:`ToffoliBox` onto our circuit preparing our Werner state to perform the permutation of basis states specified above.
+
+
+.. jupyter-execute::
+
+    state_circ.add_toffolibox(perm_box, [0, 1, 2])
+    render_circuit_jupyter(state_circ)
+
+.. jupyter-execute::
+
+    np.round(state_circ.get_statevector().real, 3)
+
+
+Looking at the statevector calculation we see that our :py:class:`ToffoliBox` has exchanged the coefficents of our Werner state so that the non-zero coefficents are now on the :math:`|000\rangle` and :math:`|111\rangle` bitstrings with the coefficent of :math:`|010\rangle` remaining unchanged.
+
+
 Importing/Exporting Circuits
 ----------------------------
 
@@ -738,7 +985,7 @@ Though less expressive than native dictionary serialization, it is widely suppor
 
 .. Quipper
 
-.. note:: The OpenQASM converters do not support circuits with `implicit qubit permutations <https://cqcl.github.io/pytket/manual/manual_circuit.html#implicit-qubit-permutations>`_ . This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
+.. note:: The OpenQASM converters do not support circuits with :ref:`implicit qubit permutations <Implicit Qubit Permutations>`. This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
 
 The core ``pytket`` package additionally features a converter from Quipper, another circuit description language.
 
@@ -902,8 +1149,8 @@ The conversion functions use the `sympy Quantum Mechanics module <https://docs.s
 .. warning::
     Unitaries corresponding to circuits with :math:`n` qubits have dimensions :math:`2^n \times 2^n`, so are computationally very expensive to calculate. Symbolic calculation is also computationally costly, meaning calculation of symbolic unitaries is only really feasible for very small circuits (of up to a few qubits in size). These utilities are provided as way to test the design of small subcircuits to check they are performing the intended unitary. Note also that as mentioned above, compilation of a symbolic circuit can generate long symbolic expressions; converting these circuits to a symbolic unitary could then result in a matrix object that is very hard to work with or interpret.
 
-Advanced Topics
----------------
+Advanced Circuit Construction Topics
+------------------------------------
 
 Custom parameterised Gates
 ==========================
@@ -1294,7 +1541,8 @@ To add a control to an operation, one can add the original operation as a :py:cl
 
     print(c.get_commands())
 
-
+.. [Cowt2020] Cowtan, A. and Dilkes, S. and Duncan and R., Simmons, W and Sivarajah, S., 2020. Phase Gadget Synthesis for Shallow Circuits. Electronic Proceedings in Theoretical Computer Science
+.. [Shen2004] V.V. Shende and S.S. Bullock and I.L. Markov, 2004. Synthesis of quantum-logic circuits. {IEEE} Transactions on Computer-Aided Design of Integrated Circuits and Systems
 .. [Aaro2004] Aaronson, S. and Gottesman, D., 2004. Improved Simulation of Stabilizer Circuits. Physical Review A, 70(5), p.052328.
 .. [Brav2005] Bravyi, S. and Kitaev, A., 2005. Universal quantum computation with ideal Clifford gates and noisy ancillas. Physical Review A, 71(2), p.022316.
 .. [Brav2012] Bravyi, S. and Haah, J., 2012. Magic-state distillation with low overhead. Physical Review A, 86(5), p.052329.
