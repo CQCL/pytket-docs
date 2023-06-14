@@ -812,7 +812,7 @@ else:
 
     multi_circ = Circuit(3)
     multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
-    multi_circ.add_multiplexor(multiplexor, [Qubit(0), Qubit(1), Qubit(2)])
+    multi_circ.add_multiplexor(multiplexor, [0, 1, 2])
 
     render_circuit_jupyter(multi_circ)
 
@@ -869,7 +869,7 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
     werner_state_box = StatePreparationBox(werner_state)
 
     state_circ = Circuit(3)
-    state_circ.add_state_preparation_box(werner_state_box, [Qubit(0), Qubit(1), Qubit(2)])
+    state_circ.add_state_preparation_box(werner_state_box, [0, 1, 2])
 
 
 .. jupyter-execute::
@@ -879,12 +879,13 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
 
 .. Note:: Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
 
-For some use cases it may be desireable to reset all qubtis to the :math:`|0\rangle` state prior to state preparation. This can be done using the ``with_initial_reset`` flag.
+For some use cases it may be desirable to reset all qubits to the :math:`|0\rangle` state prior to state preparation. This can be done using the ``with_initial_reset`` flag.
 
 .. jupyter-execute::
 
     # Ensure all qubits initialised to |0>
     werner_state_box_reset = StatePreparationBox(werner_state, with_initial_reset=True)
+    
 
 Finally let's consider another box type, namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitrary permutation of the computational basis states.
 To construct the box we need to specify the permutation as a key-value pair where the key is the input basis state and the value is output.
