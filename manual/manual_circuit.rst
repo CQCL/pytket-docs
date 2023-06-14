@@ -879,7 +879,7 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
 
 .. Note:: Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
 
-For some use cases it may be desireable to reset all qubits to the :math:`|0\rangle` state prior to state preparation. This can be done using the ``with_initial_reset`` flag.
+For some use cases it may be desirable to reset all qubits to the :math:`|0\rangle` state prior to state preparation. This can be done using the ``with_initial_reset`` flag.
 
 .. jupyter-execute::
 
