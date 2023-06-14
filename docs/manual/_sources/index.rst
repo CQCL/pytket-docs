@@ -5,7 +5,7 @@ This manual refers to the following versions of pytket and extensions:
 
 .. code-block:: text
 
-    pytket[ZX] == 1.16.0rc0
+    pytket[ZX] == 1.16.0
     pytket-projectq == 0.27.0
     pytket-qiskit == 0.39.0
     pytket-qsharp == 0.33.0
