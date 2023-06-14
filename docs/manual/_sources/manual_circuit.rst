@@ -547,6 +547,16 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 
 .. note:: Each of these metrics will analyse the :py:class:`Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a :math:`CZ` gate would contribute 1 to :math:`CX`-count in practice).
 
+Its also possible to count all the occurrences of each :py:class:`OpType` using the :py:meth:`gate_counts` function from the ``pytket.utils`` module. 
+
+.. jupyter-execute::
+
+    from pytket.utils.stats import gate_counts
+
+    gate_counts(circ)
+
+We obtain a :py:class:`Counter` object where the keys are the various :py:class:`OpType` s and the values represent how frequently each :py:class:`OpType` appears in our :py:class:`Circuit`. This method summarises the gate counts obtained for the circuit shown above.
+
 Boxes
 -----
 
@@ -869,6 +879,12 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
 
 .. Note:: Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
 
+For some use cases it may be desireable to reset all qubtis to the :math:`|0\rangle` state prior to state preparation. This can be done using the ``with_initial_reset`` flag.
+
+.. jupyter-execute::
+
+    # Ensure all qubits initialised to |0>
+    werner_state_box_reset = StatePreparationBox(werner_state, with_initial_reset=True)
 
 Finally let's consider another box type, namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitrary permutation of the computational basis states.
 To construct the box we need to specify the permutation as a key-value pair where the key is the input basis state and the value is output.
