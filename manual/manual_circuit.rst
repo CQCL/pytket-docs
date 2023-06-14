@@ -547,6 +547,14 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 
 .. note:: Each of these metrics will analyse the :py:class:`Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a :math:`CZ` gate would contribute 1 to :math:`CX`-count in practice).
 
+Its also possible to count all the occurrences of each :py:class:`OpType` using the :py:meth:`gate_counts` function from ``pytket.utils``. 
+
+.. jupyter-execute::
+
+    from pytket.utils.stats import gate_counts
+
+    gate_counts(circ)
+
 Boxes
 -----
 
