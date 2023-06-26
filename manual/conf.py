@@ -35,12 +35,3 @@ html_theme_options = {
 html_static_path = ["_static"]
 
 html_css_files = ["custom.css"]
-
-# -- Extension configuration -------------------------------------------------
-
-pytketdoc_base = "https://cqcl.github.io/tket/pytket/api/"
-
-intersphinx_mapping = {
-    "https://docs.python.org/3/": None,
-    pytketdoc_base: None,
-}
