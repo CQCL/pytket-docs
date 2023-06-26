@@ -240,7 +240,7 @@ print(counts)
 # - estimates resources to perform the circuit, without actually simulating/running it.
 
 from pytket import Circuit
-from pytket.extensions.qsharp import QsharpEstimatorBackend
+# from pytket.extensions.qsharp import QsharpEstimatorBackend
 
 # Define a circuit - start in a basis state:
 
@@ -253,9 +253,9 @@ c.X(2)
 
 # Run on the backend:
 
-backend = QsharpEstimatorBackend()
-c = backend.get_compiled_circuit(c)
 # (disabled because of https://github.com/CQCL/pytket-qsharp/issues/37)
+# backend = QsharpEstimatorBackend()
+# c = backend.get_compiled_circuit(c)
 # handle = backend.process_circuit(c, n_shots=10)
 # resources = backend.get_resources(handle)
 # print(resources)
