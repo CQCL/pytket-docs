@@ -420,13 +420,13 @@ A special unsupported case arises when asserting a 3-qubit subspace whose projec
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;Rx(0.3)|0&gt;&#39;: 0.76, &#39;|bell&gt;&#39;: 1.0}
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>{&#39;Rx(0.3)|0&gt;&#39;: 0.79, &#39;|bell&gt;&#39;: 1.0}
 </pre></div>
 </div>
 </div>
 </div>
 <p>Without the presence of noise, if a state is in the target subspace, then its associated assertion will succeed with certainty; on the other hand, an assertion failure indicates that the state is not in the target subspace.
-In order to really test the program, the debug circuit should be run multiple times to ensure an accurate conclusion. The <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> object returned by <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_debug_info()</span></code> suggests that the Bell state assertion succeeded for all the 100 shots; hence we are confident that the construction for the Bell state is correct.
+In order to really test the program, the debug circuit should be run multiple times to ensure an accurate conclusion. The <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> object returned by <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_debug_info()</span></code> suggests that the Bell state assertion succeeded for all the 100 shots; hence we are confident that the construction for the Bell state is correct.
 On the contrary, the assertion named “Rx(0.3)|0&gt;” failed for some shots; this means that the construction for that state is incorrect.</p>
 <p>If there is noise in the device, which is the case for all devices in the NISQ era, then the results can be much less clear. The following example demonstrates what the assertion outcome will look like if we compile and run the debug circuit with a noisy backend.</p>
 <div class="jupyter_cell jupyter_container docutils container">
