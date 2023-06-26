@@ -240,6 +240,7 @@ print(counts)
 # - estimates resources to perform the circuit, without actually simulating/running it.
 
 from pytket import Circuit
+
 # from pytket.extensions.qsharp import QsharpEstimatorBackend
 
 # Define a circuit - start in a basis state:
