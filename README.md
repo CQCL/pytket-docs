@@ -6,7 +6,11 @@
 
 Pytket is a python module for interfacing with tket, a quantum computing toolkit and optimising compiler developed by Quantinuum.
 
-This repository contains API documentation and example notebooks to get you started using pytket. It does not contain source code. The source code is maintained on the [tket repository](https://github.com/CQCL/tket).
+This repository contains the user manual and example notebooks to get you started using pytket. It does not contain source code. The source code is maintained on the [tket repository](https://github.com/CQCL/tket).
+
+For more on how the user manual is built and deployed see the [manual README](https://github.com/CQCL/pytket/tree/main/manual/README.md).
+
+Instructions for how to add jupyter notebooks to the examples repository can be fond [here](https://github.com/CQCL/pytket/tree/main/examples#notes-for-developers).
 
 ## Getting started
 
