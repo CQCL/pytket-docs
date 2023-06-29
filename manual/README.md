@@ -1,6 +1,16 @@
 # The pytket User Manual
 
-The manual is built from several reStructuredText (.rst) files.
+The manual is built from several reStructuredText (.rst) files in the manual directory.
+
+There are currently 7 sections
+
+* What is tket?
+* Circuit Construction
+* Running on Backends
+* Compilation
+* Noise and the Quantum Circuit Model
+* Assertions
+* ZX diagrams
 
 The manual can be built locally as follows.
 
