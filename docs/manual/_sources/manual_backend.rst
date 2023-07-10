@@ -134,8 +134,8 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
 .. note:: :py:meth:`Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:meth:`Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`BackendResult`.
 
-Statevectors and Unitaries
---------------------------
+Statevector and Unitary Simulation with TKET Backends
+-----------------------------------------------------
 
 .. Any form of sampling introduces non-deterministic error, so for better accuracy we will want the exact state of the physical system; some simulators will provide direct access to this
 .. `get_state` gives full representation of that system's state in the 2^n-dimensional complex Hilbert space
@@ -536,25 +536,24 @@ Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`
     from qiskit.algorithms import Grover, AmplificationProblem
     from qiskit.circuit import QuantumCircuit
 
-    # disabled because of https://github.com/CQCL/pytket-cirq/issues/25
-    # from pytket.extensions.cirq import CirqStateSampleBackend
+    from pytket.extensions.cirq import CirqStateSampleBackend
     from pytket.extensions.qiskit.tket_backend import TketBackend
 
-    # cirq_simulator = CirqStateSampleBackend()
-    # backend = TketBackend(cirq_simulator, cirq_simulator.default_compilation_pass())
-    # sampler_options = {"shots":1024}
-    # qsampler = BackendSampler(backend, options=sampler_options)
+    cirq_simulator = CirqStateSampleBackend()
+    backend = TketBackend(cirq_simulator, cirq_simulator.default_compilation_pass())
+    sampler_options = {"shots":1024}
+    qsampler = BackendSampler(backend, options=sampler_options)
 
-    # oracle = QuantumCircuit(2)
-    # oracle.cz(0, 1)
+    oracle = QuantumCircuit(2)
+    oracle.cz(0, 1)
 
     def is_good_state(bitstr):
         return sum(map(int, bitstr)) == 2
 
-    # problem = AmplificationProblem(oracle=oracle, is_good_state=is_good_state)
-    # grover = Grover(sampler=qsampler)
-    # result = grover.amplify(problem)
-    # print("Top measurement:", result.top_measurement)
+    problem = AmplificationProblem(oracle=oracle, is_good_state=is_good_state)
+    grover = Grover(sampler=qsampler)
+    result = grover.amplify(problem)
+    print("Top measurement:", result.top_measurement)
 
 .. note:: Since Qiskit may not be able to solve all of the constraints of the chosen device/simulator, some compilation may be required after a circuit is passed to the :py:class:`TketBackend`, or it may just be preferable to do so to take advantage of the sophisticated compilation solutions provided in ``pytket``. Upon constructing the :py:class:`TketBackend`, you can provide a ``pytket`` compilation pass to apply to each circuit, e.g. ``TketBackend(backend, backend.default_compilation_pass())``. Some experimentation may be required to find a combination of ``qiskit.transpiler.PassManager`` and ``pytket`` compilation passes that executes successfully.
 
@@ -564,8 +563,8 @@ Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`
 .. Goals of the assistant
 .. How to set up and push/pull results
 
-Advanced Topics
----------------
+Advanced Backend Topics
+-----------------------
 
 Simulator Support for Expectation Values
 ========================================

@@ -3,8 +3,8 @@
 # Configuration file for the Sphinx documentation builder.
 # See https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-copyright = "2020-2023 Cambridge Quantum Computing Ltd"
-author = "Cambridge Quantum Computing Ltd"
+copyright = "2020-2023 Quantinuum"
+author = "Quantinuum"
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -13,12 +13,10 @@ extensions = [
     "sphinx.ext.mathjax",
     "jupyter_sphinx",
     "sphinx_copybutton",
-    "sphinx.ext.autosectionlabel"
+    "sphinx.ext.autosectionlabel",
 ]
 
 html_theme = "sphinx_book_theme"
-
-pygments_style = "borland"
 
 html_title = "pytket user manual"
 

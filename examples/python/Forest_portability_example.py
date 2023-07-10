@@ -65,15 +65,14 @@ render_circuit_jupyter(tk_circ)
 #
 # The `ForestStateBackend` will allow us to view the full statevector (wavefunction) expected from a perfect execution of the circuit.
 
-# disbaled because of https://github.com/CQCL/pytket-pyquil/issues/21
-# from pytket.extensions.pyquil import ForestStateBackend
+from pytket.extensions.pyquil import ForestStateBackend
 
-# state_backend = ForestStateBackend()
-# tk_circ = state_backend.get_compiled_circuit(tk_circ)
+state_backend = ForestStateBackend()
+tk_circ = state_backend.get_compiled_circuit(tk_circ)
 
-# handle = state_backend.process_circuit(tk_circ)
-# state = state_backend.get_result(handle).get_state()
-# print(state)
+handle = state_backend.process_circuit(tk_circ)
+state = state_backend.get_result(handle).get_state()
+print(state)
 
 # For users who are familiar with the Forest SDK, the association of qubits to indices of bitstrings (and consequently the ordering of statevectors) used by default in `pytket` Backends differs from that described in the [Forest docs](http://docs.rigetti.com/en/stable/wavefunction_simulator.html#multi-qubit-basis-enumeration). You can recover the ordering used by the Forest systems with `BackendResult.get_state(tk_circ, basis:pytket.BasisOrder.dlo)` (see our docs on the `BasisOrder` enum for more details).
 
@@ -83,15 +82,14 @@ render_circuit_jupyter(tk_circ)
 
 tk_circ.measure_all()
 
-# disabled because of https://github.com/CQCL/pytket-pyquil/issues/21
-# from pyquil import get_qc
-# from pytket.extensions.pyquil import ForestBackend
+from pyquil import get_qc
+from pytket.extensions.pyquil import ForestBackend
 
-# aspen_qc = get_qc("9q-square", as_qvm=True)
-# aspen_backend = ForestBackend(aspen_qc)
-# tk_circ = aspen_backend.get_compiled_circuit(tk_circ)
+aspen_qc = get_qc("9q-square", as_qvm=True)
+aspen_backend = ForestBackend(aspen_qc)
+tk_circ = aspen_backend.get_compiled_circuit(tk_circ)
 
-# counts = aspen_backend.run_circuit(tk_circ, 2000).get_counts()
-# print(counts)
+counts = aspen_backend.run_circuit(tk_circ, 2000).get_counts()
+print(counts)
 
 # Note that attempting to connect to a live quantum device (using a `QuantumComputer` constructed with `as_qvm=False`) will fail unless it is running from a QMI instance during a reservation for the named lattice.
