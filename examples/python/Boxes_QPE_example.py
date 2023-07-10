@@ -531,3 +531,13 @@ ham_result = backend.run_circuit(compiled_ham_circ, n_shots=n_shots)
 
 
 plot_qpe_results(ham_result, y_limit=1.2 * n_shots, n_strings=5)
+
+
+# ## Suggestions for further reading
+#
+# In this notebook we have shown the canonical variant of quantum phase estimation. There are several other variants.
+#
+# Quantinuum paper on Bayesian phase estimation -> https://arxiv.org/pdf/2306.16608.pdf
+#
+#
+# As mentioned quantum phase estimation is a subroutine in Shor's algorithm. Read more about how phase estimation is used in period finding.
