@@ -370,10 +370,7 @@ def single_phase_from_backendresult(result: BackendResult) -> float:
     bitstring = "".join([str(bit) for bit in basis_state])
     
     # Calculate theta estimate
-    n_measurement_qubits = len(bitstring)
-    phase_estimate = int(bitstring, 2) / (2**n_measurement_qubits)
-    
-    return phase_estimate
+    return int(bitstring, 2) / (2 ** len(bitstring))
 
 
 # In[18]:
