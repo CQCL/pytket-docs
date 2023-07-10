@@ -2,7 +2,9 @@ from pytket.backends.backendresult import BackendResult
 import matplotlib.pyplot as plt
 
 
-def plot_qpe_results(result: BackendResult, n_strings: int = 4, dark_mode=False, y_limit=1000) -> None:
+def plot_qpe_results(
+    result: BackendResult, n_strings: int = 4, dark_mode=False, y_limit=1000
+) -> None:
     """
     Plots results in a barchart given a BackendResult. the number of stings displayed
     can be specified with the n_strings argument.
@@ -29,5 +31,5 @@ def plot_qpe_results(result: BackendResult, n_strings: int = 4, dark_mode=False,
     plt.ylim([0, y_limit])
     plt.xlabel("Basis State")
     plt.ylabel("Number of Shots")
-    plt.xticks(rotation = 90) 
+    plt.xticks(rotation=90)
     plt.show()
