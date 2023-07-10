@@ -29,4 +29,5 @@ def plot_qpe_results(result: BackendResult, n_strings: int = 4, dark_mode=False,
     plt.ylim([0, y_limit])
     plt.xlabel("Basis State")
     plt.ylabel("Number of Shots")
+    plt.xticks(rotation = 90) 
     plt.show()
