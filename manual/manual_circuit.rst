@@ -827,7 +827,8 @@ Notice how in the example above the control qubits are both in the :math:`|1\ran
 .. jupyter-execute::
 
     # Assume all qubits initialised to |0> here
-    print("Statevector =", multi_circ.get_statevector())  # amplitudes of |+> approx 0.707...
+    # Amplitudes of |+> approx 0.707...
+    print("Statevector =", np.round(multi_circ.get_statevector().real, 4)
 
 In addition to the general :py:class:`Multiplexor` pytket has several other type of multiplexor box operations available.
 
