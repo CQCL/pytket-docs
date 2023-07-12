@@ -312,12 +312,12 @@ In some circumstances, it may be useful to rename the resources in the :py:class
     circ = Circuit(2, 2)
     circ.add_qubit(Qubit("a", 0))
 
-    map = {
+    qubit_map = {
         Qubit("a", 0) : Qubit(3),
         Qubit(1) : Qubit("a", 0),
         Bit(0) : Bit("z", [0, 1]),
     }
-    circ.rename_units(map)
+    circ.rename_units(qubit_map)
     print(circ.qubits)
     print(circ.bits)
 
@@ -357,12 +357,12 @@ If one :py:class:`Circuit` lacks some unit present in the other, then we treat i
     circ.Rx(0.2, a[0])
     circ.CX(a[0], a[1])
 
-    next = Circuit()
-    b = next.add_q_register("b", 2)
-    next.Z(b[0])
-    next.CZ(b[1], b[0])
+    next_circ = Circuit()
+    b = next_circ.add_q_register("b", 2)
+    next_circ.Z(b[0])
+    next_circ.CZ(b[1], b[0])
 
-    circ.append(next)
+    circ.append(next_circ)
     circ
 
 .. Append onto different qubits with `append_with_map` (equivalent under `rename_units`)
@@ -400,14 +400,14 @@ To change which units get unified, we could use :py:meth:`Circuit.rename_units` 
     circ.Rx(0.2, a[0])
     circ.CX(a[0], a[1])
 
-    next = Circuit(2)
-    next.Z(0)
-    next.CZ(1, 0)
+    next_circ = Circuit(2)
+    next_circ.Z(0)
+    next_circ.CZ(1, 0)
 
-    circ.add_circuit(next, [a[1], a[0]])
+    circ.add_circuit(next_circ, [a[1], a[0]])
 
     # This is equivalent to:
-    # temp = next.copy()
+    # temp = next_circ.copy()
     # temp.rename_units({Qubit(0) : a[1], Qubit(1) : a[0]})
     # circ.append(temp)
 
@@ -695,8 +695,8 @@ For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by
 
 .. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
-Pauli Exponential Boxes and Phase Polynomials
-=============================================
+Pauli Exponential Boxes
+=======================
 
 Another notable construct that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
 
