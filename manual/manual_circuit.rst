@@ -695,8 +695,8 @@ For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by
 
 .. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
-Pauli Exponential Boxes and Phase Polynommials
-==============================================
+Pauli Exponential Boxes and Phase Polynomials
+=============================================
 
 Another notable construct that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
 
@@ -734,6 +734,9 @@ All Pauli exponentials of the form above can be implemented in terms of a single
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
 These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+
+Phase Polynomials
+=================
 
 Now we move on to discuss another class of quantum circuits known as phase polynomials. Phase polynomial circuits are a special type of circuits that use the {CX, Rz} gateset.
 
