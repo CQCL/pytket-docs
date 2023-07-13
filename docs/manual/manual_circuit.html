@@ -356,7 +356,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-boxes">Circuit Boxes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes-for-unitary-synthesis">Boxes for Unitary Synthesis</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controlled-box-operations">Controlled Box Operations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-exponential-boxes-and-phase-polynommials">Pauli Exponential Boxes and Phase Polynommials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-exponential-boxes">Pauli Exponential Boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-polynomials">Phase Polynomials</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiplexors-state-preperation-boxes-and-toffolibox">Multiplexors, State Preperation Boxes and <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code></a></li>
 </ul>
 </li>
@@ -764,12 +765,12 @@ document.write(`
 <span class="n">circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
-<span class="nb">map</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">qubit_map</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
     <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
     <span class="n">Bit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
 <span class="p">}</span>
-<span class="n">circ</span><span class="o">.</span><span class="n">rename_units</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">rename_units</span><span class="p">(</span><span class="n">qubit_map</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">bits</span><span class="p">)</span>
 </pre></div>
@@ -820,12 +821,12 @@ document.write(`
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-<span class="nb">next</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
-<span class="n">b</span> <span class="o">=</span> <span class="nb">next</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="nb">next</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">next</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">next_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">next_circ</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">next_circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">next_circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-<span class="n">circ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_circ</span><span class="p">)</span>
 <span class="n">circ</span>
 </pre></div>
 </div>
@@ -846,14 +847,14 @@ document.write(`
 <span class="n">circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-<span class="nb">next</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="nb">next</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="nb">next</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">next_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">next_circ</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">next_circ</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span class="n">circ</span><span class="o">.</span><span class="n">add_circuit</span><span class="p">(</span><span class="nb">next</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">circ</span><span class="o">.</span><span class="n">add_circuit</span><span class="p">(</span><span class="n">next_circ</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
 <span class="c1"># This is equivalent to:</span>
-<span class="c1"># temp = next.copy()</span>
+<span class="c1"># temp = next_circ.copy()</span>
 <span class="c1"># temp.rename_units({Qubit(0) : a[1], Qubit(1) : a[0]})</span>
 <span class="c1"># circ.append(temp)</span>
 
@@ -977,7 +978,7 @@ X OpType.X [q[1]]
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-9c2c9256-992a-4c57-b4af-b126b4ffecc6&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-922454d7-3764-4044-9754-ea2f6840c86b&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -987,7 +988,7 @@ X OpType.X [q[1]]
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;9c2c9256-992a-4c57-b4af-b126b4ffecc6&#34;;
+      const circuitRendererUid = &#34;922454d7-3764-4044-9754-ea2f6840c86b&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1135,7 +1136,7 @@ Circuit depth = 3
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-86898f94-e366-44e4-aca0-998c473fb43f&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-cba3a4b2-8a58-41df-b2c1-c62d69218cfb&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;params&#34;: [&#34;0.6&#34;], &#34;type&#34;: &#34;CnRy&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;T&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1145,7 +1146,7 @@ Circuit depth = 3
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;86898f94-e366-44e4-aca0-998c473fb43f&#34;;
+      const circuitRendererUid = &#34;cba3a4b2-8a58-41df-b2c1-c62d69218cfb&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1263,7 +1264,7 @@ it to another circuit as part of a larger algorithm.</p>
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-5ec0c616-ab26-4b4c-a989-91c237224d5a&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-6ea16a4b-210d-41ab-b821-3528ac2bbc68&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;type&#34;: &#34;CnZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;name&#34;: &#34;Oracle&#34;, &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1273,7 +1274,7 @@ it to another circuit as part of a larger algorithm.</p>
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;5ec0c616-ab26-4b4c-a989-91c237224d5a&#34;;
+      const circuitRendererUid = &#34;6ea16a4b-210d-41ab-b821-3528ac2bbc68&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1347,9 +1348,9 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-4ea333d5-56f3-483d-a3cb-825547171e30&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-3066a877-4961-4125-a470-d0b364310f0a&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
-            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;circuit&#34;: {&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;type&#34;: &#34;CnZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;name&#34;: &#34;Oracle&#34;, &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}, &#34;id&#34;: &#34;1e2051a9-caee-4707-8852-17d53775cdae&#34;, &#34;type&#34;: &#34;CircBox&#34;}, &#34;type&#34;: &#34;CircBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;circuit&#34;: {&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;n_qb&#34;: 3, &#34;type&#34;: &#34;CnZ&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;name&#34;: &#34;Oracle&#34;, &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}, &#34;id&#34;: &#34;3d9f6ca7-e9a9-429c-9e65-fb882cfd9678&#34;, &#34;type&#34;: &#34;CircBox&#34;}, &#34;type&#34;: &#34;CircBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
         &lt;circuit-display-container
                 :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
@@ -1357,7 +1358,7 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;4ea333d5-56f3-483d-a3cb-825547171e30&#34;;
+      const circuitRendererUid = &#34;3066a877-4961-4125-a470-d0b364310f0a&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1505,8 +1506,8 @@ For example, we can construct a multicontrolled <span class="math notranslate no
 <p>Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.</p>
 </div>
 </section>
-<section id="pauli-exponential-boxes-and-phase-polynommials">
-<h3>Pauli Exponential Boxes and Phase Polynommials<a class="headerlink" href="#pauli-exponential-boxes-and-phase-polynommials" title="Permalink to this heading">#</a></h3>
+<section id="pauli-exponential-boxes">
+<h3>Pauli Exponential Boxes<a class="headerlink" href="#pauli-exponential-boxes" title="Permalink to this heading">#</a></h3>
 <p>Another notable construct that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor:</p>
 <div class="math notranslate nohighlight">
 \[\begin{equation}
@@ -1565,9 +1566,9 @@ e^{-i \frac{\pi}{2} \theta P}\,, \quad P \in \{I, X, Y, Z\}^{\otimes n}
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-e395695c-2038-4dff-b7a2-a3d016b3307b&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-6b5c5447-b4c2-4b31-87f1-b9c4ecd68a5b&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
-            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;V&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.7&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;Vdg&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]], [[&#34;q&#34;, [3]], [&#34;q&#34;, [3]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]]}&lt;/div&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;V&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.7&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;Vdg&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]], [[&#34;q&#34;, [3]], [&#34;q&#34;, [3]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]]}&lt;/div&gt;
         &lt;/div&gt;
         &lt;circuit-display-container
                 :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
@@ -1575,7 +1576,7 @@ e^{-i \frac{\pi}{2} \theta P}\,, \quad P \in \{I, X, Y, Z\}^{\otimes n}
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;e395695c-2038-4dff-b7a2-a3d016b3307b&#34;;
+      const circuitRendererUid = &#34;6b5c5447-b4c2-4b31-87f1-b9c4ecd68a5b&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1615,6 +1616,9 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
 <p>All Pauli exponentials of the form above can be implemented in terms of a single Rz(<span class="math notranslate nohighlight">\(\theta\)</span>) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to “Z only” Pauli strings are referred to as phase gadgets.</p>
 <p>We see that the Pauli exponential <span class="math notranslate nohighlight">\(e^{i\frac{\pi}{2} \theta \text{ZZYX}}\)</span> has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.</p>
 <p>These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis <a class="reference internal" href="#cowt2020" id="id6"><span>[Cowt2020]</span></a>. Ideas from this paper are implemented in TKET as the <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets">OptimisePhaseGadgets</a> and <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp">PauliSimp</a> optimisation passes.</p>
+</section>
+<section id="phase-polynomials">
+<h3>Phase Polynomials<a class="headerlink" href="#phase-polynomials" title="Permalink to this heading">#</a></h3>
 <p>Now we move on to discuss another class of quantum circuits known as phase polynomials. Phase polynomial circuits are a special type of circuits that use the {CX, Rz} gateset.</p>
 <p>A phase polynomial <span class="math notranslate nohighlight">\(p(x)\)</span> is defined as a weighted sum of Boolean linear functions <span class="math notranslate nohighlight">\(f_i(x)\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -1677,7 +1681,7 @@ C: |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-a6bb8e0d-ba96-4406-9402-6cb195d9185f&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-a20be28d-a71b-4103-a84a-a4640949afc9&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
             &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;1.05&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.05&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.333&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
@@ -1687,7 +1691,7 @@ C: |x\rangle \longmapsto e^{2\pi i p(x)}|g(x)\rangle
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;a6bb8e0d-ba96-4406-9402-6cb195d9185f&#34;;
+      const circuitRendererUid = &#34;a20be28d-a71b-4103-a84a-a4640949afc9&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1780,9 +1784,9 @@ To create a multiplexor we simply construct a dictionary where the keys are the 
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-bfcb72bd-80fc-4c77-97bf-01949cafe5f5&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-806f0c8b-0735-4a2b-90e1-dbd0a0e9215a&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
-            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;2ede6336-2c92-4b46-a5c3-d4ca906a9f7e&#34;, &#34;op_map&#34;: [[[false, false], {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rz&#34;}], [[true, true], {&#34;type&#34;: &#34;H&#34;}]], &#34;type&#34;: &#34;MultiplexorBox&#34;}, &#34;type&#34;: &#34;MultiplexorBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;X&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;c0b3354c-f87d-46dd-ab74-49533f4d929e&#34;, &#34;op_map&#34;: [[[false, false], {&#34;params&#34;: [&#34;0.3&#34;], &#34;type&#34;: &#34;Rz&#34;}], [[true, true], {&#34;type&#34;: &#34;H&#34;}]], &#34;type&#34;: &#34;MultiplexorBox&#34;}, &#34;type&#34;: &#34;MultiplexorBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
         &lt;circuit-display-container
                 :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
@@ -1790,7 +1794,7 @@ To create a multiplexor we simply construct a dictionary where the keys are the 
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;bfcb72bd-80fc-4c77-97bf-01949cafe5f5&#34;;
+      const circuitRendererUid = &#34;806f0c8b-0735-4a2b-90e1-dbd0a0e9215a&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -1832,15 +1836,13 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assume all qubits initialised to |0&gt; here</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Statevector =&quot;</span><span class="p">,</span> <span class="n">multi_circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">())</span>  <span class="c1"># amplitudes of |+&gt; approx 0.707...</span>
+<span class="c1"># Amplitudes of |+&gt; approx 0.707...</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Statevector =&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">multi_circ</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Statevector = [0.        +0.00000000e+00j 0.        +0.00000000e+00j
- 0.        +0.00000000e+00j 0.        +0.00000000e+00j
- 0.        +0.00000000e+00j 0.        +0.00000000e+00j
- 0.70710678-8.32667268e-17j 0.70710678+0.00000000e+00j]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Statevector = [0.     0.     0.     0.     0.     0.     0.7071 0.7071]
 </pre></div>
 </div>
 </div>
@@ -1905,7 +1907,7 @@ target is a tensor product of single qubit gates</p></td>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([-0.   ,  0.577,  0.577,  0.   ,  0.577,  0.   ,  0.   ,  0.   ])
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.   , 0.577, 0.577, 0.   , 0.577, 0.   , 0.   , 0.   ])
 </pre></div>
 </div>
 </div>
@@ -1988,9 +1990,9 @@ In pytket however, the permutation is implemented efficently using a sequence of
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-5a817c6b-8bff-4199-b423-b189188451dc&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-b22904d9-fea0-4e71-92ec-89886e746018&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
-            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;9b0ca8c6-c819-45ba-9a3d-aac30e29692c&#34;, &#34;op_map&#34;: [[[true, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;bb8ced30-6c76-4719-b002-a0ad705129e4&#34;, &#34;op_map&#34;: [[[false, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;a635a921-4601-4a3f-b2e1-04f95f04af29&#34;, &#34;op_map&#34;: [[[false, false], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}], [[true, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;diagonal&#34;: [[[-1.0, -0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[-1.0, -0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]]], &#34;id&#34;: &#34;2413610b-6817-409d-820d-1a903dcc06de&#34;, &#34;type&#34;: &#34;DiagonalBox&#34;, &#34;upper_triangle&#34;: true}, &#34;type&#34;: &#34;DiagonalBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;4609e587-05f9-4cfa-beea-83ed960c2e03&#34;, &#34;op_map&#34;: [[[false, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;4a927819-274d-4986-9f18-3667c40120c1&#34;, &#34;op_map&#34;: [[[true, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;c6b73b4d-1e45-44a3-a451-c5cce4c1d44a&#34;, &#34;op_map&#34;: [[[false, false], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}], [[false, true], {&#34;params&#34;: [&#34;1&#34;], &#34;type&#34;: &#34;Ry&#34;}]], &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}, &#34;type&#34;: &#34;MultiplexedRotationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;diagonal&#34;: [[[-1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]], [[-1.0, 0.0]], [[1.0, 0.0]], [[1.0, 0.0]]], &#34;id&#34;: &#34;c013197a-555c-4bb0-9d9a-2f556e075e22&#34;, &#34;type&#34;: &#34;DiagonalBox&#34;, &#34;upper_triangle&#34;: true}, &#34;type&#34;: &#34;DiagonalBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
         &lt;circuit-display-container
                 :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
@@ -1998,7 +2000,7 @@ In pytket however, the permutation is implemented efficently using a sequence of
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;5a817c6b-8bff-4199-b423-b189188451dc&#34;;
+      const circuitRendererUid = &#34;b22904d9-fea0-4e71-92ec-89886e746018&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -2066,9 +2068,9 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
 
 
 
-    &lt;div id=&#34;circuit-display-vue-container-a8f24428-3b7e-4625-b89e-7833d10a0240&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+    &lt;div id=&#34;circuit-display-vue-container-ac3f4c2c-4970-4da7-b6b7-9090611e3ec1&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
         &lt;div style=&#34;display: none&#34;&gt;
-            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;0cbb07ca-2c44-43cd-9a0b-e4f36c84afab&#34;, &#34;is_inverse&#34;: false, &#34;statevector&#34;: [[[0.0, 0.0]], [[0.5773502691896258, 0.0]], [[0.5773502691896258, 0.0]], [[0.0, 0.0]], [[0.5773502691896258, 0.0]], [[0.0, 0.0]], [[0.0, 0.0]], [[0.0, 0.0]]], &#34;type&#34;: &#34;StatePreparationBox&#34;, &#34;with_initial_reset&#34;: false}, &#34;type&#34;: &#34;StatePreparationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;999f5e68-5c8f-4559-9fd6-08c0b921ecf3&#34;, &#34;permutation&#34;: [[[false, false, false], [true, false, false]], [[false, false, true], [true, true, true]], [[true, false, false], [false, false, false]], [[true, true, true], [false, false, true]]], &#34;rotation_axis&#34;: &#34;Ry&#34;, &#34;type&#34;: &#34;ToffoliBox&#34;}, &#34;type&#34;: &#34;ToffoliBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;089bd252-f498-42af-aef7-c69ce2d8fa13&#34;, &#34;is_inverse&#34;: false, &#34;statevector&#34;: [[[0.0, 0.0]], [[0.5773502691896258, 0.0]], [[0.5773502691896258, 0.0]], [[0.0, 0.0]], [[0.5773502691896258, 0.0]], [[0.0, 0.0]], [[0.0, 0.0]], [[0.0, 0.0]]], &#34;type&#34;: &#34;StatePreparationBox&#34;, &#34;with_initial_reset&#34;: false}, &#34;type&#34;: &#34;StatePreparationBox&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;box&#34;: {&#34;id&#34;: &#34;2944740d-fdb6-4eaa-8713-33264bec756c&#34;, &#34;permutation&#34;: [[[false, false, false], [true, false, false]], [[false, false, true], [true, true, true]], [[true, false, false], [false, false, false]], [[true, true, true], [false, false, true]]], &#34;rotation_axis&#34;: &#34;Ry&#34;, &#34;strat&#34;: &#34;Matching&#34;, &#34;type&#34;: &#34;ToffoliBox&#34;}, &#34;type&#34;: &#34;ToffoliBox&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]]]}&lt;/div&gt;
         &lt;/div&gt;
         &lt;circuit-display-container
                 :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
@@ -2076,7 +2078,7 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
         &gt;&lt;/circuit-display-container&gt;
     &lt;/div&gt;
     &lt;script type=&#34;application/javascript&#34;&gt;
-      const circuitRendererUid = &#34;a8f24428-3b7e-4625-b89e-7833d10a0240&#34;;
+      const circuitRendererUid = &#34;ac3f4c2c-4970-4da7-b6b7-9090611e3ec1&#34;;
       const displayOptions = JSON.parse(&#39;{}&#39;);
 
       // Script to initialise the circuit renderer app
@@ -2120,7 +2122,7 @@ window.pytketCircuitDisplays[circuitRendererUid] = app;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([ 0.577, -0.   ,  0.577, -0.   ,  0.   ,  0.   ,  0.   ,  0.577])
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([0.577, 0.   , 0.577, 0.   , 0.   , 0.   , 0.   , 0.577])
 </pre></div>
 </div>
 </div>
@@ -2386,7 +2388,7 @@ True
 </div>
 <section id="symbolic-unitaries-and-states">
 <h3>Symbolic unitaries and states<a class="headerlink" href="#symbolic-unitaries-and-states" title="Permalink to this heading">#</a></h3>
-<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.16)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
+<p>In <a class="reference external" href="https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.symbolic" title="(in pytket v1.17)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytket.utils.symbolic</span></code></a> we provide functions <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_to_symbolic_unitary()</span></code>, which can calculate the unitary representation of a possibly symbolic circuit, and <code class="xref py py-func docutils literal notranslate"><span class="pre">circuit_apply_symbolic_statevector()</span></code>, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).</p>
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
@@ -2472,7 +2474,7 @@ The conversion functions use the <a class="reference external" href="https://doc
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X@q[0]	-&gt;	1 0 0   1 0 0   1
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>X@q[0]	-&gt;	1 0 0   1 0 0   0
 X@q[1]	-&gt;	0 1 1   0 0 0   0
 X@q[2]	-&gt;	0 0 1   0 0 0   0
 --
@@ -2508,7 +2510,7 @@ Z@q[2]	-&gt;	0 0 0   0 1 1   0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[X q[0]; X q[1]; X q[2]; Z q[1]; S q[2]; CX q[1], q[0]; S q[2]; S q[0]; S q[1]; H q[2]; CX q[1], q[0]; S q[2]; S q[0]; S q[1]; V q[2]; H q[0]; H q[1]; CX q[1], q[0]; S q[0]; S q[1]; CX q[1], q[0]; CX q[1], q[0]; V q[0]; ]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[X q[0]; Z q[1]; X q[2]; CX q[1], q[0]; Z q[2]; S q[0]; S q[1]; S q[2]; CX q[1], q[0]; S q[2]; S q[0]; S q[1]; H q[2]; H q[0]; H q[1]; S q[2]; CX q[1], q[0]; V q[2]; S q[0]; S q[1]; CX q[1], q[0]; CX q[1], q[0]; V q[0]; ]
 </pre></div>
 </div>
 </div>
@@ -2954,7 +2956,8 @@ can support the full range of expressions and comparisons shown above.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-boxes">Circuit Boxes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes-for-unitary-synthesis">Boxes for Unitary Synthesis</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controlled-box-operations">Controlled Box Operations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-exponential-boxes-and-phase-polynommials">Pauli Exponential Boxes and Phase Polynommials</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-exponential-boxes">Pauli Exponential Boxes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-polynomials">Phase Polynomials</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiplexors-state-preperation-boxes-and-toffolibox">Multiplexors, State Preperation Boxes and <code class="xref py py-class docutils literal notranslate"><span class="pre">ToffoliBox</span></code></a></li>
 </ul>
 </li>

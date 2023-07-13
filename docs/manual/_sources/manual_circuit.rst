@@ -312,12 +312,12 @@ In some circumstances, it may be useful to rename the resources in the :py:class
     circ = Circuit(2, 2)
     circ.add_qubit(Qubit("a", 0))
 
-    map = {
+    qubit_map = {
         Qubit("a", 0) : Qubit(3),
         Qubit(1) : Qubit("a", 0),
         Bit(0) : Bit("z", [0, 1]),
     }
-    circ.rename_units(map)
+    circ.rename_units(qubit_map)
     print(circ.qubits)
     print(circ.bits)
 
@@ -357,12 +357,12 @@ If one :py:class:`Circuit` lacks some unit present in the other, then we treat i
     circ.Rx(0.2, a[0])
     circ.CX(a[0], a[1])
 
-    next = Circuit()
-    b = next.add_q_register("b", 2)
-    next.Z(b[0])
-    next.CZ(b[1], b[0])
+    next_circ = Circuit()
+    b = next_circ.add_q_register("b", 2)
+    next_circ.Z(b[0])
+    next_circ.CZ(b[1], b[0])
 
-    circ.append(next)
+    circ.append(next_circ)
     circ
 
 .. Append onto different qubits with `append_with_map` (equivalent under `rename_units`)
@@ -400,14 +400,14 @@ To change which units get unified, we could use :py:meth:`Circuit.rename_units` 
     circ.Rx(0.2, a[0])
     circ.CX(a[0], a[1])
 
-    next = Circuit(2)
-    next.Z(0)
-    next.CZ(1, 0)
+    next_circ = Circuit(2)
+    next_circ.Z(0)
+    next_circ.CZ(1, 0)
 
-    circ.add_circuit(next, [a[1], a[0]])
+    circ.add_circuit(next_circ, [a[1], a[0]])
 
     # This is equivalent to:
-    # temp = next.copy()
+    # temp = next_circ.copy()
     # temp.rename_units({Qubit(0) : a[1], Qubit(1) : a[0]})
     # circ.append(temp)
 
@@ -695,8 +695,8 @@ For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by
 
 .. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
-Pauli Exponential Boxes and Phase Polynommials
-==============================================
+Pauli Exponential Boxes
+=======================
 
 Another notable construct that is common to many algorithms and high-level circuit descriptions is the exponential of a Pauli tensor: 
 
@@ -734,6 +734,9 @@ All Pauli exponentials of the form above can be implemented in terms of a single
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
 These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+
+Phase Polynomials
+=================
 
 Now we move on to discuss another class of quantum circuits known as phase polynomials. Phase polynomial circuits are a special type of circuits that use the {CX, Rz} gateset.
 
@@ -824,7 +827,8 @@ Notice how in the example above the control qubits are both in the :math:`|1\ran
 .. jupyter-execute::
 
     # Assume all qubits initialised to |0> here
-    print("Statevector =", multi_circ.get_statevector())  # amplitudes of |+> approx 0.707...
+    # Amplitudes of |+> approx 0.707...
+    print("Statevector =", np.round(multi_circ.get_statevector().real, 4))
 
 In addition to the general :py:class:`Multiplexor` pytket has several other type of multiplexor box operations available.
 
