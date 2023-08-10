@@ -66,7 +66,7 @@ jobs:
         pre-commit run --all-files black
     - name: test example notebooks
       run: |
-        cd examples
+        cd pytket-examples-book
         ./check-examples
       env:
         PYTKET_QA_QISKIT_TOKEN: ${{ secrets.PYTKET_QA_QISKIT_TOKEN }}
