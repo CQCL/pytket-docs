@@ -144,7 +144,8 @@ def vqe(init_param, n_steps, stepsize):
 
 # Ok enough talking, let's run (and whilst we're at it we'll time it too)
 
-%time vqe_params, vqe_cost_vals = vqe(params, n_steps=250, stepsize=0.01)
+#%time 
+vqe_params, vqe_cost_vals = vqe(params, n_steps=250, stepsize=0.01)
 
 # Let's plot the results...
 
