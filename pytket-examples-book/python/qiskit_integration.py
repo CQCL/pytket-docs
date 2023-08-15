@@ -51,10 +51,8 @@ def vqe_solve(op, maxiter, qestimator):
 # We will run this on a pytket `IBMQEmulatorBackend`. This is a noisy simulator whose characteristics match those of the real device, in this case "ibmq_belem" (a 5-qubit machine). The characteristics are retrieved from the device when the backend is constructed, so we must first load our IBMQ account. Circuits will be compiled to match the connectivity of the device and simulated using a basic noise model [constructed from the device parameters](https://qiskit.org/documentation/apidoc/aer_noise.html).
 
 from pytket.extensions.qiskit import IBMQEmulatorBackend
-from qiskit import IBMQ
 
-IBMQ.load_account()
-b_emu = IBMQEmulatorBackend("ibmq_belem", hub="ibm-q", group="open", project="main")
+b_emu = IBMQEmulatorBackend("ibmq_belem", instance="ibm-q/open/main")
 
 # Most qiskit algorithms require a qiskit `primitive` as input; this in turn is constructed from a `qiskit.providers.Backend`. The `TketBackend` class wraps a pytket backend as a `qiskit.providers.Backend`.
 
@@ -68,7 +66,7 @@ qestimator = BackendEstimator(qis_backend, options={"shots": 8192})
 #
 # We can now run the VQE algorithm. In this example we use only 50 iterations, but greater accuracy may be achieved by increasing this number:
 
-print("VQE result:", vqe_solve(H2_op, 50, qestimator))
+# print("VQE result:", vqe_solve(H2_op, 50, qestimator))
 
 # Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; we recommend the device-specific default compilation pass, provided by each tket backend. This pass will ensure that all the hardware constraints of the device are met. We can enable tket's most aggressive optimisation level by setting the parameter `optimisation_level=2`.
 
@@ -77,6 +75,6 @@ qestimator2 = BackendEstimator(qis_backend2, options={"shots": 8192})
 
 # Let's run the optimisation again:
 
-print("VQE result (with optimisation):", vqe_solve(H2_op, 50, qestimator2))
+# print("VQE result (with optimisation):", vqe_solve(H2_op, 50, qestimator2))
 
 # These are small two-qubit circuits, so the improvement may be small, but with larger, more complex circuits, the reduction in noise from compilation will make a greater difference and allow VQE experiments to converge with fewer iterations.
