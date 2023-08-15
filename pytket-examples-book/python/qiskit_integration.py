@@ -14,9 +14,9 @@
 
 # Let's take as an example an ansatz for computing the ground-state energy of a hydrogen molecule.
 
-from qiskit.opflow.primitive_ops import PauliSumOp
+from qiskit.quantum_info import SparsePauliOp
 
-H2_op = PauliSumOp.from_list(
+H2_op = SparsePauliOp.from_list(
     [
         ("II", -1.052373245772859),
         ("IZ", 0.39793742484318045),
@@ -27,8 +27,7 @@ H2_op = PauliSumOp.from_list(
 )
 
 # First let's use qiskit's NumPyEigensolver to compute the exact answer:
-
-from qiskit.algorithms import NumPyEigensolver
+from qiskit.algorithms.eigensolvers import NumPyEigensolver
 
 es = NumPyEigensolver(k=1)
 exact_result = es.compute_eigenvalues(H2_op).eigenvalues[0].real
@@ -75,6 +74,6 @@ qestimator2 = BackendEstimator(qis_backend2, options={"shots": 8192})
 
 # Let's run the optimisation again:
 
-# print("VQE result (with optimisation):", vqe_solve(H2_op, 50, qestimator2))
+# #print("VQE result (with optimisation):", vqe_solve(H2_op, 50, qestimator2))
 
 # These are small two-qubit circuits, so the improvement may be small, but with larger, more complex circuits, the reduction in noise from compilation will make a greater difference and allow VQE experiments to converge with fewer iterations.

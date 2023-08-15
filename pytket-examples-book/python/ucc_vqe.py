@@ -505,9 +505,9 @@ def objective(params):
 # Optimise against the objective function:
 
 initial_params = [1e-4, 1e-4, 4e-1]
-# result = minimize(objective, initial_params, method="Nelder-Mead")
-# print("Final parameter values", result.x)
-# print("Final energy value", result.fun)
+# #result = minimize(objective, initial_params, method="Nelder-Mead")
+# #print("Final parameter values", result.x)
+# #print("Final energy value", result.fun)
 
 # Exercises:
 # - Replace the `get_operator_expectation_value` call with its implementation and use this to pull the analysis for measurement reduction outside of the objective function, so our circuits can be fully determined and compiled once. This means that the `symbol_substitution` method will need to be applied to each measurement circuit instead of just the state preparation circuit.
