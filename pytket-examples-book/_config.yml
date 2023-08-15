@@ -8,10 +8,10 @@ sphinx:
         image_dark: _static/Quantinuum_logo_white.png
 
 
-# Force re-execution of notebooks on each build.
-# See https://jupyterbook.org/content/execute.html
 execute:
+  # Exclude some examples from execution (these are still deployed as html pages)
   exclude_patterns: ["Forest_portability_example.ipynb", "backends_example.ipynb", "comparing_simulators.ipynb", "entanglement_swapping.ipynb", "expectation_value_example.ipynb", "pytket-qujax_heisenberg_vqe.ipynb", "spam_example.ipynb", "tket_benchmarking.ipynb"]
+  timeout: 60    # The maximum time (in seconds) each notebook cell is allowed to run.
 
 # Information about where the book exists on the web
 repository:
