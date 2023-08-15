@@ -65,7 +65,7 @@ qestimator = BackendEstimator(qis_backend, options={"shots": 8192})
 #
 # We can now run the VQE algorithm. In this example we use only 50 iterations, but greater accuracy may be achieved by increasing this number:
 
-# print("VQE result:", vqe_solve(H2_op, 50, qestimator))
+# #print("VQE result:", vqe_solve(H2_op, 50, qestimator))
 
 # Another way to improve the accuracy of results is to apply optimisations to the circuit in an attempt to reduce the overall noise. When we construct our qiskit backend, we can pass in a pytket compilation pass as an additional parameter. There is a wide range of options here; we recommend the device-specific default compilation pass, provided by each tket backend. This pass will ensure that all the hardware constraints of the device are met. We can enable tket's most aggressive optimisation level by setting the parameter `optimisation_level=2`.
 
