@@ -8,7 +8,7 @@ manual needs to be rebuilt locally.
 
 ## pre-commit
 
-We use [pre-commit](https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories) to catch formatting and other issues before committing to the repo. If you have installed the required packages with `pip install -r requirements.txt`, then you should already have `pre-commit` available.
+We use [pre-commit](https://pre-commit.com/#automatically-enabling-pre-commit-on-repositories) to catch formatting and other issues before committing to the repo. If you have installed the required packages with `pip install -r example_requirements.txt`, then you should already have `pre-commit` available.
 
 To install the hooks, simply run `pre-commit install`. After that, the checks will be run automatically whenever you do a `git commit`.
 
