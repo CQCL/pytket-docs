@@ -43,3 +43,8 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: main
         publish_dir: ./pytket-examples-book/_build/html
+
+    - uses: actions/upload-artifact@v3
+      with:
+          name: pytket examples book
+          path: pytket-examples-book/_build
