@@ -1,10 +1,12 @@
+# # VQE example with pytket-qujax
+
+from jax import numpy as jnp, random, value_and_grad, jit
 from pytket import Circuit
 from pytket.circuit.display import render_circuit_jupyter
-from jax import numpy as jnp, random, vmap, grad, value_and_grad, jit
 import matplotlib.pyplot as plt
 
 import qujax
-from pytket.extensions.qujax import tk_to_qujax
+from pytket.extensions.qujax.qujax_convert import tk_to_qujax
 
 # # Let's start with a tket circuit
 # We place barriers to stop tket automatically rearranging gates and we also store the number of circuit parameters as we'll need this later.

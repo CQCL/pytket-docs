@@ -1,4 +1,4 @@
-# # Symbolic compilation: tket example
+# # Symbolic compilation
 
 # Motivation: in compilation, particularly of hybrid classical-quantum variational algorithms in which the structure of a circuit remains constant but the parameters of some gates change, it can be useful to compile using symbolic parameters and optimise the circuit without knowledge of what these parameters will be instantiated to afterwards.
 #

@@ -1,8 +1,9 @@
+# # Binary Classification using pytket-qujax
+
 from jax import numpy as jnp, random, vmap, value_and_grad, jit
 from pytket import Circuit
 from pytket.circuit.display import render_circuit_jupyter
-from pytket.extensions.qujax import tk_to_qujax
-import qujax
+from pytket.extensions.qujax.qujax_convert import tk_to_qujax
 import matplotlib.pyplot as plt
 
 # # Define the classification task
