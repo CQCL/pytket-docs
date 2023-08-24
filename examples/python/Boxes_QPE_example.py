@@ -84,17 +84,17 @@
 # In[1]:
 
 
-from pytket.circuit import Circuit, OpType
+from pytket.circuit import Circuit
 
 # lets build the QFT for three qubits
 qft3_circ = Circuit(3)
 
 qft3_circ.H(0)
-qft3_circ.add_gate(OpType.CU1, [0.5], [1, 0])
-qft3_circ.add_gate(OpType.CU1, [0.25], [2, 0])
+qft3_circ.CU1(0.5, 1, 0)
+qft3_circ.CU1(0.25, 2, 0)
 
 qft3_circ.H(1)
-qft3_circ.add_gate(OpType.CU1, [0.5], [2, 1])
+qft3_circ.CU1(0.5, 2, 1)
 
 qft3_circ.H(2)
 
@@ -116,17 +116,13 @@ render_circuit_jupyter(qft3_circ)
 
 def build_qft_circuit(n_qubits: int) -> Circuit:
     circ = Circuit(n_qubits, name="QFT")
-    q_counter = 0
-    for j in range(n_qubits):
-        circ.H(j)  # add Hadamard to every qubit
-        q_counter += 1
-        for k in range(n_qubits - q_counter):
-            # for the n qubit qft add n-k-1 CU1 gates targetting the kth qubit
-            circ.add_gate(OpType.CU1, 0.5 ** (k + 1), [k + q_counter, q_counter - 1])
+    for i in range(n_qubits):
+        circ.H(i)
+        for j in range(i + 1, n_qubits):
+            circ.CU1(1 / 2 ** (j - i), j, i)
 
-    # Finally append swaop gates to the end of the circuit
-    for i in range(0, n_qubits // 2):
-        circ.SWAP(i, n_qubits - i - 1)
+    for k in range(0, n_qubits // 2):
+        circ.SWAP(k, n_qubits - k - 1)
 
     return circ
 
@@ -249,7 +245,6 @@ render_circuit_jupyter(test_circ)
 def build_phase_est_circuit(
     n_measurement_qubits: int, state_prep_circuit: Circuit, unitary_circuit: Circuit
 ) -> Circuit:
-
     qpe_circ: Circuit = Circuit()
     n_ancillas = state_prep_circuit.n_qubits
     measurement_register = qpe_circ.add_q_register("m", n_measurement_qubits)
@@ -258,7 +253,7 @@ def build_phase_est_circuit(
     qpe_circ.add_circuit(state_prep_circuit, list(state_prep_register))
 
     unitary_circuit.name = "U"
-    controlled_u = QControlBox(CircBox(unitary_circuit), 1)
+    controlled_u_gate = QControlBox(CircBox(unitary_circuit), 1)
 
     # Add Hadamard gates to every qubit in the measurement register
     for m_qubit in measurement_register:
@@ -270,7 +265,7 @@ def build_phase_est_circuit(
         control_qubit = [measurement_register[control_index]]
         for _ in range(2**m_qubit):
             qpe_circ.add_qcontrolbox(
-                controlled_u, control_qubit + list(state_prep_register)
+                controlled_u_gate, control_qubit + list(state_prep_register)
             )
 
     # Finally, append the inverse qft and measure the qubits
@@ -303,7 +298,7 @@ state_prep_circuit = Circuit(1).X(0)
 
 input_angle = 0.73  # angle as number of half turns
 
-unitary_circuit = Circuit(1).add_gate(OpType.U1, [input_angle], [0])
+unitary_circuit = Circuit(1).U1(input_angle, 0)
 
 
 # In[13]:
@@ -367,7 +362,6 @@ from pytket.backends.backendresult import BackendResult
 
 
 def single_phase_from_backendresult(result: BackendResult) -> float:
-
     # Extract most common measurement outcome
     basis_state = result.get_counts().most_common()[0][0]
     bitstring = "".join([str(bit) for bit in basis_state])
