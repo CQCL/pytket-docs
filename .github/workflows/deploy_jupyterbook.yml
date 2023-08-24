@@ -26,8 +26,9 @@ jobs:
     - name: Install dependencies
       run: |
         cd pytket-examples-book
-        pip install -r example_requirements.txt
-        pip install jupyter-book
+        python -m pip install --upgrade pip wheel
+        python -m pip install -r example_requirements.txt
+        python -m pip install jupyter-book
 
     # Build the book
     - name: Build the book
