@@ -54,7 +54,7 @@ def hea(params):
 # We can use this to build the objective function for our optimisation.
 
 from pytket.extensions.qiskit import AerBackend
-from pytket.utils import expectation_from_counts
+from pytket.utils.expectations import expectation_from_counts
 
 backend = AerBackend()
 
@@ -230,7 +230,7 @@ def qpo_from_openfermion(openf_op):
 hamiltonian_op = qpo_from_openfermion(hamiltonian)
 
 # Simplified objective function using utilities:
-from pytket.utils import get_operator_expectation_value
+from pytket.utils.expectations import get_operator_expectation_value
 
 
 def objective(params):
@@ -505,9 +505,9 @@ def objective(params):
 # Optimise against the objective function:
 
 initial_params = [1e-4, 1e-4, 4e-1]
-result = minimize(objective, initial_params, method="Nelder-Mead")
-print("Final parameter values", result.x)
-print("Final energy value", result.fun)
+# #result = minimize(objective, initial_params, method="Nelder-Mead")
+# #print("Final parameter values", result.x)
+# #print("Final energy value", result.fun)
 
 # Exercises:
 # - Replace the `get_operator_expectation_value` call with its implementation and use this to pull the analysis for measurement reduction outside of the objective function, so our circuits can be fully determined and compiled once. This means that the `symbol_substitution` method will need to be applied to each measurement circuit instead of just the state preparation circuit.

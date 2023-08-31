@@ -1,0 +1,52 @@
+name: deploy-book
+
+# Only run this when the main branch changes
+on:
+  push:
+    branches:
+    - main
+    - 'jupyterbook/**'
+
+  pull_request:
+    branches:
+    - main
+
+# This job installs dependencies, build the book, and pushes it to `gh-pages`
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    # Install dependencies
+    - name: Set up Python 3.10.12
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.10.12
+
+    - name: Install dependencies
+      run: |
+        cd pytket-examples-book
+        python -m pip install --upgrade pip wheel
+        python -m pip install -r example_requirements.txt
+        python -m pip install jupyter-book
+
+    # Build the book
+    - name: Build the book
+      run: |
+        cd pytket-examples-book
+        jupyter-book build -W .
+
+    # Push the book's HTML to github-pages
+    - name: GitHub Pages action
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.event_name == 'push' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: main
+        publish_dir: ./pytket-examples-book/_build/html
+
+    - uses: actions/upload-artifact@v3
+      with:
+          name: pytket examples book
+          path: pytket-examples-book/_build

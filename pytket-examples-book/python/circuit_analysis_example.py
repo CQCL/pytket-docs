@@ -1,4 +1,4 @@
-# # Circuit analysis: tket example
+# # Circuit analysis
 
 # This notebook will introduce the basic methods of analysis and visualization of circuits available in `pytket`.
 #

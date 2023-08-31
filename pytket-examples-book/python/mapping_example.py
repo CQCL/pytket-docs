@@ -1,4 +1,4 @@
-# # Respecting Device Constraints - Mapping physical circuits in TKET
+# # Qubit Mapping and Routing
 
 
 # In this tutorial we will show how the problem of mapping from logical quantum circuits to physically permitted circuits is solved automatically in TKET. The basic examples require only the installation of pytket, ```pip install pytket```.

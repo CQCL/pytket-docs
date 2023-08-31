@@ -1,4 +1,4 @@
-# # Circuit generation: tket example
+# # Circuit generation
 
 # This notebook will provide a brief introduction to some of the more advanced methods of circuit generation available in `pytket`, including:
 # * how to address wires and registers;
