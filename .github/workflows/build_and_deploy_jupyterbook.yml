@@ -26,15 +26,15 @@ jobs:
 
     - name: Install dependencies
       run: |
-        cd pytket-examples-book
+        cd examples
         python -m pip install --upgrade pip wheel
         python -m pip install -r example_requirements.txt
         python -m pip install jupyter-book
 
-    # Build the book
+    # Build the book ensuring that build fails for warnings (-W flag)
     - name: Build the book
       run: |
-        cd pytket-examples-book
+        cd examples
         jupyter-book build -W .
 
     # Push the book's HTML to github-pages
@@ -43,10 +43,10 @@ jobs:
       if: ${{ github.event_name == 'push' }}
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: main
-        publish_dir: ./pytket-examples-book/_build/html
+        publish_branch: gh-pages
+        publish_dir: ./examples/_build/html
 
     - uses: actions/upload-artifact@v3
       with:
           name: pytket examples book
-          path: pytket-examples-book/_build
+          path: examples/_build

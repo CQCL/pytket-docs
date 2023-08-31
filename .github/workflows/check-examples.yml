@@ -42,7 +42,7 @@ jobs:
         python-version: 3.9
     - name: install python requirements for notebooks
       run: |
-        cd pytket-examples-book
+        cd examples
         python -m pip install --upgrade pip
         python -m pip install pre-commit==3.0.0
         python -m pip install wheel
@@ -69,7 +69,7 @@ jobs:
         pre-commit run --all-files black
     - name: test example notebooks
       run: |
-        cd pytket-examples-book
+        cd examples
         ./check-examples
       env:
         PYTKET_QA_QISKIT_TOKEN: ${{ secrets.PYTKET_QA_QISKIT_TOKEN }}
