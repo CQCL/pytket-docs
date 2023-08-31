@@ -1,6 +1,6 @@
 # pytket examples
 
-Here you can find notebooks showing features and example usage of `pytket`. The examples are built with [jupyterbook](https://jupyterbook.org/en/stable/intro.html).
+See the pytket examples built with jupyterbook [here](https://cqcl.github.io/examples/README.html).
 
 
 ## Notes for developers
