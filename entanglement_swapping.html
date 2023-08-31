@@ -1,0 +1,936 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Iterated Entanglement Swapping using tket &#8212; pytket examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'entanglement_swapping';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Let’s start with a tket circuit" href="pytket-qujax_heisenberg_vqe.html" />
+    <link rel="prev" title="Expectation Values" href="expectation_value_example.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ansatz_sequence_example.html">Ansatz Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_analysis_example.html">Circuit analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_generation_example.html">Circuit generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation_example.html">Compilation passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional_gate_example.html">Conditional Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextual_optimization.html">Contextual optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_backends.html">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="measurement_reduction_example.html">Advanced Expectation Values and Measurement Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping_example.html">Qubit Mapping and Routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbolics_example.html">Symbolic compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ucc_vqe.html">VQE for Unitary Coupled Cluster using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_qaoa.html">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax-classification.html">Binary Classification using pytket-qujax</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="benchmarking/README.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends_example.html">TKET Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparing_simulators.html">Comparison of the simulators available through tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit_integration.html">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Forest_portability_example.html">Code Portability and Intro to Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expectation_value_example.html">Expectation Values</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Iterated Entanglement Swapping using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_heisenberg_vqe.html">Let’s start with a tket circuit<br/></a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="spam_example.html">Calibration and Correction of State Preparation and Measurement (SPAM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tket_benchmarking.html">tket benchmarking example</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/entanglement_swapping.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Iterated Entanglement Swapping using tket</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="iterated-entanglement-swapping-using-tket">
+<h1>Iterated Entanglement Swapping using tket<a class="headerlink" href="#iterated-entanglement-swapping-using-tket" title="Permalink to this heading">#</a></h1>
+<p>In this tutorial, we will focus on:<br></p>
+<ul class="simple">
+<li><p>designing circuits with mid-circuit measurement and conditional gates;<br></p></li>
+<li><p>utilising noise models in supported simulators.</p></li>
+</ul>
+<p>This example assumes the reader is familiar with the Qubit Teleportation and Entanglement Swapping protocols, and basic models of noise in quantum devices.<br>
+<br>
+To run this example, you will need <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>, and <code class="docutils literal notranslate"><span class="pre">plotly</span></code> (installed via <code class="docutils literal notranslate"><span class="pre">pip</span></code>). To view the graphs, you will need an intallation of <code class="docutils literal notranslate"><span class="pre">plotly-orca</span></code>.<br>
+<br>
+Current quantum hardware fits into the NISQ (Noisy, Intermediate-Scale Quantum) regime. This noise cannot realistically be combatted using conventional error correcting codes, because of the lack of available qubits, noise levels exceeding the code thresholds, and very few devices available that can perform measurements and corrections mid-circuit. Analysis of how quantum algorithms perform under noisy conditions is a very active research area, as is finding ways to cope with it. Here, we will look at how well we can perform the Entanglement Swapping protocol with different noise levels.<br>
+<br>
+The Entanglement Swapping protocol requires two parties to share Bell pairs with a third party, who applies the Qubit Teleportation protocol to generate a Bell pair between the two parties. The Qubit Teleportation step requires us to be able to measure some qubits and make subsequent corrections to the remaining qubits. There are only a handful of simulators and devices that currently support this, with others restricted to only measuring the qubits at the end of the circuit.<br>
+<br>
+The most popular circuit model with conditional gates at the moment is that provided by the OpenQASM language. This permits a very restricted model of classical logic, where we can apply a gate conditionally on the exact value of a classical register. There is no facility in the current spec for Boolean logic or classical operations to apply any function to the value prior to the equality check. For example, Qubit Teleportation can be performed by the following QASM:<br>
+<code class="docutils literal notranslate"><span class="pre">OPENQASM</span> <span class="pre">2.0;</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">&quot;qelib1.inc&quot;;</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">qreg</span> <span class="pre">a[2];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">qreg</span> <span class="pre">b[1];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">creg</span> <span class="pre">c[2];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">//</span> <span class="pre">Bell</span> <span class="pre">state</span> <span class="pre">between</span> <span class="pre">Alice</span> <span class="pre">and</span> <span class="pre">Bob</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">a[1];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">cx</span> <span class="pre">a[1],b[0];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">//</span> <span class="pre">Bell</span> <span class="pre">measurement</span> <span class="pre">of</span> <span class="pre">Alice's</span> <span class="pre">qubits</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">cx</span> <span class="pre">a[0],a[1];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">a[0];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">measure</span> <span class="pre">a[0]</span> <span class="pre">-&gt;</span> <span class="pre">c[0];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">measure</span> <span class="pre">a[1]</span> <span class="pre">-&gt;</span> <span class="pre">c[1];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">//</span> <span class="pre">Correction</span> <span class="pre">of</span> <span class="pre">Bob's</span> <span class="pre">qubit</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">if(c==1)</span> <span class="pre">z</span> <span class="pre">b[0];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">if(c==3)</span> <span class="pre">z</span> <span class="pre">b[0];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">if(c==2)</span> <span class="pre">x</span> <span class="pre">b[0];</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">if(c==3)</span> <span class="pre">x</span> <span class="pre">b[0];</span></code><br>
+<br>
+This corresponds to the following <code class="docutils literal notranslate"><span class="pre">pytket</span></code> code:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qtel</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="n">alice</span> <span class="o">=</span> <span class="n">qtel</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">qtel</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">qtel</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Bell state between Alice and Bob:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qtel</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">qtel</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Bell measurement of Alice’s qubits:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qtel</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">qtel</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">qtel</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">qtel</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Correction of Bob’s qubit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qtel</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qtel</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">qtel</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qtel</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So to demonstrate the Entanglement Swapping protocol, we just need to run this on one side of a Bell pair.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">es</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="n">ava</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">bella</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">charlie</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Bell state between Ava and Bella:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">es</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">es</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bella</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Teleport <code class="docutils literal notranslate"><span class="pre">bella[0]</span></code> to <code class="docutils literal notranslate"><span class="pre">charlie[0]</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tel_to_c</span> <span class="o">=</span> <span class="n">qtel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">tel_to_c</span><span class="o">.</span><span class="n">rename_units</span><span class="p">({</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">bella</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">bella</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]})</span>
+<span class="n">es</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tel_to_c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">es</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s start by running a noiseless simulation of this to verify that what we get looks like a Bell pair.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Connect to a simulator:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Make a ZZ measurement of the Bell pair:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bell_test</span> <span class="o">=</span> <span class="n">es</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">bell_test</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">bell_test</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the experiment:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bell_test</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">bell_test</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit.display</span> <span class="kn">import</span> <span class="n">render_circuit_jupyter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">bell_test</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">bell_test</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is good, we have got roughly 50/50 measurement results of 00 and 11 under the ZZ operator. But there are many other states beyond the Bell state that also generate this distribution, so to gain more confidence in our claim about the state we should make more measurements that also characterise it, i.e. perform state tomography.<br>
+<br>
+Here, we will demonstrate a naive approach to tomography that makes 3^n measurement circuits for an n-qubit state. More elaborate methods also exist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">QubitPauliString</span>
+<span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">append_pauli_measurement</span><span class="p">,</span> <span class="n">probs_from_counts</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">lstsq</span><span class="p">,</span> <span class="n">eigh</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gen_tomography_circuits</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">bits</span><span class="p">):</span>
+    <span class="c1"># Yields {X, Y, Z}^n measurements in lexicographical order</span>
+    <span class="c1"># Only measures qubits, storing the result in bits</span>
+    <span class="c1"># (since we don&#39;t care about the ancilla qubits)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">paulis</span> <span class="ow">in</span> <span class="n">product</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">qubits</span><span class="p">)):</span>
+        <span class="n">circ</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">qb</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">paulis</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">p</span> <span class="o">==</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">:</span>
+                <span class="n">circ</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">qb</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">p</span> <span class="o">==</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">:</span>
+                <span class="n">circ</span><span class="o">.</span><span class="n">V</span><span class="p">(</span><span class="n">qb</span><span class="p">)</span>
+            <span class="n">circ</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">qb</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">circ</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run_tomography_circuits</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
+    <span class="n">circs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">gen_tomography_circuits</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">bits</span><span class="p">))</span>
+    <span class="c1"># Compile and run each circuit</span>
+    <span class="n">circs</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuits</span><span class="p">(</span><span class="n">circs</span><span class="p">)</span>
+    <span class="n">handles</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuits</span><span class="p">(</span><span class="n">circs</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="c1"># Get the observed measurement probabilities</span>
+    <span class="n">probs_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">handles</span><span class="p">):</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+        <span class="n">probs</span> <span class="o">=</span> <span class="n">probs_from_counts</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+        <span class="n">probs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">probs_list</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fit_tomography_outcomes</span><span class="p">(</span><span class="n">probs_list</span><span class="p">,</span> <span class="n">n_qbs</span><span class="p">):</span>
+    <span class="c1"># Define the density matrices for the basis states</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">basis</span><span class="p">[(</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
+    <span class="n">basis</span><span class="p">[(</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
+    <span class="n">basis</span><span class="p">[(</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
+    <span class="n">basis</span><span class="p">[(</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="n">j</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
+    <span class="n">basis</span><span class="p">[(</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="n">basis</span><span class="p">[(</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">n_qbs</span>
+    <span class="c1"># Define vector all_probs as a concatenation of probability vectors for each measurement (2**n x 3**n, 1)</span>
+    <span class="c1"># Define matrix all_ops mapping a (vectorised) density matrix to a vector of probabilities for each measurement</span>
+    <span class="c1"># (2**n x 3**n, 2**n x 2**n)</span>
+    <span class="n">all_probs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">all_ops</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">paulis</span><span class="p">,</span> <span class="n">probs</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+        <span class="n">product</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="n">n_qbs</span><span class="p">),</span> <span class="n">probs_list</span>
+    <span class="p">):</span>
+        <span class="n">prob_vec</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">meas_ops</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="n">product</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="n">n_qbs</span><span class="p">):</span>
+            <span class="n">prob_vec</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">outcome</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">paulis</span><span class="p">,</span> <span class="n">outcome</span><span class="p">):</span>
+                <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">basis</span><span class="p">[(</span><span class="n">p</span><span class="p">,</span> <span class="n">o</span><span class="p">)])</span>
+            <span class="n">meas_ops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">*</span> <span class="n">dim</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span>
+        <span class="n">all_probs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">prob_vec</span><span class="p">))</span>
+        <span class="n">all_ops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">meas_ops</span><span class="p">))</span>
+    <span class="c1"># Solve for density matrix by minimising || all_ops * dm - all_probs ||</span>
+    <span class="n">dm</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">lstsq</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">all_ops</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">all_probs</span><span class="p">))</span>
+    <span class="n">dm</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="c1"># Make density matrix positive semi-definite</span>
+    <span class="n">v</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">eigh</span><span class="p">(</span><span class="n">dm</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+                <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">dim</span> <span class="o">-</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+        <span class="n">dm</span> <span class="o">+=</span> <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">w</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">w</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]))</span>
+    <span class="c1"># Normalise trace of density matrix</span>
+    <span class="n">dm</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">dm</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">probs_list</span> <span class="o">=</span> <span class="n">run_tomography_circuits</span><span class="p">(</span>
+    <span class="n">es</span><span class="p">,</span> <span class="p">[</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">backend</span>
+<span class="p">)</span>
+<span class="n">dm</span> <span class="o">=</span> <span class="n">fit_tomography_outcomes</span><span class="p">(</span><span class="n">probs_list</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is very close to the true density matrix for a pure Bell state. We can attribute the error here to the sampling error since we only take 2000 samples of each measurement circuit.<br>
+<br>
+To quantify exactly how similar it is to the correct density matrix, we can calculate the fidelity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">sqrtm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fidelity</span><span class="p">(</span><span class="n">dm0</span><span class="p">,</span> <span class="n">dm1</span><span class="p">):</span>
+    <span class="c1"># Calculate the fidelity between two density matrices</span>
+    <span class="n">sq0</span> <span class="o">=</span> <span class="n">sqrtm</span><span class="p">(</span><span class="n">dm0</span><span class="p">)</span>
+    <span class="n">sq1</span> <span class="o">=</span> <span class="n">sqrtm</span><span class="p">(</span><span class="n">dm1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sq0</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sq1</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bell_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fidelity</span><span class="p">(</span><span class="n">dm</span><span class="p">,</span> <span class="n">bell_state</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This high fidelity is unsurprising since we have a completely noiseless simulation. So the next step is to add some noise to the simulation and observe how the overall fidelity is affected. The <code class="docutils literal notranslate"><span class="pre">AerBackend</span></code> wraps around the Qiskit Aer simulator and can pass on any <code class="docutils literal notranslate"><span class="pre">qiskit.providers.aer.noise.NoiseModel</span></code> to the simulator. Let’s start by adding some uniform depolarising noise to each CX gate and some uniform measurement error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span><span class="p">,</span> <span class="n">depolarizing_error</span><span class="p">,</span> <span class="n">ReadoutError</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_noise_model</span><span class="p">(</span><span class="n">dep_err_rate</span><span class="p">,</span> <span class="n">ro_err_rate</span><span class="p">,</span> <span class="n">qubits</span><span class="p">):</span>
+    <span class="c1"># Define a noise model that applies uniformly to the given qubits</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="p">()</span>
+    <span class="n">dep_err</span> <span class="o">=</span> <span class="n">depolarizing_error</span><span class="p">(</span><span class="n">dep_err_rate</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ro_err</span> <span class="o">=</span> <span class="n">ReadoutError</span><span class="p">(</span>
+        <span class="p">[[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ro_err_rate</span><span class="p">,</span> <span class="n">ro_err_rate</span><span class="p">],</span> <span class="p">[</span><span class="n">ro_err_rate</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">ro_err_rate</span><span class="p">]]</span>
+    <span class="p">)</span>
+    <span class="c1"># Add depolarising error to CX gates between any qubits (implying full connectivity)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">add_quantum_error</span><span class="p">(</span><span class="n">dep_err</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;cx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+    <span class="c1"># Add readout error for each qubit</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add_readout_error</span><span class="p">(</span><span class="n">ro_err</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_model</span> <span class="o">=</span> <span class="n">make_noise_model</span><span class="p">(</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">noise_model</span><span class="o">=</span><span class="n">test_model</span><span class="p">)</span>
+<span class="n">probs_list</span> <span class="o">=</span> <span class="n">run_tomography_circuits</span><span class="p">(</span>
+    <span class="n">es</span><span class="p">,</span> <span class="p">[</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">backend</span>
+<span class="p">)</span>
+<span class="n">dm</span> <span class="o">=</span> <span class="n">fit_tomography_outcomes</span><span class="p">(</span><span class="n">probs_list</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dm</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fidelity</span><span class="p">(</span><span class="n">dm</span><span class="p">,</span> <span class="n">bell_state</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Despite the very small circuit and the relatively small error rates, the fidelity of the final state has reduced considerably.<br>
+<br>
+As far as circuits go, the entanglement swapping protocol is little more than a toy example and is nothing close to the scale of circuits for most interesting quantum computational problems. However, it is possible to iterate the protocol many times to build up a larger computation, allowing us to see the impact of the noise at different scales.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">OpType</span>
+<span class="kn">from</span> <span class="nn">plotly.graph_objects</span> <span class="kn">import</span> <span class="n">Scatter</span><span class="p">,</span> <span class="n">Figure</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterated_entanglement_swap</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+    <span class="c1"># Iterate the entanglement swapping protocol n_iter times</span>
+    <span class="n">it_es</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+    <span class="n">ava</span> <span class="o">=</span> <span class="n">it_es</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">bella</span> <span class="o">=</span> <span class="n">it_es</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">charlie</span> <span class="o">=</span> <span class="n">it_es</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">it_es</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Start with an initial Bell state</span>
+    <span class="n">it_es</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">it_es</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bella</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Teleport bella[0] to charlie[0] to give a Bell pair between ava[0] and charlier[0]</span>
+            <span class="n">tel_to_c</span> <span class="o">=</span> <span class="n">qtel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">tel_to_c</span><span class="o">.</span><span class="n">rename_units</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">bella</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">bella</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+            <span class="p">)</span>
+            <span class="n">it_es</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tel_to_c</span><span class="p">)</span>
+            <span class="n">it_es</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Reset</span><span class="p">,</span> <span class="p">[</span><span class="n">bella</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">it_es</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Reset</span><span class="p">,</span> <span class="p">[</span><span class="n">bella</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Teleport charlie[0] to bella[0] to give a Bell pair between ava[0] and bella[0]</span>
+            <span class="n">tel_to_b</span> <span class="o">=</span> <span class="n">qtel</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">tel_to_b</span><span class="o">.</span><span class="n">rename_units</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">bella</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">bella</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+            <span class="p">)</span>
+            <span class="n">it_es</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tel_to_b</span><span class="p">)</span>
+            <span class="n">it_es</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Reset</span><span class="p">,</span> <span class="p">[</span><span class="n">bella</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="n">it_es</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Reset</span><span class="p">,</span> <span class="p">[</span><span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+    <span class="c1"># Return the circuit and the qubits expected to share a Bell pair</span>
+    <span class="k">if</span> <span class="n">n_iter</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">it_es</span><span class="p">,</span> <span class="p">[</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bella</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">it_es</span><span class="p">,</span> <span class="p">[</span><span class="n">ava</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">charlie</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterated_noisy_experiment</span><span class="p">(</span><span class="n">dep_err_rate</span><span class="p">,</span> <span class="n">ro_err_rate</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">):</span>
+    <span class="c1"># Set up the noisy simulator with the given error rates</span>
+    <span class="n">test_model</span> <span class="o">=</span> <span class="n">make_noise_model</span><span class="p">(</span><span class="n">dep_err_rate</span><span class="p">,</span> <span class="n">ro_err_rate</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">noise_model</span><span class="o">=</span><span class="n">test_model</span><span class="p">)</span>
+    <span class="c1"># Estimate the fidelity after n iterations, from 0 to max_iter (inclusive)</span>
+    <span class="n">fid_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">it_es</span><span class="p">,</span> <span class="n">qubits</span> <span class="o">=</span> <span class="n">iterated_entanglement_swap</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">probs_list</span> <span class="o">=</span> <span class="n">run_tomography_circuits</span><span class="p">(</span><span class="n">it_es</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">backend</span><span class="p">)</span>
+        <span class="n">dm</span> <span class="o">=</span> <span class="n">fit_tomography_outcomes</span><span class="p">(</span><span class="n">probs_list</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="n">fidelity</span><span class="p">(</span><span class="n">dm</span><span class="p">,</span> <span class="n">bell_state</span><span class="p">)</span>
+        <span class="n">fid_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fid_list</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">Figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Iterated Entanglement Swapping under Noise (dep_err = 0.03)&quot;</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;Iterations&quot;</span><span class="p">,</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Fidelity&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">iter_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+    <span class="n">fids</span> <span class="o">=</span> <span class="n">iterated_noisy_experiment</span><span class="p">(</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.025</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">plot_data</span> <span class="o">=</span> <span class="n">Scatter</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">iter_range</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">fids</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ro_err=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mf">0.025</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">plot_data</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>  <span class="c1"># requires plotly-orca</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">Figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Iterated Entanglement Swapping under Noise (ro_err = 0.05)&quot;</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;Iterations&quot;</span><span class="p">,</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Fidelity&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">iter_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+    <span class="n">fids</span> <span class="o">=</span> <span class="n">iterated_noisy_experiment</span><span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">plot_data</span> <span class="o">=</span> <span class="n">Scatter</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">iter_range</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">fids</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dep_err=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">plot_data</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>  <span class="c1"># requires plotly-orca</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>These graphs are not very surprising, but are still important for seeing that the current error rates of typical NISQ devices become crippling for fidelities very quickly after repeated mid-circuit measurements and corrections (even with this overly-simplified model with uniform noise and no crosstalk or higher error modes). This provides good motivation for the adoption of error mitigation techniques, and for the development of new techniques that are robust to errors in mid-circuit measurements.</p>
+<p>Exercises:<br></p>
+<ul class="simple">
+<li><p>Vary the fixed noise levels to compare how impactful the depolarising and measurement errors are.<br></p></li>
+<li><p>Add extra noise characteristics to the noise model to obtain something that more resembles a real device. Possible options include adding error during the reset operations, extending the errors to be non-local, or constructing the noise model from a device’s calibration data.<br></p></li>
+<li><p>Change the circuit from iterated entanglement swapping to iterated applications of a correction circuit from a simple error-correcting code. Do you expect this to be more sensitive to depolarising errors from unitary gates or measurement errors?</p></li>
+</ul>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="expectation_value_example.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Expectation Values</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pytket-qujax_heisenberg_vqe.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Let’s start with a tket circuit<br></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

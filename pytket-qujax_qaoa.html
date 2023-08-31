@@ -1,0 +1,973 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Symbolic circuits with qujax and pytket-qujax &#8212; pytket examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pytket-qujax_qaoa';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Binary Classification using pytket-qujax" href="pytket-qujax-classification.html" />
+    <link rel="prev" title="VQE for Unitary Coupled Cluster using tket" href="ucc_vqe.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ansatz_sequence_example.html">Ansatz Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_analysis_example.html">Circuit analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_generation_example.html">Circuit generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation_example.html">Compilation passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional_gate_example.html">Conditional Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextual_optimization.html">Contextual optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_backends.html">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="measurement_reduction_example.html">Advanced Expectation Values and Measurement Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping_example.html">Qubit Mapping and Routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbolics_example.html">Symbolic compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ucc_vqe.html">VQE for Unitary Coupled Cluster using tket</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax-classification.html">Binary Classification using pytket-qujax</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="benchmarking/README.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends_example.html">TKET Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparing_simulators.html">Comparison of the simulators available through tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit_integration.html">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Forest_portability_example.html">Code Portability and Intro to Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expectation_value_example.html">Expectation Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entanglement_swapping.html">Iterated Entanglement Swapping using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_heisenberg_vqe.html">Let’s start with a tket circuit<br/></a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="spam_example.html">Calibration and Correction of State Preparation and Measurement (SPAM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tket_benchmarking.html">tket benchmarking example</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/pytket-qujax_qaoa.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Symbolic circuits with qujax and pytket-qujax<br></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#qaoa-br">QAOA<br/></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-hamiltonian-br">Problem Hamiltonian<br/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-circuit-br">Variational Circuit<br/></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-for-qujax-br">Now for <code class="docutils literal notranslate"><span class="pre">qujax</span></code><br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training-process-br">Training process<br/></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="symbolic-circuits-with-qujax-and-pytket-qujax-br">
+<h1>Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br><a class="headerlink" href="#symbolic-circuits-with-qujax-and-pytket-qujax-br" title="Permalink to this heading">#</a></h1>
+<p>In this notebook we will show how to manipulate symbolic circuits with the <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code> extension. In particular, we will consider a QAOA and an Ising Hamiltonian.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit.display</span> <span class="kn">import</span> <span class="n">render_circuit_jupyter</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">jnp</span><span class="p">,</span> <span class="n">random</span><span class="p">,</span> <span class="n">value_and_grad</span><span class="p">,</span> <span class="n">jit</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qujax</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qujax</span> <span class="kn">import</span> <span class="n">tk_to_qujax</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="qaoa-br">
+<h1>QAOA<br><a class="headerlink" href="#qaoa-br" title="Permalink to this heading">#</a></h1>
+<p>The Quantum Approximate Optimization Algorithm (QAOA), first introduced by <a class="reference external" href="https://arxiv.org/pdf/1411.4028.pdf">Farhi et al.</a>, is a quantum variational algorithm used to solve optimization problems. It consists of a unitary <span class="math notranslate nohighlight">\(U(\beta, \gamma)\)</span> formed by alternate repetitions of <span class="math notranslate nohighlight">\(U(\beta)=e^{-i\beta H_B}\)</span> and <span class="math notranslate nohighlight">\(U(\gamma)=e^{-i\gamma H_P}\)</span>, where <span class="math notranslate nohighlight">\(H_B\)</span> is the mixing Hamiltonian and <span class="math notranslate nohighlight">\(H_P\)</span> the problem Hamiltonian. The goal is to find the optimal parameters that minimize <span class="math notranslate nohighlight">\(H_P\)</span>.<br>
+Given a depth <span class="math notranslate nohighlight">\(d\)</span>, the expression of the final unitary is <span class="math notranslate nohighlight">\(U(\beta, \gamma) = U(\beta_d)U(\gamma_d)\cdots U(\beta_1)U(\gamma_1)\)</span>. Notice that for each repetition the parameters are different.<br></p>
+<section id="problem-hamiltonian-br">
+<h2>Problem Hamiltonian<br><a class="headerlink" href="#problem-hamiltonian-br" title="Permalink to this heading">#</a></h2>
+<p>QAOA uses a problem dependent ansatz. Therefore, we first need to know the problem that we want to solve. In this case we will consider an Ising Hamiltonian with only <span class="math notranslate nohighlight">\(Z\)</span> interactions. Given a set of pairs (or qubit indices) <span class="math notranslate nohighlight">\(E\)</span>, the problem Hamiltonian will be:<br>
+$<span class="math notranslate nohighlight">\(H_P = \sum_{(i, j) \in E}\alpha_{ij}Z_iZ_j,\)</span><span class="math notranslate nohighlight">\(&lt;br&gt;
+where \)</span>\alpha_{ij}$ are the coefficients.<br>
+Let’s build our problem Hamiltonian with random coefficients and a set of pairs for a given number of qubits:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">hamiltonian_qubit_inds</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">hamiltonian_gates</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;Z&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">]]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hamiltonian_qubit_inds</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Notice that in order to use the random package from jax we first need to define a seeded key</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span> <span class="o">=</span> <span class="mi">13</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hamiltonian_qubit_inds</span><span class="p">),))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">hamiltonian_gates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Qubits:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">hamiltonian_qubit_inds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coefficients:</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gates:	 [[&#39;Z&#39;, &#39;Z&#39;], [&#39;Z&#39;, &#39;Z&#39;], [&#39;Z&#39;, &#39;Z&#39;], [&#39;Z&#39;, &#39;Z&#39;]]
+Qubits:	 [(0, 1), (1, 2), (0, 2), (1, 3)]
+Coefficients:	 [0.6794174  0.2963785  0.2863201  0.31746793]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="variational-circuit-br">
+<h2>Variational Circuit<br><a class="headerlink" href="#variational-circuit-br" title="Permalink to this heading">#</a></h2>
+<p>Before constructing the circuit, we still need to select the mixing Hamiltonian. In our case, we will be using <span class="math notranslate nohighlight">\(X\)</span> gates in each qubit, so <span class="math notranslate nohighlight">\(H_B = \sum_{i=1}^{n}X_i\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the number of qubits. Notice that the unitary <span class="math notranslate nohighlight">\(U(\beta)\)</span>, given this mixing Hamiltonian, is an <span class="math notranslate nohighlight">\(X\)</span> rotation in each qubit with angle <span class="math notranslate nohighlight">\(\beta\)</span>.<br>
+As for the unitary corresponding to the problem Hamiltonian, <span class="math notranslate nohighlight">\(U(\gamma)\)</span>, it has the following form:<br>
+$<span class="math notranslate nohighlight">\(U(\gamma)=\prod_{(i, j) \in E}e^{-i\gamma\alpha_{ij}Z_iZ_j}\)</span><span class="math notranslate nohighlight">\(&lt;br&gt;
+The operation \)</span>e^{-i\gamma\alpha_{ij}Z_iZ_j}<span class="math notranslate nohighlight">\( can be performed using two CNOT gates with qubit \)</span>i<span class="math notranslate nohighlight">\( as control and qubit \)</span>j<span class="math notranslate nohighlight">\( as target and a \)</span>Z<span class="math notranslate nohighlight">\( rotation in qubit \)</span>j<span class="math notranslate nohighlight">\( in between them, with angle \)</span>\gamma\alpha_{ij}$.<br>
+Finally, the initial state used, in general, with the QAOA is an equal superposition of all the basis states. This can be achieved adding a first layer of Hadamard gates in each qubit at the beginning of the circuit.</p>
+<p>With all the building blocks, let’s construct the symbolic circuit using tket. Notice that in order to define the parameters, we use the <code class="docutils literal notranslate"><span class="pre">Symbol</span></code> object from the <code class="docutils literal notranslate"><span class="pre">sympy</span></code> package. More info can be found in this <a class="reference external" href="https://cqcl.github.io/pytket/manual/manual_circuit.html#symbolic-circuits">documentation</a>. In order to later convert the circuit to qujax, we need to return the list of symbolic parameters as well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">qaoa_circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
+    <span class="n">circuit</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span>
+    <span class="n">p_keys</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Initial State</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">):</span>
+        <span class="c1"># Hamiltonian unitary</span>
+        <span class="n">gamma_d</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;γ_</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hamiltonian_qubit_inds</span><span class="p">)):</span>
+            <span class="n">pair</span> <span class="o">=</span> <span class="n">hamiltonian_qubit_inds</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">coef</span> <span class="o">=</span> <span class="n">coefficients</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="n">gamma_d</span> <span class="o">*</span> <span class="n">coef</span><span class="p">,</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">add_barrier</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">))</span>
+        <span class="n">p_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gamma_d</span><span class="p">)</span>
+
+        <span class="c1"># Mixing unitary</span>
+        <span class="n">beta_d</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;β_</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="n">beta_d</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">p_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beta_d</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">circuit</span><span class="p">,</span> <span class="n">p_keys</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">depth</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">circuit</span><span class="p">,</span> <span class="n">keys</span> <span class="o">=</span> <span class="n">qaoa_circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keys</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[γ_0, β_0, γ_1, β_1, γ_2, β_2]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s check the circuit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+<div style="resize: vertical; overflow: auto; height: 400px; display: block">
+    <iframe srcdoc="
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&#34;en&#34;&gt;
+&lt;head&gt;
+    &lt;meta charset=&#34;UTF-8&#34;&gt;
+    &lt;!-- Download Vue 3--&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://cdn.jsdelivr.net/npm/vue@3&#34;&gt;&lt;/script&gt;
+&lt;!-- Download Circuit Renderer with styles --&gt;
+&lt;script type=&#34;application/javascript&#34; src=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.umd.js&#34;&gt;&lt;/script&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://unpkg.com/pytket-circuit-renderer@0.6/dist/pytket-circuit-renderer.css&#34;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+
+    &lt;div id=&#34;circuit-display-vue-container-036123ad-f64c-498b-8f27-d8020de62736&#34; class=&#34;pytket-circuit-display-container&#34;&gt;
+        &lt;div style=&#34;display: none&#34;&gt;
+            &lt;div id=&#34;circuit-json-to-display&#34;&gt;{&#34;bits&#34;: [], &#34;commands&#34;: [{&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;H&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.679417371749878*\u03b3_0&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.296378493309021*\u03b3_0&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.286320090293884*\u03b3_0&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.317467927932739*\u03b3_0&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_0&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_0&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_0&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_0&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.679417371749878*\u03b3_1&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.296378493309021*\u03b3_1&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.286320090293884*\u03b3_1&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.317467927932739*\u03b3_1&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_1&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_1&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_1&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_1&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.679417371749878*\u03b3_2&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.296378493309021*\u03b3_2&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.286320090293884*\u03b3_2&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;params&#34;: [&#34;0.317467927932739*\u03b3_2&#34;], &#34;type&#34;: &#34;Rz&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;type&#34;: &#34;CX&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;data&#34;: &#34;&#34;, &#34;signature&#34;: [&#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;, &#34;Q&#34;], &#34;type&#34;: &#34;Barrier&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [0]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_2&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [1]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_2&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [2]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_2&#34;], &#34;type&#34;: &#34;Rx&#34;}}, {&#34;args&#34;: [[&#34;q&#34;, [3]]], &#34;op&#34;: {&#34;params&#34;: [&#34;\u03b2_2&#34;], &#34;type&#34;: &#34;Rx&#34;}}], &#34;created_qubits&#34;: [], &#34;discarded_qubits&#34;: [], &#34;implicit_permutation&#34;: [[[&#34;q&#34;, [0]], [&#34;q&#34;, [0]]], [[&#34;q&#34;, [1]], [&#34;q&#34;, [1]]], [[&#34;q&#34;, [2]], [&#34;q&#34;, [2]]], [[&#34;q&#34;, [3]], [&#34;q&#34;, [3]]]], &#34;phase&#34;: &#34;0.0&#34;, &#34;qubits&#34;: [[&#34;q&#34;, [0]], [&#34;q&#34;, [1]], [&#34;q&#34;, [2]], [&#34;q&#34;, [3]]]}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;circuit-display-container
+                :circuit-element-str=&#34;&#39;#circuit-json-to-display&#39;&#34;
+                :init-render-options=&#34;initRenderOptions&#34;
+        &gt;&lt;/circuit-display-container&gt;
+    &lt;/div&gt;
+    &lt;script type=&#34;application/javascript&#34;&gt;
+      const circuitRendererUid = &#34;036123ad-f64c-498b-8f27-d8020de62736&#34;;
+      const displayOptions = JSON.parse(&#39;{}&#39;);
+
+      // Script to initialise the circuit renderer app
+
+const { createApp } = Vue;
+const circuitDisplayContainer = window[&#34;pytket-circuit-renderer&#34;].default;
+// Init variables to be shared between circuit display instances
+if (typeof window.pytketCircuitDisplays === &#34;undefined&#34;) {
+    window.pytketCircuitDisplays = {};
+}
+// Create the root Vue component
+const app = createApp({
+    delimiters: [&#39;[[#&#39;, &#39;#]]&#39;],
+    components: { circuitDisplayContainer },
+    data () {
+      return {
+        initRenderOptions: displayOptions,
+      }
+    }
+})
+app.config.unwrapInjectedRef = true;
+app.mount(&#34;#circuit-display-vue-container-&#34;+circuitRendererUid);
+window.pytketCircuitDisplays[circuitRendererUid] = app;
+    &lt;/script&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+"
+            width="100%" height="100%"
+            style="border: none; outline: none; overflow: auto"></iframe>
+</div>
+
+</div></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="now-for-qujax-br">
+<h1>Now for <code class="docutils literal notranslate"><span class="pre">qujax</span></code><br><a class="headerlink" href="#now-for-qujax-br" title="Permalink to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">pytket.extensions.qujax.tk_to_qujax</span></code> function will generate a parameters -&gt; statetensor function for us. However, in order to convert a symbolic circuit we first need to define the <code class="docutils literal notranslate"><span class="pre">symbol_map</span></code>. This object maps each symbol key to their corresponding index. In our case, since the object <code class="docutils literal notranslate"><span class="pre">keys</span></code> contains the symbols in the correct order, we can simply construct the dictionary as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">symbol_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">keys</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">))}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">symbol_map</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{γ_0: 0, β_0: 1, γ_1: 2, β_1: 3, γ_2: 4, β_2: 5}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, we invoke the <code class="docutils literal notranslate"><span class="pre">tk_to_qujax</span></code> with both the circuit and the symbolic map.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_to_st</span> <span class="o">=</span> <span class="n">tk_to_qujax</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">symbol_map</span><span class="o">=</span><span class="n">symbol_map</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we also construct the expectation map using the problem Hamiltonian via qujax:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">st_to_expectation</span> <span class="o">=</span> <span class="n">qujax</span><span class="o">.</span><span class="n">get_statetensor_to_expectation_func</span><span class="p">(</span>
+    <span class="n">hamiltonian_gates</span><span class="p">,</span> <span class="n">hamiltonian_qubit_inds</span><span class="p">,</span> <span class="n">coefficients</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_to_expectation</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">param</span><span class="p">:</span> <span class="n">st_to_expectation</span><span class="p">(</span><span class="n">param_to_st</span><span class="p">(</span><span class="n">param</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="training-process-br">
+<h1>Training process<br><a class="headerlink" href="#training-process-br" title="Permalink to this heading">#</a></h1>
+<p>We construct a function that, given a parameter vector, returns the value of the cost function and the gradient.<br>
+We also <code class="docutils literal notranslate"><span class="pre">jit</span></code> to avoid recompilation, this means that the expensive <code class="docutils literal notranslate"><span class="pre">cost_and_grad</span></code> function is compiled once into a very fast XLA (C++) function which is then executed at each iteration. Alternatively, we could get the same speedup by replacing our <code class="docutils literal notranslate"><span class="pre">for</span></code> loop with <code class="docutils literal notranslate"><span class="pre">jax.lax.scan</span></code>. You can read more about JIT compilation in the <a class="reference external" href="https://jax.readthedocs.io/en/latest/jax-101/02-jitting.html">JAX documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_and_grad</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">value_and_grad</span><span class="p">(</span><span class="n">param_to_expectation</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the training process we’ll use vanilla gradient descent with a constant stepsize:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed</span> <span class="o">=</span> <span class="mi">123</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">init_param</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">symbol_map</span><span class="p">),))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_steps</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">stepsize</span> <span class="o">=</span> <span class="mf">0.01</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param</span> <span class="o">=</span> <span class="n">init_param</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_vals</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span>
+<span class="n">cost_vals</span> <span class="o">=</span> <span class="n">cost_vals</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">param_to_expectation</span><span class="p">(</span><span class="n">init_param</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
+    <span class="n">cost_val</span><span class="p">,</span> <span class="n">cost_grad</span> <span class="o">=</span> <span class="n">cost_and_grad</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+    <span class="n">cost_vals</span> <span class="o">=</span> <span class="n">cost_vals</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">step</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cost_val</span><span class="p">)</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">param</span> <span class="o">-</span> <span class="n">stepsize</span> <span class="o">*</span> <span class="n">cost_grad</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Iteration:&quot;</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Cost:&quot;</span><span class="p">,</span> <span class="n">cost_val</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration: 1 	Cost: 0.24282376
+Iteration: 2 	Cost: -0.05965677
+Iteration: 3 	Cost: -0.20374677
+Iteration: 4 	Cost: -0.29387552
+Iteration: 5 	Cost: -0.35805708
+Iteration: 6 	Cost: -0.40720624
+Iteration: 7 	Cost: -0.445078
+Iteration: 8 	Cost: -0.47320744
+Iteration: 9 	Cost: -0.49311572
+Iteration: 10 	Cost: -0.5066574
+Iteration: 11 	Cost: -0.51566684
+Iteration: 12 	Cost: -0.52163947
+Iteration: 13 	Cost: -0.52564937
+Iteration: 14 	Cost: -0.52840817
+Iteration: 15 	Cost: -0.53036916
+Iteration: 16 	Cost: -0.53181255
+Iteration: 17 	Cost: -0.5329127
+Iteration: 18 	Cost: -0.5337768
+Iteration: 19 	Cost: -0.534475
+Iteration: 20 	Cost: -0.5350515
+Iteration: 21 	Cost: -0.53553647
+Iteration: 22 	Cost: -0.5359515
+Iteration: 23 	Cost: -0.53631103
+Iteration: 24 	Cost: -0.5366258
+Iteration: 25 	Cost: -0.5369048
+Iteration: 26 	Cost: -0.53715485
+Iteration: 27 	Cost: -0.5373812
+Iteration: 28 	Cost: -0.5375872
+Iteration: 29 	Cost: -0.53777707
+Iteration: 30 	Cost: -0.5379538
+Iteration: 31 	Cost: -0.5381187
+Iteration: 32 	Cost: -0.53827465
+Iteration: 33 	Cost: -0.53842235
+Iteration: 34 	Cost: -0.5385632
+Iteration: 35 	Cost: -0.5386988
+Iteration: 36 	Cost: -0.5388297
+Iteration: 37 	Cost: -0.5389565
+Iteration: 38 	Cost: -0.5390804
+Iteration: 39 	Cost: -0.5392005
+Iteration: 40 	Cost: -0.5393191
+Iteration: 41 	Cost: -0.53943443
+Iteration: 42 	Cost: -0.5395491
+Iteration: 43 	Cost: -0.5396618
+Iteration: 44 	Cost: -0.5397729
+Iteration: 45 	Cost: -0.53988326
+Iteration: 46 	Cost: -0.53999245
+Iteration: 47 	Cost: -0.5401008
+Iteration: 48 	Cost: -0.5402081
+Iteration: 49 	Cost: -0.5403148
+Iteration: 50 	Cost: -0.540421
+Iteration: 51 	Cost: -0.5405264
+Iteration: 52 	Cost: -0.54063123
+Iteration: 53 	Cost: -0.5407354
+Iteration: 54 	Cost: -0.5408397
+Iteration: 55 	Cost: -0.5409434
+Iteration: 56 	Cost: -0.54104674
+Iteration: 57 	Cost: -0.54114896
+Iteration: 58 	Cost: -0.54125154
+Iteration: 59 	Cost: -0.5413534
+Iteration: 60 	Cost: -0.54145515
+Iteration: 61 	Cost: -0.54155654
+Iteration: 62 	Cost: -0.5416577
+Iteration: 63 	Cost: -0.54175854
+Iteration: 64 	Cost: -0.5418588
+Iteration: 65 	Cost: -0.541959
+Iteration: 66 	Cost: -0.54205894
+Iteration: 67 	Cost: -0.54215837
+Iteration: 68 	Cost: -0.5422574
+Iteration: 69 	Cost: -0.5423569
+Iteration: 70 	Cost: -0.5424553
+Iteration: 71 	Cost: -0.5425538
+Iteration: 72 	Cost: -0.5426518
+Iteration: 73 	Cost: -0.5427501
+Iteration: 74 	Cost: -0.54284716
+Iteration: 75 	Cost: -0.5429445
+Iteration: 76 	Cost: -0.5430416
+Iteration: 77 	Cost: -0.54313827
+Iteration: 78 	Cost: -0.54323506
+Iteration: 79 	Cost: -0.543331
+Iteration: 80 	Cost: -0.54342705
+Iteration: 81 	Cost: -0.543523
+Iteration: 82 	Cost: -0.543618
+Iteration: 83 	Cost: -0.5437132
+Iteration: 84 	Cost: -0.54380834
+Iteration: 85 	Cost: -0.5439027
+Iteration: 86 	Cost: -0.54399747
+Iteration: 87 	Cost: -0.544091
+Iteration: 88 	Cost: -0.544185
+Iteration: 89 	Cost: -0.54427844
+Iteration: 90 	Cost: -0.5443717
+Iteration: 91 	Cost: -0.54446423
+Iteration: 92 	Cost: -0.5445577
+Iteration: 93 	Cost: -0.5446497
+Iteration: 94 	Cost: -0.544742
+Iteration: 95 	Cost: -0.5448335
+Iteration: 96 	Cost: -0.54492605
+Iteration: 97 	Cost: -0.5450173
+Iteration: 98 	Cost: -0.5451079
+Iteration: 99 	Cost: -0.5451989
+Iteration: 100 	Cost: -0.5452892
+Iteration: 101 	Cost: -0.5453796
+Iteration: 102 	Cost: -0.5454697
+Iteration: 103 	Cost: -0.5455597
+Iteration: 104 	Cost: -0.5456493
+Iteration: 105 	Cost: -0.54573804
+Iteration: 106 	Cost: -0.54582745
+Iteration: 107 	Cost: -0.5459161
+Iteration: 108 	Cost: -0.546004
+Iteration: 109 	Cost: -0.5460927
+Iteration: 110 	Cost: -0.54618025
+Iteration: 111 	Cost: -0.5462681
+Iteration: 112 	Cost: -0.54635525
+Iteration: 113 	Cost: -0.54644257
+Iteration: 114 	Cost: -0.5465289
+Iteration: 115 	Cost: -0.54661566
+Iteration: 116 	Cost: -0.5467017
+Iteration: 117 	Cost: -0.54678786
+Iteration: 118 	Cost: -0.5468732
+Iteration: 119 	Cost: -0.54695916
+Iteration: 120 	Cost: -0.54704404
+Iteration: 121 	Cost: -0.5471294
+Iteration: 122 	Cost: -0.5472137
+Iteration: 123 	Cost: -0.54729766
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration: 124 	Cost: -0.5473822
+Iteration: 125 	Cost: -0.54746556
+Iteration: 126 	Cost: -0.5475492
+Iteration: 127 	Cost: -0.5476324
+Iteration: 128 	Cost: -0.5477157
+Iteration: 129 	Cost: -0.5477985
+Iteration: 130 	Cost: -0.5478809
+Iteration: 131 	Cost: -0.54796267
+Iteration: 132 	Cost: -0.5480447
+Iteration: 133 	Cost: -0.54812664
+Iteration: 134 	Cost: -0.5482078
+Iteration: 135 	Cost: -0.54828906
+Iteration: 136 	Cost: -0.5483697
+Iteration: 137 	Cost: -0.54845
+Iteration: 138 	Cost: -0.5485309
+Iteration: 139 	Cost: -0.5486103
+Iteration: 140 	Cost: -0.54868984
+Iteration: 141 	Cost: -0.5487695
+Iteration: 142 	Cost: -0.54884845
+Iteration: 143 	Cost: -0.548927
+Iteration: 144 	Cost: -0.54900575
+Iteration: 145 	Cost: -0.54908425
+Iteration: 146 	Cost: -0.5491623
+Iteration: 147 	Cost: -0.5492402
+Iteration: 148 	Cost: -0.5493178
+Iteration: 149 	Cost: -0.54939425
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s visualise the gradient descent</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cost_vals</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cost&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Cost&#39;)
+</pre></div>
+</div>
+<img alt="_images/1f0e9a38022cf1a35a1928e103595108b23793937e176051cc8600c4144714c7.png" src="_images/1f0e9a38022cf1a35a1928e103595108b23793937e176051cc8600c4144714c7.png" />
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ucc_vqe.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">VQE for Unitary Coupled Cluster using tket</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="pytket-qujax-classification.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Binary Classification using pytket-qujax</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#qaoa-br">QAOA<br/></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-hamiltonian-br">Problem Hamiltonian<br/></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-circuit-br">Variational Circuit<br/></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-for-qujax-br">Now for <code class="docutils literal notranslate"><span class="pre">qujax</span></code><br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training-process-br">Training process<br/></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

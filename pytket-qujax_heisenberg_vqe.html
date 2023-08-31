@@ -1,0 +1,752 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Let’s start with a tket circuit &#8212; pytket examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pytket-qujax_heisenberg_vqe';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Calibration and Correction of State Preparation and Measurement (SPAM)" href="spam_example.html" />
+    <link rel="prev" title="Iterated Entanglement Swapping using tket" href="entanglement_swapping.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ansatz_sequence_example.html">Ansatz Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_analysis_example.html">Circuit analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_generation_example.html">Circuit generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation_example.html">Compilation passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional_gate_example.html">Conditional Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextual_optimization.html">Contextual optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_backends.html">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="measurement_reduction_example.html">Advanced Expectation Values and Measurement Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping_example.html">Qubit Mapping and Routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbolics_example.html">Symbolic compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ucc_vqe.html">VQE for Unitary Coupled Cluster using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_qaoa.html">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax-classification.html">Binary Classification using pytket-qujax</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="benchmarking/README.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends_example.html">TKET Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparing_simulators.html">Comparison of the simulators available through tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit_integration.html">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Forest_portability_example.html">Code Portability and Intro to Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expectation_value_example.html">Expectation Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entanglement_swapping.html">Iterated Entanglement Swapping using tket</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Let’s start with a tket circuit<br/></a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="spam_example.html">Calibration and Correction of State Preparation and Measurement (SPAM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tket_benchmarking.html">tket benchmarking example</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/pytket-qujax_heisenberg_vqe.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Let’s start with a tket circuit<br></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Let’s start with a tket circuit<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-let-s-invoke-qujax-br">Now let’s invoke qujax<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-function">Cost function</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#we-can-now-use-autodiff-for-fast-exact-gradients-within-a-vqe-algorithm-br">We can now use autodiff for fast, exact gradients within a VQE algorithm<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-we-have-all-the-tools-we-need-to-design-our-vqe-br">Now we have all the tools we need to design our VQE!<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-jit-speedup-br"><code class="docutils literal notranslate"><span class="pre">jax.jit</span></code> speedup<br/></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit.display</span> <span class="kn">import</span> <span class="n">render_circuit_jupyter</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">jnp</span><span class="p">,</span> <span class="n">random</span><span class="p">,</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">grad</span><span class="p">,</span> <span class="n">value_and_grad</span><span class="p">,</span> <span class="n">jit</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qujax</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qujax</span> <span class="kn">import</span> <span class="n">tk_to_qujax</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="let-s-start-with-a-tket-circuit-br">
+<h1>Let’s start with a tket circuit<br><a class="headerlink" href="#let-s-start-with-a-tket-circuit-br" title="Permalink to this heading">#</a></h1>
+<p>We place barriers to stop tket automatically rearranging gates and we also store the number of circuit parameters as we’ll need this later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
+    <span class="n">n_params</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_qubits</span> <span class="o">*</span> <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_params</span><span class="p">,))</span>
+    <span class="n">circuit</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">add_barrier</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">circuit</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">circuit</span><span class="p">,</span> <span class="n">n_params</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">depth</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">circuit</span><span class="p">,</span> <span class="n">n_params</span> <span class="o">=</span> <span class="n">get_circuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span>
+<span class="n">render_circuit_jupyter</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="now-let-s-invoke-qujax-br">
+<h1>Now let’s invoke qujax<br><a class="headerlink" href="#now-let-s-invoke-qujax-br" title="Permalink to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">pytket.extensions.qujax.tk_to_qujax</span></code> function will generate a parameters -&gt; statetensor function for us.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_to_st</span> <span class="o">=</span> <span class="n">tk_to_qujax</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s try it out on some random parameters values. Be aware that’s JAX’s random number generator requires a <code class="docutils literal notranslate"><span class="pre">jax.random.PRNGkey</span></code> every time it’s called - more info on that <a class="reference external" href="https://jax.readthedocs.io/en/latest/jax.random.html">here</a>.<br>
+Be aware that we still have convention where parameters are specified as multiples of <span class="math notranslate nohighlight">\(\pi\)</span> - that is in [0,2].</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_params</span><span class="p">,),</span> <span class="n">minval</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="mf">2.</span><span class="p">)</span>
+<span class="n">statetensor</span> <span class="o">=</span> <span class="n">param_to_st</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">statetensor</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">statetensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that this function also has an optional second argument where an initiating <code class="docutils literal notranslate"><span class="pre">statetensor_in</span></code> can be provided. If it is not provided it will default to the all 0s state (as we use here).</p>
+<p>We can obtain statevector by simply calling <code class="docutils literal notranslate"><span class="pre">.flatten()</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">statevector</span> <span class="o">=</span> <span class="n">statetensor</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">statevector</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And sampling probabilities by squaring the absolute value of the statevector</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_probs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">statevector</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">statevector</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">sample_probs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cost-function">
+<h1>Cost function<a class="headerlink" href="#cost-function" title="Permalink to this heading">#</a></h1>
+<p>Now we have our <code class="docutils literal notranslate"><span class="pre">param_to_st</span></code> function we are free to define a cost function that acts on bitstrings (e.g. maxcut) or integers by directly wrapping a function around <code class="docutils literal notranslate"><span class="pre">param_to_st</span></code>. However, cost functions defined via quantum Hamiltonians are a bit more involved.<br>
+Fortunately, we can encode an Hamiltonian in JAX via the <code class="docutils literal notranslate"><span class="pre">qujax.get_statetensor_to_expectation_func</span></code> function which generates a statetensor -&gt; expected value function for us.<br>
+It takes three arguments as input<br></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gate_seq_seq</span></code>: A list of string (or array) lists encoding the gates in each term of the Hamiltonian. I.e. <code class="docutils literal notranslate"><span class="pre">[['X','X'],</span> <span class="pre">['Y','Y'],</span> <span class="pre">['Z','Z']]</span></code> corresponds to <span class="math notranslate nohighlight">\(H = aX_iX_j +  bY_kY_l + cZ_mZ_n\)</span> with qubit indices <span class="math notranslate nohighlight">\(i,j,k,l,m,n\)</span> specified in the second argument and coefficients <span class="math notranslate nohighlight">\(a,b,c\)</span> specified in the third argument<br></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qubit_inds_seq</span></code>: A list of integer lists encoding which qubit indices to apply the aforementioned gates. I.e. <code class="docutils literal notranslate"><span class="pre">[[0,</span> <span class="pre">1],[0,1],[0,1]]</span></code>. Must have the same structure as <code class="docutils literal notranslate"><span class="pre">gate_seq_seq</span></code> above.<br></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">coefficients</span></code>: A list of floats encoding any coefficients in the Hamiltonian. I.e. <code class="docutils literal notranslate"><span class="pre">[2.3,</span> <span class="pre">0.8,</span> <span class="pre">1.2]</span></code> corresponds to <span class="math notranslate nohighlight">\(a=2.3,b=0.8,c=1.2\)</span> above. Must have the same length as the two above arguments.</p></li>
+</ul>
+<p>More specifically let’s consider the problem of finding the ground state of the quantum Heisenberg Hamiltonian<br>
+$<span class="math notranslate nohighlight">\( H = \sum_{i=1}^{n_\text{qubits}-1} X_i X_{i+1} + Y_i Y_{i+1} + Z_i Z_{i+1}. \)</span>$<br>
+As described, we define the Hamiltonian via its gate strings, qubit indices and coefficients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hamiltonian_gates</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">]]</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_qubits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">hamiltonian_qubit_inds</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">jnp</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">),</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">hamiltonian_qubit_inds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Gates:</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">hamiltonian_gates</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Qubits:</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">hamiltonian_qubit_inds</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Coefficients:</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s get the Hamiltonian as a pure JAX function</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">st_to_expectation</span> <span class="o">=</span> <span class="n">qujax</span><span class="o">.</span><span class="n">get_statetensor_to_expectation_func</span><span class="p">(</span><span class="n">hamiltonian_gates</span><span class="p">,</span>
+                                                             <span class="n">hamiltonian_qubit_inds</span><span class="p">,</span>
+                                                             <span class="n">coefficients</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s check it works on the statetensor we’ve already generated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expected_val</span> <span class="o">=</span> <span class="n">st_to_expectation</span><span class="p">(</span><span class="n">statetensor</span><span class="p">)</span>
+<span class="n">expected_val</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s wrap the <code class="docutils literal notranslate"><span class="pre">param_to_st</span></code> and <code class="docutils literal notranslate"><span class="pre">st_to_expectation</span></code> together to give us an all in one <code class="docutils literal notranslate"><span class="pre">param_to_expectation</span></code> cost function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_to_expectation</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">param</span><span class="p">:</span> <span class="n">st_to_expectation</span><span class="p">(</span><span class="n">param_to_st</span><span class="p">(</span><span class="n">param</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">param_to_expectation</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sanity check that a different, randomly generated set of parameters gives us a new expected value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_params</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">n_params</span><span class="p">,),</span> <span class="n">minval</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="mf">2.</span><span class="p">)</span>
+<span class="n">param_to_expectation</span><span class="p">(</span><span class="n">new_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="we-can-now-use-autodiff-for-fast-exact-gradients-within-a-vqe-algorithm-br">
+<h1>We can now use autodiff for fast, exact gradients within a VQE algorithm<br><a class="headerlink" href="#we-can-now-use-autodiff-for-fast-exact-gradients-within-a-vqe-algorithm-br" title="Permalink to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">param_to_expectation</span></code> function we created is a pure JAX function and outputs a scalar. This means we can pass it to <code class="docutils literal notranslate"><span class="pre">jax.grad</span></code> (or even better <code class="docutils literal notranslate"><span class="pre">jax.value_and_grad</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_and_grad</span> <span class="o">=</span> <span class="n">value_and_grad</span><span class="p">(</span><span class="n">param_to_expectation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">cost_and_grad</span></code> function returns a tuple with the exact cost value and exact gradient evaluated at the parameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="now-we-have-all-the-tools-we-need-to-design-our-vqe-br">
+<h1>Now we have all the tools we need to design our VQE!<br><a class="headerlink" href="#now-we-have-all-the-tools-we-need-to-design-our-vqe-br" title="Permalink to this heading">#</a></h1>
+<p>We’ll just use vanilla gradient descent with a constant stepsize</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vqe</span><span class="p">(</span><span class="n">init_param</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">stepsize</span><span class="p">):</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_steps</span><span class="p">,</span> <span class="n">n_params</span><span class="p">))</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">init_param</span><span class="p">)</span>
+    <span class="n">cost_vals</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span>
+    <span class="n">cost_vals</span> <span class="o">=</span> <span class="n">cost_vals</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">param_to_expectation</span><span class="p">(</span><span class="n">init_param</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
+        <span class="n">cost_val</span><span class="p">,</span> <span class="n">cost_grad</span> <span class="o">=</span> <span class="n">cost_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">cost_vals</span> <span class="o">=</span> <span class="n">cost_vals</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">step</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cost_val</span><span class="p">)</span>
+        <span class="n">new_param</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">step</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">stepsize</span> <span class="o">*</span> <span class="n">cost_grad</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">step</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">new_param</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Iteration:&#39;</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">Cost:&#39;</span><span class="p">,</span> <span class="n">cost_val</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">cost_vals</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok enough talking, let’s run (and whilst we’re at it we’ll time it too)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> vqe_params, vqe_cost_vals = vqe(params, n_steps=250, stepsize=0.01)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s plot the results…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vqe_cost_vals</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cost&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pretty good!</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="jax-jit-speedup-br">
+<h1><code class="docutils literal notranslate"><span class="pre">jax.jit</span></code> speedup<br><a class="headerlink" href="#jax-jit-speedup-br" title="Permalink to this heading">#</a></h1>
+<p>One last thing… We can significantly speed up the VQE above via the <code class="docutils literal notranslate"><span class="pre">jax.jit</span></code>. In our current implementation, the expensive <code class="docutils literal notranslate"><span class="pre">cost_and_grad</span></code> function is compiled to <a class="reference external" href="https://www.tensorflow.org/xla">XLA</a>  and then executed at each call. By invoking <code class="docutils literal notranslate"><span class="pre">jax.jit</span></code> we ensure that the function is compiled only once (on the first call) and then simply executed at each future call - this is much faster!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cost_and_grad</span> <span class="o">=</span> <span class="n">jit</span><span class="p">(</span><span class="n">cost_and_grad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll demonstrate this using the second set of initial parameters we randomly generated (to be sure of no caching).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> new_vqe_params, new_vqe_cost_vals = vqe(new_params, n_steps=250, stepsize=0.01)
+</pre></div>
+</div>
+</div>
+</div>
+<p>That’s some speedup!<br>
+But let’s also plot the training to be sure it converged correctly</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">new_vqe_cost_vals</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cost&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="entanglement_swapping.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Iterated Entanglement Swapping using tket</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="spam_example.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Calibration and Correction of State Preparation and Measurement (SPAM)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Let’s start with a tket circuit<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-let-s-invoke-qujax-br">Now let’s invoke qujax<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cost-function">Cost function</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#we-can-now-use-autodiff-for-fast-exact-gradients-within-a-vqe-algorithm-br">We can now use autodiff for fast, exact gradients within a VQE algorithm<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#now-we-have-all-the-tools-we-need-to-design-our-vqe-br">Now we have all the tools we need to design our VQE!<br/></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-jit-speedup-br"><code class="docutils literal notranslate"><span class="pre">jax.jit</span></code> speedup<br/></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

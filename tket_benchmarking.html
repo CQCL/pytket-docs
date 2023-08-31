@@ -1,0 +1,1199 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>tket benchmarking example &#8212; pytket examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tket_benchmarking';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Calibration and Correction of State Preparation and Measurement (SPAM)" href="spam_example.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ansatz_sequence_example.html">Ansatz Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_analysis_example.html">Circuit analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_generation_example.html">Circuit generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation_example.html">Compilation passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional_gate_example.html">Conditional Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextual_optimization.html">Contextual optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_backends.html">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="measurement_reduction_example.html">Advanced Expectation Values and Measurement Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping_example.html">Qubit Mapping and Routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbolics_example.html">Symbolic compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ucc_vqe.html">VQE for Unitary Coupled Cluster using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_qaoa.html">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax-classification.html">Binary Classification using pytket-qujax</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="benchmarking/README.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends_example.html">TKET Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparing_simulators.html">Comparison of the simulators available through tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit_integration.html">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Forest_portability_example.html">Code Portability and Intro to Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expectation_value_example.html">Expectation Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entanglement_swapping.html">Iterated Entanglement Swapping using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_heisenberg_vqe.html">Let’s start with a tket circuit<br/></a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="spam_example.html">Calibration and Correction of State Preparation and Measurement (SPAM)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">tket benchmarking example</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tket_benchmarking.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>tket benchmarking example</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tket-benchmarking-example">
+<h1>tket benchmarking example<a class="headerlink" href="#tket-benchmarking-example" title="Permalink to this heading">#</a></h1>
+<p>Warning: This notebook is now deprecated for versions from 0.2.0 onwards, and is not going to be updated in ongoing releases.</p>
+<p>The aim of this example is to show how to run the IBM benchmarking circuits through tket. You will need both <code class="docutils literal notranslate"><span class="pre">pytket</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket_qiskit</span></code> installed from pip before running this turoial. You will also need <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to capture the data.</p>
+<p>The benchmarking circuits originated from <a class="github reference external" href="https://github.com/iic-jku/ibm_qx_mapping/tree/master/examples">iic-jku/ibm_qx_mapping</a>, but there is a copy in pytket in the “benchmarking” folder. The initial circuits are written in QASM, meaning that they must be converted to tket’s internal representation via Qiskit. Using this script we will compile these circuits through tket and then print a table to terminal containing analysis of the circuits post-compilation.</p>
+<p>First, begin by importing qiskit and pytket.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qiskit</span>
+<span class="kn">import</span> <span class="nn">pytket</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need access to Qiskit’s <code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code> and the <code class="docutils literal notranslate"><span class="pre">circuit_to_dag</span></code> converter, which will allow us to take the original QASM and retrieve a Qiskit DAGCircuit. There is then a pytket method <code class="docutils literal notranslate"><span class="pre">dagcircuit_to_tk</span></code> to convert this DAGCircuit to tket’s internal representation. We also need the pytket method <code class="docutils literal notranslate"><span class="pre">coupling_to_arc</span></code> to convert IBM’s architectures to the tket <code class="docutils literal notranslate"><span class="pre">Architecture</span></code> class for the use of routing.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
+
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">qiskit_to_tk</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need all of the required pytket equipment to allow us to perform clean-up transform passes, to route and to analyse the circuits. Lastly, we require the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> module to hold our data, and
+<code class="docutils literal notranslate"><span class="pre">time</span></code> to benchmark compilation time per circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Architecture</span><span class="p">,</span> <span class="n">route</span>
+<span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">OpType</span><span class="p">,</span> <span class="n">Transform</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The architectures used to benchmark for our routing paper were the IBMqx5 and IBMTokyo architectures. The architectures qx5 and Tokyo respectively are shown below (although the diagrams do not show the directedness of the coupling maps). These diagrams are from <a class="reference external" href="https://www.research.ibm.com/ibm-q/technology/devices/#ibmqx5">https://www.research.ibm.com/ibm-q/technology/devices/#ibmqx5</a>. We will now define the coupling map representing both architectures. These will later be converted to directed graphs to be used by tket.
+<img alt="alt text" src="_images/IBMqx5Arc.png" />
+<img alt="alt text" src="_images/IBMTokyoArc.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ibm_devices</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;ibmqx5&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;edges&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> 
+    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> 
+    <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> 
+    <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">14</span><span class="p">)],</span>
+    <span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">},</span>
+    <span class="s2">&quot;ibmq_20_tokyo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;edges&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">19</span><span class="p">)],</span> <span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We shall now choose the device and create a directed graph for tket’s routing to use.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device_name</span> <span class="o">=</span> <span class="s1">&#39;ibmqx5&#39;</span> <span class="c1">#&#39;ibm_20_tokyo&#39; ###Note: can also be ran using the Tokyo machine architecture</span>
+                                       <span class="c1">###      or with a user-defined coupling map</span>
+<span class="n">coupling_map</span> <span class="o">=</span> <span class="n">ibm_devices</span><span class="p">[</span><span class="n">device_name</span><span class="p">][</span><span class="s2">&quot;edges&quot;</span><span class="p">]</span>
+<span class="n">directed_arc</span> <span class="o">=</span> <span class="n">Architecture</span><span class="p">(</span><span class="n">coupling_map</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now define a method which takes in (1) a QASM file and (2) a directed graph architecture; it returns analysis of the circuit after our transform passes and routing procedure have been completed. It will also print out to terminal the time taken for all the transformations and routing to finish. Changing which optimisations are run in this method will trade off quality of the ouputs for time taken. For example, removing all optimisation passes and just running the routing procedure will give the fastest run time but may leave some redundant gates in the final circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">getStats</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">directed_arc</span><span class="p">):</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="o">.</span><span class="n">from_qasm_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">tkcirc</span> <span class="o">=</span> <span class="n">qiskit_to_tk</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span>
+    <span class="n">Transform</span><span class="o">.</span><span class="n">OptimisePhaseGadgets</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">tkcirc</span><span class="p">)</span>
+    <span class="n">outcirc</span> <span class="o">=</span> <span class="n">route</span><span class="p">(</span><span class="n">tkcirc</span><span class="p">,</span> <span class="n">directed_arc</span><span class="p">)</span>
+    <span class="c1"># decompose swaps to CX gates and redirect CXs in wrong direction</span>
+    <span class="n">outcirc</span><span class="o">.</span><span class="n">decompose_SWAP_to_CX</span><span class="p">()</span>
+    <span class="n">outcirc</span><span class="o">.</span><span class="n">redirect_CX_gates</span><span class="p">(</span><span class="n">directed_arc</span><span class="p">)</span>
+    <span class="n">Transform</span><span class="o">.</span><span class="n">OptimisePostRouting</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">outcirc</span><span class="p">)</span>
+    
+    <span class="n">time_elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">process_time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Compilation time for circuit &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time_elapsed</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">outcirc</span><span class="o">.</span><span class="n">n_gates</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1">###Returns: [number of vertices, circuit depth, nubmer of CX gates, number of parallel slices of CX gates]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">outcirc</span><span class="o">.</span><span class="n">n_gates</span><span class="p">,</span> <span class="n">outcirc</span><span class="o">.</span><span class="n">depth</span><span class="p">(),</span> <span class="n">outcirc</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">),</span> 
+            <span class="n">outcirc</span><span class="o">.</span><span class="n">depth_by_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">),</span> <span class="n">time_elapsed</span><span class="p">]</span>
+    <span class="c1">###Note: the raw number of vertices in the circuits and the raw depth </span>
+    <span class="c1">###      need to have the i/o vertices removed for fair comparisons</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Lastly, we generate the table of input QASM filenames from a csv file using <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and run the circuits through our compiler. The results are printed to terminal by default.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_table</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;benchmarking/IBMQConfig.csv&quot;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_table</span> <span class="o">=</span> <span class="n">test_table</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Depth in&#39;</span><span class="p">)</span>
+
+<span class="n">stat_table</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({})</span>
+<span class="n">total_time</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Filename&#39;</span><span class="p">]</span>
+    <span class="n">new_stats</span> <span class="o">=</span> <span class="n">getStats</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">directed_arc</span><span class="p">)</span>
+    <span class="n">total_time</span> <span class="o">+=</span> <span class="n">new_stats</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="c1">###</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time spent compiling so far: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">total_time</span><span class="p">))</span>
+    <span class="n">new_table_row</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="n">index</span> <span class="p">:</span> <span class="n">new_stats</span><span class="p">},</span> 
+    <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Size out&#39;</span><span class="p">,</span> <span class="s1">&#39;Depth out&#39;</span><span class="p">,</span> <span class="s1">&#39;CX count out&#39;</span><span class="p">,</span> <span class="s1">&#39;CX depth out&#39;</span><span class="p">,</span><span class="s1">&#39;Runtime&#39;</span><span class="p">])</span>
+    <span class="n">stat_table</span> <span class="o">=</span> <span class="n">stat_table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_table_row</span><span class="p">)</span>
+
+<span class="c1">#stat_table.to_csv(&quot;BenchmarkTket.csv&quot;) ###Note: uncomment this line to print table to csv.</span>
+<span class="k">with</span> <span class="n">pandas</span><span class="o">.</span><span class="n">option_context</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">stat_table</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Compilation time for circuit benchmarking/ibmq/xor5_254.qasm: 0.00951000000000013s
+Time spent compiling so far: 0.00951000000000013
+Compilation time for circuit benchmarking/ibmq/graycode6_47.qasm: 0.005398000000000014s
+Time spent compiling so far: 0.014908000000000143
+Compilation time for circuit benchmarking/ibmq/ex1_226.qasm: 0.008242000000000083s
+Time spent compiling so far: 0.023150000000000226
+Compilation time for circuit benchmarking/ibmq/4gt11_84.qasm: 0.015388999999999875s
+Time spent compiling so far: 0.0385390000000001
+Compilation time for circuit benchmarking/ibmq/4mod5-v0_20.qasm: 0.020800999999999625s
+Time spent compiling so far: 0.059339999999999726
+Compilation time for circuit benchmarking/ibmq/ex-1_166.qasm: 0.017431999999999892s
+Time spent compiling so far: 0.07677199999999962
+Compilation time for circuit benchmarking/ibmq/4mod5-v1_22.qasm: 0.01641899999999996s
+Time spent compiling so far: 0.09319099999999958
+Compilation time for circuit benchmarking/ibmq/mod5d1_63.qasm: 0.024310000000000276s
+Time spent compiling so far: 0.11750099999999986
+Compilation time for circuit benchmarking/ibmq/ham3_102.qasm: 0.016796000000000255s
+Time spent compiling so far: 0.1342970000000001
+Compilation time for circuit benchmarking/ibmq/4gt11_83.qasm: 0.01989099999999988s
+Time spent compiling so far: 0.154188
+Compilation time for circuit benchmarking/ibmq/4gt11_82.qasm: 0.024681999999999427s
+Time spent compiling so far: 0.17886999999999942
+Compilation time for circuit benchmarking/ibmq/rd32-v0_66.qasm: 0.022649000000000363s
+Time spent compiling so far: 0.20151899999999978
+Compilation time for circuit benchmarking/ibmq/alu-v0_27.qasm: 0.031051000000000162s
+Time spent compiling so far: 0.23256999999999994
+Compilation time for circuit benchmarking/ibmq/4mod5-v1_24.qasm: 0.035730999999999735s
+Time spent compiling so far: 0.2683009999999997
+Compilation time for circuit benchmarking/ibmq/4mod5-v0_19.qasm: 0.03168000000000015s
+Time spent compiling so far: 0.29998099999999983
+Compilation time for circuit benchmarking/ibmq/mod5mils_65.qasm: 0.033256000000000174s
+Time spent compiling so far: 0.333237
+Compilation time for circuit benchmarking/ibmq/rd32-v1_68.qasm: 0.03151800000000016s
+Time spent compiling so far: 0.36475500000000016
+Compilation time for circuit benchmarking/ibmq/alu-v1_28.qasm: 0.04489699999999974s
+Time spent compiling so far: 0.4096519999999999
+Compilation time for circuit benchmarking/ibmq/alu-v2_33.qasm: 0.03587100000000021s
+Time spent compiling so far: 0.4455230000000001
+Compilation time for circuit benchmarking/ibmq/alu-v4_37.qasm: 0.032544999999999824s
+Time spent compiling so far: 0.47806799999999994
+Compilation time for circuit benchmarking/ibmq/alu-v3_35.qasm: 0.0310940000000004s
+Time spent compiling so far: 0.5091620000000003
+Compilation time for circuit benchmarking/ibmq/3_17_13.qasm: 0.03810599999999997s
+Time spent compiling so far: 0.5472680000000003
+Compilation time for circuit benchmarking/ibmq/alu-v1_29.qasm: 0.033971000000000195s
+Time spent compiling so far: 0.5812390000000005
+Compilation time for circuit benchmarking/ibmq/miller_11.qasm: 0.05386399999999991s
+Time spent compiling so far: 0.6351030000000004
+Compilation time for circuit benchmarking/ibmq/alu-v3_34.qasm: 0.06335800000000003s
+Time spent compiling so far: 0.6984610000000004
+Compilation time for circuit benchmarking/ibmq/decod24-v2_43.qasm: 0.05558200000000024s
+Time spent compiling so far: 0.7540430000000007
+Compilation time for circuit benchmarking/ibmq/decod24-v0_38.qasm: 0.053290000000000504s
+Time spent compiling so far: 0.8073330000000012
+Compilation time for circuit benchmarking/ibmq/mod5d2_64.qasm: 0.04377400000000087s
+Time spent compiling so far: 0.8511070000000021
+Compilation time for circuit benchmarking/ibmq/4gt13_92.qasm: 0.07327100000000009s
+Time spent compiling so far: 0.9243780000000021
+Compilation time for circuit benchmarking/ibmq/4gt13-v1_93.qasm: 0.0683429999999996s
+Time spent compiling so far: 0.9927210000000017
+Compilation time for circuit benchmarking/ibmq/4mod5-v0_18.qasm: 0.05403900000000039s
+Time spent compiling so far: 1.0467600000000021
+Compilation time for circuit benchmarking/ibmq/decod24-bdd_294.qasm: 0.07072400000000023s
+Time spent compiling so far: 1.1174840000000024
+Compilation time for circuit benchmarking/ibmq/one-two-three-v2_100.qasm: 0.0743349999999996s
+Time spent compiling so far: 1.191819000000002
+Compilation time for circuit benchmarking/ibmq/one-two-three-v3_101.qasm: 0.06547600000000031s
+Time spent compiling so far: 1.2572950000000023
+Compilation time for circuit benchmarking/ibmq/4mod5-v1_23.qasm: 0.05346799999999963s
+Time spent compiling so far: 1.310763000000002
+Compilation time for circuit benchmarking/ibmq/4mod5-bdd_287.qasm: 0.07852100000000029s
+Time spent compiling so far: 1.3892840000000022
+Compilation time for circuit benchmarking/ibmq/rd32_270.qasm: 0.061949999999999505s
+Time spent compiling so far: 1.4512340000000017
+Compilation time for circuit benchmarking/ibmq/4gt5_75.qasm: 0.0817629999999987s
+Time spent compiling so far: 1.5329970000000004
+Compilation time for circuit benchmarking/ibmq/alu-bdd_288.qasm: 0.06410000000000071s
+Time spent compiling so far: 1.597097000000001
+Compilation time for circuit benchmarking/ibmq/alu-v0_26.qasm: 0.08118200000000009s
+Time spent compiling so far: 1.6782790000000012
+Compilation time for circuit benchmarking/ibmq/decod24-v1_41.qasm: 0.0812450000000009s
+Time spent compiling so far: 1.759524000000002
+Compilation time for circuit benchmarking/ibmq/rd53_138.qasm: 0.13351399999999902s
+Time spent compiling so far: 1.893038000000001
+Compilation time for circuit benchmarking/ibmq/4gt5_76.qasm: 0.06876499999999997s
+Time spent compiling so far: 1.961803000000001
+Compilation time for circuit benchmarking/ibmq/4gt13_91.qasm: 0.08259399999999939s
+Time spent compiling so far: 2.0443970000000005
+Compilation time for circuit benchmarking/ibmq/cnt3-5_179.qasm: 0.28147000000000055s
+Time spent compiling so far: 2.325867000000001
+Compilation time for circuit benchmarking/ibmq/qft_10.qasm: 0.025814000000000448s
+Time spent compiling so far: 2.325867000000001
+Compilation time for circuit benchmarking/ibmq/4gt13_90.qasm: 0.09255399999999803s
+Time spent compiling so far: 2.418420999999999
+Compilation time for circuit benchmarking/ibmq/alu-v4_36.qasm: 0.11703999999999937s
+Time spent compiling so far: 2.5354609999999984
+Compilation time for circuit benchmarking/ibmq/mini_alu_305.qasm: 0.21232399999999885s
+Time spent compiling so far: 2.7477849999999973
+Compilation time for circuit benchmarking/ibmq/ising_model_10.qasm: 0.2612620000000003s
+Time spent compiling so far: 3.0090469999999976
+Compilation time for circuit benchmarking/ibmq/ising_model_16.qasm: 0.3769770000000001s
+Time spent compiling so far: 3.3860239999999977
+Compilation time for circuit benchmarking/ibmq/ising_model_13.qasm: 0.33491099999999996s
+Time spent compiling so far: 3.7209349999999977
+Compilation time for circuit benchmarking/ibmq/4gt5_77.qasm: 0.1293350000000011s
+Time spent compiling so far: 3.8502699999999987
+Compilation time for circuit benchmarking/ibmq/sys6-v0_111.qasm: 0.30446699999999893s
+Time spent compiling so far: 4.154736999999997
+Compilation time for circuit benchmarking/ibmq/one-two-three-v1_99.qasm: 0.15336699999999936s
+Time spent compiling so far: 4.308103999999997
+Compilation time for circuit benchmarking/ibmq/one-two-three-v0_98.qasm: 0.12628400000000006s
+Time spent compiling so far: 4.434387999999997
+Compilation time for circuit benchmarking/ibmq/decod24-v3_45.qasm: 0.14908700000000152s
+Time spent compiling so far: 4.583474999999998
+Compilation time for circuit benchmarking/ibmq/4gt10-v1_81.qasm: 0.14076600000000106s
+Time spent compiling so far: 4.724240999999999
+Compilation time for circuit benchmarking/ibmq/aj-e11_165.qasm: 0.14970000000000105s
+Time spent compiling so far: 4.873941
+Compilation time for circuit benchmarking/ibmq/4mod7-v0_94.qasm: 0.16386000000000145s
+Time spent compiling so far: 5.037801000000002
+Compilation time for circuit benchmarking/ibmq/alu-v2_32.qasm: 0.15958599999999912s
+Time spent compiling so far: 5.197387000000001
+Compilation time for circuit benchmarking/ibmq/rd73_140.qasm: 0.2630720000000011s
+Time spent compiling so far: 5.460459000000002
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Compilation time for circuit benchmarking/ibmq/4mod7-v1_96.qasm: 0.1598600000000001s
+Time spent compiling so far: 5.620319000000002
+Compilation time for circuit benchmarking/ibmq/4gt4-v0_80.qasm: 0.18252500000000182s
+Time spent compiling so far: 5.802844000000004
+Compilation time for circuit benchmarking/ibmq/mod10_176.qasm: 0.17993299999999834s
+Time spent compiling so far: 5.982777000000002
+Compilation time for circuit benchmarking/ibmq/0410184_169.qasm: 0.6244690000000013s
+Time spent compiling so far: 6.6072460000000035
+Compilation time for circuit benchmarking/ibmq/qft_16.qasm: 0.05671399999999949s
+Time spent compiling so far: 6.6072460000000035
+Compilation time for circuit benchmarking/ibmq/4gt12-v0_88.qasm: 0.20898000000000394s
+Time spent compiling so far: 6.8162260000000074
+Compilation time for circuit benchmarking/ibmq/rd84_142.qasm: 0.7401959999999974s
+Time spent compiling so far: 7.556422000000005
+Compilation time for circuit benchmarking/ibmq/rd53_311.qasm: 0.5026390000000021s
+Time spent compiling so far: 8.059061000000007
+Compilation time for circuit benchmarking/ibmq/4_49_16.qasm: 0.22887300000000366s
+Time spent compiling so far: 8.28793400000001
+Compilation time for circuit benchmarking/ibmq/sym9_146.qasm: 0.5669679999999993s
+Time spent compiling so far: 8.85490200000001
+Compilation time for circuit benchmarking/ibmq/4gt12-v1_89.qasm: 0.24625699999999995s
+Time spent compiling so far: 9.10115900000001
+Compilation time for circuit benchmarking/ibmq/4gt12-v0_87.qasm: 0.21894999999999598s
+Time spent compiling so far: 9.320109000000006
+Compilation time for circuit benchmarking/ibmq/4gt4-v0_79.qasm: 0.19500299999999626s
+Time spent compiling so far: 9.515112000000002
+Compilation time for circuit benchmarking/ibmq/hwb4_49.qasm: 0.23632500000000078s
+Time spent compiling so far: 9.751437000000003
+Compilation time for circuit benchmarking/ibmq/sym6_316.qasm: 0.6572160000000018s
+Time spent compiling so far: 10.408653000000005
+Compilation time for circuit benchmarking/ibmq/4gt12-v0_86.qasm: 0.24052800000000119s
+Time spent compiling so far: 10.649181000000006
+Compilation time for circuit benchmarking/ibmq/4gt4-v0_72.qasm: 0.28336000000000183s
+Time spent compiling so far: 10.932541000000008
+Compilation time for circuit benchmarking/ibmq/4gt4-v0_78.qasm: 0.2004679999999972s
+Time spent compiling so far: 11.133009000000005
+Compilation time for circuit benchmarking/ibmq/mod10_171.qasm: 0.23787799999999848s
+Time spent compiling so far: 11.370887000000003
+Compilation time for circuit benchmarking/ibmq/4gt4-v1_74.qasm: 0.28927499999999995s
+Time spent compiling so far: 11.660162000000003
+Compilation time for circuit benchmarking/ibmq/rd53_135.qasm: 0.37902099999999805s
+Time spent compiling so far: 12.039183000000001
+Compilation time for circuit benchmarking/ibmq/mini-alu_167.qasm: 0.28952900000000525s
+Time spent compiling so far: 12.328712000000007
+Compilation time for circuit benchmarking/ibmq/one-two-three-v0_97.qasm: 0.32423s
+Time spent compiling so far: 12.652942000000007
+Compilation time for circuit benchmarking/ibmq/ham7_104.qasm: 0.37469400000000164s
+Time spent compiling so far: 13.027636000000008
+Compilation time for circuit benchmarking/ibmq/decod24-enable_126.qasm: 0.37364900000000034s
+Time spent compiling so far: 13.401285000000009
+Compilation time for circuit benchmarking/ibmq/mod8-10_178.qasm: 0.43175500000000255s
+Time spent compiling so far: 13.833040000000011
+Compilation time for circuit benchmarking/ibmq/cnt3-5_180.qasm: 2.2587930000000043s
+Time spent compiling so far: 16.091833000000015
+Compilation time for circuit benchmarking/ibmq/ex3_229.qasm: 0.4237730000000006s
+Time spent compiling so far: 16.515606000000016
+Compilation time for circuit benchmarking/ibmq/4gt4-v0_73.qasm: 0.4361159999999984s
+Time spent compiling so far: 16.951722000000014
+Compilation time for circuit benchmarking/ibmq/mod8-10_177.qasm: 0.4928449999999991s
+Time spent compiling so far: 17.444567000000013
+Compilation time for circuit benchmarking/ibmq/C17_204.qasm: 0.6808130000000006s
+Time spent compiling so far: 18.125380000000014
+Compilation time for circuit benchmarking/ibmq/alu-v2_31.qasm: 0.465876999999999s
+Time spent compiling so far: 18.591257000000013
+Compilation time for circuit benchmarking/ibmq/rd53_131.qasm: 0.6336799999999982s
+Time spent compiling so far: 19.22493700000001
+Compilation time for circuit benchmarking/ibmq/alu-v2_30.qasm: 0.5685000000000002s
+Time spent compiling so far: 19.79343700000001
+Compilation time for circuit benchmarking/ibmq/mod5adder_127.qasm: 0.5798150000000035s
+Time spent compiling so far: 20.373252000000015
+Compilation time for circuit benchmarking/ibmq/rd53_133.qasm: 0.7312700000000021s
+Time spent compiling so far: 21.104522000000017
+Compilation time for circuit benchmarking/ibmq/cm82a_208.qasm: 0.7972960000000029s
+Time spent compiling so far: 21.90181800000002
+Compilation time for circuit benchmarking/ibmq/majority_239.qasm: 0.7681219999999982s
+Time spent compiling so far: 22.669940000000018
+Compilation time for circuit benchmarking/ibmq/ex2_227.qasm: 0.7928779999999946s
+Time spent compiling so far: 23.462818000000013
+Compilation time for circuit benchmarking/ibmq/sf_276.qasm: 0.8383489999999938s
+Time spent compiling so far: 24.301167000000007
+Compilation time for circuit benchmarking/ibmq/sf_274.qasm: 0.8409819999999968s
+Time spent compiling so far: 25.142149000000003
+Compilation time for circuit benchmarking/ibmq/con1_216.qasm: 1.661089000000004s
+Time spent compiling so far: 26.803238000000007
+Compilation time for circuit benchmarking/ibmq/wim_266.qasm: 4.542246999999996s
+Time spent compiling so far: 31.345485000000004
+Compilation time for circuit benchmarking/ibmq/rd53_130.qasm: 1.323321s
+Time spent compiling so far: 32.668806000000004
+Compilation time for circuit benchmarking/ibmq/f2_232.qasm: 1.946520999999997s
+Time spent compiling so far: 34.615327
+Compilation time for circuit benchmarking/ibmq/cm152a_212.qasm: 3.305444999999999s
+Time spent compiling so far: 37.920772
+Compilation time for circuit benchmarking/ibmq/rd53_251.qasm: 1.9612180000000023s
+Time spent compiling so far: 39.88199
+Compilation time for circuit benchmarking/ibmq/hwb5_53.qasm: 1.4080020000000033s
+Time spent compiling so far: 41.289992000000005
+Compilation time for circuit benchmarking/ibmq/cm42a_207.qasm: 25.442768s
+Time spent compiling so far: 66.73276000000001
+Compilation time for circuit benchmarking/ibmq/pm1_249.qasm: 23.057216999999994s
+Time spent compiling so far: 89.78997700000001
+Compilation time for circuit benchmarking/ibmq/dc1_220.qasm: 11.941876999999991s
+Time spent compiling so far: 101.731854
+Compilation time for circuit benchmarking/ibmq/squar5_261.qasm: 8.14356699999999s
+Time spent compiling so far: 109.87542099999999
+Compilation time for circuit benchmarking/ibmq/z4_268.qasm: 11.094992999999988s
+Time spent compiling so far: 120.97041399999998
+Compilation time for circuit benchmarking/ibmq/sqrt8_260.qasm: 12.300466s
+Time spent compiling so far: 133.27087999999998
+Compilation time for circuit benchmarking/ibmq/radd_250.qasm: 26.233103999999997s
+Time spent compiling so far: 159.50398399999997
+Compilation time for circuit benchmarking/ibmq/adr4_197.qasm: 46.54046200000002s
+Time spent compiling so far: 206.044446
+Compilation time for circuit benchmarking/ibmq/sym6_145.qasm: 5.235140999999942s
+Time spent compiling so far: 211.27958699999994
+Compilation time for circuit benchmarking/ibmq/misex1_241.qasm: 57.77592099999998s
+Time spent compiling so far: 269.0555079999999
+Compilation time for circuit benchmarking/ibmq/rd73_252.qasm: 14.12543599999998s
+Time spent compiling so far: 283.1809439999999
+Compilation time for circuit benchmarking/ibmq/cycle10_2_110.qasm: 28.728320000000053s
+Time spent compiling so far: 311.90926399999995
+Compilation time for circuit benchmarking/ibmq/hwb6_56.qasm: 9.68947600000007s
+Time spent compiling so far: 321.59874
+Compilation time for circuit benchmarking/ibmq/square_root_7.qasm: 64.69754600000005s
+Time spent compiling so far: 386.29628600000007
+Compilation time for circuit benchmarking/ibmq/ham15_107.qasm: 588.933307s
+Time spent compiling so far: 975.229593
+Compilation time for circuit benchmarking/ibmq/dc2_222.qasm: 61.593504000000166s
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time spent compiling so far: 1036.8230970000002
+Compilation time for circuit benchmarking/ibmq/sqn_258.qasm: 28.884308000000146s
+Time spent compiling so far: 1065.7074050000003
+Compilation time for circuit benchmarking/ibmq/inc_237.qasm: 106.20392800000013s
+Time spent compiling so far: 1171.9113330000005
+Compilation time for circuit benchmarking/ibmq/cm85a_209.qasm: 89.76953500000013s
+Time spent compiling so far: 1261.6808680000006
+Compilation time for circuit benchmarking/ibmq/rd84_253.qasm: 66.61587499999996s
+Time spent compiling so far: 1328.2967430000006
+Compilation time for circuit benchmarking/ibmq/co14_215.qasm: 128.39122300000008s
+Time spent compiling so far: 1456.6879660000006
+Compilation time for circuit benchmarking/ibmq/root_255.qasm: 123.82956399999989s
+Time spent compiling so far: 1580.5175300000005
+Compilation time for circuit benchmarking/ibmq/mlp4_245.qasm: 242.6016039999995s
+Time spent compiling so far: 1823.119134
+Compilation time for circuit benchmarking/ibmq/urf2_277.qasm: 33.63925399999971s
+Time spent compiling so far: 1856.7583879999997
+Compilation time for circuit benchmarking/ibmq/sym9_148.qasm: 64.92562999999973s
+Time spent compiling so far: 1921.6840179999995
+Compilation time for circuit benchmarking/ibmq/life_238.qasm: 73.87741500000038s
+Time spent compiling so far: 1995.5614329999999
+Compilation time for circuit benchmarking/ibmq/hwb7_59.qasm: 40.89143699999977s
+Time spent compiling so far: 2036.4528699999996
+Compilation time for circuit benchmarking/ibmq/max46_240.qasm: 69.40681099999983s
+Time spent compiling so far: 2105.8596809999995
+Compilation time for circuit benchmarking/ibmq/clip_206.qasm: 284.1277840000007s
+Time spent compiling so far: 2389.987465
+Compilation time for circuit benchmarking/ibmq/9symml_195.qasm: 112.6734349999997s
+Time spent compiling so far: 2502.6609
+Compilation time for circuit benchmarking/ibmq/sym9_193.qasm: 112.30117599999949s
+Time spent compiling so far: 2614.9620759999993
+Compilation time for circuit benchmarking/ibmq/sao2_257.qasm: 270.47973500000035s
+Time spent compiling so far: 2885.4418109999997
+Compilation time for circuit benchmarking/ibmq/dist_223.qasm: 250.32260099999985s
+Time spent compiling so far: 3135.7644119999995
+Compilation time for circuit benchmarking/ibmq/urf5_280.qasm: 110.69195600000057s
+Time spent compiling so far: 3246.456368
+Compilation time for circuit benchmarking/ibmq/urf1_278.qasm: 124.18942200000038s
+Time spent compiling so far: 3370.6457900000005
+Compilation time for circuit benchmarking/ibmq/sym10_262.qasm: 302.3636999999999s
+Time spent compiling so far: 3673.0094900000004
+Compilation time for circuit benchmarking/ibmq/hwb8_113.qasm: 154.02841999999964s
+Time spent compiling so far: 3827.03791
+Compilation time for circuit benchmarking/ibmq/urf2_152.qasm: 151.88721200000055s
+Time spent compiling so far: 3978.9251220000006
+Compilation time for circuit benchmarking/ibmq/urf3_279.qasm: 370.62564999999995s
+Time spent compiling so far: 4349.5507720000005
+Compilation time for circuit benchmarking/ibmq/plus63mod4096_163.qasm: 830.132912s
+Time spent compiling so far: 5179.6836840000005
+Compilation time for circuit benchmarking/ibmq/urf5_158.qasm: 447.08807799999977s
+Time spent compiling so far: 5626.771762
+Compilation time for circuit benchmarking/ibmq/urf6_160.qasm: 1869.587466s
+Time spent compiling so far: 7496.359228
+Compilation time for circuit benchmarking/ibmq/urf1_149.qasm: 498.8691209999997s
+Time spent compiling so far: 7995.228349
+Compilation time for circuit benchmarking/ibmq/plus63mod8192_164.qasm: 1486.8815559999985s
+Time spent compiling so far: 9482.109904999998
+Compilation time for circuit benchmarking/ibmq/hwb9_119.qasm: 618.8746800000008s
+Time spent compiling so far: 10100.984584999998
+Compilation time for circuit benchmarking/ibmq/urf3_155.qasm: 1497.5685780000003s
+Time spent compiling so far: 11598.553162999999
+Compilation time for circuit benchmarking/ibmq/ground_state_estimation_10.qasm: 142.17033999999876s
+Time spent compiling so far: 11740.723502999997
+Compilation time for circuit benchmarking/ibmq/urf4_187.qasm: 1895.1665990000001s
+Time spent compiling so far: 13635.890101999998
+                                 Size out  Depth out  CX count out  \
+xor5_254.qasm                          25         14             8   
+graycode6_47.qasm                      13          9             5   
+ex1_226.qasm                           25         14             8   
+4gt11_84.qasm                          50         32            18   
+4mod5-v0_20.qasm                       50         30            19   
+ex-1_166.qasm                          52         34            18   
+4mod5-v1_22.qasm                       54         32            20   
+mod5d1_63.qasm                         63         39            25   
+ham3_102.qasm                          53         36            19   
+4gt11_83.qasm                          76         47            29   
+4gt11_82.qasm                          95         57            36   
+rd32-v0_66.qasm                        75         51            27   
+alu-v0_27.qasm                        104         61            38   
+4mod5-v1_24.qasm                       89         57            37   
+4mod5-v0_19.qasm                      108         71            37   
+mod5mils_65.qasm                       92         65            34   
+rd32-v1_68.qasm                        75         51            27   
+alu-v1_28.qasm                        108         67            39   
+alu-v2_33.qasm                         95         58            35   
+alu-v4_37.qasm                        100         57            39   
+alu-v3_35.qasm                        100         57            39   
+3_17_13.qasm                           86         59            35   
+alu-v1_29.qasm                        103         61            38   
+miller_11.qasm                        138         90            50   
+alu-v3_34.qasm                        136         90            54   
+decod24-v2_43.qasm                    131         85            49   
+decod24-v0_38.qasm                    127         82            48   
+mod5d2_64.qasm                        145         93            58   
+4gt13_92.qasm                         169        109            63   
+4gt13-v1_93.qasm                      174        115            66   
+4mod5-v0_18.qasm                      180        119            70   
+decod24-bdd_294.qasm                  179        118            69   
+one-two-three-v2_100.qasm             175        112            68   
+one-two-three-v3_101.qasm             197        132            72   
+4mod5-v1_23.qasm                      187        123            74   
+4mod5-bdd_287.qasm                    193        124            70   
+rd32_270.qasm                         219        145            84   
+4gt5_75.qasm                          220        140            83   
+alu-bdd_288.qasm                      221        144            83   
+alu-v0_26.qasm                        226        143            83   
+decod24-v1_41.qasm                    216        140            83   
+rd53_138.qasm                         365        185           138   
+4gt5_76.qasm                          254        173            97   
+4gt13_91.qasm                         281        190           104   
+cnt3-5_179.qasm                       557        242           211   
+qft_10.qasm                             0          0             0   
+4gt13_90.qasm                         302        203           111   
+alu-v4_36.qasm                        290        187           109   
+mini_alu_305.qasm                     476        220           183   
+ising_model_10.qasm                   210         41            90   
+ising_model_16.qasm                   372         41           150   
+ising_model_13.qasm                   307         41           120   
+4gt5_77.qasm                          329        210           124   
+sys6-v0_111.qasm                      618        286           236   
+one-two-three-v1_99.qasm              360        239           134   
+one-two-three-v0_98.qasm              367        248           140   
+decod24-v3_45.qasm                    374        244           139   
+4gt10-v1_81.qasm                      374        250           144   
+aj-e11_165.qasm                       394        269           150   
+4mod7-v0_94.qasm                      434        290           162   
+alu-v2_32.qasm                        427        279           162   
+rd73_140.qasm                         638        296           245   
+4mod7-v1_96.qasm                      391        263           151   
+4gt4-v0_80.qasm                       450        297           172   
+mod10_176.qasm                        452        291           174   
+0410184_169.qasm                      738        349           289   
+qft_16.qasm                             0          0             0   
+4gt12-v0_88.qasm                      553        336           212   
+rd84_142.qasm                        1081        464           415   
+rd53_311.qasm                         870        457           339   
+4_49_16.qasm                          607        400           226   
+sym9_146.qasm                         936        446           358   
+4gt12-v1_89.qasm                      568        362           217   
+4gt12-v0_87.qasm                      621        392           235   
+4gt4-v0_79.qasm                       572        374           220   
+hwb4_49.qasm                          605        395           228   
+sym6_316.qasm                         859        460           334   
+4gt12-v0_86.qasm                      636        407           242   
+4gt4-v0_72.qasm                       657        400           254   
+4gt4-v0_78.qasm                       594        389           227   
+mod10_171.qasm                        626        413           240   
+4gt4-v1_74.qasm                       690        455           272   
+rd53_135.qasm                         846        522           324   
+mini-alu_167.qasm                     740        487           285   
+one-two-three-v0_97.qasm              763        522           294   
+ham7_104.qasm                         884        546           343   
+decod24-enable_126.qasm               922        593           353   
+mod8-10_178.qasm                     1013        676           386   
+cnt3-5_180.qasm                      1393        736           539   
+ex3_229.qasm                         1048        667           406   
+4gt4-v0_73.qasm                      1074        720           414   
+mod8-10_177.qasm                     1140        733           445   
+C17_204.qasm                         1377        876           536   
+alu-v2_31.qasm                       1159        751           441   
+rd53_131.qasm                        1250        763           480   
+alu-v2_30.qasm                       1402        906           546   
+mod5adder_127.qasm                   1538        957           581   
+rd53_133.qasm                        1592        979           612   
+cm82a_208.qasm                       1757       1040           681   
+majority_239.qasm                    1653       1026           633   
+ex2_227.qasm                         1725       1086           659   
+sf_276.qasm                          1975       1308           768   
+sf_274.qasm                          1993       1323           765   
+con1_216.qasm                        2857       1794          1121   
+wim_266.qasm                         2819       1678          1099   
+rd53_130.qasm                        2815       1753          1096   
+f2_232.qasm                          3427       2266          1325   
+cm152a_212.qasm                      3453       2186          1347   
+rd53_251.qasm                        3758       2368          1429   
+hwb5_53.qasm                         3713       2401          1432   
+cm42a_207.qasm                       5181       3014          2007   
+pm1_249.qasm                         5181       3014          2007   
+dc1_220.qasm                         5917       3684          2315   
+squar5_261.qasm                      6377       3854          2492   
+z4_268.qasm                          9164       5471          3563   
+sqrt8_260.qasm                       9106       5562          3542   
+radd_250.qasm                        9462       5688          3661   
+adr4_197.qasm                       10357       6055          4030   
+sym6_145.qasm                       10756       6805          4164   
+misex1_241.qasm                     14534       8925          5673   
+rd73_252.qasm                       15976       9680          6181   
+cycle10_2_110.qasm                  18487      11440          7252   
+hwb6_56.qasm                        18550      11834          7135   
+square_root_7.qasm                  22470      13158          8947   
+ham15_107.qasm                      25862      15757          9989   
+dc2_222.qasm                        29882      18173         11657   
+sqn_258.qasm                        30036      18448         11709   
+inc_237.qasm                        32472      19886         12766   
+cm85a_209.qasm                      35446      22104         13930   
+rd84_253.qasm                       40724      24005         15882   
+co14_215.qasm                       56374      30524         21896   
+root_255.qasm                       52615      30655         20482   
+mlp4_245.qasm                       59832      36288         23318   
+urf2_277.qasm                       66948      39434         26327   
+sym9_148.qasm                       62586      39228         24363   
+life_238.qasm                       68359      41635         26538   
+hwb7_59.qasm                        69520      43352         27136   
+max46_240.qasm                      79067      46649         30769   
+clip_206.qasm                      104519      61937         40950   
+9symml_195.qasm                    104299      63616         40686   
+sym9_193.qasm                      104299      63616         40686   
+sao2_257.qasm                      121374      69339         47336   
+dist_223.qasm                      118143      69156         46178   
+urf5_280.qasm                      154799      92851         60653   
+urf1_278.qasm                      176029     104865         69267   
+sym10_262.qasm                     200584     121977         78116   
+hwb8_113.qasm                      200371     124411         77790   
+urf2_152.qasm                      225731     144286         87475   
+urf3_279.qasm                      418175     246943        164373   
+plus63mod4096_163.qasm             397164     243811        155060   
+urf5_158.qasm                      456435     286537        177850   
+urf6_160.qasm                      537153     314319        210332   
+urf1_149.qasm                      518233     318657        201568   
+plus63mod8192_164.qasm             584830     359000        228069   
+hwb9_119.qasm                      616748     382737        239876   
+urf3_155.qasm                     1219715     751497        475140   
+ground_state_estimation_10.qasm        15          7             3   
+urf4_187.qasm                     1513171     893289        586910   
+
+                                 CX depth out      Runtime  
+xor5_254.qasm                               8     0.009510  
+graycode6_47.qasm                           5     0.005398  
+ex1_226.qasm                                8     0.008242  
+4gt11_84.qasm                              18     0.015389  
+4mod5-v0_20.qasm                           18     0.020801  
+ex-1_166.qasm                              18     0.017432  
+4mod5-v1_22.qasm                           19     0.016419  
+mod5d1_63.qasm                             22     0.024310  
+ham3_102.qasm                              19     0.016796  
+4gt11_83.qasm                              27     0.019891  
+4gt11_82.qasm                              32     0.024682  
+rd32-v0_66.qasm                            27     0.022649  
+alu-v0_27.qasm                             33     0.031051  
+4mod5-v1_24.qasm                           35     0.035731  
+4mod5-v0_19.qasm                           37     0.031680  
+mod5mils_65.qasm                           34     0.033256  
+rd32-v1_68.qasm                            27     0.031518  
+alu-v1_28.qasm                             35     0.044897  
+alu-v2_33.qasm                             31     0.035871  
+alu-v4_37.qasm                             34     0.032545  
+alu-v3_35.qasm                             34     0.031094  
+3_17_13.qasm                               35     0.038106  
+alu-v1_29.qasm                             33     0.033971  
+miller_11.qasm                             50     0.053864  
+alu-v3_34.qasm                             53     0.063358  
+decod24-v2_43.qasm                         49     0.055582  
+decod24-v0_38.qasm                         48     0.053290  
+mod5d2_64.qasm                             56     0.043774  
+4gt13_92.qasm                              58     0.073271  
+4gt13-v1_93.qasm                           62     0.068343  
+4mod5-v0_18.qasm                           70     0.054039  
+decod24-bdd_294.qasm                       68     0.070724  
+one-two-three-v2_100.qasm                  64     0.074335  
+one-two-three-v3_101.qasm                  70     0.065476  
+4mod5-v1_23.qasm                           72     0.053468  
+4mod5-bdd_287.qasm                         69     0.078521  
+rd32_270.qasm                              82     0.061950  
+4gt5_75.qasm                               78     0.081763  
+alu-bdd_288.qasm                           80     0.064100  
+alu-v0_26.qasm                             78     0.081182  
+decod24-v1_41.qasm                         79     0.081245  
+rd53_138.qasm                             103     0.133514  
+4gt5_76.qasm                               93     0.068765  
+4gt13_91.qasm                             101     0.082594  
+cnt3-5_179.qasm                           134     0.281470  
+qft_10.qasm                                 0     0.000000  
+4gt13_90.qasm                             108     0.092554  
+alu-v4_36.qasm                            104     0.117040  
+mini_alu_305.qasm                         125     0.212324  
+ising_model_10.qasm                        20     0.261262  
+ising_model_16.qasm                        20     0.376977  
+ising_model_13.qasm                        20     0.334911  
+4gt5_77.qasm                              117     0.129335  
+sys6-v0_111.qasm                          159     0.304467  
+one-two-three-v1_99.qasm                  131     0.153367  
+one-two-three-v0_98.qasm                  135     0.126284  
+decod24-v3_45.qasm                        133     0.149087  
+4gt10-v1_81.qasm                          140     0.140766  
+aj-e11_165.qasm                           145     0.149700  
+4mod7-v0_94.qasm                          158     0.163860  
+alu-v2_32.qasm                            155     0.159586  
+rd73_140.qasm                             166     0.263072  
+4mod7-v1_96.qasm                          145     0.159860  
+4gt4-v0_80.qasm                           163     0.182525  
+mod10_176.qasm                            163     0.179933  
+0410184_169.qasm                          196     0.624469  
+qft_16.qasm                                 0     0.000000  
+4gt12-v0_88.qasm                          188     0.208980  
+rd84_142.qasm                             258     0.740196  
+rd53_311.qasm                             254     0.502639  
+4_49_16.qasm                              218     0.228873  
+sym9_146.qasm                             252     0.566968  
+4gt12-v1_89.qasm                          203     0.246257  
+4gt12-v0_87.qasm                          215     0.218950  
+4gt4-v0_79.qasm                           208     0.195003  
+hwb4_49.qasm                              217     0.236325  
+sym6_316.qasm                             257     0.657216  
+4gt12-v0_86.qasm                          223     0.240528  
+4gt4-v0_72.qasm                           227     0.283360  
+4gt4-v0_78.qasm                           216     0.200468  
+mod10_171.qasm                            228     0.237878  
+4gt4-v1_74.qasm                           261     0.289275  
+rd53_135.qasm                             291     0.379021  
+mini-alu_167.qasm                         267     0.289529  
+one-two-three-v0_97.qasm                  289     0.324230  
+ham7_104.qasm                             312     0.374694  
+decod24-enable_126.qasm                   333     0.373649  
+mod8-10_178.qasm                          367     0.431755  
+cnt3-5_180.qasm                           410     2.258793  
+ex3_229.qasm                              372     0.423773  
+4gt4-v0_73.qasm                           394     0.436116  
+mod8-10_177.qasm                          416     0.492845  
+C17_204.qasm                              486     0.680813  
+alu-v2_31.qasm                            415     0.465877  
+rd53_131.qasm                             432     0.633680  
+alu-v2_30.qasm                            504     0.568500  
+mod5adder_127.qasm                        536     0.579815  
+rd53_133.qasm                             553     0.731270  
+cm82a_208.qasm                            579     0.797296  
+majority_239.qasm                         565     0.768122  
+ex2_227.qasm                              604     0.792878  
+sf_276.qasm                               734     0.838349  
+sf_274.qasm                               732     0.840982  
+con1_216.qasm                             993     1.661089  
+wim_266.qasm                              934     4.542247  
+rd53_130.qasm                             980     1.323321  
+f2_232.qasm                              1237     1.946521  
+cm152a_212.qasm                          1225     3.305445  
+rd53_251.qasm                            1290     1.961218  
+hwb5_53.qasm                             1352     1.408002  
+cm42a_207.qasm                           1694    25.442768  
+pm1_249.qasm                             1694    23.057217  
+dc1_220.qasm                             2045    11.941877  
+squar5_261.qasm                          2161     8.143567  
+z4_268.qasm                              3030    11.094993  
+sqrt8_260.qasm                           3093    12.300466  
+radd_250.qasm                            3167    26.233104  
+adr4_197.qasm                            3382    46.540462  
+sym6_145.qasm                            3819     5.235141  
+misex1_241.qasm                          4974    57.775921  
+rd73_252.qasm                            5373    14.125436  
+cycle10_2_110.qasm                       6397    28.728320  
+hwb6_56.qasm                             6513     9.689476  
+square_root_7.qasm                       7446    64.697546  
+ham15_107.qasm                           8728   588.933307  
+dc2_222.qasm                            10098    61.593504  
+sqn_258.qasm                            10273    28.884308  
+inc_237.qasm                            11140   106.203928  
+cm85a_209.qasm                          12366    89.769535  
+rd84_253.qasm                           13405    66.615875  
+co14_215.qasm                           17008   128.391223  
+root_255.qasm                           17076   123.829564  
+mlp4_245.qasm                           20258   242.601604  
+urf2_277.qasm                           22099    33.639254  
+sym9_148.qasm                           21805    64.925630  
+life_238.qasm                           23121    73.877415  
+hwb7_59.qasm                            24091    40.891437  
+max46_240.qasm                          26016    69.406811  
+clip_206.qasm                           34520   284.127784  
+9symml_195.qasm                         35437   112.673435  
+sym9_193.qasm                           35437   112.301176  
+sao2_257.qasm                           38642   270.479735  
+dist_223.qasm                           38660   250.322601  
+urf5_280.qasm                           51913   110.691956  
+urf1_278.qasm                           58728   124.189422  
+sym10_262.qasm                          68141   302.363700  
+hwb8_113.qasm                           69065   154.028420  
+urf2_152.qasm                           79903   151.887212  
+urf3_279.qasm                          138114   370.625650  
+plus63mod4096_163.qasm                 136210   830.132912  
+urf5_158.qasm                          159416   447.088078  
+urf6_160.qasm                          175227  1869.587466  
+urf1_149.qasm                          179176   498.869121  
+plus63mod8192_164.qasm                 200254  1486.881556  
+hwb9_119.qasm                          211857   618.874680  
+urf3_155.qasm                          418559  1497.568578  
+ground_state_estimation_10.qasm             3   142.170340  
+urf4_187.qasm                          494739  1895.166599  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "conda-env-tket-py"
+        },
+        kernelOptions: {
+            name: "conda-env-tket-py",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'conda-env-tket-py'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="spam_example.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Calibration and Correction of State Preparation and Measurement (SPAM)</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

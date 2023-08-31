@@ -1,0 +1,1349 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Circuit generation &#8212; pytket examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'circuit_generation_example';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Compilation passes" href="compilation_example.html" />
+    <link rel="prev" title="Circuit analysis" href="circuit_analysis_example.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ansatz_sequence_example.html">Ansatz Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_analysis_example.html">Circuit analysis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Circuit generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation_example.html">Compilation passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional_gate_example.html">Conditional Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextual_optimization.html">Contextual optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_backends.html">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="measurement_reduction_example.html">Advanced Expectation Values and Measurement Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping_example.html">Qubit Mapping and Routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbolics_example.html">Symbolic compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ucc_vqe.html">VQE for Unitary Coupled Cluster using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_qaoa.html">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax-classification.html">Binary Classification using pytket-qujax</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="benchmarking/README.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends_example.html">TKET Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparing_simulators.html">Comparison of the simulators available through tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit_integration.html">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Forest_portability_example.html">Code Portability and Intro to Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expectation_value_example.html">Expectation Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entanglement_swapping.html">Iterated Entanglement Swapping using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_heisenberg_vqe.html">Let’s start with a tket circuit<br/></a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="spam_example.html">Calibration and Correction of State Preparation and Measurement (SPAM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tket_benchmarking.html">tket benchmarking example</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/circuit_generation_example.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Circuit generation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wires-unit-ids-and-registers">Wires, unit IDs and registers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-to-and-importing-from-standard-formats">Exporting to and importing from standard formats</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-composition">Circuit composition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-parameters">Symbolic parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates">Custom gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposing-boxes-and-custom-gates">Decomposing boxes and custom gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-controls">Classical controls</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="circuit-generation">
+<h1>Circuit generation<a class="headerlink" href="#circuit-generation" title="Permalink to this heading">#</a></h1>
+<p>This notebook will provide a brief introduction to some of the more advanced methods of circuit generation available in <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, including:<br></p>
+<ul class="simple">
+<li><p>how to address wires and registers;<br></p></li>
+<li><p>reading in circuits from QASM and Quipper ASCII files;<br></p></li>
+<li><p>various types of ‘boxes’;<br></p></li>
+<li><p>composition of circuits (both ‘horizontally’ and ‘vertically’);<br></p></li>
+<li><p>use of symbolic gate parameters;<br></p></li>
+<li><p>representation of classically controlled gates.</p></li>
+</ul>
+<section id="wires-unit-ids-and-registers">
+<h2>Wires, unit IDs and registers<a class="headerlink" href="#wires-unit-ids-and-registers" title="Permalink to this heading">#</a></h2>
+<p>Let’s get started by constructing a circuit with 3 qubits and 2 classical bits:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">bits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[q[0], q[1], q[2]]
+[c[0], c[1]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The qubits have automatically been assigned to a register with name <code class="docutils literal notranslate"><span class="pre">q</span></code> and indices 0, 1 and 2, while the bits have been assigned to a register with name <code class="docutils literal notranslate"><span class="pre">c</span></code> and indices 0 and 1.<br>
+<br>
+We can give these units arbitrary names and indices of arbitrary dimension:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Qubit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">new_q1</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">new_q2</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">new_q3</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;gamma&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">new_q1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">new_q2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">new_q3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[alpha[0], beta[2, 1], gamma[0, 0, 0], q[0], q[1], q[2]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also add a new register of qubits in one go:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[alpha[0], beta[2, 1], delta[0], delta[1], delta[2], delta[3], gamma[0, 0, 0], q[0], q[1], q[2]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Similar commands are available for classical bits.<br>
+<br>
+We can add gates to the circuit as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>This command appends a CX gate with control <code class="docutils literal notranslate"><span class="pre">q[0]</span></code> and target <code class="docutils literal notranslate"><span class="pre">q[1]</span></code>. Note that the integer arguments are automatically converted to the default unit IDs. For simple circuits it is often easiest to stick to the default register and refer to the qubits by integers. To add gates to our own named units, we simply pass the <code class="docutils literal notranslate"><span class="pre">Qubit</span></code> (or classical <code class="docutils literal notranslate"><span class="pre">Bit</span></code>) as an argument. (We can’t mix the two conventions in one command, however.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">new_q1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">new_q2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">new_q2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[H alpha[0];, CX q[0], q[1];, CX q[1], beta[2, 1];, Rz(0.5) beta[2, 1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s have a look at our circuit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[H alpha[0];, CX q[0], q[1];, CX q[1], beta[2, 1];, Rz(0.5) beta[2, 1];]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exporting-to-and-importing-from-standard-formats">
+<h2>Exporting to and importing from standard formats<a class="headerlink" href="#exporting-to-and-importing-from-standard-formats" title="Permalink to this heading">#</a></h2>
+<p>We can export a <code class="docutils literal notranslate"><span class="pre">Circuit</span></code> to a file in QASM format. Conversely, if we have such a file we can import it into <code class="docutils literal notranslate"><span class="pre">pytket</span></code>. There are some limitations on the circuits that can be converted: for example, multi-dimensional indices (as in <code class="docutils literal notranslate"><span class="pre">beta</span></code> and <code class="docutils literal notranslate"><span class="pre">gamma</span></code> above) are not allowed.<br>
+<br>
+Here is a simple example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.qasm</span> <span class="kn">import</span> <span class="n">circuit_from_qasm</span><span class="p">,</span> <span class="n">circuit_to_qasm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[H q[0]; CX q[0], q[1]; CX q[1], q[2]; Rz(0.25) q[2]; Measure q[2] --&gt; c[0]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qasmfile</span> <span class="o">=</span> <span class="s2">&quot;c.qasm&quot;</span>
+<span class="n">circuit_to_qasm</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">qasmfile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">qasmfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OPENQASM 2.0;
+include &quot;qelib1.inc&quot;;
+
+qreg q[3];
+creg c[1];
+h q[0];
+cx q[0],q[1];
+cx q[1],q[2];
+rz(0.25*pi) q[2];
+measure q[2] -&gt; c[0];
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c1</span> <span class="o">=</span> <span class="n">circuit_from_qasm</span><span class="p">(</span><span class="n">qasmfile</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">==</span> <span class="n">c1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also import files in the Quipper ASCII format:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.quipper</span> <span class="kn">import</span> <span class="n">circuit_from_quipper</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quipfile</span> <span class="o">=</span> <span class="s2">&quot;c.quip&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">quipfile</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inputs: 0:Qbit, 1:Qbit</span>
+<span class="sd">QGate[&quot;W&quot;](0,1)</span>
+<span class="sd">QGate[&quot;omega&quot;](1)</span>
+<span class="sd">QGate[&quot;swap&quot;](0,1)</span>
+<span class="sd">QGate[&quot;W&quot;]*(1,0)</span>
+<span class="sd">Outputs: 0:Qbit, 1:Qbit</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">circuit_from_quipper</span><span class="p">(</span><span class="n">quipfile</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Rz(1.25) q[0];, T q[1];, Ry(1) q[0];, Ry(1) q[1];, CX q[1], q[0];, Ry(3.75) q[1];, CX q[0], q[1];, Ry(0.25) q[1];, CX q[1], q[0];, T q[0];, Rz(1.25) q[1];, Ry(1) q[0];, Ry(1) q[1];, SWAP q[0], q[1];, T q[0];, Rz(1.25) q[1];, Ry(1) q[0];, Ry(1) q[1];, CX q[0], q[1];, Ry(3.75) q[0];, CX q[1], q[0];, Ry(0.25) q[0];, CX q[0], q[1];, Rz(1.25) q[0];, T q[1];, Ry(1) q[0];, Ry(1) q[1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the Quipper gates that are not supported directly in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> (<code class="docutils literal notranslate"><span class="pre">W</span></code> and <code class="docutils literal notranslate"><span class="pre">omega</span></code>) are translated into equivalent sequences of <code class="docutils literal notranslate"><span class="pre">pytket</span></code> gates.<br>
+<br>
+Quipper subroutines are also supported, corresponding to <code class="docutils literal notranslate"><span class="pre">CircBox</span></code> operations in <code class="docutils literal notranslate"><span class="pre">pytket</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">quipfile</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inputs: 0:Qbit, 1:Qbit, 2:Qbit</span>
+<span class="sd">QGate[&quot;H&quot;](0)</span>
+<span class="sd">Subroutine(x2)[&quot;sub&quot;, shape &quot;([Q,Q],())&quot;] (2,1) -&gt; (2,1)</span>
+<span class="sd">QGate[&quot;H&quot;](1)</span>
+<span class="sd">Outputs: 0:Qbit, 1:Qbit, 2:Qbit \n</span>
+<span class="sd">Subroutine: &quot;sub&quot;</span>
+<span class="sd">Shape: &quot;([Q,Q],())&quot;</span>
+<span class="sd">Controllable: no</span>
+<span class="sd">Inputs: 0:Qbit, 1:Qbit</span>
+<span class="sd">QGate[&quot;Y&quot;](0)</span>
+<span class="sd">QGate[&quot;not&quot;](1) with controls=[+0]</span>
+<span class="sd">QGate[&quot;Z&quot;](1)</span>
+<span class="sd">Outputs: 0:Qbit, 1:Qbit</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">circuit_from_quipper</span><span class="p">(</span><span class="n">quipfile</span><span class="p">)</span>
+<span class="n">cmds</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cmds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[H q[0];, CircBox q[2], q[1];, CircBox q[2], q[1];, H q[1];]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="boxes">
+<h2>Boxes<a class="headerlink" href="#boxes" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">CircBox</span></code> is an example of a <code class="docutils literal notranslate"><span class="pre">pytket</span></code> ‘box’, which is a reusable encapsulation of a circuit inside another. We can recover the circuit ‘inside’ the box using the <code class="docutils literal notranslate"><span class="pre">get_circuit()</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boxed_circuit</span> <span class="o">=</span> <span class="n">cmds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">op</span><span class="o">.</span><span class="n">get_circuit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">boxed_circuit</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Y q[0];, CX q[0], q[1];, Z q[1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">CircBox</span></code> is the most general type of box, implementing an arbitrary circuit. But <code class="docutils literal notranslate"><span class="pre">pytket</span></code> supports several other useful box types:<br></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Unitary1qBox</span></code> (implementing an arbitrary <span class="math notranslate nohighlight">\(2 \times 2\)</span> unitary matrix);<br></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Unitary2qBox</span></code> (implementing an arbitrary <span class="math notranslate nohighlight">\(4 \times 4\)</span> unitary matrix);<br></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ExpBox</span></code> (implementing <span class="math notranslate nohighlight">\(e^{itA}\)</span> for an arbitrary <span class="math notranslate nohighlight">\(4 \times 4\)</span> hermitian matrix <span class="math notranslate nohighlight">\(A\)</span> and parameter <span class="math notranslate nohighlight">\(t\)</span>);<br></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PauliExpBox</span></code> (implementing <span class="math notranslate nohighlight">\(e^{-\frac{1}{2} i \pi t (\sigma_0 \otimes \sigma_1 \otimes \cdots)}\)</span> for arbitrary Pauli operators <span class="math notranslate nohighlight">\(\sigma_i \in \{\mathrm{I}, \mathrm{X}, \mathrm{Y}, \mathrm{Z}\}\)</span> and parameter <span class="math notranslate nohighlight">\(t\)</span>).</p></li>
+</ul>
+<p>An example will illustrate how these various box types are added to a circuit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">CircBox</span><span class="p">,</span> <span class="n">ExpBox</span><span class="p">,</span> <span class="n">PauliExpBox</span><span class="p">,</span> <span class="n">Unitary1qBox</span><span class="p">,</span> <span class="n">Unitary2qBox</span>
+<span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boxycirc</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Add a <code class="docutils literal notranslate"><span class="pre">CircBox</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">subcirc</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">subcirc</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cbox</span> <span class="o">=</span> <span class="n">CircBox</span><span class="p">(</span><span class="n">subcirc</span><span class="p">)</span>
+<span class="n">boxycirc</span><span class="o">.</span><span class="n">add_circbox</span><span class="p">(</span><span class="n">cbox</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CircBox q[0], q[1]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Add a <code class="docutils literal notranslate"><span class="pre">Unitary1qBox</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]])</span>
+<span class="n">m1box</span> <span class="o">=</span> <span class="n">Unitary1qBox</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+<span class="n">boxycirc</span><span class="o">.</span><span class="n">add_unitary1qbox</span><span class="p">(</span><span class="n">m1box</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CircBox q[0], q[1]; Unitary1qBox q[2]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Add a <code class="docutils literal notranslate"><span class="pre">Unitary2qBox</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">m2box</span> <span class="o">=</span> <span class="n">Unitary2qBox</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span>
+<span class="n">boxycirc</span><span class="o">.</span><span class="n">add_unitary2qbox</span><span class="p">(</span><span class="n">m2box</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CircBox q[0], q[1]; Unitary1qBox q[2]; Unitary2qBox q[1], q[2]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Add an <code class="docutils literal notranslate"><span class="pre">ExpBox</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="n">j</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="p">)</span>
+<span class="n">ebox</span> <span class="o">=</span> <span class="n">ExpBox</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">boxycirc</span><span class="o">.</span><span class="n">add_expbox</span><span class="p">(</span><span class="n">ebox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CircBox q[0], q[1]; Unitary1qBox q[2]; Unitary2qBox q[1], q[2]; ExpBox q[0], q[1]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Add a <code class="docutils literal notranslate"><span class="pre">PauliExpBox</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pbox</span> <span class="o">=</span> <span class="n">PauliExpBox</span><span class="p">([</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">],</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="n">boxycirc</span><span class="o">.</span><span class="n">add_pauliexpbox</span><span class="p">(</span><span class="n">pbox</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CircBox q[0], q[1]; Unitary1qBox q[2]; Unitary2qBox q[1], q[2]; ExpBox q[0], q[1]; PauliExpBox q[0], q[1], q[2]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">boxycirc</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CircBox q[0], q[1];, Unitary1qBox q[2];, Unitary2qBox q[1], q[2];, ExpBox q[0], q[1];, PauliExpBox q[0], q[1], q[2];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">get_circuit()</span></code> method is available for all box types, and returns a <code class="docutils literal notranslate"><span class="pre">Circuit</span></code> object. For example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">pbox</span><span class="o">.</span><span class="n">get_circuit</span><span class="p">()</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[H q[0];, H q[2];, CX q[2], q[1];, CX q[1], q[0];, Rz(0.75) q[0];, CX q[1], q[0];, H q[0];, CX q[2], q[1];, H q[2];]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="circuit-composition">
+<h2>Circuit composition<a class="headerlink" href="#circuit-composition" title="Permalink to this heading">#</a></h2>
+<p>Circuits can be composed either serially, whereby wires are joined together, or in parallel, using the <code class="docutils literal notranslate"><span class="pre">append()</span></code> command.<br>
+<br>
+For a simple illustration of serial composition, let’s create two circuits with compatible set of wires, and append the second to the first:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c1</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c1</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CZ q[1], q[0]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[1];, CZ q[1], q[0];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the above example, there was a one-to-one match between the unit IDs in the two circuits, and they were matched up accordingly. The same applied with named unit IDs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CX x, y; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c1</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="n">c1</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">c1</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">c1</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CZ y, x; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CX x, y;, CZ y, x;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>If either circuit contains wires not matching any wires in the other, those are added to the other circuit before composition:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+<span class="n">c1</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="n">c1</span><span class="o">.</span><span class="n">CY</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[x, y, z]
+[CX x, y;, CZ y, x;, CZ y, x;, CY y, z;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the sets of unit IDs for the two circuits are disjoint, then the composition is entirely parallel.<br>
+<br>
+What if we want to serially compose two circuits having different sets of <code class="docutils literal notranslate"><span class="pre">Qubit</span></code>? In that case, we can use the <code class="docutils literal notranslate"><span class="pre">rename_units()</span></code> method on one or other of them to bring them into line. This method takes a dictionary mapping current unit IDs to new one:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c2</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="n">c2</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="p">[</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="n">c2</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">CRz</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[H w[0]; CX w[0], w[1]; CRz(0.25) w[1], w[2]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">rename_units</span><span class="p">({</span><span class="n">x</span><span class="p">:</span> <span class="n">w</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">:</span> <span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">z</span><span class="p">:</span> <span class="n">w</span><span class="p">[</span><span class="mi">2</span><span class="p">]})</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CX w[0], w[1];, CZ w[1], w[0];, CZ w[1], w[0];, H w[0];, CY w[1], w[2];, CX w[0], w[1];, CRz(0.25) w[1], w[2];]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="symbolic-parameters">
+<h2>Symbolic parameters<a class="headerlink" href="#symbolic-parameters" title="Permalink to this heading">#</a></h2>
+<p>Many of the gates supported by <code class="docutils literal notranslate"><span class="pre">pytket</span></code> are parametrized by one or more phase parameters, which represent rotations in multiples of <span class="math notranslate nohighlight">\(\pi\)</span>. For example, <span class="math notranslate nohighlight">\(\mathrm{Rz}(\frac{1}{2})\)</span> represents a quarter turn, i.e. a rotation of <span class="math notranslate nohighlight">\(\pi/2\)</span>, about the Z axis. If we know the values of these parameters we can add the gates directly to our circuit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Rz(0.5) q[0]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, we may wish to construct and manipulate circuits containing such parametrized gates without specifying the values. This allows us to do calculations in a general setting, only later substituting values for the parameters.<br>
+<br>
+Thus <code class="docutils literal notranslate"><span class="pre">pytket</span></code> allows us to specify any of the parameters as symbols. All manipulations (such as combination and cancellation of gates) are performed on the symbolic representation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Rz(0.5) q[0]; Rz(a) q[0]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Rz(0.5) q[0];, Rz(a) q[0];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we apply any transformation to this circuit, the symbolic parameter is preserved in the result:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.transform</span> <span class="kn">import</span> <span class="n">Transform</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Transform</span><span class="o">.</span><span class="n">RemoveRedundancies</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Rz(0.5 + a) q[0];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>To substitute values for symbols, we use the <code class="docutils literal notranslate"><span class="pre">symbol_substitution()</span></code> method, supplying a dictionary from symbols to values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">symbol_substitution</span><span class="p">({</span><span class="n">a</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Rz(1.25) q[0];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also substitute symbols for other symbols:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">symbol_substitution</span><span class="p">({</span><span class="n">b</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Rz(3*a) q[0];]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="custom-gates">
+<h2>Custom gates<a class="headerlink" href="#custom-gates" title="Permalink to this heading">#</a></h2>
+<p>We can define custom parametrized gates in <code class="docutils literal notranslate"><span class="pre">pytket</span></code> by first setting up a circuit containing symbolic parameters and then converting this to a parametrized operation type:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">CustomGateDef</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
+<span class="n">setup</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">setup</span><span class="o">.</span><span class="n">CRz</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">my_gate</span> <span class="o">=</span> <span class="n">CustomGateDef</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="n">setup</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_custom_gate</span><span class="p">(</span><span class="n">my_gate</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[g(0.2,1.3) q[0], q[3], q[1];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Custom gates can also receive symbolic parameters:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">add_custom_gate</span><span class="p">(</span><span class="n">my_gate</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[g(0.2,1.3) q[0], q[3], q[1];, g(x,1.0) q[0], q[1], q[2];]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="decomposing-boxes-and-custom-gates">
+<h2>Decomposing boxes and custom gates<a class="headerlink" href="#decomposing-boxes-and-custom-gates" title="Permalink to this heading">#</a></h2>
+<p>Having defined a circuit containing custom gates, we may now want to decompose it into elementary gates. The <code class="docutils literal notranslate"><span class="pre">DecomposeBoxes()</span></code> transform allows us to do this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Transform</span><span class="o">.</span><span class="n">DecomposeBoxes</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CX q[0], q[3];, Rz(0.7) q[1];, Rz(0.5 + x) q[2];, CRz(1.3) q[0], q[1];, CX q[0], q[1];, CRz(1) q[0], q[2];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The same transform works on circuits composed of arbitrary boxes. Let’s try it on a copy of the circuit we built up earlier out of various box types.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">boxycirc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">Transform</span><span class="o">.</span><span class="n">DecomposeBoxes</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[X q[0];, Y q[1];, TK1(0.5, 0.666667, 0.5) q[2];, CZ q[0], q[1];, TK1(1, 0.5, 1) q[2];, TK1(2.85376, 0.108518, 0.745298) q[0];, TK1(0.5, 0.5, 0) q[1];, Sdg q[2];, Vdg q[0];, Sdg q[1];, Vdg q[2];, Vdg q[1];, TK2(0.5, 0.5, 0) q[1], q[2];, Z q[1];, Z q[2];, V q[1];, V q[2];, S q[1];, S q[2];, TK1(0, 1, 0) q[1];, TK1(0.5, 0.5, 3.5) q[2];, TK1(0.949197, 0.387157, 3.3496) q[1];, H q[2];, Vdg q[1];, TK2(0.361961, 0.244835, 3.95683) q[0], q[1];, Z q[0];, Z q[1];, Z q[0];, Z q[1];, V q[0];, V q[1];, TK1(1.21947, 0.354596, 0.18545) q[0];, TK1(0.984475, 0.34973, 3.36619) q[1];, H q[0];, CX q[2], q[1];, CX q[1], q[0];, Rz(0.75) q[0];, CX q[1], q[0];, H q[0];, CX q[2], q[1];, H q[2];]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the unitaries have been decomposed into elementary gates.</p>
+</section>
+<section id="classical-controls">
+<h2>Classical controls<a class="headerlink" href="#classical-controls" title="Permalink to this heading">#</a></h2>
+<p>Most of the examples above involve only pure quantum gates. However, <code class="docutils literal notranslate"><span class="pre">pytket</span></code> can also represent gates whose operation is conditional on one or more classical inputs.<br>
+<br>
+For example, suppose we want to run the complex circuit <code class="docutils literal notranslate"><span class="pre">c</span></code> we’ve just constructed, then measure qubits 0 and 1, and finally apply an <span class="math notranslate nohighlight">\(\mathrm{Rz}(\frac{1}{2})\)</span> rotation to qubit 2 if and only if the measurements were 0 and 1 respectively.<br>
+<br>
+First, we’ll add two classical wires to the circuit to store the measurement results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Bit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="n">Bit</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Classically conditioned operations depend on all their inputs being 1. Since we want to condition on <code class="docutils literal notranslate"><span class="pre">m[0]</span></code> being 0, we must first apply an X gate to its qubit, and then measure:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[X q[0]; Y q[1]; TK1(0.5, 0.666667, 0.5) q[2]; CZ q[0], q[1]; TK1(1, 0.5, 1) q[2]; TK1(2.85376, 0.108518, 0.745298) q[0]; TK1(0.5, 0.5, 0) q[1]; Sdg q[2]; Vdg q[0]; Sdg q[1]; Vdg q[2]; Vdg q[1]; TK2(0.5, 0.5, 0) q[1], q[2]; Z q[1]; Z q[2]; V q[1]; V q[2]; S q[1]; S q[2]; TK1(0, 1, 0) q[1]; TK1(0.5, 0.5, 3.5) q[2]; TK1(0.949197, 0.387157, 3.3496) q[1]; H q[2]; Vdg q[1]; TK2(0.361961, 0.244835, 3.95683) q[0], q[1]; Z q[0]; Z q[1]; Z q[0]; Z q[1]; V q[0]; V q[1]; TK1(1.21947, 0.354596, 0.18545) q[0]; TK1(0.984475, 0.34973, 3.36619) q[1]; H q[0]; CX q[2], q[1]; CX q[1], q[0]; Rz(0.75) q[0]; CX q[1], q[0]; H q[0]; CX q[2], q[1]; Measure q[1] --&gt; m[1]; X q[0]; H q[2]; Measure q[0] --&gt; m[0]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally we add the classically conditioned Rz operation, using the <code class="docutils literal notranslate"><span class="pre">add_gate()</span></code> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">OpType</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">Rz</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[X q[0]; Y q[1]; TK1(0.5, 0.666667, 0.5) q[2]; CZ q[0], q[1]; TK1(1, 0.5, 1) q[2]; TK1(2.85376, 0.108518, 0.745298) q[0]; TK1(0.5, 0.5, 0) q[1]; Sdg q[2]; Vdg q[0]; Sdg q[1]; Vdg q[2]; Vdg q[1]; TK2(0.5, 0.5, 0) q[1], q[2]; Z q[1]; Z q[2]; V q[1]; V q[2]; S q[1]; S q[2]; TK1(0, 1, 0) q[1]; TK1(0.5, 0.5, 3.5) q[2]; TK1(0.949197, 0.387157, 3.3496) q[1]; H q[2]; Vdg q[1]; TK2(0.361961, 0.244835, 3.95683) q[0], q[1]; Z q[0]; Z q[1]; Z q[0]; Z q[1]; V q[0]; V q[1]; TK1(1.21947, 0.354596, 0.18545) q[0]; TK1(0.984475, 0.34973, 3.36619) q[1]; H q[0]; CX q[2], q[1]; CX q[1], q[0]; Rz(0.75) q[0]; CX q[1], q[0]; H q[0]; CX q[2], q[1]; Measure q[1] --&gt; m[1]; X q[0]; H q[2]; Measure q[0] --&gt; m[0]; IF ([m[0], m[1]] == 3) THEN Rz(0.5) q[2]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that many of the transforms and compilation passes will not accept circuits that contain classical controls.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="circuit_analysis_example.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Circuit analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="compilation_example.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Compilation passes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wires-unit-ids-and-registers">Wires, unit IDs and registers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exporting-to-and-importing-from-standard-formats">Exporting to and importing from standard formats</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boxes">Boxes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-composition">Circuit composition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symbolic-parameters">Symbolic parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates">Custom gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposing-boxes-and-custom-gates">Decomposing boxes and custom gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-controls">Classical controls</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

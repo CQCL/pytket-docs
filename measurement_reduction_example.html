@@ -1,0 +1,648 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Advanced Expectation Values and Measurement Reduction &#8212; pytket examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'measurement_reduction_example';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Qubit Mapping and Routing" href="mapping_example.html" />
+    <link rel="prev" title="How to create your own Backend using pytket" href="creating_backends.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ansatz_sequence_example.html">Ansatz Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_analysis_example.html">Circuit analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_generation_example.html">Circuit generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation_example.html">Compilation passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional_gate_example.html">Conditional Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextual_optimization.html">Contextual optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_backends.html">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Advanced Expectation Values and Measurement Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping_example.html">Qubit Mapping and Routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbolics_example.html">Symbolic compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ucc_vqe.html">VQE for Unitary Coupled Cluster using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_qaoa.html">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax-classification.html">Binary Classification using pytket-qujax</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="benchmarking/README.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends_example.html">TKET Backend Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comparing_simulators.html">Comparison of the simulators available through tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit_integration.html">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Forest_portability_example.html">Code Portability and Intro to Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expectation_value_example.html">Expectation Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entanglement_swapping.html">Iterated Entanglement Swapping using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_heisenberg_vqe.html">Let’s start with a tket circuit<br/></a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="spam_example.html">Calibration and Correction of State Preparation and Measurement (SPAM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tket_benchmarking.html">tket benchmarking example</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/measurement_reduction_example.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Advanced Expectation Values and Measurement Reduction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="advanced-expectation-values-and-measurement-reduction">
+<h1>Advanced Expectation Values and Measurement Reduction<a class="headerlink" href="#advanced-expectation-values-and-measurement-reduction" title="Permalink to this heading">#</a></h1>
+<p>This notebook is an advanced follow-up to the “expectation_value_example” notebook, focussing on reducing the number of circuits required for measurement.<br>
+<br>
+When calculating the expectation value <span class="math notranslate nohighlight">\(\langle \psi \vert H \vert \psi \rangle\)</span> of some operator <span class="math notranslate nohighlight">\(H\)</span> on a quantum computer, we prepare <span class="math notranslate nohighlight">\(\vert \psi \rangle\)</span> using a circuit, and the operator <span class="math notranslate nohighlight">\(H\)</span> is first decomposed into a sum of smaller, tractable operators of the form <span class="math notranslate nohighlight">\(\alpha P\)</span>, where <span class="math notranslate nohighlight">\(P \in \mathcal{G}_n\)</span>, the multi-qubit Pauli group. Naively, one would obtain the expectation value of each of these smaller operators individually by doing shots on the quantum computer and measuring in the correct Pauli bases. Assuming the device measures only single qubits in the <span class="math notranslate nohighlight">\(Z\)</span>-basis, this basis change requires single-qubit Clifford gates, which are “cheaper” (less noisy and quicker) than entangling gates. The sum of these smaller operator expectation values is then used to obtain the desired <span class="math notranslate nohighlight">\(\langle \psi \vert H \vert \psi \rangle\)</span>.<br>
+<br>
+However, the scaling of this process can be poor, meaning that many shots are required. Instead, several of these smaller operators can be measured simultaneously, reducing the total number of measurements. For some sets of measurements, it can be done “for free”, meaning that no extra entangling gates are required to perform simultaneous measurement. For general commuting sets of Pauli measurements, Clifford gates are required for simultaneous measurement, including entangling gates.</p>
+<p>There are several strategies for measurement reduction throughout the literature. Examples include <a class="reference external" href="https://arxiv.org/abs/1908.06942">https://arxiv.org/abs/1908.06942</a>, <a class="reference external" href="https://arxiv.org/abs/1908.08067">https://arxiv.org/abs/1908.08067</a> and <a class="reference external" href="https://arxiv.org/abs/1907.07859">https://arxiv.org/abs/1907.07859</a>.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, we provide tools to perform measurement reduction. The most accessible way is to use the utils method, <code class="docutils literal notranslate"><span class="pre">get_operator_expectation_value</span></code>. This method wraps up some under-the-hood processes to allow users to calculate expectation values, agnostic to the backend, operator, or circuit. In this tutorial we will use the Qiskit Aer simulators via the <code class="docutils literal notranslate"><span class="pre">AerBackend</span></code>, for shots, and the <code class="docutils literal notranslate"><span class="pre">AerStateBackend</span></code>, for statevector simulation.<br>
+<br>
+We use the <code class="docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code> class to represent the operator <span class="math notranslate nohighlight">\(H\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">QubitPauliString</span>
+<span class="kn">from</span> <span class="nn">pytket.utils</span> <span class="kn">import</span> <span class="n">QubitPauliOperator</span>
+<span class="kn">from</span> <span class="nn">pytket.utils.expectations</span> <span class="kn">import</span> <span class="n">get_operator_expectation_value</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span><span class="p">,</span> <span class="n">AerStateBackend</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, let’s get some results on a toy circuit without using any measurement reduction:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shots_backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+<span class="n">n_shots</span> <span class="o">=</span> <span class="mi">10000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">V</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[V q[2]; H q[4]; ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">shots_backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">QubitPauliOperator</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="n">QubitPauliString</span><span class="p">([</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span> <span class="p">[</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">]):</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">QubitPauliString</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">4</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Y</span><span class="p">],</span>
+        <span class="p">):</span> <span class="mf">0.4</span><span class="p">,</span>
+        <span class="n">QubitPauliString</span><span class="p">([</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">]):</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shots_result</span> <span class="o">=</span> <span class="n">get_operator_expectation_value</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">shots_backend</span><span class="p">,</span> <span class="n">n_shots</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shots_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.09871999999999997+0j)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result should be around 0.1, although as the shot simulator is stochastic this will be inexact. Let’s test to check what the exact result should be using the statevector simulator:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">state_backend</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
+<span class="n">state_result</span> <span class="o">=</span> <span class="n">get_operator_expectation_value</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">state_backend</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">state_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can introduce measurement reduction. First we need to choose a strategy:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.partition</span> <span class="kn">import</span> <span class="n">PauliPartitionStrat</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This first one only performs measurements on simultaneous Pauli operators when there is no cost incurred to do so.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">strat</span> <span class="o">=</span> <span class="n">PauliPartitionStrat</span><span class="o">.</span><span class="n">NonConflictingSets</span>
+<span class="n">shots_result</span> <span class="o">=</span> <span class="n">get_operator_expectation_value</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">shots_backend</span><span class="p">,</span> <span class="n">n_shots</span><span class="p">,</span> <span class="n">strat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shots_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.10392000000000001+0j)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The other strategy we use groups together arbitrary Pauli operators, with the condition that all Pauli operators within a group commute. For an input circuit with <span class="math notranslate nohighlight">\(n\)</span> qubits, our method requires the addition of up to <span class="math notranslate nohighlight">\(\frac{n(n-1)}{2}\)</span> <span class="math notranslate nohighlight">\(CX\)</span> gates to “diagonalise” the Pauli operators, although in practice we find that our techniques tend to give far lower gate overhead than this bound. We describe the procedure in an upcoming paper.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">strat</span> <span class="o">=</span> <span class="n">PauliPartitionStrat</span><span class="o">.</span><span class="n">CommutingSets</span>
+<span class="n">shots_result</span> <span class="o">=</span> <span class="n">get_operator_expectation_value</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">shots_backend</span><span class="p">,</span> <span class="n">n_shots</span><span class="p">,</span> <span class="n">strat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shots_result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.10008+0j)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Obviously, the <code class="docutils literal notranslate"><span class="pre">AerBackend</span></code> can be swapped out for the backend of a real machine.</p>
+<p>We will now demonstrate how to manually use the methods that are being called by <code class="docutils literal notranslate"><span class="pre">get_operator_expectation_value</span></code>. These methods are primarily intended for internal use, but we show them here for advanced users who may wish to have more information about the number of CX gates being added to each circuit, the number of circuits being run and other diagnostics.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket.circuit</span> <span class="kn">import</span> <span class="n">OpType</span>
+<span class="kn">from</span> <span class="nn">pytket.partition</span> <span class="kn">import</span> <span class="n">measurement_reduction</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">id_string</span> <span class="o">=</span> <span class="n">QubitPauliString</span><span class="p">()</span>
+<span class="n">qpt_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">op</span><span class="o">.</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="n">id_string</span><span class="p">)]</span>
+<span class="n">setup_1</span> <span class="o">=</span> <span class="n">measurement_reduction</span><span class="p">(</span><span class="n">qpt_list</span><span class="p">,</span> <span class="n">PauliPartitionStrat</span><span class="o">.</span><span class="n">NonConflictingSets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Circuits required for measurement: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">setup_1</span><span class="o">.</span><span class="n">measurement_circs</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Circuits required for measurement: 3
+</pre></div>
+</div>
+</div>
+</div>
+<p>This produced a <code class="docutils literal notranslate"><span class="pre">MeasurementSetup</span></code> object using the <code class="docutils literal notranslate"><span class="pre">NonConflictingSets</span></code> strategy of measurement reduction. This object holds a set of circuits which perform different basis changes, and the measurements associated with these circuits.<br>
+<br>
+There are 3 circuits held within the <code class="docutils literal notranslate"><span class="pre">MeasurementSetup</span></code> object, meaning that our original <code class="docutils literal notranslate"><span class="pre">QubitOperator</span></code> has been reduced from the 5 originally required measurements to 3.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">circ</span> <span class="ow">in</span> <span class="n">setup_1</span><span class="o">.</span><span class="n">measurement_circs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CX gates for measurement: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CX gates for measurement: 0
+CX gates for measurement: 0
+CX gates for measurement: 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>No CX gates have been added for any of the required measurements. Now, we will change to the <code class="docutils literal notranslate"><span class="pre">CommutingSets</span></code> strategy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">setup_2</span> <span class="o">=</span> <span class="n">measurement_reduction</span><span class="p">(</span><span class="n">qpt_list</span><span class="p">,</span> <span class="n">PauliPartitionStrat</span><span class="o">.</span><span class="n">CommutingSets</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Circuits required for measurement: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">setup_2</span><span class="o">.</span><span class="n">measurement_circs</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Circuits required for measurement: 2
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are only 2 circuits required when expanding the scope of allowed simultaneous measurements. However, this comes at a cost:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">circ</span> <span class="ow">in</span> <span class="n">setup_2</span><span class="o">.</span><span class="n">measurement_circs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CX gates for measurement: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">circ</span><span class="o">.</span><span class="n">n_gates_of_type</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">CX</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CX gates for measurement: 0
+CX gates for measurement: 1
+</pre></div>
+</div>
+</div>
+</div>
+<p>A CX gate has been introduced to one of the measurement circuits, to convert to the correct Pauli basis set. On current devices which are extremely constrained in the number of entangling gates, the reduction in number of shots may not be worth the gate overhead.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="creating_backends.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mapping_example.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Qubit Mapping and Routing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

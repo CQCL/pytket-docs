@@ -1,0 +1,918 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Comparison of the simulators available through tket &#8212; pytket examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'comparing_simulators';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Integrating pytket into Qiskit software" href="qiskit_integration.html" />
+    <link rel="prev" title="TKET Backend Tutorial" href="backends_example.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/Quantinuum_logo_black.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/Quantinuum_logo_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ansatz_sequence_example.html">Ansatz Sequencing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_analysis_example.html">Circuit analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="circuit_generation_example.html">Circuit generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation_example.html">Compilation passes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional_gate_example.html">Conditional Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contextual_optimization.html">Contextual optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_backends.html">How to create your own <code class="docutils literal notranslate"><span class="pre">Backend</span></code> using <code class="docutils literal notranslate"><span class="pre">pytket</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="measurement_reduction_example.html">Advanced Expectation Values and Measurement Reduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mapping_example.html">Qubit Mapping and Routing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="symbolics_example.html">Symbolic compilation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ucc_vqe.html">VQE for Unitary Coupled Cluster using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_qaoa.html">Symbolic circuits with <code class="docutils literal notranslate"><span class="pre">qujax</span></code> and <code class="docutils literal notranslate"><span class="pre">pytket-qujax</span></code><br/></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax-classification.html">Binary Classification using pytket-qujax</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="benchmarking/README.html">Benchmarking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backends_example.html">TKET Backend Tutorial</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Comparison of the simulators available through tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qiskit_integration.html">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Forest_portability_example.html">Code Portability and Intro to Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expectation_value_example.html">Expectation Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="entanglement_swapping.html">Iterated Entanglement Swapping using tket</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytket-qujax_heisenberg_vqe.html">Let’s start with a tket circuit<br/></a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="spam_example.html">Calibration and Correction of State Preparation and Measurement (SPAM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tket_benchmarking.html">tket benchmarking example</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/comparing_simulators.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Comparison of the simulators available through tket</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-simulator-usage">Sampling simulator usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevector-simulator-usage">Statevector simulator usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-value-usage">Expectation value usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qiskit-aerbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qiskit-aerstatebackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerStateBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qiskit-aerunitarybackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerUnitaryBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-pyquil-forestbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.pyquil.ForestBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-pyquil-foreststatebackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.pyquil.ForestStateBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qsharp-qsharpsimulatorbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpSimulatorBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qsharp-qsharptoffolisimulatorbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpToffoliSimulatorBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qsharp-qsharpestimatorbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpEstimatorBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qulacs-qulacsbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qulacs.QulacsBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qulacs-qulacsgpubackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qulacs.QulacsGPUBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-projectq-projectqbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.projectq.ProjectQBackend</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="comparison-of-the-simulators-available-through-tket">
+<h1>Comparison of the simulators available through tket<a class="headerlink" href="#comparison-of-the-simulators-available-through-tket" title="Permalink to this heading">#</a></h1>
+<p>In this tutorial, we will focus on:<br></p>
+<ul class="simple">
+<li><p>exploring the wide array of simulators available through the extension modules for <code class="docutils literal notranslate"><span class="pre">pytket</span></code>;<br></p></li>
+<li><p>comparing their unique features and capabilities.</p></li>
+</ul>
+<p>This example assumes the reader is familiar with the basics of circuit construction and evaluation.<br>
+<br>
+To run every option in this example, you will need <code class="docutils literal notranslate"><span class="pre">pytket</span></code>, <code class="docutils literal notranslate"><span class="pre">pytket-qiskit</span></code>, <code class="docutils literal notranslate"><span class="pre">pytket-pyquil</span></code>, <code class="docutils literal notranslate"><span class="pre">pytket-qsharp</span></code>, <code class="docutils literal notranslate"><span class="pre">pytket-qulacs</span></code>, and <code class="docutils literal notranslate"><span class="pre">pytket-projectq</span></code>.<br>
+<br>
+With the number of simulator <code class="docutils literal notranslate"><span class="pre">Backend</span></code>s available across the <code class="docutils literal notranslate"><span class="pre">pytket</span></code> extension modules, we are often asked why to use one over another. Surely, any two simulators are equivalent if they are able to sample the circuits in the same way, right? Not quite. In this notebook we go through each of the simulators in turn and describe what sets them apart from others and how to make use of any unique features.<br>
+<br>
+But first, to demonstrate the significant overlap in functionality, we’ll just give some examples of common usage for different types of backends.</p>
+<section id="sampling-simulator-usage">
+<h2>Sampling simulator usage<a class="headerlink" href="#sampling-simulator-usage" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a circuit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run on the backend:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="statevector-simulator-usage">
+<h2>Statevector simulator usage<a class="headerlink" href="#statevector-simulator-usage" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerStateBackend</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Build a quantum state:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Examine the statevector:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">AerStateBackend</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="expectation-value-usage">
+<h2>Expectation value usage<a class="headerlink" href="#expectation-value-usage" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Qubit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span><span class="p">,</span> <span class="n">AerStateBackend</span>
+<span class="kn">from</span> <span class="nn">pytket.pauli</span> <span class="kn">import</span> <span class="n">Pauli</span><span class="p">,</span> <span class="n">QubitPauliString</span>
+<span class="kn">from</span> <span class="nn">pytket.utils.operators</span> <span class="kn">import</span> <span class="n">QubitPauliOperator</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Build a quantum state:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Rz</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Ry</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define the measurement operator:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xxi</span> <span class="o">=</span> <span class="n">QubitPauliString</span><span class="p">({</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">X</span><span class="p">})</span>
+<span class="n">zzz</span> <span class="o">=</span> <span class="n">QubitPauliString</span><span class="p">({</span><span class="n">Qubit</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="n">Pauli</span><span class="o">.</span><span class="n">Z</span><span class="p">})</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">QubitPauliOperator</span><span class="p">({</span><span class="n">xxi</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">zzz</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run on the backend:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_operator_expectation_value</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">op</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pytket-extensions-qiskit-aerbackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerBackend</span></code><a class="headerlink" href="#pytket-extensions-qiskit-aerbackend" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">AerBackend</span></code> wraps up the <code class="docutils literal notranslate"><span class="pre">qasm_simulator</span></code> from the Qiskit Aer package. It supports an extremely flexible set of circuits and uses many effective simulation methods making it a great all-purpose sampling simulator.<br>
+<br>
+Unique features:<br></p>
+<ul class="simple">
+<li><p>supports mid-circuit measurement and OpenQASM-style conditional gates;<br></p></li>
+<li><p>encompasses a variety of underlying simulation methods and automatically selects the best one for each circuit (including statevector, density matrix, (extended) stabilizer and matrix product state);<br></p></li>
+<li><p>can be provided with a <code class="docutils literal notranslate"><span class="pre">qiskit.providers.Aer.noise.NoiseModel</span></code> on instantiation to perform a noisy simulation.</p></li>
+</ul>
+<p>Useful features:<br></p>
+<ul class="simple">
+<li><p>support for fast expectation value calculations according to <code class="docutils literal notranslate"><span class="pre">QubitPauliString</span></code>s or <code class="docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code>s.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerBackend</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">from</span> <span class="nn">qiskit.providers.aer.noise</span> <span class="kn">import</span> <span class="n">NoiseModel</span><span class="p">,</span> <span class="n">depolarizing_error</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Quantum teleportation circuit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">()</span>
+<span class="n">alice</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">add_q_register</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">final</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">add_c_register</span><span class="p">(</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Start in an interesting state:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set up a Bell state between Alice and Bob:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Measure Alice’s qubits in the Bell basis:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">alice</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Correct Bob’s qubit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Z</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">condition_bits</span><span class="o">=</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">condition_value</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Measure Bob’s qubit to observe the interesting state:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">Measure</span><span class="p">(</span><span class="n">bob</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">final</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Set up a noisy simulator:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="p">()</span>
+<span class="n">dep_err</span> <span class="o">=</span> <span class="n">depolarizing_error</span><span class="p">(</span><span class="mf">0.04</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_quantum_error</span><span class="p">(</span><span class="n">dep_err</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;cx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_quantum_error</span><span class="p">(</span><span class="n">dep_err</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;cx&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">AerBackend</span><span class="p">(</span><span class="n">noise_model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run circuit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">([</span><span class="n">final</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pytket-extensions-qiskit-aerstatebackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerStateBackend</span></code><a class="headerlink" href="#pytket-extensions-qiskit-aerstatebackend" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">AerStateBackend</span></code> provides access to Qiskit Aer’s <code class="docutils literal notranslate"><span class="pre">statevector_simulator</span></code>. It supports a similarly large gate set and has competitive speed for statevector simulations.<br>
+<br>
+Useful features:<br></p>
+<ul class="simple">
+<li><p>no dependency on external executables, making it easy to install and run on any computer;<br></p></li>
+<li><p>support for fast expectation value calculations according to <code class="docutils literal notranslate"><span class="pre">QubitPauliString</span></code>s or <code class="docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code>s.</p></li>
+</ul>
+</section>
+<section id="pytket-extensions-qiskit-aerunitarybackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerUnitaryBackend</span></code><a class="headerlink" href="#pytket-extensions-qiskit-aerunitarybackend" title="Permalink to this heading">#</a></h2>
+<p>Finishing the set of simulators from Qiskit Aer, <code class="docutils literal notranslate"><span class="pre">AerUnitaryBackend</span></code> captures the <code class="docutils literal notranslate"><span class="pre">unitary_simulator</span></code>, allowing for the entire unitary of a pure quantum process to be calculated. This is especially useful for testing small subcircuits that will be used many times in a larger computation.<br>
+<br>
+Unique features:<br></p>
+<ul class="simple">
+<li><p>provides the full unitary matrix for a pure quantum circuit.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qiskit</span> <span class="kn">import</span> <span class="n">AerUnitaryBackend</span>
+<span class="kn">from</span> <span class="nn">pytket.predicates</span> <span class="kn">import</span> <span class="n">NoClassicalControlPredicate</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a simple quantum incrementer:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CCX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Examine the unitary:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">AerUnitaryBackend</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">unitary</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">unitary</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pytket-extensions-pyquil-forestbackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.pyquil.ForestBackend</span></code><a class="headerlink" href="#pytket-extensions-pyquil-forestbackend" title="Permalink to this heading">#</a></h2>
+<p>Whilst it can, with suitable credentials, be used to access the Rigetti QPUs, the <code class="docutils literal notranslate"><span class="pre">ForestBackend</span></code> also features a simulator mode which turns it into a noiseless sampling simulator that matches the constraints of the simulated device (e.g. the same gate set, restricted connectivity, measurement model, etc.). This is useful when playing around with custom compilation strategies to ensure that your final circuits are suitable to run on the device and for checking that your overall program works fine before you invest in reserving a QPU.<br>
+<br>
+Unique features:<br></p>
+<ul class="simple">
+<li><p>faithful recreation of the circuit constraints of Rigetti QPUs.</p></li>
+</ul>
+<p>If trying to use the <code class="docutils literal notranslate"><span class="pre">ForestBackend</span></code> locally (i.e. not on a Rigetti QMI), you will need to have <code class="docutils literal notranslate"><span class="pre">quilc</span></code> and <code class="docutils literal notranslate"><span class="pre">qvm</span></code> running as separate processes in server mode. One easy way of doing this is with <code class="docutils literal notranslate"><span class="pre">docker</span></code> (see the <code class="docutils literal notranslate"><span class="pre">quilc</span></code> and <code class="docutils literal notranslate"><span class="pre">qvm</span></code> documentation for alternative methods of running them):<br>
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">-it</span> <span class="pre">-p</span> <span class="pre">5555:5555</span> <span class="pre">rigetti/quilc</span> <span class="pre">-R</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span> <span class="pre">--rm</span> <span class="pre">-it</span> <span class="pre">-p</span> <span class="pre">5000:5000</span> <span class="pre">rigetti/qvm</span> <span class="pre">-S</span></code></p>
+</section>
+<section id="pytket-extensions-pyquil-foreststatebackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.pyquil.ForestStateBackend</span></code><a class="headerlink" href="#pytket-extensions-pyquil-foreststatebackend" title="Permalink to this heading">#</a></h2>
+<p>The Rigetti <code class="docutils literal notranslate"><span class="pre">pyquil</span></code> package also provides the <code class="docutils literal notranslate"><span class="pre">WavefunctionSimulator</span></code>, which we present as the <code class="docutils literal notranslate"><span class="pre">ForestStateBackend</span></code>. Functionally, it is very similar to the <code class="docutils literal notranslate"><span class="pre">AerStateBackend</span></code> so can be used interchangeably. It does require that <code class="docutils literal notranslate"><span class="pre">quilc</span></code> and <code class="docutils literal notranslate"><span class="pre">qvm</span></code> are running as separate processes when not running on a Rigetti QMI.<br>
+<br>
+Useful features:<br></p>
+<ul class="simple">
+<li><p>support for fast expectation value calculations according to <code class="docutils literal notranslate"><span class="pre">QubitPauliString</span></code>s or Hermitian <code class="docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code>s.</p></li>
+</ul>
+</section>
+<section id="pytket-extensions-qsharp-qsharpsimulatorbackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpSimulatorBackend</span></code><a class="headerlink" href="#pytket-extensions-qsharp-qsharpsimulatorbackend" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">QsharpSimulatorBackend</span></code> is another basic sampling simulator that is interchangeable with others, using the Microsoft QDK simulator. Note that the <code class="docutils literal notranslate"><span class="pre">pytket-qsharp</span></code> package is dependent on the <code class="docutils literal notranslate"><span class="pre">dotnet</span></code> SDK and <code class="docutils literal notranslate"><span class="pre">iqsharp</span></code> tool. Please consult the <code class="docutils literal notranslate"><span class="pre">pytket-qsharp</span></code> installation instructions for recommendations.</p>
+</section>
+<section id="pytket-extensions-qsharp-qsharptoffolisimulatorbackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpToffoliSimulatorBackend</span></code><a class="headerlink" href="#pytket-extensions-qsharp-qsharptoffolisimulatorbackend" title="Permalink to this heading">#</a></h2>
+<p>Toffoli circuits form a strict fragment of quantum circuits and can be efficiently simulated. The <code class="docutils literal notranslate"><span class="pre">QsharpToffoliSimulatorBackend</span></code> can only operate on these circuits, but scales much better with system size than regular simulators.<br>
+<br>
+Unique features:<br></p>
+<ul class="simple">
+<li><p>efficient simulation of Toffoli circuits.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span> <span class="nn">pytket.extensions.qsharp</span> <span class="kn">import</span> <span class="n">QsharpToffoliSimulatorBackend</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define a circuit - start in a basis state:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Define a circuit - incrementer</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CCX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run on the backend:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span> <span class="o">=</span> <span class="n">QsharpToffoliSimulatorBackend</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_compiled_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">process_circuit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">n_shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pytket-extensions-qsharp-qsharpestimatorbackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpEstimatorBackend</span></code><a class="headerlink" href="#pytket-extensions-qsharp-qsharpestimatorbackend" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">QsharpEstimatorBackend</span></code> is not strictly a simulator, as it doesn’t model the state of the quantum system and try to identify the final state, but instead analyses the circuit to estimate the required resources to run it. It does not support any of the regular outcome types (e.g. shots, counts, statevector), just the summary of the estimated resources.<br>
+<br>
+Unique features:<br></p>
+<ul class="simple">
+<li><p>estimates resources to perform the circuit, without actually simulating/running it.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytket</span> <span class="kn">import</span> <span class="n">Circuit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>from pytket.extensions.qsharp import QsharpEstimatorBackend</p>
+<p>Define a circuit - start in a basis state:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># Define a circuit - incrementer</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CCX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run on the backend:</p>
+<p>(disabled because of <a class="github reference external" href="https://github.com/CQCL/pytket-qsharp/issues/37">CQCL/pytket-qsharp#37</a>)<br>
+backend = QsharpEstimatorBackend()<br>
+c = backend.get_compiled_circuit(c)<br>
+handle = backend.process_circuit(c, n_shots=10)<br>
+resources = backend.get_resources(handle)<br>
+print(resources)</p>
+</section>
+<section id="pytket-extensions-qulacs-qulacsbackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qulacs.QulacsBackend</span></code><a class="headerlink" href="#pytket-extensions-qulacs-qulacsbackend" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">QulacsBackend</span></code> is an all-purpose simulator with both sampling and statevector modes, using the basic CPU simulator from Qulacs.<br>
+<br>
+Unique features:<br></p>
+<ul class="simple">
+<li><p>supports both sampling (shots/counts) and complete statevector outputs.</p></li>
+</ul>
+<p>Useful features:<br></p>
+<ul class="simple">
+<li><p>support for fast expectation value calculations according to <code class="docutils literal notranslate"><span class="pre">QubitPauliString</span></code>s or Hermitian <code class="docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code>s.</p></li>
+</ul>
+</section>
+<section id="pytket-extensions-qulacs-qulacsgpubackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qulacs.QulacsGPUBackend</span></code><a class="headerlink" href="#pytket-extensions-qulacs-qulacsgpubackend" title="Permalink to this heading">#</a></h2>
+<p>If the GPU version of Qulacs is installed, the <code class="docutils literal notranslate"><span class="pre">QulacsGPUBackend</span></code> will use that to benefit from even faster speeds. It is very easy to get started with using a GPU, as it only requires a CUDA installation and the <code class="docutils literal notranslate"><span class="pre">qulacs-gpu</span></code> package from <code class="docutils literal notranslate"><span class="pre">pip</span></code>. Functionally, it is identical to the <code class="docutils literal notranslate"><span class="pre">QulacsBackend</span></code>, but potentially faster if you have GPU resources available.<br>
+<br>
+Unique features:<br></p>
+<ul class="simple">
+<li><p>GPU support for very fast simulation.</p></li>
+</ul>
+</section>
+<section id="pytket-extensions-projectq-projectqbackend">
+<h2><code class="docutils literal notranslate"><span class="pre">pytket.extensions.projectq.ProjectQBackend</span></code><a class="headerlink" href="#pytket-extensions-projectq-projectqbackend" title="Permalink to this heading">#</a></h2>
+<p>ProjectQ is a popular quantum circuit simulator, thanks to its availability and ease of use. It provides a similar level of performance and features to <code class="docutils literal notranslate"><span class="pre">AerStateBackend</span></code>.<br>
+<br>
+Useful features:<br></p>
+<ul class="simple">
+<li><p>support for fast expectation value calculations according to <code class="docutils literal notranslate"><span class="pre">QubitPauliString</span></code>s or Hermitian <code class="docutils literal notranslate"><span class="pre">QubitPauliOperator</span></code>s.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="backends_example.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">TKET Backend Tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="qiskit_integration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Integrating <code class="docutils literal notranslate"><span class="pre">pytket</span></code> into Qiskit software</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-simulator-usage">Sampling simulator usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statevector-simulator-usage">Statevector simulator usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expectation-value-usage">Expectation value usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qiskit-aerbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qiskit-aerstatebackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerStateBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qiskit-aerunitarybackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qiskit.AerUnitaryBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-pyquil-forestbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.pyquil.ForestBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-pyquil-foreststatebackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.pyquil.ForestStateBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qsharp-qsharpsimulatorbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpSimulatorBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qsharp-qsharptoffolisimulatorbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpToffoliSimulatorBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qsharp-qsharpestimatorbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qsharp.QsharpEstimatorBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qulacs-qulacsbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qulacs.QulacsBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-qulacs-qulacsgpubackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.qulacs.QulacsGPUBackend</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytket-extensions-projectq-projectqbackend"><code class="docutils literal notranslate"><span class="pre">pytket.extensions.projectq.ProjectQBackend</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
