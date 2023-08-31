@@ -31,11 +31,11 @@ jobs:
         python -m pip install -r example_requirements.txt
         python -m pip install jupyter-book
 
-    # Build the book
+    # Build the book ensuring that build fails for warnings (-W flag)
     - name: Build the book
       run: |
         cd pytket-examples-book
-        jupyter-book build -W .
+        jupyter-book build -W . 
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
@@ -43,7 +43,7 @@ jobs:
       if: ${{ github.event_name == 'push' }}
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: main
+        publish_branch: gh-pages
         publish_dir: ./pytket-examples-book/_build/html
 
     - uses: actions/upload-artifact@v3
