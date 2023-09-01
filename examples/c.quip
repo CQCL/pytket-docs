@@ -1,0 +1,14 @@
+Inputs: 0:Qbit, 1:Qbit, 2:Qbit
+QGate["H"](0)
+Subroutine(x2)["sub", shape "([Q,Q],())"] (2,1) -> (2,1)
+QGate["H"](1)
+Outputs: 0:Qbit, 1:Qbit, 2:Qbit 
+
+Subroutine: "sub"
+Shape: "([Q,Q],())"
+Controllable: no
+Inputs: 0:Qbit, 1:Qbit
+QGate["Y"](0)
+QGate["not"](1) with controls=[+0]
+QGate["Z"](1)
+Outputs: 0:Qbit, 1:Qbit

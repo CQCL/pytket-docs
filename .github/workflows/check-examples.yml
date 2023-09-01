@@ -23,7 +23,7 @@ jobs:
         filters: |
           examples:
             - 'examples/**'
-            - 'requirements.txt'
+            - 'example_requirements.txt'
             - '.github/workflows/check-examples.yml'
 
   check:
@@ -42,12 +42,15 @@ jobs:
         python-version: 3.9
     - name: install python requirements for notebooks
       run: |
+        cd examples
         python -m pip install --upgrade pip
         python -m pip install pre-commit==3.0.0
         python -m pip install wheel
-        python -m pip install -r requirements.txt
-        python -m pip install -c constraints.txt jupyter openfermion plotly
-        python -m pip install docker p2j pytest
+        python -m pip install -r example_requirements.txt
+        python -m pip install pytket-qsharp==0.34.0
+        python -m pip install pytket-pyquil==0.29.0
+        python -m pip install -c constraints.txt jupyter plotly
+        python -m pip install docker p2j
     - name: install dotnet SDK
       uses: actions/setup-dotnet@v3
       with:

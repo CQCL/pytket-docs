@@ -1,4 +1,4 @@
-# # Compilation passes: tket example
+# # Compilation passes
 
 # There are numerous ways to optimize circuits in `pytket`. In this notebook we will introduce the basics of compilation passes and how to combine and apply them.
 #

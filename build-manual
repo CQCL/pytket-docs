@@ -1,11 +1,11 @@
 #!/bin/sh
 
-python -m pip install -r requirements.txt
+python -m pip install -r manual_requirements.txt
 python -m pip install sphinx sphinx-book-theme sphinx-copybutton jupyter-sphinx
 
 cd manual/
 
-ESCAPED_REQS=$(awk '{printf "%s%s",sep,$0; sep="\\\n"} END{print ""}' ../requirements.txt)
+ESCAPED_REQS=$(awk '{printf "%s%s",sep,$0; sep="\\\n"} END{print ""}' ../manual_requirements.txt)
 sed "s/REQUIREMENTS/$ESCAPED_REQS/" index-rst-template > index.rst
 
 rm -rf build/
