@@ -12,7 +12,7 @@ There is currently an implementation of tket available in the form of the ``pytk
 
 This user manual is targeted at readers who are already familiar with the basics of quantum computing via the circuit model and want to explore the tools available in tket. It provides a comprehensive, feature-focussed tour of the platform to take you from "Hello world" to playing with advanced techniques for speeding up and improving the accuracy of your quantum experiments.
 
-In addition to this manual, there is also a selection of `example notebooks <https://github.com/CQCL/pytket/tree/main/examples>`_ to see ``pytket`` in the context of the algorithms and applications that can be built on top of it. These are supported by the API reference for in-depth overviews of each method, class, and interface.
+In addition to this manual, there is also a selection of `example notebooks <tket.quantinuum.com/examples>`_ to see ``pytket`` in the context of the algorithms and applications that can be built on top of it. These are supported by the API reference for in-depth overviews of each method, class, and interface.
 
 NISQ Considerations
 -------------------
