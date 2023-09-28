@@ -1,6 +1,6 @@
 # pytket examples
 
-See the pytket examples built with jupyterbook [here](https://cqcl.github.io/examples/README.html).
+See the pytket examples built with jupyterbook [here](https://tket.quantinuum.com/examples).
 
 
 ## Notes for developers
