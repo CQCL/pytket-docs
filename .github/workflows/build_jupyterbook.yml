@@ -1,4 +1,4 @@
-name: deploy-book
+name: build-book
 
 # Only run this when the main branch changes
 on:
@@ -37,16 +37,4 @@ jobs:
         cd examples
         jupyter-book build -W .
 
-    # Push the book's HTML to github-pages
-    - name: GitHub Pages action
-      uses: peaceiris/actions-gh-pages@v3
-      if: ${{ github.event_name == 'push' }}
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch: gh-pages
-        publish_dir: ./examples/_build/html
-
-    - uses: actions/upload-artifact@v3
-      with:
-          name: pytket examples book
-          path: examples/_build
+    # Only the build is tested on CI in the pytket repository. The built pages are deployed from the tket-site repository.
