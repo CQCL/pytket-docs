@@ -1,7 +1,7 @@
 from pytket.backends.backendresult import BackendResult
 import matplotlib.pyplot as plt
 
-
+# plotting function for QPE Notebook
 def plot_qpe_results(
     result: BackendResult, n_strings: int = 4, dark_mode=False, y_limit=1000
 ) -> None:
