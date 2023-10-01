@@ -81,8 +81,6 @@
 #
 # We can build this circuit in `pytket` by adding gate operations manually:
 
-# In[1]:
-
 
 from pytket.circuit import Circuit
 
@@ -101,17 +99,12 @@ qft3_circ.H(2)
 qft3_circ.SWAP(0, 2)
 
 
-# In[2]:
-
-
 from pytket.circuit.display import render_circuit_jupyter
 
 render_circuit_jupyter(qft3_circ)
 
 
 # We can generalise the quantum Fourier transform to $n$ qubits by iterating over the qubits as follows
-
-# In[3]:
 
 
 def build_qft_circuit(n_qubits: int) -> Circuit:
@@ -127,8 +120,6 @@ def build_qft_circuit(n_qubits: int) -> Circuit:
     return circ
 
 
-# In[4]:
-
 
 qft4_circ: Circuit = build_qft_circuit(4)
 
@@ -136,9 +127,6 @@ render_circuit_jupyter(qft4_circ)
 
 
 # Now that we have the generalised circuit we can wrap it up in a `CircBox` which can then be added to another circuit as a subroutine.
-
-# In[5]:
-
 
 from pytket.circuit import CircBox
 
@@ -161,8 +149,6 @@ render_circuit_jupyter(qft_circ)
 #
 #
 # Now that we have the QFT circuit we can obtain the inverse by using `CircBox.dagger`. We can also verify that this is correct by inspecting the circuit inside with `CircBox.get_circuit()`.
-
-# In[6]:
 
 
 inv_qft4_box = qft4_box.dagger
@@ -194,8 +180,6 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 #
 # This is an artifical example. We will later consider a physically motivated Hamiltonian.
 
-# In[7]:
-
 
 from pytket import Qubit
 from pytket.pauli import Pauli, QubitPauliString
@@ -210,7 +194,6 @@ qpo = QubitPauliOperator({xxy: 1 / 4, zxz: 1 / 7, yyx: 1 / 3})
 
 # We can generate a circuit to approximate the unitary evolution of $e^{i H t}$ with the `gen_term_sequence_circuit` utility function.
 
-# In[8]:
 
 
 from pytket.circuit import CircBox
@@ -222,15 +205,12 @@ u_box = CircBox(op_circ)
 
 # We can create a controlled unitary $U$ with a `QControlBox` with $n$ controls. In phase estimation only a single control is needed so $n=1$.
 
-# In[9]:
 
 
 from pytket.circuit import QControlBox
 
 controlled_u = QControlBox(u_box, n=1)
 
-
-# In[10]:
 
 
 test_circ = Circuit(4).add_gate(controlled_u, [0, 1, 2, 3])
@@ -239,7 +219,6 @@ render_circuit_jupyter(test_circ)
 
 # ## Putting it all together
 
-# In[11]:
 
 
 def build_phase_est_circuit(
@@ -256,7 +235,7 @@ def build_phase_est_circuit(
     controlled_u = QControlBox(CircBox(unitary_circuit), 1)
 
     # Add Hadamard gates to every qubit in the measurement register
-    for m_qubit in measurement_register:
+    for m_qubit in range(n_measurement_qubits):
         qpe_circ.H(m_qubit)
 
     # Add all (2**n_measurement_qubits - 1) of the controlled unitaries sequentially
@@ -291,8 +270,6 @@ def build_phase_est_circuit(
 #
 # So we expect that our ideal phase $\theta$ will be half the input angle $\phi$ to our $U1$ gate.
 
-# In[12]:
-
 
 state_prep_circuit = Circuit(1).X(0)
 
@@ -301,23 +278,17 @@ input_angle = 0.73  # angle as number of half turns
 unitary_circuit = Circuit(1).add_gate(OpType.U1, [input_angle], [0])
 
 
-# In[13]:
-
 
 qpe_circ_trivial = build_phase_est_circuit(
     4, state_prep_circuit=state_prep_circuit, unitary_circuit=unitary_circuit
 )
 
 
-# In[14]:
-
 
 render_circuit_jupyter(qpe_circ_trivial)
 
 
 # Lets use the noiseless `AerBackend` simulator to run our phase estimation circuit.
-
-# In[15]:
 
 
 from pytket.extensions.qiskit import AerBackend
@@ -334,9 +305,6 @@ print(result.get_counts())
 
 
 # We can now plot our results. The plotting is imported from the `plotting.py` file.
-
-# In[16]:
-
 
 from plotting import plot_qpe_results
 
@@ -355,8 +323,6 @@ plot_qpe_results(result, y_limit=1.2 * n_shots)
 
 # Here $N = 2 ^n$ where $n$ is the number of measurement qubits.
 
-# In[17]:
-
 
 from pytket.backends.backendresult import BackendResult
 
@@ -365,32 +331,25 @@ def single_phase_from_backendresult(result: BackendResult) -> float:
     # Extract most common measurement outcome
     basis_state = result.get_counts().most_common()[0][0]
     bitstring = "".join([str(bit) for bit in basis_state])
+    integer = int(bitstring, 2)
 
     # Calculate theta estimate
-    return int(bitstring, 2) / (2 ** len(bitstring))
+    return integer / (2 ** len(bitstring))
 
-
-# In[18]:
 
 
 theta = single_phase_from_backendresult(result)
 
 
-# In[19]:
-
 
 print(theta)
 
-
-# In[20]:
 
 
 print(input_angle / 2)
 
 
 # Our output is close to half our input angle $\phi$ as expected. Lets calculate our error.
-
-# In[21]:
 
 
 error = round(abs(input_angle - (2 * theta)), 3)
@@ -405,8 +364,6 @@ print(error)
 #
 # Here we can load in our `QubitPauliOperator` from a JSON file.
 
-# In[22]:
-
 
 import json
 from pytket.utils import QubitPauliOperator
@@ -415,25 +372,17 @@ with open("h2_5A.json") as f:
     qpo_h25A = QubitPauliOperator.from_list(json.load(f))
 
 
-# In[23]:
-
 
 ham_circ = gen_term_sequence_circuit(qpo_h25A, Circuit(4))
 
-
-# In[24]:
 
 
 from pytket.passes import DecomposeBoxes
 
 
-# In[25]:
-
 
 DecomposeBoxes().apply(ham_circ)
 
-
-# In[26]:
 
 
 render_circuit_jupyter(ham_circ)
@@ -451,8 +400,6 @@ render_circuit_jupyter(ham_circ)
 #
 # We can synthesise a circuit for the Pauli exponential using `PauliExpBox`.
 
-# In[27]:
-
 
 from pytket.pauli import Pauli
 from pytket.circuit import PauliExpBox
@@ -465,15 +412,11 @@ state_circ.add_gate(yxxx_box, [0, 1, 2, 3])
 
 # we can extract the statevector for $e^{i \frac{\pi}{2}\theta YXXX}|1100\rangle$ using the `Circuit.get_statvector()` method.
 
-# In[28]:
-
 
 initial_state = state_circ.get_statevector()
 
 
 # Finally we can prepare our initial state using `StatePreparationBox`.
-
-# In[29]:
 
 
 from pytket.circuit import StatePreparationBox
@@ -487,13 +430,9 @@ state_prep_box = StatePreparationBox(initial_state)
 #
 # We will again use the idealised `AerBackend` simulator for our simulation. If we were instead using a simulator with a noise model or a NISQ device we would expect our results to be degraded due to the large circuit depth.
 
-# In[30]:
-
 
 ham_state_prep_circuit = Circuit(4).add_gate(state_prep_box, [0, 1, 2, 3])
 
-
-# In[31]:
 
 
 h2_qpe_circuit = build_phase_est_circuit(
@@ -501,27 +440,19 @@ h2_qpe_circuit = build_phase_est_circuit(
 )
 
 
-# In[32]:
-
 
 render_circuit_jupyter(h2_qpe_circuit)
 
 
-# In[33]:
-
 
 compiled_ham_circ = backend.get_compiled_circuit(h2_qpe_circuit, 0)
 
-
-# In[34]:
 
 
 n_shots = 2000
 
 ham_result = backend.run_circuit(compiled_ham_circ, n_shots=n_shots)
 
-
-# In[35]:
 
 
 plot_qpe_results(ham_result, y_limit=1.2 * n_shots, n_strings=5)
