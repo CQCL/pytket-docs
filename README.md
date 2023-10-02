@@ -30,7 +30,7 @@ API documentation can be found at https://tket.quantinuum.com/api-docs.
 
 To get more in depth on features, see the [manual](https://tket.quantinuum.com/user-manual/) and [examples](https://tket.quantinuum.com/examples).
 
-## Interfaces
+## Extensions
 
 It is easy to use pytket as a front-end for interacting with third-party devices
 and software. 
