@@ -24,17 +24,20 @@ To install, run:
 pip install pytket
 ```
 
-See the [Getting Started](https://cqcl.github.io/tket/pytket/api/getting_started.html) page for a quick introduction to using pytket.
+See the [Getting Started](https://tket.quantinuum.com/api-docs/getting_started.html) page for a quick introduction to using pytket.
 
-API documentation can be found at [cqcl.github.io/tket/pytket](https://cqcl.github.io/tket/pytket/api).
+API documentation can be found at https://tket.quantinuum.com/api-docs.
 
-To get more in depth on features, see the [manual](https://cqcl.github.io/pytket/manual/) and [examples](https://github.com/CQCL/pytket/tree/main/examples).
+To get more in depth on features, see the [manual](https://tket.quantinuum.com/user-manual/) and [examples](https://tket.quantinuum.com/examples).
 
 ## Interfaces
 
 It is easy to use pytket as a front-end for interacting with third-party devices
-and software. We maintain a large and growing number of extensions on the
-[pytket-extensions repository](https://github.com/CQCL/pytket-extensions). These are simple to install with `pip`.
+and software. 
+
+We maintain a large and growing number of [pytket extensions](https://tket.quantinuum.com/extensions/). These extensions provide access to a range of quantum devices and simulators and enable joint functionality between pytket and other quantum software libraries.
+
+ These are simple to install with `pip`.
 
 ## Maintenance and support
 
