@@ -225,11 +225,12 @@ def build_phase_est_circuit(
 
     qpe_circ.add_circuit(state_prep_circuit, list(state_prep_register))
 
+    # Create a controlled unitary with a single control qubit
     unitary_circuit.name = "U"
-    controlled_u = QControlBox(CircBox(unitary_circuit), 1)
+    controlled_u_gate = QControlBox(CircBox(unitary_circuit), 1)
 
     # Add Hadamard gates to every qubit in the measurement register
-    for m_qubit in range(n_measurement_qubits):
+    for m_qubit in measurement_register:
         qpe_circ.H(m_qubit)
 
     # Add all (2**n_measurement_qubits - 1) of the controlled unitaries sequentially
@@ -238,7 +239,7 @@ def build_phase_est_circuit(
         control_qubit = [measurement_register[control_index]]
         for _ in range(2**m_qubit):
             qpe_circ.add_qcontrolbox(
-                controlled_u, control_qubit + list(state_prep_register)
+                controlled_u_gate, control_qubit + list(state_prep_register)
             )
 
     # Finally, append the inverse qft and measure the qubits
@@ -265,15 +266,15 @@ def build_phase_est_circuit(
 # So we expect that our ideal phase $\theta$ will be half the input angle $\phi$ to our $U1$ gate.
 
 
-state_prep_circuit = Circuit(1).X(0)
+prep_circuit = Circuit(1).X(0)
 
 input_angle = 0.73  # angle as number of half turns
 
-unitary_circuit = Circuit(1).add_gate(OpType.U1, [input_angle], [0])
+unitary_circuit = Circuit(1).U1(input_angle, 0)
 
 
 qpe_circ_trivial = build_phase_est_circuit(
-    4, state_prep_circuit=state_prep_circuit, unitary_circuit=unitary_circuit
+    4, state_prep_circuit=prep_circuit, unitary_circuit=unitary_circuit
 )
 
 
@@ -296,11 +297,48 @@ result = backend.run_circuit(compiled_circ, n_shots)
 print(result.get_counts())
 
 
-# We can now plot our results. The plotting is imported from the `plotting.py` file.
+from pytket.backends.backendresult import BackendResult
+import matplotlib.pyplot as plt
 
-from plotting import plot_qpe_results
 
-plot_qpe_results(result, y_limit=1.2 * n_shots)
+# plotting function for QPE Notebook
+def plot_qpe_results(
+    sim_result: BackendResult,
+    n_strings: int = 4,
+    dark_mode: bool = False,
+    y_limit: int = 1000,
+) -> None:
+    """
+    Plots results in a barchart given a BackendResult. the number of stings displayed
+    can be specified with the n_strings argument.
+    """
+    counts_dict = sim_result.get_counts()
+    sorted_shots = counts_dict.most_common()
+
+    n_most_common_strings = sorted_shots[:n_strings]
+    x_axis_values = [str(entry[0]) for entry in n_most_common_strings]  # basis states
+    y_axis_values = [entry[1] for entry in n_most_common_strings]  # counts
+
+    if dark_mode:
+        plt.style.use("dark_background")
+
+    fig = plt.figure()
+    ax = fig.add_axes((0, 0, 0.75, 0.5))
+    color_list = ["orange"] * (len(x_axis_values))
+    ax.bar(
+        x=x_axis_values,
+        height=y_axis_values,
+        color=color_list,
+    )
+    ax.set_title(label="Results")
+    plt.ylim([0, y_limit])
+    plt.xlabel("Basis State")
+    plt.ylabel("Number of Shots")
+    plt.xticks(rotation=90)
+    plt.show()
+
+
+plot_qpe_results(result, y_limit=int(1.2 * n_shots))
 
 
 # As expected we see one outcome with high probability. Lets now extract our approximation of $\theta$ from our output bitstrings.
@@ -355,9 +393,10 @@ print(error)
 
 
 import json
-from pytket.utils import QubitPauliOperator
 
-with open("h2_5A.json") as f:
+with open(
+    "h2_5A.json",
+) as f:
     qpo_h25A = QubitPauliOperator.from_list(json.load(f))
 
 
@@ -432,7 +471,7 @@ n_shots = 2000
 
 ham_result = backend.run_circuit(compiled_ham_circ, n_shots=n_shots)
 
-plot_qpe_results(ham_result, y_limit=1.2 * n_shots, n_strings=5)
+plot_qpe_results(ham_result, y_limit=int(1.2 * n_shots), n_strings=5)
 
 
 # ## Suggestions for further reading
