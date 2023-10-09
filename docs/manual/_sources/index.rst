@@ -5,12 +5,9 @@ This manual refers to the following versions of pytket and extensions:
 
 .. code-block:: text
 
-    pytket[ZX] == 1.17.1
-    pytket-projectq == 0.28.0
-    pytket-qiskit == 0.41.0
-    pytket-qsharp == 0.34.0
-    pytket-cirq == 0.29.0
-    pytket-pyquil == 0.28.0
+    pytket[ZX] == 1.20.1
+    pytket-qiskit == 0.44.0
+    pytket-cirq == 0.30.0
 
 .. toctree::
     :caption: Manual Sections:
@@ -30,7 +27,7 @@ This manual refers to the following versions of pytket and extensions:
 
     pytket <https://cqcl.github.io/tket/pytket/api/>
     Extensions <https://cqcl.github.io/pytket-extensions/api/index.html>
-    Example notebooks <https://github.com/CQCL/pytket/tree/main/examples>
+    Example notebooks <https://tket.quantinuum.com/examples>
 
 Indices and Tables
 ==================
