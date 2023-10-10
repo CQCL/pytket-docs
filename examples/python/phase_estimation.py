@@ -255,7 +255,7 @@ def build_phase_est_circuit(
 
 # ## Phase Estimation with a Trivial Eigenstate
 #
-# Lets test our circuit construction by preparing a trivial $|1\rangle $eigenstate of the $\text{U1}$ gate. We can then see if our phase estimation circuit returns the expected eigenvalue.
+# Lets test our circuit construction by preparing a trivial $|1\rangle$ eigenstate of the $\text{U1}$ gate. We can then see if our phase estimation circuit returns the expected eigenvalue.
 
 # $$
 # \begin{equation}
