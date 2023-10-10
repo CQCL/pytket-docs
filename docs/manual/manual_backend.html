@@ -7,7 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Running on Backends &#8212; pytket user manual</title>
   
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -37,12 +37,15 @@
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/thebelab-helper.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
@@ -65,6 +68,15 @@
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -151,7 +163,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/tket/pytket/api/">pytket</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://cqcl.github.io/pytket-extensions/api/index.html">Extensions</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/CQCL/pytket/tree/main/examples">Example notebooks</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://tket.quantinuum.com/examples">Example notebooks</a></li>
 </ul>
 
     </div>
@@ -307,10 +319,10 @@
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -318,7 +330,7 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -465,25 +477,25 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
- [1 1]
- [1 1]
- [1 1]
- [1 1]
+ [0 1]
+ [0 1]
  [0 1]
  [1 1]
  [0 1]
  [0 1]
  [0 1]
  [0 1]
- [1 1]
- [1 1]
- [1 1]
+ [0 1]
+ [0 1]
  [0 1]
  [1 1]
  [0 1]
  [1 1]
  [0 1]
- [1 1]]
+ [1 1]
+ [0 1]
+ [1 1]
+ [0 1]]
 </pre></div>
 </div>
 </div>
@@ -510,8 +522,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1003, (0, 1): 997})
-{(0, 1): 0.4985, (1, 1): 0.5015}
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 1023, (0, 1): 977})
+{(0, 1): 0.4885, (1, 1): 0.5115}
 </pre></div>
 </div>
 </div>
@@ -685,7 +697,7 @@ Counter({(1, 0): 10})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.02400000000000002
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.02100000000000002
 </pre></div>
 </div>
 </div>
@@ -746,8 +758,8 @@ Counter({(1, 0): 10})
   0.63003676-3.85786248e-17j -0.32101976+3.93135823e-17j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j
   0.        +0.00000000e+00j  0.        +0.00000000e+00j]
-Counter({(0, 0, 0): 803, (1, 0, 0): 766, (1, 0, 1): 229, (0, 0, 1): 202})
-Counter({(0, 0): 1569, (0, 1): 431})
+Counter({(1, 0, 0): 808, (0, 0, 0): 795, (0, 0, 1): 203, (1, 0, 1): 194})
+Counter({(0, 0): 1603, (0, 1): 397})
 </pre></div>
 </div>
 </div>
@@ -795,10 +807,10 @@ Counter({(0, 0): 1569, (0, 1): 431})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.010000000000000009
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.030000000000000027
 </pre></div>
 </div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.34500000000000003+0j)
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>(0.316+0j)
 </pre></div>
 </div>
 </div>
@@ -827,11 +839,8 @@ Counter({(0, 0): 1569, (0, 1): 431})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 426, (0, 0, 0): 414, (0, 1, 1): 402, (0, 1, 0): 362, (1, 0, 1): 105, (1, 0, 0): 103, (1, 1, 1): 99, (1, 1, 0): 89})
-</pre></div>
-</div>
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>
-0.010000000000000009
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0, 1): 411, (0, 1, 0): 407, (0, 0, 0): 406, (0, 1, 1): 389, (1, 0, 1): 104, (1, 0, 0): 99, (1, 1, 0): 95, (1, 1, 1): 89})
+-0.006000000000000005
 </pre></div>
 </div>
 </div>
@@ -871,7 +880,7 @@ Counter({(0, 0): 1569, (0, 1): 431})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 1): 151, (1, 0, 0): 139, (1, 0, 1): 132, (1, 1, 1): 124, (0, 0, 1): 120, (1, 1, 0): 117, (0, 1, 0): 114, (0, 0, 0): 103})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 1, 1): 136, (0, 1, 0): 131, (1, 1, 0): 131, (1, 1, 1): 128, (0, 0, 1): 124, (0, 0, 0): 123, (1, 0, 1): 114, (1, 0, 0): 113})
 </pre></div>
 </div>
 </div>
@@ -925,7 +934,7 @@ Counter({(0, 0): 1569, (0, 1): 431})
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>-0.01200000000000001
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>0.0040000000000000036
 </pre></div>
 </div>
 </div>
@@ -998,7 +1007,7 @@ Counter({(0, 0): 1569, (0, 1): 431})
 <div class="jupyter_cell jupyter_container docutils container">
 <div class="cell_input code_cell docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.primitives</span> <span class="kn">import</span> <span class="n">BackendSampler</span>
-<span class="kn">from</span> <span class="nn">qiskit.algorithms</span> <span class="kn">import</span> <span class="n">Grover</span><span class="p">,</span> <span class="n">AmplificationProblem</span>
+<span class="kn">from</span> <span class="nn">qiskit_algorithms</span> <span class="kn">import</span> <span class="n">Grover</span><span class="p">,</span> <span class="n">AmplificationProblem</span>
 <span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span>
 
 <span class="kn">from</span> <span class="nn">pytket.extensions.cirq</span> <span class="kn">import</span> <span class="n">CirqStateSampleBackend</span>
@@ -1236,7 +1245,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(1, 1): 8, (0, 0): 2})
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Counter({(0, 0): 6, (1, 1): 4})
 </pre></div>
 </div>
 </div>
@@ -1261,11 +1270,10 @@ This can be achieved using native serialiaztion and deserialization of <code cla
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="manual_circuit.html"
@@ -1285,10 +1293,7 @@ This can be achieved using native serialiaztion and deserialization of <code cla
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1365,8 +1370,8 @@ By Quantinuum
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
 
   <footer class="bd-footer">
   </footer>

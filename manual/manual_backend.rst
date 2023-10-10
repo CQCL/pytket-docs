@@ -533,7 +533,7 @@ Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`
 .. jupyter-execute::
 
     from qiskit.primitives import BackendSampler
-    from qiskit.algorithms import Grover, AmplificationProblem
+    from qiskit_algorithms import Grover, AmplificationProblem
     from qiskit.circuit import QuantumCircuit
 
     from pytket.extensions.cirq import CirqStateSampleBackend
