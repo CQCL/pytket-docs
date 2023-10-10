@@ -83,23 +83,17 @@
 
 
 from pytket.circuit import Circuit
+from pytket.circuit.display import render_circuit_jupyter
 
 # lets build the QFT for three qubits
 qft3_circ = Circuit(3)
-
 qft3_circ.H(0)
 qft3_circ.CU1(0.5, 1, 0)
 qft3_circ.CU1(0.25, 2, 0)
-
 qft3_circ.H(1)
 qft3_circ.CU1(0.5, 2, 1)
-
 qft3_circ.H(2)
-
 qft3_circ.SWAP(0, 2)
-
-
-from pytket.circuit.display import render_circuit_jupyter
 
 render_circuit_jupyter(qft3_circ)
 
