@@ -115,7 +115,6 @@ def build_qft_circuit(n_qubits: int) -> Circuit:
 
 
 qft4_circ: Circuit = build_qft_circuit(4)
-
 render_circuit_jupyter(qft4_circ)
 
 
@@ -124,9 +123,7 @@ render_circuit_jupyter(qft4_circ)
 from pytket.circuit import CircBox
 
 qft4_box: CircBox = CircBox(qft4_circ)
-
 qft_circ = Circuit(4).add_gate(qft4_box, [0, 1, 2, 3])
-
 render_circuit_jupyter(qft_circ)
 
 
@@ -145,7 +142,6 @@ render_circuit_jupyter(qft_circ)
 
 
 inv_qft4_box = qft4_box.dagger
-
 render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 
@@ -427,19 +423,6 @@ yxxx = [Pauli.Y, Pauli.X, Pauli.X, Pauli.X]
 yxxx_box = PauliExpBox(yxxx, 0.1)  # here theta=0.1
 state_circ.add_gate(yxxx_box, [0, 1, 2, 3])
 
-# we can extract the statevector for $e^{i \frac{\pi}{2}\theta YXXX}|1100\rangle$ using the `Circuit.get_statvector()` method.
-
-
-initial_state = state_circ.get_statevector()
-
-# Finally we can prepare our initial state using `StatePreparationBox`.
-
-
-from pytket.circuit import StatePreparationBox
-
-state_prep_box = StatePreparationBox(initial_state)
-
-
 # We now have all of the ingredients we need to build our phase estimation circuit for the $H_2$ molecule. Here we will use 8 qubits to estimate the phase.
 #
 # Note that the number of controlled unitaries in our circuit will scale exponentially with the number of measurement qubits. Decomposing these controlled boxes to native gates can lead to very deep circuits.
@@ -447,11 +430,8 @@ state_prep_box = StatePreparationBox(initial_state)
 # We will again use the idealised `AerBackend` simulator for our simulation. If we were instead using a simulator with a noise model or a NISQ device we would expect our results to be degraded due to the large circuit depth.
 
 
-ham_state_prep_circuit = Circuit(4).add_gate(state_prep_box, [0, 1, 2, 3])
-
-
 h2_qpe_circuit = build_phase_est_circuit(
-    8, state_prep_circuit=ham_state_prep_circuit, unitary_circuit=ham_circ
+    8, state_prep_circuit=state_circ, unitary_circuit=ham_circ
 )
 
 
