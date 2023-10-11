@@ -209,9 +209,9 @@ def build_phase_est_circuit(
     n_measurement_qubits: int, state_prep_circuit: Circuit, unitary_circuit: Circuit
 ) -> Circuit:
     qpe_circ: Circuit = Circuit()
-    n_ancillas = state_prep_circuit.n_qubits
+    n_state_prep_qubits = state_prep_circuit.n_qubits
     measurement_register = qpe_circ.add_q_register("m", n_measurement_qubits)
-    state_prep_register = qpe_circ.add_q_register("p", n_ancillas)
+    state_prep_register = qpe_circ.add_q_register("p", n_state_prep_qubits)
 
     qpe_circ.add_circuit(state_prep_circuit, list(state_prep_register))
 
