@@ -3,7 +3,7 @@
 # Configuration file for the Sphinx documentation builder.
 # See https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-copyright = "2020-2023 Quantinuum"
+COPYRIGHT = "2020-2023 Quantinuum"
 author = "Quantinuum"
 
 extensions = [
@@ -19,8 +19,6 @@ extensions = [
 html_theme = "sphinx_book_theme"
 
 html_title = "pytket user manual"
-
-html_theme = "sphinx_book_theme"
 
 html_theme_options = {
     "repository_url": "https://github.com/CQCL/tket",
