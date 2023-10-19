@@ -707,7 +707,7 @@ Lets now construct a multi-controlled Rz gate with the control state :math:`|001
     from pytket.circuit.display import render_circuit_jupyter
     from pytket.circuit import Circuit, Op, OpType, QControlBox
 
-    rz_op = Op.create(OpType.Rx, 0.61)
+    rz_op = Op.create(OpType.Rz, 0.61)
     multi_controlled_rz = QControlBox(rz_op, n_controls=4, control_state=[0, 0, 1, 0])
 
     test_circ = Circuit(5)
