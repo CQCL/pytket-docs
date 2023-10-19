@@ -698,7 +698,7 @@ Normally when we deal with controlled gates we implicitly assume that the contro
 
 However its often useful to the flexibility to define the control state as some string of zeros and ones. Certain approaches to quantum algorithms with linear combination of unitaries (LCU) frequently make use of such gates.
 
-A :py:class:`QControlBox` constructor accepts an optional ``control_state`` argument. This is either a list of binary values or a single (big-endian) integer representing the binary string.
+A :py:class:`QControlBox` now accepts an optional ``control_state`` argument in the constructor. This is either a list of binary values or a single (big-endian) integer representing the binary string.
 
 Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`.
 
@@ -742,6 +742,7 @@ These occur very naturally in Trotterising evolution operators and native device
     pauli_circ = Circuit(4)
 
     pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
+    render_circuit_jupyter(pauli_circ)
 
 To understand what happens inside a :py:class:`PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta XYYZ}`
 
@@ -829,7 +830,7 @@ Lets implement a multiplexor with the following logic. Here we treat the first t
 
 .. jupyter-execute::
 
-    from pytket.circuit import Op, MultiplexorBox
+    from pytket.circuit import Op, OpType, MultiplexorBox
 
     # Define both gates as an Op
     rz_op = Op.create(OpType.Rz, 0.3)
