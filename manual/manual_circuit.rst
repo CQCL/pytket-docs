@@ -692,6 +692,29 @@ For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by
     sqrt_y_box = Unitary1qBox(sqrt_y)
     c2_root_y = QControlBox(sqrt_y_box, 2)
 
+Normally when we deal with controlled gates we implicitly assume that the control state is the "all :math:`|1\rangle`" state. So that the base gate is applied when the qubits are all set to :math:`|1\rangle`.
+
+However its often useful to have additional flexibility with control states and define the control state as some string of zeros and ones. Certain approaches to quantum algorithms with linear combination of unitaries (LCU) frequently make use of such gates.
+
+A :py:class:`QControlBox` constructor accepts a `control_state` argument. This is either a list of binary values or a single (big-endian) integer representing the binary string.
+
+Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`.
+
+.. jupyter-execute::
+
+    from pytket.circuit.display import render_circuit_jupyter
+    from pytket import.circuit Circuit, Op, OpType, QControlBox
+
+    rz_op = Op.create(OpType.Rx, 0.61)
+    multi_controlled_rz = QControlBox(rx_op, n_controls=4, control_state=[0, 0, 1, 0])
+
+    test_circ = Circuit(5)
+    test_circ.add_gate(multi_controlled_rz, test_circ.qubits)
+
+    render_circuit_jupyter(test_circ)
+
+Notice how the circuit renderer shows both filled and unfilled circles on the control qubits. Filled circles correspond to :math:`|1\rangle` controls whereas empty circles represent :math:`|0\rangle`. As pytket uses the big-endian ordering convention we read off the control state from the top to the bottom of the circuit.
+
 
 .. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
