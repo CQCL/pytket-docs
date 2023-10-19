@@ -698,7 +698,7 @@ Normally when we deal with controlled gates we implicitly assume that the contro
 
 However its often useful to the flexibility to define the control state as some string of zeros and ones. Certain approaches to quantum algorithms with linear combination of unitaries (LCU) frequently make use of such gates.
 
-A :py:class:`QControlBox` constructor accepts a ``control_state`` argument. This is either a list of binary values or a single (big-endian) integer representing the binary string.
+A :py:class:`QControlBox` constructor accepts an optional ``control_state`` argument. This is either a list of binary values or a single (big-endian) integer representing the binary string.
 
 Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`.
 
@@ -736,16 +736,14 @@ These occur very naturally in Trotterising evolution operators and native device
     from pytket.circuit import PauliExpBox
     from pytket.pauli import Pauli
 
-    # Construct PauliExpBox(es) with a list of Paulis followed by the phase
+    # Construct a PauliExpBox with a list of Paulis followed by the phase theta
     xyyz = PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Z], -0.2)
-    zzyx = PauliExpBox([Pauli.Z, Pauli.Z, Pauli.Y, Pauli.X], 0.7)
 
-    pauli_circ = Circuit(5)
+    pauli_circ = Circuit(4)
 
     pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
-    pauli_circ.add_pauliexpbox(zzyx, [1, 2, 3, 4])
 
-To understand what happens inside a :py:class:`PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta ZZYX}`
+To understand what happens inside a :py:class:`PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta XYYZ}`
 
 .. jupyter-execute::
 
@@ -757,7 +755,7 @@ To understand what happens inside a :py:class:`PauliExpBox` let's take a look at
 
 All Pauli exponentials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
 
-We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{ZZYX}}` has basis rotations on the third and fourth qubit. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
+We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{XYYZ}}` has basis rotations on the first three qubits. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
 These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
 
