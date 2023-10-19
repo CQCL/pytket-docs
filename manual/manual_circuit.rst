@@ -1304,7 +1304,7 @@ scratch bit or register, and the gate is made conditional on the value of the
 scratch variable.
 For comparison of registers, a special ``RangePredicate`` type is used to encode
 the result of the comparison onto a scratch bit.
-See the `API reference <../../tket/pytket/api/classical.html>`_ for more on the
+See the `pytket.logic_exp documentation <https://tket.quantinuum.com/api-docs/classical.html>`_ for more on the
 possible expressions and predicates.
 
 
