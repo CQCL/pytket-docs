@@ -820,12 +820,13 @@ To create a multiplexor we simply construct a dictionary where the keys are the 
 Lets implement a multiplexor with the following logic. Here we treat the first two qubits as controls and the third qubit as the target.
 
 
-if control qubits in :math:`|00\rangle`:
-    do Rz(0.3) on the third qubit
-else if control qubits in :math:`|11\rangle`:
-     do H on the third qubit
-else:
-    do identity (i.e. do nothing)
+    if control qubits in :math:`|00\rangle`:
+        do Rz(0.3) on the third qubit
+    else if control qubits in :math:`|11\rangle`:
+        do H on the third qubit
+    else:
+        do identity (i.e. do nothing)
+
 
 
 .. jupyter-execute::
