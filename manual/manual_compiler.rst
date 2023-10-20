@@ -417,22 +417,22 @@ Previous iterations of the :py:class:`CliffordSimp` pass would work in this way 
     from pytket.passes import CliffordSimp
 
     # A basic inefficient pattern can be reduced by 1 CX
-    simple = Circuit(2)
-    simple.CX(0, 1).S(1).CX(1, 0)
+    simple_circ = Circuit(2)
+    simple_circ.CX(0, 1).S(1).CX(1, 0)
 
-    CliffordSimp().apply(simple)
-    print(simple.get_commands())
+    CliffordSimp().apply(simple_circ)
+    print(simple_circ.get_commands())
 
     # The same pattern, up to commutation and local Clifford algebra
-    complex = Circuit(3)
-    complex.CX(0, 1)
-    complex.Rx(0.42, 1)
-    complex.S(1)
-    complex.add_gate(OpType.YYPhase, 0.96, [1, 2])  # Requires 2 CXs to implement
-    complex.CX(0, 1)
+    complex_circ = Circuit(3)
+    complex_circ.CX(0, 1)
+    complex_circ.Rx(0.42, 1)
+    complex_circ.S(1)
+    complex_circ.add_gate(OpType.YYPhase, 0.96, [1, 2])  # Requires 2 CXs to implement
+    complex_circ.CX(0, 1)
 
-    CliffordSimp().apply(complex)
-    print(complex.get_commands())
+    CliffordSimp().apply(complex_circ)
+    print(complex_circ.get_commands())
 
 The next step up in scale has optimisations based on optimal decompositions of subcircuits over :math:`n`-qubits, including :py:class:`EulerAngleReduction` for single-qubit unitary chains (producing three rotations in a choice of axes), and :py:class:`KAKDecomposition` for two-qubit unitaries (using at most three CXs and some single-qubit gates).
 
