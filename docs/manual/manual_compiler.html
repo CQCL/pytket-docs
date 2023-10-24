@@ -7,7 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Compilation &#8212; pytket user manual</title>
   
@@ -42,10 +42,8 @@
   <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/thebelab-helper.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
@@ -825,22 +823,22 @@ True
 <span class="kn">from</span> <span class="nn">pytket.passes</span> <span class="kn">import</span> <span class="n">CliffordSimp</span>
 
 <span class="c1"># A basic inefficient pattern can be reduced by 1 CX</span>
-<span class="n">simple</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">simple</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">simple_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">simple_circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-<span class="n">CliffordSimp</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">simple</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">simple</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+<span class="n">CliffordSimp</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">simple_circ</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">simple_circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
 
 <span class="c1"># The same pattern, up to commutation and local Clifford algebra</span>
-<span class="nb">complex</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="nb">complex</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">complex</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.42</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="nb">complex</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">complex</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">YYPhase</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># Requires 2 CXs to implement</span>
-<span class="nb">complex</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">complex_circ</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">complex_circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">complex_circ</span><span class="o">.</span><span class="n">Rx</span><span class="p">(</span><span class="mf">0.42</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">complex_circ</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">complex_circ</span><span class="o">.</span><span class="n">add_gate</span><span class="p">(</span><span class="n">OpType</span><span class="o">.</span><span class="n">YYPhase</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>  <span class="c1"># Requires 2 CXs to implement</span>
+<span class="n">complex_circ</span><span class="o">.</span><span class="n">CX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="n">CliffordSimp</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">complex</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">complex</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
+<span class="n">CliffordSimp</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">complex_circ</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">complex_circ</span><span class="o">.</span><span class="n">get_commands</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -1664,16 +1662,16 @@ the main circuit and the postprocessing circuit, returning both.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[0 0]
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>[[1 1]
+ [1 1]
+ [0 0]
+ [0 0]
  [1 1]
  [0 0]
  [1 1]
  [1 1]
  [1 1]
- [1 1]
- [0 0]
- [0 0]
- [1 1]]
+ [0 0]]
 </pre></div>
 </div>
 </div>
@@ -1781,7 +1779,7 @@ By Quantinuum
     
   <p class="copyright">
     
-      © Copyright 2020-2023 Quantinuum.
+      © Copyright 2020-2023, Quantinuum.
       <br/>
     
   </p>
