@@ -1,4 +1,4 @@
-# # Advanced Expectation Values and Measurement Reduction
+# # Advanced expectation values and measurement reduction
 
 # This notebook is an advanced follow-up to the "expectation_value_example" notebook, focussing on reducing the number of circuits required for measurement.
 #
