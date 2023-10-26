@@ -23,6 +23,7 @@ html_title = "pytket user manual"
 html_theme_options = {
     "repository_url": "https://github.com/CQCL/tket",
     "use_repository_button": True,
+    "navigation_with_keys": True,
     "use_issues_button": True,
     "logo": {
         "image_light": "_static/Quantinuum_logo_black.png",
