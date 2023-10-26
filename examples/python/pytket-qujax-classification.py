@@ -1,4 +1,4 @@
-# # Binary Classification using pytket-qujax
+# # Binary classification using pytket-qujax
 
 from jax import numpy as jnp, random, vmap, value_and_grad, jit
 from pytket import Circuit

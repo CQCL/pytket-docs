@@ -1,4 +1,4 @@
-# # Conditional Gates
+# # Conditional gates
 
 # Whilst any quantum process can be created by performing "pure" operations delaying all measurements to the end, this is not always practical and can greatly increase the resource requirements. It is much more convenient to alternate quantum gates and measurements, especially if we can use the measurement results to determine which gates to apply (we refer to this more generic circuit model as "mixed" circuits, against the usual "pure" circuits). This is especially crucial for error correcting codes, where the correction gates are applied only if an error is detected.
 #

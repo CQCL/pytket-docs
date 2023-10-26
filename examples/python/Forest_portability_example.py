@@ -1,4 +1,4 @@
-# # Code Portability and Intro to Forest
+# # Code portability and intro to forest
 
 # The quantum hardware landscape is incredibly competitive and rapidly changing. Many full-stack quantum software platforms lock users into them in order to use the associated devices and simulators. This notebook demonstrates how `pytket` can free up your existing high-level code to be used on devices from other providers. We will take a state-preparation and evolution circuit generated using `qiskit`, and enable it to be run on several Rigetti backends.
 #

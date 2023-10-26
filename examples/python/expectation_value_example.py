@@ -1,4 +1,4 @@
-# # Expectation Values
+# # Expectation values
 
 # Given a circuit generating a quantum state $\lvert \psi \rangle$, it is very common to have an operator $H$ and ask for the expectation value $\langle \psi \vert H \vert \psi \rangle$. A notable example is in quantum computational chemistry, where $\lvert \psi \rangle$ encodes the wavefunction for the electronic state of a small molecule, and the energy of the molecule can be derived from the expectation value with respect to the molecule's Hamiltonian operator $H$.
 #

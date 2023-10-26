@@ -1,4 +1,4 @@
-# # Iterated Entanglement Swapping using TKET
+# # Iterated entanglement swapping using TKET
 
 # In this tutorial, we will focus on:
 # - designing circuits with mid-circuit measurement and conditional gates;
