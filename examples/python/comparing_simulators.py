@@ -1,4 +1,4 @@
-# # Comparison of the simulators available through tket
+# # Comparison of the simulators available through TKET
 
 # In this tutorial, we will focus on:
 # - exploring the wide array of simulators available through the extension modules for `pytket`;
