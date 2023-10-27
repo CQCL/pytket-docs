@@ -1,4 +1,4 @@
-# pytket examples
+# Contributing new notebooks
 
 See the pytket examples built with jupyterbook [here](https://tket.quantinuum.com/examples).
 
