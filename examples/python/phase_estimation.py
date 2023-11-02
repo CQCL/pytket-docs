@@ -55,7 +55,7 @@
 #
 # This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
 #
-# It is well known that the QFT can be implemented efficently with a quantum circuit
+# It is well known that the QFT can be implemented efficiently with a quantum circuit
 #
 # We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\frac{n}{2}$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
 #
@@ -146,7 +146,7 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 # ## The Controlled Unitary Operations
 
-# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the canonical variant, the number of controlled unitaries will equal $2^m - 1$ where $m$ is the number of measurement qubits.
+# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the canonical variant, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
 
 # The form of $U$ will vary depending on the application. For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
 
@@ -160,11 +160,16 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 # If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
 
+# Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
+
 # In what follows, we will just construct a simplified instance of QPE where the controlled unitaries are just $\text{CU1}$ gates.
 
 # ## Putting it all together
 
 # We can now define a function to build our entire QPE circuit. We can make this function take a state preparation circuit and a unitary circuit as input as well. The function also has the number of measurement qubits as input which will determine the precision of our phase estimate.
+
+
+from pytket.circuit import QControlBox
 
 
 def build_phase_est_circuit(
@@ -340,6 +345,6 @@ print(error)
 # In this notebook we have shown the canonical variant of quantum phase estimation. There are several other variants.
 #
 # Quantinuum paper on Bayesian phase estimation -> https://arxiv.org/pdf/2306.16608.pdf
-#
+# Blog post on `ConjugationBox` -> https://tket.quantinuum.com/tket-blog/posts/controlled_gates/ - efficient circuits for controlled Pauli gadgets.
 #
 # As mentioned quantum phase estimation is a subroutine in Shor's algorithm. Read more about how phase estimation is used in period finding.
