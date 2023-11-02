@@ -5,9 +5,9 @@ This manual refers to the following versions of pytket and extensions:
 
 .. code-block:: text
 
-    pytket[ZX] == 1.20.1
-    pytket-qiskit == 0.44.0
-    pytket-cirq == 0.30.0
+pytket[ZX] == 1.21.0
+pytket-qiskit == 0.45.0
+pytket-cirq == 0.31.0
 
 .. toctree::
     :caption: Manual Sections:
