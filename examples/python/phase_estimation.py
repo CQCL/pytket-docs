@@ -7,7 +7,7 @@
 #
 # In `pytket` we can construct circuits using box structures which abstract away the complexity of the underlying circuit.
 #
-# This notebook is intended to complement the [boxes section](https://cqcl.github.io/pytket/manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
+# This notebook is intended to complement the [boxes section](https://tket.quantinuum.com/user-manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
 #
 # To demonstrate boxes in `pytket` we will consider the Quantum Phase Estimation algorithm (QPE). This is an important subroutine in several quantum algorithms including Shor's algorithm and fault-tolerant approaches to quantum chemistry.
 #
@@ -94,7 +94,6 @@ qft3_circ.H(1)
 qft3_circ.CU1(0.5, 2, 1)
 qft3_circ.H(2)
 qft3_circ.SWAP(0, 2)
-
 render_circuit_jupyter(qft3_circ)
 
 
@@ -145,9 +144,13 @@ inv_qft4_box = qft4_box.dagger
 render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 
-# ## The Controlled Unitary Stage
+# ## The Controlled Unitary Operations
 
-# Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficents $\alpha_j$.
+# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the canonical variant, the number of controlled unitaries will equal $2^m - 1$ where $m$ is the number of measurement qubits.
+
+# The form of $U$ will vary depending on the application. For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
+
+# Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
 #
 # \begin{equation}
 # H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, X, Y, Z\}^{\otimes n}
@@ -155,8 +158,13 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 #
 # Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
 
+# If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
+
+# In what follows, we will just construct a simplified instance of QPE where the controlled unitaries are just $\text{CU1}$ gates.
 
 # ## Putting it all together
+
+# We can now define a function to build our entire QPE circuit. We can make this function take a state preparation circuit and a unitary circuit as input as well. The function also has the number of measurement qubits as input which will determine the precision of our phase estimate.
 
 
 def build_phase_est_circuit(
