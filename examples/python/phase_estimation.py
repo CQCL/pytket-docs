@@ -28,7 +28,7 @@
 #
 # The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
 #
-# ![](phase_est.png "Quantum Phase Estimation Circuit")
+# ![](images/phase_est.png "Quantum Phase Estimation Circuit")
 
 # QPE is generally split up into three stages
 #
@@ -77,7 +77,7 @@
 #
 # The circuit for the Quantum Fourier transform on three qubits is the following
 #
-# ![](qft.png "QFT Circuit")
+# ![](images/qft.png "QFT Circuit")
 #
 # We can build this circuit in `pytket` by adding gate operations manually:
 
