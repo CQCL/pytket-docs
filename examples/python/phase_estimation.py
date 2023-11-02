@@ -155,52 +155,6 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 #
 # Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
 
-# Firstly we need to define our Hamiltonian. In `pytket` this can be done with the `QubitPauliOperator` class.
-#
-# To define this object we use a python dictionary where the keys are the Pauli Strings $P_j$ and the values are the coefficents $\alpha_j$
-#
-# As an example lets consider the operator.
-#
-# $$
-# \begin{equation}
-# H = \frac{1}{4} XXY + \frac{1}{7} ZXZ + \frac{1}{3} YYX
-# \end{equation}
-# $$
-#
-# This is an artifical example. We will later consider a physically motivated Hamiltonian.
-
-from pytket import Qubit
-from pytket.pauli import Pauli, QubitPauliString
-from pytket.utils import QubitPauliOperator
-
-xxy = QubitPauliString({Qubit(0): Pauli.X, Qubit(1): Pauli.X, Qubit(2): Pauli.Y})
-zxz = QubitPauliString({Qubit(0): Pauli.Z, Qubit(1): Pauli.X, Qubit(2): Pauli.Z})
-yyx = QubitPauliString({Qubit(0): Pauli.Y, Qubit(1): Pauli.Y, Qubit(2): Pauli.X})
-
-qpo = QubitPauliOperator({xxy: 1 / 4, zxz: 1 / 7, yyx: 1 / 3})
-
-
-# We can generate a circuit to approximate the unitary evolution of $e^{i H t}$ with the `gen_term_sequence_circuit` utility function.
-
-
-from pytket.circuit import CircBox
-from pytket.utils import gen_term_sequence_circuit
-
-op_circ = gen_term_sequence_circuit(qpo, Circuit(3))
-u_box = CircBox(op_circ)
-
-
-# We can create a controlled unitary $U$ with a `QControlBox` with $n$ controls. In phase estimation only a single control is needed so $n=1$.
-
-
-from pytket.circuit import QControlBox
-
-controlled_u = QControlBox(u_box, n=1)
-
-
-test_circ = Circuit(4).add_gate(controlled_u, [0, 1, 2, 3])
-render_circuit_jupyter(test_circ)
-
 
 # ## Putting it all together
 
@@ -371,81 +325,6 @@ print(input_angle / 2)
 
 error = round(abs(input_angle - (2 * theta)), 3)
 print(error)
-
-
-# ## State Preparation
-
-# Lets now consider a more interesting Hamiltonian. We will look at the $H_2$ Hamiltonian for a bond length of 5 angstroms.
-#
-# We can define the Hamiltonian as a `pytket` `QubitPauliOperator` and then synthesise a circuit for the time evolved Hamiltonian with the `gen_term_sequence_circuit` utility method.
-#
-# Here we can load in our `QubitPauliOperator` from a JSON file.
-
-
-import json
-
-with open(
-    "h2_5A.json",
-) as f:
-    qpo_h25A = QubitPauliOperator.from_list(json.load(f))
-
-
-ham_circ = gen_term_sequence_circuit(qpo_h25A, Circuit(4))
-
-
-from pytket.passes import DecomposeBoxes
-
-
-DecomposeBoxes().apply(ham_circ)
-
-
-render_circuit_jupyter(ham_circ)
-
-
-# Now have to come up with an ansatz state to feed into our phase estimation algorithm.
-#
-# We will use the following ansatz
-#
-# $$
-# \begin{equation}
-# |\psi_0\rangle = e^{i \frac{\pi}{2}\theta YXXX}|1100\rangle\,.
-# \end{equation}
-# $$
-#
-# We can synthesise a circuit for the Pauli exponential using `PauliExpBox`.
-
-
-from pytket.pauli import Pauli
-from pytket.circuit import PauliExpBox
-
-state_circ = Circuit(4).X(0).X(1)
-yxxx = [Pauli.Y, Pauli.X, Pauli.X, Pauli.X]
-yxxx_box = PauliExpBox(yxxx, 0.1)  # here theta=0.1
-state_circ.add_gate(yxxx_box, [0, 1, 2, 3])
-
-# We now have all of the ingredients we need to build our phase estimation circuit for the $H_2$ molecule. Here we will use 8 qubits to estimate the phase.
-#
-# Note that the number of controlled unitaries in our circuit will scale exponentially with the number of measurement qubits. Decomposing these controlled boxes to native gates can lead to very deep circuits.
-#
-# We will again use the idealised `AerBackend` simulator for our simulation. If we were instead using a simulator with a noise model or a NISQ device we would expect our results to be degraded due to the large circuit depth.
-
-
-h2_qpe_circuit = build_phase_est_circuit(
-    8, state_prep_circuit=state_circ, unitary_circuit=ham_circ
-)
-
-
-render_circuit_jupyter(h2_qpe_circuit)
-
-
-compiled_ham_circ = backend.get_compiled_circuit(h2_qpe_circuit, 0)
-
-
-n_shots = 2000
-
-ham_result = backend.run_circuit(compiled_ham_circ, n_shots=n_shots)
-
-plot_qpe_results(ham_result, y_limit=int(1.2 * n_shots), n_strings=5)
 
 
 # ## Suggestions for further reading
