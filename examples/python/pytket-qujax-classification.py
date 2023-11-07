@@ -125,8 +125,16 @@ def param_and_x_to_probability(param, x_single):
 # \end{equation}
 # $$
 #
-# where $y'$ is a shot, $y$ is a data label and $\ell$ is some distance between bitstrings - here we simply set $\ell(0, 0) = \ell(1, 1) = 0$ and $\ell(0, 1) = \ell(1, 0) = 1$ (which coincides with the Hamming distance for this binary example). The full batch cost function is $C(b, w) = \frac1N \sum_{i=1}^N C(b, w, x_i, y_i)$.
+# where $y'$ is a shot, $y$ is a data label and $\ell$ is some distance between bitstrings - here we simply set $\ell(0, 0) = \ell(1, 1) = 0$ and $\ell(0, 1) = \ell(1, 0) = 1$ (which coincides with the Hamming distance for this binary example).
 #
+#  The full batch cost function is
+#
+# $$
+# \begin{equation}
+#  C(b, w) = \frac1N \sum_{i=1}^N C(b,\, w,\, x_i,\, y_i).
+# \end{equation}
+# $$
+
 # Note that to calculate the cost function we need to evaluate the statetensor for every input point $x_i$. If the dataset becomes too large, we can easily minibatch.
 
 
