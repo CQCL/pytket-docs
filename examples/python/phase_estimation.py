@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Quantum Phase Estimation using `pytket` Boxes
+# # Quantum Phase Estimation
 #
 # When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates.
 #
@@ -49,9 +46,11 @@
 #
 # Mathematically, the QFT has the following action.
 #
+# $$
 # \begin{equation}
 # QFT : |j\rangle\ \longmapsto \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle, \quad N= 2^k
 # \end{equation}
+# $$
 #
 # This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
 #
@@ -81,11 +80,10 @@
 #
 # We can build this circuit in `pytket` by adding gate operations manually:
 
-
+# lets build the QFT for three qubits
 from pytket.circuit import Circuit
 from pytket.circuit.display import render_circuit_jupyter
 
-# lets build the QFT for three qubits
 qft3_circ = Circuit(3)
 qft3_circ.H(0)
 qft3_circ.CU1(0.5, 1, 0)
@@ -152,9 +150,11 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 # Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
 #
+# $$
 # \begin{equation}
-# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, X, Y, Z\}^{\otimes n}
+# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
 # \end{equation}
+# $$
 #
 # Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
 
@@ -291,7 +291,6 @@ def plot_qpe_results(
     plt.ylim([0, y_limit])
     plt.xlabel("Basis State")
     plt.ylabel("Number of Shots")
-    plt.xticks(rotation=90)
     plt.show()
 
 
