@@ -84,7 +84,13 @@ plt.bar(jnp.arange(statevector.size), sample_probs)
 # - `coefficients`: A list of floats encoding any coefficients in the Hamiltonian. I.e. `[2.3, 0.8, 1.2]` corresponds to $a=2.3,b=0.8,c=1.2$ above. Must have the same length as the two above arguments.
 
 # More specifically let's consider the problem of finding the ground state of the quantum Heisenberg Hamiltonian
-# $$ H = \sum_{i=1}^{n_\text{qubits}-1} X_i X_{i+1} + Y_i Y_{i+1} + Z_i Z_{i+1}. $$
+
+# $$
+# \begin{equation}
+# H = \sum_{i=1}^{n_\text{qubits}-1} X_i X_{i+1} + Y_i Y_{i+1} + Z_i Z_{i+1}.
+# \end{equation}
+# $$
+#
 # As described, we define the Hamiltonian via its gate strings, qubit indices and coefficients.
 
 hamiltonian_gates = [["X", "X"], ["Y", "Y"], ["Z", "Z"]] * (n_qubits - 1)
