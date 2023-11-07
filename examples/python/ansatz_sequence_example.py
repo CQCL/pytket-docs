@@ -4,7 +4,7 @@
 #
 # This notebook will describe how to use an advanced feature of `pytket` to enable automated circuit synthesis for $U$ and reduce circuit depth dramatically.
 #
-# We must create a `pytket` `QubitPauliOperator`, which represents such an operator $U$, and contains a dictionary from Pauli string $P_{jk}$ to symbolic expression. Here, we make a mock operator ourselves, which resembles the UCCSD excitation operator for the $\mathrm{H}_2$ molecule using the Jordan-Wigner qubit encoding. In the future, operator generation will be handled automatically using CQC's upcoming software for enterprise quantum chemistry, EUMEN. We also offer conversion to and from the `OpenFermion` `QubitOperator` class, although at the time of writing a `QubitOperator` cannot handle arbitrary symbols.
+# We must create a `pytket` `QubitPauliOperator`, which represents such an operator $U$, and contains a dictionary from Pauli string $P_{jk}$ to symbolic expression. Here, we make a mock operator ourselves, which resembles the UCCSD excitation operator for the $\mathrm{H}_2$ molecule using the Jordan-Wigner qubit encoding.
 #
 # First, we create a series of `QubitPauliString` objects, which represent each $P_{jk}$.
 
