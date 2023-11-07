@@ -57,7 +57,13 @@ render_circuit_jupyter(c)
 angles_to_st = tk_to_qujax(c)
 
 # We'll parameterise each angle as
-# $$ \theta_k = b_k + w_k * x_k $$
+#
+# $$
+# \begin{equation}
+# \theta_k = b_k + w_k \, x_k
+# \end{equation}
+# $$
+#
 # where $b_k, w_k$ are variational parameters to be learnt and $x_k = x_0$ if $k$ even, $x_k = x_1$ if $k$ odd for a single bivariate input point $(x_0, x_1)$.
 
 n_angles = 3 * n_qubits * depth
@@ -91,18 +97,34 @@ def param_and_x_to_probability(param, x_single):
 
 
 # For binary classification, the likelihood for our full data set $(x_{1:N}, y_{1:N})$ is
-# $$ p(y_{1:N} \mid b, w, x_{1:N}) = \prod_{i=1}^N p(y_i \mid b, w, x_i) = \prod_{i=1}^N (1 - q_{(b,w)}(x_i))^{\mathbb{I}[y_i = 0]}q_{(b,w)}(x_i)^{\mathbb{I}[y_i = 1]}, $$
+#
+# $$
+# \begin{equation}
+# p(y_{1:N} \mid b, w, x_{1:N}) = \prod_{i=1}^N p(y_i \mid b, w, x_i) = \prod_{i=1}^N (1 - q_{(b,w)}(x_i))^{I[y_i = 0]}q_{(b,w)}(x_i)^{I[y_i = 1]},
+# \end{equation}
+# $$
+#
 # where $q_{(b, w)}(x)$ is the probability the quantum circuit classifies input $x$ as donut given variational parameter vectors $(b, w)$. This gives log-likelihood
-# $$ \log p(y_{1:N} \mid b, w, x_{1:N}) = \sum_{i=1}^N \mathbb{I}[y_i = 0] \log(1 - q_{(b,w)}(x_i)) + \mathbb{I}[y_i = 1] \log q_{(b,w)}(x_i), $$
+#
+# $$
+# \begin{equation}
+#  \log p(y_{1:N} \mid b, w, x_{1:N}) = \sum_{i=1}^N I[y_i = 0] \log(1 - q_{(b,w)}(x_i)) + I[y_i = 1] \log q_{(b,w)}(x_i),
+# \end{equation}
+# $$
+#
 # which we would like to maximise.
 #
 # Unfortunately, the log-likelihood **cannot** be approximated unbiasedly using shots, that is we can approximate $q_{(b,w)}(x_i)$ unbiasedly but not $\log(q_{(b,w)}(x_i))$.
 # Note that in qujax simulations we can use the statetensor to calculate this exactly, but it is still good to keep in mind loss functions that can also be used with shots from a quantum device.
-
+#
 # Instead we can minimise an expected distance between shots and data
-# <br>
-# $$ C(b, w, x, y) = \mathbb{E}_{p(y' \mid q_{(b, w)}(x))}[\ell(y', y)] = (1 - q_{(b, w)}(x)) \ell(0, y) +  q_{(b, w)}(x)\ell(1, y), $$
-# <br>
+#
+# $$
+# \begin{equation}
+# C(b, w, x, y) = E_{p(y' \mid q_{(b, w)}(x))}[\ell(y', y)] = (1 - q_{(b, w)}(x)) \ell(0, y) +  q_{(b, w)}(x)\ell(1, y),
+# \end{equation}
+# $$
+#
 # where $y'$ is a shot, $y$ is a data label and $\ell$ is some distance between bitstrings - here we simply set $\ell(0, 0) = \ell(1, 1) = 0$ and $\ell(0, 1) = \ell(1, 0) = 1$ (which coincides with the Hamming distance for this binary example). The full batch cost function is $C(b, w) = \frac1N \sum_{i=1}^N C(b, w, x_i, y_i)$.
 #
 # Note that to calculate the cost function we need to evaluate the statetensor for every input point $x_i$. If the dataset becomes too large, we can easily minibatch.
