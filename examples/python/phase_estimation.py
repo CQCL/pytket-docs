@@ -325,7 +325,6 @@ def single_phase_from_backendresult(result: BackendResult) -> float:
 
 theta = single_phase_from_backendresult(result)
 
-
 print(theta)
 
 
@@ -341,9 +340,5 @@ print(error)
 
 # ## Suggestions for further reading
 #
-# In this notebook we have shown the canonical variant of quantum phase estimation. There are several other variants.
-#
-# Quantinuum paper on Bayesian phase estimation -> https://arxiv.org/pdf/2306.16608.pdf
-# Blog post on `ConjugationBox` -> https://tket.quantinuum.com/tket-blog/posts/controlled_gates/ - efficient circuits for controlled Pauli gadgets.
-#
-# As mentioned quantum phase estimation is a subroutine in Shor's algorithm. Read more about how phase estimation is used in period finding.
+# * Quantinuum paper on Bayesian phase estimation -> https://arxiv.org/pdf/2306.16608.pdf
+# * Blog post on `ConjugationBox` (efficient circuits for controlled gates) -> https://tket.quantinuum.com/blog/posts/controlled_gates/
