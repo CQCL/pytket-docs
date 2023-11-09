@@ -1,4 +1,4 @@
-# # VQE example with pytket-qujax
+# # VQE example with `pytket-qujax`
 
 from jax import numpy as jnp, random, value_and_grad, jit
 from pytket import Circuit

@@ -1,4 +1,4 @@
-# # Symbolic circuits with `qujax` and `pytket-qujax`
+# # Symbolic circuits with `pytket-qujax`
 # In this notebook we will show how to manipulate symbolic circuits with the `pytket-qujax` extension. In particular, we will consider a QAOA and an Ising Hamiltonian.
 
 from pytket import Circuit
