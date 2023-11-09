@@ -1,10 +1,5 @@
 # Contributing new notebooks
 
-See the pytket examples built with jupyterbook [here](https://tket.quantinuum.com/examples).
-
-
-## Notes for developers
-
 The sources for all these notebooks are the Python scripts in the `python`
 directory. The notebook files are generated from them with the `gen-nb` script
 (which requires `p2j`). Do not edit the notebooks directly; instead edit the
