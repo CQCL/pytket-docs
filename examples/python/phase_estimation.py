@@ -25,7 +25,7 @@
 
 # QPE is generally split up into three stages
 #
-# 1. Firstly we prepare an initial state in one register. In parallel we prepare a uniform superposition state using Hadamard gates on some ancilla qubits. The number of ancilla qubits determines how precisely we can estimate the phase $\theta$.
+# 1. Firstly we prepare an initial state in one register. In parallel we prepare a uniform superposition state using Hadamard gates on some ancilla (measurement) qubits. The number of ancilla qubits determines how precisely we can estimate the phase $\theta$.
 #
 # 2. Secondly we apply successive controlled $U$ gates. This has the effect of "kicking back" phases onto the ancilla qubits according to the eigenvalue equation above.
 #
@@ -34,7 +34,7 @@
 #
 # There is some subtlety around the first point. The initial state used can be an exact eigenstate of $U$ however this may be difficult to prepare if we don't know the eigenvalues of  $U$ in advance. Alternatively we could use an initial state that is a linear combination of eigenstates, as the phase estimation will project into the eigenspace of $U$.
 
-# We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the textbook algorithm, the number of controlled unitaries we apply scales exponentially with the number of ancilla qubits. This allows more precision at the expense of a larger quantum circuit.
+# We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the textbook algorithm, the number of controlled unitaries we apply scales exponentially with the number of measurement qubits. This allows more precision at the expense of a larger quantum circuit.
 
 # ## The Quantum Fourier Transform
 
@@ -145,7 +145,7 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 from pytket.circuit import QControlBox
 
 
-def build_phase_est_circuit(
+def build_phase_estimation_circuit(
     n_measurement_qubits: int, state_prep_circuit: Circuit, unitary_circuit: Circuit
 ) -> Circuit:
     qpe_circ: Circuit = Circuit()
@@ -196,14 +196,14 @@ def build_phase_est_circuit(
 # So we expect that our ideal phase $\theta$ will be half the input angle $\phi$ to our $U1$ gate.
 
 
-prep_circuit = Circuit(1).X(0)
+prep_circuit = Circuit(1).X(0)  # prepare the |1> eigenstate of U1
 
 input_angle = 0.73  # angle as number of half turns
 
-unitary_circuit = Circuit(1).U1(input_angle, 0)
+unitary_circuit = Circuit(1).U1(input_angle, 0)  # Base unitary for controlled U ops
 
 
-qpe_circ_trivial = build_phase_est_circuit(
+qpe_circ_trivial = build_phase_estimation_circuit(
     4, state_prep_circuit=prep_circuit, unitary_circuit=unitary_circuit
 )
 
@@ -330,13 +330,13 @@ print(error)
 # \end{equation}
 # $$
 #
-# Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
+# Here the term Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
 
 # If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
 
 # Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
 
-# As an exercise
+# As an exercise, why not try to use phase estimation to calculate the ground state of diatomic hydrogen $H_2$.
 
 # ## Suggestions for further reading
 #
