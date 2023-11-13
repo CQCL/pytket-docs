@@ -60,16 +60,17 @@
 #
 # $$
 #  \begin{equation}
-#  CU1(\phi) =
-#  \begin{pmatrix}
-#  I & 0 \\
-#  0 & U1(\phi)
-#  \end{pmatrix}
-#  \,, \quad
 # U1(\phi) =
 #  \begin{pmatrix}
 #  1 & 0 \\
 #  0 & e^{i \phi}
+#  \end{pmatrix}
+#  CU1(\phi) =
+#  \begin{pmatrix}
+#  1 & 0 & 0 & 0 \\
+#  0 & 1 & 0 & 0 \\
+#  0 & 0 & 1 & 0 \\
+#  0 & 0 & 0 & e^{i \phi}
 #  \end{pmatrix}
 #  \end{equation}
 # $$
