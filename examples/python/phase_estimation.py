@@ -331,7 +331,7 @@ print(theta)
 print(input_angle / 2)
 
 
-# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error $E$.
+# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error $E$ to three decimal places.
 
 # $$
 # \begin{equation}
