@@ -20,6 +20,6 @@ Once the virtual environment is set up we can run the `build-manual` script from
 
 Now the built html pages will appear in the local `docs/manual` directory.
 
-If you are making changes to the manual then it is recommended to build the manual locally check the built html pages. If there are no issues commit your change to a local branch and make a pull request.
-
 The manual contains many `jupyter-execute::` directives that run python code when the html is built. The manual build is also run on CI whenever changes are pushed to the pytket repository. If there is are any code snippets that give errors or warnings then the CI build will fail.
+
+If you are making changes to the manual then it is recommended to build the manual locally check the built html pages. If there are no issues then you can commit your change to a local branch and make a pull request.
