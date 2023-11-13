@@ -142,29 +142,7 @@ inv_qft4_box = qft4_box.dagger
 render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 
-# ## The Controlled Unitary Operations
-
-# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the canonical variant, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
-
-# The form of $U$ will vary depending on the application. For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
-
-# Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
-#
-# $$
-# \begin{equation}
-# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
-# \end{equation}
-# $$
-#
-# Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
-
-# If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
-
-# Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
-
-# In what follows, we will just construct a simplified instance of QPE where the controlled unitaries are just $\text{CU1}$ gates.
-
-# ## Putting it all together
+# ## Building the Phase Estimation Circuit
 
 # We can now define a function to build our entire QPE circuit. We can make this function take a state preparation circuit and a unitary circuit as input as well. The function also has the number of measurement qubits as input which will determine the precision of our phase estimate.
 
@@ -307,7 +285,7 @@ plot_qpe_results(result, y_limit=int(1.2 * n_shots))
 # \end{equation}
 # $$
 
-# Here $N = 2 ^n$ where $n$ is the number of measurement qubits.
+# Here $N = 2 ^m$ where $m$ is the number of measurement qubits.
 
 
 from pytket.backends.backendresult import BackendResult
@@ -317,10 +295,10 @@ def single_phase_from_backendresult(result: BackendResult) -> float:
     # Extract most common measurement outcome
     basis_state = result.get_counts().most_common()[0][0]
     bitstring = "".join([str(bit) for bit in basis_state])
-    integer = int(bitstring, 2)
+    integer_j = int(bitstring, 2)
 
     # Calculate theta estimate
-    return integer / (2 ** len(bitstring))
+    return integer_j / (2 ** len(bitstring))
 
 
 theta = single_phase_from_backendresult(result)
@@ -335,12 +313,34 @@ print(input_angle / 2)
 
 # $$
 # \begin{equation}
-# E = |\phi - 2\theta_{estimate}|
+# E = |\phi - 2 \, \theta_{estimate}|
 # \end{equation}
 # $$
 
 error = round(abs(input_angle - (2 * theta)), 3)
 print(error)
+
+# ## Phase Estimation with Time Evolution
+
+# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the usual variant, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
+
+# The form of $U$ will vary depending on the application. For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
+
+# Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
+#
+# $$
+# \begin{equation}
+# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
+# \end{equation}
+# $$
+#
+# Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
+
+# If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
+
+# Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
+
+# In what follows, we will just construct a simplified instance of QPE where the controlled unitaries are just $\text{CU1}$ gates.
 
 
 # ## Suggestions for further reading
