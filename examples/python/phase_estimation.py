@@ -336,7 +336,7 @@ print(error)
 
 # Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
 
-# As an exercise, why not try to use phase estimation to calculate the ground state of diatomic hydrogen $H_2$.
+# As an exercise, try to use phase estimation to calculate the ground state of diatomic hydrogen $H_2$.
 
 # ## Suggestions for further reading
 #
