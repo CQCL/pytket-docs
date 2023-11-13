@@ -1,4 +1,4 @@
-# # Symbolic circuits with `qujax` and `pytket-qujax`
+# # Symbolic circuits with `pytket-qujax`
 # In this notebook we will show how to manipulate symbolic circuits with the `pytket-qujax` extension. In particular, we will consider a QAOA and an Ising Hamiltonian.
 
 from pytket import Circuit
@@ -13,9 +13,16 @@ from pytket.extensions.qujax import tk_to_qujax
 # # QAOA
 # The Quantum Approximate Optimization Algorithm (QAOA), first introduced by [Farhi et al.](https://arxiv.org/pdf/1411.4028.pdf), is a quantum variational algorithm used to solve optimization problems. It consists of a unitary $U(\beta, \gamma)$ formed by alternate repetitions of $U(\beta)=e^{-i\beta H_B}$ and $U(\gamma)=e^{-i\gamma H_P}$, where $H_B$ is the mixing Hamiltonian and $H_P$ the problem Hamiltonian. The goal is to find the optimal parameters that minimize $H_P$.
 # Given a depth $d$, the expression of the final unitary is $U(\beta, \gamma) = U(\beta_d)U(\gamma_d)\cdots U(\beta_1)U(\gamma_1)$. Notice that for each repetition the parameters are different.
+#
 # ## Problem Hamiltonian
 # QAOA uses a problem dependent ansatz. Therefore, we first need to know the problem that we want to solve. In this case we will consider an Ising Hamiltonian with only $Z$ interactions. Given a set of pairs (or qubit indices) $E$, the problem Hamiltonian will be:
-# $$H_P = \sum_{(i, j) \in E}\alpha_{ij}Z_iZ_j,$$
+#
+# $$
+# \begin{equation}
+# H_P = \sum_{(i, j) \in E}\alpha_{ij}Z_iZ_j,
+# \end{equation}
+# $$
+#
 # where $\alpha_{ij}$ are the coefficients.
 # Let's build our problem Hamiltonian with random coefficients and a set of pairs for a given number of qubits:
 
@@ -36,7 +43,13 @@ print("Coefficients:\t", coefficients)
 # ## Variational Circuit
 # Before constructing the circuit, we still need to select the mixing Hamiltonian. In our case, we will be using $X$ gates in each qubit, so $H_B = \sum_{i=1}^{n}X_i$, where $n$ is the number of qubits. Notice that the unitary $U(\beta)$, given this mixing Hamiltonian, is an $X$ rotation in each qubit with angle $\beta$.
 # As for the unitary corresponding to the problem Hamiltonian, $U(\gamma)$, it has the following form:
-# $$U(\gamma)=\prod_{(i, j) \in E}e^{-i\gamma\alpha_{ij}Z_iZ_j}$$
+#
+# $$
+# \begin{equation}
+# U(\gamma)=\prod_{(i, j) \in E}e^{-i\gamma\alpha_{ij}Z_i Z_j}
+# \end{equation}
+# $$
+#
 # The operation $e^{-i\gamma\alpha_{ij}Z_iZ_j}$ can be performed using two CNOT gates with qubit $i$ as control and qubit $j$ as target and a $Z$ rotation in qubit $j$ in between them, with angle $\gamma\alpha_{ij}$.
 # Finally, the initial state used, in general, with the QAOA is an equal superposition of all the basis states. This can be achieved adding a first layer of Hadamard gates in each qubit at the beginning of the circuit.
 

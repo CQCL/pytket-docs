@@ -1,4 +1,4 @@
-# # Calibration and Correction of State Preparation and Measurement (SPAM)
+# # Calibration and correction of state preparation and measurement (SPAM)
 
 # Quantum Computers available in the NISQ-era are limited by significant sources of device noise which cause errors in computation. One such noise source is errors in the preparation and measurement of quantum states, more commonly know as SPAM.
 #

@@ -1,4 +1,4 @@
-# # Qubit Mapping and Routing
+# # Qubit mapping and routing
 
 
 # In this tutorial we will show how the problem of mapping from logical quantum circuits to physically permitted circuits is solved automatically in TKET. The basic examples require only the installation of pytket, ```pip install pytket```.

@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Quantum Phase Estimation using `pytket` Boxes
+# # Quantum Phase Estimation
 #
 # When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates.
 #
@@ -28,7 +25,7 @@
 #
 # The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
 #
-# ![](phase_est.png "Quantum Phase Estimation Circuit")
+# ![](images/phase_est.png "Quantum Phase Estimation Circuit")
 
 # QPE is generally split up into three stages
 #
@@ -49,9 +46,11 @@
 #
 # Mathematically, the QFT has the following action.
 #
+# $$
 # \begin{equation}
 # QFT : |j\rangle\ \longmapsto \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle, \quad N= 2^k
 # \end{equation}
+# $$
 #
 # This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
 #
@@ -77,15 +76,14 @@
 #
 # The circuit for the Quantum Fourier transform on three qubits is the following
 #
-# ![](qft.png "QFT Circuit")
+# ![](images/qft.png "QFT Circuit")
 #
 # We can build this circuit in `pytket` by adding gate operations manually:
 
-
+# lets build the QFT for three qubits
 from pytket.circuit import Circuit
 from pytket.circuit.display import render_circuit_jupyter
 
-# lets build the QFT for three qubits
 qft3_circ = Circuit(3)
 qft3_circ.H(0)
 qft3_circ.CU1(0.5, 1, 0)
@@ -152,9 +150,11 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 # Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
 #
+# $$
 # \begin{equation}
-# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, X, Y, Z\}^{\otimes n}
+# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
 # \end{equation}
+# $$
 #
 # Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
 
@@ -291,7 +291,6 @@ def plot_qpe_results(
     plt.ylim([0, y_limit])
     plt.xlabel("Basis State")
     plt.ylabel("Number of Shots")
-    plt.xticks(rotation=90)
     plt.show()
 
 
@@ -326,7 +325,6 @@ def single_phase_from_backendresult(result: BackendResult) -> float:
 
 theta = single_phase_from_backendresult(result)
 
-
 print(theta)
 
 
@@ -342,9 +340,5 @@ print(error)
 
 # ## Suggestions for further reading
 #
-# In this notebook we have shown the canonical variant of quantum phase estimation. There are several other variants.
-#
-# Quantinuum paper on Bayesian phase estimation -> https://arxiv.org/pdf/2306.16608.pdf
-# Blog post on `ConjugationBox` -> https://tket.quantinuum.com/tket-blog/posts/controlled_gates/ - efficient circuits for controlled Pauli gadgets.
-#
-# As mentioned quantum phase estimation is a subroutine in Shor's algorithm. Read more about how phase estimation is used in period finding.
+# * Quantinuum paper on Bayesian phase estimation -> https://arxiv.org/pdf/2306.16608.pdf
+# * Blog post on `ConjugationBox` (efficient circuits for controlled gates) -> https://tket.quantinuum.com/blog/posts/controlled_gates/

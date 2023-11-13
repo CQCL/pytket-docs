@@ -1,9 +1,4 @@
-# pytket examples
-
-See the pytket examples built with jupyterbook [here](https://tket.quantinuum.com/examples).
-
-
-## Notes for developers
+# Contributing new notebooks
 
 The sources for all these notebooks are the Python scripts in the `python`
 directory. The notebook files are generated from them with the `gen-nb` script

@@ -1,14 +1,16 @@
-# # VQE example with pytket-qujax
+# # VQE example with `pytket-qujax`
 
 from jax import numpy as jnp, random, value_and_grad, jit
 from pytket import Circuit
 from pytket.circuit.display import render_circuit_jupyter
 import matplotlib.pyplot as plt
 
+
+# ## Let's start with a TKET circuit
+
 import qujax
 from pytket.extensions.qujax.qujax_convert import tk_to_qujax
 
-# # Let's start with a tket circuit
 # We place barriers to stop tket automatically rearranging gates and we also store the number of circuit parameters as we'll need this later.
 
 
@@ -47,7 +49,7 @@ depth = 2
 circuit, n_params = get_circuit(n_qubits, depth)
 render_circuit_jupyter(circuit)
 
-# # Now let's invoke qujax
+# ## Now let's invoke qujax
 # The `pytket.extensions.qujax.tk_to_qujax` function will generate a parameters -> statetensor function for us.
 
 param_to_st = tk_to_qujax(circuit)
@@ -72,7 +74,7 @@ statevector.shape
 sample_probs = jnp.square(jnp.abs(statevector))
 plt.bar(jnp.arange(statevector.size), sample_probs)
 
-# # Cost function
+# ## Cost function
 
 # Now we have our `param_to_st` function we are free to define a cost function that acts on bitstrings (e.g. maxcut) or integers by directly wrapping a function around `param_to_st`. However, cost functions defined via quantum Hamiltonians are a bit more involved.
 # Fortunately, we can encode an Hamiltonian in JAX via the `qujax.get_statetensor_to_expectation_func` function which generates a statetensor -> expected value function for us.
@@ -82,7 +84,13 @@ plt.bar(jnp.arange(statevector.size), sample_probs)
 # - `coefficients`: A list of floats encoding any coefficients in the Hamiltonian. I.e. `[2.3, 0.8, 1.2]` corresponds to $a=2.3,b=0.8,c=1.2$ above. Must have the same length as the two above arguments.
 
 # More specifically let's consider the problem of finding the ground state of the quantum Heisenberg Hamiltonian
-# $$ H = \sum_{i=1}^{n_\text{qubits}-1} X_i X_{i+1} + Y_i Y_{i+1} + Z_i Z_{i+1}. $$
+
+# $$
+# \begin{equation}
+# H = \sum_{i=1}^{n_\text{qubits}-1} X_i X_{i+1} + Y_i Y_{i+1} + Z_i Z_{i+1}.
+# \end{equation}
+# $$
+#
 # As described, we define the Hamiltonian via its gate strings, qubit indices and coefficients.
 
 hamiltonian_gates = [["X", "X"], ["Y", "Y"], ["Z", "Z"]] * (n_qubits - 1)
@@ -119,7 +127,7 @@ new_params = random.uniform(
 )
 param_to_expectation(new_params)
 
-# # We can now use autodiff for fast, exact gradients within a VQE algorithm
+# ## Exact gradients within a VQE algorithm
 # The `param_to_expectation` function we created is a pure JAX function and outputs a scalar. This means we can pass it to `jax.grad` (or even better `jax.value_and_grad`).
 
 cost_and_grad = value_and_grad(param_to_expectation)
@@ -128,7 +136,7 @@ cost_and_grad = value_and_grad(param_to_expectation)
 
 cost_and_grad(params)
 
-# # Now we have all the tools we need to design our VQE!
+# ## Now we have all the tools we need to design our VQE!
 # We'll just use vanilla gradient descent with a constant stepsize
 
 
@@ -164,7 +172,7 @@ plt.ylabel("Cost")
 
 # Pretty good!
 
-# # `jax.jit` speedup
+# ## `jax.jit` speedup
 # One last thing... We can significantly speed up the VQE above via the `jax.jit`. In our current implementation, the expensive `cost_and_grad` function is compiled to [XLA](https://www.tensorflow.org/xla)  and then executed at each call. By invoking `jax.jit` we ensure that the function is compiled only once (on the first call) and then simply executed at each future call - this is much faster!
 
 cost_and_grad = jit(cost_and_grad)
