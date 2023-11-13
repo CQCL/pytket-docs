@@ -10,7 +10,7 @@ First clone the pytket repository
 git clone git@github.com:CQCL/pytket.git
 ```
 
-It is recommended to set up a virtual environment in the pytket repository to manage dependencies. 
+It is recommended to set up a virtual environment in the pytket repository to manage dependencies.
 
 Once the virtual environment is set up we can run the `build-manual` script from the pytket directory which installs the necessary python packages and builds the html pages.
 
