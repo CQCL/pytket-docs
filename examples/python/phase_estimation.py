@@ -1,10 +1,6 @@
 # # Quantum Phase Estimation
 #
-# When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates.
-#
-# In `pytket` we can construct circuits using box structures which abstract away the complexity of the underlying circuit.
-#
-# This notebook is intended to complement the [boxes section](https://tket.quantinuum.com/user-manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
+# When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates. In `pytket` we can construct circuits using box structures which abstract away the complexity of the underlying circuit. This notebook is intended to complement the [boxes section](https://tket.quantinuum.com/user-manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
 #
 # To demonstrate boxes in `pytket` we will consider the Quantum Phase Estimation algorithm (QPE). This is an important subroutine in several quantum algorithms including Shor's algorithm and fault-tolerant approaches to quantum chemistry.
 #
@@ -38,7 +34,7 @@
 #
 # There is some subtlety around the first point. The initial state used can be an exact eigenstate of $U$ however this may be difficult to prepare if we don't know the eigenvalues of  $U$ in advance. Alternatively we could use an initial state that is a linear combination of eigenstates, as the phase estimation will project into the eigenspace of $U$.
 
-# We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the cannonical algorithm, the number of controlled unitaries we apply scales exponentially with the number of ancilla qubits. This allows more precision at the expense of a larger quantum circuit.
+# We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the textbook algorithm, the number of controlled unitaries we apply scales exponentially with the number of ancilla qubits. This allows more precision at the expense of a larger quantum circuit.
 
 # ## The Quantum Fourier Transform
 
@@ -54,8 +50,6 @@
 #
 # This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
 #
-# It is well known that the QFT can be implemented efficiently with a quantum circuit
-#
 # We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\frac{n}{2}$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
 #
 # $$
@@ -64,7 +58,7 @@
 #  \begin{pmatrix}
 #  1 & 0 \\
 #  0 & e^{i \phi}
-#  \end{pmatrix}
+#  \end{pmatrix}\, , \quad
 #  CU1(\phi) =
 #  \begin{pmatrix}
 #  1 & 0 & 0 & 0 \\
@@ -323,10 +317,11 @@ print(error)
 
 # ## Phase Estimation with Time Evolution
 
-# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the usual variant, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
+# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the textbook variant of QPE presented here, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
 
-# The form of $U$ will vary depending on the application. For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
-
+# In the example above we've shown a trivial instance of QPE where we know the exact phase in advance. For more realistic applications of QPE we will have some non-trivial state preparation required.
+#
+# For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
 # Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
 #
 # $$
@@ -341,8 +336,7 @@ print(error)
 
 # Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
 
-# In what follows, we will just construct a simplified instance of QPE where the controlled unitaries are just $\text{CU1}$ gates.
-
+# As an exercise
 
 # ## Suggestions for further reading
 #
