@@ -194,7 +194,7 @@ def build_phase_est_circuit(
 
 # $$
 # \begin{equation}
-# U1(\phi)|1\rangle = e^{i\phi} = e^{2 \pi i \theta} \implies \theta = \frac{\phi}{2}
+# U1(\phi)|1\rangle = e^{i\phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
 # \end{equation}
 # $$
 #
