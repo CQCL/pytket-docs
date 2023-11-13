@@ -331,8 +331,13 @@ print(theta)
 print(input_angle / 2)
 
 
-# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error.
+# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error $E$.
 
+# $$
+# \begin{equation}
+# E = |\phi - 2\theta_{estimate}|
+# \end{equation}
+# $$
 
 error = round(abs(input_angle - (2 * theta)), 3)
 print(error)
