@@ -1,10 +1,6 @@
 # # Quantum Phase Estimation
 #
-# When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates.
-#
-# In `pytket` we can construct circuits using box structures which abstract away the complexity of the underlying circuit.
-#
-# This notebook is intended to complement the [boxes section](https://tket.quantinuum.com/user-manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
+# When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates. In `pytket` we can construct circuits using box structures which abstract away the complexity of the underlying circuit. This notebook is intended to complement the [boxes section](https://tket.quantinuum.com/user-manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
 #
 # To demonstrate boxes in `pytket` we will consider the Quantum Phase Estimation algorithm (QPE). This is an important subroutine in several quantum algorithms including Shor's algorithm and fault-tolerant approaches to quantum chemistry.
 #
@@ -29,7 +25,7 @@
 
 # QPE is generally split up into three stages
 #
-# 1. Firstly we prepare an initial state in one register. In parallel we prepare a uniform superposition state using Hadamard gates on some ancilla qubits. The number of ancilla qubits determines how precisely we can estimate the phase $\theta$.
+# 1. Firstly we prepare an initial state in one register. In parallel we prepare a uniform superposition state using Hadamard gates on some ancilla (measurement) qubits. The number of ancilla qubits determines how precisely we can estimate the phase $\theta$.
 #
 # 2. Secondly we apply successive controlled $U$ gates. This has the effect of "kicking back" phases onto the ancilla qubits according to the eigenvalue equation above.
 #
@@ -38,7 +34,7 @@
 #
 # There is some subtlety around the first point. The initial state used can be an exact eigenstate of $U$ however this may be difficult to prepare if we don't know the eigenvalues of  $U$ in advance. Alternatively we could use an initial state that is a linear combination of eigenstates, as the phase estimation will project into the eigenspace of $U$.
 
-# We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the cannonical algorithm, the number of controlled unitaries we apply scales exponentially with the number of ancilla qubits. This allows more precision at the expense of a larger quantum circuit.
+# We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the textbook algorithm, the number of controlled unitaries we apply scales exponentially with the number of measurement qubits. This allows more precision at the expense of a larger quantum circuit.
 
 # ## The Quantum Fourier Transform
 
@@ -54,22 +50,21 @@
 #
 # This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
 #
-# It is well known that the QFT can be implemented efficiently with a quantum circuit
-#
 # We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\frac{n}{2}$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
 #
 # $$
 #  \begin{equation}
-#  CU1(\phi) =
-#  \begin{pmatrix}
-#  I & 0 \\
-#  0 & U1(\phi)
-#  \end{pmatrix}
-#  \,, \quad
 # U1(\phi) =
 #  \begin{pmatrix}
 #  1 & 0 \\
 #  0 & e^{i \phi}
+#  \end{pmatrix}\, , \quad
+#  CU1(\phi) =
+#  \begin{pmatrix}
+#  1 & 0 & 0 & 0 \\
+#  0 & 1 & 0 & 0 \\
+#  0 & 0 & 1 & 0 \\
+#  0 & 0 & 0 & e^{i \phi}
 #  \end{pmatrix}
 #  \end{equation}
 # $$
@@ -142,29 +137,7 @@ inv_qft4_box = qft4_box.dagger
 render_circuit_jupyter(inv_qft4_box.get_circuit())
 
 
-# ## The Controlled Unitary Operations
-
-# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the canonical variant, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
-
-# The form of $U$ will vary depending on the application. For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
-
-# Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
-#
-# $$
-# \begin{equation}
-# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
-# \end{equation}
-# $$
-#
-# Here Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
-
-# If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
-
-# Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
-
-# In what follows, we will just construct a simplified instance of QPE where the controlled unitaries are just $\text{CU1}$ gates.
-
-# ## Putting it all together
+# ## Building the Phase Estimation Circuit
 
 # We can now define a function to build our entire QPE circuit. We can make this function take a state preparation circuit and a unitary circuit as input as well. The function also has the number of measurement qubits as input which will determine the precision of our phase estimate.
 
@@ -172,7 +145,7 @@ render_circuit_jupyter(inv_qft4_box.get_circuit())
 from pytket.circuit import QControlBox
 
 
-def build_phase_est_circuit(
+def build_phase_estimation_circuit(
     n_measurement_qubits: int, state_prep_circuit: Circuit, unitary_circuit: Circuit
 ) -> Circuit:
     qpe_circ: Circuit = Circuit()
@@ -216,21 +189,21 @@ def build_phase_est_circuit(
 
 # $$
 # \begin{equation}
-# U1(\phi)|1\rangle = e^{i\phi} = e^{2 \pi i \theta} \implies \theta = \frac{\phi}{2}
+# U1(\phi)|1\rangle = e^{i\phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
 # \end{equation}
 # $$
 #
 # So we expect that our ideal phase $\theta$ will be half the input angle $\phi$ to our $U1$ gate.
 
 
-prep_circuit = Circuit(1).X(0)
+prep_circuit = Circuit(1).X(0)  # prepare the |1> eigenstate of U1
 
 input_angle = 0.73  # angle as number of half turns
 
-unitary_circuit = Circuit(1).U1(input_angle, 0)
+unitary_circuit = Circuit(1).U1(input_angle, 0)  # Base unitary for controlled U ops
 
 
-qpe_circ_trivial = build_phase_est_circuit(
+qpe_circ_trivial = build_phase_estimation_circuit(
     4, state_prep_circuit=prep_circuit, unitary_circuit=unitary_circuit
 )
 
@@ -307,7 +280,7 @@ plot_qpe_results(result, y_limit=int(1.2 * n_shots))
 # \end{equation}
 # $$
 
-# Here $N = 2 ^n$ where $n$ is the number of measurement qubits.
+# Here $N = 2 ^m$ where $m$ is the number of measurement qubits.
 
 
 from pytket.backends.backendresult import BackendResult
@@ -317,10 +290,10 @@ def single_phase_from_backendresult(result: BackendResult) -> float:
     # Extract most common measurement outcome
     basis_state = result.get_counts().most_common()[0][0]
     bitstring = "".join([str(bit) for bit in basis_state])
-    integer = int(bitstring, 2)
+    integer_j = int(bitstring, 2)
 
     # Calculate theta estimate
-    return integer / (2 ** len(bitstring))
+    return integer_j / (2 ** len(bitstring))
 
 
 theta = single_phase_from_backendresult(result)
@@ -331,12 +304,39 @@ print(theta)
 print(input_angle / 2)
 
 
-# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error.
+# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error $E$ to three decimal places.
 
+# $$
+# \begin{equation}
+# E = |\phi - 2 \, \theta_{estimate}|
+# \end{equation}
+# $$
 
 error = round(abs(input_angle - (2 * theta)), 3)
 print(error)
 
+# ## Phase Estimation with Time Evolution
+
+# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the textbook variant of QPE presented here, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
+
+# In the example above we've shown a trivial instance of QPE where we know the exact phase in advance. For more realistic applications of QPE we will have some non-trivial state preparation required.
+#
+# For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
+# Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
+#
+# $$
+# \begin{equation}
+# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
+# \end{equation}
+# $$
+#
+# Here the term Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
+
+# If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
+
+# Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
+
+# As an exercise, try to use phase estimation to calculate the ground state of diatomic hydrogen $H_2$.
 
 # ## Suggestions for further reading
 #
