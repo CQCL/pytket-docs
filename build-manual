@@ -3,6 +3,7 @@
 python -m pip install -r manual_requirements.txt
 python -m pip install sphinx sphinx-book-theme sphinx-copybutton jupyter-sphinx
 python -m pip install qiskit-algorithms
+python -m pip install ipykernel
 
 cd manual/
 
@@ -13,8 +14,3 @@ rm -rf build/
 sphinx-build -b html . build -W
 
 rm index.rst
-
-cd ..
-
-rm -rf docs/manual/
-cp -r manual/build/ docs/manual
