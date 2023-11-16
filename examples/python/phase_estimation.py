@@ -50,7 +50,7 @@
 #
 # This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
 #
-# We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\frac{n}{2}$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
+# We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\lfloor{\frac{n}{2}}\rfloor$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
 #
 # $$
 #  \begin{equation}
