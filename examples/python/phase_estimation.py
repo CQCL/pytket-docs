@@ -148,6 +148,7 @@ from pytket.circuit import QControlBox
 def build_phase_estimation_circuit(
     n_measurement_qubits: int, state_prep_circuit: Circuit, unitary_circuit: Circuit
 ) -> Circuit:
+    # Define a Circuit with a measurement and prep register
     qpe_circ: Circuit = Circuit()
     n_state_prep_qubits = state_prep_circuit.n_qubits
     measurement_register = qpe_circ.add_q_register("m", n_measurement_qubits)
