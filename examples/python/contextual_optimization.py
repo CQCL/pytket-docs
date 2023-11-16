@@ -66,4 +66,4 @@ r = b.get_result(h)
 counts = r.get_counts(ppcirc=ppcirc)
 print(counts)
 
-# See the [pytket user manual](https://cqcl.github.io/pytket/manual/manual_compiler.html#contextual-optimisations) for more details about contextual optimisations and how to apply them in TKET.
+# See the [pytket user manual](https://tket.quantinuum.com/user-manual/manual_compiler.html#contextual-optimisations) for more details about contextual optimisations and how to apply them in TKET.
