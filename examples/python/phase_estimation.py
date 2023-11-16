@@ -57,14 +57,14 @@
 # U1(\phi) =
 #  \begin{pmatrix}
 #  1 & 0 \\
-#  0 & e^{i \phi}
+#  0 & e^{i \pi \phi}
 #  \end{pmatrix}\, , \quad
 #  CU1(\phi) =
 #  \begin{pmatrix}
 #  1 & 0 & 0 & 0 \\
 #  0 & 1 & 0 & 0 \\
 #  0 & 0 & 1 & 0 \\
-#  0 & 0 & 0 & e^{i \phi}
+#  0 & 0 & 0 & e^{i \pi \phi}
 #  \end{pmatrix}
 #  \end{equation}
 # $$
@@ -189,7 +189,7 @@ def build_phase_estimation_circuit(
 
 # $$
 # \begin{equation}
-# U1(\phi)|1\rangle = e^{i\phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
+# U1(\phi)|1\rangle = e^{i \pi \phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
 # \end{equation}
 # $$
 #
