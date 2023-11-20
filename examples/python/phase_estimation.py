@@ -125,7 +125,7 @@ render_circuit_jupyter(qft_circ)
 #
 # $$
 # \begin{equation}
-# \text{QFT}^† : \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle \longmapsto |j\rangle\,, \quad N= 2^k
+# \text{QFT}^† : \frac{1}{\sqrt{N}} \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle \longmapsto |j\rangle\,, \quad N= 2^k
 # \end{equation}
 # $$
 #
