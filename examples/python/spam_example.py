@@ -139,7 +139,7 @@ print(
 
 # In our noisy simulated case, spam corrected results produced a distribution closer to the expected distribution.
 #
-# There are two methods available for correcting counts: the default ```bayesian```, and ```invert```. Further information on each method is available at our [documentation](https://cqcl.github.io/tket/pytket/api/utils.html#module-pytket.utils.spam).
+# There are two methods available for correcting counts: the default ```bayesian```, and ```invert```. Further information on each method is available at our [documentation](https://tket.quantinuum.com/api-docs/utils.html#module-pytket.utils.spam).
 #
 # Let's look at how the ```invert``` method performs.
 

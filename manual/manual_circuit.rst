@@ -758,7 +758,7 @@ All Pauli exponentials of the form above can be implemented in terms of a single
 
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{XYYZ}}` has basis rotations on the first three qubits. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
-These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+These Pauli gadget circuits hasve interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.OptimisePhaseGadgets>`_ optimisation passes.
 
 Phase Polynomials
 =================
@@ -1053,7 +1053,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
     print(circ.get_commands())
     os.remove(path)
 
-.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `pytket.quipper documentation <https://cqcl.github.io/tket/pytket/api/quipper.html>`_.
+.. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the `pytket.quipper documentation <https://tket.quantinuum.com/api-docs/quipper.html>`_.
 
 .. Extension modules; example with qiskit, cirq, pyquil; caution that they may not support all gate sets or features (e.g. conditional gates with qiskit only)
 
@@ -1164,7 +1164,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
     print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 
 
-.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition <https://cqcl.github.io/tket/pytket/api/passes.html#pytket.passes.KAKDecomposition>`_ to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
+.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.KAKDecomposition>`_ to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 
 .. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://tket.quantinuum.com/examples/ucc_vqe.html>`_.
 
@@ -1189,7 +1189,7 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
     circuit_to_symbolic_unitary(circ)
 
 
-The unitaries are calculated using the unitary representation of each `OpType <https://cqcl.github.io/tket/pytket/api/optype.html>`_ , and according to the default `ILO BasisOrder convention used in backends <manual_backend.html#interpreting-results>`_.
+The unitaries are calculated using the unitary representation of each `OpType <https://tket.quantinuum.com/api-docs/optype.html>`_ , and according to the default `ILO BasisOrder convention used in backends <manual_backend.html#interpreting-results>`_.
 The outputs are sympy `ImmutableMatrix <https://docs.sympy.org/latest/modules/matrices/immutablematrices.html>`_ objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the `sympy Quantum Mechanics module <https://docs.sympy.org/latest/modules/physics/quantum/index.html>`_, see also the :py:func:`circuit_to_symbolic_gates` and :py:func:`circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 

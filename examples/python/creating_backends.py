@@ -172,7 +172,7 @@ class MyBackend(Backend):
 #
 # For `MyBackend`, we will need to enforce that our circuits are expressed entirely in terms of `OpType.Rx`, `OpType.Ry`, `OpType.Rz`, and `OpType.ZZMax` gates which we can solve using `RebaseCustom`. Note that we omit `OpType.Measure` since we can only run pure quantum circuits.
 #
-# The standard docstrings for these and other abstract methods can be seen in the abstract `Backend` [API reference](https://cqcl.github.io/tket/pytket/api/backends.html#pytket.backends.Backend).
+# The standard docstrings for these and other abstract methods can be seen in the abstract `Backend` [API reference](https://tket.quantinuum.com/api-docs/backends.html#pytket.backends.Backend).
 
 from pytket.predicates import Predicate, GateSetPredicate, NoClassicalBitsPredicate
 from pytket.passes import (
