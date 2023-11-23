@@ -1,5 +1,7 @@
 # # VQE example with `pytket-qujax`
 
+# See the docs for [qujax](https://cqcl.github.io/qujax/) and [pytket-qujax](https://cqcl.github.io/pytket-qujax/api/index.html).
+
 from jax import numpy as jnp, random, value_and_grad, jit
 from pytket import Circuit
 from pytket.circuit.display import render_circuit_jupyter
