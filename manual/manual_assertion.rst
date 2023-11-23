@@ -14,7 +14,7 @@ The latter is useful for asserting that the prepared state lies in a subspace sp
 When applied to a circuit, the assertion is inserted as a :py:class:`ProjectorAssertionBox` or a :py:class:`StabiliserAssertionBox`, and then synthesized into a set of gates and measurements by the :py:class:`DecomposeBoxes` pass. Be aware that an ancilla qubit might be required for the assertion.
 The results of these measurements will be used later on to determine the outcome of the assertion.
 
-To test the circuit, compile and process the circuit using a :py:class:`Backend` in that supports mid-circuit measurement and reset (e.g. :py:class:`AerBackend` from ``pytket-qiskit``).
+To test the circuit, compile and process the circuit using a :py:class:`Backend` that supports mid-circuit measurement and reset (e.g. :py:class:`AerBackend` from ``pytket-qiskit``).
 Once a :py:class:`BackendResult` object is retrieved, the outcome of the assertion can be checked with the :py:meth:`get_debug_info` method.
 
 
