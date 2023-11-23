@@ -44,27 +44,27 @@
 #
 # $$
 # \begin{equation}
-# QFT : |j\rangle\ \longmapsto \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle, \quad N= 2^k
+# QFT : |j\rangle\ \longmapsto \frac{1}{\sqrt{N}} \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle, \quad N= 2^n
 # \end{equation}
 # $$
 #
 # This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
 #
-# We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\frac{n}{2}$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
+# We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\lfloor{\frac{n}{2}}\rfloor$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
 #
 # $$
 #  \begin{equation}
 # U1(\phi) =
 #  \begin{pmatrix}
 #  1 & 0 \\
-#  0 & e^{i \phi}
+#  0 & e^{i \pi \phi}
 #  \end{pmatrix}\, , \quad
 #  CU1(\phi) =
 #  \begin{pmatrix}
 #  1 & 0 & 0 & 0 \\
 #  0 & 1 & 0 & 0 \\
 #  0 & 0 & 1 & 0 \\
-#  0 & 0 & 0 & e^{i \phi}
+#  0 & 0 & 0 & e^{i \pi \phi}
 #  \end{pmatrix}
 #  \end{equation}
 # $$
@@ -125,7 +125,7 @@ render_circuit_jupyter(qft_circ)
 #
 # $$
 # \begin{equation}
-# \text{QFT}^† : \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle \longmapsto |j\rangle\,, \quad N= 2^k
+# \text{QFT}^† : \frac{1}{\sqrt{N}} \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle \longmapsto |j\rangle\,, \quad N= 2^n
 # \end{equation}
 # $$
 #
@@ -148,6 +148,7 @@ from pytket.circuit import QControlBox
 def build_phase_estimation_circuit(
     n_measurement_qubits: int, state_prep_circuit: Circuit, unitary_circuit: Circuit
 ) -> Circuit:
+    # Define a Circuit with a measurement and prep register
     qpe_circ: Circuit = Circuit()
     n_state_prep_qubits = state_prep_circuit.n_qubits
     measurement_register = qpe_circ.add_q_register("m", n_measurement_qubits)
@@ -189,7 +190,7 @@ def build_phase_estimation_circuit(
 
 # $$
 # \begin{equation}
-# U1(\phi)|1\rangle = e^{i\phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
+# U1(\phi)|1\rangle = e^{i \pi \phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
 # \end{equation}
 # $$
 #
@@ -334,7 +335,7 @@ print(error)
 
 # If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
 
-# Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/tket-blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
+# Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
 
 # As an exercise, try to use phase estimation to calculate the ground state of diatomic hydrogen $H_2$.
 

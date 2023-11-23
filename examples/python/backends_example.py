@@ -1,14 +1,8 @@
-# # TKET backend tutorial
+# # TKET `Backend` tutorial
 
-# This example shows how to use `pytket` to execute quantum circuits on both simulators and real devices, and how to interpret the results. As tket is designed to be platform-agnostic, we have unified the interfaces of different providers as much as possible into the `Backend` class for maximum portability of code. The following is a selection of currently supported backends:
-# * ProjectQ simulator
-# * Aer simulators (statevector, QASM, and unitary)
-# * IBMQ devices
-# * Rigetti QCS devices
-# * Rigetti QVM (for device simulation or statevector)
-# * AQT devices
-# * Quantinuum devices
-# * Q# simulators
+# This example shows how to use `pytket` to execute quantum circuits on both simulators and real devices, and how to interpret the results. As tket is designed to be platform-agnostic, we have unified the interfaces of different providers as much as possible into the `Backend` class for maximum portability of code.
+
+# For the full list of supported backends see the pytket [extensions index page](https://tket.quantinuum.com/extensions/).
 
 # In this notebook we will focus on the Aer, IBMQ and ProjectQ backends.
 #
@@ -249,4 +243,4 @@ print(ibmq_b_emu.get_result(oldhandle).get_counts())
 
 # The backends in `pytket` are designed to be as similar to one another as possible. The example above using physical devices can be run entirely on a simulator by swapping out the `IBMQBackend` constructor for any other backend supporting shot outputs (e.g. `AerBackend`, `ProjectQBackend`, `ForestBackend`), or passing it the name of a different device. Furthermore, using pytket it is simple to convert between handling shot tables, counts maps and statevectors.
 #
-# For more information on backends and other `pytket` features, read our [documentation](https://cqcl.github.io/pytket) or see the other examples on our [GitHub repo](https://github.com/CQCL/tket/pytket/api).
+# For more information on backends and other `pytket` features, read our [documentation](https://tket.quantinuum.com/api-docs/) or see the other pytket examples.

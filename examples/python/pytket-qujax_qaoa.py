@@ -53,7 +53,7 @@ print("Coefficients:\t", coefficients)
 # The operation $e^{-i\gamma\alpha_{ij}Z_iZ_j}$ can be performed using two CNOT gates with qubit $i$ as control and qubit $j$ as target and a $Z$ rotation in qubit $j$ in between them, with angle $\gamma\alpha_{ij}$.
 # Finally, the initial state used, in general, with the QAOA is an equal superposition of all the basis states. This can be achieved adding a first layer of Hadamard gates in each qubit at the beginning of the circuit.
 
-# With all the building blocks, let's construct the symbolic circuit using tket. Notice that in order to define the parameters, we use the ```Symbol``` object from the `sympy` package. More info can be found in this [documentation](https://cqcl.github.io/pytket/manual/manual_circuit.html#symbolic-circuits). In order to later convert the circuit to qujax, we need to return the list of symbolic parameters as well.
+# With all the building blocks, let's construct the symbolic circuit using tket. Notice that in order to define the parameters, we use the ```Symbol``` object from the `sympy` package. More info can be found in this [documentation](https://tket.quantinuum.com/user-manual/manual_circuit.html#symbolic-circuits). In order to later convert the circuit to qujax, we need to return the list of symbolic parameters as well.
 
 
 def qaoa_circuit(n_qubits, depth):
