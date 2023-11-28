@@ -1087,7 +1087,7 @@ quantum unitary operation a `classical map` if it sends every computational
 basis state to a computational basis state, possibly composed with a diagonal
 operator. For example, X, Y, Z, Rz, CX, CY, CZ and Sycamore are classical maps,
 but Rx, Ry and H are not. Check the
-`documentation of gate types <https://cqcl.github.io/tket/pytket/api/optype.html>`_
+`documentation of gate types <https://tket.quantinuum.com/api-docs/optype.html>`_
 to see which gates have unitaries that make them amenable to optimisation.
 
 When a classical map is followed by a measurement of all its qubits, and those

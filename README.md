@@ -35,7 +35,7 @@ To get more in depth on features, see the [manual](https://tket.quantinuum.com/u
 It is easy to use pytket as a front-end for interacting with third-party devices
 and software. 
 
-We maintain a large and growing number of [pytket extensions](https://tket.quantinuum.com/extensions/). These extensions provide access to a range of quantum devices and simulators and enable joint functionality between pytket and other quantum software libraries.
+We maintain a large and growing number of [pytket extensions](https://tket.quantinuum.com/api-docs/extensions). These extensions provide access to a range of quantum devices and simulators and enable joint functionality between pytket and other quantum software libraries.
 
  These are simple to install with `pip`.
 
