@@ -1,6 +1,8 @@
 # # Symbolic circuits with `pytket-qujax`
 # In this notebook we will show how to manipulate symbolic circuits with the `pytket-qujax` extension. In particular, we will consider a QAOA and an Ising Hamiltonian.
 
+# See the docs for [qujax](https://cqcl.github.io/qujax/) and [pytket-qujax](https://cqcl.github.io/pytket-qujax/api/index.html).
+
 from pytket import Circuit
 from pytket.circuit.display import render_circuit_jupyter
 from jax import numpy as jnp, random, value_and_grad, jit
