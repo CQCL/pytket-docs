@@ -4,6 +4,8 @@
 # - Using `pytket` for compilation or providing devices/simulators within Qiskit workflows;
 # - Adapting Qiskit code to use `pytket` directly.
 
+# See the [pytket-qiskit docs](https://tket.quantinuum.com/extensions/pytket-qiskit/) for more information.
+
 # This example assumes some familiarity with the Qiskit algorithms library. We have chosen a small variational quantum eigensolver (VQE) for our example, but the same principles apply to a wide range of quantum algorithms.
 #
 # To run this example, you will need `pytket-qiskit`, as well as the separate `qiskit-optimization` package. You will also need IBMQ credentials stored on your local machine.
