@@ -179,7 +179,7 @@ On devices where mid-circuit measurements are available, they may be highly nois
     circ = Circuit(2, 2)
     circ.Measure(0, 0)
     # Actively reset state to |0>
-    circ.add_gate(OpType.Reset, [0])
+    circ.Reset(0)
     # Conditionally flip state to |1> to reflect measurement result
     circ.X(0, condition_bits=[0], condition_value=1)
     # Use the qubit as if the measurement was non-destructive

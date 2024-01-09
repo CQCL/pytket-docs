@@ -282,8 +282,8 @@ def iterated_entanglement_swap(n_iter):
                 {alice[0]: bella[0], alice[1]: bella[1], bob[0]: charlie[0]}
             )
             it_es.append(tel_to_c)
-            it_es.add_gate(OpType.Reset, [bella[0]])
-            it_es.add_gate(OpType.Reset, [bella[1]])
+            it_es.Reset(bella[0])
+            it_es.Reset(bella[1])
         else:
             # Teleport charlie[0] to bella[0] to give a Bell pair between ava[0] and bella[0]
             tel_to_b = qtel.copy()
@@ -291,8 +291,8 @@ def iterated_entanglement_swap(n_iter):
                 {alice[0]: charlie[0], alice[1]: bella[1], bob[0]: bella[0]}
             )
             it_es.append(tel_to_b)
-            it_es.add_gate(OpType.Reset, [bella[1]])
-            it_es.add_gate(OpType.Reset, [charlie[0]])
+            it_es.Reset(bella[1])
+            it_es.Reset(charlie[0])
     # Return the circuit and the qubits expected to share a Bell pair
     if n_iter % 2 == 0:
         return it_es, [ava[0], bella[0]]
