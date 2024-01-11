@@ -5,4 +5,12 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: "daily"
+    groups:
+      python-packages:
+        patterns:
+          - "*"
