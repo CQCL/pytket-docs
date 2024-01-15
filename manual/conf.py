@@ -37,7 +37,7 @@ html_css_files = ["custom.css"]
 
 # -- Extension configuration -------------------------------------------------
 
-pytketdoc_base = "https://cqcl.github.io/tket/pytket/api/"
+pytketdoc_base = "https://tket.quantinuum.com/api-docs/"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
