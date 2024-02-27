@@ -1,5 +1,4 @@
 .. toctree::
-    :caption: Manual Sections:
     :maxdepth: 2
 
     Manual <self>
