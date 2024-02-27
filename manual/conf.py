@@ -14,6 +14,9 @@ extensions = [
     "jupyter_sphinx",
     "sphinx_copybutton",
     "sphinx.ext.autosectionlabel",
+    "ablog", 
+    "myst_parser",
+    "sphinx_favicon",
 ]
 
 html_theme = "sphinx_book_theme"
@@ -47,3 +50,23 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "pytket": (pytketdoc_base, None),
 }
+
+# ----- ablog config settings -----
+ablog_website = "_website"
+
+ablog_builder = "dirhtml"
+
+blog_path = "blog"
+blog_baseurl = "https://tket.quantinuum.com/blog/"
+blog_title = "TKET Developer Blog"
+
+blog_authors = {
+    "Callum Macpherson": ("Callum Macpherson", "https://github.com/CalMacCQ"),
+}
+
+blog_post_pattern = ["posts/*.rst", "posts/*.md"]
+
+blog_feed_archives = True
+blog_feed_fulltext = True
+
+blog_post_pattern = "blog/*/*"
