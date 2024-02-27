@@ -26,10 +26,11 @@ html_title = "pytket docs"
 html_theme_options = {
     "navigation_with_keys": True,
     "logo": {
+        "link": "https://tket.quantinuum.com/",
         "image_light": "_static/tketlogo_white.svg",
         "image_dark": "_static/tketlogo_black.svg",
     },
-"icon_links": [{
+    "icon_links": [{
             "name": "GitHub",
             "url": "https://github.com/CQCL/tket",
             "icon": "fa-brands fa-github",
