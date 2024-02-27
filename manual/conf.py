@@ -35,6 +35,10 @@ html_static_path = ["_static"]
 
 html_css_files = ["custom.css"]
 
+favicons = [
+    "favicon.svg",
+]
+
 # -- Extension configuration -------------------------------------------------
 
 pytketdoc_base = "https://tket.quantinuum.com/api-docs/"
