@@ -70,3 +70,17 @@ blog_feed_archives = True
 blog_feed_fulltext = True
 
 blog_post_pattern = "blog/*/*"
+
+# List of Sphinx extensions used
+extensions = ["ablog", "myst_parser", "sphinx_copybutton", "sphinx_favicon"]
+
+# ----- MyST parser config -----
+
+myst_enable_extensions = ["dollarmath", "html_image", "attrs_inline"]
+
+myst_update_mathjax = False
+
+suppress_warnings = ["myst.xref_missing"]
+
+# Exclude README from blog build
+exclude_patterns = ["README.md"]
