@@ -19,9 +19,9 @@ extensions = [
     "sphinx_favicon",
 ]
 
-html_theme = "sphinx_book_theme"
+html_theme = "pydata_sphinx_theme"
 
-html_title = "pytket user manual"
+html_title = "pytket docs"
 
 html_theme_options = {
     "repository_url": "https://github.com/CQCL/tket",
@@ -29,8 +29,8 @@ html_theme_options = {
     "navigation_with_keys": True,
     "use_issues_button": True,
     "logo": {
-        "image_light": "_static/Quantinuum_logo_black.png",
-        "image_dark": "_static/Quantinuum_logo_white.png",
+        "image_light": "_static/tketlogo_white.svg",
+        "image_dark": "_static/tketlogo_black.svg",
     },
 }
 
