@@ -24,14 +24,16 @@ html_theme = "pydata_sphinx_theme"
 html_title = "pytket docs"
 
 html_theme_options = {
-    "repository_url": "https://github.com/CQCL/tket",
-    "use_repository_button": True,
     "navigation_with_keys": True,
-    "use_issues_button": True,
     "logo": {
         "image_light": "_static/tketlogo_white.svg",
         "image_dark": "_static/tketlogo_black.svg",
     },
+"icon_links": [{
+            "name": "GitHub",
+            "url": "https://github.com/CQCL/tket",
+            "icon": "fa-brands fa-github",
+        }],
 }
 
 html_show_sourcelink = False
