@@ -4,9 +4,6 @@ Pytket User Manual
 This manual refers to the following versions of pytket and extensions:
 
 .. code-block:: text
-
-REQUIREMENTS
-
 .. toctree::
     :caption: Manual Sections:
     :maxdepth: 2
