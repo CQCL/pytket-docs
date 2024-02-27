@@ -1,7 +1,8 @@
 .. toctree::
     :maxdepth: 2
 
-    Manual <self>
+    Getting started <self>
+    Manual <manual/manual_index.rst>
     Blog <blog/index.md>
     API <https://tket.quantinuum.com/api-docs/>
     Examples <https://tket.quantinuum.com/examples>
