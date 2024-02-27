@@ -2,7 +2,6 @@ Pytket User Manual
 ==================
 
 .. toctree::
-    :caption: Manual Sections:
     :maxdepth: 2
 
     manual_intro.rst
