@@ -37,6 +37,11 @@ html_theme_options = {
         }],
 }
 
+html_sidebars = {
+  "blog/index": []
+}
+
+
 html_show_sourcelink = False
 
 html_show_sphinx = False
