@@ -6,82 +6,71 @@ When constructing circuits for quantum algorithms it is useful to think of highe
 
 To demonstrate boxes in `pytket` we will consider the Quantum Phase Estimation algorithm (QPE). This is an important subroutine in several quantum algorithms including Shor's algorithm and fault-tolerant approaches to quantum chemistry.
 
+Overview of Phase Estimation
+----------------------------
+The Quantum Phase Estimation algorithm can be used to estimate the eigenvalues of some unitary operator :math:`U` to some desired precision.
 
-Quantum phase estimation
-------------------------
+The eigenvalues of :math:`U` lie on the unit circle, giving us the following eigenvalue equation
 
-Let's define the problem more carefully. We are given a unitary
-operator :math:`U` and one of its eigenstates :math:`|\psi \rangle`. The operator is unitary,
-so we can write:
+.. math:: 
+    U |\psi \rangle = e^{2 \pi i \theta} |\psi\rangle\,, \quad 0 \leq \theta \leq 1
+
+
+Here :math:`|\psi \rangle` is an eigenstate of the operator :math:`U`. In phase estimation we estimate the eigenvalue :math:`e^{2 \pi i \theta}` by approximating :math`\theta`.
+
+The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
+
+![](images/phase_est.png "Quantum Phase Estimation Circuit")
+
+QPE is generally split up into three stages
+1. Firstly we prepare an initial state in one register. In parallel we prepare a uniform superposition state using Hadamard gates on some ancilla (measurement) qubits. The number of ancilla qubits determines how precisely we can estimate the phase $\theta$.
+
+2. Secondly we apply successive controlled $U$ gates. This has the effect of "kicking back" phases onto the ancilla qubits according to the eigenvalue equation above.
+
+3. Finally we apply the inverse Quantum Fourier Transform (QFT). This essentially plays the role of destructive interference, suppressing amplitudes from "undesirable states" and hopefully allowing us to measure a single outcome (or a small number of outcomes) with high probability.
+
+
+There is some subtlety around the first point. The initial state used can be an exact eigenstate of $U$ however this may be difficult to prepare if we don't know the eigenvalues of  $U$ in advance. Alternatively we could use an initial state that is a linear combination of eigenstates, as the phase estimation will project into the eigenspace of $U$.
+
+We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the textbook algorithm, the number of controlled unitaries we apply scales exponentially with the number of measurement qubits. This allows more precision at the expense of a larger quantum circuit
+
+The Quantum Fourier Transform
+-----------------------------
+
+Before considering the other parts of the QPE algorithm, lets focus on the Quantum Fourier Transform (QFT) subroutine.
+
+Mathematically, the QFT has the following action.
 
 .. math::
-    U |\psi \rangle = e^{i \phi} |\psi \rangle,
+    QFT : |j\rangle\ \longmapsto \frac{1}{\sqrt{N}} \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle, \quad N= 2^n
 
-where :math:`\phi` is the *phase* of the eigenvalue (remember, unitaries have eigenvalues with an 
-absolute value of 1). The goal is to estimate :math:`\phi`,
-hence the name *phase estimation*. Our challenge is to design a quantum algorithm to solve this problem.
-How would that work?
+
+This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
+
+We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\lfloor{\frac{n}{2}}\rfloor$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
+
+.. math::
+    U1(\phi) =
+    \begin{pmatrix}
+    1 & 0 \\
+    0 & e^{i \pi \phi}
+    \end{pmatrix}\, , \quad
+    CU1(\phi) =
+    \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & e^{i \pi \phi}
+    \end{pmatrix}
+
+The circuit for the Quantum Fourier transform on three qubits is the following
+
+![](images/qft.png "QFT Circuit")
+
+We can build this circuit in `pytket` by adding gate operations manually:
+
+lets build the QFT for three qubits
 """
-
-#
-#
-# The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
-#
-# ![](images/phase_est.png "Quantum Phase Estimation Circuit")
-
-# QPE is generally split up into three stages
-#
-# 1. Firstly we prepare an initial state in one register. In parallel we prepare a uniform superposition state using Hadamard gates on some ancilla (measurement) qubits. The number of ancilla qubits determines how precisely we can estimate the phase $\theta$.
-#
-# 2. Secondly we apply successive controlled $U$ gates. This has the effect of "kicking back" phases onto the ancilla qubits according to the eigenvalue equation above.
-#
-# 3. Finally we apply the inverse Quantum Fourier Transform (QFT). This essentially plays the role of destructive interference, suppressing amplitudes from "undesirable states" and hopefully allowing us to measure a single outcome (or a small number of outcomes) with high probability.
-#
-#
-# There is some subtlety around the first point. The initial state used can be an exact eigenstate of $U$ however this may be difficult to prepare if we don't know the eigenvalues of  $U$ in advance. Alternatively we could use an initial state that is a linear combination of eigenstates, as the phase estimation will project into the eigenspace of $U$.
-
-# We also assume that we can implement $U$ with a quantum circuit. In chemistry applications $U$ could be of the form $U=e^{-iHt}$ where $H$ is the Hamiltonian of some system of interest. In the textbook algorithm, the number of controlled unitaries we apply scales exponentially with the number of measurement qubits. This allows more precision at the expense of a larger quantum circuit.
-
-# ## The Quantum Fourier Transform
-
-# Before considering the other parts of the QPE algorithm, lets focus on the Quantum Fourier Transform (QFT) subroutine.
-#
-# Mathematically, the QFT has the following action.
-#
-# $$
-# \begin{equation}
-# QFT : |j\rangle\ \longmapsto \frac{1}{\sqrt{N}} \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle, \quad N= 2^n
-# \end{equation}
-# $$
-#
-# This is essentially the Discrete Fourier transform except the input is a quantum state $|j\rangle$.
-#
-# We can build the circuit for the $n$ qubit QFT using $n$ Hadamard gates $\lfloor{\frac{n}{2}}\rfloor$ swap gates and $\frac{n(n-1)}{2}$ controlled unitary rotations $\text{CU1}$.
-#
-# $$
-#  \begin{equation}
-# U1(\phi) =
-#  \begin{pmatrix}
-#  1 & 0 \\
-#  0 & e^{i \pi \phi}
-#  \end{pmatrix}\, , \quad
-#  CU1(\phi) =
-#  \begin{pmatrix}
-#  1 & 0 & 0 & 0 \\
-#  0 & 1 & 0 & 0 \\
-#  0 & 0 & 1 & 0 \\
-#  0 & 0 & 0 & e^{i \pi \phi}
-#  \end{pmatrix}
-#  \end{equation}
-# $$
-#
-# The circuit for the Quantum Fourier transform on three qubits is the following
-#
-# ![](images/qft.png "QFT Circuit")
-#
-# We can build this circuit in `pytket` by adding gate operations manually:
-
-# lets build the QFT for three qubits
 from pytket.circuit import Circuit
 from pytket.circuit.display import render_circuit_jupyter
 
@@ -95,8 +84,8 @@ qft3_circ.H(2)
 qft3_circ.SWAP(0, 2)
 render_circuit_jupyter(qft3_circ)
 
-
-# We can generalise the quantum Fourier transform to $n$ qubits by iterating over the qubits as follows
+###########################################################
+# We can generalise the quantum Fourier transform to :math:`n` qubits by iterating over the qubits as follows
 
 
 def build_qft_circuit(n_qubits: int) -> Circuit:
@@ -111,43 +100,39 @@ def build_qft_circuit(n_qubits: int) -> Circuit:
 
     return circ
 
+############################################################
 
 qft4_circ: Circuit = build_qft_circuit(4)
 render_circuit_jupyter(qft4_circ)
 
-
-# Now that we have the generalised circuit we can wrap it up in a `CircBox` which can then be added to another circuit as a subroutine.
+#############################################################
+# Now that we have the generalised circuit we can wrap it up in a :py:class:`CircBox` which can then be added to another circuit as a subroutine.
 
 from pytket.circuit import CircBox
 
 qft4_box: CircBox = CircBox(qft4_circ)
 qft_circ = Circuit(4).add_gate(qft4_box, [0, 1, 2, 3])
 render_circuit_jupyter(qft_circ)
-
-
+##############################################################
+#
 # Note how the `CircBox` inherits the name `QFT` from the underlying circuit.
-
+#
 # Recall that in our phase estimation algorithm we need to use the inverse QFT.
-#
-# $$
-# \begin{equation}
-# \text{QFT}^† : \frac{1}{\sqrt{N}} \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle \longmapsto |j\rangle\,, \quad N= 2^n
-# \end{equation}
-# $$
-#
-#
+# 
+# .. math::
+#     \text{QFT}^† : \frac{1}{\sqrt{N}} \sum_{k=0}^{N - 1} e^{2 \pi ijk/N}|k\rangle \longmapsto |j\rangle\,, \quad N= 2^n
+# 
+# 
 # Now that we have the QFT circuit we can obtain the inverse by using `CircBox.dagger`. We can also verify that this is correct by inspecting the circuit inside with `CircBox.get_circuit()`.
-
 
 inv_qft4_box = qft4_box.dagger
 render_circuit_jupyter(inv_qft4_box.get_circuit())
-
-
-# ## Building the Phase Estimation Circuit
-
+##############################################################
+# Building the Phase Estimation Circuit
+# -------------------------------------
+#
 # We can now define a function to build our entire QPE circuit. We can make this function take a state preparation circuit and a unitary circuit as input as well. The function also has the number of measurement qubits as input which will determine the precision of our phase estimate.
-
-
+# 
 from pytket.circuit import QControlBox
 
 
@@ -188,21 +173,18 @@ def build_phase_estimation_circuit(
     qpe_circ.measure_register(measurement_register, "c")
 
     return qpe_circ
-
-
-# ## Phase Estimation with a Trivial Eigenstate
+###################################################################
+# Phase Estimation with a Trivial Eigenstate
+# ------------------------------------------
 #
-# Lets test our circuit construction by preparing a trivial $|1\rangle$ eigenstate of the $\text{U1}$ gate. We can then see if our phase estimation circuit returns the expected eigenvalue.
-
-# $$
-# \begin{equation}
-# U1(\phi)|1\rangle = e^{i \pi \phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
-# \end{equation}
-# $$
+# Lets test our circuit construction by preparing a trivial $|1\rangle$ eigenstate of the $\text{U1}$ gate. We # can then see if our phase estimation circuit returns the expected eigenvalue.
 #
-# So we expect that our ideal phase $\theta$ will be half the input angle $\phi$ to our $U1$ gate.
+# .. math:: 
+#   U1(\phi)|1\rangle = e^{i \pi \phi}|1\rangle = e^{2 \pi i \theta} |1\rangle \implies \theta = \frac{\phi}{2}
+#
+# So we expect that our ideal phase :math:`theta` will be half the input angle :math:`\phi` to our :math:`U1` #gate.
 
-
+###################################################################
 prep_circuit = Circuit(1).X(0)  # prepare the |1> eigenstate of U1
 
 input_angle = 0.73  # angle as number of half turns
@@ -216,11 +198,10 @@ qpe_circ_trivial = build_phase_estimation_circuit(
 
 
 render_circuit_jupyter(qpe_circ_trivial)
-
-
+####################################################################
 # Lets use the noiseless `AerBackend` simulator to run our phase estimation circuit.
-
-
+#
+####################################################################
 from pytket.extensions.qiskit import AerBackend
 
 backend = AerBackend()
@@ -232,11 +213,10 @@ n_shots = 1000
 result = backend.run_circuit(compiled_circ, n_shots)
 
 print(result.get_counts())
-
+####################################################################
 
 from pytket.backends.backendresult import BackendResult
 import matplotlib.pyplot as plt
-
 
 # plotting function for QPE Notebook
 def plot_qpe_results(
@@ -275,21 +255,21 @@ def plot_qpe_results(
 
 
 plot_qpe_results(result, y_limit=int(1.2 * n_shots))
-
-
+#################################################################
+#
 # As expected we see one outcome with high probability. Lets now extract our approximation of $\theta$ from our output bitstrings.
 #
 # suppose the $j$ is an integer representation of our most commonly measured bitstring.
-
-# $$
-# \begin{equation}
-# \theta_{estimate} = \frac{j}{N}
-# \end{equation}
-# $$
-
+#
+#
+# .. math:: 
+#   \theta_{estimate} = \frac{j}{N}
+# 
+#
+#
 # Here $N = 2 ^m$ where $m$ is the number of measurement qubits.
 
-
+######################################################################
 from pytket.backends.backendresult import BackendResult
 
 
@@ -309,43 +289,43 @@ print(theta)
 
 
 print(input_angle / 2)
+######################################################################
+#
+# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error :math`E` to three decimal places.
+#
+# .. math:: 
+#   E = |\phi - 2 \, \theta_{estimate}|
 
-
-# Our output is close to half our input angle $\phi$ as expected. Lets calculate our error $E$ to three decimal places.
-
-# $$
-# \begin{equation}
-# E = |\phi - 2 \, \theta_{estimate}|
-# \end{equation}
-# $$
-
+######################################################################
 error = round(abs(input_angle - (2 * theta)), 3)
 print(error)
-
-# ## Phase Estimation with Time Evolution
-
-# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the textbook variant of QPE presented here, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of measurement qubits.
-
+######################################################################
+# Phase Estimation with Time Evolution
+# ------------------------------------
+#
+# In the phase estimation algorithm we repeatedly perform controlled unitary operations. In the textbook #variant of QPE presented here, the number of controlled unitaries will be $2^m - 1$ where $m$ is the number of #measurement qubits.
+#
 # In the example above we've shown a trivial instance of QPE where we know the exact phase in advance. For more realistic applications of QPE we will have some non-trivial state preparation required.
 #
 # For chemistry or condensed matter physics $U$ typically be the time evolution operator $U(t) = e^{- i H t}$ where $H$ is the problem Hamiltonian.
 # Suppose that we had the following decomposition for $H$ in terms of Pauli strings $P_j$ and complex coefficients $\alpha_j$.
 #
-# $$
-# \begin{equation}
-# H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
-# \end{equation}
-# $$
+# 
+# .. math::
+#   H = \sum_j \alpha_j P_j\,, \quad \, P_j \in \{I, \,X, \,Y, \,Z\}^{\otimes n}
+#
+#
 #
 # Here the term Pauli strings refers to tensor products of Pauli operators. These strings form an orthonormal basis for $2^n \times 2^n$ matrices.
-
+#
 # If we have a Hamiltonian in the form above, we can then implement $U(t)$ as a sequence of Pauli gadget circuits. We can do this with the [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) construct in pytket. For more on `PauliExpBox` see the [user manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#pauli-exponential-boxes).
-
+#
 # Once we have a circuit to implement our time evolution operator $U(t)$, we can construct the controlled $U(t)$ operations using [QControlBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.QControlBox). If our base unitary is a sequence of `PauliExpBox`(es) then there is some structure we can exploit to simplify our circuit. See this [blog post](https://tket.quantinuum.com/blog/posts/controlled_gates/) on [ConjugationBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ConjugationBox) for more.
-
+#
 # As an exercise, try to use phase estimation to calculate the ground state of diatomic hydrogen $H_2$.
-
-# ## Suggestions for further reading
+#
+# Suggestions for further reading
+# -------------------------------
 #
 # * Quantinuum paper on Bayesian phase estimation -> https://arxiv.org/pdf/2306.16608.pdf
 # * Blog post on `ConjugationBox` (efficient circuits for controlled gates) -> https://tket.quantinuum.com/blog/posts/controlled_gates/
