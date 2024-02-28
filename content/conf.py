@@ -67,7 +67,6 @@ sphinx_gallery_conf = {
 
 
 
-
 # ----- Extension configuration -----
 
 pytketdoc_base = "https://tket.quantinuum.com/api-docs/"

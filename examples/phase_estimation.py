@@ -20,7 +20,10 @@ Here :math:`|\psi \rangle` is an eigenstate of the operator :math:`U`. In phase 
 
 The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
 
-![](images/phase_est.png "Quantum Phase Estimation Circuit")
+.. figure:: ../examples/images/phase_est.png
+    :align: center
+    :width: 50%
+
 
 QPE is generally split up into three stages
 1. Firstly we prepare an initial state in one register. In parallel we prepare a uniform superposition state using Hadamard gates on some ancilla (measurement) qubits. The number of ancilla qubits determines how precisely we can estimate the phase :math:`\theta`.
@@ -71,6 +74,10 @@ We can build this circuit in `pytket` by adding gate operations manually:
 
 lets build the QFT for three qubits
 """
+
+# sphinx_gallery_thumbnail_path = '_static/images/phase_est.png'
+
+
 from pytket.circuit import Circuit
 from pytket.circuit.display import render_circuit_jupyter
 
