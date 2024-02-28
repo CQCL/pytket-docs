@@ -17,6 +17,7 @@ extensions = [
     "ablog", 
     "myst_parser",
     "sphinx_favicon",
+    "sphinx_gallery.gen_gallery",
 ]
 
 html_theme = "pydata_sphinx_theme"
@@ -38,7 +39,8 @@ html_theme_options = {
 }
 
 html_sidebars = {
-  "blog/index": []
+  "blog/index": [],
+  "auto_examples/phase_estimation" : []
 }
 
 
@@ -56,7 +58,17 @@ favicons = [
     "favicon.svg",
 ]
 
-# -- Extension configuration -------------------------------------------------
+# Sphinx Gallery config
+
+sphinx_gallery_conf = {
+     "examples_dirs": "../examples/python",   # path to your example scripts
+     "gallery_dirs": "auto_examples",  # path to where to save gallery generated output
+}
+
+
+
+
+# ----- Extension configuration -----
 
 pytketdoc_base = "https://tket.quantinuum.com/api-docs/"
 
