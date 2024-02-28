@@ -40,7 +40,7 @@ html_theme_options = {
 
 html_sidebars = {
   "blog/index": [],
-  "auto_examples/phase_estimation" : []
+  "auto_examples/**" : []
 }
 
 
