@@ -1,22 +1,28 @@
-# # Quantum Phase Estimation
-#
-# When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates. In `pytket` we can construct circuits using box structures which abstract away the complexity of the underlying circuit. This notebook is intended to complement the [boxes section](https://tket.quantinuum.com/user-manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
-#
-# To demonstrate boxes in `pytket` we will consider the Quantum Phase Estimation algorithm (QPE). This is an important subroutine in several quantum algorithms including Shor's algorithm and fault-tolerant approaches to quantum chemistry.
-#
-# ## Overview of Phase Estimation
-#
-# The Quantum Phase Estimation algorithm can be used to estimate the eigenvalues of some unitary operator $U$ to some desired precision.
-#
-# The eigenvalues of $U$ lie on the unit circle, giving us the following eigenvalue equation
-#
-# $$
-# \begin{equation}
-# U |\psi \rangle = e^{2 \pi i \theta} |\psi\rangle\,, \quad 0 \leq \theta \leq 1
-# \end{equation}
-# $$
-#
-# Here $|\psi \rangle$ is an eigenstate of the operator $U$. In phase estimation we estimate the eigenvalue $e^{2 \pi i \theta}$ by approximating $\theta$.
+r"""
+Quantum Phase Estimation
+========================
+
+When constructing circuits for quantum algorithms it is useful to think of higher level operations than just individual quantum gates. In `pytket` we can construct circuits using box structures which abstract away the complexity of the underlying circuit. This notebook is intended to complement the [boxes section](https://tket.quantinuum.com/user-manual/manual_circuit.html#boxes) of the user manual which introduces the different box types.
+
+To demonstrate boxes in `pytket` we will consider the Quantum Phase Estimation algorithm (QPE). This is an important subroutine in several quantum algorithms including Shor's algorithm and fault-tolerant approaches to quantum chemistry.
+
+
+Quantum phase estimation
+------------------------
+
+Let's define the problem more carefully. We are given a unitary
+operator :math:`U` and one of its eigenstates :math:`|\psi \rangle`. The operator is unitary,
+so we can write:
+
+.. math::
+    U |\psi \rangle = e^{i \phi} |\psi \rangle,
+
+where :math:`\phi` is the *phase* of the eigenvalue (remember, unitaries have eigenvalues with an 
+absolute value of 1). The goal is to estimate :math:`\phi`,
+hence the name *phase estimation*. Our challenge is to design a quantum algorithm to solve this problem.
+How would that work?
+"""
+
 #
 #
 # The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
