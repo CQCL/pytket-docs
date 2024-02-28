@@ -61,7 +61,7 @@ favicons = [
 # Sphinx Gallery config
 
 sphinx_gallery_conf = {
-     "examples_dirs": "../examples/python",   # path to your example scripts
+     "examples_dirs": "../examples",   # path to your example scripts
      "gallery_dirs": "auto_examples",  # path to where to save gallery generated output
 }
 
