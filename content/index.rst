@@ -3,7 +3,7 @@
 
     Getting started <self>
     API <https://tket.quantinuum.com/api-docs/>
-    Examples <https://tket.quantinuum.com/examples>
+    Examples <auto_examples/index.rst>
     Blog <blog/index.md>
     Manual <manual/manual_index.rst>
 
