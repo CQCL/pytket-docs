@@ -58,16 +58,17 @@ favicons = [
     "favicon.svg",
 ]
 
-# Sphinx Gallery config
+# ----- Sphinx Gallery config -----
 
 sphinx_gallery_conf = {
      "examples_dirs": "../examples",   # path to your example scripts
      "gallery_dirs": "auto_examples",  # path to where to save gallery generated output
+      "thumbnail_size": (400, 280),
+     "remove_config_comments": True,
 }
 
 
-
-# ----- Extension configuration -----
+# ----- intersphinx configuration -----
 
 pytketdoc_base = "https://tket.quantinuum.com/api-docs/"
 

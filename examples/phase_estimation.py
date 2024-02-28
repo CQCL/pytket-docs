@@ -16,13 +16,13 @@ The eigenvalues of :math:`U` lie on the unit circle, giving us the following eig
     U |\psi \rangle = e^{2 \pi i \theta} |\psi\rangle\,, \quad 0 \leq \theta \leq 1
 
 
-Here :math:`|\psi \rangle` is an eigenstate of the operator :math:`U`. In phase estimation we estimate the eigenvalue :math:`e^{2 \pi i \theta}` by approximating :math`\theta`.
+Here :math:`|\psi \rangle` is an eigenstate of the operator :math:`U`. In phase estimation we estimate the eigenvalue :math:`e^{2 \pi i \theta}` by approximating :math:`\theta`.
 
 The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
 
-.. figure:: ../examples/images/phase_est.png
+.. figure:: images/thumb/sphx_glr_phase_estimation_thumb.png
     :align: center
-    :width: 50%
+    :width: 75%
 
 
 QPE is generally split up into three stages
