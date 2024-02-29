@@ -1,6 +1,6 @@
 r"""
-High Energy Physics: Lattice Gauge Theory on Quantinuum H-Series 
-================================================================
+Lattice Gauge Theory on Quantinuum H-Series 
+===========================================
 # 
 # Quantum computers have the ability to tackle problems beyond the reach of classical systems. One such application lies in the realm of quantum field theories, where lattice gauge theories provide a rigorous framework to derive non-perturbative results. Before diving in, you may find it helpful to review the [Definitions](#Definitions) at the end of this article if you're unfamiliar with high energy physics.
 
