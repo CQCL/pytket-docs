@@ -881,7 +881,7 @@ TKET supports the preparation of arbitrary quantum states via the :py:class:`Sta
 
 Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in [Shen2004]_.
 
-To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werner state :math:`|W\rangle`.
+To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the W state.
 
 .. math::
 
@@ -894,12 +894,12 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the Werne
 
     from pytket.circuit import StatePreparationBox
 
-    werner_state = 1 / np.sqrt(3) * np.array([0, 1, 1, 0, 1, 0, 0, 0])
+    w_state = 1 / np.sqrt(3) * np.array([0, 1, 1, 0, 1, 0, 0, 0])
 
-    werner_state_box = StatePreparationBox(werner_state)
+    w_state_box = StatePreparationBox(w_state)
 
     state_circ = Circuit(3)
-    state_circ.add_state_preparation_box(werner_state_box, [0, 1, 2])
+    state_circ.add_state_preparation_box(w_state_box, [0, 1, 2])
 
 
 .. jupyter-execute::
@@ -914,7 +914,7 @@ For some use cases it may be desirable to reset all qubits to the :math:`|0\rang
 .. jupyter-execute::
 
     # Ensure all qubits initialised to |0>
-    werner_state_box_reset = StatePreparationBox(werner_state, with_initial_reset=True)
+    w_state_box_reset = StatePreparationBox(w_state, with_initial_reset=True)
     
 
 Finally let's consider another box type, namely the :py:class:`ToffoliBox`. This box can be used to prepare an arbitrary permutation of the computational basis states.
@@ -957,7 +957,7 @@ In pytket however, the permutation is implemented efficently using a sequence of
     render_circuit_jupyter(perm_box.get_circuit())
 
 
-Finally let's append the :py:class:`ToffoliBox` onto our circuit preparing our Werner state to perform the permutation of basis states specified above.
+Finally let's append the :py:class:`ToffoliBox` onto our circuit preparing our w state to perform the permutation of basis states specified above.
 
 
 .. jupyter-execute::
@@ -970,7 +970,7 @@ Finally let's append the :py:class:`ToffoliBox` onto our circuit preparing our W
     np.round(state_circ.get_statevector().real, 3)
 
 
-Looking at the statevector calculation we see that our :py:class:`ToffoliBox` has exchanged the coefficents of our Werner state so that the non-zero coefficents are now on the :math:`|000\rangle` and :math:`|111\rangle` bitstrings with the coefficent of :math:`|010\rangle` remaining unchanged.
+Looking at the statevector calculation we see that our :py:class:`ToffoliBox` has exchanged the coefficents of our w state so that the non-zero coefficents are now on the :math:`|000\rangle` and :math:`|111\rangle` bitstrings with the coefficent of :math:`|010\rangle` remaining unchanged.
 
 
 Importing/Exporting Circuits
