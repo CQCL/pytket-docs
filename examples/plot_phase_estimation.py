@@ -79,7 +79,7 @@ lets build the QFT for three qubits
 
 
 from pytket.circuit import Circuit
-from pytket.circuit.display import render_circuit_jupyter
+from pytket.circuit.display import render_circuit_jupyter, view_browser
 
 qft3_circ = Circuit(3)
 qft3_circ.H(0)
@@ -298,7 +298,7 @@ print(theta)
 print(input_angle / 2)
 ######################################################################
 #
-# Our output is close to half our input angle :math:`\phi` as expected. Lets calculate our error :math`E` to three decimal places.
+# Our output is close to half our input angle :math:`\phi` as expected. Lets calculate our error :math:`E` to three decimal places.
 #
 # .. math:: 
 #   E = |\phi - 2 \, \theta_{estimate}|

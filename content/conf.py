@@ -61,10 +61,12 @@ favicons = [
 # ----- Sphinx Gallery config -----
 
 sphinx_gallery_conf = {
+     "filename_pattern": "/plot_",
      "examples_dirs": "../examples",   # path to your example scripts
      "gallery_dirs": "auto_examples",  # path to where to save gallery generated output
-      "thumbnail_size": (400, 280),
+     "thumbnail_size": (400, 280),
      "remove_config_comments": True,
+     "image_scrapers": ("matplotlib",)
 }
 
 
