@@ -20,7 +20,7 @@ Here :math:`|\psi \rangle` is an eigenstate of the operator :math:`U`. In phase 
 
 The circuit for Quantum phase estimation is itself composed of several subroutines which we can realise as boxes.
 
-.. figure:: images/thumb/sphx_glr_phase_estimation_thumb.png
+.. figure:: images/thumb/sphx_glr_plot_phase_estimation_thumb.png
     :align: center
     :width: 75%
 
