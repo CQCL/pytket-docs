@@ -1,2 +1,2 @@
-pytket examples
-===============
+pytket examples gallery
+=======================
