@@ -22,8 +22,8 @@ AUTHORS = {
     "save-dir": REPO_ROOT / "_static" / "authors"
 }
 DEMO = {
-    "link-dir": PurePosixPath("../demonstrations"),
-    "save-dir": REPO_ROOT / "demonstrations"
+    "link-dir": PurePosixPath("../examples"),
+    "save-dir": REPO_ROOT / "examples"
 }
 
 
