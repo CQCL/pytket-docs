@@ -47,7 +47,7 @@ Example Setup
 ~~~~~~~~~~~~~
 # Set up the quantum circuit.
 """
-
+#sphinx_gallery_thumbnail_path = '_static/images/zzphase.png'
 from pytket.circuit import Circuit
 from pytket.extensions.quantinuum import QuantinuumBackend
 
