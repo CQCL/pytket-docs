@@ -35,3 +35,7 @@ sphinx-build -M html content content/build
 ```
 
 The html pages will show up in the `content/build/html` directory.
+
+```shell
+open content/build/html/index.html
+```
