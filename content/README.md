@@ -5,7 +5,9 @@
 * Manual, blog and examples are now one sphinx project (Using [pydata](https://pydata-sphinx-theme.readthedocs.io/en/stable/) but flexible)
 * Navbar across docs pages (Using pydata builtin navbar but could use custom)
 * Use poetry for dependency management
-* Use sphinx-gallery for displaying examples. This uses python scripts as source avoiding code duplication and source control issues from using jupyter notebooks source
+* Use sphinx-gallery for displaying examples. This uses python scripts as source avoiding code duplication and source control issues from using jupyter notebooks source.
+* Added script to parse notebooks and generate formatted python scripts. Borrowed from pennylane for now.
+
 
 
 ## Building the docs locally
