@@ -33,8 +33,9 @@ r"""Qubit mapping and routing
 # requires a coupling map to be created, a list of pairs of qubits which defines where two-qubit
 # primitives may be executed. A coupling map can be produced naively by the integer indexing of nodes
 # and edges in some architecture.
-# 
+
 # sphinx_gallery_thumbnail_path = '_static/images/routing.png'
+
 from pytket.architecture import Architecture
 from pytket.circuit import Node
 
