@@ -121,8 +121,9 @@ r"""Variational Experiment on H-Series
 ######################################################################
 # The ``QuantinuumBackend`` instance requires the user to be authenticated before any jobs can be
 # submitted. The ``login`` method will allow authentication.
-# 
+
 # sphinx_gallery_thumbnail_path = '_static/images/vqe.png'
+
 from pytket.extensions.quantinuum import QuantinuumBackend
 
 quantinuum_backend = QuantinuumBackend(device_name="H1-1E")
