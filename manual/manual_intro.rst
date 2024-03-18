@@ -97,7 +97,7 @@ Support
 
 .. Github issues
 
-If you spot any bugs or have any feature suggestions, feel free to add to the issues board on our `Github examples repository <https://github.com/CQCL/tket>`_. We appreciate exact error messages and reproduction steps where possible for bug reports to help us address them quickly.
+If you spot any bugs or have any feature suggestions, feel free to add to the issues board on our `Github repository <https://github.com/CQCL/tket>`_. We appreciate exact error messages and reproduction steps where possible for bug reports to help us address them quickly.
 
 .. For more specific assistance, e-mail tket-support
 .. To open up direct support channels or collaboration with teams, e-mail Denise?
