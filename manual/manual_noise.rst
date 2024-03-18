@@ -129,7 +129,7 @@ execution.  It achieves this by minimising the additional
 placement, and at the same time avoiding qubits with worse error
 rates. Further information on this method is available in section 7.1
 of our `software overview paper
-<https://doi.org/10.1088/2058-9565/ab8e92>`_.
+<https://iopscience.iop.org/article/10.1088/2058-9565/ab8e92>`_.
 
 .. jupyter-input::
 

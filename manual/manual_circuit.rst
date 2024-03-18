@@ -1164,7 +1164,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
     print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 
 
-.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition <https://tket.quantinuum.com/passes.html#pytket.passes.KAKDecomposition>`_ to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
+.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition :py:class:`pytket.passes.KAKDecomposition` to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 
 .. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://tket.quantinuum.com/examples/ucc_vqe.html>`_.
 
@@ -1189,7 +1189,7 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_sym
     circuit_to_symbolic_unitary(circ)
 
 
-The unitaries are calculated using the unitary representation of each `OpType <https://tket.quantinuum.com/api-docs/optype.html>`_ , and according to the default `ILO BasisOrder convention used in backends <manual_backend.html#interpreting-results>`_.
+The unitaries are calculated using the unitary representation of each `OpType <https://tket.quantinuum.com/api-docs/optype.html>`_ , and according to the default ILO BasisOrder convention used in backends `ILO BasisOrder convention used in backends <https://tket.quantinuum.com/user-manual/manual_backend.html#interpreting-results>`_.
 The outputs are sympy `ImmutableMatrix <https://docs.sympy.org/latest/modules/matrices/immutablematrices.html>`_ objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the `sympy Quantum Mechanics module <https://docs.sympy.org/latest/modules/physics/quantum/index.html>`_, see also the :py:func:`circuit_to_symbolic_gates` and :py:func:`circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 
@@ -1290,9 +1290,7 @@ Any ``pytket`` operation can be made conditional at the point of adding it to
 the :py:class:`~pytket.circuit.Circuit` by providing the ``condition`` kwarg. The interpretation
 of ``circ.G(q, condition=reg[0])`` is: "if the  bit ``reg[0]`` is set to 1, then
 perform ``G(q)``".
-Conditions on more complicated expressions over the values of `Bit
-<../../tket/pytket/api/circuit.html#pytket.circuit.Bit>`_ and `BitRegister
-<../../tket/pytket/api/circuit.html#pytket.circuit.BitRegister>`_ are also
+Conditions on more complicated expressions over the values of :py:class:`~pytket.unit_id.Bit` and :py:class:`~pytket.unit_id.BitRegister` are also
 possible, expressed as conditions on the results of expressions involving
 bitwise AND (&), OR (|) and XOR (^) operations. In the case of registers, you
 can also express arithmetic operations: add (+), subtract (-), multiply (*), 
