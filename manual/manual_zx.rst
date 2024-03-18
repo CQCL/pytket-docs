@@ -618,7 +618,7 @@ The specific nature of optimising circuits via ZX diagrams gives rise to some ge
 
 .. Extraction is not optimised so best to run other passes afterwards
 
-* The implementation of the extraction routine in pytket follows the steps from Backens et al. [Back2021]_ very closely without optimising the gate sequences as they are produced. It is recommended to run additional peephole optimisation passes afterwards to account for redundancies introduced by the extraction procedure. For example, we can see in the above example that there are many sequences of successive Hadamard gates that could be removed using a pass like :py:class:`RemoveRedundancies`. :py:class:`FullPeepholeOptimise` is a good catch-all that incorporates many peephole optimisations and could further reduce the extracted circuit. 
+* The implementation of the extraction routine in pytket follows the steps from Backens et al. [Back2021]_ very closely without optimising the gate sequences as they are produced. It is recommended to run additional peephole optimisation passes afterwards to account for redundancies introduced by the extraction procedure. For example, we can see in the above example that there are many sequences of successive Hadamard gates that could be removed using a pass like :py:class:`RemoveRedundancies`. :py:class:`~pytket.passes.FullPeepholeOptimise` is a good catch-all that incorporates many peephole optimisations and could further reduce the extracted circuit. 
 
 Advanced Topics
 ---------------

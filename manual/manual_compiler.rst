@@ -589,13 +589,13 @@ Knowing what sequences of compiler passes to apply for maximal performance is of
 
 .. `FullPeepholeOptimise` kitchen-sink, but assumes a universal quantum computer
 
-In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the :py:class`~pytket.Circuit`. The :py:class:`FullPeepholeOptimise` pass applies Clifford simplifications, commutes single-qubit gates to the front of the circuit and applies passes to squash subcircuits of up to three qubits. This provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class`~pytket.Circuit` optimisation. This assumes no device constraints by default, so will not generally preserve gateset, connectivity, etc.
+In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the :py:class`~pytket.Circuit`. The :py:class:`~pytket.passes.FullPeepholeOptimise` pass applies Clifford simplifications, commutes single-qubit gates to the front of the circuit and applies passes to squash subcircuits of up to three qubits. This provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class`~pytket.Circuit` optimisation. This assumes no device constraints by default, so will not generally preserve gateset, connectivity, etc.
 
 When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. :py:class:`DefaultMappingPass` simply combines these to apply the :py:class:`GraphPlacement` strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with :py:class:`CXMappingPass` which also decomposes the introduced ``OpType.SWAP`` and ``OpType.BRIDGE`` gates into elementary ``OpType.CX`` gates.
 
 .. `Synthesise<>` passes combine light optimisations that preserve qubit connectivity and target a specific gate set
 
-After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won't invalidate this. The set of :py:class:`SynthesiseX` passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. :py:class:`SynthesiseTket` guarantees the output is in the gateset of ``OpType.CX``, ``OpType.TK1``, and ``OpType.Measure``). In general, this will not reduce the size of a :py:class`~pytket.Circuit` as much as :py:class:`FullPeepholeOptimise`, but has the benefit of removing some redundancies introduced by routing without invalidating it.
+After solving for the device connectivity, we then need to restrict what optimisations we can apply to those that won't invalidate this. The set of :py:class:`SynthesiseX` passes combine light optimisations that preserve the qubit connectivity and target a specific final gate set (e.g. :py:class:`SynthesiseTket` guarantees the output is in the gateset of ``OpType.CX``, ``OpType.TK1``, and ``OpType.Measure``). In general, this will not reduce the size of a :py:class`~pytket.Circuit` as much as :py:class:`~pytket.passes.FullPeepholeOptimise`, but has the benefit of removing some redundancies introduced by routing without invalidating it.
 
 .. jupyter-input::
 
@@ -633,12 +633,12 @@ After solving for the device connectivity, we then need to restrict what optimis
 
 
 .. Note::
-    :py:class:`FullPeepholeOptimise` takes an optional ``allow_swaps`` argument. This is a boolean flag to indicate whether :py:class:`FullPeepholeOptimise` should preserve the circuit connectivity or not. If set to ``False`` the pass will presrve circuit connectivity but the circuit will generally be less optimised than if connectivity was ignored.
+    :py:class:`~pytket.passes.FullPeepholeOptimise` takes an optional ``allow_swaps`` argument. This is a boolean flag to indicate whether :py:class:`~pytket.passes.FullPeepholeOptimise` should preserve the circuit connectivity or not. If set to ``False`` the pass will presrve circuit connectivity but the circuit will generally be less optimised than if connectivity was ignored.
     
-    :py:class:`FullPeepholeOptimise` also takes an optional ``target_2qb_gate`` argument to specify whether to target the {:py:class:`OpType.TK1`, :py:class:`OpType.CX`} or {:py:class:`OpType.TK1`, :py:class:`OpType.TK2`} gateset.
+    :py:class:`~pytket.passes.FullPeepholeOptimise` also takes an optional ``target_2qb_gate`` argument to specify whether to target the {:py:class:`OpType.TK1`, :py:class:`OpType.CX`} or {:py:class:`OpType.TK1`, :py:class:`OpType.TK2`} gateset.
 
 .. Note::
-    Prevous versions of :py:class:`FullPeepholeOptimise` did not apply the :py:class:`ThreeQubitSquash` pass. There is a :py:class:`PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded.
+    Prevous versions of :py:class:`~pytket.passes.FullPeepholeOptimise` did not apply the :py:class:`ThreeQubitSquash` pass. There is a :py:class:`PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded.
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
@@ -725,7 +725,7 @@ The passes to solve some device constraints might invalidate others: for example
 
 .. Recommended order of decompose boxes, strong optimisations, placement, routing, delay measures, rebase; could insert minor optimisations between each step to tidy up any redundancies introduced as long as they preserve solved constraints
 
-For most standard use cases, we recommend starting with :py:class:`DecomposeBoxes` to reduce the :py:class`~pytket.Circuit` down to primitive gates, followed by strong optimisation passes like :py:class:`PauliSimp` (when appropriate for the types of :py:class`~pytket.Circuit` s being considered) and :py:class:`FullPeepholeOptimise` to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by :py:class:`DelayMeasures` to push measurements back through any introduced ``OpType.SWAP`` or ``OpType.BRIDGE`` gates, and then finally rebase to the desired gate set. The :py:meth:`Backend.default_compilation_pass()` definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.
+For most standard use cases, we recommend starting with :py:class:`DecomposeBoxes` to reduce the :py:class`~pytket.Circuit` down to primitive gates, followed by strong optimisation passes like :py:class:`PauliSimp` (when appropriate for the types of :py:class`~pytket.Circuit` s being considered) and :py:class:`~pytket.passes.FullPeepholeOptimise` to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by :py:class:`DelayMeasures` to push measurements back through any introduced ``OpType.SWAP`` or ``OpType.BRIDGE`` gates, and then finally rebase to the desired gate set. The :py:meth:`Backend.default_compilation_pass()` definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.
 
 Initial and Final Maps
 ----------------------
