@@ -43,7 +43,7 @@ vary over time, a phenomenon commonly referred to as device drift
 [White2019]_.
 
 Some devices expose error characterisation information through
-their programming interface. When available, :py:class`~pytket.backends.Backend`
+their programming interface. When available, :py:class:`~pytket.backends.Backend`
 objects will populate a :py:class:`~pytket.backends.backendinfo.BackendInfo` object with this information. 
 
 A :py:class:`~pytket.backends.backendinfo.BackendInfo` object contains a variety of characterisation information supplied by hardware providers.   
@@ -494,7 +494,7 @@ First the :py:class:`SpamCorrecter` is characterised using counts results for ca
     print('Noiseless Counts:', noiseless_result.get_counts())
 
 
-Despite the presence of additional noise, it is straightforward to see that the corrected counts results are closer to the expected noiseless counts than the original noisy counts. All that is required to use :py:class:`SpamCorrecter` with a real device is the interchange of :py:class:`~pytket.extensions.qiskit.AerBackend` with a real device backend, such as  :py:class:`IBMQBackend`.
+Despite the presence of additional noise, it is straightforward to see that the corrected counts results are closer to the expected noiseless counts than the original noisy counts. All that is required to use :py:class:`SpamCorrecter` with a real device is the interchange of :py:class:`~pytket.extensions.qiskit.AerBackend` with a real device backend, such as  :py:class:`~pytket.extensions.qiskit.IBMQBackend`.
 
 
 
