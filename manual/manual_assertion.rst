@@ -11,11 +11,11 @@ This property can be potentially exploited to help error mitigation or nondeterm
 The former can be used to assert arbitrary subspaces, but note that we currently only support 2x2, 4x4, and 8x8 matrices.
 The latter is useful for asserting that the prepared state lies in a subspace spanned by some stabiliser states.
 
-When applied to a circuit, the assertion is inserted as a :py:class:`ProjectorAssertionBox` or a :py:class:`StabiliserAssertionBox`, and then synthesized into a set of gates and measurements by the :py:class:`DecomposeBoxes` pass. Be aware that an ancilla qubit might be required for the assertion.
+When applied to a circuit, the assertion is inserted as a :py:class:`~pytket.circuit.ProjectorAssertionBox` or a :py:class:`~pytket.circuit.StabiliserAssertionBox`, and then synthesized into a set of gates and measurements by the :py:class:`~pytket.circuit.DecomposeBoxes` pass. Be aware that an ancilla qubit might be required for the assertion.
 The results of these measurements will be used later on to determine the outcome of the assertion.
 
-To test the circuit, compile and process the circuit using a :py:class:`Backend` that supports mid-circuit measurement and reset (e.g. :py:class:`AerBackend` from ``pytket-qiskit``).
-Once a :py:class:`BackendResult` object is retrieved, the outcome of the assertion can be checked with the :py:meth:`get_debug_info` method.
+To test the circuit, compile and process the circuit using a :py:class:`~pytket.backends.Backend` that supports mid-circuit measurement and reset (e.g. :py:class:`pytket.backends.AerBackend` from ``pytket-qiskit``).
+Once a :py:class:`~pytket.backends.backendresult.BackendResult` object is retrieved, the outcome of the assertion can be checked with the :py:meth:`~pytket.backends.backendresult.BackendResult.get_debug_info` method.
 
 
 Projector-based
@@ -147,7 +147,7 @@ The following code demonstrates how we use the generating set for the Bell state
     res.get_debug_info()
 
 
-A :py:class:`StabiliserAssertionBox` can also be constructed with a :py:class:`pytket.pauli.PauliStabiliser`:
+A :py:class:`~pytket.circuit.StabiliserAssertionBox` can also be constructed with a :py:class:`~pytket.pauli.PauliStabiliser`:
 
 .. jupyter-execute::
 
