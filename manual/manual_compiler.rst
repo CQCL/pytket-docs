@@ -2,17 +2,17 @@
 Compilation
 ***********
 
-So far, we have already covered enough to be able to design the :py:class`~pytket.Circuit` s we want to run, submit them to a :py:class:`Backend`, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the :py:meth:`Backend.get_compiled_circuit()` method. The compilation step maps from the universal computer abstraction presented at :py:class`~pytket.Circuit` construction to the restricted fragment supported by the target :py:class:`Backend`, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.
+So far, we have already covered enough to be able to design the :py:class`~pytket.Circuit` s we want to run, submit them to a :py:class`~pytket.backends.Backend`, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the :py:meth:`Backend.get_compiled_circuit()` method. The compilation step maps from the universal computer abstraction presented at :py:class`~pytket.Circuit` construction to the restricted fragment supported by the target :py:class`~pytket.backends.Backend`, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.
 
 The necessity of compilation maps over from the world of classical computation: it is much easier to design correct programs when working with higher-level constructions that aren't natively supported, and it shouldn't require a programmer to be an expert in the exact device architecture to achieve good performance. There are many possible low-level implementations on the device for each high-level program, which vary in the time and resources taken to execute. However, because QPUs are analog devices, the implementation can have a massive impact on the quality of the final outcomes as a result of changing how susceptible the system is to noise. Using a good compiler and choosing the methods appropriately can automatically find a better low-level implementation. Each aspect of the compilation procedure is exposed through ``pytket`` to provide users with a way to have full control over what is applied and how.
 
 .. Optimisation/simplification and constraint solving
 
-The primary goals of compilation are two-fold: solving the constraints of the :py:class:`Backend` to get from the abstract model to something runnable, and optimising/simplifying the :py:class`~pytket.Circuit` to make it faster, smaller, and less prone to noise. Every step in compilation can generally be split up into one of these two categories (though even the constraint solving steps could have multiple solutions over which we could optimise for noise).
+The primary goals of compilation are two-fold: solving the constraints of the :py:class`~pytket.backends.Backend` to get from the abstract model to something runnable, and optimising/simplifying the :py:class`~pytket.Circuit` to make it faster, smaller, and less prone to noise. Every step in compilation can generally be split up into one of these two categories (though even the constraint solving steps could have multiple solutions over which we could optimise for noise).
 
 .. Passes capture methods of transforming the circuit, acting in place
 
-Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class`~pytket.Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class`~pytket.Circuit` in-place. The :py:meth:`Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`BasePass.apply()` from the :py:class:`Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
+Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class`~pytket.Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class`~pytket.Circuit` in-place. The :py:meth:`Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`BasePass.apply()` from the :py:class`~pytket.backends.Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
 
 Predicates
 ----------
@@ -20,7 +20,7 @@ Predicates
 .. Predicates capture properties a circuit could satisfy
 .. Primarily used to describe requirements of the backends
 
-Solving the constraints of the target :py:class:`Backend` is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the :py:attr:`Backend.required_predicates` property gives a collection of :py:class:`Predicate` s, describing the necessary properties a :py:class`~pytket.Circuit` must satisfy in order to be run.
+Solving the constraints of the target :py:class`~pytket.backends.Backend` is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the :py:attr:`Backend.required_predicates` property gives a collection of :py:class:`Predicate` s, describing the necessary properties a :py:class`~pytket.Circuit` must satisfy in order to be run.
 
 Each :py:class:`Predicate` can be constructed on its own to impose tests on :py:class`~pytket.Circuit` s during construction.
 
@@ -168,7 +168,7 @@ Placement
 
 .. Task of selecting appropriate physical qubits to use; better use of connectivity and better noise characteristics
 
-Initially, a :py:class`~pytket.Circuit` designed without a target device in mind will be expressed in terms of actions on a set of "logical qubits" - those with semantic meaning to the computation. A `placement` (or `initial mapping`) is a map from these logical qubits to the physical qubits of the device that will be used to carry them. A given placement may be preferred over another if the connectivity of the physical qubits better matches the interactions between the logical qubits caused by multi-qubit gates, or if the selection of physical qubits has better noise characteristics. All of the information for connectivity and noise characteristics of a given :py:class:`Backend` is wrapped up in a :py:class:`BackendInfo` object by the :py:attr:`Backend.backend_info` property.
+Initially, a :py:class`~pytket.Circuit` designed without a target device in mind will be expressed in terms of actions on a set of "logical qubits" - those with semantic meaning to the computation. A `placement` (or `initial mapping`) is a map from these logical qubits to the physical qubits of the device that will be used to carry them. A given placement may be preferred over another if the connectivity of the physical qubits better matches the interactions between the logical qubits caused by multi-qubit gates, or if the selection of physical qubits has better noise characteristics. All of the information for connectivity and noise characteristics of a given :py:class`~pytket.backends.Backend` is wrapped up in a :py:class:`BackendInfo` object by the :py:attr:`Backend.backend_info` property.
 
 .. Affects where the logical qubits start initially, but it not necessarily where they will end up being measured at the end
 
@@ -176,7 +176,7 @@ The placement only specifies where the logical qubits will be at the start of ex
 
 .. Placement acts in place by renaming qubits to their physical addresses (classical data is never renamed)
 
-A placement pass will act in place on a :py:class`~pytket.Circuit` by renaming the qubits from their logical names (the :py:class:`UnitID` s used at circuit construction) to their physical addresses (the :py:class:`UnitID` s recognised by the :py:class:`Backend`). Classical data is never renamed.
+A placement pass will act in place on a :py:class`~pytket.Circuit` by renaming the qubits from their logical names (the :py:class:`UnitID` s used at circuit construction) to their physical addresses (the :py:class:`UnitID` s recognised by the :py:class`~pytket.backends.Backend`). Classical data is never renamed.
 
 .. Basic example
 
@@ -642,7 +642,7 @@ After solving for the device connectivity, we then need to restrict what optimis
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class:`Backend` s constraints with a choice of optimisation levels.
+Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class`~pytket.backends.Backend` s constraints with a choice of optimisation levels.
 
 ==================  ========================================================================================================
 Optimisation level  Description
@@ -733,7 +733,7 @@ Initial and Final Maps
 .. Placement, routing, and other passes can change the names of qubits; the map from logical to physical qubits can be different at the start and end of the circuit; define initial and final maps
 .. Can use this to identify what placement was selected or how to interpret the final state
 
-:py:class:`PlacementPass` modifies the set of qubits used in the :py:class`~pytket.Circuit` from the logical names used during construction to the names of the physical addresses on the :py:class:`Backend`, so the logical qubit names wiil no longer exist within the :py:class`~pytket.Circuit` by design. Knowing the map between the logical qubits and the chosen physical qubits is necessary for understanding the choice of placement, interpreting the final state from a naive simulator, identifying which physical qubits each measurement was made on for error mitigation, and appending additional gates to the logical qubits after applying the pass.
+:py:class:`PlacementPass` modifies the set of qubits used in the :py:class`~pytket.Circuit` from the logical names used during construction to the names of the physical addresses on the :py:class`~pytket.backends.Backend`, so the logical qubit names wiil no longer exist within the :py:class`~pytket.Circuit` by design. Knowing the map between the logical qubits and the chosen physical qubits is necessary for understanding the choice of placement, interpreting the final state from a naive simulator, identifying which physical qubits each measurement was made on for error mitigation, and appending additional gates to the logical qubits after applying the pass.
 
 Other passes like :py:class:`RoutingPass` and :py:class:`CliffordSimp` can introduce (explicit or implicit) permutations of the logical qubits in the middle of a :py:class`~pytket.Circuit`, meaning a logical qubit may exist on a different physical qubit at the start of the :py:class`~pytket.Circuit` compared to the end.
 
@@ -812,7 +812,7 @@ For variational algorithms, the prominent benefit of defining a :py:class`~pytke
 
 .. Warning about `NoSymbolsPredicate` and necessity of instantiation before running on backends
 
-.. note:: Every :py:class:`Backend` requires :py:class:`NoSymbolsPredicate`, so it is necessary to instantiate all symbols before running a :py:class`~pytket.Circuit`.
+.. note:: Every :py:class`~pytket.backends.Backend` requires :py:class:`NoSymbolsPredicate`, so it is necessary to instantiate all symbols before running a :py:class`~pytket.Circuit`.
 
 User-defined Passes
 ===================

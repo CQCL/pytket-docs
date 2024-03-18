@@ -43,7 +43,7 @@ vary over time, a phenomenon commonly referred to as device drift
 [White2019]_.
 
 Some devices expose error characterisation information through
-their programming interface. When available, :py:class:`Backend`
+their programming interface. When available, :py:class`~pytket.backends.Backend`
 objects will populate a :py:class:`BackendInfo` object with this information. 
 
 A :py:class:`BackendInfo` object contains a variety of characterisation information supplied by hardware providers.   
