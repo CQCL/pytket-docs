@@ -65,7 +65,7 @@ For parameterised gates, such as rotations, the parameter is always given first.
 .. Table of common gates, with circuit notation, unitary, and python command
 .. Wider variety of gates available via OpType
 
-A large selection of common gates are available in this way, as listed in the API reference for the :py:class:`~pytket.circuit.Circuit` class. However, for less commonly used gates, a wider variety is available using the :py:class:`OpType` enum, which can be added using the :py:class:`Circuit.add_gate` method.
+A large selection of common gates are available in this way, as listed in the API reference for the :py:class:`~pytket.circuit.Circuit` class. However, for less commonly used gates, a wider variety is available using the :py:class:`~pytket.circuit.OpType` enum, which can be added using the :py:class:`Circuit.add_gate` method.
 
 .. Example of adding gates using `add_gate`
 
@@ -81,9 +81,9 @@ A large selection of common gates are available in this way, as listed in the AP
     circ.add_gate(OpType.PhasedX, [-0.1, 0.5], [3])
         # adds Rz(-0.5 pi); Rx(-0.1 pi); Rz(0.5 pi) on qubit 3
 
-The API reference for the :py:class:`OpType` class details all available operations that can exist in a circuit.
+The API reference for the :py:class:`~pytket.circuit.OpType` class details all available operations that can exist in a circuit.
 
-In the above example, we asked for a ``PhasedX`` with angles ``[-0.1, 0.5]``, but received ``PhasedX(3.9, 0.5)``. ``pytket`` will freely map angles into the range :math:`\left[0, r\right)` for some range parameter :math:`r` that depends on the :py:class:`OpType`, preserving the unitary matrix (including global phase).
+In the above example, we asked for a ``PhasedX`` with angles ``[-0.1, 0.5]``, but received ``PhasedX(3.9, 0.5)``. ``pytket`` will freely map angles into the range :math:`\left[0, r\right)` for some range parameter :math:`r` that depends on the :py:class:`~pytket.circuit.OpType`, preserving the unitary matrix (including global phase).
 
 .. The vast majority of gates will also have the same number of inputs as outputs (following resource-linearity), with the exceptions being instructions that are read-only on some classical data.
 
@@ -517,7 +517,7 @@ The full instruction sequence may often be too much detail for a lot of needs, e
 
 As characteristics of a :py:class:`~pytket.circuit.Circuit` go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier [Arut2019]_. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic :math:`T` gates to require expensive distillation procedures [Brav2005]_ [Brav2012]_.
 
-We can use the :py:class:`OpType` enum class to look for the number of gates of a particular type. Additionally, the methods :py:meth:`n_1qb_gates`, :py:meth:`n_2qb_gates` and :py:meth:`n_nqb_gates` can be used to count the number of gates in terms of how many qubits they act upon irrespective of type.
+We can use the :py:class:`~pytket.circuit.OpType` enum class to look for the number of gates of a particular type. Additionally, the methods :py:meth:`n_1qb_gates`, :py:meth:`n_2qb_gates` and :py:meth:`n_nqb_gates` can be used to count the number of gates in terms of how many qubits they act upon irrespective of type.
 
 We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the minimum number of layers of gates in :math:`G` required to run the :py:class:`~pytket.circuit.Circuit`, allowing for topological reorderings. Specific cases of this like :math:`T`-depth and :math:`CX`-depth are common to the literature on circuit simplification [Amy2014]_ [Meij2020]_.
 
@@ -547,7 +547,7 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 
 .. note:: Each of these metrics will analyse the :py:class:`~pytket.circuit.Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a :math:`CZ` gate would contribute 1 to :math:`CX`-count in practice).
 
-Its also possible to count all the occurrences of each :py:class:`OpType` using the :py:meth:`gate_counts` function from the ``pytket.utils`` module. 
+Its also possible to count all the occurrences of each :py:class:`~pytket.circuit.OpType` using the :py:meth:`gate_counts` function from the ``pytket.utils`` module. 
 
 .. jupyter-execute::
 
@@ -555,7 +555,7 @@ Its also possible to count all the occurrences of each :py:class:`OpType` using 
 
     gate_counts(circ)
 
-We obtain a :py:class:`Counter` object where the keys are the various :py:class:`OpType` s and the values represent how frequently each :py:class:`OpType` appears in our :py:class:`~pytket.circuit.Circuit`. This method summarises the gate counts obtained for the circuit shown above.
+We obtain a :py:class:`Counter` object where the keys are the various :py:class:`~pytket.circuit.OpType` s and the values represent how frequently each :py:class:`~pytket.circuit.OpType` appears in our :py:class:`~pytket.circuit.Circuit`. This method summarises the gate counts obtained for the circuit shown above.
 
 Boxes
 -----
