@@ -45,33 +45,33 @@ Each :py:class:`~pytket.predicate.Predicate` can be constructed on its own to im
 
 .. Common predicates
 
-======================================= =======================================
-Common :py:class:`~pytket.predicate.Predicate`            Constraint
-======================================= =======================================
-:py:class:`GateSetPredicate`           
-                                          Every gate is within a set of allowed
-                                          :py:class:`OpType` s
-:py:class:`ConnectivityPredicate`       
-                                          Every multi-qubit gate acts on
-                                          adjacent qubits according to some
-                                          connectivity graph
-:py:class:`DirectednessPredicate`       
-                                          Extends
-                                          :py:class:`ConnectivityPredicate`
-                                          where ``OpType::CX`` gates are only
-                                          supported in a specific orientation
-                                          between adjacent qubits
-:py:class:`NoClassicalControlPredicate` 
-                                          The :py:class:`~pytket.circuit.Circuit` does not
-                                          contain any gates that act
-                                          conditionally on classical data
-:py:class:`NoMidMeasurePredicate`      
-                                          All ``OpType::Measure`` gates act at
-                                          the end of the :py:class:`~pytket.circuit.Circuit`
-                                          (there are no subsequent gates on
-                                          either the :py:class:`Qubit` measured
-                                          or the :py:class:`Bit` written to)
-======================================= =======================================
+=========================================================  =====================================================
+Common :py:class:`~pytket.predicate.Predicate`              Constraint
+=========================================================  =====================================================
+:py:class:`~pytket.predicate.GateSetPredicate`                
+                                                            Every gate is within a set of allowed
+                                                            :py:class:`~pytket.circuit.OpType` s
+:py:class:`~pytket.predicate.ConnectivityPredicate`            
+                                                            Every multi-qubit gate acts on
+                                                            adjacent qubits according to some
+                                                            connectivity graph
+:py:class:`~pytket.predicate.DirectednessPredicate`                           
+                                                            Extends
+                                                            :py:class:`~pytket.predicate.ConnectivityPredicate`
+                                                            where ``OpType.CX`` gates are only
+                                                            supported in a specific orientation
+                                                            between adjacent qubits
+:py:class:`~pytket.predicate.NoClassicalControlPredicate` 
+                                                           The :py:class:`~pytket.circuit.Circuit` does not
+                                                           contain any gates that act
+                                                           conditionally on classical data
+:py:class:`~pytket.predicate.NoMidMeasurePredicate`      
+                                                           All ``OpType.Measure`` gates act at
+                                                           the end of the :py:class:`~pytket.circuit.Circuit`
+                                                           (there are no subsequent gates on
+                                                           either the :py:class:`~pytket.unit_id.Qubit` measured
+                                                           or the :py:class:`~pytket.unit_id.Bit` written to)
+=========================================================  =====================================================
 
 .. Pre/post-conditions of passes
 

@@ -872,7 +872,7 @@ Multiplexor                                             Description
 :py:class:`~pytket.circuit.MultiplexedTensoredU2Box`    Multiplexor where the operation applied to the
                                                          target is a tensor product of single qubit gates
                                                                        
-====================================================    =======================================================
+====================================================    =====================================================
 
 
 One place where multiplexor operations are useful is in state preparation algorithms.
@@ -976,7 +976,7 @@ Looking at the statevector calculation we see that our :py:class:`~pytket.circui
 Importing/Exporting Circuits
 ----------------------------
 
-``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`to_dict` and :py:meth:`from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
+A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`to_dict` and :py:meth:`from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
 
 .. jupyter-execute::
 
