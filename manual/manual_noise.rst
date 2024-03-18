@@ -494,7 +494,7 @@ First the :py:class:`SpamCorrecter` is characterised using counts results for ca
     print('Noiseless Counts:', noiseless_result.get_counts())
 
 
-Despite the presence of additional noise, it is straightforward to see that the corrected counts results are closer to the expected noiseless counts than the original noisy counts. All that is required to use :py:class:`SpamCorrecter` with a real device is the interchange of :py:class:`AerBackend` with a real device backend, such as  :py:class:`IBMQBackend`.
+Despite the presence of additional noise, it is straightforward to see that the corrected counts results are closer to the expected noiseless counts than the original noisy counts. All that is required to use :py:class:`SpamCorrecter` with a real device is the interchange of :py:class:`~pytket.extensions.qiskit.AerBackend` with a real device backend, such as  :py:class:`IBMQBackend`.
 
 
 
