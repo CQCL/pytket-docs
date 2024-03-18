@@ -13,7 +13,7 @@ A :py:class:`~pytket.backends.Backend` represents a connection to some co-proces
 
 With the wide variety of :py:class:`~pytket.backends.Backend` s available, they naturally have very different capabilities and limitations. The class is designed to open up this information so that it is easy to examine at runtime and make hardware-dependent choices as needed for maximum performance, whilst providing a basic abstract model that is easy for proof-of-concept testing.
 
-No :py:class:`~pytket.backends.Backend` s are currently provided with the core ``pytket`` package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`pytket.extensions.qiskit.AerBackend` and :py:class:`pytket.extensions.qiskit.IBMQBackend` with ``pytket-qiskit`` or the :py:class:`QuantinuumBackend` with ``pytket-quantinuum``.
+No :py:class:`~pytket.backends.Backend` s are currently provided with the core ``pytket`` package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`~pytket.extensions.qiskit.AerBackend` and :py:class:`~pytket.extensions.qiskit.IBMQBackend` with ``pytket-qiskit`` or the :py:class:`QuantinuumBackend` with ``pytket-quantinuum``.
 
 Backend Requirements
 --------------------
@@ -30,7 +30,7 @@ Other common restrictions presented by QPUs include the number of available qubi
 .. Each restriction on the circuits is captured by a `Predicate`
 .. Querying the requirements of a given backend
 
-Each :py:class:`~pytket.backends.Backend` object is aware of the restrictions of the underlying device or simulator, encoding them as a collection of :py:class:`~pytket.predictate.Predicate` s. Each :py:class:`~pytket.predictate.Predicate` is essentially a Boolean property of a :py:class:`~pytket.Circuit` which must return ``True`` for the :py:class:`~pytket.Circuit` to successfully run. The set of :py:class:`Predicate` s required by a :py:class:`~pytket.backends.Backend` can be queried with :py:attr:`Backend.required_predicates`.
+Each :py:class:`~pytket.backends.Backend` object is aware of the restrictions of the underlying device or simulator, encoding them as a collection of :py:class:`~pytket.predictate.Predicate` s. Each :py:class:`~pytket.predictate.Predicate` is essentially a Boolean property of a :py:class:`~pytket.Circuit` which must return ``True`` for the :py:class:`~pytket.Circuit` to successfully run. The set of :py:class:`~pytket.predicate.Predicate` s required by a :py:class:`~pytket.backends.Backend` can be queried with :py:attr:`~pytket.backends.Backend.required_predicates`.
 
 .. jupyter-input::
 
@@ -49,7 +49,7 @@ Each :py:class:`~pytket.backends.Backend` object is aware of the restrictions of
 .. Can check if a circuit satisfies all requirements with `valid_circuit`
 .. `get_compiled_circuit` modifies a circuit to try to satisfy all backend requirements if possible (restrictions on measurements or conditional gate support may not be fixed by compilation)
 
-Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy in case it has consequences for how you design a :py:class:`~pytket.Circuit`, but can generally be abstracted away. Calling :py:meth:`Backend.valid_circuit()` can check whether or not a :py:class:`~pytket.Circuit` satisfies every requirement to run on the :py:class:`~pytket.backends.Backend`, and if it is not immediately valid then :py:meth:`Backend.get_compiled_circuit` will try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation), and return a new :py:class:`~pytket.Circuit`.
+Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy in case it has consequences for how you design a :py:class:`~pytket.Circuit`, but can generally be abstracted away. Calling :py:meth:`~pytket.backends.Backend.valid_circuit()` can check whether or not a :py:class:`~pytket.Circuit` satisfies every requirement to run on the :py:class:`~pytket.backends.Backend`, and if it is not immediately valid then :py:meth:`Backend.get_compiled_circuit` will try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation), and return a new :py:class:`~pytket.Circuit`.
 
 .. jupyter-execute::
 
@@ -66,7 +66,7 @@ Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy i
 
     print(compiled_circ.get_commands())
 
-Now that we can prepare our :py:class:`~pytket.Circuit` s to be suitable for a given :py:class:`~pytket.backends.Backend`, we can send them off to be run and examine the results. This is always done by calling :py:meth:`pytket.backends.Backend.process_circuit()` which sends a :py:class:`~pytket.Circuit` for execution and returns a :py:class:`ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
+Now that we can prepare our :py:class:`~pytket.Circuit` s to be suitable for a given :py:class:`~pytket.backends.Backend`, we can send them off to be run and examine the results. This is always done by calling :py:meth:`~pytket.backends.Backend.process_circuit()` which sends a :py:class:`~pytket.Circuit` for execution and returns a :py:class:`ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
 
 .. jupyter-execute::
 
@@ -91,7 +91,7 @@ Running a :py:class:`~pytket.Circuit` on a quantum computer invovles applying th
 
 .. Retrieve table of results using `get_shots`; rows are shots (in order of execution), columns are bits (in ILO)
 
-The interaction with a QPU (or a simulator that tries to imitate a device by sampling from the underlying complex statevector) is focused around requesting shots for a given :py:class:`~pytket.Circuit`. The number of shots required is passed to :py:meth:`Backend.process_circuit()`. The result is retrieved using :py:meth:`Backend.get_result()`; and the shots are then given as a table from :py:meth:`BackendResult.get_shots()`: each row of the table describes a shot in the order of execution, and the columns are the classical bits from the :py:class:`~pytket.Circuit`.
+The interaction with a QPU (or a simulator that tries to imitate a device by sampling from the underlying complex statevector) is focused around requesting shots for a given :py:class:`~pytket.Circuit`. The number of shots required is passed to :py:meth:`~pytket.backends.Backend.process_circuit()`. The result is retrieved using :py:meth:`~pytket.backends.Backend.get_result()`; and the shots are then given as a table from :py:meth:`~pytket.backends.BackendResult.get_shots()`: each row of the table describes a shot in the order of execution, and the columns are the classical bits from the :py:class:`~pytket.Circuit`.
 
 .. jupyter-execute::
 
@@ -114,7 +114,7 @@ For most applications, we are interested in the probability of each measurement 
 
 .. If we don't need order of results, can get summary of counts using `get_counts`
 
-If we don't care about the temporal order of the shots, we can instead retrieve a compact summary of the frequencies of observed results. The dictionary returned by :py:meth:`BackendResult.get_counts` maps tuples of bits to the number of shots that gave that result (keys only exist in the dictionary if this is non-zero). If probabilities are preferred to frequencies, we can apply the utility method :py:meth:`probs_from_counts()`.
+If we don't care about the temporal order of the shots, we can instead retrieve a compact summary of the frequencies of observed results. The dictionary returned by :py:class:`~pytket.backends.BackendResult.get_counts` maps tuples of bits to the number of shots that gave that result (keys only exist in the dictionary if this is non-zero). If probabilities are preferred to frequencies, we can apply the utility method :py:meth:`~pytket.backends.BackendResult.probs_from_counts()`.
 
 .. jupyter-execute::
 
@@ -133,7 +133,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
     print(probs_from_counts(counts))
 
-.. note:: :py:meth:`Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:meth:`Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`BackendResult`.
+.. note:: :py:class:`~pytket.backends.Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:class:`~pytket.backends.Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`BackendResult`.
 
 Statevector and Unitary Simulation with TKET Backends
 -----------------------------------------------------
@@ -141,7 +141,7 @@ Statevector and Unitary Simulation with TKET Backends
 .. Any form of sampling introduces non-deterministic error, so for better accuracy we will want the exact state of the physical system; some simulators will provide direct access to this
 .. `get_state` gives full representation of that system's state in the 2^n-dimensional complex Hilbert space
 
-Any form of sampling from a distribution will introduce sampling error and (unless it is a seeded simulator) non-deterministic results, whereas we could get much better accuracy and repeatability if we have the exact state of the underlying physical quantum system. Some simulators will provide direct access to this. The :py:meth:`BackendResult.get_state` method will give the full representation of the physical state as a vector in the :math:`2^n`-dimensional Hilbert space, whenever the underlying simulator provides this.
+Any form of sampling from a distribution will introduce sampling error and (unless it is a seeded simulator) non-deterministic results, whereas we could get much better accuracy and repeatability if we have the exact state of the underlying physical quantum system. Some simulators will provide direct access to this. The :py:meth:`~pytket.backends.BackendResult.get_state` method will give the full representation of the physical state as a vector in the :math:`2^n`-dimensional Hilbert space, whenever the underlying simulator provides this.
 
 .. jupyter-execute::
 
@@ -237,7 +237,7 @@ The choice of ILO or DLO defines the ordering of a bit sequence, but this can st
     print(result.get_unitary())
     print(result.get_unitary(basis=BasisOrder.dlo))
 
-Suppose that we only care about a subset of the measurements used in a :py:class:`~pytket.Circuit`. A shot table is a ``numpy.ndarray``, so it can be filtered by column selections. To identify which columns need to be retained/removed, we are able to predict their column indices from the :py:class:`~pytket.Circuit` object. :py:attr:`Circuit.bit_readout` maps :py:class:`Bit` s to their column index (assuming the ILO convention).
+Suppose that we only care about a subset of the measurements used in a :py:class:`~pytket.Circuit`. A shot table is a ``numpy.ndarray``, so it can be filtered by column selections. To identify which columns need to be retained/removed, we are able to predict their column indices from the :py:class:`~pytket.Circuit` object. :py:attr:`pytket.Circuit.bit_readout` maps :py:class:`~pytket.unit_id.Bit` s to their column index (assuming the ILO convention).
 
 .. jupyter-execute::
 
@@ -276,7 +276,7 @@ If measurements occur at the end of the :py:class:`~pytket.Circuit`, then we can
     print(circ.qubit_readout)
     print(circ.qubit_to_bit_map)
 
-For more control over the bits extracted from the results, we can instead call :py:meth:`Backend.get_result()`. The :py:class:`BackendResult` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`Qubit` s for statevectors/unitaries).
+For more control over the bits extracted from the results, we can instead call :py:class:`~pytket.backends.Backend.get_result()`. The :py:class:`BackendResult` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`Qubit` s for statevectors/unitaries).
 
 .. jupyter-execute::
 
@@ -306,7 +306,7 @@ For more control over the bits extracted from the results, we can instead call :
 Expectation Value Calculations
 ------------------------------
 
-One of the most common calculations performed with a quantum state :math:`\left| \psi \right>` is to obtain an expectation value :math:`\langle \psi | H | \psi \rangle`. For many applications, the operator :math:`H` can be expressed as a tensor product of Pauli matrices, or a linear combination of these. Given any (pure quantum) :py:class:`~pytket.Circuit` and any :py:class:`~pytket.backends.Backend`, the utility methods :py:meth:`get_pauli_expectation_value()` and :py:meth:`get_operator_expectation_value()` will generate the expectation value of the state under some operator using whatever results the :py:class:`~pytket.backends.Backend` supports. This includes adding measurements in the appropriate basis (if needed by the :py:class:`~pytket.backends.Backend`), running :py:meth:`Backend.get_compiled_circuit()`, and obtaining and interpreting the results. For operators with many terms, it can optionally perform some basic measurement reduction techniques to cut down the number of :py:class:`~pytket.Circuit` s actually run by measuring multiple terms with simultaneous measurements in the same :py:class:`~pytket.Circuit`.
+One of the most common calculations performed with a quantum state :math:`\left| \psi \right>` is to obtain an expectation value :math:`\langle \psi | H | \psi \rangle`. For many applications, the operator :math:`H` can be expressed as a tensor product of Pauli matrices, or a linear combination of these. Given any (pure quantum) :py:class:`~pytket.Circuit` and any :py:class:`~pytket.backends.Backend`, the utility methods :py:meth:`~pytket.backends.Backend.get_pauli_expectation_value()` and :py:meth:`~pytket.backends.Backend.get_operator_expectation_value()` will generate the expectation value of the state under some operator using whatever results the :py:class:`~pytket.backends.Backend` supports. This includes adding measurements in the appropriate basis (if needed by the :py:class:`~pytket.backends.Backend`), running :py:class:`~pytket.backends.Backend.get_compiled_circuit()`, and obtaining and interpreting the results. For operators with many terms, it can optionally perform some basic measurement reduction techniques to cut down the number of :py:class:`~pytket.Circuit` s actually run by measuring multiple terms with simultaneous measurements in the same :py:class:`~pytket.Circuit`.
 
 .. jupyter-execute::
 
@@ -414,7 +414,7 @@ At runtime, we can check whether a particular result type is supported using the
 
 .. Compile generically, making use of `get_compiled_circuit`
 
-Whilst the demands of each :py:class:`~pytket.backends.Backend` on the properties of the :py:class:`~pytket.Circuit` necessitate different compilation procedures, using the default compilation sequences provided with :py:meth:`Backend.get_compiled_circuit` handles compiling generically.
+Whilst the demands of each :py:class:`~pytket.backends.Backend` on the properties of the :py:class:`~pytket.Circuit` necessitate different compilation procedures, using the default compilation sequences provided with :py:class:`~pytket.backends.Backend.get_compiled_circuit` handles compiling generically.
 
 .. All backends can `process_circuit` identically
 
@@ -474,7 +474,7 @@ We can mitigate the problem of high queue latency by batching many :py:class:`~p
 .. Advisable to generate as many circuits of interest as possible, storing how to interpret the results of each one, then send them off together
 .. After processing, interpret the results by querying the result handles
 
-To maximise the benefits of batch submission, it is advisable to generate as many of your :py:class:`~pytket.Circuit` s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method :py:meth:`Backend.process_circuits()` (plural) will then submit all the provided :py:class:`~pytket.Circuit` s simultaneously and return a :py:class:`ResultHandle` for each :py:class:`~pytket.Circuit` to allow each result to be extracted individually for interpretation. Since there is no longer a single :py:class:`~pytket.Circuit` being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of :py:class:`Bit` s to extract for each :py:class:`~pytket.Circuit` or the coefficient to multiply the expectation value by.
+To maximise the benefits of batch submission, it is advisable to generate as many of your :py:class:`~pytket.Circuit` s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method :py:class:`~pytket.backends.Backend.process_circuits()` (plural) will then submit all the provided :py:class:`~pytket.Circuit` s simultaneously and return a :py:class:`ResultHandle` for each :py:class:`~pytket.Circuit` to allow each result to be extracted individually for interpretation. Since there is no longer a single :py:class:`~pytket.Circuit` being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of :py:class:`Bit` s to extract for each :py:class:`~pytket.Circuit` or the coefficient to multiply the expectation value by.
 
 .. jupyter-input::
 
@@ -522,7 +522,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
 
     (1.2047999999999999-0.0015000000000000013j)
 
-.. note:: Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`pytket.extensions.qiskit.AerBackend` simulator and the :py:class:`QuantinuumBackend` can take advantage of batch submission for parallelisation. In other cases, :py:meth:`Backend.process_circuits` will just loop through each :py:class:`~pytket.Circuit` in turn.
+.. note:: Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`~pytket.extensions.qiskit.AerBackend` simulator and the :py:class:`QuantinuumBackend` can take advantage of batch submission for parallelisation. In other cases, :py:class:`~pytket.backends.Backend.process_circuits` will just loop through each :py:class:`~pytket.Circuit` in turn.
 
 Embedding into Qiskit
 ---------------------
@@ -574,7 +574,7 @@ Simulator Support for Expectation Values
 .. `supports_expectation`
 .. Examples of Pauli and operator expectations
 
-Some simulators will have dedicated support for fast expectation value calculations. In this special case, they will provide extra methods :py:meth:`Backend.get_pauli_expectation_value()` and :py:meth:`Backend.get_operator_expectation_value()`, which take a :py:class:`~pytket.Circuit` and some operator and directly return the expectation value. Again, we can check whether a :py:class:`~pytket.backends.Backend` has this feature with :py:attr:`Backend.supports_expectation`.
+Some simulators will have dedicated support for fast expectation value calculations. In this special case, they will provide extra methods :py:class:`~pytket.backends.Backend.get_pauli_expectation_value()` and :py:class:`~pytket.backends.Backend.get_operator_expectation_value()`, which take a :py:class:`~pytket.Circuit` and some operator and directly return the expectation value. Again, we can check whether a :py:class:`~pytket.backends.Backend` has this feature with :py:attr:`~pytket.backends.Backend.supports_expectation`.
 
 .. jupyter-execute::
 
@@ -616,9 +616,9 @@ Asynchronous Job Submission
 
 In the near future, as we look to more sophisticated algorithms and larger problem instances, the quantity and size of :py:class:`~pytket.Circuit` s to be run per experiment and the number of shots required to obtain satisfactory precision will mean the time taken for the quantum computation could exceed that of the classical computation. At this point, the overall algorithm can be sped up by maintaining maximum throughput on the quantum device and minimising how often the quantum device is left idle whilst the classical system is determining the next :py:class:`~pytket.Circuit` s to send. This can be achieved by writing your algorithm to operate asynchronously.
 
-The intended semantics of the :py:class:`~pytket.backends.Backend` methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. :py:meth:`Backend.process_circuit<s>()` will submit the :py:class:`~pytket.Circuit` (s) and immediately return.
+The intended semantics of the :py:class:`~pytket.backends.Backend` methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. :py:class:`~pytket.backends.Backend.process_circuit<s>()` will submit the :py:class:`~pytket.Circuit` (s) and immediately return.
 
-The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If this returns a :py:class:`CircuitStatus` matching ``StatusEnum.COMPLETED``, then :py:meth:`Backend.get_X()` will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.
+The progress can be checked by querying :py:class:`~pytket.backends.Backend.circuit_status()`. If this returns a :py:class:`CircuitStatus` matching ``StatusEnum.COMPLETED``, then :py:class:`~pytket.backends.Backend.get_X()` will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.
 
 .. jupyter-input::
 
@@ -684,7 +684,7 @@ The progress can be checked by querying :py:meth:`Backend.circuit_status()`. If 
 
 In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the :py:meth:`Backend.cancel()` method to cancel the job for a given :py:class:`ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
 
-.. note:: Asynchronous submission is currently available with the :py:class:`pytket.extensions.qiskit.IBMQBackend`, :py:class:`AQTBackend`, :py:class:`QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
+.. note:: Asynchronous submission is currently available with the :py:class:`~pytket.extensions.qiskit.IBMQBackend`, :py:class:`AQTBackend`, :py:class:`QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`~pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
 
 Persistent Handles
 ==================
