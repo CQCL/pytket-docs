@@ -44,9 +44,9 @@ vary over time, a phenomenon commonly referred to as device drift
 
 Some devices expose error characterisation information through
 their programming interface. When available, :py:class`~pytket.backends.Backend`
-objects will populate a :py:class:`BackendInfo` object with this information. 
+objects will populate a :py:class:`~pytket.backends.backendinfo.BackendInfo` object with this information. 
 
-A :py:class:`BackendInfo` object contains a variety of characterisation information supplied by hardware providers.   
+A :py:class:`~pytket.backends.backendinfo.BackendInfo` object contains a variety of characterisation information supplied by hardware providers.   
 Some information, including gate error rates, is stored in attributes with specific names.
 
 
@@ -122,7 +122,7 @@ made in both phases, by prioritising edges with lower error rates.
 .. Noise-Aware placement is effective
 
 The class :py:class:`NoiseAwarePlacement` uses characteristics stored in
-:py:class:`BackendInfo` to find an initial placement of logical qubits on
+:py:class:`~pytket.backends.backendinfo.BackendInfo` to find an initial placement of logical qubits on
 physical qubits which minimises the error accrued during a circuit's
 execution.  It achieves this by minimising the additional
 ``OpType.SWAP`` overhead to route circuits, as in conventional
