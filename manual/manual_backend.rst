@@ -160,7 +160,7 @@ Any form of sampling from a distribution will introduce sampling error and (unle
 
 .. `get_unitary` treats circuit with open inputs and gives map on 2^n-dimensional complex Hilbert space
 
-The majority of :py:class:`~pytket.backends.Backend` s will run the :py:class:`~pytket.Circuit` on the initial state :math:`|0\rangle^{\otimes n}`. However, because we can form the composition of :py:class:`~pytket.Circuit` s, we want to be able to test them with open inputs. When the :py:class:`~pytket.Circuit` is purely quantum, we can represent its effect as an open circuit by a unitary matrix acting on the :math:`2^n`-dimensional Hilbert space. The :py:class:`AerUnitaryBackend` from ``pytket-qiskit`` is designed exactly for this.
+The majority of :py:class:`~pytket.backends.Backend` s will run the :py:class:`~pytket.Circuit` on the initial state :math:`|0\rangle^{\otimes n}`. However, because we can form the composition of :py:class:`~pytket.Circuit` s, we want to be able to test them with open inputs. When the :py:class:`~pytket.Circuit` is purely quantum, we can represent its effect as an open circuit by a unitary matrix acting on the :math:`2^n`-dimensional Hilbert space. The :py:class:`~pytket.extensions.qiskit.AerUnitaryBackend` from ``pytket-qiskit`` is designed exactly for this.
 
 .. jupyter-execute::
 

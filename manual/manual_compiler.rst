@@ -357,7 +357,7 @@ Decomposing Structures
 .. Box structures for high-level operations need to be mapped to low-level gates
 .. Unwraps `CircuitBox`es, decomposes others into known, efficient patterns
 
-The numerous Box structures in ``pytket`` provide practical abstractions for high-level operations to assist in :py:class`~pytket.Circuit` construction, but need to be mapped to low-level gates before we can run the :py:class`~pytket.Circuit`. The :py:class:`DecomposeBoxes` pass will unwrap any :py:class:`CircBox`, substituting it for the corresponding :py:class`~pytket.Circuit`, and decompose others like the :py:class:`Unitary1qBox` and :py:class:`PauliExpBox` into efficient templated patterns of gates.
+The numerous Box structures in ``pytket`` provide practical abstractions for high-level operations to assist in :py:class`~pytket.Circuit` construction, but need to be mapped to low-level gates before we can run the :py:class`~pytket.Circuit`. The :py:class:`DecomposeBoxes` pass will unwrap any :py:class:`CircBox`, substituting it for the corresponding :py:class`~pytket.Circuit`, and decompose others like the :py:class:`~pytket.circuit.Unitary1qBox` and :py:class:`~pytket.circuit.PauliExpBox` into efficient templated patterns of gates.
 
 .. jupyter-execute::
 
@@ -462,7 +462,7 @@ The next step up in scale has optimisations based on optimal decompositions of s
 .. Situational macroscopic - identifies large structures in circuit or converts circuit to alternative algebraic representation; use properties of the structures to find simplifications; resynthesise into basic gates
 .. Examples describing `PauliSimp`
 
-All of these so far are generic optimisations that work for any application, but only identify local redundancies since they are limited to working up to individual gate commutations. Other techniques instead focus on identifying macroscopic structures in a :py:class`~pytket.Circuit` or convert it entirely into an alternative algebraic representation, and then using the properties of the structures/algebra to find simplifications and resynthesise into basic gates. For example, the :py:class:`PauliSimp` pass will represent the entire :py:class`~pytket.Circuit` as a sequence of exponentials of Pauli operators, capturing the effects of non-Clifford gates as rotations in a basis determined by the Clifford gates. This abstracts away any redundant information in the Clifford gates entirely, and can be used to merge non-Clifford gates that cannot be brought together from any sequence of commutations, as well as finding efficient Clifford constructions for the basis changes.
+All of these so far are generic optimisations that work for any application, but only identify local redundancies since they are limited to working up to individual gate commutations. Other techniques instead focus on identifying macroscopic structures in a :py:class`~pytket.Circuit` or convert it entirely into an alternative algebraic representation, and then using the properties of the structures/algebra to find simplifications and resynthesise into basic gates. For example, the :py:class:`~pytket.passes.PauliSimp` pass will represent the entire :py:class`~pytket.Circuit` as a sequence of exponentials of Pauli operators, capturing the effects of non-Clifford gates as rotations in a basis determined by the Clifford gates. This abstracts away any redundant information in the Clifford gates entirely, and can be used to merge non-Clifford gates that cannot be brought together from any sequence of commutations, as well as finding efficient Clifford constructions for the basis changes.
 
 .. jupyter-execute::
 
@@ -484,7 +484,7 @@ All of these so far are generic optimisations that work for any application, but
 
 This can give great benefits for :py:class`~pytket.Circuit` s where non-Clifford gates are sparse and there is hence a lot of redundancy in the Clifford change-of-basis sections. But if the :py:class`~pytket.Circuit` already has a very efficient usage of Clifford gates, this will be lost when converting to the abstract representation, and so the resynthesis is likely to give less efficient sequences. The large structural changes from abstraction and resynthesis can also make routing harder to perform as the interaction graph of the logical qubits can drastically change. The effectiveness of such optimisations depends on the situation, but can be transformative under the right circumstances.
 
-Some of these optimisation passes have optional parameters to customise the routine slightly. A good example is adapting the :py:class:`PauliSimp` pass to have a preference for different forms of ``OpType.CX`` decompositions. Setting the ``cx_config`` option to ``CXConfigType.Snake`` (default) will prefer chains of gates where the target of one becomes the control of the next, whereas ``CXConfigType.Star`` prefers using a single qubit as the control for many gates, and ``CXConfigType.Tree`` introduces entanglement in a balanced tree form. Each of these has its own benefits and drawbacks that could make it more effective for a particular routine, like ``CXConfigType.Snake`` giving circuits that are easier to route on linear nearest-neighbour architectures, ``CXConfigType.Star`` allowing any of the gates to commute through to cancel out with others at the start or end of the sequence, and ``CXConfigType.Tree`` giving optimal depth on a fully-connected device.
+Some of these optimisation passes have optional parameters to customise the routine slightly. A good example is adapting the :py:class:`~pytket.passes.PauliSimp` pass to have a preference for different forms of ``OpType.CX`` decompositions. Setting the ``cx_config`` option to ``CXConfigType.Snake`` (default) will prefer chains of gates where the target of one becomes the control of the next, whereas ``CXConfigType.Star`` prefers using a single qubit as the control for many gates, and ``CXConfigType.Tree`` introduces entanglement in a balanced tree form. Each of these has its own benefits and drawbacks that could make it more effective for a particular routine, like ``CXConfigType.Snake`` giving circuits that are easier to route on linear nearest-neighbour architectures, ``CXConfigType.Star`` allowing any of the gates to commute through to cancel out with others at the start or end of the sequence, and ``CXConfigType.Tree`` giving optimal depth on a fully-connected device.
 
 .. jupyter-execute::
 
@@ -548,7 +548,7 @@ When composing optimisation passes, we may find that applying one type of optimi
     comp.apply(circ)
     print(circ.get_commands())
 
-.. warning:: This looping mechanism does not directly compare the :py:class`~pytket.Circuit` to its old state from the previous iteration, instead checking if any of the passes within the loop body claimed they performed any rewrite. Some sequences of passes will do and undo some changes to the :py:class`~pytket.Circuit`, giving no net effect but nonetheless causing the loop to repeat. This can lead to infinite loops if used in such a way. Some passes where the :py:class`~pytket.Circuit` is converted to another form and back again (e.g. :py:class:`PauliSimp`) will always report that a change took place. We recommend testing any looping passes thoroughly to check for termination.
+.. warning:: This looping mechanism does not directly compare the :py:class`~pytket.Circuit` to its old state from the previous iteration, instead checking if any of the passes within the loop body claimed they performed any rewrite. Some sequences of passes will do and undo some changes to the :py:class`~pytket.Circuit`, giving no net effect but nonetheless causing the loop to repeat. This can lead to infinite loops if used in such a way. Some passes where the :py:class`~pytket.Circuit` is converted to another form and back again (e.g. :py:class:`~pytket.passes.PauliSimp`) will always report that a change took place. We recommend testing any looping passes thoroughly to check for termination.
 
 .. Repeat with metric - useful when hard to tell when a change is being made or you only care about specific changes
 
@@ -638,21 +638,21 @@ After solving for the device connectivity, we then need to restrict what optimis
     :py:class:`~pytket.passes.FullPeepholeOptimise` also takes an optional ``target_2qb_gate`` argument to specify whether to target the {:py:class:`OpType.TK1`, :py:class:`OpType.CX`} or {:py:class:`OpType.TK1`, :py:class:`OpType.TK2`} gateset.
 
 .. Note::
-    Prevous versions of :py:class:`~pytket.passes.FullPeepholeOptimise` did not apply the :py:class:`ThreeQubitSquash` pass. There is a :py:class:`PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded.
+    Prevous versions of :py:class:`~pytket.passes.FullPeepholeOptimise` did not apply the :py:class:`~pytket.passes.ThreeQubitSquash` pass. There is a :py:class:`~pytket.passes.PeepholeOptimise2Q` pass which applies the old pass sequence with the :py:class:`ThreeQubitSquash` pass excluded.
 
 .. `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
-Also in this category of pre-defined sequences, we have the :py:meth:`Backend.default_compilation_pass()` which is run by :py:meth:`Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class`~pytket.backends.Backend` s constraints with a choice of optimisation levels.
+Also in this category of pre-defined sequences, we have the :py:meth:`~pytket.backends.Backend.default_compilation_pass()` which is run by :py:meth:`~pytket.backends.Backend.get_compiled_circuit`. These give a recommended compiler pass to solve the :py:class`~pytket.backends.Backend` s constraints with a choice of optimisation levels.
 
 ==================  ========================================================================================================
 Optimisation level  Description
 ==================  ========================================================================================================
 0                   Just solves the constraints as simply as possible. No optimisation.
-1                   Adds basic optimisations (those covered by the :py:meth:`SynthesiseX` passes) for efficient compilation.
-2                   Extends to more intensive optimisations (those covered by the :py:meth:`FullPeepholeOptimise` pass).
+1                   Adds basic optimisations (those covered by the :py:class:`SynthesiseX` passes) for efficient compilation.
+2                   Extends to more intensive optimisations (those covered by the :py:class:`~pytket.passes.FullPeepholeOptimise` pass).
 ==================  ========================================================================================================
 
-We will now demonstrate the :py:meth:`default_compilation_pass` with the different levels of optimisation using the ``ibmq_quito`` device. 
+We will now demonstrate the :py:meth:`~pytket.backends.Backend.default_compilation_pass` with the different levels of optimisation using the ``ibmq_quito`` device. 
 
 As more intensive optimisations are applied by level 2 the pass may take a long to run for large circuits. In this case it may be preferable to apply the lighter optimisations of level 1.
 

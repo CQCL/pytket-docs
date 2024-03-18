@@ -744,7 +744,7 @@ These occur very naturally in Trotterising evolution operators and native device
     pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
     render_circuit_jupyter(pauli_circ)
 
-To understand what happens inside a :py:class:`PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta XYYZ}`
+To understand what happens inside a :py:class:`~pytket.circuit.PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta XYYZ}`
 
 .. jupyter-execute::
 
@@ -782,7 +782,7 @@ A phase polynomial circuit :math:`C` has the following action on computational b
     \end{equation}
 
 
-Such a phase polynomial circuit can be synthesisied in pytket using the :py:class:`PhasePolyBox`. A :py:class:`PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
+Such a phase polynomial circuit can be synthesisied in pytket using the :py:class:`~pytket.circuit.PhasePolyBox`. A :py:class:`~pytket.circuit.PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
 
 Finally a ``linear_transfromation`` parameter needs to be specified:  this is a matrix encoding the linear permutation between the bitstrings :math:`|x\rangle` and :math:`|g(x)\rangle` in the equation above.
 
