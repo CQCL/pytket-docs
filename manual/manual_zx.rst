@@ -199,7 +199,7 @@ The ability to build static diagrams is fine for visualisation and simulation ne
 
 .. Boundaries (ordering, types and incident edges, not associated to UnitIDs)
 
-The boundary vertices offer a useful starting point for traversals. Each :py:class:`ZXDiagram` maintains an ordered list of its boundaries to help distinguish them (note that this is different from the :py:class:`UnitID` system used by :py:class:`Circuit` objects), which we can retrieve with :py:meth:`ZXDiagram.get_boundary()`. Each boundary vertex should have a unique incident edge which we can access through :py:meth:`ZXDiagram.adj_wires()`.
+The boundary vertices offer a useful starting point for traversals. Each :py:class:`ZXDiagram` maintains an ordered list of its boundaries to help distinguish them (note that this is different from the :py:class:`UnitID` system used by :py:class`~pytket.Circuit` objects), which we can retrieve with :py:meth:`ZXDiagram.get_boundary()`. Each boundary vertex should have a unique incident edge which we can access through :py:meth:`ZXDiagram.adj_wires()`.
 
 .. Semi-ordered edges, incident edge order and traversal, edge properties and editing
 
@@ -531,11 +531,11 @@ Conversions & Extraction
 
 .. Circuits to ZX diagram by gate definitions
 
-Up to this point, we have only examined the ZX module in a vacuum, so now we will look at integrating it with the rest of tket's functionality by converting between :py:class:`ZXDiagram` and :py:class:`Circuit` objects. The :py:meth:`circuit_to_zx()` function will reconstruct a :py:class:`Circuit` as a :py:class:`ZXDiagram` by replacing each gate with a choice of representation in the ZX-calculus.
+Up to this point, we have only examined the ZX module in a vacuum, so now we will look at integrating it with the rest of tket's functionality by converting between :py:class:`ZXDiagram` and :py:class`~pytket.Circuit` objects. The :py:meth:`circuit_to_zx()` function will reconstruct a :py:class`~pytket.Circuit` as a :py:class:`ZXDiagram` by replacing each gate with a choice of representation in the ZX-calculus.
 
 .. Created and discarded qubits are not open boundaries; indexing of boundaries made by qubit and bit order; conversion returns a map between boundaries and UnitIDs
 
-The boundaries of the resulting :py:class:`ZXDiagram` will match up with the open boundaries of the :py:class:`Circuit`. However, :py:class:`OpType.Create` and :py:class:`OpType.Discard` operations will be replaced with an initialisation and a discard map respectively, meaning the number of boundary vertices in the resulting diagram may not match up with the number of qubits and bits in the original :py:class:`Circuit`. This makes it difficult to have a sensible policy for knowing where in the linear boundary of the :py:class:`ZXDiagram` is the input/output of a particular qubit. The second return value of :py:meth:`circuit_to_zx()` is a map sending a :py:class:`UnitID` to the pair of :py:class:`ZXVert` objects for the corresponding input and output.
+The boundaries of the resulting :py:class:`ZXDiagram` will match up with the open boundaries of the :py:class`~pytket.Circuit`. However, :py:class:`OpType.Create` and :py:class:`OpType.Discard` operations will be replaced with an initialisation and a discard map respectively, meaning the number of boundary vertices in the resulting diagram may not match up with the number of qubits and bits in the original :py:class`~pytket.Circuit`. This makes it difficult to have a sensible policy for knowing where in the linear boundary of the :py:class:`ZXDiagram` is the input/output of a particular qubit. The second return value of :py:meth:`circuit_to_zx()` is a map sending a :py:class:`UnitID` to the pair of :py:class:`ZXVert` objects for the corresponding input and output.
 
 .. jupyter-execute::
 
@@ -565,9 +565,9 @@ The boundaries of the resulting :py:class:`ZXDiagram` will match up with the ope
 
 From here, we are able to rewrite our circuit as a ZX diagram, and even though we may aim to preserve the semantics, there is often little guarantee that the diagram will resemble the structure of a circuit after rewriting. The extraction problem concerns taking a ZX diagram and attempting to identify an equivalent circuit, and this is known to be #P-Hard for arbitrary diagrams equivalent to a unitary circuit which is not computationally feasible. However, if we can guarantee that our rewriting leaves us with a diagram in MBQC form which admits a flow of some kind, then there exist efficient methods for extracting an equivalent circuit.
 
-The current method implemented in :py:meth:`ZXDiagram.to_circuit()` permits extraction of a circuit from a unitary ZX diagram with gflow, based on the method of Backens et al. [Back2021]_. More methods may be added in the future for different extraction methods, such as fast extraction with causal flow, MBQC (i.e. a :py:class:`Circuit` with explicit measurement and correction operations), extraction from Pauli flow, and mixed diagram extraction.
+The current method implemented in :py:meth:`ZXDiagram.to_circuit()` permits extraction of a circuit from a unitary ZX diagram with gflow, based on the method of Backens et al. [Back2021]_. More methods may be added in the future for different extraction methods, such as fast extraction with causal flow, MBQC (i.e. a :py:class`~pytket.Circuit` with explicit measurement and correction operations), extraction from Pauli flow, and mixed diagram extraction.
 
-Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to each boundary vertex, :py:meth:`ZXDiagram.to_circuit()` also returns a map sending each boundary :py:class:`ZXVert` to the corresponding :py:class:`UnitID` in the resulting :py:class:`Circuit`.
+Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to each boundary vertex, :py:meth:`ZXDiagram.to_circuit()` also returns a map sending each boundary :py:class:`ZXVert` to the corresponding :py:class:`UnitID` in the resulting :py:class`~pytket.Circuit`.
 
 .. jupyter-execute::
 
