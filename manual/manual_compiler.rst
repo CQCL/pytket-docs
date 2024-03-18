@@ -20,9 +20,9 @@ Predicates
 .. Predicates capture properties a circuit could satisfy
 .. Primarily used to describe requirements of the backends
 
-Solving the constraints of the target :py:class`~pytket.backends.Backend` is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the :py:attr:`Backend.required_predicates` property gives a collection of :py:class:`Predicate` s, describing the necessary properties a :py:class`~pytket.Circuit` must satisfy in order to be run.
+Solving the constraints of the target :py:class`~pytket.backends.Backend` is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the :py:attr:`Backend.required_predicates` property gives a collection of :py:class:`~pytket.predicate.Predicate` s, describing the necessary properties a :py:class`~pytket.Circuit` must satisfy in order to be run.
 
-Each :py:class:`Predicate` can be constructed on its own to impose tests on :py:class`~pytket.Circuit` s during construction.
+Each :py:class:`~pytket.predicate.Predicate` can be constructed on its own to impose tests on :py:class`~pytket.Circuit` s during construction.
 
 .. jupyter-execute::
 
@@ -46,7 +46,7 @@ Each :py:class:`Predicate` can be constructed on its own to impose tests on :py:
 .. Common predicates
 
 ======================================= =======================================
-Common :py:class:`Predicate`            Constraint
+Common :py:class:`~pytket.predicate.Predicate`            Constraint
 ======================================= =======================================
 :py:class:`GateSetPredicate`           
                                           Every gate is within a set of allowed
@@ -75,7 +75,7 @@ Common :py:class:`Predicate`            Constraint
 
 .. Pre/post-conditions of passes
 
-When applying passes, you may find that you apply some constraint-solving pass to satisfy a particular :py:class:`Predicate`, but then a subsequent pass will invalidate it by, for example, introducing gates of different gate types or changing which qubits interact via multi-qubit gates. To help understand and manage this, each pass has a set of pre-conditions that specify the requirements assumed on the :py:class`~pytket.Circuit` in order for the pass to successfully be applied, and a set of post-conditions that specify which :py:class:`Predicate` s are guaranteed to hold for the outputs and which are invalidated or preserved by the pass. These can be viewed in the API reference for each pass.
+When applying passes, you may find that you apply some constraint-solving pass to satisfy a particular :py:class:`~pytket.predicate.Predicate`, but then a subsequent pass will invalidate it by, for example, introducing gates of different gate types or changing which qubits interact via multi-qubit gates. To help understand and manage this, each pass has a set of pre-conditions that specify the requirements assumed on the :py:class`~pytket.Circuit` in order for the pass to successfully be applied, and a set of post-conditions that specify which :py:class:`~pytket.predicate.Predicate` s are guaranteed to hold for the outputs and which are invalidated or preserved by the pass. These can be viewed in the API reference for each pass.
 
 Users may find it desirable to enforce their own constraints upon circuits they are working with. It is possible to construct a :py:class:`UserDefinedPredicate` in pytket based on a function that returns a True/False value.
 
@@ -102,7 +102,7 @@ Rebases
 
 .. Description
 
-One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`, since we can just substitute each gate in a :py:class`~pytket.Circuit` with an equivalent sequence of gates in the target gateset according to some known gate decompositions. In ``pytket``, such passes are referred to as "rebases". The intention here is to perform this translation naively, leaving the optimisation of gate sequences to other passes. Rebases can be applied to any :py:class`~pytket.Circuit` and will preserve every structural :py:class:`Predicate`, only changing the types of gates used.
+One of the simplest constraints to solve for is the :py:class:`GateSetPredicate`, since we can just substitute each gate in a :py:class`~pytket.Circuit` with an equivalent sequence of gates in the target gateset according to some known gate decompositions. In ``pytket``, such passes are referred to as "rebases". The intention here is to perform this translation naively, leaving the optimisation of gate sequences to other passes. Rebases can be applied to any :py:class`~pytket.Circuit` and will preserve every structural :py:class:`~pytket.predicate.Predicate`, only changing the types of gates used.
 
 .. jupyter-execute::
 
@@ -379,7 +379,7 @@ The numerous Box structures in ``pytket`` provide practical abstractions for hig
 
 .. This could introduce undetermined structures to the circuit, invalidating gate set, connectivity, and other crucial requirements of the backend, so recommended to be performed early in the compilation procedure, allowing for these requirements to be solved again
 
-Unwrapping Boxes could introduce arbitrarily complex structures into a :py:class`~pytket.Circuit` which could possibly invalidate almost all :py:class:`Predicate` s, including :py:class:`GateSetPredicate`, :py:class:`ConnectivityPredicate`, and :py:class:`NoMidMeasurePredicate`. It is hence recommended to apply this early in the compilation procedure, prior to any pass that solves for these constraints.
+Unwrapping Boxes could introduce arbitrarily complex structures into a :py:class`~pytket.Circuit` which could possibly invalidate almost all :py:class:`~pytket.predicate.Predicate` s, including :py:class:`GateSetPredicate`, :py:class:`ConnectivityPredicate`, and :py:class:`NoMidMeasurePredicate`. It is hence recommended to apply this early in the compilation procedure, prior to any pass that solves for these constraints.
 
 Optimisations
 -------------
@@ -568,11 +568,11 @@ Increased termination safety can be given by only repeating whilst some easy-to-
 
 .. May reject compositions if pre/post-conditions don't match up; some passes will fail to complete or fail to achieve their objective if a circuit does not match their pre-conditions, so we prevent compositions where the latter's pre-conditions cannot be guaranteed
 
-We mentioned earlier that each pass has a set of pre-conditions and post-conditions expressed via :py:class:`Predicate` s. We may find that applying one pass invalidates the pre-conditions of a later pass, meaning it may hit an error when applied to a :py:class`~pytket.Circuit`. For example, the :py:class:`KAKDecomposition` optimisation method can only operate on :py:class`~pytket.Circuit` s with a specific gate set which doesn't allow for any gates on more than 2 qubits, so when :py:class:`RoutingPass` can introduce ``OpType.BRIDGE`` gates over 3 qubits, this could cause an error when trying to apply :py:class:`KAKDecomposition`. When using combinators like :py:class:`SequencePass` and :py:class:`RepeatPass`, ``pytket`` checks that the passes are safe to compose, in the sense that former passes do not invalidate pre-conditions of the latter passes. This procedure uses a basic form of Hoare logic to identify new pre- and post-conditions for the combined pass and identify whether it is still satisfiable.
+We mentioned earlier that each pass has a set of pre-conditions and post-conditions expressed via :py:class:`~pytket.predicate.Predicate` s. We may find that applying one pass invalidates the pre-conditions of a later pass, meaning it may hit an error when applied to a :py:class`~pytket.Circuit`. For example, the :py:class:`KAKDecomposition` optimisation method can only operate on :py:class`~pytket.Circuit` s with a specific gate set which doesn't allow for any gates on more than 2 qubits, so when :py:class:`RoutingPass` can introduce ``OpType.BRIDGE`` gates over 3 qubits, this could cause an error when trying to apply :py:class:`KAKDecomposition`. When using combinators like :py:class:`SequencePass` and :py:class:`RepeatPass`, ``pytket`` checks that the passes are safe to compose, in the sense that former passes do not invalidate pre-conditions of the latter passes. This procedure uses a basic form of Hoare logic to identify new pre- and post-conditions for the combined pass and identify whether it is still satisfiable.
 
 .. Warning about composing with `DecomposeBoxes`
 
-A special mention here goes to the :py:class:`DecomposeBoxes` pass. Because the Box structures could potentially contain arbitrary sequences of gates, there is no guarantee that expanding them will yield a :py:class`~pytket.Circuit` that satisfies `any` :py:class:`Predicate`. Since it has potential to invalidate the pre-conditions of any subsequent pass, composing it with anything else `will` generate such an error.
+A special mention here goes to the :py:class:`DecomposeBoxes` pass. Because the Box structures could potentially contain arbitrary sequences of gates, there is no guarantee that expanding them will yield a :py:class`~pytket.Circuit` that satisfies `any` :py:class:`~pytket.predicate.Predicate`. Since it has potential to invalidate the pre-conditions of any subsequent pass, composing it with anything else `will` generate such an error.
 
 .. jupyter-execute::
     :raises: RuntimeError
