@@ -66,7 +66,7 @@ Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy i
 
     print(compiled_circ.get_commands())
 
-Now that we can prepare our :py:class:`~pytket.Circuit` s to be suitable for a given :py:class:`~pytket.backends.Backend`, we can send them off to be run and examine the results. This is always done by calling :py:meth:`~pytket.backends.Backend.process_circuit()` which sends a :py:class:`~pytket.Circuit` for execution and returns a :py:class:`ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
+Now that we can prepare our :py:class:`~pytket.Circuit` s to be suitable for a given :py:class:`~pytket.backends.Backend`, we can send them off to be run and examine the results. This is always done by calling :py:meth:`~pytket.backends.Backend.process_circuit()` which sends a :py:class:`~pytket.Circuit` for execution and returns a :py:class:`pytket.backends.resulthandle.ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
 
 .. jupyter-execute::
 
@@ -114,7 +114,7 @@ For most applications, we are interested in the probability of each measurement 
 
 .. If we don't need order of results, can get summary of counts using `get_counts`
 
-If we don't care about the temporal order of the shots, we can instead retrieve a compact summary of the frequencies of observed results. The dictionary returned by :py:class:`~pytket.backends.BackendResult.get_counts` maps tuples of bits to the number of shots that gave that result (keys only exist in the dictionary if this is non-zero). If probabilities are preferred to frequencies, we can apply the utility method :py:meth:`~pytket.backends.BackendResult.probs_from_counts()`.
+If we don't care about the temporal order of the shots, we can instead retrieve a compact summary of the frequencies of observed results. The dictionary returned by :py:meth:`~pytket.backends.BackendResult.get_counts` maps tuples of bits to the number of shots that gave that result (keys only exist in the dictionary if this is non-zero). If probabilities are preferred to frequencies, we can apply the utility method :py:meth:`~pytket.backends.BackendResult.probs_from_counts()`.
 
 .. jupyter-execute::
 
@@ -133,7 +133,7 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
     print(probs_from_counts(counts))
 
-.. note:: :py:class:`~pytket.backends.Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:class:`~pytket.backends.Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut `Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`BackendResult`.
+.. note:: :py:class:`~pytket.backends.Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with :py:class:`~pytket.backends.Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut :py:meth:`pytket.backends.Backend.run_circuit` that will immediately execute the circuit and return a :py:class:`~pytket.backends.backendresult.BackendResult`.
 
 Statevector and Unitary Simulation with TKET Backends
 -----------------------------------------------------
@@ -276,7 +276,7 @@ If measurements occur at the end of the :py:class:`~pytket.Circuit`, then we can
     print(circ.qubit_readout)
     print(circ.qubit_to_bit_map)
 
-For more control over the bits extracted from the results, we can instead call :py:class:`~pytket.backends.Backend.get_result()`. The :py:class:`BackendResult` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`Qubit` s for statevectors/unitaries).
+For more control over the bits extracted from the results, we can instead call :py:class:`~pytket.backends.Backend.get_result()`. The :py:class:`~pytket.backends.backendresult.BackendResult``` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`Qubit` s for statevectors/unitaries).
 
 .. jupyter-execute::
 
@@ -474,7 +474,7 @@ We can mitigate the problem of high queue latency by batching many :py:class:`~p
 .. Advisable to generate as many circuits of interest as possible, storing how to interpret the results of each one, then send them off together
 .. After processing, interpret the results by querying the result handles
 
-To maximise the benefits of batch submission, it is advisable to generate as many of your :py:class:`~pytket.Circuit` s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method :py:class:`~pytket.backends.Backend.process_circuits()` (plural) will then submit all the provided :py:class:`~pytket.Circuit` s simultaneously and return a :py:class:`ResultHandle` for each :py:class:`~pytket.Circuit` to allow each result to be extracted individually for interpretation. Since there is no longer a single :py:class:`~pytket.Circuit` being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of :py:class:`Bit` s to extract for each :py:class:`~pytket.Circuit` or the coefficient to multiply the expectation value by.
+To maximise the benefits of batch submission, it is advisable to generate as many of your :py:class:`~pytket.Circuit` s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method :py:class:`~pytket.backends.Backend.process_circuits()` (plural) will then submit all the provided :py:class:`~pytket.Circuit` s simultaneously and return a :py:class:`~pytket.backends.resulthandle.ResultHandle` for each :py:class:`~pytket.Circuit` to allow each result to be extracted individually for interpretation. Since there is no longer a single :py:class:`~pytket.Circuit` being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of :py:class:`Bit` s to extract for each :py:class:`~pytket.Circuit` or the coefficient to multiply the expectation value by.
 
 .. jupyter-input::
 
@@ -618,7 +618,7 @@ In the near future, as we look to more sophisticated algorithms and larger probl
 
 The intended semantics of the :py:class:`~pytket.backends.Backend` methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. :py:class:`~pytket.backends.Backend.process_circuit<s>()` will submit the :py:class:`~pytket.Circuit` (s) and immediately return.
 
-The progress can be checked by querying :py:class:`~pytket.backends.Backend.circuit_status()`. If this returns a :py:class:`CircuitStatus` matching ``StatusEnum.COMPLETED``, then :py:class:`~pytket.backends.Backend.get_X()` will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.
+The progress can be checked by querying :py:class:`~pytket.backends.Backend.circuit_status()`. If this returns a :py:class:`~pytket.backends.status.CircuitStatus` matching ``StatusEnum.COMPLETED``, then :py:class:`~pytket.backends.Backend.get_X()` will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.
 
 .. jupyter-input::
 
@@ -682,16 +682,16 @@ The progress can be checked by querying :py:class:`~pytket.backends.Backend.circ
 
     (1.2087999999999999-0.002400000000000002j)
 
-In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the :py:meth:`Backend.cancel()` method to cancel the job for a given :py:class:`ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
+In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the :py:meth:`Backend.cancel()` method to cancel the job for a given :py:class:`~pytket.backends.resulthandle.ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
 
-.. note:: Asynchronous submission is currently available with the :py:class:`~pytket.extensions.qiskit.IBMQBackend`, :py:class:`AQTBackend`, :py:class:`QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`~pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
+.. note:: Asynchronous submission is currently available with the :py:class:`~pytket.extensions.qiskit.IBMQBackend`, :py:class:`QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`~pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
 
 Persistent Handles
 ==================
 
 Being able to split your processing into distinct procedures for :py:class:`~pytket.Circuit` generation and result interpretation can help improve throughput on the quantum device, but it can also provide a way to split the processing between different Python sessions. This may be desirable when the classical computation to interpret the results and determine the next experiment parameters is sufficiently intensive that we would prefer to perform it offline and only reserve a quantum device once we are ready to run more. Furthermore, resuming with previously-generated results could benefit repeatability of experiments and better error-safety since the logged results can be saved and reused.
 
-Some :py:class:`~pytket.backends.Backend` s support persistent handles, in that the :py:class:`ResultHandle` object can be stored and the associated results obtained from another instance of the same :py:class:`~pytket.backends.Backend` in a different session. This is indicated by the boolean ``persistent_handles`` property of the :py:class:`~pytket.backends.Backend`. Use of persistent handles can greatly reduce the amount of logging you would need to do to take advantage of this workflow.
+Some :py:class:`~pytket.backends.Backend` s support persistent handles, in that the :py:class:`~pytket.backends.resulthandle.ResultHandle` object can be stored and the associated results obtained from another instance of the same :py:class:`~pytket.backends.Backend` in a different session. This is indicated by the boolean ``persistent_handles`` property of the :py:class:`~pytket.backends.Backend`. Use of persistent handles can greatly reduce the amount of logging you would need to do to take advantage of this workflow.
 
 .. jupyter-input::
 
@@ -735,7 +735,7 @@ Result Serialization
 ====================
 
 When performing experiments using :py:class:`~pytket.backends.Backend` s, it is often useful to be able to easily store and retrieve the results for later analysis or backup.
-This can be achieved using native serialiaztion and deserialization of :py:class:`BackendResult` objects from JSON compatible dictionaries, using the :py:meth:`to_dict()` and :py:meth:`from_dict()` methods.
+This can be achieved using native serialiaztion and deserialization of :py:class:`~pytket.backends.backendresult.BackendResult``` objects from JSON compatible dictionaries, using the :py:meth:`to_dict()` and :py:meth:`from_dict()` methods.
 
 .. jupyter-execute::
 
