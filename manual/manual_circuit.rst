@@ -637,7 +637,7 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     circ.add_unitary1qbox(u1box, 2)
     circ.add_unitary2qbox(u2box, 1, 0)
 
-.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox` using a similar syntax.
+.. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`~pytket.circuit.Unitary3qBox` using a similar syntax.
 
 .. `PauliExpBox` for simulations and general interactions
 
@@ -1059,7 +1059,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
 
 Converters for other quantum software frameworks can optionally be included by installing the corresponding extension module. These are additional PyPI packages with names ``pytket-X``, which extend the ``pytket`` namespace with additional features to interact with other systems, either using them as a front-end for circuit construction and high-level algorithms or targeting simulators and devices as backends.
 
-For example, installing the ``pytket-qiskit`` package will add the :py:func:`~pytket.extensions.qiskit.tk_to_qiskit` and :py:func:`~pytket.extensions.qiskit.qiskit_to_tk` methods which convert between the :py:class:`~pytket.circuit.Circuit` class from ``pytket`` and :py:class:`qiskit.QuantumCircuit`.
+For example, installing the ``pytket-qiskit`` package will add the :py:func:`~pytket.extensions.qiskit.tk_to_qiskit` and :py:func:`~pytket.extensions.qiskit.qiskit_to_tk` methods which convert between the :py:class:`~pytket.circuit.Circuit` class from ``pytket`` and :py:class:`~qiskit.circuit.QuantumCircuit`.
 
 .. jupyter-execute::
 
