@@ -65,7 +65,7 @@ For parameterised gates, such as rotations, the parameter is always given first.
 .. Table of common gates, with circuit notation, unitary, and python command
 .. Wider variety of gates available via OpType
 
-A large selection of common gates are available in this way, as listed in the API reference for the :py:class:`~pytket.circuit.Circuit` class. However, for less commonly used gates, a wider variety is available using the :py:class:`~pytket.circuit.OpType` enum, which can be added using the :py:class:`Circuit.add_gate` method.
+A large selection of common gates are available in this way, as listed in the API reference for the :py:class:`~pytket.circuit.Circuit` class. However, for less commonly used gates, a wider variety is available using the :py:class:`~pytket.circuit.OpType` enum, which can be added using the :py:meth:`~pytket.circuit.Circuit.add_gate` method.
 
 .. Example of adding gates using `add_gate`
 
@@ -291,7 +291,7 @@ To help encourage consistency of identifiers, a :py:class:`~pytket.circuit.Circu
 
 .. Integer labels correspond to default registers (example of using explicit labels from `Circuit(n)`)
 
-The basic integer identifiers are actually a special case, referring to the default qubit (``q[i]``) and bit (``c[i]``) registers. We can create the :py:class:`UnitID` using the nameless :py:class:`~pytket.unit_id.Qubit` and :py:class:`~pytket.unit_id.Bit` constructors.
+The basic integer identifiers are actually a special case, referring to the default qubit (``q[i]``) and bit (``c[i]``) registers. We can create the :py:class:`~pytket.unit_id.UnitID` using the nameless :py:class:`~pytket.unit_id.Qubit` and :py:class:`~pytket.unit_id.Bit` constructors.
 
 .. jupyter-execute::
 
@@ -547,7 +547,7 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 
 .. note:: Each of these metrics will analyse the :py:class:`~pytket.circuit.Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a :math:`CZ` gate would contribute 1 to :math:`CX`-count in practice).
 
-Its also possible to count all the occurrences of each :py:class:`~pytket.circuit.OpType` using the :py:meth:`~pytket.utils.stats.gate_counts` function from the ``pytket.utils`` module. 
+Its also possible to count all the occurrences of each :py:class:`~pytket.circuit.OpType` using the :py:function:`~pytket.utils.stats.gate_counts` function from the :py:mod:`pytket.utils` module. 
 
 .. jupyter-execute::
 
@@ -677,8 +677,8 @@ As well as creating controlled boxes, we can create a controlled version of an a
 
 .. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
-In addition, we can construct a :py:class:`QControlBox` from any other pure quantum box type in pytket. 
-For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`QControlBox` from the box implementing :math:`\sqrt{Y}`. 
+In addition, we can construct a :py:class:`~pytket.circuit.QControlBox` from any other pure quantum box type in pytket. 
+For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`~pytket.circuit.QControlBox` from the box implementing :math:`\sqrt{Y}`. 
 
 
 
@@ -698,7 +698,7 @@ Normally when we deal with controlled gates we implicitly assume that the contro
 
 However its often useful to the flexibility to define the control state as some string of zeros and ones. Certain approaches to quantum algorithms with linear combination of unitaries (LCU) frequently make use of such gates.
 
-A :py:class:`QControlBox` now accepts an optional ``control_state`` argument in the constructor. This is either a list of binary values or a single (big-endian) integer representing the binary string.
+A :py:class:`~pytket.circuit.QControlBox` now accepts an optional ``control_state`` argument in the constructor. This is either a list of binary values or a single (big-endian) integer representing the binary string.
 
 Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`.
 
@@ -877,11 +877,11 @@ Multiplexor                                             Description
 
 One place where multiplexor operations are useful is in state preparation algorithms.
 
-TKET supports the preparation of arbitrary quantum states via the :py:class:`StatePreparationBox`. This box takes a  :math:`(1\times 2^n)` numpy array representing the :math:`n` qubit statevector where the entries represent the amplitudes of the quantum state.
+TKET supports the preparation of arbitrary quantum states via the :py:class:`~pytket.circuit.StatePreparationBox`. This box takes a  :math:`(1\times 2^n)` numpy array representing the :math:`n` qubit statevector where the entries represent the amplitudes of the quantum state.
 
 Given the vector of amplitudes TKET will construct a box containing a sequence of multiplexors using the method outlined in [Shen2004]_.
 
-To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the W state.
+To demonstrate :py:class:`~pytket.circuit.StatePreparationBox` let's use it to prepare the W state.
 
 .. math::
 
@@ -1554,7 +1554,7 @@ Note that when an operation or box is substituted in, the op group name is retai
 
 To remove an operation, one can replace it with an empty circuit.
 
-To add a control to an operation, one can add the original operation as a :py:class:`~pytket.circuit.CircBox` with one unused qubit, and subtitute it with a :py:class:`QControlBox`.
+To add a control to an operation, one can add the original operation as a :py:class:`~pytket.circuit.CircBox` with one unused qubit, and subtitute it with a :py:class:`~pytket.circuit.QControlBox`.
 
 .. jupyter-execute::
 
