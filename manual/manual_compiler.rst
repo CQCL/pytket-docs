@@ -357,7 +357,7 @@ Decomposing Structures
 .. Box structures for high-level operations need to be mapped to low-level gates
 .. Unwraps `CircuitBox`es, decomposes others into known, efficient patterns
 
-The numerous Box structures in ``pytket`` provide practical abstractions for high-level operations to assist in :py:class:`~pytket.circuit.Circuit` construction, but need to be mapped to low-level gates before we can run the :py:class:`~pytket.circuit.Circuit`. The :py:class:`DecomposeBoxes` pass will unwrap any :py:class:`~pytket.circuit.CircBox`, substituting it for the corresponding :py:class:`~pytket.circuit.Circuit`, and decompose others like the :py:class:`~pytket.circuit.Unitary1qBox` and :py:class:`~pytket.circuit.PauliExpBox` into efficient templated patterns of gates.
+The numerous Box structures in ``pytket`` provide practical abstractions for high-level operations to assist in :py:class:`~pytket.circuit.Circuit` construction, but need to be mapped to low-level gates before we can run the :py:class:`~pytket.circuit.Circuit`. The :py:class:`~pytket.passes.DecomposeBoxes` pass will unwrap any :py:class:`~pytket.circuit.CircBox`, substituting it for the corresponding :py:class:`~pytket.circuit.Circuit`, and decompose others like the :py:class:`~pytket.circuit.Unitary1qBox` and :py:class:`~pytket.circuit.PauliExpBox` into efficient templated patterns of gates.
 
 .. jupyter-execute::
 
@@ -572,7 +572,7 @@ We mentioned earlier that each pass has a set of pre-conditions and post-conditi
 
 .. Warning about composing with `DecomposeBoxes`
 
-A special mention here goes to the :py:class:`DecomposeBoxes` pass. Because the Box structures could potentially contain arbitrary sequences of gates, there is no guarantee that expanding them will yield a :py:class:`~pytket.circuit.Circuit` that satisfies `any` :py:class:`~pytket.predicate.Predicate`. Since it has potential to invalidate the pre-conditions of any subsequent pass, composing it with anything else `will` generate such an error.
+A special mention here goes to the :py:class:`~pytket.passes.DecomposeBoxes` pass. Because the Box structures could potentially contain arbitrary sequences of gates, there is no guarantee that expanding them will yield a :py:class:`~pytket.circuit.Circuit` that satisfies `any` :py:class:`~pytket.predicate.Predicate`. Since it has potential to invalidate the pre-conditions of any subsequent pass, composing it with anything else `will` generate such an error.
 
 .. jupyter-execute::
     :raises: RuntimeError
@@ -725,7 +725,7 @@ The passes to solve some device constraints might invalidate others: for example
 
 .. Recommended order of decompose boxes, strong optimisations, placement, routing, delay measures, rebase; could insert minor optimisations between each step to tidy up any redundancies introduced as long as they preserve solved constraints
 
-For most standard use cases, we recommend starting with :py:class:`DecomposeBoxes` to reduce the :py:class:`~pytket.circuit.Circuit` down to primitive gates, followed by strong optimisation passes like :py:class:`PauliSimp` (when appropriate for the types of :py:class:`~pytket.circuit.Circuit` s being considered) and :py:class:`~pytket.passes.FullPeepholeOptimise` to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by :py:class:`DelayMeasures` to push measurements back through any introduced ``OpType.SWAP`` or ``OpType.BRIDGE`` gates, and then finally rebase to the desired gate set. The :py:meth:`~pytket.backends.Backend.default_compilation_pass()` definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.
+For most standard use cases, we recommend starting with :py:class:`~pytket.passes.DecomposeBoxes` to reduce the :py:class:`~pytket.circuit.Circuit` down to primitive gates, followed by strong optimisation passes like :py:class:`PauliSimp` (when appropriate for the types of :py:class:`~pytket.circuit.Circuit` s being considered) and :py:class:`~pytket.passes.FullPeepholeOptimise` to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by :py:class:`DelayMeasures` to push measurements back through any introduced ``OpType.SWAP`` or ``OpType.BRIDGE`` gates, and then finally rebase to the desired gate set. The :py:meth:`~pytket.backends.Backend.default_compilation_pass()` definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.
 
 Initial and Final Maps
 ----------------------
