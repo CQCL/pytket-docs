@@ -220,7 +220,7 @@ Registers and IDs
 
 Using integer values to refer to each of our qubits and bits works fine for small-scale experiments, but when building up larger and more complicated programs, it is much easier to manage if we are able to name the resources to attach semantic meaning to them and group them into related collections. ``pytket`` enables this by supporting registers and named IDs.
 
-Each unit resource is associated with a :py:class:`UnitID` (typically the subclasses :py:class:`~pytket.unit_id.Qubit` or :py:class:`~pytket.unit_id.Bit`), which gives a name and some (:math:`n`-dimensional) index. A (quantum/classical) register is hence some collection of :py:class:`UnitID` s with the same name, dimension of index, and type of associated resource. These identifiers are not necessarily tied to a specific :py:class:`~pytket.circuit.Circuit` and can be reused between many of them.
+Each unit resource is associated with a :py:class:`~pytket.unit_id.UnitID` (typically the subclasses :py:class:`~pytket.circuit.Qubit` or :py:class:`~pytket.circuit.Bit`), which gives a name and some (:math:`n`-dimensional) index. A (quantum/classical) register is hence some collection of :py:class:`UnitID` s with the same name, dimension of index, and type of associated resource. These identifiers are not necessarily tied to a specific :py:class:`~pytket.circuit.Circuit` and can be reused between many of them.
 
 .. Can add to circuits individually or declare a 1-dimensional register (map from unsigned to id)
 .. Using ids to add gates
@@ -445,7 +445,7 @@ Analysing Circuits
 
 .. Most basic form is to ask for the sequence of operations in the circuit; iteration produces `Command`s, containing an `Op` acting on `args`
 
-After creating a :py:class:`~pytket.circuit.Circuit`, we will typically want to inspect what we have constructed to ensure that it agrees with the design we planned. The most basic form of this is to just get the object to return the sequence of operations back to us. Iterating through the :py:class:`~pytket.circuit.Circuit` object will give back the operations as :py:class:`Command` s (specifying the operations performed and what (qu)bits they are performed on).
+After creating a :py:class:`~pytket.circuit.Circuit`, we will typically want to inspect what we have constructed to ensure that it agrees with the design we planned. The most basic form of this is to just get the object to return the sequence of operations back to us. Iterating through the :py:class:`~pytket.circuit.Circuit` object will give back the operations as :py:class:`~pytket.circuit.Command` s (specifying the operations performed and what (qu)bits they are performed on).
 
 Because the :py:class:`~pytket.circuit.Circuit` class identifies circuits up to DAG equivalence, the sequence will be some topological sort of the DAG, but not necessarily identical to the order the operations were added to the :py:class:`~pytket.circuit.Circuit`.
 
@@ -490,7 +490,7 @@ The visualisation tool can also describe the interaction graph of a :py:class:`~
 
 .. note:: The visualisations above are shown in ipython notebook cells. When working with a normal python script one can view rendered circuits in the browser with the :py:meth:`view_browser` function from the display module.
 
-     There are also the methods :py:meth:`Graph.save_DAG` and :py:meth:`Graph.view_DAG` for saving and visualising the circuit DAG. 
+     There are also the methods :py:meth:`~pytket.utils.Graph.save_DAG` and :py:meth:`~pytket.utils.Graph.view_DAG` for saving and visualising the circuit DAG. 
 
 .. jupyter-execute::
 
