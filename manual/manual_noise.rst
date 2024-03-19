@@ -281,7 +281,7 @@ For a noise free backend, we can see that the same counts distribution is return
 
 .. jupyter-input::
 
-    from qiskit.providers.aer.noise import NoiseModel
+    from qiskit_aer.noise import NoiseModel
     from qiskit import IBMQ
     IBMQ.load_account()
 
@@ -461,7 +461,7 @@ First the :py:class:`SpamCorrecter` is characterised using counts results for ca
     from pytket import Circuit
     from pytket.utils.spam import SpamCorrecter
 
-    from qiskit.providers.aer.noise import NoiseModel
+    from qiskit_aer.noise import NoiseModel
     from qiskit.providers.aer.noise.errors import depolarizing_error
 
     noise_model = NoiseModel()

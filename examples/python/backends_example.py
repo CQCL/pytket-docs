@@ -77,7 +77,7 @@ print(counts)
 
 # To investigate this, we will require an import from Qiskit. For more information about noise modelling using Qiskit Aer, see the [Qiskit device noise](https://qiskit.org/documentation/apidoc/aer_noise.html) documentation.
 
-from qiskit.providers.aer.noise import NoiseModel
+from qiskit_aer.noise import NoiseModel
 
 my_noise_model = NoiseModel()
 readout_error = 0.2

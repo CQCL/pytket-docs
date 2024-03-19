@@ -225,7 +225,7 @@ print(fidelity(dm, bell_state))
 
 # This high fidelity is unsurprising since we have a completely noiseless simulation. So the next step is to add some noise to the simulation and observe how the overall fidelity is affected. The `AerBackend` wraps around the Qiskit Aer simulator and can pass on any `qiskit.providers.aer.noise.NoiseModel` to the simulator. Let's start by adding some uniform depolarising noise to each CX gate and some uniform measurement error.
 
-from qiskit.providers.aer.noise import NoiseModel, depolarizing_error, ReadoutError
+from qiskit_aer.noise import NoiseModel, depolarizing_error, ReadoutError
 
 
 def make_noise_model(dep_err_rate, ro_err_rate, qubits):
