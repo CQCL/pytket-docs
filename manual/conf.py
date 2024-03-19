@@ -43,4 +43,8 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "pytket": (pytketdoc_base, None),
     "pytket-qiskit": ("https://tket.quantinuum.com/extensions/pytket-qiskit/", None),
+    "pytket-quantinuum": (
+        "https://tket.quantinuum.com/extensions/pytket-qiskit/",
+        None,
+    ),
 }
