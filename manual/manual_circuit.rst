@@ -220,7 +220,7 @@ Registers and IDs
 
 Using integer values to refer to each of our qubits and bits works fine for small-scale experiments, but when building up larger and more complicated programs, it is much easier to manage if we are able to name the resources to attach semantic meaning to them and group them into related collections. ``pytket`` enables this by supporting registers and named IDs.
 
-Each unit resource is associated with a :py:class:`UnitID` (typically the subclasses :py:class:`Qubit` or :py:class:`Bit`), which gives a name and some (:math:`n`-dimensional) index. A (quantum/classical) register is hence some collection of :py:class:`UnitID` s with the same name, dimension of index, and type of associated resource. These identifiers are not necessarily tied to a specific :py:class:`~pytket.circuit.Circuit` and can be reused between many of them.
+Each unit resource is associated with a :py:class:`UnitID` (typically the subclasses :py:class:`~pytket.unit_id.Qubit` or :py:class:`~pytket.unit_id.Bit`), which gives a name and some (:math:`n`-dimensional) index. A (quantum/classical) register is hence some collection of :py:class:`UnitID` s with the same name, dimension of index, and type of associated resource. These identifiers are not necessarily tied to a specific :py:class:`~pytket.circuit.Circuit` and can be reused between many of them.
 
 .. Can add to circuits individually or declare a 1-dimensional register (map from unsigned to id)
 .. Using ids to add gates
@@ -291,7 +291,7 @@ To help encourage consistency of identifiers, a :py:class:`~pytket.circuit.Circu
 
 .. Integer labels correspond to default registers (example of using explicit labels from `Circuit(n)`)
 
-The basic integer identifiers are actually a special case, referring to the default qubit (``q[i]``) and bit (``c[i]``) registers. We can create the :py:class:`UnitID` using the nameless :py:class:`Qubit` and :py:class:`Bit` constructors.
+The basic integer identifiers are actually a special case, referring to the default qubit (``q[i]``) and bit (``c[i]``) registers. We can create the :py:class:`UnitID` using the nameless :py:class:`~pytket.unit_id.Qubit` and :py:class:`~pytket.unit_id.Bit` constructors.
 
 .. jupyter-execute::
 

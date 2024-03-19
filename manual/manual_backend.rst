@@ -262,7 +262,7 @@ Suppose that we only care about a subset of the measurements used in a :py:class
     shots = shots[:, [bitmap[Bit(0)], bitmap[Bit(2)]]]
     print(expectation_from_shots(shots))
 
-If measurements occur at the end of the :py:class:`~pytket.circuit.Circuit`, then we can associate each measurement to the qubit that was measured. :py:attr:`Circuit.qubit_readout` gives the equivalent map to column indices for :py:class:`Qubit` s, and :py:attr:`Circuit.qubit_to_bit_map` relates each measured :py:class:`Qubit` to the :py:class:`Bit` that holds the corresponding measurement result.
+If measurements occur at the end of the :py:class:`~pytket.circuit.Circuit`, then we can associate each measurement to the qubit that was measured. :py:attr:`Circuit.qubit_readout` gives the equivalent map to column indices for :py:class:`~pytket.unit_id.Qubit` s, and :py:attr:`Circuit.qubit_to_bit_map` relates each measured :py:class:`~pytket.unit_id.Qubit` to the :py:class:`~pytket.unit_id.Bit` that holds the corresponding measurement result.
 
 .. jupyter-execute::
 
@@ -276,7 +276,7 @@ If measurements occur at the end of the :py:class:`~pytket.circuit.Circuit`, the
     print(circ.qubit_readout)
     print(circ.qubit_to_bit_map)
 
-For more control over the bits extracted from the results, we can instead call :py:class:`~pytket.backends.Backend.get_result()`. The :py:class:`~pytket.backends.backendresult.BackendResult``` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`Qubit` s for statevectors/unitaries).
+For more control over the bits extracted from the results, we can instead call :py:class:`~pytket.backends.Backend.get_result()`. The :py:class:`~pytket.backends.backendresult.BackendResult``` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`~pytket.unit_id.Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`~pytket.unit_id.Qubit` s for statevectors/unitaries).
 
 .. jupyter-execute::
 
@@ -474,7 +474,7 @@ We can mitigate the problem of high queue latency by batching many :py:class:`~p
 .. Advisable to generate as many circuits of interest as possible, storing how to interpret the results of each one, then send them off together
 .. After processing, interpret the results by querying the result handles
 
-To maximise the benefits of batch submission, it is advisable to generate as many of your :py:class:`~pytket.circuit.Circuit` s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method :py:class:`~pytket.backends.Backend.process_circuits()` (plural) will then submit all the provided :py:class:`~pytket.circuit.Circuit` s simultaneously and return a :py:class:`~pytket.backends.resulthandle.ResultHandle` for each :py:class:`~pytket.circuit.Circuit` to allow each result to be extracted individually for interpretation. Since there is no longer a single :py:class:`~pytket.circuit.Circuit` being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of :py:class:`Bit` s to extract for each :py:class:`~pytket.circuit.Circuit` or the coefficient to multiply the expectation value by.
+To maximise the benefits of batch submission, it is advisable to generate as many of your :py:class:`~pytket.circuit.Circuit` s as possible at the same time to send them all off together. This is possible when, for example, generating every measurement circuit for an expectation value calculation, or sampling several parameter values from a local neighbourhood in a variational procedure. The method :py:class:`~pytket.backends.Backend.process_circuits()` (plural) will then submit all the provided :py:class:`~pytket.circuit.Circuit` s simultaneously and return a :py:class:`~pytket.backends.resulthandle.ResultHandle` for each :py:class:`~pytket.circuit.Circuit` to allow each result to be extracted individually for interpretation. Since there is no longer a single :py:class:`~pytket.circuit.Circuit` being handled from start to finish, it may be necessary to store additional data to record how to interpret them, like the set of :py:class:`~pytket.unit_id.Bit` s to extract for each :py:class:`~pytket.circuit.Circuit` or the coefficient to multiply the expectation value by.
 
 .. jupyter-input::
 
