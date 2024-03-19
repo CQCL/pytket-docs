@@ -11,7 +11,7 @@ This property can be potentially exploited to help error mitigation or nondeterm
 The former can be used to assert arbitrary subspaces, but note that we currently only support 2x2, 4x4, and 8x8 matrices.
 The latter is useful for asserting that the prepared state lies in a subspace spanned by some stabiliser states.
 
-When applied to a circuit, the assertion is inserted as a :py:class:`~pytket.circuit.ProjectorAssertionBox` or a :py:class:`~pytket.circuit.StabiliserAssertionBox`, and then synthesized into a set of gates and measurements by the :py:class:`~pytket.circuit.DecomposeBoxes` pass. Be aware that an ancilla qubit might be required for the assertion.
+When applied to a circuit, the assertion is inserted as a :py:class:`~pytket.circuit.ProjectorAssertionBox` or a :py:class:`~pytket.circuit.StabiliserAssertionBox`, and then synthesized into a set of gates and measurements by the :py:class::py:class:`~pytket.passes.DecomposeBoxes` pass. Be aware that an ancilla qubit might be required for the assertion.
 The results of these measurements will be used later on to determine the outcome of the assertion.
 
 To test the circuit, compile and process the circuit using a :py:class:`~pytket.backends.Backend` that supports mid-circuit measurement and reset (e.g. :py:class:`~pytket.extensions.qiskit.AerBackend` from ``pytket-qiskit``).
