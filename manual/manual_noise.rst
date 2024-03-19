@@ -65,7 +65,7 @@ Some information, including gate error rates, is stored in attributes with speci
     node[3]: 0.00015814094160059136, 
     node[4]: 0.00013411930305754117}    
 
-Other miscellaneous information, varying between backends, is stored in the `misc` attribute, also accessible through the :py:meth:`BackendInfo.get_misc` method.
+Other miscellaneous information, varying between backends, is stored in the `misc` attribute, also accessible through the :py:meth:`~pytket.backends.BackendInfo.get_misc` method.
 
 .. jupyter-input::
 

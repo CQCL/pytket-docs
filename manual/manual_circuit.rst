@@ -154,7 +154,7 @@ Depending on where we plan on running our circuits, the backend or simulator mig
 
 .. `measure_all`
 
-The simplest way to guarantee this is to finish the circuit by measuring all qubits. There is a short-hand function :py:meth:`Circuit.measure_all` to make this easier.
+The simplest way to guarantee this is to finish the circuit by measuring all qubits. There is a short-hand function :py:meth:`~pytket.circuit.Circuit.measure_all` to make this easier.
 
 .. jupyter-execute::
 
@@ -200,7 +200,7 @@ The intention is the same for :py:class:`~pytket.circuit.Circuit` s. Inserting
 
 .. `add_barrier`
 
-Adding a barrier to a :py:class:`~pytket.circuit.Circuit` is done using the :py:meth:`Circuit.add_barrier` method. In general, a barrier is placed on some subset of the (qu)bits to impose these ordering restrictions on those (qu)bits specifically (i.e. we don't care about reorders on the other (qu)bits).
+Adding a barrier to a :py:class:`~pytket.circuit.Circuit` is done using the :py:meth:`~pytket.circuit.Circuit.add_barrier` method. In general, a barrier is placed on some subset of the (qu)bits to impose these ordering restrictions on those (qu)bits specifically (i.e. we don't care about reorders on the other (qu)bits).
 
 .. jupyter-execute::
 
@@ -303,7 +303,7 @@ The basic integer identifiers are actually a special case, referring to the defa
 
 .. Rename with `rename_units` as long as the names after renaming would be unique and have consistent register typings
 
-In some circumstances, it may be useful to rename the resources in the :py:class:`~pytket.circuit.Circuit`. Given a partial map on :py:class:`UnitID` s, :py:meth:`Circuit.rename_units` will change the association of IDs to resources (as long as the final labelling would still have consistent types for all registers). Any unspecified IDs will be preserved.
+In some circumstances, it may be useful to rename the resources in the :py:class:`~pytket.circuit.Circuit`. Given a partial map on :py:class:`UnitID` s, :py:meth:`~pytket.circuit.Circuit.rename_units` will change the association of IDs to resources (as long as the final labelling would still have consistent types for all registers). Any unspecified IDs will be preserved.
 
 .. jupyter-execute::
 
@@ -346,7 +346,7 @@ Because :py:class:`~pytket.circuit.Circuit` s are defined to have open inputs 
 
 .. If a unit does not exist in the other circuit, treated as composing with identity
 
-If one :py:class:`~pytket.circuit.Circuit` lacks some unit present in the other, then we treat it as if it is an identity on that unit. In the extreme case where the :py:class:`~pytket.circuit.Circuit` s are defined with disjoint sets of :py:class:`UnitID` s, the :py:meth:`Circuit.append` method will compose them in parallel.
+If one :py:class:`~pytket.circuit.Circuit` lacks some unit present in the other, then we treat it as if it is an identity on that unit. In the extreme case where the :py:class:`~pytket.circuit.Circuit` s are defined with disjoint sets of :py:class:`UnitID` s, the :py:meth:`~pytket.circuit.Circuit.append` method will compose them in parallel.
 
 .. jupyter-execute::
 
@@ -367,7 +367,7 @@ If one :py:class:`~pytket.circuit.Circuit` lacks some unit present in the other,
 
 .. Append onto different qubits with `append_with_map` (equivalent under `rename_units`)
 
-.. To change which units get unified, :py:meth:`Circuit.append_with_map` accepts a dictionary of :py:class:`UnitID` s, mapping the units of the argument to units of the main :py:class:`~pytket.circuit.Circuit`.
+.. To change which units get unified, :py:meth:`~pytket.circuit.Circuit.append_with_map` accepts a dictionary of :py:class:`UnitID` s, mapping the units of the argument to units of the main :py:class:`~pytket.circuit.Circuit`.
 
 .. .. jupyter-execute::
 
@@ -389,7 +389,7 @@ If one :py:class:`~pytket.circuit.Circuit` lacks some unit present in the other,
 ..     # temp.rename_units({b[1] : a[0]})
 ..     # circ.append(temp)
 
-To change which units get unified, we could use :py:meth:`Circuit.rename_units` as seen before, but in the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`Circuit.add_circuit`.
+To change which units get unified, we could use :py:meth:`~pytket.circuit.Circuit.rename_units` as seen before, but in the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`~pytket.circuit.Circuit.add_circuit`.
 
 .. jupyter-execute::
 
@@ -413,12 +413,12 @@ To change which units get unified, we could use :py:meth:`Circuit.rename_units` 
 
     circ
 
-.. note:: This requires the subcircuit to be defined only over the default registers so that the list of arguments given to :py:meth:`Circuit.add_circuit` can easily be mapped.
+.. note:: This requires the subcircuit to be defined only over the default registers so that the list of arguments given to :py:meth:`~pytket.circuit.Circuit.add_circuit` can easily be mapped.
 
 Statevectors and Unitaries
 --------------------------
 
-When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
+When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`~pytket.circuit.Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
  
 .. jupyter-execute::
 
@@ -428,7 +428,7 @@ When working with quantum circuits we may want access to the quantum state prepa
     circ.H(0).CX(0, 1)
     circ.get_statevector()
 
-In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
+In addition :py:meth:`~pytket.circuit.Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
 
 .. jupyter-execute::
 
@@ -606,7 +606,7 @@ Now that we've built our circuit we can wrap it up in a :py:class:`~pytket.circu
 
 See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
 
-.. Note:: Despite the :py:class:`~pytket.circuit.Circuit` class having methods for adding each type of box, the :py:meth:`Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`~pytket.circuit.Circuit`.
+.. Note:: Despite the :py:class:`~pytket.circuit.Circuit` class having methods for adding each type of box, the :py:meth:`~pytket.circuit.Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`~pytket.circuit.Circuit`.
 
 
 .. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
@@ -1459,9 +1459,9 @@ Systematic modifications to a :py:class:`~pytket.circuit.Circuit` object can go 
     circ.Rx(0.6, 0).Rz(0.2, 1)
     circ.append(conj_dag)
 
-Generating the transpose of a unitary works similarly using :py:meth:`Circuit.transpose`.
+Generating the transpose of a unitary works similarly using :py:meth:`~pytket.circuit.Circuit.transpose`.
 
-.. note:: Since it is not possible to construct the inverse of an arbitrary POVM, the :py:meth:`Circuit.dagger` and :py:meth:`Circuit.transpose` methods will fail if there are any measurements, resets, or other operations that they cannot directly invert.
+.. note:: Since it is not possible to construct the inverse of an arbitrary POVM, the :py:meth:`~pytket.circuit.Circuit.dagger` and :py:meth:`~pytket.circuit.Circuit.transpose` methods will fail if there are any measurements, resets, or other operations that they cannot directly invert.
 
 .. Gradients wrt symbolic parameters
 
@@ -1504,7 +1504,7 @@ This procedure essentially exploits the naturality of the symmetry operator in t
 .. Can inspect the implicit permutation at the end of the circuit
 .. Two circuits can have the same sequence of gates but different unitaries (and behave differently under composition) because of implicit permutations
 
-The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different :py:class:`UnitID`. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by ``pytket`` backends, but care should be taken when reading from the :py:class:`~pytket.circuit.Circuit` directly - two quantum :py:class:`~pytket.circuit.Circuit` s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The :py:meth:`Circuit.implicit_qubit_permutation` method can be used to inspect such a permutation.
+The permutation has been reduced to something implicit in the graph, and we now find that tracing a path from an input can reach an output with a different :py:class:`UnitID`. Since this permutation is missing in the command sequence, simulating the circuit would only give the correct state up to a permutation of the qubits. This does not matter when running on real devices where the final quantum system is discarded after use, but is detectable when using a statevector simulator. This is handled automatically by ``pytket`` backends, but care should be taken when reading from the :py:class:`~pytket.circuit.Circuit` directly - two quantum :py:class:`~pytket.circuit.Circuit` s can have the same sequence of instructions but different unitaries because of implicit permutations. This permutation information is typically dropped when exporting to another software framework. The :py:meth:`~pytket.circuit.Circuit.implicit_qubit_permutation` method can be used to inspect such a permutation.
 
 
 Modifying Operations Within Circuits
@@ -1516,7 +1516,7 @@ This can be achieved with ``pytket``, provided the mutable operations are tagged
 
 Both primitive gates and boxes can be tagged and substituted in this way. The only constraint is that the signature (number and order of quantum and classical wires) of the substituted operation must match that of the original operation in the circuit. (It follows that all operations in the same group must have the same signature. An attempt to add an operation with an existing name with a mismatching signature will fail.)
 
-To add gates or boxes to a circuit with specified op group names, simply pass the name as a keyword argument ``opgroup`` to the method that adds the gate or box. To substitute all operations in a group, use the :py:meth:`Circuit.substitute_named` method. This can be used to substitute a circuit, an operation or a box into the existing circuit.
+To add gates or boxes to a circuit with specified op group names, simply pass the name as a keyword argument ``opgroup`` to the method that adds the gate or box. To substitute all operations in a group, use the :py:meth:`~pytket.circuit.Circuit.substitute_named` method. This can be used to substitute a circuit, an operation or a box into the existing circuit.
 
 .. jupyter-execute::
 

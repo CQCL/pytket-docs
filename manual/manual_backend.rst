@@ -49,7 +49,7 @@ Each :py:class:`~pytket.backends.Backend` object is aware of the restrictions of
 .. Can check if a circuit satisfies all requirements with `valid_circuit`
 .. `get_compiled_circuit` modifies a circuit to try to satisfy all backend requirements if possible (restrictions on measurements or conditional gate support may not be fixed by compilation)
 
-Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy in case it has consequences for how you design a :py:class:`~pytket.circuit.Circuit`, but can generally be abstracted away. Calling :py:meth:`~pytket.backends.Backend.valid_circuit()` can check whether or not a :py:class:`~pytket.circuit.Circuit` satisfies every requirement to run on the :py:class:`~pytket.backends.Backend`, and if it is not immediately valid then :py:meth:`Backend.get_compiled_circuit` will try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation), and return a new :py:class:`~pytket.circuit.Circuit`.
+Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy in case it has consequences for how you design a :py:class:`~pytket.circuit.Circuit`, but can generally be abstracted away. Calling :py:meth:`~pytket.backends.Backend.valid_circuit()` can check whether or not a :py:class:`~pytket.circuit.Circuit` satisfies every requirement to run on the :py:class:`~pytket.backends.Backend`, and if it is not immediately valid then :py:meth:`~pytket.backends.Backend.get_compiled_circuit` will try to solve all of the remaining constraints when possible (note that restrictions on measurements or conditional gate support may not be fixed by compilation), and return a new :py:class:`~pytket.circuit.Circuit`.
 
 .. jupyter-execute::
 
@@ -682,7 +682,7 @@ The progress can be checked by querying :py:class:`~pytket.backends.Backend.circ
 
     (1.2087999999999999-0.002400000000000002j)
 
-In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the :py:meth:`Backend.cancel()` method to cancel the job for a given :py:class:`~pytket.backends.resulthandle.ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
+In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the :py:meth:`~pytket.backends.Backend.cancel()` method to cancel the job for a given :py:class:`~pytket.backends.resulthandle.ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
 
 .. note:: Asynchronous submission is currently available with the :py:class:`~pytket.extensions.qiskit.IBMQBackend`, :py:class:`QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`~pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
 

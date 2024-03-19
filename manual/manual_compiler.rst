@@ -2,7 +2,7 @@
 Compilation
 ***********
 
-So far, we have already covered enough to be able to design the :py:class:`~pytket.circuit.Circuit` s we want to run, submit them to a :py:class:`~pytket.backends.Backend`, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the :py:meth:`Backend.get_compiled_circuit()` method. The compilation step maps from the universal computer abstraction presented at :py:class:`~pytket.circuit.Circuit` construction to the restricted fragment supported by the target :py:class:`~pytket.backends.Backend`, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.
+So far, we have already covered enough to be able to design the :py:class:`~pytket.circuit.Circuit` s we want to run, submit them to a :py:class:`~pytket.backends.Backend`, and interpret the results in a meaningful way. This is all you need if you want to just try out a quantum computer, run some toy examples and observe some basic results. We actually glossed over a key step in this process by using the :py:meth:`~pytket.backends.Backend.get_compiled_circuit()` method. The compilation step maps from the universal computer abstraction presented at :py:class:`~pytket.circuit.Circuit` construction to the restricted fragment supported by the target :py:class:`~pytket.backends.Backend`, and knowing what a compiler can do to your program can help reduce the burden of design and improve performance on real devices.
 
 The necessity of compilation maps over from the world of classical computation: it is much easier to design correct programs when working with higher-level constructions that aren't natively supported, and it shouldn't require a programmer to be an expert in the exact device architecture to achieve good performance. There are many possible low-level implementations on the device for each high-level program, which vary in the time and resources taken to execute. However, because QPUs are analog devices, the implementation can have a massive impact on the quality of the final outcomes as a result of changing how susceptible the system is to noise. Using a good compiler and choosing the methods appropriately can automatically find a better low-level implementation. Each aspect of the compilation procedure is exposed through ``pytket`` to provide users with a way to have full control over what is applied and how.
 
@@ -12,7 +12,7 @@ The primary goals of compilation are two-fold: solving the constraints of the :p
 
 .. Passes capture methods of transforming the circuit, acting in place
 
-Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class:`~pytket.circuit.Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`~pytket.circuit.Circuit` in-place. The :py:meth:`Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`BasePass.apply()` from the :py:class:`~pytket.backends.Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
+Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class:`~pytket.circuit.Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`~pytket.circuit.Circuit` in-place. The :py:meth:`~pytket.backends.Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`BasePass.apply()` from the :py:class:`~pytket.backends.Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
 
 Predicates
 ----------
@@ -725,7 +725,7 @@ The passes to solve some device constraints might invalidate others: for example
 
 .. Recommended order of decompose boxes, strong optimisations, placement, routing, delay measures, rebase; could insert minor optimisations between each step to tidy up any redundancies introduced as long as they preserve solved constraints
 
-For most standard use cases, we recommend starting with :py:class:`DecomposeBoxes` to reduce the :py:class:`~pytket.circuit.Circuit` down to primitive gates, followed by strong optimisation passes like :py:class:`PauliSimp` (when appropriate for the types of :py:class:`~pytket.circuit.Circuit` s being considered) and :py:class:`~pytket.passes.FullPeepholeOptimise` to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by :py:class:`DelayMeasures` to push measurements back through any introduced ``OpType.SWAP`` or ``OpType.BRIDGE`` gates, and then finally rebase to the desired gate set. The :py:meth:`Backend.default_compilation_pass()` definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.
+For most standard use cases, we recommend starting with :py:class:`DecomposeBoxes` to reduce the :py:class:`~pytket.circuit.Circuit` down to primitive gates, followed by strong optimisation passes like :py:class:`PauliSimp` (when appropriate for the types of :py:class:`~pytket.circuit.Circuit` s being considered) and :py:class:`~pytket.passes.FullPeepholeOptimise` to eliminate a large number of redundant operations. Then start to solve some more device constraints with some choice of placement and routing strategy, followed by :py:class:`DelayMeasures` to push measurements back through any introduced ``OpType.SWAP`` or ``OpType.BRIDGE`` gates, and then finally rebase to the desired gate set. The :py:meth:`~pytket.backends.Backend.default_compilation_pass()` definitions can replace this sequence from placement onwards for simplicity. Minor optimisations could also be inserted between successive steps to tidy up any redundancies introduced, as long as they preserve the solved constraints.
 
 Initial and Final Maps
 ----------------------
@@ -879,7 +879,7 @@ A common pattern across expectation value and tomography experiments is to run m
 
 The main technical consideration here is that the compiler will only have the freedom to identify good placements for the first subcircuit to be run. This means that the state preparation should be compiled first, and the placement for the measurements is given by the final map in order to compose well.
 
-Once compiled, we can use :py:meth:`Backend.process_circuits` to submit several circuits at once for execution on the backend. The circuits to be executed are passed as list. If the backend is shot-based, the number of shots can be passed using the `n_shots` parameter, which can be a single integer or a list of integers of the same length as the list of circuits to be executed. In the following example, 4000 shots are measured for the first circuit and 2000 for the second.
+Once compiled, we can use :py:meth:`~pytket.backends.Backend.process_circuits` to submit several circuits at once for execution on the backend. The circuits to be executed are passed as list. If the backend is shot-based, the number of shots can be passed using the `n_shots` parameter, which can be a single integer or a list of integers of the same length as the list of circuits to be executed. In the following example, 4000 shots are measured for the first circuit and 2000 for the second.
 
 .. Example of state prep with many measurements; compile state prep once, inspect final map, use this as placement for measurement circuits and compile them, then compose
 
@@ -1130,8 +1130,8 @@ introduced by :py:meth:`SimplifyMeasured` or (possibly)
 :py:meth:`SimplifyInitial`. So pytket provides a method
 :py:meth:`separate_classical` to separate the classical postprocessing circuit
 from the main circuit to be run on the device. This postprocessing circuit is
-then passed as the ``ppcirc`` argument to :py:meth:`BackendResult.get_counts` or
-:py:meth:`BackendResult.get_shots`, in order to obtain the postprocessed
+then passed as the ``ppcirc`` argument to :py:meth:`~pytket.backends.BackendResult.get_counts` or
+:py:meth:`~pytket.backends.BackendResult.get_shots`, in order to obtain the postprocessed
 results.
 
 Much of the above is wrapped up in the utility method
