@@ -488,7 +488,7 @@ If you are working in a Jupyter environment, a :py:class:`~pytket.circuit.Circui
 
 The visualisation tool can also describe the interaction graph of a :py:class:`~pytket.circuit.Circuit` consisting of only one- and two-qubit gates -- that is, the graph of which qubits will share a two-qubit gate at some point during execution.
 
-.. note:: The visualisations above are shown in ipython notebook cells. When working with a normal python script one can view rendered circuits in the browser with the :py:meth:`view_browser` function from the display module.
+.. note:: The visualisations above are shown in ipython notebook cells. When working with a normal python script one can view rendered circuits in the browser with the :py:meth:`~pytket.circuit.display.view_browser` function from the display module.
 
      There are also the methods :py:meth:`~pytket.utils.Graph.save_DAG` and :py:meth:`~pytket.utils.Graph.view_DAG` for saving and visualising the circuit DAG. 
 
@@ -547,7 +547,7 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 
 .. note:: Each of these metrics will analyse the :py:class:`~pytket.circuit.Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a :math:`CZ` gate would contribute 1 to :math:`CX`-count in practice).
 
-Its also possible to count all the occurrences of each :py:class:`~pytket.circuit.OpType` using the :py:function:`~pytket.utils.stats.gate_counts` function from the :py:mod:`pytket.utils` module. 
+Its also possible to count all the occurrences of each :py:class:`~pytket.circuit.OpType` using the :py:func:`~pytket.utils.stats.gate_counts` function from the :py:mod:`pytket.utils` module. 
 
 .. jupyter-execute::
 
@@ -641,7 +641,7 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
 
 .. `PauliExpBox` for simulations and general interactions
 
-Also in this category of synthesis boxes is :py:class:`DiagonalBox`. This allows synthesis of circuits for diagonal unitaries. 
+Also in this category of synthesis boxes is :py:class:`~pytket.circuit.DiagonalBox`. This allows synthesis of circuits for diagonal unitaries. 
 This box can be constructed by passing in a :math:`(1 \times 2^n)` numpy array representing the diagonal entries of the desired unitary matrix.
 
 Controlled Box Operations
@@ -666,7 +666,7 @@ If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary op
     # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
     circ.add_qcontrolbox(cont, [0, 1, 2, 3])
 
-As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
+As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`~pytket.circuit.Op` as follows.
 
 .. jupyter-execute::
 
@@ -678,7 +678,7 @@ As well as creating controlled boxes, we can create a controlled version of an a
 .. note:: Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
 
 In addition, we can construct a :py:class:`~pytket.circuit.QControlBox` from any other pure quantum box type in pytket. 
-For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`Unitary1qBox` and then constructing a :py:class:`~pytket.circuit.QControlBox` from the box implementing :math:`\sqrt{Y}`. 
+For example, we can construct a multicontrolled :math:`\sqrt{Y}` operation as by first synthesising the base unitary with :py:class:`~pytket.circuit.Unitary1qBox` and then constructing a :py:class:`~pytket.circuit.QControlBox` from the box implementing :math:`\sqrt{Y}`. 
 
 
 
@@ -949,7 +949,7 @@ For correctness if a basis state appears as key in the permutation dictionary th
     perm_box = ToffoliBox(permutation=mapping)
 
 This permutation of basis states can be achieved with purely classical operations {X, CCX}, hence the name :py:class:`~pytket.circuit.ToffoliBox`.
-In pytket however, the permutation is implemented efficently using a sequence of multiplexed rotations followed by a :py:class:`DiagonalBox`.
+In pytket however, the permutation is implemented efficently using a sequence of multiplexed rotations followed by a :py:class:`~pytket.circuit.DiagonalBox`.
 
 
 .. jupyter-execute::
@@ -976,7 +976,7 @@ Looking at the statevector calculation we see that our :py:class:`~pytket.circui
 Importing/Exporting Circuits
 ----------------------------
 
-A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`to_dict` and :py:meth:`from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
+A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`~pytket.circuit.Circuit.to_dict` and :py:meth:`~pytket.circuit.Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
 
 .. jupyter-execute::
 
@@ -1059,7 +1059,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
 
 Converters for other quantum software frameworks can optionally be included by installing the corresponding extension module. These are additional PyPI packages with names ``pytket-X``, which extend the ``pytket`` namespace with additional features to interact with other systems, either using them as a front-end for circuit construction and high-level algorithms or targeting simulators and devices as backends.
 
-For example, installing the ``pytket-qiskit`` package will add the ``tk_to_qiskit`` and ``qiskit_to_tk`` methods which convert between the :py:class:`~pytket.circuit.Circuit` class from ``pytket`` and :py:class:`qiskit.QuantumCircuit`.
+For example, installing the ``pytket-qiskit`` package will add the :py:func:`~pytket.extensions.qiskit.tk_to_qiskit` and :py:func:`~pytket.extensions.qiskit.qiskit_to_tk` methods which convert between the :py:class:`~pytket.circuit.Circuit` class from ``pytket`` and :py:class:`qiskit.QuantumCircuit`.
 
 .. jupyter-execute::
 
@@ -1172,7 +1172,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
 Symbolic unitaries and states
 =============================
 
-In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`circuit_to_symbolic_unitary`, which can calculate the unitary representation of a possibly symbolic circuit, and :py:func:`circuit_apply_symbolic_statevector`, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).
+In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`~pytket.utils.symbolic.circuit_to_symbolic_unitary`, which can calculate the unitary representation of a possibly symbolic circuit, and :py:func:`~pytket.utils.symbolic.circuit_apply_symbolic_statevector`, which can apply a symbolic circuit to an input statevector and return the output state (effectively simulating it).
 
 .. jupyter-execute::
 
