@@ -646,7 +646,7 @@ In place of API reference and code examples, we recommend looking at the followi
 
 * ``Rewrite::remove_interior_paulis_fun()`` in ZXRWGraphLikeSimplification.cpp demonstrates how the checks and management of the format of vertices and edges can be simplified a little once it is established that the diagram is of a particular form (e.g. graphlike).
 
-* ``ZXGraphlikeOptimisation()`` in PassLibrary.cpp uses a sequence of rewrites along with the converters to build a compilation pass for circuits. Most of the method contents is just there to define the expectations of the form of the circuit using the tket :py:class:`~pytket.predicate.Predicate` system, which saves the need for the pass to be fully generic and be constantly maintained to accept arbitrary circuits.
+* ``ZXGraphlikeOptimisation()`` in PassLibrary.cpp uses a sequence of rewrites along with the converters to build a compilation pass for circuits. Most of the method contents is just there to define the expectations of the form of the circuit using the tket :py:class:`~pytket.predicates.Predicate` system, which saves the need for the pass to be fully generic and be constantly maintained to accept arbitrary circuits.
 
 * ``zx_to_circuit()`` in ZXConverters.cpp implements the extraction procedure. It is advised to read this alongside the algorithm description in Backens et al. for more detail on the intent and intuition around each step.
 

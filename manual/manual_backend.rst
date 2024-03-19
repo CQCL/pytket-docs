@@ -30,7 +30,7 @@ Other common restrictions presented by QPUs include the number of available qubi
 .. Each restriction on the circuits is captured by a `Predicate`
 .. Querying the requirements of a given backend
 
-Each :py:class:`~pytket.backends.Backend` object is aware of the restrictions of the underlying device or simulator, encoding them as a collection of :py:class:`~pytket.predictate.Predicate` s. Each :py:class:`~pytket.predictate.Predicate` is essentially a Boolean property of a :py:class:`~pytket.circuit.Circuit` which must return ``True`` for the :py:class:`~pytket.circuit.Circuit` to successfully run. The set of :py:class:`~pytket.predicate.Predicate` s required by a :py:class:`~pytket.backends.Backend` can be queried with :py:attr:`~pytket.backends.Backend.required_predicates`.
+Each :py:class:`~pytket.backends.Backend` object is aware of the restrictions of the underlying device or simulator, encoding them as a collection of :py:class:`~pytket.predictate.Predicate` s. Each :py:class:`~pytket.predictate.Predicate` is essentially a Boolean property of a :py:class:`~pytket.circuit.Circuit` which must return ``True`` for the :py:class:`~pytket.circuit.Circuit` to successfully run. The set of :py:class:`~pytket.predicates.Predicate` s required by a :py:class:`~pytket.backends.Backend` can be queried with :py:attr:`~pytket.backends.Backend.required_predicates`.
 
 .. jupyter-input::
 
