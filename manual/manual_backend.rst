@@ -13,7 +13,7 @@ A :py:class:`~pytket.backends.Backend` represents a connection to some co-proces
 
 With the wide variety of :py:class:`~pytket.backends.Backend` s available, they naturally have very different capabilities and limitations. The class is designed to open up this information so that it is easy to examine at runtime and make hardware-dependent choices as needed for maximum performance, whilst providing a basic abstract model that is easy for proof-of-concept testing.
 
-No :py:class:`~pytket.backends.Backend` s are currently provided with the core `pytket <https://tket.quantinuum.com/api-docs/>`_ package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`~pytket.extensions.qiskit.AerBackend` and :py:class:`~pytket.extensions.qiskit.IBMQBackend` with ``pytket-qiskit`` or the :py:class:`~pytket.extensions.QuantinuumBackend` with `pytket-quantinuum <https://tket.quantinuum.com/extensions/pytket-quantinuum/>`_.
+No :py:class:`~pytket.backends.Backend` s are currently provided with the core `pytket <https://tket.quantinuum.com/api-docs/>`_ package, but most extension modules will add simulators or devices from the given provider, such as the :py:class:`~pytket.extensions.qiskit.AerBackend` and :py:class:`~pytket.extensions.qiskit.IBMQBackend` with `pytket-qiskit <https://tket.quantinuum.com/extensions/pytket-qiskit/>`_ or the :py:class:`~pytket.extensions.quantinuum.QuantinuumBackend` with `pytket-quantinuum <https://tket.quantinuum.com/extensions/pytket-quantinuum/>`_.
 
 Backend Requirements
 --------------------
@@ -522,7 +522,7 @@ To maximise the benefits of batch submission, it is advisable to generate as man
 
     (1.2047999999999999-0.0015000000000000013j)
 
-.. note:: Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`~pytket.extensions.qiskit.AerBackend` simulator and the :py:class:`QuantinuumBackend` can take advantage of batch submission for parallelisation. In other cases, :py:class:`~pytket.backends.Backend.process_circuits` will just loop through each :py:class:`~pytket.circuit.Circuit` in turn.
+.. note:: Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The :py:class:`~pytket.extensions.qiskit.AerBackend` simulator and the :py:class:`~pytket.extensions.quantinuum.QuantinuumBackend` can take advantage of batch submission for parallelisation. In other cases, :py:class:`~pytket.backends.Backend.process_circuits` will just loop through each :py:class:`~pytket.circuit.Circuit` in turn.
 
 Embedding into Qiskit
 ---------------------
@@ -684,7 +684,7 @@ The progress can be checked by querying :py:class:`~pytket.backends.Backend.circ
 
 In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the :py:meth:`~pytket.backends.Backend.cancel()` method to cancel the job for a given :py:class:`~pytket.backends.resulthandle.ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
 
-.. note:: Asynchronous submission is currently available with the :py:class:`~pytket.extensions.qiskit.IBMQBackend`, :py:class:`QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`~pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
+.. note:: Asynchronous submission is currently available with the :py:class:`~pytket.extensions.qiskit.IBMQBackend`, :py:class:`~pytket.extensions.quantinuum.QuantinuumBackend`, :py:class:`BraketBackend` and :py:class:`~pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
 
 Persistent Handles
 ==================
@@ -735,7 +735,7 @@ Result Serialization
 ====================
 
 When performing experiments using :py:class:`~pytket.backends.Backend` s, it is often useful to be able to easily store and retrieve the results for later analysis or backup.
-This can be achieved using native serialiaztion and deserialization of :py:class:`~pytket.backends.backendresult.BackendResult``` objects from JSON compatible dictionaries, using the :py:meth:`to_dict()` and :py:meth:`from_dict()` methods.
+This can be achieved using native serialiaztion and deserialization of :py:class:`~pytket.backends.backendresult.BackendResult` objects from JSON compatible dictionaries, using the :py:meth:`to_dict()` and :py:meth:`from_dict()` methods.
 
 .. jupyter-execute::
 
