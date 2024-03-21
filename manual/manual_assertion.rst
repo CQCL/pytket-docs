@@ -78,7 +78,7 @@ If there is noise in the device, which is the case for all devices in the NISQ e
 
 .. jupyter-input::
 
-    from qiskit.providers.aer.noise import NoiseModel
+    from qiskit_aer.noise import NoiseModel
     from qiskit import IBMQ
     IBMQ.load_account()
 

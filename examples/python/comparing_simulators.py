@@ -97,7 +97,7 @@ print(exp)
 from pytket import Circuit
 from pytket.extensions.qiskit import AerBackend
 from itertools import combinations
-from qiskit.providers.aer.noise import NoiseModel, depolarizing_error
+from qiskit_aer.noise import NoiseModel, depolarizing_error
 
 # Quantum teleportation circuit:
 
