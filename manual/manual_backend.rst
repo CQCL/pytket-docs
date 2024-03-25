@@ -178,7 +178,7 @@ The majority of :py:class:`~pytket.backends.Backend` s will run the :py:class:
 .. Useful for obtaining high-precision results as well as verifying correctness of circuits
 .. Utilities for mapping between shots/counts/probabilities/state and comparing statevectors/unitaries up to global phase
 
-Whilst the drive for quantum hardware is driven by the limited scalability of simulators, using statevector and unitary simulators will see long-term practical use to obtain high-precision results as well as for verifying the correctness of circuit designs. For the latter, we can assert that they match some expected reference state, but simply comparing the vectors/matrices may be too strict a test given that they could differ by a global phase but still be operationally equivalent. The utility methods :py:meth:`compare_statevectors()` and :py:meth:`compare_unitaries()` will compare two vectors/matrices for approximate equivalence accounting for global phase.
+Whilst the drive for quantum hardware is driven by the limited scalability of simulators, using statevector and unitary simulators will see long-term practical use to obtain high-precision results as well as for verifying the correctness of circuit designs. For the latter, we can assert that they match some expected reference state, but simply comparing the vectors/matrices may be too strict a test given that they could differ by a global phase but still be operationally equivalent. The utility methods :py:meth:`~pytket.utils.compare_statevectors()` and :py:meth:`~pytket.utils.compare_unitaries()` will compare two vectors/matrices for approximate equivalence accounting for global phase.
 
 .. jupyter-execute::
 
@@ -203,7 +203,7 @@ Once we have obtained these results, we still have the matter of understanding w
 
 .. Ordering of basis elements/readouts (ILO vs DLO; requesting custom order)
 
-By default, the bits in readouts (shots and counts) are ordered in Increasing Lexicographical Order (ILO) with respect to their :py:class:`UnitID` s. That is, the register ``c`` will be listed completely before any bits in register ``d``, and within each register the indices are given in increasing order. Many quantum software platforms including Qiskit and pyQuil will natively use the reverse order (Decreasing Lexicographical Order - DLO), so users familiar with them may wish to request that the order is changed when retrieving results.
+By default, the bits in readouts (shots and counts) are ordered in Increasing Lexicographical Order (ILO) with respect to their :py:class:`~pytket.unit_id.UnitID` s. That is, the register ``c`` will be listed completely before any bits in register ``d``, and within each register the indices are given in increasing order. Many quantum software platforms including Qiskit and pyQuil will natively use the reverse order (Decreasing Lexicographical Order - DLO), so users familiar with them may wish to request that the order is changed when retrieving results.
 
 .. jupyter-execute::
 
@@ -262,7 +262,7 @@ Suppose that we only care about a subset of the measurements used in a :py:class
     shots = shots[:, [bitmap[Bit(0)], bitmap[Bit(2)]]]
     print(expectation_from_shots(shots))
 
-If measurements occur at the end of the :py:class:`~pytket.circuit.Circuit`, then we can associate each measurement to the qubit that was measured. :py:attr:`Circuit.qubit_readout` gives the equivalent map to column indices for :py:class:`~pytket.unit_id.Qubit` s, and :py:attr:`Circuit.qubit_to_bit_map` relates each measured :py:class:`~pytket.unit_id.Qubit` to the :py:class:`~pytket.unit_id.Bit` that holds the corresponding measurement result.
+If measurements occur at the end of the :py:class:`~pytket.circuit.Circuit`, then we can associate each measurement to the qubit that was measured. :py:attr:`~pytket.circuit.Circuit.qubit_readout` gives the equivalent map to column indices for :py:class:`~pytket.unit_id.Qubit` s, and :py:attr:`~pytket.circuit.Circuit.qubit_to_bit_map` relates each measured :py:class:`~pytket.unit_id.Qubit` to the :py:class:`~pytket.unit_id.Bit` that holds the corresponding measurement result.
 
 .. jupyter-execute::
 
@@ -276,7 +276,7 @@ If measurements occur at the end of the :py:class:`~pytket.circuit.Circuit`, the
     print(circ.qubit_readout)
     print(circ.qubit_to_bit_map)
 
-For more control over the bits extracted from the results, we can instead call :py:class:`~pytket.backends.Backend.get_result()`. The :py:class:`~pytket.backends.backendresult.BackendResult``` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`~pytket.unit_id.Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`~pytket.unit_id.Qubit` s for statevectors/unitaries).
+For more control over the bits extracted from the results, we can instead call :py:class:`~pytket.backends.Backend.get_result()`. The :py:class:`~pytket.backends.backendresult.BackendResult` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of :py:class:`~pytket.unit_id.Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of :py:class:`~pytket.unit_id.Qubit` s for statevectors/unitaries).
 
 .. jupyter-execute::
 
@@ -344,7 +344,7 @@ One of the most common calculations performed with a quantum state :math:`\left|
             n_shots=2000,
             partition_strat=PauliPartitionStrat.CommutingSets))
 
-If you want a greater level of control over the procedure, then you may wish to write your own method for calculating :math:`\langle \psi | H | \psi \rangle`. This is simple multiplication if we are given the statevector :math:`| \psi \rangle`, but is slightly more complicated for measured systems. Since each measurement projects into either the subspace of +1 or -1 eigenvectors, we can assign +1 to each ``0`` readout and -1 to each ``1`` readout and take the average across all shots. When the desired operator is given by the product of multiple measurements, the contribution of +1 or -1 is dependent on the parity (XOR) of each measurement result in that shot. ``pytket`` provides some utility functions to wrap up this calculation and apply it to either a shot table (:py:meth:`expectation_from_shots()`) or a counts dictionary (:py:meth:`expectation_from_counts()`).
+If you want a greater level of control over the procedure, then you may wish to write your own method for calculating :math:`\langle \psi | H | \psi \rangle`. This is simple multiplication if we are given the statevector :math:`| \psi \rangle`, but is slightly more complicated for measured systems. Since each measurement projects into either the subspace of +1 or -1 eigenvectors, we can assign +1 to each ``0`` readout and -1 to each ``1`` readout and take the average across all shots. When the desired operator is given by the product of multiple measurements, the contribution of +1 or -1 is dependent on the parity (XOR) of each measurement result in that shot. ``pytket`` provides some utility functions to wrap up this calculation and apply it to either a shot table (:py:meth:`~pytket.utils.expectation_from_shots()`) or a counts dictionary (:py:meth:`~pytket.utils.expectation_from_counts()`).
 
 .. jupyter-execute::
 
@@ -368,7 +368,7 @@ If you want a greater level of control over the procedure, then you may wish to 
 
 .. Obtaining indices of specific bits/qubits of interest using `bit_readout` and `qubit_readout` or `qubit_to_bit_map`, and filtering results
 
-.. note:: :py:meth:`expectation_from_shots()` and :py:meth:`expectation_from_counts()` take into account every classical bit in the results object. If the expectation value of interest is a product of only a subset of the measurements in the :py:class:`~pytket.circuit.Circuit` (as is the case when simultaneously measuring several commuting operators), then you will want to filter/marginalise out the ignored bits when performing this calculation.
+.. note:: :py:meth:`~pytket.utils.expectation_from_shots()` and :py:meth:`~pytket.utils.expectation_from_counts()` take into account every classical bit in the results object. If the expectation value of interest is a product of only a subset of the measurements in the :py:class:`~pytket.circuit.Circuit` (as is the case when simultaneously measuring several commuting operators), then you will want to filter/marginalise out the ignored bits when performing this calculation.
 
 Guidance for Writing Hardware-Agnostic Code
 -------------------------------------------
@@ -410,7 +410,7 @@ Otherwise, a practical solution around different measurement requirements is to 
 
 .. Use `supports_X` to inspect type of backend used at runtime, or look at the requirements to see if measurements/conditionals are supported
 
-At runtime, we can check whether a particular result type is supported using the :py:attr:`Backend.supports_X` properties, whereas restrictions on the :py:class:`~pytket.circuit.Circuit` s supported can be inspected with :py:attr:`Backend.required_predicates`.
+At runtime, we can check whether a particular result type is supported using the :py:attr:`Backend.supports_X` properties (such as :py:attr:`~pytket.backends.Backend.supports_counts`), whereas restrictions on the :py:class:`~pytket.circuit.Circuit` s supported can be inspected with :py:attr:`~pytket.backends.Backend.required_predicates`.
 
 .. Compile generically, making use of `get_compiled_circuit`
 
@@ -616,9 +616,9 @@ Asynchronous Job Submission
 
 In the near future, as we look to more sophisticated algorithms and larger problem instances, the quantity and size of :py:class:`~pytket.circuit.Circuit` s to be run per experiment and the number of shots required to obtain satisfactory precision will mean the time taken for the quantum computation could exceed that of the classical computation. At this point, the overall algorithm can be sped up by maintaining maximum throughput on the quantum device and minimising how often the quantum device is left idle whilst the classical system is determining the next :py:class:`~pytket.circuit.Circuit` s to send. This can be achieved by writing your algorithm to operate asynchronously.
 
-The intended semantics of the :py:class:`~pytket.backends.Backend` methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. :py:class:`~pytket.backends.Backend.process_circuit<s>()` will submit the :py:class:`~pytket.circuit.Circuit` (s) and immediately return.
+The intended semantics of the :py:meth:`~pytket.backends.Backend` methods are designed to enable asynchronous execution of quantum programs whenever admissible from the underlying API provided by the device/simulator. :py:meth:`~pytket.backends.Backend.process_circuit()` and :py:meth:`~pytket.backends.Backend.process_circuits()` will submit the :py:class:`~pytket.circuit.Circuit` (s) and immediately return.
 
-The progress can be checked by querying :py:class:`~pytket.backends.Backend.circuit_status()`. If this returns a :py:class:`~pytket.backends.status.CircuitStatus` matching ``StatusEnum.COMPLETED``, then :py:class:`~pytket.backends.Backend.get_X()` will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.
+The progress can be checked by querying :py:meth:`~pytket.backends.Backend.circuit_status()`. If this returns a :py:class:`~pytket.backends.status.CircuitStatus` matching ``StatusEnum.COMPLETED``, then :py:meth:`~pytket.backends.Backend.get_X()` will obtain the results and return immediately, otherwise it will block the thread and wait until the results are available.
 
 .. jupyter-input::
 
@@ -735,7 +735,7 @@ Result Serialization
 ====================
 
 When performing experiments using :py:class:`~pytket.backends.Backend` s, it is often useful to be able to easily store and retrieve the results for later analysis or backup.
-This can be achieved using native serialiaztion and deserialization of :py:class:`~pytket.backends.backendresult.BackendResult` objects from JSON compatible dictionaries, using the :py:meth:`to_dict()` and :py:meth:`from_dict()` methods.
+This can be achieved using native serialiaztion and deserialization of :py:class:`~pytket.backends.backendresult.BackendResult` objects from JSON compatible dictionaries, using the :py:meth:`~pytket.backends.backendresult.BackendResult.to_dict()` and :py:meth:`~pytket.backends.backendresult.BackendResult.from_dict()` methods.
 
 .. jupyter-execute::
 
