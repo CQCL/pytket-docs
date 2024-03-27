@@ -1224,8 +1224,8 @@ The :py:class:`CircBox` construction is good for subroutines where the instructi
 
     gate_def = CustomGateDef.define("MyCRx", def_circ, [a])
     circ = Circuit(3)
-    circ.add_gate(gate_def, [0.2], [0, 1])
-    circ.add_gate(gate_def, [0.3], [0, 2])
+    circ.add_custom_gate(gate_def, [0.2], [0, 1])
+    circ.add_custom_gate(gate_def, [0.3], [0, 2])
 
     print(circ.get_commands())
     print(circ.free_symbols())
