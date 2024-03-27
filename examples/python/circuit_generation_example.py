@@ -157,13 +157,13 @@ boxycirc.add_gate(cbox, args=[Qubit(0), Qubit(1)])
 
 m1 = np.asarray([[1 / 2, sqrt(3) / 2], [sqrt(3) / 2, -1 / 2]])
 m1box = Unitary1qBox(m1)
-boxycirc.add_unitary1qbox(m1box, 2)
+boxycirc.add_gate(m1box, 2)
 
 # Add a `Unitary2qBox`:
 
 m2 = np.asarray([[0, 0, 1, 0], [0, 1, 0, 0], [0, 0, 0, 1], [1, 0, 0, 0]])
 m2box = Unitary2qBox(m2)
-boxycirc.add_unitary2qbox(m2box, 1, 2)
+boxycirc.add_gate(m2box, 1, 2)
 
 # Add an `ExpBox`:
 
