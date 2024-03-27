@@ -806,7 +806,7 @@ Finally a ``linear_transfromation`` parameter needs to be specified:  this is a 
 
     p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
 
-    phase_poly_circ.add_phasepolybox(p_box, [0, 1, 2])
+    phase_poly_circ.add_gate(p_box, [0, 1, 2])
 
     render_circuit_jupyter(p_box.get_circuit())
 
