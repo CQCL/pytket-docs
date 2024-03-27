@@ -741,7 +741,7 @@ These occur very naturally in Trotterising evolution operators and native device
 
     pauli_circ = Circuit(4)
 
-    pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
+    pauli_circ.add_gate(xyyz, [0, 1, 2, 3])
     render_circuit_jupyter(pauli_circ)
 
 To understand what happens inside a :py:class:`PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta XYYZ}`

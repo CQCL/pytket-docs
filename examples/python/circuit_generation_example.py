@@ -176,7 +176,7 @@ boxycirc.add_expbox(ebox, 0, 1)
 # Add a `PauliExpBox`:
 
 pbox = PauliExpBox([Pauli.X, Pauli.Z, Pauli.X], 0.75)
-boxycirc.add_pauliexpbox(pbox, [0, 1, 2])
+boxycirc.add_gate(pbox, [0, 1, 2])
 
 print(boxycirc.get_commands())
 
