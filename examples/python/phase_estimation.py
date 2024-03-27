@@ -177,7 +177,7 @@ def build_phase_estimation_circuit(
     qft_box = CircBox(build_qft_circuit(n_measurement_qubits))
     inverse_qft_box = qft_box.dagger
 
-    qpe_circ.add_circbox(inverse_qft_box, list(measurement_register))
+    qpe_circ.add_gate(inverse_qft_box, list(measurement_register))
 
     qpe_circ.measure_register(measurement_register, "c")
 

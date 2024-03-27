@@ -151,7 +151,7 @@ boxycirc = Circuit(3)
 subcirc = Circuit(2)
 subcirc.X(0).Y(1).CZ(0, 1)
 cbox = CircBox(subcirc)
-boxycirc.add_circbox(cbox, args=[Qubit(0), Qubit(1)])
+boxycirc.add_gate(cbox, args=[Qubit(0), Qubit(1)])
 
 # Add a `Unitary1qBox`:
 
