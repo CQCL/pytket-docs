@@ -899,7 +899,7 @@ To demonstrate :py:class:`StatePreparationBox` let's use it to prepare the W sta
     w_state_box = StatePreparationBox(w_state)
 
     state_circ = Circuit(3)
-    state_circ.add_state_preparation_box(w_state_box, [0, 1, 2])
+    state_circ.add_gate(w_state_box, [0, 1, 2])
 
 
 .. jupyter-execute::
@@ -962,7 +962,7 @@ Finally let's append the :py:class:`ToffoliBox` onto our circuit preparing our w
 
 .. jupyter-execute::
 
-    state_circ.add_toffolibox(perm_box, [0, 1, 2])
+    state_circ.add_gate(perm_box, [0, 1, 2])
     render_circuit_jupyter(state_circ)
 
 .. jupyter-execute::
