@@ -632,10 +632,10 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     u2box = Unitary2qBox(u2)
 
     circ = Circuit(3)
-    circ.add_gate(u1box, 0)
-    circ.add_gate(u2box, 1, 2)
-    circ.add_gate(u1box, 2)
-    circ.add_gate(u2box, 1, 0)
+    circ.add_unitary1qbox(u1box, 0)
+    circ.add_unitary2qbox(u2box, 1, 2)
+    circ.add_unitary1qbox(u1box, 2)
+    circ.add_unitary2qbox(u2box, 1, 0)
 
 .. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox` using a similar syntax.
 
