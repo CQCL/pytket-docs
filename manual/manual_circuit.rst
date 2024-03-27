@@ -632,10 +632,10 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     u2box = Unitary2qBox(u2)
 
     circ = Circuit(3)
-    circ.add_unitary1qbox(u1box, 0)
-    circ.add_unitary2qbox(u2box, 1, 2)
-    circ.add_unitary1qbox(u1box, 2)
-    circ.add_unitary2qbox(u2box, 1, 0)
+    circ.add_gate(u1box, 0)
+    circ.add_gate(u2box, 1, 2)
+    circ.add_gate(u1box, 2)
+    circ.add_gate(u2box, 1, 0)
 
 .. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`Unitary3qBox` using a similar syntax.
 
@@ -664,7 +664,7 @@ If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary op
     circ.Ry(0.3, 0).Ry(0.8, 1)
 
     # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
-    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
+    circ.add_gate(cont, [0, 1, 2, 3])
 
 As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`Op` as follows.
 
@@ -841,7 +841,7 @@ Lets implement a multiplexor with the following logic. Here we treat the first t
 
     multi_circ = Circuit(3)
     multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
-    multi_circ.add_multiplexor(multiplexor, [0, 1, 2])
+    multi_circ.add_gate(multiplexor, [0, 1, 2])
 
     render_circuit_jupyter(multi_circ)
 
@@ -987,7 +987,7 @@ Importing/Exporting Circuits
     circ = Circuit(2)
     circ.Rx(0.1, 0)
     circ.CX(0, 1)
-    circ.add_gate(OpType.YYPhase, 0.2, [0, 1])
+    circ.YYPhase(0.2, 0, 1)
 
     circ_dict = circ.to_dict()
     print(circ_dict)
@@ -1224,8 +1224,8 @@ The :py:class:`CircBox` construction is good for subroutines where the instructi
 
     gate_def = CustomGateDef.define("MyCRx", def_circ, [a])
     circ = Circuit(3)
-    circ.add_custom_gate(gate_def, [0.2], [0, 1])
-    circ.add_custom_gate(gate_def, [0.3], [0, 2])
+    circ.add_gate(gate_def, [0.2], [0, 1])
+    circ.add_gate(gate_def, [0.3], [0, 2])
 
     print(circ.get_commands())
     print(circ.free_symbols())
