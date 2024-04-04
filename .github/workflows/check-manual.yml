@@ -26,6 +26,7 @@ jobs:
             - 'manual_requirements.txt'
 
   check:
+    # test workflow for manual build
     name: check manual
     needs: changes
     if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
