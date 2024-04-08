@@ -1091,7 +1091,7 @@ In practice, it is very common for an experiment to use many circuits with simil
 .. Symbolic parameters of circuits defined as sympy symbols
 .. Gate parameters can use arbitrary symbolic expressions
 
-`sympy <https://docs.sympy.org/latest/index.html>`_ is a widely-used python package for symbolic expressions and algebraic manipulation, defining a sympy :py:class:`~sympy.core.symbol.Symbol` objects to represent algebraic variables and using them in sympy :py:class:`Expression` s to build mathematical statements and arithmetic expressions. Symbolic circuits are managed in ``pytket`` by defining the circuit parameters as :py:class:`sympy.Symbol` s, which can be passed in as arguments to the gates and later substituted for concrete values.
+`sympy <https://docs.sympy.org/latest/index.html>`_ is a widely-used python package for symbolic expressions and algebraic manipulation, defining a sympy :py:class:`~sympy.core.symbol.Symbol` objects to represent algebraic variables and using them in sympy `Expression <https://docs.sympy.org/latest/explanation/glossary.html#term-Expression>`_ s to build mathematical statements and arithmetic expressions. Symbolic circuits are managed in ``pytket`` by defining the circuit parameters as :py:class:`sympy.Symbol` s, which can be passed in as arguments to the gates and later substituted for concrete values.
 
 .. jupyter-execute::
 
