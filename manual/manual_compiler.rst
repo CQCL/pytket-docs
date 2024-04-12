@@ -12,7 +12,7 @@ The primary goals of compilation are two-fold: solving the constraints of the :p
 
 .. Passes capture methods of transforming the circuit, acting in place
 
-Each compiler pass inherits from the :py:class:`BasePass` class, capturing a method of transforming a :py:class:`~pytket.circuit.Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`~pytket.circuit.Circuit` in-place. The :py:meth:`~pytket.backends.Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`~pytket.passes.BasePass.apply()` from the :py:class:`~pytket.backends.Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
+Each compiler pass inherits from the :py:class:`~pytket.passes.BasePass` class, capturing a method of transforming a :py:class:`~pytket.circuit.Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`~pytket.circuit.Circuit` in-place. The :py:meth:`~pytket.backends.Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`~pytket.passes.BasePass.apply()` from the :py:class:`~pytket.backends.Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
 
 Predicates
 ----------
@@ -379,7 +379,7 @@ The numerous Box structures in ``pytket`` provide practical abstractions for hig
 
 .. This could introduce undetermined structures to the circuit, invalidating gate set, connectivity, and other crucial requirements of the backend, so recommended to be performed early in the compilation procedure, allowing for these requirements to be solved again
 
-Unwrapping Boxes could introduce arbitrarily complex structures into a :py:class:`~pytket.circuit.Circuit` which could possibly invalidate almost all :py:class:`~pytket.predicates.Predicate` s, including :py:class:`GateSetPredicate`, :py:class:`ConnectivityPredicate`, and :py:class:`NoMidMeasurePredicate`. It is hence recommended to apply this early in the compilation procedure, prior to any pass that solves for these constraints.
+Unwrapping Boxes could introduce arbitrarily complex structures into a :py:class:`~pytket.circuit.Circuit` which could possibly invalidate almost all :py:class:`~pytket.predicates.Predicate` s, including :py:class:`GateSetPredicate`, :py:class:`~pytket.predicates.ConnectivityPredicate`, and :py:class:`NoMidMeasurePredicate`. It is hence recommended to apply this early in the compilation procedure, prior to any pass that solves for these constraints.
 
 Optimisations
 -------------
@@ -409,7 +409,7 @@ If we have two :py:class:`~pytket.circuit.Circuit` s that are observationally 
 
 It is understandable to question the relevance of such an optimisation, since a sensible programmer would not intentionally write a :py:class:`~pytket.circuit.Circuit` with such redundant gates. These are still largely useful because other compiler passes might introduce them, such as routing adding a ``OpType.SWAP`` gate immediately following a ``OpType.SWAP`` gate made by the user, or commuting a Z-rotation through the control of a CX which allows it to merge with another Z-rotation on the other side.
 
-Previous iterations of the :py:class:`CliffordSimp` pass would work in this way as well, looking for specific sequences of Clifford gates where we could reduce the number of two-qubit gates. This has since been generalised to spot these patterns up to gate commutations and changes of basis from single-qubit Clifford rotations.
+Previous iterations of the :py:class:`~pytket.passes.CliffordSimp` pass would work in this way as well, looking for specific sequences of Clifford gates where we could reduce the number of two-qubit gates. This has since been generalised to spot these patterns up to gate commutations and changes of basis from single-qubit Clifford rotations.
 
 .. jupyter-execute::
 
@@ -591,7 +591,7 @@ Knowing what sequences of compiler passes to apply for maximal performance is of
 
 In practice, peephole and structure-preserving optimisations are almost always strictly beneficial to apply, or at least will never increase the size of the :py:class:`~pytket.circuit.Circuit`. The :py:class:`~pytket.passes.FullPeepholeOptimise` pass applies Clifford simplifications, commutes single-qubit gates to the front of the circuit and applies passes to squash subcircuits of up to three qubits. This provides a one-size-approximately-fits-all "kitchen sink" solution to :py:class:`~pytket.circuit.Circuit` optimisation. This assumes no device constraints by default, so will not generally preserve gateset, connectivity, etc.
 
-When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. :py:class:`DefaultMappingPass` simply combines these to apply the :py:class:`GraphPlacement` strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with :py:class:`CXMappingPass` which also decomposes the introduced ``OpType.SWAP`` and ``OpType.BRIDGE`` gates into elementary ``OpType.CX`` gates.
+When targeting a heterogeneous device architecture, solving this constraint in its entirety will generally require both placement and subsequent routing. :py:class:`DefaultMappingPass` simply combines these to apply the :py:class:`GraphPlacement` strategy and solve any remaining invalid multi-qubit operations. This is taken a step further with :py:class:`~pytket.passes.CXMappingPass` which also decomposes the introduced ``OpType.SWAP`` and ``OpType.BRIDGE`` gates into elementary ``OpType.CX`` gates.
 
 .. `Synthesise<>` passes combine light optimisations that preserve qubit connectivity and target a specific gate set
 
@@ -735,11 +735,11 @@ Initial and Final Maps
 
 :py:class:`PlacementPass` modifies the set of qubits used in the :py:class:`~pytket.circuit.Circuit` from the logical names used during construction to the names of the physical addresses on the :py:class:`~pytket.backends.Backend`, so the logical qubit names wiil no longer exist within the :py:class:`~pytket.circuit.Circuit` by design. Knowing the map between the logical qubits and the chosen physical qubits is necessary for understanding the choice of placement, interpreting the final state from a naive simulator, identifying which physical qubits each measurement was made on for error mitigation, and appending additional gates to the logical qubits after applying the pass.
 
-Other passes like :py:class:`RoutingPass` and :py:class:`CliffordSimp` can introduce (explicit or implicit) permutations of the logical qubits in the middle of a :py:class:`~pytket.circuit.Circuit`, meaning a logical qubit may exist on a different physical qubit at the start of the :py:class:`~pytket.circuit.Circuit` compared to the end.
+Other passes like :py:class:`RoutingPass` and :py:class:`~pytket.passes.CliffordSimp` can introduce (explicit or implicit) permutations of the logical qubits in the middle of a :py:class:`~pytket.circuit.Circuit`, meaning a logical qubit may exist on a different physical qubit at the start of the :py:class:`~pytket.circuit.Circuit` compared to the end.
 
 .. Encapsulating a circuit in a `CompilationUnit` allows the initial and final maps to be tracked when a pass is applied
 
-We can wrap up a :py:class:`~pytket.circuit.Circuit` in a :py:class:`CompilationUnit` to allow us to track any changes to the locations of the logical qubits when passes are applied. The :py:attr:`CompilationUnit.initial_map` is a dictionary mapping the original :py:class:`UnitID` s to the corresponding :py:class:`UnitID` used in :py:attr:`CompilationUnit.circuit`, and similarly :py:attr:`CompilationUnit.final_map` for outputs. Applying :py:meth:`BasePass.apply()` to a :py:class:`CompilationUnit` will apply the transformation to the underlying :py:class:`~pytket.circuit.Circuit` and track the changes to the initial and final maps.
+We can wrap up a :py:class:`~pytket.circuit.Circuit` in a :py:class:`~pytket.predicates.CompilationUnit` to allow us to track any changes to the locations of the logical qubits when passes are applied. The :py:attr:`CompilationUnit.initial_map` is a dictionary mapping the original :py:class:`UnitID` s to the corresponding :py:class:`UnitID` used in :py:attr:`CompilationUnit.circuit`, and similarly :py:attr:`CompilationUnit.final_map` for outputs. Applying :py:meth:`BasePass.apply()` to a :py:class:`~pytket.predicates.CompilationUnit` will apply the transformation to the underlying :py:class:`~pytket.circuit.Circuit` and track the changes to the initial and final maps.
 
 .. jupyter-input::
 
@@ -817,10 +817,10 @@ For variational algorithms, the prominent benefit of defining a :py:class:`~pytk
 User-defined Passes
 ===================
 
-We have already seen that pytket allows users to combine passes in a desired order using :py:class:`SequencePass`. An addtional feature is the :py:class:`CustomPass` which allows users to define their own custom circuit transformation using pytket.
-The :py:class:`CustomPass` class accepts a ``transform`` parameter, a python function that takes a :py:class:`~pytket.circuit.Circuit` as input and returns a :py:class:`~pytket.circuit.Circuit` as output. 
+We have already seen that pytket allows users to combine passes in a desired order using :py:class:`~pytket.passes.SequencePass`. An addtional feature is the :py:class:`~pytket.passes.CustomPass` which allows users to define their own custom circuit transformation using pytket.
+The :py:class:`~pytket.passes.CustomPass` class accepts a ``transform`` parameter, a python function that takes a :py:class:`~pytket.circuit.Circuit` as input and returns a :py:class:`~pytket.circuit.Circuit` as output. 
 
-We will show how to use :py:class:`CustomPass` by defining a simple transformation that replaces any Pauli Z gate in the :py:class:`~pytket.circuit.Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
+We will show how to use :py:class:`~pytket.passes.CustomPass` by defining a simple transformation that replaces any Pauli Z gate in the :py:class:`~pytket.circuit.Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
 
 .. jupyter-execute::
 
@@ -843,7 +843,7 @@ We will show how to use :py:class:`CustomPass` by defining a simple transformati
 
         return circ_prime
 
-After we've defined our ``transform`` we can construct a :py:class:`CustomPass`. This pass can then be applied to a :py:class:`~pytket.circuit.Circuit`.
+After we've defined our ``transform`` we can construct a :py:class:`~pytket.passes.CustomPass`. This pass can then be applied to a :py:class:`~pytket.circuit.Circuit`.
 
 .. jupyter-execute::
 
@@ -865,7 +865,7 @@ After we've defined our ``transform`` we can construct a :py:class:`CustomPass`.
 We see from the output above that our newly defined :py:class:`DecompseZPass` has successfully decomposed the Pauli Z gates to Hadamard, Pauli X, Hadamard chains and left other gates unchanged.
 
 .. warning::
-    pytket does not require that :py:class:`CustomPass` preserves the unitary of the :py:class:`~pytket.circuit.Circuit` . This is for the user to ensure.
+    pytket does not require that :py:class:`~pytket.passes.CustomPass` preserves the unitary of the :py:class:`~pytket.circuit.Circuit` . This is for the user to ensure.
 
 
 Partial Compilation
@@ -942,7 +942,7 @@ Diagonalising a mutually commuting set of Pauli observables could require an arb
 
 .. Could have multiple circuits producing the same observable, so can get extra shots/precision for free
 
-This measurement partitioning is built into the :py:meth:`get_operator_expectation_value` utility method, or can be used directly using :py:meth:`pytket.partition.measurement_reduction()` which builds a :py:class:`MeasurementSetup` object. A :py:class:`MeasurementSetup` contains a list of measurement :py:class:`~pytket.circuit.Circuit` s and a map from the :py:class:`QubitPauliString` of each observable to the information required to extract the expectation value (which bits to consider from which :py:class:`~pytket.circuit.Circuit`).
+This measurement partitioning is built into the :py:meth:`~pytket.bacekends.Backend.get_operator_expectation_value` utility method, or can be used directly using :py:meth:`pytket.partition.measurement_reduction()` which builds a :py:class:`~pytket.partition.MeasurementSetup` object. A :py:class:`~pytket.partition.MeasurementSetup` contains a list of measurement :py:class:`~pytket.circuit.Circuit` s and a map from the :py:class:`QubitPauliString` of each observable to the information required to extract the expectation value (which bits to consider from which :py:class:`~pytket.circuit.Circuit`).
 
 .. jupyter-execute::
 
