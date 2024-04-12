@@ -1016,7 +1016,7 @@ Initial simplification
 When the above circuit is run from an all-zero state, the Y and CX gates at the
 beginning just have the effect of putting both qubits in the :math:`\lvert 1
 \rangle` state (ignoring unobservable global phase), so they could be replaced
-with two X gates. This is exactly what the :py:meth:`SimplifyInitial` pass does.
+with two X gates. This is exactly what the :py:class:`~pytket.passes.SimplifyInitial` pass does.
 
 .. jupyter-execute::
 
@@ -1042,13 +1042,13 @@ known state by classical set-bits operations on the target bits:
 
 The measurement has disappeared, replaced with a classical operation on its
 target bit. To disable this behaviour, pass the ``allow_classical=False``
-argument to :py:meth:`SimplifyInitial` when constructing the pass.
+argument to :py:class:`~pytket.passes.SimplifyInitial` when constructing the pass.
 
 .. warning:: Most backends currently do not support set-bit operations, so these could cause errors when using this pass with mid-circuit measurements. In such cases you should set ``allow_classical=False``.
 
-Note that :py:meth:`SimplifyInitial` does not automatically cancel successive
+Note that :py:class:`~pytket.passes.SimplifyInitial` does not automatically cancel successive
 pairs of X gates introduced by the simplification. It is a good idea to follow
-it with a :py:meth:`RemoveRedundancies` pass in order to perform these
+it with a :py:class:`~pytket.passes.RemoveRedundancies` pass in order to perform these
 cancellations.
 
 Removal of discarded operations
@@ -1100,7 +1100,7 @@ classical controlled-NOT on the measurement bits. If the gate were a CY instead
 of a CX the effect would be identical: the only difference is the insertion of a
 diagonal operator, whose effect is unmeasurable.
 
-This simplification is effected by the :py:meth:`SimplifyMeasured` pass.
+This simplification is effected by the :py:class:`~pytket.passes.SimplifyMeasured` pass.
 
 Let's illustrate this with a Bell circuit:
 
@@ -1119,15 +1119,15 @@ bits after the measurement.
 Contextual optimisation in practice
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The above three passes are combined in the :py:meth:`ContextSimp` pass, which
-also performs a final :py:meth:`RemoveRedundancies`. Normally, before running a
+The above three passes are combined in the :py:class:`~pytket.passes.ContextSimp` pass, which
+also performs a final :py:class:`~pytket.passes.RemoveRedundancies`. Normally, before running a
 circuit on a device you will want to apply this pass (after using
 :py:meth:`Circuit.qubit_create_all` and :py:meth:`Circuit.qubit_discard_all` to
 enable the simplifications).
 
 However, most backends cannot process the classical operations that may be
-introduced by :py:meth:`SimplifyMeasured` or (possibly)
-:py:meth:`SimplifyInitial`. So pytket provides a method
+introduced by :py:class:`~pytket.passes.SimplifyMeasured` or (possibly)
+:py:class:`~pytket.passes.SimplifyInitial`. So pytket provides a method
 :py:meth:`separate_classical` to separate the classical postprocessing circuit
 from the main circuit to be run on the device. This postprocessing circuit is
 then passed as the ``ppcirc`` argument to :py:meth:`~pytket.backends.BackendResult.get_counts` or
@@ -1137,7 +1137,7 @@ results.
 Much of the above is wrapped up in the utility method
 :py:meth:`prepare_circuit`. This takes a circuit, applies
 :py:meth:`Circuit.qubit_create_all` and :py:meth:`Circuit.qubit_discard_all`,
-runs the full :py:meth:`ContextSimp` pass, and then separates the result into
+runs the full :py:class:`~pytket.passes.ContextSimp` pass, and then separates the result into
 the main circuit and the postprocessing circuit, returning both.
 
 Thus a typical usage would look something like this:
