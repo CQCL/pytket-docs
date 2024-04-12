@@ -86,8 +86,8 @@ If you wish to cite tket in any academic publications, we generally recommend ci
 
 If your work is on the topic of specific compilation tasks, it may be more appropriate to cite one of our other papers:
 
-- `"On the qubit routing problem" <https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.TQC.2019.5>`_ for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
-- `"Phase Gadget Synthesis for Shallow Circuits" <https://arxiv.org/abs/1906.01734v2>`_ for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.
+- `"On the qubit routing problem" <https://doi.org/10.4230/LIPIcs.TQC.2019.5>`_ for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
+- `"Phase Gadget Synthesis for Shallow Circuits" <https://doi.org/10.4204/EPTCS.318.13>`_ for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.
 - `"A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz" <https://arxiv.org/abs/2007.10515>`_ for sequencing of terms in Trotterisation and Pauli diagonalisation.
 
 We are also keen for others to benchmark their compilation techniques against us. We recommend checking our `benchmark repository <https://github.com/CQCL/tket_benchmarking>`_ for examples on how to run basic benchmarks with the latest version of ``pytket``. Please list the release version of ``pytket`` with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
