@@ -1,4 +1,4 @@
-# pytket
+# pytket-docs
 
 [![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://tketusers.slack.com/join/shared_invite/zt-18qmsamj9-UqQFVdkRzxnXCcKtcarLRA#/shared-invite/email)
 [![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
@@ -10,7 +10,7 @@ This repository contains the user manual and example notebooks to get you starte
 
 The notebook examples are built with [jupyterbook](https://jupyterbook.org/en/stable/intro.html) and can be viewed at https://tket.quantinuum.com/examples. 
 
-Instructions for how to add jupyter notebooks to the examples repository can be fond [here](https://github.com/CQCL/pytket/tree/main/examples#notes-for-developers).
+Instructions for how to add jupyter notebooks to the examples repository can be found [here](https://github.com/CQCL/pytket/tree/main/examples#notes-for-developers).
 
 For more on how the user manual is built and deployed see the [manual README](https://github.com/CQCL/pytket/tree/main/manual/README.md).
 
