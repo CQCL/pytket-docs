@@ -24,6 +24,8 @@ jobs:
           manual:
             - 'manual/**'
             - 'manual_requirements.txt'
+            - 'manual_constraints.txt'
+            - '.github/**'
 
   check:
     name: check manual
@@ -45,6 +47,7 @@ jobs:
         python -m pip install wheel
         python -m pip install -c manual_constraints.txt sphinx sphinx-book-theme jupyter-sphinx quimb
         python -m pip install -r manual_requirements.txt
+        python -m pip install kahypar
         python -m pip install sphinx-copybutton
         python -m pip install ipyparallel
         python -m pip install qiskit-algorithms
