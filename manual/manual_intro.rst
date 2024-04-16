@@ -71,11 +71,11 @@ Installation
 .. license
 .. pip install pytket
 
-Tket is currently available through its pythonic realisation ``pytket``, which is freely available under the Apache 2 license. To install using the ``pip`` package manager, just run ``pip install pytket`` from your terminal. Each extension module can also be installed similarly as ``pip install pytket_X``, e.g. ``pip install pytket_qiskit``.
+Tket is currently available through its pythonic realisation ``pytket``, which is freely available under the Apache 2 license. To install using the ``pip`` package manager, just run ``pip install pytket`` from your terminal. Each extension module can also be installed similarly as ``pip install pytket-X``, e.g. ``pip install pytket-qiskit``.
 
 .. Link to troubleshooting
 
-``pytket`` is available for python versions 3.8-10 on Linux, MacOS, and Windows. For any difficulties with installation, please consult our `troubleshooting <https://tket.quantinuum.com/api-docs/install.html>`_ page.
+``pytket`` is available for Linux, MacOS, and Windows. For any difficulties with installation, please consult our `troubleshooting <https://tket.quantinuum.com/api-docs/install.html>`_ page.
 
 How To Cite
 -----------
