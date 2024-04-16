@@ -6,7 +6,7 @@ What is tket?
 
 The tket framework is a software platform for the development and execution of gate-level quantum computation, providing state-of-the-art performance in circuit compilation. The toolset is designed to aid platform-agnostic software and extract the most out of the available NISQ devices of today.
 
-There is currently an implementation of tket available in the form of the ``pytket`` package for python 3.10+, which can be installed for free using the ``pip`` package manager. Additional extension modules are available for interfacing ``pytket`` with several popular quantum software packages, including `Qiskit <https://qiskit.org/>`_, `Cirq <https://quantumai.google/cirq/>`_, and `pyQuil <https://pyquil-docs.rigetti.com/en/stable/>`_, and for adding more devices and simulators to target.
+There is currently an implementation of tket available in the form of the ``pytket`` package for python 3.10+, which can be installed for free using the ``pip`` package manager. Additional extension modules are available for interfacing ``pytket`` with several popular quantum software packages, including `Qiskit <https://www.ibm.com/quantum/qiskit>`_, `Cirq <https://quantumai.google/cirq/>`_, and `pyQuil <https://pyquil-docs.rigetti.com/en/stable/>`_, and for adding more devices and simulators to target.
 
 .. Introduction to manual and link to other resource
 
