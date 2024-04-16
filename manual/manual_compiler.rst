@@ -20,7 +20,7 @@ Predicates
 .. Predicates capture properties a circuit could satisfy
 .. Primarily used to describe requirements of the backends
 
-Solving the constraints of the target :py:class:`~pytket.backends.Backend` is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the :py:attr:`~pytket.baceknds.Backend.required_predicates` property gives a collection of :py:class:`~pytket.predicates.Predicate` s, describing the necessary properties a :py:class:`~pytket.circuit.Circuit` must satisfy in order to be run.
+Solving the constraints of the target :py:class:`~pytket.backends.Backend` is the essential goal of compilation, so our choice of passes is mostly driven by this set of constraints. We already saw in the last chapter that the :py:attr:`~pytket.backends.Backend.required_predicates` property gives a collection of :py:class:`~pytket.predicates.Predicate` s, describing the necessary properties a :py:class:`~pytket.circuit.Circuit` must satisfy in order to be run.
 
 Each :py:class:`~pytket.predicates.Predicate` can be constructed on its own to impose tests on :py:class:`~pytket.circuit.Circuit` s during construction.
 
@@ -942,7 +942,7 @@ Diagonalising a mutually commuting set of Pauli observables could require an arb
 
 .. Could have multiple circuits producing the same observable, so can get extra shots/precision for free
 
-This measurement partitioning is built into the :py:meth:`~pytket.bacekends.Backend.get_operator_expectation_value` utility method, or can be used directly using :py:meth:`pytket.partition.measurement_reduction()` which builds a :py:class:`~pytket.partition.MeasurementSetup` object. A :py:class:`~pytket.partition.MeasurementSetup` contains a list of measurement :py:class:`~pytket.circuit.Circuit` s and a map from the :py:class:`QubitPauliString` of each observable to the information required to extract the expectation value (which bits to consider from which :py:class:`~pytket.circuit.Circuit`).
+This measurement partitioning is built into the :py:meth:`~pytket.backends.Backend.get_operator_expectation_value` utility method, or can be used directly using :py:meth:`pytket.partition.measurement_reduction()` which builds a :py:class:`~pytket.partition.MeasurementSetup` object. A :py:class:`~pytket.partition.MeasurementSetup` contains a list of measurement :py:class:`~pytket.circuit.Circuit` s and a map from the :py:class:`QubitPauliString` of each observable to the information required to extract the expectation value (which bits to consider from which :py:class:`~pytket.circuit.Circuit`).
 
 .. jupyter-execute::
 
