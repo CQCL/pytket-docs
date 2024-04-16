@@ -367,7 +367,7 @@ If one :py:class:`Circuit` lacks some unit present in the other, then we treat i
     render_circuit_jupyter(circ)
 
 
-As a shorthand for the above we can take the tensor product of two circuits using the * operator. This requires that the qubits in the circuits have distinct names.
+As a shorthand for the above we can take the tensor product of two circuits using the * operator. This requires that the qubits in the circuits have distinct names. 
 
 .. jupyter-execute::
 
@@ -376,10 +376,10 @@ As a shorthand for the above we can take the tensor product of two circuits usin
 
     circ1 = Circuit()
     j = circ1.add_q_register("j", 1)
-    circ1.Y(p[0])
+    circ1.Y(j[0])
 
     circ2 = Circuit()
-    k = circ1.add_q_register("k", 2)
+    k = circ2.add_q_register("k", 2)
     circ2.X(k[1])
     circ2.CRz(0.64, k[1], k[0])
 
@@ -387,7 +387,20 @@ As a shorthand for the above we can take the tensor product of two circuits usin
 
     render_circuit_jupyter(circ3)
 
+If we attempt to compose two circuits without distinct qubit names then we will get an error.
 
+.. jupyter-execute::
+    :raises: RuntimeError
+
+    from pytket import Circuit
+
+    circ_x = Circuit()
+    l_reg = circ_x.add_q_register("l", 1)
+
+    circ_y = Circuit()
+    l_reg2 = circ_y.add_q_register("l", 1)
+
+    circ_x * circ_y # Error as both circuits have l[0]
 
 
 .. Append onto different qubits with `append_with_map` (equivalent under `rename_units`)
