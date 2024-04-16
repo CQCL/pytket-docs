@@ -82,7 +82,7 @@ How To Cite
 
 .. Instructions and link to paper
 
-If you wish to cite tket in any academic publications, we generally recommend citing our `software overview paper <https://iopscience.iop.org/article/10.1088/2058-9565/ab8e92>`_ for most cases.
+If you wish to cite tket in any academic publications, we generally recommend citing our `software overview paper <https://doi.org/10.1088/2058-9565/ab8e92>`_ for most cases.
 
 If your work is on the topic of specific compilation tasks, it may be more appropriate to cite one of our other papers:
 
