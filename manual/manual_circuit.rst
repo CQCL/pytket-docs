@@ -387,7 +387,7 @@ As a shorthand for the above we can take the tensor product of two circuits usin
 
     render_circuit_jupyter(circ3)
 
-If we attempt to compose two circuits without distinct qubit names then we will get an error.
+If we attempt to compose two circuits without distinct qubit names then we will get an :py:class:`RuntimeError` as the composition is not defined.
 
 .. jupyter-execute::
     :raises: RuntimeError
@@ -427,7 +427,9 @@ If we attempt to compose two circuits without distinct qubit names then we will 
 ..     # temp.rename_units({b[1] : a[0]})
 ..     # circ.append(temp)
 
-To change which units get unified, we could use :py:meth:`Circuit.rename_units` as seen before, but in the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`Circuit.add_circuit`.
+To change which units get unified, we could use :py:meth:`Circuit.rename_units` as seen before. 
+
+In the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`Circuit.add_circuit`.
 
 .. jupyter-execute::
 
