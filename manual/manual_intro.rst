@@ -6,7 +6,7 @@ What is tket?
 
 The tket framework is a software platform for the development and execution of gate-level quantum computation, providing state-of-the-art performance in circuit compilation. The toolset is designed to aid platform-agnostic software and extract the most out of the available NISQ devices of today.
 
-There is currently an implementation of tket available in the form of the ``pytket`` package for python 3.10+, which can be installed for free using the ``pip`` package manager. Additional extension modules are available for interfacing ``pytket`` with several popular quantum software packages, including `Qiskit <https://qiskit.org/>`_, `Cirq <https://cirq.readthedocs.io/en/stable/>`_, and `pyQuil <https://pyquil-docs.rigetti.com/en/stable/>`_, and for adding more devices and simulators to target.
+There is currently an implementation of tket available in the form of the ``pytket`` package for python 3.10+, which can be installed for free using the ``pip`` package manager. Additional extension modules are available for interfacing ``pytket`` with several popular quantum software packages, including `Qiskit <https://www.ibm.com/quantum/qiskit>`_, `Cirq <https://quantumai.google/cirq/>`_, and `pyQuil <https://pyquil-docs.rigetti.com/en/stable/>`_, and for adding more devices and simulators to target.
 
 .. Introduction to manual and link to other resource
 
@@ -71,11 +71,11 @@ Installation
 .. license
 .. pip install pytket
 
-Tket is currently available through its pythonic realisation ``pytket``, which is freely available under the Apache 2 license. To install using the ``pip`` package manager, just run ``pip install pytket`` from your terminal. Each extension module can also be installed similarly as ``pip install pytket_X``, e.g. ``pip install pytket_qiskit``.
+Tket is currently available through its pythonic realisation ``pytket``, which is freely available under the Apache 2 license. To install using the ``pip`` package manager, just run ``pip install pytket`` from your terminal. Each extension module can also be installed similarly as ``pip install pytket-X``, e.g. ``pip install pytket-qiskit``.
 
 .. Link to troubleshooting
 
-``pytket`` is available for python versions 3.8-10 on Linux, MacOS, and Windows. For any difficulties with installation, please consult our `troubleshooting <https://tket.quantinuum.com/api-docs/install.html>`_ page.
+``pytket`` is available on Linux, MacOS, and Windows. For any difficulties with installation, please consult our `troubleshooting <https://tket.quantinuum.com/api-docs/install.html>`_ page.
 
 How To Cite
 -----------
@@ -88,7 +88,7 @@ If your work is on the topic of specific compilation tasks, it may be more appro
 
 - `"On the qubit routing problem" <https://doi.org/10.4230/LIPIcs.TQC.2019.5>`_ for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
 - `"Phase Gadget Synthesis for Shallow Circuits" <https://doi.org/10.4204/EPTCS.318.13>`_ for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.
-- `"A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz" <https://arxiv.org/abs/2007.10515>`_ for sequencing of terms in Trotterisation and Pauli diagonalisation.
+- `"A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz" <https://doi.org/10.48550/arXiv.2007.10515>`_ for sequencing of terms in Trotterisation and Pauli diagonalisation.
 
 We are also keen for others to benchmark their compilation techniques against us. We recommend checking our `benchmark repository <https://github.com/CQCL/tket_benchmarking>`_ for examples on how to run basic benchmarks with the latest version of ``pytket``. Please list the release version of ``pytket`` with any benchmarks you give, and feel free to get in touch for any assistance needed in setting up fair and representative tests.
 
@@ -97,7 +97,7 @@ Support
 
 .. Github issues
 
-If you spot any bugs or have any feature suggestions, feel free to add to the issues board on our `Github examples repository <https://github.com/CQCL/pytket>`_. We appreciate exact error messages and reproduction steps where possible for bug reports to help us address them quickly.
+If you spot any bugs or have any feature suggestions, feel free to add to the issues board on our `Github repository <https://github.com/CQCL/tket>`_. We appreciate exact error messages and reproduction steps where possible for bug reports to help us address them quickly.
 
 .. For more specific assistance, e-mail tket-support
 .. To open up direct support channels or collaboration with teams, e-mail Denise?
