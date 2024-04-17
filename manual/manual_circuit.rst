@@ -395,7 +395,7 @@ If we attempt to compose two circuits without distinct qubit names then we will 
     from pytket import Circuit
 
     circ_x = Circuit()
-    l_reg = circ_x.add_q_register("l", 1)
+    l_reg1 = circ_x.add_q_register("l", 1)
 
     circ_y = Circuit()
     l_reg2 = circ_y.add_q_register("l", 1)
