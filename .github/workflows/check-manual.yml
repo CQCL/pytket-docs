@@ -60,4 +60,3 @@ jobs:
         cd manual/
         sed "s/REQUIREMENTS/$(sed -e 's/[\&/]/\\&/g' -e 's/$/\\n/' ../manual_requirements.txt | tr -d '\n')/" index-rst-template > index.rst
         sphinx-build -b html . build -W
-
