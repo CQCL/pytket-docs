@@ -428,7 +428,7 @@ If we attempt to compose two circuits without distinct qubit names then we will 
 ..     # circ.append(temp)
 
 
-To change which units get unified, we could use :py:meth:`~pytket.circuit.Circuit.rename_units` as seen before, but in the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`~pytket.circuit.Circuit.add_circuit`.
+To change which units get unified, we could use :py:meth:`~pytket.circuit.Circuit.rename_units` as seen before. In the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`~pytket.circuit.Circuit.add_circuit`.
 
 .. jupyter-execute::
 
