@@ -173,7 +173,7 @@ def build_phase_estimation_circuit(
         control_index = n_measurement_qubits - m_qubit - 1
         control_qubit = [measurement_register[control_index]]
         for _ in range(2**m_qubit):
-            qpe_circ.add_qcontrolbox(
+            qpe_circ.add_gate(
                 controlled_u_gate, control_qubit + list(state_prep_register)
             )
 
@@ -182,7 +182,7 @@ def build_phase_estimation_circuit(
     inverse_qft_box = qft_box.dagger
     inverse_qft_box.circuit_name = "QFT†"
 
-    qpe_circ.add_circbox(inverse_qft_box, list(measurement_register))
+    qpe_circ.add_gate(inverse_qft_box, list(measurement_register))
 
     qpe_circ.measure_register(measurement_register, "c")
 
