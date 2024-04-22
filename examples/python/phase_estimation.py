@@ -134,7 +134,11 @@ render_circuit_jupyter(qft_circ)
 
 
 inv_qft4_box = qft4_box.dagger
-render_circuit_jupyter(inv_qft4_box.get_circuit())
+# Explicitly set the name of the `CircBox` to "QFT†"
+inv_qft4_box.circuit_name = "QFT†"
+qft_inv_circ = Circuit(4)
+qft_inv_circ.add_gate(inv_qft4_box, [0, 1, 2, 3])
+render_circuit_jupyter(qft_inv_circ)
 
 
 # ## Building the Phase Estimation Circuit
@@ -169,15 +173,16 @@ def build_phase_estimation_circuit(
         control_index = n_measurement_qubits - m_qubit - 1
         control_qubit = [measurement_register[control_index]]
         for _ in range(2**m_qubit):
-            qpe_circ.add_qcontrolbox(
+            qpe_circ.add_gate(
                 controlled_u_gate, control_qubit + list(state_prep_register)
             )
 
     # Finally, append the inverse qft and measure the qubits
     qft_box = CircBox(build_qft_circuit(n_measurement_qubits))
     inverse_qft_box = qft_box.dagger
+    inverse_qft_box.circuit_name = "QFT†"
 
-    qpe_circ.add_circbox(inverse_qft_box, list(measurement_register))
+    qpe_circ.add_gate(inverse_qft_box, list(measurement_register))
 
     qpe_circ.measure_register(measurement_register, "c")
 
