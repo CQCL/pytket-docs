@@ -673,7 +673,7 @@ For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` 
     qpe_circ.CU1(0.94, a[0], s[0])
     qpe_circ.CU1(0.94, a[0], s[0])
 
-    # 2 qubit QFT (simplified)
+    # 2-qubit QFT (simplified)
     qpe_circ.H(a[0])
     qpe_circ.CU1(0.5, a[1], a[0])
     qpe_circ.H(a[1])
