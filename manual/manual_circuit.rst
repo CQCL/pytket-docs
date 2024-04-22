@@ -697,7 +697,7 @@ Note that the size of the registers used as keys and values must be equal.
     # Construct QPE subroutine
     qpe_box = CircBox(qpe_circ)
 
-    # Construct simplied state preparation circuit
+    # Construct simplified state preparation circuit
     algorithm_circ = Circuit()
     ancillas = algorithm_circ.add_q_register("ancillas", 2)
     state = algorithm_circ.add_q_register("state", 1)
