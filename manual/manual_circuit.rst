@@ -387,7 +387,7 @@ As a shorthand for the above we can take the tensor product of two circuits usin
 
     render_circuit_jupyter(circ3)
 
-If we attempt to compose two circuits without distinct qubit names then we will get an :py:class:`RuntimeError` as the composition is not defined.
+If we attempt to form the tensor product of two circuits without distinct qubit names then we will get a :py:class:`RuntimeError` as the composition is not defined.
 
 .. jupyter-execute::
     :raises: RuntimeError
