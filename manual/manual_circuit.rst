@@ -649,7 +649,69 @@ See how the name of the circuit appears in the rendered circuit diagram. Clickin
 .. Note:: Despite the :py:class:`Circuit` class having methods for adding each type of box, the :py:meth:`Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`Circuit`.
 
 
-.. Capture unitaries via `Unitary1qBox` and `Unitary2qBox`
+When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
+The phase estimation algorithm can then be used as a subroutine in other algorithms. For example integer factoring or estimating the ground state energy of some molecule.
+
+For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
+
+.. jupyter-execute::
+
+    from pytket.circuit import Circuit
+    from pytket.circuit.display import render_circuit_jupyter
+
+    # Set up circuit registers 
+    qpe_circ = Circuit(name="QPE")
+    a = qpe_circ.add_q_register("a", 2)
+    s = qpe_circ.add_q_register("s", 1)
+    c = qpe_circ.add_c_register("c", 2)
+
+    # Initial superposition
+    qpe_circ.H(a[0])
+    qpe_circ.H(a[1])
+
+    # Sequence of controlled unitaries
+    qpe_circ.CU1(0.94, a[1], s[0])
+    qpe_circ.CU1(0.94, a[0], s[0])
+    qpe_circ.CU1(0.94, a[0], s[0])
+
+    # 2 qubit QFT (simplified)
+    qpe_circ.H(a[0])
+    qpe_circ.CU1(0.5, a[1], a[0])
+    qpe_circ.H(a[1])
+    qpe_circ.SWAP(a[0], a[1])
+    qpe_circ.measure_register(a, "c")
+    
+    render_circuit_jupyter(qpe_circ)
+
+
+
+Now that we have defined our phase estimation circuit we can use a :py:class:`~pytket.circuit.CircBox` to define a reusable subroutine. 
+We can then compose our subroutine registerwise by using :py:meth:`~pytket.circuit.Circuit.add_circbox_with_regmap` :py:class:`~pytket.circuit.Circuit` method. Here we provide a map where the keys are the register names inside the :py:class:`~pytket.circuit.CircBox` and the values are the register names external to the :py:class:`~pytket.circuit.CircBox`.
+Note that the size of the registers used as keys and values must be equal. 
+
+
+
+.. jupyter-execute::
+
+    from pytket.circuit import CircBox
+
+    # Construct QPE subroutine
+    qpe_box = CircBox(qpe_circ)
+
+    # Construct simplied state preparation circuit
+    algorithm_circ = Circuit()
+    ancillas = algorithm_circ.add_q_register("ancillas", 2)
+    state = algorithm_circ.add_q_register("state", 1)
+    c = algorithm_circ.add_c_register("c", 2)
+    algorithm_circ.X(state[0])
+
+    # Append QPE subroutine registerwise
+    algorithm_circ.add_circbox_with_regmap(
+        qpe_box, qregmap={"a": "ancillas", "s": "state"}, cregmap={"c": "c"}
+        )
+
+    render_circuit_jupyter(algorithm_circ)
+
 
 Boxes for Unitary Synthesis
 ===========================
