@@ -685,7 +685,7 @@ For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` 
 .. currentmodule:: pytket.circuit
 
 Now that we have defined our phase estimation circuit we can use a :py:class:`CircBox` to define a reusable subroutine. 
-We can then compose our subroutine registerwise by using :py:meth:`Circuit.add_circbox_with_regmap` :py:class:`Circuit` method. Here we provide a map where the keys are the register names inside the :py:class:`CircBox` and the values are the register names external to the :py:class:`~pytket.circuit.CircBox`.
+We can then compose our subroutine registerwise by using :py:meth:`Circuit.add_circbox_with_regmap` :py:class:`Circuit` method. Here we provide a map where the keys are the register names inside the :py:class:`CircBox` and the values are the register names external to the :py:class:`CircBox`.
 Note that the size of the registers used as keys and values must be equal. 
 
 
