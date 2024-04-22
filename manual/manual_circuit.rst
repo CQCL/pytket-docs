@@ -682,10 +682,10 @@ For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` 
     
     render_circuit_jupyter(qpe_circ)
 
+.. currentmodule:: pytket.circuit
 
-
-Now that we have defined our phase estimation circuit we can use a :py:class:`~pytket.circuit.CircBox` to define a reusable subroutine. 
-We can then compose our subroutine registerwise by using :py:meth:`~pytket.circuit.Circuit.add_circbox_with_regmap` :py:class:`~pytket.circuit.Circuit` method. Here we provide a map where the keys are the register names inside the :py:class:`~pytket.circuit.CircBox` and the values are the register names external to the :py:class:`~pytket.circuit.CircBox`.
+Now that we have defined our phase estimation circuit we can use a :py:class:`CircBox` to define a reusable subroutine. 
+We can then compose our subroutine registerwise by using :py:meth:`Circuit.add_circbox_with_regmap` :py:class:`Circuit` method. Here we provide a map where the keys are the register names inside the :py:class:`CircBox` and the values are the register names external to the :py:class:`~pytket.circuit.CircBox`.
 Note that the size of the registers used as keys and values must be equal. 
 
 
@@ -710,6 +710,31 @@ Note that the size of the registers used as keys and values must be equal.
         )
 
     render_circuit_jupyter(algorithm_circ)
+
+If we have a subroutine which we want to add across multiple circuit registers we can use the :py:meth:`Circuit.add_circbox_regwise` method to control where the :py:class:`CircBox` gets added.
+
+.. jupyter-execute::
+
+    # Set up Circuit with registers a_reg, b_reg and c_reg
+    abc_circuit = Circuit()
+    a_reg = abc_circuit.add_q_register("a", 2)
+    b_reg = abc_circuit.add_q_register("b", 2)
+    c_reg = abc_circuit.add_q_register("c", 2)
+
+    # Add some gates
+    abc_circuit.H(a_reg[0])
+    abc_circuit.Ry(0.46, a_reg[1])
+    abc_circuit.CCX(a_reg[0], a_reg[1], c_reg[0])
+
+    # Create subroutine 
+    sub_circuit = Circuit(4, name="BC")
+    sub_circuit.CX(3, 2).CX(3, 1).CX(3, 0)
+    sub_circuit.H(3)
+    bc_subroutine = CircBox(sub_circuit)
+
+    # Append CircBox to the b_reg and c_reg registers (note empty list for classical registers)
+    abc_circuit.add_circbox_regwise(bc_subroutine, [b_reg, c_reg], [])
+    render_circuit_jupyter(abc_circuit)
 
 
 Boxes for Unitary Synthesis
