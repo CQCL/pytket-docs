@@ -649,7 +649,7 @@ See how the name of the circuit appears in the rendered circuit diagram. Clickin
 
 
 When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The phase estimation algorithm can then be used as a subroutine in other algorithms. For example integer factoring or estimating the ground state energy of some molecule.
+The phase estimation algorithm can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule.
 
 For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
