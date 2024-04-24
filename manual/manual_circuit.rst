@@ -326,7 +326,9 @@ Composing Circuits
 
 .. Appending matches units of the same id
 
-Because :py:class:`~pytket.circuit.Circuit` s are defined to have open inputs and outputs, it is perfectly natural to compose them by unifying the outputs of one with the inputs of another. Appending one :py:class:`~pytket.circuit.Circuit` to the end of another matches the inputs and outputs with the same :py:class:`UnitID`.
+.. currentmodule:: pytket.circuit
+
+Because :py:class:`Circuit` s are defined to have open inputs and outputs, it is perfectly natural to compose them by unifying the outputs of one with the inputs of another. Appending one :py:class:`Circuit` to the end of another matches the inputs and outputs with the same :py:class:`UnitID`.
 
 .. jupyter-execute::
 
@@ -346,28 +348,11 @@ Because :py:class:`~pytket.circuit.Circuit` s are defined to have open inputs 
 
 .. If a unit does not exist in the other circuit, treated as composing with identity
 
-If one :py:class:`~pytket.circuit.Circuit` lacks some unit present in the other, then we treat it as if it is an identity on that unit. In the extreme case where the :py:class:`~pytket.circuit.Circuit` s are defined with disjoint sets of :py:class:`UnitID` s, the :py:meth:`~pytket.circuit.Circuit.append` method will compose them in parallel.
 
-.. jupyter-execute::
-
-    from pytket import Circuit
-    from pytket.circuit.display import render_circuit_jupyter
-
-    circ = Circuit()
-    a = circ.add_q_register("a", 2)
-    circ.Rx(0.2, a[0])
-    circ.CX(a[0], a[1])
-
-    next_circ = Circuit()
-    b = next_circ.add_q_register("b", 2)
-    next_circ.Z(b[0])
-    next_circ.CZ(b[1], b[0])
-
-    circ.append(next_circ)
-    render_circuit_jupyter(circ)
+.. note:: If one :py:class:`Circuit` lacks some unit present in the other, then we treat it as if it is an identity on that unit. In the extreme case where the :py:class:`Circuit` s are defined with disjoint sets of :py:class:`UnitID` s, the :py:meth:`Circuit.append` method will compose them in parallel.
 
 
-As a shorthand for the above we can take the tensor product of two circuits using the * operator. This requires that the qubits in the circuits have distinct names. 
+To compose two circuits in parallel we can take tensor product using the * operator. This requires that the qubits in the circuits have distinct names. 
 
 .. jupyter-execute::
 
@@ -428,7 +413,7 @@ If we attempt to form the tensor product of two circuits without distinct qubit 
 ..     # circ.append(temp)
 
 
-To change which units get unified, we could use :py:meth:`~pytket.circuit.Circuit.rename_units` as seen before. In the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`~pytket.circuit.Circuit.add_circuit`.
+To change which units get unified, we could use :py:meth:`Circuit.rename_units` as seen before. In the case where we just want to append a subcircuit like a gate, we can do this with :py:meth:`Circuit.add_circuit`.
 
 .. jupyter-execute::
 
@@ -457,7 +442,7 @@ To change which units get unified, we could use :py:meth:`~pytket.circuit.Circui
 Statevectors and Unitaries
 --------------------------
 
-When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`~pytket.circuit.Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
+When working with quantum circuits we may want access to the quantum state prepared by our circuit. This can be helpful if we want to check whether our circuit construction is correct. The :py:meth:`Circuit.get_statevector` method will produce the statevector of our system after the circuit is applied. Here it is assumed that all the qubits are initialised in the :math:`|0\rangle^{\otimes n}` state. 
  
 .. jupyter-execute::
 
@@ -467,7 +452,7 @@ When working with quantum circuits we may want access to the quantum state prepa
     circ.H(0).CX(0, 1)
     circ.get_statevector()
 
-In addition :py:meth:`~pytket.circuit.Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
+In addition :py:meth:`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
 
 .. jupyter-execute::
 
