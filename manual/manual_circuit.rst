@@ -952,7 +952,7 @@ Lets implement a multiplexor with the following logic. Here we treat the first t
 
     multi_circ = Circuit(3)
     multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
-    multi_circ.add_multiplexor(multiplexor, [0, 1, 2])
+    multi_circ.add_gate(multiplexor, [0, 1, 2])
 
     render_circuit_jupyter(multi_circ)
 
@@ -1010,7 +1010,7 @@ To demonstrate :py:class:`~pytket.circuit.StatePreparationBox` let's use it to p
     w_state_box = StatePreparationBox(w_state)
 
     state_circ = Circuit(3)
-    state_circ.add_state_preparation_box(w_state_box, [0, 1, 2])
+    state_circ.add_gate(w_state_box, [0, 1, 2])
 
 
 .. jupyter-execute::
