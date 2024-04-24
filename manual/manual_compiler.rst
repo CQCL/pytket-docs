@@ -494,8 +494,10 @@ Some of these optimisation passes have optional parameters to customise the rout
     from pytket.transform import CXConfigType
     from pytket.utils import Graph
 
+    pauli_XYXZYXZZ = PauliExpBox([Pauli.X, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Z], 0.42)
+
     circ = Circuit(8)
-    circ.add_gate(PauliExpBox([Pauli.X, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Z], 0.42), [0, 1, 2, 3, 4, 5, 6, 7])
+    circ.add_gate(pauli_XYXZYXZZ, [0, 1, 2, 3, 4, 5, 6, 7])
 
     PauliSimp(cx_config=CXConfigType.Snake).apply(circ)
     print(circ.get_commands())
