@@ -599,7 +599,7 @@ Now that we've built our circuit we can wrap it up in a :py:class:`~pytket.circu
     oracle_box = CircBox(oracle_circ)
     circ = Circuit(3)
     circ.H(0).H(1).H(2)
-    circ.add_circbox(oracle_box, [0, 1, 2])
+    circ.add_gate(oracle_box, [0, 1, 2])
 
     render_circuit_jupyter(circ)
 
@@ -660,7 +660,7 @@ If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary op
     cont = QControlBox(sub_box, 2)
 
     circ = Circuit(4)
-    circ.add_circbox(sub_box, [2, 3])
+    circ.add_gate(sub_box, [2, 3])
     circ.Ry(0.3, 0).Ry(0.8, 1)
 
     # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
@@ -741,7 +741,7 @@ These occur very naturally in Trotterising evolution operators and native device
 
     pauli_circ = Circuit(4)
 
-    pauli_circ.add_pauliexpbox(xyyz, [0, 1, 2, 3])
+    pauli_circ.add_gate(xyyz, [0, 1, 2, 3])
     render_circuit_jupyter(pauli_circ)
 
 To understand what happens inside a :py:class:`~pytket.circuit.PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta XYYZ}`
@@ -962,7 +962,7 @@ Finally let's append the :py:class:`~pytket.circuit.ToffoliBox` onto our circuit
 
 .. jupyter-execute::
 
-    state_circ.add_toffolibox(perm_box, [0, 1, 2])
+    state_circ.add_gate(perm_box, [0, 1, 2])
     render_circuit_jupyter(state_circ)
 
 .. jupyter-execute::
@@ -1529,7 +1529,7 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
     circ.H(2, opgroup="special one")
     circ.CX(2, 1)
     cbox = CircBox(Circuit(2).S(0).CY(0,1))
-    circ.add_circbox(cbox, [0,1], opgroup="Fred")
+    circ.add_gate(cbox, [0,1], opgroup="Fred")
     circ.CX(1, 2, opgroup="Fred")
 
     print(circ.get_commands())
@@ -1575,11 +1575,11 @@ To add a control to an operation, one can add the original operation as a :py:cl
     cx_0_cbox = with_empty_qubit(cx_op)
     cx_q_qbox = with_control_qubit(cx_op)
     c.X(0).Y(1)
-    c.add_circbox(h_0_cbox, [2, 0], opgroup="hgroup")
-    c.add_circbox(cx_0_cbox, [2, 0, 1], opgroup="cxgroup")
+    c.add_gate(h_0_cbox, [2, 0], opgroup="hgroup")
+    c.add_gate(cx_0_cbox, [2, 0, 1], opgroup="cxgroup")
     c.Y(0).X(1)
-    c.add_circbox(h_0_cbox, [2, 1], opgroup="hgroup")
-    c.add_circbox(cx_0_cbox, [2, 1, 0], opgroup="cxgroup")
+    c.add_gate(h_0_cbox, [2, 1], opgroup="hgroup")
+    c.add_gate(cx_0_cbox, [2, 1, 0], opgroup="cxgroup")
     c.X(0).Y(1)
     c.substitute_named(h_q_qbox, "hgroup")
     c.substitute_named(cx_q_qbox, "cxgroup")
