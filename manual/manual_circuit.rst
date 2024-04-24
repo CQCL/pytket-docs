@@ -987,7 +987,7 @@ A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed a
     circ = Circuit(2)
     circ.Rx(0.1, 0)
     circ.CX(0, 1)
-    circ.add_gate(OpType.YYPhase, 0.2, [0, 1])
+    circ.YYPhase(0.2, 0, 1)
 
     circ_dict = circ.to_dict()
     print(circ_dict)
@@ -1104,7 +1104,7 @@ In practice, it is very common for an experiment to use many circuits with simil
     circ.Rx(a, 0)
     circ.Rx(-2*a, 1)
     circ.CX(0, 1)
-    circ.add_gate(OpType.YYPhase, b, [0, 1])
+    circ.YYPhase(b, 0, 1)
     print(circ.get_commands())
 
     s_map = {a: 0.3, b:1.25}
