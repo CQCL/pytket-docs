@@ -664,7 +664,7 @@ If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary op
     circ.Ry(0.3, 0).Ry(0.8, 1)
 
     # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
-    circ.add_qcontrolbox(cont, [0, 1, 2, 3])
+    circ.add_gate(cont, [0, 1, 2, 3])
 
 As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`~pytket.circuit.Op` as follows.
 
