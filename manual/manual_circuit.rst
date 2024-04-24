@@ -437,7 +437,7 @@ To change which units get unified, we could use :py:meth:`Circuit.rename_units` 
 
     circ
 
-.. note:: This requires the subcircuit to be defined only over the default registers so that the list of arguments given to :py:meth:`~pytket.circuit.Circuit.add_circuit` can easily be mapped.
+.. note:: This requires the subcircuit to be defined only over the default registers so that the list of arguments given to :py:meth:`Circuit.add_circuit` can easily be mapped.
 
 Statevectors and Unitaries
 --------------------------
