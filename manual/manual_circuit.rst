@@ -972,16 +972,16 @@ In addition to the general :py:class:`~pytket.circuit.Multiplexor` pytket has se
 ====================================================    =====================================================
 Multiplexor                                             Description
 ====================================================    =====================================================
-:py:class:`~pytket.circuit.MultiplexorBox`              The most general type of multiplexor (see above)
+:py:class:`~pytket.circuit.MultiplexorBox`              The most general type of multiplexor (see above).
                                
 :py:class:`~pytket.circuit.MultiplexedRotationBox`      Multiplexor where the operation applied to the 
-                                                        target is a rotation gate about a single axis
+                                                        target is a rotation gate about a single axis.
                                         
 :py:class:`~pytket.circuit.MultiplexedU2Box`            Multiplexor for uniformly controlled single
-                                                        qubit gates (:math:`U(2)` operations)
+                                                        qubit gates ( :math:`U(2)` operations).
 
 :py:class:`~pytket.circuit.MultiplexedTensoredU2Box`    Multiplexor where the operation applied to the
-                                                        target is a tensor product of single qubit gates
+                                                        target is a tensor product of single qubit gates.
                                                                        
 ====================================================    =====================================================
 
