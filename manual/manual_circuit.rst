@@ -967,7 +967,7 @@ Notice how in the example above the control qubits are both in the :math:`|1\ran
     # Amplitudes of |+> approx 0.707...
     print("Statevector =", np.round(multi_circ.get_statevector().real, 4))
 
-In addition to the general :py:class:`~pytket.circuit.Multiplexor` pytket has several other type of multiplexor box operations available.
+In addition to the general :py:class:`~pytket.circuit.MultiplexorBox` pytket has several other type of multiplexor box operations available.
 
 ====================================================    =====================================================
 Multiplexor                                             Description
