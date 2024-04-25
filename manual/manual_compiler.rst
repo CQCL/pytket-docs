@@ -136,7 +136,7 @@ One of the simplest constraints to solve for is the :py:class:`~pytket.predicate
 
     circ = Circuit(3)
     circ.X(0).CX(0, 1).Ry(0.2, 1)
-    circ.add_gate(OpType.ZZPhase, -0.83, [2, 1]).Rx(0.6, 2)
+    circ.ZZPhase(-0.83, 2, 1).Rx(0.6, 2)
 
     custom.apply(circ)
 
@@ -370,9 +370,9 @@ The numerous Box structures in ``pytket`` provide practical abstractions for hig
     sub_box = CircBox(sub)
     circ = Circuit(4)
     circ.Rx(0.42, 2).CX(2, 0)
-    circ.add_circbox(sub_box, [0, 1])
-    circ.add_circbox(sub_box, [2, 3])
-    circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
+    circ.add_gate(sub_box, [0, 1])
+    circ.add_gate(sub_box, [2, 3])
+    circ.add_gate(PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Y], 0.2), [0, 1, 2, 3])
 
     DecomposeBoxes().apply(circ)
     print(circ.get_commands())
@@ -399,9 +399,9 @@ If we have two :py:class:`~pytket.circuit.Circuit` s that are observationally 
     circ = Circuit(3, 3)
     circ.Rx(0.92, 0).CX(1, 2).Rx(-0.18, 0)  # Adjacent Rx gates can be merged
     circ.CZ(0, 1).Ry(0.11, 2).CZ(0, 1)      # CZ is self-inverse
-    circ.add_gate(OpType.XXPhase, 0.6, [0, 1])
-    circ.add_gate(OpType.YYPhase, 0, [0, 1])    # 0-angle rotation does nothing
-    circ.add_gate(OpType.ZZPhase, -0.84, [0, 1])
+    circ.XXPhase(0.6, 0, 1)
+    circ.YYPhase(0, 0, 1)    # 0-angle rotation does nothing
+    circ.ZZPhase(-0.84, 0, 1)
     circ.Rx(0.03, 0).Rz(-0.9, 1).measure_all()  # Effect of Rz is eliminated by measurement
 
     RemoveRedundancies().apply(circ)
@@ -428,7 +428,7 @@ Previous iterations of the :py:class:`~pytket.passes.CliffordSimp` pass would wo
     complex_circ.CX(0, 1)
     complex_circ.Rx(0.42, 1)
     complex_circ.S(1)
-    complex_circ.add_gate(OpType.YYPhase, 0.96, [1, 2])  # Requires 2 CXs to implement
+    complex_circ.YYPhase(0.96, 1, 2)  # Requires 2 CXs to implement
     complex_circ.CX(0, 1)
 
     CliffordSimp().apply(complex_circ)
@@ -494,8 +494,10 @@ Some of these optimisation passes have optional parameters to customise the rout
     from pytket.transform import CXConfigType
     from pytket.utils import Graph
 
+    pauli_XYXZYXZZ = PauliExpBox([Pauli.X, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Z], 0.42)
+
     circ = Circuit(8)
-    circ.add_pauliexpbox(PauliExpBox([Pauli.X, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Z], 0.42), [0, 1, 2, 3, 4, 5, 6, 7])
+    circ.add_gate(pauli_XYXZYXZZ, [0, 1, 2, 3, 4, 5, 6, 7])
 
     PauliSimp(cx_config=CXConfigType.Snake).apply(circ)
     print(circ.get_commands())
