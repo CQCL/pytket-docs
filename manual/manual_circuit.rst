@@ -977,8 +977,8 @@ Multiplexor                                             Description
 :py:class:`~pytket.circuit.MultiplexedRotationBox`      Multiplexor where the operation applied to the 
                                                         target is a rotation gate about a single axis
                                         
-:py:class:`~pytket.circuit.MultiplexedU2Box`            Multiplexor for unifromly controlled single
-                                                        qubit gates (U(2) operations)
+:py:class:`~pytket.circuit.MultiplexedU2Box`            Multiplexor for uniformly controlled single
+                                                        qubit gates (:math:`U(2)` operations)
 
 :py:class:`~pytket.circuit.MultiplexedTensoredU2Box`    Multiplexor where the operation applied to the
                                                         target is a tensor product of single qubit gates
