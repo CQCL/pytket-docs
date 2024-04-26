@@ -967,21 +967,21 @@ Notice how in the example above the control qubits are both in the :math:`|1\ran
     # Amplitudes of |+> approx 0.707...
     print("Statevector =", np.round(multi_circ.get_statevector().real, 4))
 
-In addition to the general :py:class:`~pytket.circuit.Multiplexor` pytket has several other type of multiplexor box operations available.
+In addition to the general :py:class:`~pytket.circuit.MultiplexorBox` pytket has several other type of multiplexor box operations available.
 
 ====================================================    =====================================================
 Multiplexor                                             Description
 ====================================================    =====================================================
-:py:class:`~pytket.circuit.MultiplexorBox`              The most general type of multiplexor (see above)
+:py:class:`~pytket.circuit.MultiplexorBox`              The most general type of multiplexor (see above).
                                
 :py:class:`~pytket.circuit.MultiplexedRotationBox`      Multiplexor where the operation applied to the 
-                                                          target is a rotation gate about a single axis
+                                                        target is a rotation gate about a single axis.
                                         
-:py:class:`~pytket.circuit.MultiplexedU2Box`            Multiplexor for unifromly controlled single
-                                                        qubit gates (U(2) operations)
+:py:class:`~pytket.circuit.MultiplexedU2Box`            Multiplexor for uniformly controlled single
+                                                        qubit gates ( :math:`U(2)` operations).
 
 :py:class:`~pytket.circuit.MultiplexedTensoredU2Box`    Multiplexor where the operation applied to the
-                                                         target is a tensor product of single qubit gates
+                                                        target is a tensor product of single qubit gates.
                                                                        
 ====================================================    =====================================================
 
