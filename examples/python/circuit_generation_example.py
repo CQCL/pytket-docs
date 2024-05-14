@@ -27,22 +27,20 @@ from pytket.circuit import Qubit
 
 new_q1 = Qubit("alpha", 0)
 new_q2 = Qubit("beta", 2, 1)
-new_q3 = Qubit("gamma", (0, 0, 0))
 circ.add_qubit(new_q1)
 circ.add_qubit(new_q2)
-circ.add_qubit(new_q3)
 print(circ.qubits)
 
 # We can also add a new register of qubits in one go:
 
-circ.add_q_register("delta", 4)
+delta_reg = circ.add_q_register("delta", 2)
 print(circ.qubits)
 
 # Similar commands are available for classical bits.
 #
 # We can add gates to the circuit as follows:
 
-circ.CX(0, 1)
+circ.CX(delta_reg[0], delta_reg[1])
 
 # This command appends a CX gate with control `q[0]` and target `q[1]`. Note that the integer arguments are automatically converted to the default unit IDs. For simple circuits it is often easiest to stick to the default register and refer to the qubits by integers. To add gates to our own named units, we simply pass the `Qubit` (or classical `Bit`) as an argument. (We can't mix the two conventions in one command, however.)
 
@@ -69,11 +67,12 @@ circ.CX(0, 1)
 circ.CX(1, 2)
 circ.Rz(0.25, 2)
 circ.Measure(2, 0)
+draw(circ)
 
 qasmfile = "c.qasm"
 circuit_to_qasm(circ, qasmfile)
 
-with open(qasmfile) as f:
+with open(qasmfile, encoding="utf-8") as f:
     print(f.read())
 
 c1 = circuit_from_qasm(qasmfile)
@@ -84,7 +83,7 @@ circ == c1
 from pytket.quipper import circuit_from_quipper
 
 quipfile = "c.quip"
-with open(quipfile, "w") as f:
+with open(quipfile, "w", encoding="utf-8") as f:
     f.write(
         """Inputs: 0:Qbit, 1:Qbit
 QGate["W"](0,1)
@@ -96,13 +95,13 @@ Outputs: 0:Qbit, 1:Qbit
     )
 
 c = circuit_from_quipper(quipfile)
-print(c.get_commands())
+draw(c)
 
-# Note that the Quipper gates that are not supported directly in `pytket` (`W` and `omega`) are translated into equivalent sequences of `pytket` gates.
+# Note that the Quipper gates that are not supported directly in `pytket` (`W` and `omega`) are translated into equivalent sequences of `pytket` gates. See the [pytket.quipper](https://tket.quantinuum.com/api-docs/quipper.html) docs for more.
 #
 # Quipper subroutines are also supported, corresponding to `CircBox` operations in `pytket`:
 
-with open(quipfile, "w") as f:
+with open(quipfile, "w", encoding="utf-8") as f:
     f.write(
         """Inputs: 0:Qbit, 1:Qbit, 2:Qbit
 QGate["H"](0)
@@ -149,7 +148,7 @@ boxycirc = Circuit(3)
 
 # Add a `CircBox`:
 
-subcirc = Circuit(2)
+subcirc = Circuit(2, name="MY BOX")
 subcirc.X(0).Y(1).CZ(0, 1)
 cbox = CircBox(subcirc)
 boxycirc.add_gate(cbox, args=[Qubit(0), Qubit(1)])
@@ -181,11 +180,15 @@ boxycirc.add_gate(pbox, [0, 1, 2])
 
 draw(boxycirc)
 
-# The `get_circuit()` method is available for all box types, and returns a `Circuit` object. For example:
+# Try clicking on boxes in the diagram above to get information about the underlying subroutine.
 
-draw(pbox.get_circuit())
+# The `get_circuit()` method is available for all box types, and returns a `Circuit` object. For example if we look inside the `ExpBox`:
+
+draw(ebox.get_circuit())
 
 # ## Circuit composition
+
+# For more discussion of circuit composition see the corresponding section of the [manual](https://tket.quantinuum.com/user-manual/manual_circuit.html#composing-circuits).
 
 # Circuits can be composed either serially, whereby wires are joined together, or in parallel, using the `append()` command.
 #
