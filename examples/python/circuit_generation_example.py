@@ -13,10 +13,11 @@
 # Let's get started by constructing a circuit with 3 qubits and 2 classical bits:
 
 from pytket.circuit import Circuit
+from pytket.circuit.display import render_circuit_jupyter as draw
 
-c = Circuit(3, 2)
-print(c.qubits)
-print(c.bits)
+circ = Circuit(3, 2)
+print(circ.qubits)
+print(circ.bits)
 
 # The qubits have automatically been assigned to a register with name `q` and indices 0, 1 and 2, while the bits have been assigned to a register with name `c` and indices 0 and 1.
 #
@@ -27,32 +28,32 @@ from pytket.circuit import Qubit
 new_q1 = Qubit("alpha", 0)
 new_q2 = Qubit("beta", 2, 1)
 new_q3 = Qubit("gamma", (0, 0, 0))
-c.add_qubit(new_q1)
-c.add_qubit(new_q2)
-c.add_qubit(new_q3)
-print(c.qubits)
+circ.add_qubit(new_q1)
+circ.add_qubit(new_q2)
+circ.add_qubit(new_q3)
+print(circ.qubits)
 
 # We can also add a new register of qubits in one go:
 
-c.add_q_register("delta", 4)
-print(c.qubits)
+circ.add_q_register("delta", 4)
+print(circ.qubits)
 
 # Similar commands are available for classical bits.
 #
 # We can add gates to the circuit as follows:
 
-c.CX(0, 1)
+circ.CX(0, 1)
 
 # This command appends a CX gate with control `q[0]` and target `q[1]`. Note that the integer arguments are automatically converted to the default unit IDs. For simple circuits it is often easiest to stick to the default register and refer to the qubits by integers. To add gates to our own named units, we simply pass the `Qubit` (or classical `Bit`) as an argument. (We can't mix the two conventions in one command, however.)
 
-c.H(new_q1)
-c.CX(Qubit("q", 1), new_q2)
-c.Rz(0.5, new_q2)
-print(c.get_commands())
+circ.H(new_q1)
+circ.CX(Qubit("q", 1), new_q2)
+circ.Rz(0.5, new_q2)
 
-# Let's have a look at our circuit:
+# Let's have a look at our circuit using the interactive circuit renderer:
+from pytket.circuit.display import render_circuit_jupyter as draw
 
-print(c.get_commands())
+draw(circ)
 
 # ## Exporting to and importing from standard formats
 
@@ -62,21 +63,21 @@ print(c.get_commands())
 
 from pytket.qasm import circuit_from_qasm, circuit_to_qasm
 
-c = Circuit(3, 1)
-c.H(0)
-c.CX(0, 1)
-c.CX(1, 2)
-c.Rz(0.25, 2)
-c.Measure(2, 0)
+circ = Circuit(3, 1)
+circ.H(0)
+circ.CX(0, 1)
+circ.CX(1, 2)
+circ.Rz(0.25, 2)
+circ.Measure(2, 0)
 
 qasmfile = "c.qasm"
-circuit_to_qasm(c, qasmfile)
+circuit_to_qasm(circ, qasmfile)
 
 with open(qasmfile) as f:
     print(f.read())
 
 c1 = circuit_from_qasm(qasmfile)
-c == c1
+circ == c1
 
 # We can also import files in the Quipper ASCII format:
 
@@ -120,15 +121,15 @@ Outputs: 0:Qbit, 1:Qbit
     )
 
 c = circuit_from_quipper(quipfile)
-cmds = c.get_commands()
-print(cmds)
+
+draw(c)
 
 # ## Boxes
 
 # The `CircBox` is an example of a `pytket` 'box', which is a reusable encapsulation of a circuit inside another. We can recover the circuit 'inside' the box using the `get_circuit()` method:
 
 boxed_circuit = cmds[1].op.get_circuit()
-print(boxed_circuit.get_commands())
+draw(boxed_circuit)
 
 # The `CircBox` is the most general type of box, implementing an arbitrary circuit. But `pytket` supports several other useful box types:
 # * `Unitary1qBox` (implementing an arbitrary $2 \times 2$ unitary matrix);
@@ -178,11 +179,11 @@ boxycirc.add_expbox(ebox, 0, 1)
 pbox = PauliExpBox([Pauli.X, Pauli.Z, Pauli.X], 0.75)
 boxycirc.add_gate(pbox, [0, 1, 2])
 
-print(boxycirc.get_commands())
+draw(boxycirc)
 
 # The `get_circuit()` method is available for all box types, and returns a `Circuit` object. For example:
 
-print(pbox.get_circuit().get_commands())
+draw(pbox.get_circuit())
 
 # ## Circuit composition
 
@@ -198,7 +199,7 @@ c1.CZ(1, 0)
 
 c.append(c1)
 
-print(c.get_commands())
+draw(c)
 
 # In the above example, there was a one-to-one match between the unit IDs in the two circuits, and they were matched up accordingly. The same applied with named unit IDs:
 
@@ -216,7 +217,7 @@ c1.CZ(y, x)
 
 c.append(c1)
 
-print(c.get_commands())
+draw(c)
 
 # If either circuit contains wires not matching any wires in the other, those are added to the other circuit before composition:
 
@@ -225,7 +226,7 @@ c1.add_qubit(z)
 c1.CY(y, z)
 c.append(c1)
 print(c.qubits)
-print(c.get_commands())
+draw(c)
 
 # If the sets of unit IDs for the two circuits are disjoint, then the composition is entirely parallel.
 #
@@ -240,7 +241,7 @@ c.rename_units({x: w[0], y: w[1], z: w[2]})
 
 c.append(c2)
 
-print(c.get_commands())
+draw(c)
 
 # ## Symbolic parameters
 
@@ -258,7 +259,7 @@ from sympy import Symbol
 a = Symbol("a")
 c.Rz(a, 0)
 
-print(c.get_commands())
+draw(c)
 
 # When we apply any transformation to this circuit, the symbolic parameter is preserved in the result:
 
@@ -266,13 +267,13 @@ from pytket.transform import Transform
 
 Transform.RemoveRedundancies().apply(c)
 
-print(c.get_commands())
+draw(c)
 
 # To substitute values for symbols, we use the `symbol_substitution()` method, supplying a dictionary from symbols to values:
 
 c.symbol_substitution({a: 0.75})
 
-print(c.get_commands())
+draw(c)
 
 # We can also substitute symbols for other symbols:
 
@@ -280,7 +281,7 @@ b = Symbol("b")
 c = Circuit(1)
 c.Rz(a + b, 0)
 c.symbol_substitution({b: 2 * a})
-print(c.get_commands())
+draw(c)
 
 # ## Custom gates
 
@@ -297,26 +298,26 @@ setup.CRz(b, 0, 2)
 my_gate = CustomGateDef.define("g", setup, [a, b])
 c = Circuit(4)
 c.add_custom_gate(my_gate, [0.2, 1.3], [0, 3, 1])
-print(c.get_commands())
+draw(c)
 
 # Custom gates can also receive symbolic parameters:
 
 x = Symbol("x")
 c.add_custom_gate(my_gate, [x, 1.0], [0, 1, 2])
-print(c.get_commands())
+draw(c)
 
 # ## Decomposing boxes and custom gates
 
 # Having defined a circuit containing custom gates, we may now want to decompose it into elementary gates. The `DecomposeBoxes()` transform allows us to do this:
 
 Transform.DecomposeBoxes().apply(c)
-print(c.get_commands())
+draw(c)
 
 # The same transform works on circuits composed of arbitrary boxes. Let's try it on a copy of the circuit we built up earlier out of various box types.
 
 c = boxycirc.copy()
 Transform.DecomposeBoxes().apply(c)
-print(c.get_commands())
+draw(c)
 
 # Note that the unitaries have been decomposed into elementary gates.
 
@@ -345,5 +346,6 @@ c.Measure(q[1], m[1])
 from pytket.circuit import OpType
 
 c.add_gate(OpType.Rz, [0.5], [q[2]], condition_bits=[m[0], m[1]], condition_value=3)
+draw(c)
 
 # Note that many of the transforms and compilation passes will not accept circuits that contain classical controls.
