@@ -630,11 +630,11 @@ Now that we've built our circuit we can wrap it up in a :py:class:`~pytket.circu
 
 See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
 
-.. Note:: Despite the :py:class:`~pytket.circuit.Circuit` class having methods for adding each type of box, the :py:meth:`~pytket.circuit.Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`~pytket.circuit.Circuit`.
+.. Note:: Despite the :py:class:`~pytket.circuit.Circuit` class having methods for adding each type of box, the :py:meth:`Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`~pytket.circuit.Circuit`.
 
 
-When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The phase estimation algorithm can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule.
+When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
+The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the `QPE example notebook <https://tket.quantinuum.com/examples/phase_estimation.html>`_.
 
 For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
@@ -662,17 +662,15 @@ For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` 
     qpe_circ.CU1(0.5, a[1], a[0])
     qpe_circ.H(a[1])
     qpe_circ.SWAP(a[0], a[1])
+
+    # Measure qubits writing to the classical register
     qpe_circ.measure_register(a, "c")
     
     draw(qpe_circ)
 
 .. currentmodule:: pytket.circuit
 
-Now that we have defined our phase estimation circuit we can use a :py:class:`CircBox` to define a reusable subroutine. 
-We can then compose our subroutine registerwise by using :py:meth:`Circuit.add_circbox_with_regmap` :py:class:`Circuit` method. Here we provide a map where the keys are the register names inside the :py:class:`CircBox` and the values are the register names external to the :py:class:`CircBox`.
-Note that the sizes of the registers used as keys and values must be equal. 
-
-
+Now that we have defined our phase estimation circuit we can use a :py:class:`CircBox` to define a reusable subroutine. This :py:class:`CircBox` will contain the state preparation and ancilla registers.
 
 .. jupyter-execute::
 
@@ -681,6 +679,11 @@ Note that the sizes of the registers used as keys and values must be equal.
     # Construct QPE subroutine
     qpe_box = CircBox(qpe_circ)
 
+Let's now create a circuit to implement the QPE algorithm where we prepare the :math:`|1\rangle` state in the state prep register with a single X gate.
+
+
+.. jupyter-execute::
+
     # Construct simplified state preparation circuit
     algorithm_circ = Circuit()
     ancillas = algorithm_circ.add_q_register("ancillas", 2)
@@ -688,14 +691,30 @@ Note that the sizes of the registers used as keys and values must be equal.
     c = algorithm_circ.add_c_register("c", 2)
     algorithm_circ.X(state[0])
 
-    # Append QPE subroutine registerwise
+    draw(algorithm_circ)
+
+We can then compose our subroutine registerwise by using :py:meth:`Circuit.add_circbox_with_regmap` method.
+
+To use the method, we pass in a python dictionary which maps the registers inside the box to those outside. The keys are the register names inside the :py:class:`CircBox` and the values are the register names of the external :py:class:`Circuit`.
+Note that the sizes of the registers used as keys and values must be equal. 
+
+.. jupyter-execute::
+
+    # Append QPE subroutine to algorithm_circ registerwise
     algorithm_circ.add_circbox_with_regmap(
         qpe_box, qregmap={"a": "ancillas", "s": "state"}, cregmap={"c": "c"}
     )
 
     draw(algorithm_circ)
 
-If we have a subroutine which we want to add across multiple circuit registers we can use the :py:meth:`Circuit.add_circbox_regwise` method to control where the :py:class:`CircBox` gets added.
+Click on the QPE box in the diagram above to view the underlying circuit.
+
+What if we want to append a single :py:class:`CircBox` across multiple registers?
+
+If we want to do this we can use the :py:meth:`Circuit.add_circbox_regwise` method to control where the :py:class:`CircBox` gets added.
+
+
+Lets first define a circuit with the register names ``a``, ``b`` and ``c``.
 
 .. jupyter-execute::
 
@@ -709,6 +728,11 @@ If we have a subroutine which we want to add across multiple circuit registers w
     abc_circuit.H(a_reg[0])
     abc_circuit.Ry(0.46, a_reg[1])
     abc_circuit.CCX(a_reg[0], a_reg[1], c_reg[0])
+    draw(abc_circuit)
+
+Now lets create a :py:class:`CircBox` containing some elementary gates and append it across the ``b`` and ``c`` registers with :py:meth:`Circuit.add_circbox_regwise`.
+
+.. jupyter-execute::
 
     # Create subroutine 
     sub_circuit = Circuit(4, name="BC")
@@ -815,7 +839,7 @@ However its often useful to the flexibility to define the control state as some 
 
 A :py:class:`~pytket.circuit.QControlBox` accepts an optional ``control_state`` argument in the constructor. This is either a list of binary values or a single (big-endian) integer representing the binary string.
 
-Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`.
+Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`. This means that the base operation will only be applied if the control qubits are in the state :math:`|0010\rangle`.
 
 .. jupyter-execute::
 
@@ -924,7 +948,7 @@ Finally a ``linear_transfromation`` parameter needs to be specified:  this is a 
 
     p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
 
-    phase_poly_circ.add_phasepolybox(p_box, [0, 1, 2])
+    phase_poly_circ.add_gate(p_box, [0, 1, 2])
 
     draw(p_box.get_circuit())
 
