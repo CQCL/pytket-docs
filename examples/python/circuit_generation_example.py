@@ -127,7 +127,7 @@ draw(c)
 # ## Boxes
 
 # The `CircBox` is an example of a `pytket` 'box', which is a reusable encapsulation of a circuit inside another. We can recover the circuit 'inside' the box using the `get_circuit()` method:
-
+cmds = c.get_commands()
 boxed_circuit = cmds[1].op.get_circuit()
 draw(boxed_circuit)
 
