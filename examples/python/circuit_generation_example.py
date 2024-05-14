@@ -15,7 +15,7 @@
 from pytket.circuit import Circuit
 from pytket.circuit.display import render_circuit_jupyter as draw
 
-circ = Circuit(3, 2)
+circ = Circuit(1, 2)
 print(circ.qubits)
 print(circ.bits)
 
@@ -45,7 +45,7 @@ circ.CX(delta_reg[0], delta_reg[1])
 # This command appends a CX gate with control `q[0]` and target `q[1]`. Note that the integer arguments are automatically converted to the default unit IDs. For simple circuits it is often easiest to stick to the default register and refer to the qubits by integers. To add gates to our own named units, we simply pass the `Qubit` (or classical `Bit`) as an argument. (We can't mix the two conventions in one command, however.)
 
 circ.H(new_q1)
-circ.CX(Qubit("q", 1), new_q2)
+circ.CX(Qubit("q", 0), new_q2)
 circ.Rz(0.5, new_q2)
 
 # Let's have a look at our circuit using the interactive circuit renderer:
@@ -131,10 +131,10 @@ boxed_circuit = cmds[1].op.get_circuit()
 draw(boxed_circuit)
 
 # The `CircBox` is the most general type of box, implementing an arbitrary circuit. But `pytket` supports several other useful box types:
-# * `Unitary1qBox` (implementing an arbitrary $2 \times 2$ unitary matrix);
-# * `Unitary2qBox` (implementing an arbitrary $4 \times 4$ unitary matrix);
-# * `ExpBox` (implementing $e^{itA}$ for an arbitrary $4 \times 4$ hermitian matrix $A$ and parameter $t$);
-# * `PauliExpBox` (implementing $e^{-\frac{1}{2} i \pi t (\sigma_0 \otimes \sigma_1 \otimes \cdots)}$ for arbitrary Pauli operators $\sigma_i \in \{\mathrm{I}, \mathrm{X}, \mathrm{Y}, \mathrm{Z}\}$ and parameter $t$).
+# * [Unitary1qBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.Unitary1qBox) (implementing an arbitrary $2 \times 2$ unitary matrix);
+# * [Unitary2qBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.Unitary2qBox) (implementing an arbitrary $4 \times 4$ unitary matrix);
+# * [ExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.ExpBox) (implementing $e^{itA}$ for an arbitrary $4 \times 4$ hermitian matrix $A$ and parameter $t$);
+# * [PauliExpBox](https://tket.quantinuum.com/api-docs/circuit.html#pytket.circuit.PauliExpBox) (implementing $e^{-\frac{1}{2} i \pi t (\sigma_0 \otimes \sigma_1 \otimes \cdots)}$ for arbitrary Pauli operators $\sigma_i \in \{\mathrm{I}, \mathrm{X}, \mathrm{Y}, \mathrm{Z}\}$ and parameter $t$).
 
 # An example will illustrate how these various box types are added to a circuit:
 
