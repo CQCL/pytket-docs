@@ -869,7 +869,11 @@ All Pauli exponentials of the form above can be implemented in terms of a single
 
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{XYYZ}}` has basis rotations on the first three qubits. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
-These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. 
+
+A Pauli gadget can be expressed as :math:`V \, A \, V^\dagger` where :math:`V` is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and :math:`A` is the Rz gate itself. This observation allows one to construct controlled pauli gadgets much more efficently. See the `blog post <https://tket.quantinuum.com/blog/posts/controlled_gates/>` on :py:class:`~pytket.circuit.ConjugationBox` for more details.
+
+For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the :py:class:`~pytket.passes.OptimisePhaseGadgets` and :py:class:`~pytket.passes.PauliSimp` optimisation passes.
 
 Phase Polynomials
 =================
