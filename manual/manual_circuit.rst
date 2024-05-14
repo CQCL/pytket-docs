@@ -586,6 +586,8 @@ Boxes
 
 Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn't mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit's design when it is constructed using higher-level constructions. In ``pytket``, the concept of a "Box" is to abstract away such complex structures as black-boxes within larger circuits.
 
+Defining higher level subroutines as boxes is also beneficial from a circuit optimisation point of view. If the compiler can identify higher level structure in the circuit, this can be exploited to reduce the number of elementary gates in the compiled circuit. Examples of such optimisations can be seen in :py:class:`~pytket.circuit.ToffoliBox` which permutes the computational basis states and :py:class:`~pytket.circuit.ConjugationBox` which allows for more efficient controlled gates by exploiting circuit symmetry. 
+
 Circuit Boxes
 =============
 
