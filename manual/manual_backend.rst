@@ -53,18 +53,19 @@ Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy i
 
 .. jupyter-execute::
 
-    from pytket import Circuit
+    from pytket import Circuit, OpType
     from pytket.extensions.qiskit import AerBackend
 
-    circ = Circuit(2, 2)
-    circ.Rx(0.3, 0).Ry(0.5, 1).CRz(-0.6, 1, 0).measure_all()
+    circ = Circuit(3, 2)
+    circ.H(0).Ry(0.25, 1)
+    circ.add_gate(OpType.CnRy, [0.74], [0, 1, 2]) # CnRy not in AerBackend gate set
+    circ.measure_all()
 
     backend = AerBackend()
     if not backend.valid_circuit(circ):
-        compiled_circ = backend.get_compiled_circuit(circ)
-        assert backend.valid_circuit(compiled_circ)
+        compiled_circ = backend.get_compiled_circuit(circ) # Compile circuit to AerBackend
 
-    print(compiled_circ.get_commands())
+    print("Valid circuit for AerBackend?", backend.valid_circuit(compiled_circ))
 
 Now that we can prepare our :py:class:`~pytket.circuit.Circuit` s to be suitable for a given :py:class:`~pytket.backends.Backend`, we can send them off to be run and examine the results. This is always done by calling :py:meth:`~pytket.backends.Backend.process_circuit()` which sends a :py:class:`~pytket.circuit.Circuit` for execution and returns a :py:class:`~pytket.backends.resulthandle.ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
 
