@@ -62,10 +62,9 @@ Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy i
     circ.measure_all()
 
     backend = AerBackend()
-    if not backend.valid_circuit(circ):
-        compiled_circ = backend.get_compiled_circuit(circ) # Compile circuit to AerBackend
+    compiled_circ = backend.get_compiled_circuit(circ) # Compile circuit to AerBackend
 
-    print("Valid circuit for AerBackend?", backend.valid_circuit(compiled_circ))
+    print("Compiled circuit valid for AerBackend?", backend.valid_circuit(compiled_circ))
 
 Now that we can prepare our :py:class:`~pytket.circuit.Circuit` s to be suitable for a given :py:class:`~pytket.backends.Backend`, we can send them off to be run and examine the results. This is always done by calling :py:meth:`~pytket.backends.Backend.process_circuit()` which sends a :py:class:`~pytket.circuit.Circuit` for execution and returns a :py:class:`~pytket.backends.resulthandle.ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
 
