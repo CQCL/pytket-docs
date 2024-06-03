@@ -62,6 +62,7 @@ Knowing the requirements of each :py:class:`~pytket.backends.Backend` is handy i
     circ.measure_all()
 
     backend = AerBackend()
+    print("Circuit valid for AerBackend?", backend.valid_circuit(circ))
     compiled_circ = backend.get_compiled_circuit(circ) # Compile circuit to AerBackend
 
     print("Compiled circuit valid for AerBackend?", backend.valid_circuit(compiled_circ))
