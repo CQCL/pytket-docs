@@ -491,11 +491,11 @@ If you are working in a Jupyter environment, a :py:class:`~pytket.circuit.Circui
 .. jupyter-execute::
 
     from pytket import Circuit
-    from pytket.circuit.display import render_circuit_jupyter
+    from pytket.circuit.display import render_circuit_jupyter as draw
 
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
-    render_circuit_jupyter(circ) # Render interactive circuit diagram
+    draw(circ) # Render interactive circuit diagram
 
 .. note:: The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX representation. Other interactive features include adjustable zoom, circuit wrapping and image export. 
 
@@ -548,7 +548,7 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.circuit.display import render_circuit_jupyter
+    from pytket.circuit.display import render_circuit_jupyter as draw
 
     circ = Circuit(3)
     circ.T(0)
@@ -560,7 +560,7 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
     circ.CZ(1, 2)
     circ.T(1)
 
-    render_circuit_jupyter(circ) # draw circuit diagram
+    draw(circ) # draw circuit diagram
 
     print("T gate count =", circ.n_gates_of_type(OpType.T))
     print("#1qb gates =", circ.n_1qb_gates())
@@ -1140,7 +1140,7 @@ A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed a
         fp.seek(0)
         new_circ = Circuit.from_dict(json.load(fp))
 
-    print(new_circ.get_commands())
+    draw(new_circ)
 
 .. Support other frameworks for easy conversion of existing code and enable freedom to choose preferred input system and use available high-level packages
 
@@ -1170,7 +1170,7 @@ Though less expressive than native dictionary serialization, it is widely suppor
     circ = circuit_from_qasm(path)
     os.remove(path)
 
-    print(circuit_to_qasm_str(circ))
+    print(circuit_to_qasm_str(circ)) # print QASM string
 
 .. Quipper
 
@@ -1192,7 +1192,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
     """.encode())
     os.close(fd)
     circ = circuit_from_quipper(path)
-    print(circ.get_commands())
+    draw(circ)
     os.remove(path)
 
 .. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the :py:mod:`pytket.quipper` documentation.
@@ -1212,6 +1212,9 @@ For example, installing the ``pytket-qiskit`` package will add the :py:func:`~py
     qc.h(0)
     qc.cx(0, 1)
     qc.rz(pi/2, 1)
+    qc.draw()
+
+.. jupyter-execute::
 
     from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
 
@@ -1247,11 +1250,11 @@ In practice, it is very common for an experiment to use many circuits with simil
     circ.Rx(-2*a, 1)
     circ.CX(0, 1)
     circ.YYPhase(b, 0, 1)
-    print(circ.get_commands())
+    draw(circ)
 
-    s_map = {a: 0.3, b:1.25}
+    s_map = {a:0.3, b:1.25}
     circ.symbol_substitution(s_map)
-    print(circ.get_commands())
+    print(circ.free_symbols())
 
 .. Instantiate by mapping symbols to values (in half-turns)
 
@@ -1268,7 +1271,7 @@ It is important to note that the units of the parameter values will still be in 
 
     s_map = {a: pi/4}
     circ.symbol_substitution(s_map)
-    print(circ.get_commands())
+    draw(circ)
 
 .. Can use substitution to replace by arbitrary expressions, including renaming alpha-conversion
 
@@ -1285,7 +1288,7 @@ Substitution need not be for concrete values, but is defined more generally to a
 
     s_map = {a: 2*a, c: a}  # replacement happens simultaneously, and not recursively
     circ.symbol_substitution(s_map)
-    print(circ.get_commands())
+    draw(circ)
 
 .. Can query circuit for its free symbols
 .. Warning about devices and some optimisations will not function with symbolic gates
@@ -1369,7 +1372,7 @@ The :py:class:`~pytket.circuit.CircBox` construction is good for subroutines whe
     circ.add_custom_gate(gate_def, [0.2], [0, 1])
     circ.add_custom_gate(gate_def, [0.3], [0, 2])
 
-    print(circ.get_commands())
+    draw(circ)
     print(circ.free_symbols())
 
 Clifford Tableaux
@@ -1396,21 +1399,33 @@ The primary use for tableaux in ``pytket`` is as a scalable means of specifying 
 .. jupyter-execute::
 
     from pytket.circuit import Circuit
-    from pytket.passes import DecomposeBoxes
     from pytket.tableau import UnitaryTableauBox
 
     box = UnitaryTableauBox(
-        np.asarray([[1,1,0],[0,1,0],[0,0,1]], dtype=bool),
-        np.asarray([[0,0,0],[0,0,0],[0,0,1]], dtype=bool),
-        np.asarray([0,0,1], dtype=bool),
-        np.asarray([[0,0,0],[0,1,0],[0,0,0]], dtype=bool),
-        np.asarray([[1,0,0],[1,1,0],[0,0,1]], dtype=bool),
-        np.asarray([1,0,1], dtype=bool)
+        np.asarray([[1, 1, 0], [0, 1, 0], [0, 0, 1]], dtype=bool),
+        np.asarray([[0, 0, 0], [0, 0, 0], [0, 0, 1]], dtype=bool),
+        np.asarray([0, 0, 1], dtype=bool),
+        np.asarray([[0, 0, 0], [0, 1, 0], [0, 0, 0]], dtype=bool),
+        np.asarray([[1, 0, 0], [1, 1, 0], [0, 0, 1]], dtype=bool),
+        np.asarray([1, 0, 1], dtype=bool)
     )
+
     circ = Circuit(3)
     circ.add_gate(box, [0, 1, 2])
+    draw(circ)
+
+
+
+After the tableau is added to a circuit, it can be readily decomposed to Clifford gates.
+
+.. jupyter-execute::
+
+    from pytket.passes import DecomposeBoxes, RemoveRedundancies
+
     DecomposeBoxes().apply(circ)
-    print(repr(circ))
+    RemoveRedundancies().apply(circ) # Eliminate some redundant gates
+
+    draw(circ)
 
 .. note:: The current decomposition method for tableaux is not particularly efficient in terms of gate count, so consider using higher optimisation levels when compiling to help reduce the gate cost.
 
@@ -1670,11 +1685,11 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
     circ.Ry(0.75, 1, opgroup="rotations")
     circ.H(2, opgroup="special one")
     circ.CX(2, 1)
-    cbox = CircBox(Circuit(2).S(0).CY(0,1))
-    circ.add_gate(cbox, [0,1], opgroup="Fred")
+    cbox = CircBox(Circuit(2, name="C").S(0).CY(0, 1))
+    circ.add_gate(cbox, [0, 1], opgroup="Fred")
     circ.CX(1, 2, opgroup="Fred")
 
-    print(circ.get_commands())
+    draw(circ)
 
 .. jupyter-execute::
 
@@ -1683,14 +1698,16 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
     # Substitute a new 1-qubit circuit for all ops in the "rotations" group:
     newcirc = Circuit(1).Rx(0.125, 0).Ry(0.875, 0)
     circ.substitute_named(newcirc, "rotations")
+
     # Replace the "special one" with a different op:
     newop = Op.create(OpType.T)
     circ.substitute_named(newop, "special one")
+
     # Substitute a box for the "Fred" group:
-    newcbox = CircBox(Circuit(2).H(1).CX(1,0))
+    newcbox = CircBox(Circuit(2, name="C'").H(1).CX(1, 0))
     circ.substitute_named(newcbox, "Fred")
 
-    print(circ.get_commands())
+    draw(circ)
 
 Note that when an operation or box is substituted in, the op group name is retained (and further substitutions can be made). When a circuit is substituted in, the op group name disappears.
 
@@ -1726,7 +1743,7 @@ To add a control to an operation, one can add the original operation as a :py:cl
     c.substitute_named(h_q_qbox, "hgroup")
     c.substitute_named(cx_q_qbox, "cxgroup")
 
-    print(c.get_commands())
+    draw(c)
 
 .. [Cowt2020] Cowtan, A. and Dilkes, S. and Duncan and R., Simmons, W and Sivarajah, S., 2020. Phase Gadget Synthesis for Shallow Circuits. Electronic Proceedings in Theoretical Computer Science
 .. [Shen2004] V.V. Shende and S.S. Bullock and I.L. Markov, 2004. Synthesis of quantum-logic circuits. {IEEE} Transactions on Computer-Aided Design of Integrated Circuits and Systems
