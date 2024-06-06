@@ -1214,7 +1214,9 @@ For example, installing the ``pytket-qiskit`` package will add the :py:func:`~py
     qc.h(0)
     qc.cx(0, 1)
     qc.rz(pi/2, 1)
-    qc.draw()
+    print(qc)
+
+We can convert this :py:class:`~qiskit.QuantumCircuit` to a pytket :py:class:`Circuit`, append some gates and then convert back.
 
 .. jupyter-execute::
 
@@ -1247,11 +1249,13 @@ In practice, it is very common for an experiment to use many circuits with simil
 
     a = Symbol("alpha")
     b = Symbol("beta")
+
     circ = Circuit(2)
     circ.Rx(a, 0)
     circ.Rx(-2*a, 1)
     circ.CX(0, 1)
     circ.YYPhase(b, 0, 1)
+
     draw(circ)
 
     s_map = {a:0.3, b:1.25}
@@ -1375,7 +1379,7 @@ The :py:class:`~pytket.circuit.CircBox` construction is good for subroutines whe
     circ.add_custom_gate(gate_def, [0.3], [0, 2])
 
     draw(circ)
-    print(circ.free_symbols())
+    print(circ.is_symbolic()) # False implies all angles are numeric
 
 Clifford Tableaux
 =================
