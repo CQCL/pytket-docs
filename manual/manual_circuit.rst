@@ -711,10 +711,7 @@ Note that the sizes of the registers used as keys and values must be equal.
 
 Click on the QPE box in the diagram above to view the underlying circuit.
 
-What if we want to append a single :py:class:`CircBox` across multiple registers?
-
-If we want to do this we can use the :py:meth:`Circuit.add_circbox_regwise` method to control where the :py:class:`CircBox` gets added.
-
+If we want add a :py:class:`~pytket.circuit.CircBox` across multiple registers we can do this with the :py:meth:`Circuit.add_circbox_regwise` method.
 
 Lets first define a circuit with the register names ``a``, ``b`` and ``c``.
 
