@@ -1118,7 +1118,9 @@ Looking at the statevector calculation we see that our :py:class:`~pytket.circui
 Importing/Exporting Circuits
 ----------------------------
 
-A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`~pytket.circuit.Circuit.to_dict` and :py:meth:`~pytket.circuit.Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
+.. currentmodule:: pytket.circuit
+
+A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`Circuit.to_dict` and :py:meth:`Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
 
 .. jupyter-execute::
 
