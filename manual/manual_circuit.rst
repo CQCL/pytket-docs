@@ -1135,7 +1135,6 @@ A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed a
 
     circ_dict = circ.to_dict()
     print(circ_dict)
-    print("\n")
 
     with tempfile.TemporaryFile('w+') as fp:
         json.dump(circ_dict, fp)
@@ -1379,7 +1378,7 @@ The :py:class:`~pytket.circuit.CircBox` construction is good for subroutines whe
     circ.add_custom_gate(gate_def, [0.3], [0, 2])
 
     draw(circ)
-    print(circ.is_symbolic()) # False implies all angles are numeric
+    print(circ.free_symbols()) # Print remaining free symbols
 
 Clifford Tableaux
 =================
