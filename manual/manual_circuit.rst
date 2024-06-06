@@ -1216,7 +1216,7 @@ For example, installing the ``pytket-qiskit`` package will add the :py:func:`~py
     qc.rz(pi/2, 1)
     print(qc)
 
-We can convert this :py:class:`~qiskit.QuantumCircuit` to a pytket :py:class:`Circuit`, append some gates and then convert back.
+We can convert this :py:class:`~qiskit.circuit.QuantumCircuit` to a pytket :py:class:`Circuit`, append some gates and then convert back.
 
 .. jupyter-execute::
 
