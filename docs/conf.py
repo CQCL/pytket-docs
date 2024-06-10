@@ -14,11 +14,12 @@ extensions = [
     "jupyter_sphinx",
     "sphinx_copybutton",
     "sphinx.ext.autosectionlabel",
+    "myst_nb",
 ]
 
 html_theme = "pydata_sphinx_theme"
 
-html_title = "pytket user manual"
+html_title = "Manual"
 
 html_theme_options = {
     "navigation_with_keys": True,
@@ -54,3 +55,21 @@ intersphinx_mapping = {
     ),
     "sympy": ("https://docs.sympy.org/latest/", None),
 }
+
+
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    ".venv/*",
+    "examples/Forest_portability_example.ipynb",
+    "examples/backends_example.ipynb",
+    "examples/qiskit_integration.ipynb",
+    "examples/comparing_simulators.ipynb",
+    "examples/expectation_value_example.ipynb",
+    "examples/pytket-qujax_heisenberg_vqe.ipynb",
+    "examples/spam_example.ipynb",
+    "examples/entanglement_swapping.ipynb",
+    "examples/pytket-qujax-classification.ipynb",
+    "jupyter_execute/",
+]
