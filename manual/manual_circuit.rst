@@ -1690,7 +1690,7 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
     circ.Ry(0.75, 1, opgroup="rotations")
     circ.H(2, opgroup="special one")
     circ.CX(2, 1)
-    cbox = CircBox(Circuit(2, name="C").S(0).CY(0, 1))
+    cbox = CircBox(Circuit(2, name="P").S(0).CY(0, 1))
     circ.add_gate(cbox, [0, 1], opgroup="Fred")
     circ.CX(1, 2, opgroup="Fred")
 
@@ -1709,7 +1709,7 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
     circ.substitute_named(newop, "special one")
 
     # Substitute a box for the "Fred" group:
-    newcbox = CircBox(Circuit(2, name="C'").H(1).CX(1, 0))
+    newcbox = CircBox(Circuit(2, name="Q").H(1).CX(1, 0))
     circ.substitute_named(newcbox, "Fred")
 
     draw(circ)
