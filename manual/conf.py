@@ -16,19 +16,23 @@ extensions = [
     "sphinx.ext.autosectionlabel",
 ]
 
-html_theme = "sphinx_book_theme"
+html_theme = "pydata_sphinx_theme"
 
 html_title = "pytket user manual"
 
 html_theme_options = {
-    "repository_url": "https://github.com/CQCL/tket",
-    "use_repository_button": True,
     "navigation_with_keys": True,
-    "use_issues_button": True,
     "logo": {
         "image_light": "_static/Quantinuum_logo_black.png",
         "image_dark": "_static/Quantinuum_logo_white.png",
     },
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/CQCL/tket",
+            "icon": "fa-brands fa-github",
+        }
+    ],
 }
 
 html_static_path = ["_static"]
