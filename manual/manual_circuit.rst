@@ -1120,7 +1120,7 @@ Importing/Exporting Circuits
 
 .. currentmodule:: pytket.circuit
 
-A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`Circuit.to_dict` and :py:meth:`Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
+``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serialized and deserialized from JSON-compatible dictionaries, using the :py:meth:`Circuit.to_dict` and :py:meth:`Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
 
 .. jupyter-execute::
 
