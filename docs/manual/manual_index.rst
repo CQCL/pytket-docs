@@ -1,11 +1,5 @@
-Pytket User Manual
-==================
-
-This manual refers to the following versions of pytket and extensions:
-
-.. code-block:: text
-
-REQUIREMENTS
+Manual
+======
 
 .. toctree::
     :caption: Manual Sections:
@@ -26,7 +20,7 @@ REQUIREMENTS
     pytket API docs <https://tket.quantinuum.com/api-docs/>
     pytket extensions <https://tket.quantinuum.com/api-docs/extensions>
     Manual <https://tket.quantinuum.com/user-manual>
-    Example notebooks <https://tket.quantinuum.com/examples>
+    Example notebooks <docs/examples/Getting_started.ipynb>
     TKET website <https://tket.quantinuum.com/>
 
 Indices and Tables

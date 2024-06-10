@@ -14,21 +14,26 @@ extensions = [
     "jupyter_sphinx",
     "sphinx_copybutton",
     "sphinx.ext.autosectionlabel",
+    "myst_nb",
 ]
 
-html_theme = "sphinx_book_theme"
+html_theme = "pydata_sphinx_theme"
 
-html_title = "pytket user manual"
+html_title = "Manual"
 
 html_theme_options = {
-    "repository_url": "https://github.com/CQCL/tket",
-    "use_repository_button": True,
     "navigation_with_keys": True,
-    "use_issues_button": True,
     "logo": {
         "image_light": "_static/Quantinuum_logo_black.png",
         "image_dark": "_static/Quantinuum_logo_white.png",
     },
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/CQCL/tket",
+            "icon": "fa-brands fa-github",
+        }
+    ],
 }
 
 html_static_path = ["_static"]
@@ -50,3 +55,21 @@ intersphinx_mapping = {
     ),
     "sympy": ("https://docs.sympy.org/latest/", None),
 }
+
+
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    ".venv/*",
+    "examples/Forest_portability_example.ipynb",
+    "examples/backends_example.ipynb",
+    "examples/qiskit_integration.ipynb",
+    "examples/comparing_simulators.ipynb",
+    "examples/expectation_value_example.ipynb",
+    "examples/pytket-qujax_heisenberg_vqe.ipynb",
+    "examples/spam_example.ipynb",
+    "examples/entanglement_swapping.ipynb",
+    "examples/pytket-qujax-classification.ipynb",
+    "jupyter_execute/",
+]
