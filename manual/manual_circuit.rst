@@ -357,7 +357,7 @@ To compose two circuits in parallel we can take tensor product using the * opera
 .. jupyter-execute::
 
     from pytket import Circuit
-    from pytket.circuit.display import render_circuit_jupyter
+    from pytket.circuit.display import render_circuit_jupyter as draw
 
     circ1 = Circuit()
     j = circ1.add_q_register("j", 1)
@@ -370,7 +370,7 @@ To compose two circuits in parallel we can take tensor product using the * opera
 
     circ3 = circ1 * circ2 # Take the tensor product
 
-    render_circuit_jupyter(circ3)
+    draw(circ3)
 
 If we attempt to form the tensor product of two circuits without distinct qubit names then we will get a :py:class:`RuntimeError` as the composition is not defined.
 
@@ -435,7 +435,7 @@ To change which units get unified, we could use :py:meth:`Circuit.rename_units` 
     # temp.rename_units({Qubit(0) : a[1], Qubit(1) : a[0]})
     # circ.append(temp)
 
-    circ
+    draw(circ)
 
 .. note:: This requires the subcircuit to be defined only over the default registers so that the list of arguments given to :py:meth:`Circuit.add_circuit` can easily be mapped.
 
@@ -491,11 +491,11 @@ If you are working in a Jupyter environment, a :py:class:`~pytket.circuit.Circui
 .. jupyter-execute::
 
     from pytket import Circuit
-    from pytket.circuit.display import render_circuit_jupyter
+    from pytket.circuit.display import render_circuit_jupyter as draw
 
     circ = Circuit(3)
     circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
-    render_circuit_jupyter(circ) # Render interactive circuit diagram
+    draw(circ) # Render interactive circuit diagram
 
 .. note:: The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX representation. Other interactive features include adjustable zoom, circuit wrapping and image export. 
 
@@ -548,7 +548,7 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.circuit.display import render_circuit_jupyter
+    from pytket.circuit.display import render_circuit_jupyter as draw
 
     circ = Circuit(3)
     circ.T(0)
@@ -560,7 +560,7 @@ We also define :math:`G`-depth (for a subset of gate types :math:`G`) as the min
     circ.CZ(1, 2)
     circ.T(1)
 
-    render_circuit_jupyter(circ) # draw circuit diagram
+    draw(circ) # draw circuit diagram
 
     print("T gate count =", circ.n_gates_of_type(OpType.T))
     print("#1qb gates =", circ.n_1qb_gates())
@@ -586,6 +586,8 @@ Boxes
 
 Working with individual basic gates is sufficient for implementing arbitrary circuits, but that doesn't mean it is the most convenient option. It is generally far easier to argue the correctness of a circuit's design when it is constructed using higher-level constructions. In ``pytket``, the concept of a "Box" is to abstract away such complex structures as black-boxes within larger circuits.
 
+Defining higher level subroutines as boxes is also beneficial from a circuit optimisation point of view. If the compiler can identify higher level structure in the circuit, this can be exploited to reduce the number of elementary gates in the compiled circuit. Examples of such optimisations can be seen in :py:class:`~pytket.circuit.ToffoliBox` which permutes the computational basis states and :py:class:`~pytket.circuit.ConjugationBox` which allows for more efficient controlled gates by exploiting circuit symmetry. 
+
 Circuit Boxes
 =============
 
@@ -601,7 +603,7 @@ it to another circuit as part of a larger algorithm.
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, OpType
-    from pytket.circuit.display import render_circuit_jupyter
+    from pytket.circuit.display import render_circuit_jupyter as draw
 
     oracle_circ = Circuit(3, name="Oracle")
     oracle_circ.X(0)
@@ -612,7 +614,7 @@ it to another circuit as part of a larger algorithm.
     oracle_circ.X(1)
     oracle_circ.X(2)
 
-    render_circuit_jupyter(oracle_circ)
+    draw(oracle_circ)
 
 Now that we've built our circuit we can wrap it up in a :py:class:`~pytket.circuit.CircBox` and add it to a another circuit as a subroutine.
 
@@ -625,23 +627,22 @@ Now that we've built our circuit we can wrap it up in a :py:class:`~pytket.circu
     circ.H(0).H(1).H(2)
     circ.add_gate(oracle_box, [0, 1, 2])
 
-    render_circuit_jupyter(circ)
+    draw(circ)
 
 
 See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
 
-.. Note:: Despite the :py:class:`~pytket.circuit.Circuit` class having methods for adding each type of box, the :py:meth:`~pytket.circuit.Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`~pytket.circuit.Circuit`.
+.. Note:: Despite the :py:class:`~pytket.circuit.Circuit` class having methods for adding each type of box, the :py:meth:`Circuit.add_gate` is sufficiently general to append any pytket OpType to a :py:class:`~pytket.circuit.Circuit`.
 
 
-When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The phase estimation algorithm can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule.
+When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
+The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the `QPE example notebook <https://tket.quantinuum.com/examples/phase_estimation.html>`_.
 
 For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
 .. jupyter-execute::
 
     from pytket.circuit import Circuit
-    from pytket.circuit.display import render_circuit_jupyter
 
     # Set up circuit registers 
     qpe_circ = Circuit(name="QPE")
@@ -663,17 +664,15 @@ For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` 
     qpe_circ.CU1(0.5, a[1], a[0])
     qpe_circ.H(a[1])
     qpe_circ.SWAP(a[0], a[1])
+
+    # Measure qubits writing to the classical register
     qpe_circ.measure_register(a, "c")
     
-    render_circuit_jupyter(qpe_circ)
+    draw(qpe_circ)
 
 .. currentmodule:: pytket.circuit
 
-Now that we have defined our phase estimation circuit we can use a :py:class:`CircBox` to define a reusable subroutine. 
-We can then compose our subroutine registerwise by using :py:meth:`Circuit.add_circbox_with_regmap` :py:class:`Circuit` method. Here we provide a map where the keys are the register names inside the :py:class:`CircBox` and the values are the register names external to the :py:class:`CircBox`.
-Note that the sizes of the registers used as keys and values must be equal. 
-
-
+Now that we have defined our phase estimation circuit we can use a :py:class:`CircBox` to define a reusable subroutine. This :py:class:`CircBox` will contain the state preparation and ancilla registers.
 
 .. jupyter-execute::
 
@@ -682,6 +681,11 @@ Note that the sizes of the registers used as keys and values must be equal.
     # Construct QPE subroutine
     qpe_box = CircBox(qpe_circ)
 
+Let's now create a circuit to implement the QPE algorithm where we prepare the :math:`|1\rangle` state in the state prep register with a single X gate.
+
+
+.. jupyter-execute::
+
     # Construct simplified state preparation circuit
     algorithm_circ = Circuit()
     ancillas = algorithm_circ.add_q_register("ancillas", 2)
@@ -689,14 +693,27 @@ Note that the sizes of the registers used as keys and values must be equal.
     c = algorithm_circ.add_c_register("c", 2)
     algorithm_circ.X(state[0])
 
-    # Append QPE subroutine registerwise
+    draw(algorithm_circ)
+
+We can then compose our subroutine registerwise by using :py:meth:`Circuit.add_circbox_with_regmap` method.
+
+To use the method, we pass in a python dictionary which maps the registers inside the box to those outside. The keys are the register names inside the :py:class:`CircBox` and the values are the register names of the external :py:class:`Circuit`.
+Note that the sizes of the registers used as keys and values must be equal. 
+
+.. jupyter-execute::
+
+    # Append QPE subroutine to algorithm_circ registerwise
     algorithm_circ.add_circbox_with_regmap(
         qpe_box, qregmap={"a": "ancillas", "s": "state"}, cregmap={"c": "c"}
-        )
+    )
 
-    render_circuit_jupyter(algorithm_circ)
+    draw(algorithm_circ)
 
-If we have a subroutine which we want to add across multiple circuit registers we can use the :py:meth:`Circuit.add_circbox_regwise` method to control where the :py:class:`CircBox` gets added.
+Click on the QPE box in the diagram above to view the underlying circuit.
+
+If we want add a :py:class:`~pytket.circuit.CircBox` across multiple registers we can do this with the :py:meth:`Circuit.add_circbox_regwise` method.
+
+Lets first define a circuit with the register names ``a``, ``b`` and ``c``.
 
 .. jupyter-execute::
 
@@ -710,6 +727,11 @@ If we have a subroutine which we want to add across multiple circuit registers w
     abc_circuit.H(a_reg[0])
     abc_circuit.Ry(0.46, a_reg[1])
     abc_circuit.CCX(a_reg[0], a_reg[1], c_reg[0])
+    draw(abc_circuit)
+
+Now lets create a :py:class:`CircBox` containing some elementary gates and append it across the ``b`` and ``c`` registers with :py:meth:`Circuit.add_circbox_regwise`.
+
+.. jupyter-execute::
 
     # Create subroutine 
     sub_circuit = Circuit(4, name="BC")
@@ -719,7 +741,8 @@ If we have a subroutine which we want to add across multiple circuit registers w
 
     # Append CircBox to the b_reg and c_reg registers (note empty list for classical registers)
     abc_circuit.add_circbox_regwise(bc_subroutine, [b_reg, c_reg], [])
-    render_circuit_jupyter(abc_circuit)
+
+    draw(abc_circuit)
 
 
 Boxes for Unitary Synthesis
@@ -748,6 +771,8 @@ It is possible to specify small unitaries from ``numpy`` arrays and embed them d
     circ.add_unitary1qbox(u1box, 2)
     circ.add_unitary2qbox(u2box, 1, 0)
 
+    draw(circ)
+
 .. note:: For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with :py:class:`~pytket.circuit.Unitary3qBox` using a similar syntax.
 
 .. `PauliExpBox` for simulations and general interactions
@@ -763,7 +788,7 @@ If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary op
 
     from pytket.circuit import Circuit, CircBox, QControlBox
 
-    sub = Circuit(2)
+    sub = Circuit(2, name="V")
     sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
     sub_box = CircBox(sub)
 
@@ -776,6 +801,8 @@ If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary op
 
     # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
     circ.add_gate(cont, [0, 1, 2, 3])
+
+    draw(circ)
 
 As well as creating controlled boxes, we can create a controlled version of an arbitrary :py:class:`~pytket.circuit.Op` as follows.
 
@@ -809,13 +836,12 @@ Normally when we deal with controlled gates we implicitly assume that the contro
 
 However its often useful to the flexibility to define the control state as some string of zeros and ones. Certain approaches to quantum algorithms with linear combination of unitaries (LCU) frequently make use of such gates.
 
-A :py:class:`~pytket.circuit.QControlBox` now accepts an optional ``control_state`` argument in the constructor. This is either a list of binary values or a single (big-endian) integer representing the binary string.
+A :py:class:`~pytket.circuit.QControlBox` accepts an optional ``control_state`` argument in the constructor. This is either a list of binary values or a single (big-endian) integer representing the binary string.
 
-Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`.
+Lets now construct a multi-controlled Rz gate with the control state :math:`|0010\rangle`. This means that the base operation will only be applied if the control qubits are in the state :math:`|0010\rangle`.
 
 .. jupyter-execute::
 
-    from pytket.circuit.display import render_circuit_jupyter
     from pytket.circuit import Circuit, Op, OpType, QControlBox
 
     rz_op = Op.create(OpType.Rz, 0.61)
@@ -824,7 +850,7 @@ Lets now construct a multi-controlled Rz gate with the control state :math:`|001
     test_circ = Circuit(5)
     test_circ.add_gate(multi_controlled_rz, test_circ.qubits)
 
-    render_circuit_jupyter(test_circ)
+    draw(test_circ)
 
 Notice how the circuit renderer shows both filled and unfilled circles on the control qubits. Filled circles correspond to :math:`|1\rangle` controls whereas empty circles represent :math:`|0\rangle`. As pytket uses the big-endian ordering convention we read off the control state from the top to the bottom of the circuit.
 
@@ -853,7 +879,7 @@ These occur very naturally in Trotterising evolution operators and native device
     pauli_circ = Circuit(4)
 
     pauli_circ.add_gate(xyyz, [0, 1, 2, 3])
-    render_circuit_jupyter(pauli_circ)
+    draw(pauli_circ)
 
 To understand what happens inside a :py:class:`~pytket.circuit.PauliExpBox` let's take a look at the underlying circuit for :math:`e^{-i \frac{\pi}{2}\theta XYYZ}`
 
@@ -863,13 +889,17 @@ To understand what happens inside a :py:class:`~pytket.circuit.PauliExpBox` let'
 
     DecomposeBoxes().apply(pauli_circ)
 
-    render_circuit_jupyter(pauli_circ)
+    draw(pauli_circ)
 
 All Pauli exponentials of the form above can be implemented in terms of a single Rz(:math:`\theta`) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
 
 We see that the Pauli exponential :math:`e^{i\frac{\pi}{2} \theta \text{XYYZ}}` has basis rotations on the first three qubits. The V and Vdg gates rotate from the default Z basis to the Y basis and the Hadamard gate serves to change to the X basis.
 
-These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. For instance Pauli gadgets are unitarily invariant under the permutation of their qubits. For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
+These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation. 
+
+A Pauli gadget can be expressed as :math:`V \, A \, V^\dagger` where :math:`V` is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and :math:`A` is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficently. See the `blog post <https://tket.quantinuum.com/blog/posts/controlled_gates/>`_ on the :py:class:`~pytket.circuit.ConjugationBox` construct for more details.
+
+For further discussion see the research publication on phase gadget synthesis [Cowt2020]_. Ideas from this paper are implemented in TKET as the `OptimisePhaseGadgets <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.OptimisePhaseGadgets>`_ and `PauliSimp <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.PauliSimp>`_ optimisation passes.
 
 Phase Polynomials
 =================
@@ -917,12 +947,12 @@ Finally a ``linear_transfromation`` parameter needs to be specified:  this is a 
 
     p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
 
-    phase_poly_circ.add_phasepolybox(p_box, [0, 1, 2])
+    phase_poly_circ.add_gate(p_box, [0, 1, 2])
 
-    render_circuit_jupyter(p_box.get_circuit())
+    draw(p_box.get_circuit())
 
-Multiplexors, State Preperation Boxes and :py:class:`~pytket.circuit.ToffoliBox`
-================================================================================
+Multiplexors, Arbitrary State Preparation and :py:class:`~pytket.circuit.ToffoliBox`
+====================================================================================
 
 In the context of quantum circuits a multiplexor is type of generalised multicontrolled gate. Multiplexors grant us the flexibility to specify different operations on target qubits for different control states.
 To create a multiplexor we simply construct a dictionary where the keys are the state of the control qubits and the values represent the operation performed on the target.
@@ -954,7 +984,7 @@ Lets implement a multiplexor with the following logic. Here we treat the first t
     multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
     multi_circ.add_gate(multiplexor, [0, 1, 2])
 
-    render_circuit_jupyter(multi_circ)
+    draw(multi_circ)
 
 
 Notice how in the example above the control qubits are both in the :math:`|1\rangle` state and so the multiplexor applies the Hadamard operation to the third qubit. If we calculate our statevector we see that the third qubit is in the 
@@ -1065,7 +1095,7 @@ In pytket however, the permutation is implemented efficently using a sequence of
 
 .. jupyter-execute::
 
-    render_circuit_jupyter(perm_box.get_circuit())
+    draw(perm_box.get_circuit())
 
 
 Finally let's append the :py:class:`~pytket.circuit.ToffoliBox` onto our circuit preparing our w state to perform the permutation of basis states specified above.
@@ -1074,7 +1104,8 @@ Finally let's append the :py:class:`~pytket.circuit.ToffoliBox` onto our circuit
 .. jupyter-execute::
 
     state_circ.add_gate(perm_box, [0, 1, 2])
-    render_circuit_jupyter(state_circ)
+
+    draw(state_circ)
 
 .. jupyter-execute::
 
@@ -1087,7 +1118,9 @@ Looking at the statevector calculation we see that our :py:class:`~pytket.circui
 Importing/Exporting Circuits
 ----------------------------
 
-A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed and deserialized from JSON-compatible dictionaries, using the :py:meth:`~pytket.circuit.Circuit.to_dict` and :py:meth:`~pytket.circuit.Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
+.. currentmodule:: pytket.circuit
+
+``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serialized and deserialized from JSON-compatible dictionaries, using the :py:meth:`Circuit.to_dict` and :py:meth:`Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
 
 .. jupyter-execute::
 
@@ -1102,14 +1135,13 @@ A ``pytket`` :py:class:`~pytket.circuit.Circuit` s can be natively serializaed a
 
     circ_dict = circ.to_dict()
     print(circ_dict)
-    print("\n")
 
     with tempfile.TemporaryFile('w+') as fp:
         json.dump(circ_dict, fp)
         fp.seek(0)
         new_circ = Circuit.from_dict(json.load(fp))
 
-    print(new_circ.get_commands())
+    draw(new_circ)
 
 .. Support other frameworks for easy conversion of existing code and enable freedom to choose preferred input system and use available high-level packages
 
@@ -1139,7 +1171,7 @@ Though less expressive than native dictionary serialization, it is widely suppor
     circ = circuit_from_qasm(path)
     os.remove(path)
 
-    print(circuit_to_qasm_str(circ))
+    print(circuit_to_qasm_str(circ)) # print QASM string
 
 .. Quipper
 
@@ -1161,7 +1193,7 @@ The core ``pytket`` package additionally features a converter from Quipper, anot
     """.encode())
     os.close(fd)
     circ = circuit_from_quipper(path)
-    print(circ.get_commands())
+    draw(circ)
     os.remove(path)
 
 .. note::  There are a few features of the Quipper language that are not supported by the converter, which are outlined in the :py:mod:`pytket.quipper` documentation.
@@ -1181,6 +1213,11 @@ For example, installing the ``pytket-qiskit`` package will add the :py:func:`~py
     qc.h(0)
     qc.cx(0, 1)
     qc.rz(pi/2, 1)
+    print(qc)
+
+We can convert this :py:class:`~qiskit.circuit.QuantumCircuit` to a pytket :py:class:`Circuit`, append some gates and then convert back.
+
+.. jupyter-execute::
 
     from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
 
@@ -1211,16 +1248,18 @@ In practice, it is very common for an experiment to use many circuits with simil
 
     a = Symbol("alpha")
     b = Symbol("beta")
+
     circ = Circuit(2)
     circ.Rx(a, 0)
     circ.Rx(-2*a, 1)
     circ.CX(0, 1)
     circ.YYPhase(b, 0, 1)
-    print(circ.get_commands())
 
-    s_map = {a: 0.3, b:1.25}
+    draw(circ)
+
+    s_map = {a:0.3, b:1.25}
     circ.symbol_substitution(s_map)
-    print(circ.get_commands())
+    print(circ.free_symbols())
 
 .. Instantiate by mapping symbols to values (in half-turns)
 
@@ -1237,7 +1276,7 @@ It is important to note that the units of the parameter values will still be in 
 
     s_map = {a: pi/4}
     circ.symbol_substitution(s_map)
-    print(circ.get_commands())
+    draw(circ)
 
 .. Can use substitution to replace by arbitrary expressions, including renaming alpha-conversion
 
@@ -1254,7 +1293,7 @@ Substitution need not be for concrete values, but is defined more generally to a
 
     s_map = {a: 2*a, c: a}  # replacement happens simultaneously, and not recursively
     circ.symbol_substitution(s_map)
-    print(circ.get_commands())
+    draw(circ)
 
 .. Can query circuit for its free symbols
 .. Warning about devices and some optimisations will not function with symbolic gates
@@ -1275,7 +1314,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
     print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 
 
-.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the `KAK decomposition :py:class:`pytket.passes.KAKDecomposition` to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
+.. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the :py:class:`pytket.passes.KAKDecomposition` pass to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 
 .. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://tket.quantinuum.com/examples/ucc_vqe.html>`_.
 
@@ -1338,8 +1377,8 @@ The :py:class:`~pytket.circuit.CircBox` construction is good for subroutines whe
     circ.add_custom_gate(gate_def, [0.2], [0, 1])
     circ.add_custom_gate(gate_def, [0.3], [0, 2])
 
-    print(circ.get_commands())
-    print(circ.free_symbols())
+    draw(circ)
+    print(circ.free_symbols()) # Print remaining free symbols
 
 Clifford Tableaux
 =================
@@ -1365,21 +1404,33 @@ The primary use for tableaux in ``pytket`` is as a scalable means of specifying 
 .. jupyter-execute::
 
     from pytket.circuit import Circuit
-    from pytket.passes import DecomposeBoxes
     from pytket.tableau import UnitaryTableauBox
 
     box = UnitaryTableauBox(
-        np.asarray([[1,1,0],[0,1,0],[0,0,1]], dtype=bool),
-        np.asarray([[0,0,0],[0,0,0],[0,0,1]], dtype=bool),
-        np.asarray([0,0,1], dtype=bool),
-        np.asarray([[0,0,0],[0,1,0],[0,0,0]], dtype=bool),
-        np.asarray([[1,0,0],[1,1,0],[0,0,1]], dtype=bool),
-        np.asarray([1,0,1], dtype=bool)
+        np.asarray([[1, 1, 0], [0, 1, 0], [0, 0, 1]], dtype=bool),
+        np.asarray([[0, 0, 0], [0, 0, 0], [0, 0, 1]], dtype=bool),
+        np.asarray([0, 0, 1], dtype=bool),
+        np.asarray([[0, 0, 0], [0, 1, 0], [0, 0, 0]], dtype=bool),
+        np.asarray([[1, 0, 0], [1, 1, 0], [0, 0, 1]], dtype=bool),
+        np.asarray([1, 0, 1], dtype=bool)
     )
+
     circ = Circuit(3)
     circ.add_gate(box, [0, 1, 2])
+    draw(circ)
+
+
+
+After the tableau is added to a circuit, it can be readily decomposed to Clifford gates.
+
+.. jupyter-execute::
+
+    from pytket.passes import DecomposeBoxes, RemoveRedundancies
+
     DecomposeBoxes().apply(circ)
-    print(repr(circ))
+    RemoveRedundancies().apply(circ) # Eliminate some redundant gates
+
+    draw(circ)
 
 .. note:: The current decomposition method for tableaux is not particularly efficient in terms of gate count, so consider using higher optimisation levels when compiling to help reduce the gate cost.
 
@@ -1639,11 +1690,11 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
     circ.Ry(0.75, 1, opgroup="rotations")
     circ.H(2, opgroup="special one")
     circ.CX(2, 1)
-    cbox = CircBox(Circuit(2).S(0).CY(0,1))
-    circ.add_gate(cbox, [0,1], opgroup="Fred")
+    cbox = CircBox(Circuit(2, name="P").S(0).CY(0, 1))
+    circ.add_gate(cbox, [0, 1], opgroup="Fred")
     circ.CX(1, 2, opgroup="Fred")
 
-    print(circ.get_commands())
+    draw(circ)
 
 .. jupyter-execute::
 
@@ -1652,14 +1703,16 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
     # Substitute a new 1-qubit circuit for all ops in the "rotations" group:
     newcirc = Circuit(1).Rx(0.125, 0).Ry(0.875, 0)
     circ.substitute_named(newcirc, "rotations")
+
     # Replace the "special one" with a different op:
     newop = Op.create(OpType.T)
     circ.substitute_named(newop, "special one")
+
     # Substitute a box for the "Fred" group:
-    newcbox = CircBox(Circuit(2).H(1).CX(1,0))
+    newcbox = CircBox(Circuit(2, name="Q").H(1).CX(1, 0))
     circ.substitute_named(newcbox, "Fred")
 
-    print(circ.get_commands())
+    draw(circ)
 
 Note that when an operation or box is substituted in, the op group name is retained (and further substitutions can be made). When a circuit is substituted in, the op group name disappears.
 
@@ -1695,7 +1748,7 @@ To add a control to an operation, one can add the original operation as a :py:cl
     c.substitute_named(h_q_qbox, "hgroup")
     c.substitute_named(cx_q_qbox, "cxgroup")
 
-    print(c.get_commands())
+    draw(c)
 
 .. [Cowt2020] Cowtan, A. and Dilkes, S. and Duncan and R., Simmons, W and Sivarajah, S., 2020. Phase Gadget Synthesis for Shallow Circuits. Electronic Proceedings in Theoretical Computer Science
 .. [Shen2004] V.V. Shende and S.S. Bullock and I.L. Markov, 2004. Synthesis of quantum-logic circuits. {IEEE} Transactions on Computer-Aided Design of Integrated Circuits and Systems
