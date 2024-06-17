@@ -13,15 +13,6 @@ Manual
     manual_assertion.rst
     manual_zx.rst
 
-.. toctree::
-    :caption: pytket documentation:
-    :maxdepth: 1
-
-    pytket API docs <https://tket.quantinuum.com/api-docs/>
-    pytket extensions <https://tket.quantinuum.com/api-docs/extensions>
-    Manual <https://tket.quantinuum.com/user-manual>
-    Example notebooks <docs/examples/Getting_started.ipynb>
-    TKET website <https://tket.quantinuum.com/>
 
 Indices and Tables
 ==================

@@ -14,8 +14,8 @@ The primary goals of compilation are two-fold: solving the constraints of the :p
 
 Each compiler pass inherits from the :py:class:`~pytket.passes.BasePass` class, capturing a method of transforming a :py:class:`~pytket.circuit.Circuit`. The main functionality is built into the :py:meth:`BasePass.apply()` method, which applies the transformation to a :py:class:`~pytket.circuit.Circuit` in-place. The :py:meth:`~pytket.backends.Backend.get_compiled_circuit()` method is a wrapper around the :py:meth:`~pytket.passes.BasePass.apply()` from the :py:class:`~pytket.backends.Backend` 's recommended pass sequence. This chapter will explore these compiler passes, the different kinds of constraints they are used to solve and optimisations they apply, to help you identify which ones are appropriate for a given task.
 
-Predicates
-----------
+Compilation Predicates
+----------------------
 
 .. Predicates capture properties a circuit could satisfy
 .. Primarily used to describe requirements of the backends
