@@ -57,6 +57,8 @@ intersphinx_mapping = {
 }
 
 
+nb_execution_mode = "cache"
+
 exclude_patterns = [
     "_build",
     "Thumbs.db",
@@ -71,5 +73,7 @@ exclude_patterns = [
     "examples/spam_example.ipynb",
     "examples/entanglement_swapping.ipynb",
     "examples/pytket-qujax-classification.ipynb",
-    "jupyter_execute/",
+    "jupyter_execute/*",
+    "manual/README.md",
+    ".jupyter_cache",
 ]
