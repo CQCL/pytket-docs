@@ -34,7 +34,9 @@ html_theme_options = {
             "icon": "fa-brands fa-github",
         }
     ],
+    "secondary_sidebar_items": {"manual/**": [], "examples/**": []},
 }
+
 
 html_static_path = ["_static"]
 
