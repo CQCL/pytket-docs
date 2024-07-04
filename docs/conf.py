@@ -6,6 +6,9 @@
 copyright = "2020-2024, Quantinuum"
 author = "Quantinuum"
 
+
+html_title = "User guide"
+
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
@@ -17,32 +20,10 @@ extensions = [
     "myst_nb",
 ]
 
-html_theme = "pydata_sphinx_theme"
+html_theme = "furo"
+templates_path = ["./quantinuum-sphinx/_templates/"]
+html_static_path = ["./quantinuum-sphinx/_static/", "_static/"]
 
-html_title = "Manual"
-
-html_theme_options = {
-    "navigation_with_keys": True,
-    "logo": {
-        "image_light": "_static/Quantinuum_logo_black.png",
-        "image_dark": "_static/Quantinuum_logo_white.png",
-    },
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/CQCL/tket",
-            "icon": "fa-brands fa-github",
-        }
-    ],
-    "secondary_sidebar_items": {"manual/**": [], "examples/**": []},
-}
-
-
-html_static_path = ["_static"]
-
-html_css_files = ["custom.css"]
-
-# -- Extension configuration -------------------------------------------------
 
 pytketdoc_base = "https://tket.quantinuum.com/api-docs/"
 
