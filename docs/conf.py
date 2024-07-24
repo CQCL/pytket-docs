@@ -17,7 +17,6 @@ extensions = [
     "jupyter_sphinx",
     "sphinx_copybutton",
     "sphinx.ext.autosectionlabel",
-    "myst_nb",
 ]
 
 myst_enable_extensions = ["dollarmath", "html_image", "attrs_inline"]
