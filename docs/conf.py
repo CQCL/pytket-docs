@@ -24,7 +24,7 @@ myst_enable_extensions = ["dollarmath", "html_image", "attrs_inline"]
 html_theme = "furo"
 templates_path = ["./quantinuum-sphinx/_templates/"]
 html_static_path = ["./quantinuum-sphinx/_static/", "_static/"]
-
+html_favicon = "quantinuum-sphinx/_static/assets/quantinuum_favicon.svg"
 
 pytketdoc_base = "https://tket.quantinuum.com/api-docs/"
 
