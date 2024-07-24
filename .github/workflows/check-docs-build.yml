@@ -46,6 +46,10 @@ jobs:
         python -m pip install poetry
         poetry lock --no-update 
         poetry install
+    - name: install graphviz
+      run: |
+          sudo apt-get update
+          sudo apt-get install graphviz
     - name: build manual and examples
       run: |
         poetry run ./build-docs.sh
