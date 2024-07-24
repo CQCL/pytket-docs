@@ -41,16 +41,11 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: 3.11
-    - name: install python requirements for manual
+    - name: install python requirements for docs
       run: |
         python -m pip install poetry
         poetry lock --no-update 
         poetry install
-        poetry shell
-    - name: install graphviz
+    - name: build manual and examples
       run: |
-        sudo apt-get update
-        sudo apt-get install graphviz
-    - name: build manual
-      run: |
-        ./build-docs.sh
+        poetry run ./build-docs.sh
