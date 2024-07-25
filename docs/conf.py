@@ -44,10 +44,6 @@ intersphinx_mapping = {
 nb_execution_mode = "cache"
 
 nb_execution_excludepatterns = [
-    "_build",
-    "Thumbs.db",
-    ".DS_Store",
-    ".venv/*",
     "examples/backends/Forest_portability_example.ipynb",
     "examples/backends/backends_example.ipynb",
     "examples/backends/qiskit_integration.ipynb",
@@ -57,7 +53,6 @@ nb_execution_excludepatterns = [
     "examples/algorithms_and_protocols/spam_example.ipynb",
     "examples/algorithms_and_protocols/entanglement_swapping.ipynb",
     "examples/algorithms_and_protocols/pytket-qujax-classification.ipynb",
-    "jupyter_execute/*",
-    "manual/README.md",
-    ".jupyter_cache",
 ]
+
+exclude_patterns = ["jupyter_execute/*", ".jupyter_cache", "manual/README.md"]
