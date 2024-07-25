@@ -7,7 +7,7 @@ copyright = "2020-2024, Quantinuum"
 author = "Quantinuum"
 
 
-html_title = "User guide"
+html_title = "pytket user guide"
 
 extensions = [
     "sphinx.ext.autodoc",
@@ -43,20 +43,20 @@ intersphinx_mapping = {
 
 nb_execution_mode = "cache"
 
-exclude_patterns = [
+nb_execution_excludepatterns = [
     "_build",
     "Thumbs.db",
     ".DS_Store",
     ".venv/*",
-    "examples/Forest_portability_example.ipynb",
-    "examples/backends_example.ipynb",
-    "examples/qiskit_integration.ipynb",
-    "examples/comparing_simulators.ipynb",
-    "examples/expectation_value_example.ipynb",
-    "examples/pytket-qujax_heisenberg_vqe.ipynb",
-    "examples/spam_example.ipynb",
-    "examples/entanglement_swapping.ipynb",
-    "examples/pytket-qujax-classification.ipynb",
+    "examples/backends/Forest_portability_example.ipynb",
+    "examples/backends/backends_example.ipynb",
+    "examples/backends/qiskit_integration.ipynb",
+    "examples/backends/comparing_simulators.ipynb",
+    "examples/algorithms_and_protocols/expectation_value_example.ipynb",
+    "examples/algorithms_and_protocols/pytket-qujax_heisenberg_vqe.ipynb",
+    "examples/algorithms_and_protocols/spam_example.ipynb",
+    "examples/algorithms_and_protocols/entanglement_swapping.ipynb",
+    "examples/algorithms_and_protocols/pytket-qujax-classification.ipynb",
     "jupyter_execute/*",
     "manual/README.md",
     ".jupyter_cache",
