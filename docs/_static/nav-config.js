@@ -7,18 +7,13 @@ const navConfig = {
             "pathMatch": "somewhere",
         },
         {
-            "title": "Examples",
-            "href": "../examples",
-            "pathMatch": "somewhere",
-        },
-        {
             "title": "Blog",
             "href": "../blog/",
             "pathMatch": "somewhere",
         },
         {
-            "title": "User Manual",
-            "href": "../user-manual",
+            "title": "User Guide",
+            "href": "../user-guide",
             "pathMatch": "somewhere",
         },
     ],
