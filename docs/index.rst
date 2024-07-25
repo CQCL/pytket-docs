@@ -136,19 +136,11 @@ for more.
     manual/manual_zx.rst
 
 .. toctree::
-    :caption: Examples
+    :glob:
+    :caption: Example Notebooks
     :maxdepth: 2
 
-    examples/ansatz_sequence_example.ipynb
-    examples/circuit_analysis_example.ipynb
-    examples/circuit_generation_example.ipynb
-    examples/compilation_example.ipynb
-    examples/conditional_gate_example.ipynb
-    examples/contextual_optimization.ipynb
-    examples/creating_backends.ipynb
-    examples/measurement_reduction_example.ipynb
-    examples/mapping_example.ipynb
-    examples/symbolics_example.ipynb
-    examples/phase_estimation.ipynb
-    examples/pytket-qujax_qaoa.ipynb
-    examples/ucc_vqe.ipynb
+    examples/circuit_construction/*
+    examples/backends/*
+    examples/circuit_compilation/*
+    examples/algorithms_and_protocols/*
