@@ -10,8 +10,6 @@ author = "Quantinuum"
 html_title = "pytket user guide"
 
 extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
     "jupyter_sphinx",
