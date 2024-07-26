@@ -28,7 +28,7 @@ jobs:
             - '.github/**'
 
   check:
-    name: check manual
+    name: check docs build
     needs: changes
     if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
     runs-on: ubuntu-22.04
