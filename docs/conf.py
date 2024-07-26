@@ -50,7 +50,6 @@ nb_execution_excludepatterns = [
     "examples/algorithms_and_protocols/pytket-qujax_heisenberg_vqe.ipynb",
     "examples/algorithms_and_protocols/spam_example.ipynb",
     "examples/algorithms_and_protocols/entanglement_swapping.ipynb",
-    "examples/algorithms_and_protocols/pytket-qujax-classification.ipynb",
 ]
 
 exclude_patterns = ["jupyter_execute/*", ".jupyter_cache", "manual/README.md"]
