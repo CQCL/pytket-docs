@@ -35,6 +35,8 @@ intersphinx_mapping = {
         "https://tket.quantinuum.com/extensions/pytket-quantinuum/",
         None,
     ),
+    "pytket-qujax": ("https://tket.quantinuum.com/extensions/pytket-qujax/", None),
+    "pytket-cirq": ("https://tket.quantinuum.com/extensions/pytket-cirq/", None),
     "sympy": ("https://docs.sympy.org/latest/", None),
 }
 
