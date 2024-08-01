@@ -530,7 +530,7 @@ Embedding into Qiskit
 
 Not only is the goal of tket to be a device-agnostic platform, but also interface-agnostic, so users are not obliged to have to work entirely in tket to benefit from the wide range of devices supported. For example, Qiskit is currently the most widely adopted quantum software development platform, providing its own modules for building and compiling circuits, submitting to backends, applying error mitigation techniques and combining these into higher-level algorithms. Each :py:class:`~pytket.backends.Backend` in ``pytket`` can be wrapped up to imitate a Qiskit backend, allowing the benefits of tket to be felt in existing Qiskit projects with minimal work.
 
-Below we show how the :py:class:`CirqStateSampleBackend` from the ``pytket-cirq`` extension can be used with its :py:meth:`default_compilation_pass` directly in qiskit.
+Below we show how the :py:class:`~pytket.extensions.cirq.CirqStateSampleBackend` from the ``pytket-cirq`` extension can be used with its :py:meth:`default_compilation_pass` directly in qiskit.
 
 .. jupyter-execute::
 
