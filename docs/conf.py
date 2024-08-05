@@ -50,6 +50,7 @@ nb_execution_excludepatterns = [
     "examples/backends/comparing_simulators.ipynb",
     "examples/algorithms_and_protocols/expectation_value_example.ipynb",
     "examples/algorithms_and_protocols/pytket-qujax_heisenberg_vqe.ipynb",
+    "examples/algorithms_and_protocols/pytket-qujax-classification.ipynb",
     "examples/algorithms_and_protocols/spam_example.ipynb",
     "examples/algorithms_and_protocols/entanglement_swapping.ipynb",
 ]
