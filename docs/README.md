@@ -6,10 +6,10 @@ The manual and examples are both built as a single sphinx site with shared depen
 
 The docs can be built locally by following these steps
 
-1. First clone this repository
+1. First clone this repository including the quantinuum-sphinx submodule
 
 ```shell
-git@github.com:CQCL/pytket-docs.git
+git@github.com:CQCL/pytket-docs.git --recurse-submodules
 ```
 
 2. Next, install the dependencies using poetry
