@@ -10,7 +10,6 @@ The docs can be built locally by following these steps
 
 ```shell
 git clone git@github.com:CQCL/pytket-docs.git --recurse-submodules
->>>>>>> main
 ```
 
 2. Next, install the dependencies using poetry
