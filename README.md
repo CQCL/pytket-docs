@@ -2,18 +2,15 @@
 
 [![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://tketusers.slack.com/join/shared_invite/zt-18qmsamj9-UqQFVdkRzxnXCcKtcarLRA#/shared-invite/email)
 [![PyPI version](https://badge.fury.io/py/pytket.svg)](https://badge.fury.io/py/pytket)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CQCL/pytket/main?filepath=examples)
 
 Pytket is a python module for interfacing with tket, a quantum computing toolkit and optimising compiler developed by Quantinuum.
 
-This repository contains the user manual and example notebooks to get you started using pytket. It does not contain source code. The source code is maintained on the [tket repository](https://github.com/CQCL/tket).
+This repository contains the pytket user manual and example notebooks content in the `docs` directory. It does not contain source code for pytket itself. The source code is maintained on the [tket repository](https://github.com/CQCL/tket).
 
-The notebook examples are built with [jupyterbook](https://jupyterbook.org/en/stable/intro.html) and can be viewed at https://tket.quantinuum.com/examples. 
+The manual and examples are built and deployed as html pages using the [jupyter-sphinx](https://jupyter-sphinx.readthedocs.io/en/latest/) and [myst-nb](https://myst-nb.readthedocs.io/en/latest/) libraries. Instructions on building the docs locally can be found [here](https://github.com/CQCL/pytket-docs/blob/main/docs/README.md).
 
-Instructions for how to add jupyter notebooks to the examples repository can be found [here](https://github.com/CQCL/pytket/tree/main/examples#notes-for-developers).
-
-For more on how the user manual is built and deployed see the [manual README](https://github.com/CQCL/pytket/tree/main/manual/README.md).
-
+Note that the TKET website is not deployed from this repository. This repository just contains the content for the documentation.
+ 
 
 ## Getting started
 
@@ -24,20 +21,8 @@ To install, run:
 pip install pytket
 ```
 
-See the [Getting Started](https://tket.quantinuum.com/api-docs/getting_started.html) page for a quick introduction to using pytket.
-
 API documentation can be found at https://tket.quantinuum.com/api-docs.
 
-To get more in depth on features, see the [manual](https://tket.quantinuum.com/user-manual/) and [examples](https://tket.quantinuum.com/examples).
-
-## Extensions
-
-It is easy to use pytket as a front-end for interacting with third-party devices
-and software. 
-
-We maintain a large and growing number of [pytket extensions](https://tket.quantinuum.com/api-docs/extensions). These extensions provide access to a range of quantum devices and simulators and enable joint functionality between pytket and other quantum software libraries.
-
- These are simple to install with `pip`.
 
 ## Maintenance and support
 
