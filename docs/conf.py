@@ -60,5 +60,6 @@ nb_execution_excludepatterns = [
 exclude_patterns = [
     "jupyter_execute/*",
     ".jupyter_cache",
+    "manual/README.md",
     "README.md",
 ]
