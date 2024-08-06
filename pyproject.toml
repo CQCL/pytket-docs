@@ -1,2 +1,30 @@
-[tool.black]
-extend-exclude = '^/examples/python/pytket-qujax_heisenberg_vqe.py'
+[tool.poetry]
+name = "pytket-docs"
+package-mode = false
+version = "0.1.0"
+description = ""
+authors = ["CalMacCQ <93673602+CalMacCQ@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytket = { extras = ["zx"], version = "^1.28.0" }
+pytket-qiskit = "^0.53.0"
+pytket-cirq = "^0.36.0"
+pytket-qujax = "0.19.0"
+pytest = "^8.2.2"
+qiskit-algorithms = "^0.3.0"
+ipykernel = "^6.29.4"
+kahypar = "^1.3.5"
+sphinx-copybutton = "^0.5.2"
+jupyter-sphinx = "^0.5.3"
+quimb = "^1.8.1"
+openfermion = "^1.6.1"
+ipyparallel = "^8.8.0"
+furo = "^2024.5.6"
+myst-nb = "^1.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
