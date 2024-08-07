@@ -27,7 +27,7 @@ Now let’s draw a nice picture of the circuit with the circuit renderer
     render_circuit_jupyter(ghz_circ)
 
 See also the `Circuit
-construction <https://tket.quantinuum.com/user-guide/manual/manual_circuit.html>`__
+construction <../user-guide/manual/manual_circuit.html>`__
 section of the user manual.
 
 Build a ``Circuit`` from a QASM file
@@ -115,7 +115,7 @@ realistic cases a compiler will have to solve for the limited gateset of
 the target backend as well as other backend requirements.
 
 See the `Running on
-Backends <https://tket.quantinuum.com/user-guide/manual/manual_backend.html>`__
+Backends <../user-guide/manual/manual_backend.html>`__
 section of the user manual and the `backends example
 notebook <https://tket.quantinuum.com/examples/backends_example.html>`__
 for more.

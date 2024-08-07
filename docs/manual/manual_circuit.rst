@@ -1316,7 +1316,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
 
 .. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the :py:class:`pytket.passes.KAKDecomposition` pass to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 
-.. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://tket.quantinuum.com/user-guide/examples/algorithms_and_protocols/ucc_vqe.html>`_.
+.. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <../user-guide/examples/algorithms_and_protocols/ucc_vqe.html>`_.
 
 
 Symbolic unitaries and states
