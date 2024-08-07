@@ -636,7 +636,7 @@ See how the name of the circuit appears in the rendered circuit diagram. Clickin
 
 
 When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the `QPE example notebook <https://tket.quantinuum.com/examples/phase_estimation.html>`_.
+The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the `QPE example notebook <../examples/algorithms_and_protocols/phase_estimation.html>`_.
 
 For such algorithms we may wish to create a :py:class:`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
@@ -1316,7 +1316,7 @@ There are currently no simulators or devices that can run symbolic circuits alge
 
 .. note:: There are some minor drawbacks associated with symbolic compilation. When using `Euler-angle equations <https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction>`_ or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the :py:class:`pytket.passes.KAKDecomposition` pass to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 
-.. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://tket.quantinuum.com/examples/ucc_vqe.html>`_.
+.. seealso:: To see how to use symbolic compilation in a variational experiment, have a look at our `VQE (UCCSD) example <https://tket.quantinuum.com/algorithms_and_protocols/ucc_vqe.html>`_.
 
 
 Symbolic unitaries and states
@@ -1339,7 +1339,7 @@ In :py:mod:`pytket.utils.symbolic` we provide functions :py:func:`~pytket.utils.
     circuit_to_symbolic_unitary(circ)
 
 
-The unitaries are calculated using the unitary representation of each `OpType <https://tket.quantinuum.com/api-docs/optype.html>`_ , and according to the default ILO BasisOrder convention used in backends `ILO BasisOrder convention used in backends <https://tket.quantinuum.com/user-manual/manual_backend.html#interpreting-results>`_.
+The unitaries are calculated using the unitary representation of each `OpType <https://tket.quantinuum.com/api-docs/optype.html>`_ , and according to the default ILO BasisOrder convention used in backends `ILO BasisOrder convention used in backends <../manual/manual_backend.html#interpreting-results>`_.
 The outputs are sympy `ImmutableMatrix <https://docs.sympy.org/latest/modules/matrices/immutablematrices.html>`_ objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the `sympy Quantum Mechanics module <https://docs.sympy.org/latest/modules/physics/quantum/index.html>`_, see also the :py:func:`~pytket.utils.symbolic.circuit_to_symbolic_gates` and :py:func:`~pytket.utils.symbolic.circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 
