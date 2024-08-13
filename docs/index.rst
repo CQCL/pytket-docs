@@ -134,6 +134,7 @@ for more.
     manual/manual_noise.rst
     manual/manual_assertion.rst
     manual/manual_zx.rst
+    manual/tket_tips.md
 
 .. toctree::
     :glob:
