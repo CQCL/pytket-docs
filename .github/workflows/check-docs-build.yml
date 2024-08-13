@@ -13,7 +13,7 @@ jobs:
   changes:
     runs-on: ubuntu-22.04
     outputs:
-      user_guide: ${{ steps.filter.outputs.user_guide }}
+      manual: ${{ steps.filter.outputs.manual }}
     steps:
     - uses: actions/checkout@v4
     - uses: dorny/paths-filter@v3
@@ -21,16 +21,16 @@ jobs:
       with:
         base: ${{ github.ref }}
         filters: |
-          user guide:
-            - 'docs/**'
+          manual:
+            - 'manual/**'
+            - 'manual_requirements.txt'
+            - 'manual_constraints.txt'
             - '.github/**'
-            - 'pyproject.toml'
-            - 'poetry.lock'
 
   check:
     name: check docs build
     needs: changes
-    if: github.event_name == 'schedule' || needs.changes.outputs.user_guide == 'true'
+    if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
@@ -50,6 +50,6 @@ jobs:
       run: |
           sudo apt-get update
           sudo apt-get install graphviz
-    - name: build manual and examples (user guide)
+    - name: build manual and examples
       run: |
         poetry run ./build-docs.sh
