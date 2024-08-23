@@ -18,7 +18,7 @@ tags: [skip-execution]
 circ1 * circ2 
 ```
 
-Note that the two circuits need to have qubits with distinct names.
+Note that the two circuits need to have qubits with distinct names for the tensor product to be well defined.
 See the docs on [circuit composition](https://tket.quantinuum.com/user-guide/manual/manual_circuit.html#composing-circuits).
 
 ## 2. How can I export an image of my circuit?
@@ -106,17 +106,28 @@ Its easy to check whether your pytket Circuit is Clifford by using the [Clifford
 ```{code-cell} ipython3
 from pytket import Circuit
 from pytket.predicates import CliffordCircuitPredicate
+from pytket.circuit.display import render_circuit_jupyter as draw
 
-circ = Circuit(2).H(0).CX(0, 1).S(0).CX(0, 1).H(0) # Build Clifford Circuit
+circ = Circuit(2).H(0).CX(0, 1).CX(1, 0).S(1) # Build Clifford Circuit
+draw(circ)
 
-print(CliffordCircuitPredicate().verify(circ)) # prints True, circ is Clifford
+print("Is circuit Clifford?",
+ CliffordCircuitPredicate().verify(circ)) # prints True, circ is Clifford
+```
+Now, if we add a non-Clifford gate
+```{code-cell} ipython3
 
 circ.Rz(0.91, 0) # Add non-Clifford gate
-
-print(CliffordCircuitPredicate().verify(circ)) # prints False, circ is non-Clifford
+draw(circ)
 ```
 
-Given a circuit operation, we can check whether it is Clifford by using the [Op.is_clifford](inv:#*.Op.is_clifford) method
+
+```{code-cell} ipython3
+print("Is circuit Clifford?", 
+  CliffordCircuitPredicate().verify(circ)) # prints False, circ is non-Clifford
+```
+
+Given an individual circuit operation, we can check whether it is Clifford by using the [Op.is_clifford](inv:#*.Op.is_clifford) method
 
 
 
@@ -128,8 +139,9 @@ for command in circ:
 
 Finally if you want to simulate large Clifford circuits you can access the Stim and Simplex simulators from pytket through their extension modules.
 
-pytket-stim - https://github.com/CQCL/pytket-stim
-pytket-pysimplex - https://github.com/CQCL/pytket-pysimplex
+pytket-stim - <https://github.com/CQCL/pytket-stim>
+
+pytket-pysimplex - <https://github.com/CQCL/pytket-pysimplex>
 
 
 ## 6. How can I check two quantum circuits for unitary equivalence?
