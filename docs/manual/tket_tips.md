@@ -19,7 +19,7 @@ circ1 * circ2
 ```
 
 Note that the two circuits need to have qubits with distinct names.
-See the docs on circuit composition.
+See the docs on [circuit composition](https://tket.quantinuum.com/user-guide/manual/manual_circuit.html#composing-circuits).
 
 ## 2. How can I export an image of my circuit?
 
@@ -48,6 +48,26 @@ circ = Circuit(2).CX(0, 1).Rz(0.61, 1).CX(0, 1) # Build circuit
 circ.to_latex_file("phase_gadget.tex") # Generates a phase_gadget.tex file
 ```
 
+This generates a `phase_gadget.tex` file in the working directory.
+
+```latex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{quantikz}
+\begin{document}
+\begin{quantikz}
+\lstick{q[0]} & \ctrl{1} & \qw & \ctrl{1} & \qw \\
+\lstick{q[1]} & \targ{} & \gate[1]{\text{$R_Z$(0.61)}} & \targ{} & \qw \\
+\end{quantikz}
+\end{document}
+```
+
+If we compile this LaTeX we get the following Quantikz image.
+
+
+```{image} ./images/phase_gadget_latex.png
+:align: center
+:width: 400px
+```
 
 ## 3. Can I do symbolic calculations in pytket?
 
@@ -124,8 +144,8 @@ unitary1 = circ1.get_unitary()
 unitary2 = circ2.get_unitary()
 
 
-# Compare up to a global phase
-compare_unitaries(unitary1, unitary2)
+# Compare unitaries up to a global phase
+print("Do the unitaries match?", compare_unitaries(unitary1, unitary2))
 ```
 
 
