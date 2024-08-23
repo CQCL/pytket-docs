@@ -23,7 +23,9 @@ See the docs on [circuit composition](https://tket.quantinuum.com/user-guide/man
 
 ## 2. How can I export an image of my circuit?
 
-There are multiple ways to do this. Firstly you can use the image export button in the interactive circuit renderer.
+### Method 1: Using the circuit renderer 
+
+Firstly you can use the image export button in the interactive circuit renderer. Exporting to `.png`, `.jpeg`, and `.svg` images is supported.
 
 Try clicking the export button in the top right of the circuit diagram below.
 
@@ -34,6 +36,8 @@ from pytket.circuit.display import render_circuit_jupyter as draw
 circ = Circuit(2).CX(0, 1).Rz(0.61, 1).CX(0, 1) # Build circuit
 draw(circ)
 ```
+
+### Method 2: Generating a `.tex` file from the `Circuit`
 
 You can also export pytket circuits to LaTeX with the [Circuit.to_latex_file](inv:#*.Circuit.to_latex_file) method. This is handy for using circuit images in papers if you like using the Quantikz library.
 
