@@ -363,7 +363,7 @@ An alternative class, :py:class:`UniversalFrameRandomisation`, is set with cycle
 
 Similarly as to the previous case, more shots are returning basis states in the expected state.
 
-We can use :py:meth:`AutoRebase` to create a pass that can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
+We can use :py:class:`AutoRebase` to create a pass that can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
 
 .. jupyter-execute::
 
