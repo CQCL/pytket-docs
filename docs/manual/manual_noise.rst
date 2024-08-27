@@ -363,16 +363,16 @@ An alternative class, :py:class:`UniversalFrameRandomisation`, is set with cycle
 
 Similarly as to the previous case, more shots are returning basis states in the expected state.
 
-We can use :py:meth:`auto_rebase_pass` to create a pass that can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
+We can use :py:meth:`AutoRebase` to create a pass that can be applied to a circuit to rebase its gates to {``OpType.CX``, ``OpType.H``, ``OpType.Rz``}, the cycle gate primitives for Universal Frame Randomisation.
 
 .. jupyter-execute::
 
     from pytket.circuit import PauliExpBox, Pauli, Circuit, OpType
     from pytket.transform import Transform
-    from pytket.passes import auto_rebase_pass
+    from pytket.passes import AutoRebase
     from pytket.tailoring import UniversalFrameRandomisation
 
-    rebase_ufr = auto_rebase_pass({OpType.CX, OpType.H, OpType.Rz})
+    rebase_ufr = AutoRebase({OpType.CX, OpType.H, OpType.Rz})
 
     universal_frame_randomisation = UniversalFrameRandomisation()
 

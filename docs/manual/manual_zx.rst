@@ -573,14 +573,14 @@ Since the :py:class:`ZXDiagram` class does not associate a :py:class:`UnitID` to
 
     from pytket import OpType
     from pytket.circuit.display import render_circuit_jupyter
-    from pytket.passes import auto_rebase_pass
+    from pytket.passes import AutoRebase
 
     c = Circuit(5)
     c.CCX(0, 1, 4)
     c.CCX(2, 4, 3)
     c.CCX(0, 1, 4)
     # Conversion is only defined for a subset of gate types - rebase as needed
-    auto_rebase_pass({ OpType.Rx, OpType.Rz, OpType.X, OpType.Z, OpType.H, OpType.CZ, OpType.CX }).apply(c)
+    AutoRebase({ OpType.Rx, OpType.Rz, OpType.X, OpType.Z, OpType.H, OpType.CZ, OpType.CX }).apply(c)
     diag, _ = circuit_to_zx(c)
 
     Rewrite.to_graphlike_form().apply(diag)

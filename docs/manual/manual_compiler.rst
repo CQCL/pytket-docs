@@ -142,17 +142,17 @@ One of the simplest constraints to solve for is the :py:class:`~pytket.predicate
 
     print(circ.get_commands())
 
-For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful function :py:meth:`auto_rebase_pass` which can take care of this for you. The pass returned is constructed from the gateset alone. (It relies on some known decompositions, and will raise an exception if no suitable known decompositions exist.) An example is given in the "Combinators" section below.
+For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful function :py:meth:`AutoRebase` which can take care of this for you. The pass returned is constructed from the gateset alone. (It relies on some known decompositions, and will raise an exception if no suitable known decompositions exist.) An example is given in the "Combinators" section below.
 
-A similar pair of methods, :py:meth:`SquashCustom` and :py:meth:`auto_squash_pass`, may be used to construct a pass that squashes sequences of single-qubit gates from a given set of single-qubit gates to as short a sequence as possible. Both take a gateset as an argument. :py:meth:`SquashCustom` also takes a function for converting the parameters of a TK1 gate to the target gate set. (Internally, the compiler squashes all gates to TK1 and then applies the supplied function.) :py:meth:`auto_squash_pass` attempts to do the squash using known internal decompositions (but may fail for some gatesets). For example:
+A similar pair of methods, :py:meth:`SquashCustom` and :py:meth:`AutoSquash`, may be used to construct a pass that squashes sequences of single-qubit gates from a given set of single-qubit gates to as short a sequence as possible. Both take a gateset as an argument. :py:meth:`SquashCustom` also takes a function for converting the parameters of a TK1 gate to the target gate set. (Internally, the compiler squashes all gates to TK1 and then applies the supplied function.) :py:meth:`AutoSquash` attempts to do the squash using known internal decompositions (but may fail for some gatesets). For example:
 
 .. jupyter-execute::
 
     from pytket.circuit import Circuit, OpType
-    from pytket.passes import auto_squash_pass
+    from pytket.passes import AutoSquash
 
     gates = {OpType.PhasedX, OpType.Rz, OpType.Rx, OpType.Ry}
-    custom = auto_squash_pass(gates)
+    custom = AutoSquash(gates)
 
     circ = Circuit(1).H(0).Ry(0.5, 0).Rx(-0.5, 0).Rz(1.5, 0).Ry(0.5, 0).H(0)
     custom.apply(circ)
@@ -526,9 +526,9 @@ The passes encountered so far represent elementary, self-contained transformatio
 .. jupyter-execute::
 
     from pytket import Circuit, OpType
-    from pytket.passes import auto_rebase_pass, EulerAngleReduction, SequencePass
+    from pytket.passes import AutoRebase, EulerAngleReduction, SequencePass
 
-    rebase_quil = auto_rebase_pass({OpType.CZ, OpType.Rz, OpType.Rx})
+    rebase_quil = AutoRebase({OpType.CZ, OpType.Rz, OpType.Rx})
     circ = Circuit(3)
     circ.CX(0, 1).Rx(0.3, 1).CX(2, 1).Rz(0.8, 1)
     comp = SequencePass([rebase_quil, EulerAngleReduction(OpType.Rz, OpType.Rx)])
