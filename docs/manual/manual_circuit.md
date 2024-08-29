@@ -295,36 +295,39 @@ To help encourage consistency of identifiers, a {py:class}`~pytket.circuit.Circu
 
 ```{code-cell} ipython3
 ---
-raises:
-  RuntimeError
+tags: [raises-exception]
 ---
 
 from pytket import Circuit, Qubit, Bit
 
-#circ = Circuit()
-## set up a circuit with qubit a[0]
-#circ.add_qubit(Qubit("a", 0))
-#
-## rejected because "a" is already a qubit register
-#circ.add_bit(Bit("a", 1))
+circ = Circuit()
+# set up a circuit with qubit a[0]
+circ.add_qubit(Qubit("a", 0))
+
+# rejected because "a" is already a qubit register
+circ.add_bit(Bit("a", 1))
 ```
 
 
-# ```{code-cell} ipython3
-#     :raises: RuntimeError
-# 
-# # rejected because "a" is already a 1D register
-# circ.add_qubit(Qubit("a", [1, 2]))
-# circ.add_qubit(Qubit("a"))
-# ```
+```{code-cell} ipython3
+---
+tags: [raises-exception]
+---
+
+# rejected because "a" is already a 1D register
+circ.add_qubit(Qubit("a", [1, 2]))
+circ.add_qubit(Qubit("a"))
+```
 
 
-## ```{code-cell} ipython3
-##     :raises: RuntimeError
-## 
-## # rejected because a[0] is already in the circuit
-## circ.add_qubit(Qubit("a", 0))
-## ```
+```{code-cell} ipython3
+---
+tags: [raises-exception]
+---
+
+# rejected because a[0] is already in the circuit
+circ.add_qubit(Qubit("a", 0))
+```
 
 % Integer labels correspond to default registers (example of using explicit labels from `Circuit(n)`)
 
@@ -421,17 +424,19 @@ If we attempt to form the tensor product of two circuits without distinct qubit 
 
 
 ```{code-cell} ipython3
-    :raises: RuntimeError
+---
+tags: [raises-exception]
+---
 
-#from pytket import Circuit
-#
-#circ_x = Circuit()
-#l_reg1 = circ_x.add_q_register("l", 1)
-#
-#circ_y = Circuit()
-#l_reg2 = circ_y.add_q_register("l", 1)
-#
-#circ_x * circ_y # Error as both circuits have l[0]
+from pytket import Circuit
+
+circ_x = Circuit()
+l_reg1 = circ_x.add_q_register("l", 1)
+
+circ_y = Circuit()
+l_reg2 = circ_y.add_q_register("l", 1)
+
+circ_x * circ_y # Error as both circuits have l[0]
 
 ```
 
