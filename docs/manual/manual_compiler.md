@@ -594,9 +594,9 @@ When composing optimisation passes, we may find that applying one type of optimi
     print(circ.get_commands())
 ```
 
-:::{warning}
+```{warning}
 This looping mechanism does not directly compare the {py:class}`~pytket.circuit.Circuit` to its old state from the previous iteration, instead checking if any of the passes within the loop body claimed they performed any rewrite. Some sequences of passes will do and undo some changes to the {py:class}`~pytket.circuit.Circuit`, giving no net effect but nonetheless causing the loop to repeat. This can lead to infinite loops if used in such a way. Some passes where the {py:class}`~pytket.circuit.Circuit` is converted to another form and back again (e.g. {py:class}`~pytket.passes.PauliSimp`) will always report that a change took place. We recommend testing any looping passes thoroughly to check for termination.
-:::
+```
 
 % Repeat with metric - useful when hard to tell when a change is being made or you only care about specific changes
 
@@ -689,15 +689,15 @@ print(circ.n_gates_of_type(OpType.CX))  # But not in this case
 9
 ```
 
-:::{Note}
+```{Note}
 {py:class}`~pytket.passes.FullPeepholeOptimise` takes an optional `allow_swaps` argument. This is a boolean flag to indicate whether {py:class}`~pytket.passes.FullPeepholeOptimise` should preserve the circuit connectivity or not. If set to `False` the pass will presrve circuit connectivity but the circuit will generally be less optimised than if connectivity was ignored.
 
 {py:class}`~pytket.passes.FullPeepholeOptimise` also takes an optional `target_2qb_gate` argument to specify whether to target the {{py:class}`OpType.TK1`, {py:class}`OpType.CX`} or {{py:class}`OpType.TK1`, {py:class}`OpType.TK2`} gateset.
-:::
+```
 
-:::{Note}
+```{Note}
 Prevous versions of {py:class}`~pytket.passes.FullPeepholeOptimise` did not apply the {py:class}`~pytket.passes.ThreeQubitSquash` pass. There is a {py:class}`~pytket.passes.PeepholeOptimise2Q` pass which applies the old pass sequence with the {py:class}`~pytket.passes.ThreeQubitSquash` pass excluded.
-:::
+```
 
 % `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
 
@@ -833,9 +833,9 @@ print(cu.final_map)
 {c[0]: c[0], c[1]: c[1], c[2]: c[2], c[3]: c[3], c[4]: c[4], q[0]: node[3], q[1]: node[0], q[2]: node[2], q[3]: node[1], q[4]: node[4]}
 ```
 
-:::{note}
+```{note}
 No passes currently rename or swap classical data, but the classical bits are included in these maps for completeness.
-:::
+```
 
 ## Advanced Compilation Topics
 
@@ -884,9 +884,9 @@ For variational algorithms, the prominent benefit of defining a {py:class}`~pytk
 
 % Warning about `NoSymbolsPredicate` and necessity of instantiation before running on backends
 
-:::{note}
+```{note}
 Every {py:class}`~pytket.backends.Backend` requires {py:class}`NoSymbolsPredicate`, so it is necessary to instantiate all symbols before running a {py:class}`~pytket.circuit.Circuit`.
-:::
+```
 
 ### User-defined Passes
 
@@ -941,9 +941,9 @@ After we've defined our `transform` we can construct a {py:class}`~pytket.passes
 
 We see from the output above that our newly defined {py:class}`DecompseZPass` has successfully decomposed the Pauli Z gates to Hadamard, Pauli X, Hadamard chains and left other gates unchanged.
 
-:::{warning}
+```{warning}
 pytket does not require that {py:class}`~pytket.passes.CustomPass` preserves the unitary of the {py:class}`~pytket.circuit.Circuit` . This is for the user to ensure.
-:::
+```
 
 ### Partial Compilation
 
@@ -1055,9 +1055,9 @@ for i, c in enumerate(setup.measurement_circs):
 print(setup.results[yy])
 ```
 
-:::{note}
+```{note}
 Since there could be multiple measurement {py:class}`~pytket.circuit.Circuit` s generating the same observable, we could theoretically use this to extract extra shots (and hence extra precision) for that observable for free; automatically doing this as part of {py:meth}`measurement_reduction()` is planned for a future release of `pytket`.
-:::
+```
 
 ### Contextual Optimisations
 
@@ -1098,9 +1098,9 @@ zero and discarded at the end. The methods {py:meth}`Circuit.qubit_create` and
 {py:meth}`Circuit.qubit_discard` can be used to achieve the same on individual
 qubits.
 
-:::{warning}
+```{warning}
 Note that we are now restricted in how we can compose our circuit with other circuits. When composing after another circuit, a "created" qubit becomes a Reset operation. Whem composing before another circuit, a "discarded" qubit may not be joined to another qubit unless that qubit has itself been "created" (so that the discarded state gets reset to zero).
-:::
+```
 
 #### Initial simplification
 
@@ -1139,9 +1139,9 @@ The measurement has disappeared, replaced with a classical operation on its
 target bit. To disable this behaviour, pass the `allow_classical=False`
 argument to {py:class}`~pytket.passes.SimplifyInitial` when constructing the pass.
 
-:::{warning}
+```{warning}
 Most backends currently do not support set-bit operations, so these could cause errors when using this pass with mid-circuit measurements. In such cases you should set `allow_classical=False`.
-:::
+```
 
 Note that {py:class}`~pytket.passes.SimplifyInitial` does not automatically cancel successive
 pairs of X gates introduced by the simplification. It is a good idea to follow

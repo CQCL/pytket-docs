@@ -152,9 +152,9 @@ print(counts)
 print(probs_from_counts(counts))
 ```
 
-:::{note}
+```{note}
 {py:class}`~pytket.backends.Backend.process_circuit` returns a handle to the computation to perform the quantum computation asynchronously. Non-blocking operations are essential when running circuits on remote devices, as submission and queuing times can be long. The handle may then be used to retrieve the results with {py:class}`~pytket.backends.Backend.get_result`. If asynchronous computation is not needed, for example when running on a local simulator, pytket provides the shortcut {py:meth}`pytket.backends.Backend.run_circuit` that will immediately execute the circuit and return a {py:class}`~pytket.backends.backendresult.BackendResult`.
-:::
+```
 
 ## Statevector and Unitary Simulation with TKET Backends
 
@@ -179,9 +179,9 @@ state = backend.run_circuit(compiled_circ).get_state()
 print(state.round(5))
 ```
 
-:::{note}
+```{note}
 We have rounded the results here because simulators typically introduce a small amount of floating-point error, so killing near-zero entries gives a much more readable representation.
-:::
+```
 
 % `get_unitary` treats circuit with open inputs and gives map on 2^n-dimensional complex Hilbert space
 
@@ -410,9 +410,9 @@ print(expectation_from_counts(counts))
 
 % Obtaining indices of specific bits/qubits of interest using `bit_readout` and `qubit_readout` or `qubit_to_bit_map`, and filtering results
 
-:::{note}
+```{note}
 {py:meth}`~pytket.utils.expectation_from_shots()` and {py:meth}`~pytket.utils.expectation_from_counts()` take into account every classical bit in the results object. If the expectation value of interest is a product of only a subset of the measurements in the {py:class}`~pytket.circuit.Circuit` (as is the case when simultaneously measuring several commuting operators), then you will want to filter/marginalise out the ignored bits when performing this calculation.
-:::
+```
 
 ## Guidance for Writing Hardware-Agnostic Code
 
@@ -449,9 +449,9 @@ handle = backend.process_circuit(compiled_qkd, n_shots=1000)
 print(backend.get_result(handle).get_counts())
 ```
 
-:::{note}
+```{note}
 The same effect can be achieved by `assert backend.valid_circuit(qkd)` after compilation. However, when designing the compilation procedure manually, it is unclear whether a failure for this assertion would come from the incompatibility of the {py:class}`~pytket.backends.Backend` for the experiment or from the compilation failing.
-:::
+```
 
 Otherwise, a practical solution around different measurement requirements is to separate the design into "state circuits" and "measurement circuits". At the point of running on the {py:class}`~pytket.backends.Backend`, we can then choose to either just send the state circuit for statevector calculations or compose it with the measurement circuits to run on sampling {py:class}`~pytket.backends.Backend` s.
 
@@ -577,9 +577,9 @@ print(expectation)
 (1.2047999999999999-0.0015000000000000013j)
 ```
 
-:::{note}
+```{note}
 Currently, only some devices (e.g. those from IBMQ, Quantinuum and Amazon Braket) support a queue model and benefit from this methodology, though more may adopt this in future. The {py:class}`~pytket.extensions.qiskit.AerBackend` simulator and the {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` can take advantage of batch submission for parallelisation. In other cases, {py:class}`~pytket.backends.Backend.process_circuits` will just loop through each {py:class}`~pytket.circuit.Circuit` in turn.
-:::
+```
 
 ## Embedding into Qiskit
 
@@ -614,9 +614,9 @@ result = grover.amplify(problem)
 print("Top measurement:", result.top_measurement)
 ```
 
-:::{note}
+```{note}
 Since Qiskit may not be able to solve all of the constraints of the chosen device/simulator, some compilation may be required after a circuit is passed to the {py:class}`TketBackend`, or it may just be preferable to do so to take advantage of the sophisticated compilation solutions provided in `pytket`. Upon constructing the {py:class}`TketBackend`, you can provide a `pytket` compilation pass to apply to each circuit, e.g. `TketBackend(backend, backend.default_compilation_pass())`. Some experimentation may be required to find a combination of `qiskit.transpiler.PassManager` and `pytket` compilation passes that executes successfully.
-:::
+```
 
 % Pytket Assistant
 
@@ -754,9 +754,9 @@ asyncio.run(main())
 
 In some cases you may want to end execution early, perhaps because it is taking too long or you already have all the data you need. You can use the {py:meth}`~pytket.backends.Backend.cancel()` method to cancel the job for a given {py:class}`~pytket.backends.resulthandle.ResultHandle`. This is recommended to help reduce load on the devices if you no longer need to run the submitted jobs.
 
-:::{note}
+```{note}
 Asynchronous submission is currently available with the {py:class}`~pytket.extensions.qiskit.IBMQBackend`, {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend`, {py:class}`BraketBackend` and {py:class}`~pytket.extensions.qiskit.AerBackend`. It will be extended to others in future updates.
-:::
+```
 
 ### Persistent Handles
 

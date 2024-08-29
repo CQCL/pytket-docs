@@ -13,9 +13,9 @@ The graph representation used in the ZX module is intended to be sufficiently ge
 - Structured generators for varied parameterisations, such as continuous real parameters of ZX spiders and discrete (Boolean) parameters of specialised Clifford generators.
 - Mixed quantum-classical diagram support via annotating edges and some generators with {py:class}`QuantumType.Quantum` for doubled diagrams (shorthand notation for a pair of adjoint edges/generators) or {py:class}`QuantumType.Classical` for the singular variants (sometimes referred to as decoherent/bastard generators).
 
-:::{note}
+```{note}
 Providing this flexibility comes at the expense of some efficiency in both memory and speed of operations. For data structures more focussed on the core ZX-calculus and its well-developed simplification strategies, we recommend checking out `pyzx` (<https://github.com/Quantomatic/pyzx>) and its Rust port `quizx` (<https://github.com/Quantomatic/quizx>). Some functionality for interoperation between `pytket` and `pyzx` circuits is provided in the `pytket-pyzx` extension package. There is no intention to support non-qubit calculi or SZX scalable notation in the near future as the additional complexity required by the data structure would introduce excessive bureaucracy to maintain during every rewrite.
-:::
+```
 
 ## Generator Types
 
@@ -464,9 +464,9 @@ The particular rewrites available are intended to support common optimisation st
 
 % May not work as intended if diagram is not in intended form, especially for classical or mixed diagrams
 
-:::{warning}
+```{warning}
 Because of the focus on strategies using graphlike diagrams, many of the rewrites expect the inputs to be of a particular form. This may cause some issues if you attempt to apply them to diagrams that aren't in the intended form, especially when working with classical or mixed diagrams.
-:::
+```
 
 % Types (decompositions into generating sets, graphlike form, graphlike reduction, MBQC)
 
@@ -504,9 +504,9 @@ Composite sequences
 
 % Current implementations may not track global scalar; semantics is only preserved up to scalar; warning if attempting to use for scalar diagram evaluation
 
-:::{warning}
+```{warning}
 Current implementations of rewrite passes may not track the global scalar. Semantics of diagrams is only preserved up to scalar. This is fine for simplification of states or unitaries as they can be renormalised but this may cause issues if attempting to use rewrites for scalar diagram evaluation.
-:::
+```
 
 ## MBQC Flow Detection
 
@@ -555,9 +555,9 @@ The {py:class}`Flow` object that is returned abstracts away the partial ordering
     print({ vertex_ids[v] : [vertex_ids[c] for c in cs] for (v, cs) in fl.cmap.items() })
 ```
 
-:::{note}
+```{note}
 In accordance with the Pauli flow criteria, {py:meth}`Flow.c()` and {py:meth}`Flow.odd()` may return qubits that have already been measured, but this may only happen in cases where the required correction would not have affected the past measurement such as a $Z$ on a {py:class}`ZXType.PZ` qubit.
-:::
+```
 
 % Verification and focussing
 
@@ -565,9 +565,9 @@ In general, multiple valid flows may exist for a given diagram, but a pattern wi
 
 % Warning that does not update on rewriting
 
-:::{warning}
+```{warning}
 A {py:class}`Flow` object is always with respect to a particular {py:class}`ZXDiagram` in a particular state. It cannot be applied to other diagrams and does not automatically update on rewriting the diagram.
-:::
+```
 
 ## Conversions & Extraction
 

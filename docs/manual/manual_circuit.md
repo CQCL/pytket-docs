@@ -1,5 +1,7 @@
 ---
 file_format: mystnb
+kernelspec:
+  name: python3
 ---
 
 # Circuit Construction
@@ -25,12 +27,12 @@ Given the small scale and lack of dynamic quantum memories for both devices and 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    trivial_circ = Circuit()        # no qubits or bits
-    quantum_circ = Circuit(4)       # 4 qubits and no bits
-    mixed_circ   = Circuit(4, 2)    # 4 qubits and 2 bits
-    named_circ   = Circuit(2, 2, "my_circ")
+trivial_circ = Circuit()        # no qubits or bits
+quantum_circ = Circuit(4)       # 4 qubits and no bits
+mixed_circ   = Circuit(4, 2)    # 4 qubits and 2 bits
+named_circ   = Circuit(2, 2, "my_circ")
 ```
 
 ## Basic Gates
@@ -292,34 +294,37 @@ To help encourage consistency of identifiers, a {py:class}`~pytket.circuit.Circu
 
 
 ```{code-cell} ipython3
-    :raises: RuntimeError
+---
+raises:
+  RuntimeError
+---
 
 from pytket import Circuit, Qubit, Bit
 
-circ = Circuit()
-# set up a circuit with qubit a[0]
-circ.add_qubit(Qubit("a", 0))
-
-# rejected because "a" is already a qubit register
-circ.add_bit(Bit("a", 1))
+#circ = Circuit()
+## set up a circuit with qubit a[0]
+#circ.add_qubit(Qubit("a", 0))
+#
+## rejected because "a" is already a qubit register
+#circ.add_bit(Bit("a", 1))
 ```
 
 
-```{code-cell} ipython3
-    :raises: RuntimeError
+# ```{code-cell} ipython3
+#     :raises: RuntimeError
+# 
+# # rejected because "a" is already a 1D register
+# circ.add_qubit(Qubit("a", [1, 2]))
+# circ.add_qubit(Qubit("a"))
+# ```
 
-# rejected because "a" is already a 1D register
-circ.add_qubit(Qubit("a", [1, 2]))
-circ.add_qubit(Qubit("a"))
-```
 
-
-```{code-cell} ipython3
-    :raises: RuntimeError
-
-# rejected because a[0] is already in the circuit
-circ.add_qubit(Qubit("a", 0))
-```
+## ```{code-cell} ipython3
+##     :raises: RuntimeError
+## 
+## # rejected because a[0] is already in the circuit
+## circ.add_qubit(Qubit("a", 0))
+## ```
 
 % Integer labels correspond to default registers (example of using explicit labels from `Circuit(n)`)
 
@@ -386,9 +391,9 @@ circ
 
 % If a unit does not exist in the other circuit, treated as composing with identity
 
-:::{note}
+```{note}
 If one {py:class}`Circuit` lacks some unit present in the other, then we treat it as if it is an identity on that unit. In the extreme case where the {py:class}`Circuit` s are defined with disjoint sets of {py:class}`UnitID` s, the {py:meth}`Circuit.append` method will compose them in parallel.
-:::
+```
 
 To compose two circuits in parallel we can take tensor product using the * operator. This requires that the qubits in the circuits have distinct names.
 
@@ -418,15 +423,15 @@ If we attempt to form the tensor product of two circuits without distinct qubit 
 ```{code-cell} ipython3
     :raises: RuntimeError
 
-from pytket import Circuit
-
-circ_x = Circuit()
-l_reg1 = circ_x.add_q_register("l", 1)
-
-circ_y = Circuit()
-l_reg2 = circ_y.add_q_register("l", 1)
-
-circ_x * circ_y # Error as both circuits have l[0]
+#from pytket import Circuit
+#
+#circ_x = Circuit()
+#l_reg1 = circ_x.add_q_register("l", 1)
+#
+#circ_y = Circuit()
+#l_reg2 = circ_y.add_q_register("l", 1)
+#
+#circ_x * circ_y # Error as both circuits have l[0]
 
 ```
 
@@ -490,9 +495,9 @@ circ.add_circuit(next_circ, [a[1], a[0]])
 draw(circ)
 ```
 
-:::{note}
+```{note}
 This requires the subcircuit to be defined only over the default registers so that the list of arguments given to {py:meth}`Circuit.add_circuit` can easily be mapped.
-:::
+```
 
 ## Statevectors and Unitaries
 
@@ -520,9 +525,9 @@ circ.H(0).CZ(0, 1).H(1)
 circ.get_unitary()
 ```
 
-:::{warning}
+```{warning}
 The unitary matrix of a quantum circuit is of dimension $(2^n \times 2^n)$ where $n$ is the number of qubits. The statevector will be a column vector with $2^n$ entries . Due to this exponential scaling it will in general be very inefficient to compute the unitary (or statevector) of a circuit. These functions are intended to be used for sanity checks and spotting mistakes in small circuits.
-:::
+```
 
 ## Analysing Circuits
 
@@ -560,9 +565,9 @@ circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
 draw(circ) # Render interactive circuit diagram
 ```
 
-:::{note}
+```{note}
 The pytket circuit renderer can represent circuits in the standard circuit model or in the ZX representation. Other interactive features include adjustable zoom, circuit wrapping and image export.
-:::
+```
 
 `pytket` also features methods to visualise the underlying circuit DAG graphically for easier visual inspection.
 
@@ -579,11 +584,11 @@ Graph(circ).get_DAG()   # Displays in interactive python notebooks
 
 The visualisation tool can also describe the interaction graph of a {py:class}`~pytket.circuit.Circuit` consisting of only one- and two-qubit gates -- that is, the graph of which qubits will share a two-qubit gate at some point during execution.
 
-:::{note}
+```{note}
 The visualisations above are shown in ipython notebook cells. When working with a normal python script one can view rendered circuits in the browser with the {py:meth}`~pytket.circuit.display.view_browser` function from the display module.
 
 There are also the methods {py:meth}`~pytket.utils.Graph.save_DAG` and {py:meth}`~pytket.utils.Graph.view_DAG` for saving and visualising the circuit DAG.
-:::
+```
 
 
 ```{code-cell} ipython3
@@ -644,9 +649,9 @@ print("T gate depth =", circ.depth_by_type(OpType.T))
 print("2qb gate depth =", circ.depth_by_type({OpType.CX, OpType.CZ}))
 ```
 
-:::{note}
+```{note}
 Each of these metrics will analyse the {py:class}`~pytket.circuit.Circuit` "as is", so they will consider each Box as a single unit rather than breaking it down into basic gates, nor will they perform any non-trivial gate commutations (those that don't just follow by deformation of the DAG) or gate decompositions (e.g. recognising that a $CZ$ gate would contribute 1 to $CX$-count in practice).
-:::
+```
 
 Its also possible to count all the occurrences of each {py:class}`~pytket.circuit.OpType` using the {py:func}`~pytket.utils.stats.gate_counts` function from the {py:mod}`pytket.utils` module.
 
@@ -712,9 +717,9 @@ draw(circ)
 
 See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
 
-:::{Note}
+```{Note}
 Despite the {py:class}`~pytket.circuit.Circuit` class having methods for adding each type of box, the {py:meth}`Circuit.add_gate` is sufficiently general to append any pytket OpType to a {py:class}`~pytket.circuit.Circuit`.
-:::
+```
 
 When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
 The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the [QPE example notebook](https://tket.quantinuum.com/examples/phase_estimation.html).
@@ -864,9 +869,9 @@ circ.add_unitary2qbox(u2box, 1, 0)
 draw(circ)
 ```
 
-:::{note}
+```{note}
 For performance reasons pytket currently only supports unitary synthesis up to three qubits. Three-qubit synthesis can be accomplished with {py:class}`~pytket.circuit.Unitary3qBox` using a similar syntax.
-:::
+```
 
 % `PauliExpBox` for simulations and general interactions
 
@@ -910,9 +915,9 @@ op = Op.create(OpType.S)
 ccs = QControlBox(op, 2)
 ```
 
-:::{note}
+```{note}
 Whilst adding a control qubit is asymptotically efficient, the gate overhead is significant and can be hard to synthesise optimally, so using these constructions in a NISQ context should be done with caution.
-:::
+```
 
 In addition, we can construct a {py:class}`~pytket.circuit.QControlBox` from any other pure quantum box type in pytket.
 For example, we can construct a multicontrolled $\sqrt{Y}$ operation as by first synthesising the base unitary with {py:class}`~pytket.circuit.Unitary1qBox` and then constructing a {py:class}`~pytket.circuit.QControlBox` from the box implementing $\sqrt{Y}$.
@@ -1147,9 +1152,9 @@ state_circ.add_gate(w_state_box, [0, 1, 2])
 np.round(state_circ.get_statevector().real, 3) # 1/sqrt(3) approx 0.577
 ```
 
-:::{Note}
+```{Note}
 Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
-:::
+```
 
 For some use cases it may be desirable to reset all qubits to the $|0\rangle$ state prior to state preparation. This can be done using the `with_initial_reset` flag.
 
@@ -1287,9 +1292,9 @@ print(circuit_to_qasm_str(circ)) # print QASM string
 
 % Quipper
 
-:::{note}
+```{note}
 The OpenQASM converters do not support circuits with {ref}`implicit qubit permutations <Implicit Qubit Permutations>`. This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
-:::
+```
 
 The core `pytket` package additionally features a converter from Quipper, another circuit description language.
 
@@ -1312,9 +1317,9 @@ draw(circ)
 os.remove(path)
 ```
 
-:::{note}
+```{note}
 There are a few features of the Quipper language that are not supported by the converter, which are outlined in the {py:mod}`pytket.quipper` documentation.
-:::
+```
 
 % Extension modules; example with qiskit, cirq, pyquil; caution that they may not support all gate sets or features (e.g. conditional gates with qiskit only)
 
@@ -1445,13 +1450,13 @@ print(circ.free_symbols())
 print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 ```
 
-:::{note}
+```{note}
 There are some minor drawbacks associated with symbolic compilation. When using [Euler-angle equations](https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction) or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the {py:class}`pytket.passes.KAKDecomposition` pass to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
-:::
+```
 
-:::{seealso}
+```{seealso}
 To see how to use symbolic compilation in a variational experiment, have a look at our [VQE (UCCSD) example](https://tket.quantinuum.com/examples/ucc_vqe.html).
-:::
+```
 
 ### Symbolic unitaries and states
 
@@ -1477,9 +1482,9 @@ The unitaries are calculated using the unitary representation of each [OpType](h
 The outputs are sympy [ImmutableMatrix](https://docs.sympy.org/latest/modules/matrices/immutablematrices.html) objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the [sympy Quantum Mechanics module](https://docs.sympy.org/latest/modules/physics/quantum/index.html), see also the {py:func}`~pytket.utils.symbolic.circuit_to_symbolic_gates` and {py:func}`~pytket.utils.symbolic.circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 
-:::{warning}
+```{warning}
 Unitaries corresponding to circuits with $n$ qubits have dimensions $2^n \times 2^n$, so are computationally very expensive to calculate. Symbolic calculation is also computationally costly, meaning calculation of symbolic unitaries is only really feasible for very small circuits (of up to a few qubits in size). These utilities are provided as way to test the design of small subcircuits to check they are performing the intended unitary. Note also that as mentioned above, compilation of a symbolic circuit can generate long symbolic expressions; converting these circuits to a symbolic unitary could then result in a matrix object that is very hard to work with or interpret.
-:::
+```
 
 ## Advanced Circuit Construction Topics
 
@@ -1575,9 +1580,9 @@ After the tableau is added to a circuit, it can be readily decomposed to Cliffor
     draw(circ)
 ```
 
-:::{note}
+```{note}
 The current decomposition method for tableaux is not particularly efficient in terms of gate count, so consider using higher optimisation levels when compiling to help reduce the gate cost.
-:::
+```
 
 The data structure used here for tableaux is intended for compilation use. For fast simulation of Clifford circuits, we recommend using the {py:class}`StimBackend` from `pytket-stim`, the {py:class}`SimplexBackend` from `pytket-pysimplex` (optimized for large sparse circuits), or the {py:class}`~pytket.extensions.qiskit.AerBackend` from `pytket-qiskit`. Future versions of `pytket` may include improved decompositions from tableaux, as well as more flexible tableaux to represent stabilizer states, isometries, and diagonalisation circuits.
 
@@ -1727,11 +1732,11 @@ classical operations, just like quantum operations.
 
 ```
 
-:::{warning}
+```{warning}
 Unlike most uses of readouts in `pytket`, register comparisons expect a little-endian value, e.g. in the above example `condition=reg_eq(reg_a, 3)` (representing the little-endian binary string `110000...`) is triggered when `reg_a[0]` and `reg_a[1]` are in state `1` and the remainder of the register is in state `0`.
-:::
+```
 
-:::{note}
+```{note}
 This feature is only usable on a limited selection of devices and simulators which support conditional gates or classical operations.
 
 The {py:class}`~pytket.extensions.qiskit.AerBackend` (from [pytket-qiskit](https://tket.quantinuum.com/extensions/pytket-qiskit/)) can support the OpenQasm model,
@@ -1742,7 +1747,7 @@ Therefore only conditions of the form
 
 The {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` (from [pytket-quantinuum](https://tket.quantinuum.com/extensions/pytket-quantinuum/))
 can support the full range of expressions and comparisons shown above.
-:::
+```
 
 ### Circuit-Level Operations
 
@@ -1773,9 +1778,9 @@ Systematic modifications to a {py:class}`~pytket.circuit.Circuit` object can go 
 
 Generating the transpose of a unitary works similarly using {py:meth}`~pytket.circuit.Circuit.transpose`.
 
-:::{note}
+```{note}
 Since it is not possible to construct the inverse of an arbitrary POVM, the {py:meth}`~pytket.circuit.Circuit.dagger` and {py:meth}`~pytket.circuit.Circuit.transpose` methods will fail if there are any measurements, resets, or other operations that they cannot directly invert.
-:::
+```
 
 % Gradients wrt symbolic parameters
 
