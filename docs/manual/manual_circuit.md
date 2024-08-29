@@ -1503,24 +1503,24 @@ The {py:class}`~pytket.circuit.CircBox` construction is good for subroutines whe
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, CustomGateDef
-    from sympy import symbols
+from pytket.circuit import Circuit, CustomGateDef
+from sympy import symbols
 
-    a, b = symbols("a b")
-    def_circ = Circuit(2)
-    def_circ.CZ(0, 1)
-    def_circ.Rx(a, 1)
-    def_circ.CZ(0, 1)
-    def_circ.Rx(-a, 1)
-    def_circ.Rz(b, 0)
+a, b = symbols("a b")
+def_circ = Circuit(2)
+def_circ.CZ(0, 1)
+def_circ.Rx(a, 1)
+def_circ.CZ(0, 1)
+def_circ.Rx(-a, 1)
+def_circ.Rz(b, 0)
 
-    gate_def = CustomGateDef.define("MyCRx", def_circ, [a])
-    circ = Circuit(3)
-    circ.add_custom_gate(gate_def, [0.2], [0, 1])
-    circ.add_custom_gate(gate_def, [0.3], [0, 2])
+gate_def = CustomGateDef.define("MyCRx", def_circ, [a])
+circ = Circuit(3)
+circ.add_custom_gate(gate_def, [0.2], [0, 1])
+circ.add_custom_gate(gate_def, [0.3], [0, 2])
 
-    draw(circ)
-    print(circ.free_symbols()) # Print remaining free symbols
+draw(circ)
+print(circ.free_symbols()) # Print remaining free symbols
 ```
 
 ### Clifford Tableaux
@@ -1532,13 +1532,13 @@ Any state $|\psi\rangle$ in the Clifford fragment is uniquely identified by thos
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import OpType, Qubit
-    from pytket.tableau import UnitaryTableau
+from pytket.circuit import OpType, Qubit
+from pytket.tableau import UnitaryTableau
 
-    tab = UnitaryTableau(3)
-    tab.apply_gate_at_end(OpType.S, [Qubit(0)])
-    tab.apply_gate_at_end(OpType.CX, [Qubit(1), Qubit(2)])
-    print(tab)
+tab = UnitaryTableau(3)
+tab.apply_gate_at_end(OpType.S, [Qubit(0)])
+tab.apply_gate_at_end(OpType.CX, [Qubit(1), Qubit(2)])
+print(tab)
 ```
 
 The way to interpret this format is that, for example, the top rows state that the unitary transforms $X_0 I_1 I_2$ at its input to $-Y_0 I_1 I_2$ at its output, and it transforms $I_0 X_1 I_2$ to $I_0 X_1 X_2$.
@@ -1548,23 +1548,21 @@ The primary use for tableaux in `pytket` is as a scalable means of specifying a 
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit
-    from pytket.tableau import UnitaryTableauBox
+from pytket.circuit import Circuit
+from pytket.tableau import UnitaryTableauBox
 
-    box = UnitaryTableauBox(
-        np.asarray([[1, 1, 0], [0, 1, 0], [0, 0, 1]], dtype=bool),
-        np.asarray([[0, 0, 0], [0, 0, 0], [0, 0, 1]], dtype=bool),
-        np.asarray([0, 0, 1], dtype=bool),
-        np.asarray([[0, 0, 0], [0, 1, 0], [0, 0, 0]], dtype=bool),
-        np.asarray([[1, 0, 0], [1, 1, 0], [0, 0, 1]], dtype=bool),
-        np.asarray([1, 0, 1], dtype=bool)
-    )
+box = UnitaryTableauBox(
+    np.asarray([[1, 1, 0], [0, 1, 0], [0, 0, 1]], dtype=bool),
+    np.asarray([[0, 0, 0], [0, 0, 0], [0, 0, 1]], dtype=bool),
+    np.asarray([0, 0, 1], dtype=bool),
+    np.asarray([[0, 0, 0], [0, 1, 0], [0, 0, 0]], dtype=bool),
+    np.asarray([[1, 0, 0], [1, 1, 0], [0, 0, 1]], dtype=bool),
+    np.asarray([1, 0, 1], dtype=bool)
+)
 
-    circ = Circuit(3)
-    circ.add_gate(box, [0, 1, 2])
-    draw(circ)
-
-
+circ = Circuit(3)
+circ.add_gate(box, [0, 1, 2])
+draw(circ)
 ```
 
 After the tableau is added to a circuit, it can be readily decomposed to Clifford gates.
@@ -1572,12 +1570,12 @@ After the tableau is added to a circuit, it can be readily decomposed to Cliffor
 
 ```{code-cell} ipython3
 
-    from pytket.passes import DecomposeBoxes, RemoveRedundancies
+from pytket.passes import DecomposeBoxes, RemoveRedundancies
 
-    DecomposeBoxes().apply(circ)
-    RemoveRedundancies().apply(circ) # Eliminate some redundant gates
+DecomposeBoxes().apply(circ)
+RemoveRedundancies().apply(circ) # Eliminate some redundant gates
 
-    draw(circ)
+draw(circ)
 ```
 
 ```{note}
@@ -1618,59 +1616,59 @@ possible expressions and predicates.
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import (
-        Circuit,
-        BitRegister,
-        if_bit,
-        if_not_bit,
-        reg_eq,
-        reg_geq,
-        reg_gt,
-        reg_leq,
-        reg_lt,
-        reg_neq,
-    )
+from pytket.circuit import (
+    Circuit,
+    BitRegister,
+    if_bit,
+    if_not_bit,
+    reg_eq,
+    reg_geq,
+    reg_gt,
+    reg_leq,
+    reg_lt,
+    reg_neq,
+)
 
-    # create a circuit and add quantum and classical registers
-    circ = Circuit()
-    qreg = circ.add_q_register("q", 10)
-    reg_a = circ.add_c_register("a", 4)
-    # another way of adding a register to the Circuit
-    reg_b = BitRegister("b", 3)
-    circ.add_c_register(reg_b)
-    reg_c = circ.add_c_register("c", 3)
+# create a circuit and add quantum and classical registers
+circ = Circuit()
+qreg = circ.add_q_register("q", 10)
+reg_a = circ.add_c_register("a", 4)
+# another way of adding a register to the Circuit
+reg_b = BitRegister("b", 3)
+circ.add_c_register(reg_b)
+reg_c = circ.add_c_register("c", 3)
 
-    # if (reg_a[0] == 1)
-    circ.H(qreg[0], condition=reg_a[0])
-    circ.X(qreg[0], condition=if_bit(reg_a[0]))
+# if (reg_a[0] == 1)
+circ.H(qreg[0], condition=reg_a[0])
+circ.X(qreg[0], condition=if_bit(reg_a[0]))
 
-    # if (reg_a[2] == 0)
-    circ.T(qreg[1], condition=if_not_bit(reg_a[2]))
+# if (reg_a[2] == 0)
+circ.T(qreg[1], condition=if_not_bit(reg_a[2]))
 
-    # compound logical expressions
-    circ.Z(qreg[0], condition=(reg_a[2] & reg_a[3]))
-    circ.Z(qreg[1], condition=if_not_bit(reg_a[2] & reg_a[3]))
-    big_exp = reg_a[0] | reg_a[1] ^ reg_a[2] & reg_a[3]
-    # syntactic sugar for big_exp = BitOr(reg_a[0], BitXor(reg_a[1], BitAnd(reg_a[2], reg_a[3])))
-    circ.CX(qreg[1], qreg[2], condition=big_exp)
+# compound logical expressions
+circ.Z(qreg[0], condition=(reg_a[2] & reg_a[3]))
+circ.Z(qreg[1], condition=if_not_bit(reg_a[2] & reg_a[3]))
+big_exp = reg_a[0] | reg_a[1] ^ reg_a[2] & reg_a[3]
+# syntactic sugar for big_exp = BitOr(reg_a[0], BitXor(reg_a[1], BitAnd(reg_a[2], reg_a[3])))
+circ.CX(qreg[1], qreg[2], condition=big_exp)
 
-    # Register comparisons
+# Register comparisons
 
-    # if (reg_a == 3)
-    circ.H(qreg[2], condition=reg_eq(reg_a, 3))
-    # if (reg_c != 6)
-    circ.Y(qreg[4], condition=reg_neq(reg_c, 5))
-    # if (reg_b < 6)
-    circ.X(qreg[3], condition=reg_lt(reg_b, 6))
-    # if (reg_b > 3)
-    circ.Z(qreg[5], condition=reg_gt(reg_b, 3))
-    # if (reg_c <= 6)
-    circ.S(qreg[6], condition=reg_leq(reg_c, 6))
-    # if (reg_a >= 3)
-    circ.T(qreg[7], condition=reg_geq(reg_a, 3))
-    # compound register expressions
-    big_reg_exp = (reg_a & reg_b) | reg_c
-    circ.CX(qreg[3], qreg[4], condition=reg_eq(big_reg_exp, 3))
+# if (reg_a == 3)
+circ.H(qreg[2], condition=reg_eq(reg_a, 3))
+# if (reg_c != 6)
+circ.Y(qreg[4], condition=reg_neq(reg_c, 5))
+# if (reg_b < 6)
+circ.X(qreg[3], condition=reg_lt(reg_b, 6))
+# if (reg_b > 3)
+circ.Z(qreg[5], condition=reg_gt(reg_b, 3))
+# if (reg_c <= 6)
+circ.S(qreg[6], condition=reg_leq(reg_c, 6))
+# if (reg_a >= 3)
+circ.T(qreg[7], condition=reg_geq(reg_a, 3))
+# compound register expressions
+big_reg_exp = (reg_a & reg_b) | reg_c
+circ.CX(qreg[3], qreg[4], condition=reg_eq(big_reg_exp, 3))
 ```
 
 So far we've looked at conditioning the application of a gate on bits,
@@ -1686,49 +1684,49 @@ classical operations, just like quantum operations.
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, reg_gt
+from pytket.circuit import Circuit, reg_gt
 
-    # create a circuit and add some classical registers
-    circ = Circuit()
-    reg_a = circ.add_c_register("a", 4)
-    reg_b = circ.add_c_register("b", 3)
-    reg_c = circ.add_c_register("c", 3)
+# create a circuit and add some classical registers
+circ = Circuit()
+reg_a = circ.add_c_register("a", 4)
+reg_b = circ.add_c_register("b", 3)
+reg_c = circ.add_c_register("c", 3)
 
 
-    # Write to classical registers
+# Write to classical registers
 
-    # a = 3
-    circ.add_c_setreg(3, reg_a)
-    # a[0] = 1
-    circ.add_c_setbits([1], [reg_a[0]])
-    # Copy: b = a
-    # b is smaller than a so the first 3 bits of a will be copied
-    circ.add_c_copyreg(reg_a, reg_b)
-    # b[1] = a[2]
-    circ.add_c_copybits([reg_a[2]], [reg_b[1]])
+# a = 3
+circ.add_c_setreg(3, reg_a)
+# a[0] = 1
+circ.add_c_setbits([1], [reg_a[0]])
+# Copy: b = a
+# b is smaller than a so the first 3 bits of a will be copied
+circ.add_c_copyreg(reg_a, reg_b)
+# b[1] = a[2]
+circ.add_c_copybits([reg_a[2]], [reg_b[1]])
 
-    # Conditional classical operation
+# Conditional classical operation
 
-    # if (a > 1) b = 3
-    circ.add_c_setreg(3, reg_b, condition=reg_gt(reg_a, 1))
+# if (a > 1) b = 3
+circ.add_c_setreg(3, reg_b, condition=reg_gt(reg_a, 1))
 
-    # Write out the results of logical expressions
+# Write out the results of logical expressions
 
-    # c = a ^ b
-    circ.add_classicalexpbox_register(reg_a ^ reg_b, reg_c)
-    # c[0] = a[1] & b[2]
-    circ.add_classicalexpbox_bit(reg_a[1] & reg_b[2], [reg_c[0]])
+# c = a ^ b
+circ.add_classicalexpbox_register(reg_a ^ reg_b, reg_c)
+# c[0] = a[1] & b[2]
+circ.add_classicalexpbox_bit(reg_a[1] & reg_b[2], [reg_c[0]])
 
-    # Register arithmetic
+# Register arithmetic
 
-    # c = a + b // c (note the use of the floor divide symbol)
-    circ.add_classicalexpbox_register(reg_a + reg_b // reg_c, reg_c)
-    # a = a - b * c
-    circ.add_classicalexpbox_register(reg_a - reg_b * reg_c, reg_a)
-    # a = a << 2
-    circ.add_classicalexpbox_register(reg_a << 2, reg_a)
-    # c = b >> 1
-    circ.add_classicalexpbox_register(reg_b >> 1, reg_c)
+# c = a + b // c (note the use of the floor divide symbol)
+circ.add_classicalexpbox_register(reg_a + reg_b // reg_c, reg_c)
+# a = a - b * c
+circ.add_classicalexpbox_register(reg_a - reg_b * reg_c, reg_a)
+# a = a << 2
+circ.add_classicalexpbox_register(reg_a << 2, reg_a)
+# c = b >> 1
+circ.add_classicalexpbox_register(reg_b >> 1, reg_c)
 
 ```
 
@@ -1760,20 +1758,20 @@ Systematic modifications to a {py:class}`~pytket.circuit.Circuit` object can go 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    # we want a circuit for E = exp(-i pi (0.3 XX + 0.1 YY))
-    circ = Circuit(2)
+# we want a circuit for E = exp(-i pi (0.3 XX + 0.1 YY))
+circ = Circuit(2)
 
-    # find C such that C; Rx(a, 0); C^dagger performs exp(-i a pi XX/2)
-    # and C; Rz(b, 1); C^dagger performs exp(-i b pi YY/2)
-    conj = Circuit(2)
-    conj.V(0).V(1).CX(0, 1)
-    conj_dag = conj.dagger()
+# find C such that C; Rx(a, 0); C^dagger performs exp(-i a pi XX/2)
+# and C; Rz(b, 1); C^dagger performs exp(-i b pi YY/2)
+conj = Circuit(2)
+conj.V(0).V(1).CX(0, 1)
+conj_dag = conj.dagger()
 
-    circ.append(conj)
-    circ.Rx(0.6, 0).Rz(0.2, 1)
-    circ.append(conj_dag)
+circ.append(conj)
+circ.Rx(0.6, 0).Rz(0.2, 1)
+circ.append(conj_dag)
 ```
 
 Generating the transpose of a unitary works similarly using {py:meth}`~pytket.circuit.Circuit.transpose`.
@@ -1795,28 +1793,28 @@ The {py:class}`~pytket.circuit.Circuit` class is built as a DAG to help follow t
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.utils import Graph
+from pytket import Circuit
+from pytket.utils import Graph
 
-    circ = Circuit(4)
-    circ.CX(0, 1)
-    circ.CX(1, 0)
-    circ.Rx(0.2, 1)
-    circ.CZ(0, 1)
+circ = Circuit(4)
+circ.CX(0, 1)
+circ.CX(1, 0)
+circ.Rx(0.2, 1)
+circ.CZ(0, 1)
 
-    print(circ.get_commands())
-    Graph(circ).get_DAG()
+print(circ.get_commands())
+Graph(circ).get_DAG()
 ```
 
 
 ```{code-cell} ipython3
 
-    from pytket.passes import CliffordSimp
+from pytket.passes import CliffordSimp
 
-    CliffordSimp().apply(circ)
-    print(circ.get_commands())
-    print(circ.implicit_qubit_permutation())
-    Graph(circ).get_DAG()
+CliffordSimp().apply(circ)
+print(circ.get_commands())
+print(circ.implicit_qubit_permutation())
+Graph(circ).get_DAG()
 ```
 
 % This encapsulates naturality of the symmetry in the resource theory, effectively shifting the swap to the end of the circuit
@@ -1844,39 +1842,39 @@ To add gates or boxes to a circuit with specified op group names, simply pass th
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, CircBox
+from pytket.circuit import Circuit, CircBox
 
-    circ = Circuit(3)
-    circ.Rz(0.25, 0, opgroup="rotations")
-    circ.CX(0, 1)
-    circ.Ry(0.75, 1, opgroup="rotations")
-    circ.H(2, opgroup="special one")
-    circ.CX(2, 1)
-    cbox = CircBox(Circuit(2, name="P").S(0).CY(0, 1))
-    circ.add_gate(cbox, [0, 1], opgroup="Fred")
-    circ.CX(1, 2, opgroup="Fred")
+circ = Circuit(3)
+circ.Rz(0.25, 0, opgroup="rotations")
+circ.CX(0, 1)
+circ.Ry(0.75, 1, opgroup="rotations")
+circ.H(2, opgroup="special one")
+circ.CX(2, 1)
+cbox = CircBox(Circuit(2, name="P").S(0).CY(0, 1))
+circ.add_gate(cbox, [0, 1], opgroup="Fred")
+circ.CX(1, 2, opgroup="Fred")
 
-    draw(circ)
+draw(circ)
 ```
 
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Op
+from pytket.circuit import Op
 
-    # Substitute a new 1-qubit circuit for all ops in the "rotations" group:
-    newcirc = Circuit(1).Rx(0.125, 0).Ry(0.875, 0)
-    circ.substitute_named(newcirc, "rotations")
+# Substitute a new 1-qubit circuit for all ops in the "rotations" group:
+newcirc = Circuit(1).Rx(0.125, 0).Ry(0.875, 0)
+circ.substitute_named(newcirc, "rotations")
 
-    # Replace the "special one" with a different op:
-    newop = Op.create(OpType.T)
-    circ.substitute_named(newop, "special one")
+# Replace the "special one" with a different op:
+newop = Op.create(OpType.T)
+circ.substitute_named(newop, "special one")
 
-    # Substitute a box for the "Fred" group:
-    newcbox = CircBox(Circuit(2, name="Q").H(1).CX(1, 0))
-    circ.substitute_named(newcbox, "Fred")
+# Substitute a box for the "Fred" group:
+newcbox = CircBox(Circuit(2, name="Q").H(1).CX(1, 0))
+circ.substitute_named(newcbox, "Fred")
 
-    draw(circ)
+draw(circ)
 ```
 
 Note that when an operation or box is substituted in, the op group name is retained (and further substitutions can be made). When a circuit is substituted in, the op group name disappears.
@@ -1888,33 +1886,33 @@ To add a control to an operation, one can add the original operation as a {py:cl
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import QControlBox
+from pytket.circuit import QControlBox
 
-    def with_empty_qubit(op: Op) -> CircBox:
-        n_qb = op.n_qubits
-        return CircBox(Circuit(n_qb + 1).add_gate(op, list(range(1, n_qb + 1))))
+def with_empty_qubit(op: Op) -> CircBox:
+    n_qb = op.n_qubits
+    return CircBox(Circuit(n_qb + 1).add_gate(op, list(range(1, n_qb + 1))))
 
-    def with_control_qubit(op: Op) -> QControlBox:
-        return QControlBox(op, 1)
+def with_control_qubit(op: Op) -> QControlBox:
+    return QControlBox(op, 1)
 
-    c = Circuit(3)
-    h_op = Op.create(OpType.H)
-    cx_op = Op.create(OpType.CX)
-    h_0_cbox = with_empty_qubit(h_op)
-    h_q_qbox = with_control_qubit(h_op)
-    cx_0_cbox = with_empty_qubit(cx_op)
-    cx_q_qbox = with_control_qubit(cx_op)
-    c.X(0).Y(1)
-    c.add_gate(h_0_cbox, [2, 0], opgroup="hgroup")
-    c.add_gate(cx_0_cbox, [2, 0, 1], opgroup="cxgroup")
-    c.Y(0).X(1)
-    c.add_gate(h_0_cbox, [2, 1], opgroup="hgroup")
-    c.add_gate(cx_0_cbox, [2, 1, 0], opgroup="cxgroup")
-    c.X(0).Y(1)
-    c.substitute_named(h_q_qbox, "hgroup")
-    c.substitute_named(cx_q_qbox, "cxgroup")
+c = Circuit(3)
+h_op = Op.create(OpType.H)
+cx_op = Op.create(OpType.CX)
+h_0_cbox = with_empty_qubit(h_op)
+h_q_qbox = with_control_qubit(h_op)
+cx_0_cbox = with_empty_qubit(cx_op)
+cx_q_qbox = with_control_qubit(cx_op)
+c.X(0).Y(1)
+c.add_gate(h_0_cbox, [2, 0], opgroup="hgroup")
+c.add_gate(cx_0_cbox, [2, 0, 1], opgroup="cxgroup")
+c.Y(0).X(1)
+c.add_gate(h_0_cbox, [2, 1], opgroup="hgroup")
+c.add_gate(cx_0_cbox, [2, 1, 0], opgroup="cxgroup")
+c.X(0).Y(1)
+c.substitute_named(h_q_qbox, "hgroup")
+c.substitute_named(cx_q_qbox, "cxgroup")
 
-    draw(c)
+draw(c)
 ```
 
 [^cite_cowt2020]: Cowtan, A. and Dilkes, S. and Duncan and R., Simmons, W and Sivarajah, S., 2020. Phase Gadget Synthesis for Shallow Circuits. Electronic Proceedings in Theoretical Computer Science
