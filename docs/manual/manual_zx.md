@@ -35,12 +35,12 @@ Let's start by making the standard diagram for the qubit teleportation algorithm
 
 ```{code-cell} ipython3
 
-    import pytket
-    from pytket.zx import ZXDiagram, ZXType, QuantumType, ZXWireType
-    import graphviz as gv
+import pytket
+from pytket.zx import ZXDiagram, ZXType, QuantumType, ZXWireType
+import graphviz as gv
 
-    tele = ZXDiagram(1, 1, 0, 0)
-    gv.Source(tele.to_graphviz_str())
+tele = ZXDiagram(1, 1, 0, 0)
+gv.Source(tele.to_graphviz_str())
 ```
 
 We will choose to represent the Bell state as a cup (i.e. an edge connecting one side of the CX to the first correction). In terms of vertices, we need two for the CX gate, two for the measurements, and four for the encoding and application of corrections. The CX and corrections need to be coherent operations so will be {py:class}`QuantumType.Quantum` as opposed to the measurements and encodings. We can then link them up by adding edges of the appropriate {py:class}`QuantumType`. The visualisations will show {py:class}`QuantumType.Quantum` generators and edges with thick lines and {py:class}`QuantumType.Classical` with thinner lines as per standard notation conventions.
@@ -48,38 +48,38 @@ We will choose to represent the Bell state as a cup (i.e. an edge connecting one
 
 ```{code-cell} ipython3
 
-    (in_v, out_v) = tele.get_boundary()
-    cx_c = tele.add_vertex(ZXType.ZSpider)
-    cx_t = tele.add_vertex(ZXType.XSpider)
-    z_meas = tele.add_vertex(ZXType.ZSpider, qtype=QuantumType.Classical)
-    x_meas = tele.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
-    z_enc = tele.add_vertex(ZXType.ZSpider, qtype=QuantumType.Classical)
-    x_enc = tele.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
-    z_correct = tele.add_vertex(ZXType.ZSpider)
-    x_correct = tele.add_vertex(ZXType.XSpider)
+(in_v, out_v) = tele.get_boundary()
+cx_c = tele.add_vertex(ZXType.ZSpider)
+cx_t = tele.add_vertex(ZXType.XSpider)
+z_meas = tele.add_vertex(ZXType.ZSpider, qtype=QuantumType.Classical)
+x_meas = tele.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
+z_enc = tele.add_vertex(ZXType.ZSpider, qtype=QuantumType.Classical)
+x_enc = tele.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
+z_correct = tele.add_vertex(ZXType.ZSpider)
+x_correct = tele.add_vertex(ZXType.XSpider)
 
-    # Bell pair between CX and first correction
-    tele.add_wire(cx_t, x_correct)
+# Bell pair between CX and first correction
+tele.add_wire(cx_t, x_correct)
 
-    # Apply CX between input and first ancilla
-    tele.add_wire(in_v, cx_c)
-    tele.add_wire(cx_c, cx_t)
+# Apply CX between input and first ancilla
+tele.add_wire(in_v, cx_c)
+tele.add_wire(cx_c, cx_t)
 
-    # Measure first two qubits
-    tele.add_wire(cx_c, x_meas)
-    tele.add_wire(cx_t, z_meas)
+# Measure first two qubits
+tele.add_wire(cx_c, x_meas)
+tele.add_wire(cx_t, z_meas)
 
-    # Feed measurement outcomes to corrections
-    tele.add_wire(x_meas, x_enc, qtype=QuantumType.Classical)
-    tele.add_wire(x_enc, z_correct)
-    tele.add_wire(z_meas, z_enc, qtype=QuantumType.Classical)
-    tele.add_wire(z_enc, x_correct)
+# Feed measurement outcomes to corrections
+tele.add_wire(x_meas, x_enc, qtype=QuantumType.Classical)
+tele.add_wire(x_enc, z_correct)
+tele.add_wire(z_meas, z_enc, qtype=QuantumType.Classical)
+tele.add_wire(z_enc, x_correct)
 
-    # Apply corrections to second ancilla
-    tele.add_wire(x_correct, z_correct)
-    tele.add_wire(z_correct, out_v)
+# Apply corrections to second ancilla
+tele.add_wire(x_correct, z_correct)
+tele.add_wire(z_correct, out_v)
 
-    gv.Source(tele.to_graphviz_str())
+gv.Source(tele.to_graphviz_str())
 ```
 
 We can use this teleportation algorithm as a component in a larger diagram using a {py:class}`ZXBox`. Here, we insert it in the middle of a two qubit circuit.
@@ -87,38 +87,38 @@ We can use this teleportation algorithm as a component in a larger diagram using
 
 ```{code-cell} ipython3
 
-    circ_diag = ZXDiagram(2, 1, 0, 1)
-    qin0 = circ_diag.get_boundary(ZXType.Input)[0]
-    qin1 = circ_diag.get_boundary(ZXType.Input)[1]
-    qout = circ_diag.get_boundary(ZXType.Output)[0]
-    cout = circ_diag.get_boundary(ZXType.Output)[1]
+circ_diag = ZXDiagram(2, 1, 0, 1)
+qin0 = circ_diag.get_boundary(ZXType.Input)[0]
+qin1 = circ_diag.get_boundary(ZXType.Input)[1]
+qout = circ_diag.get_boundary(ZXType.Output)[0]
+cout = circ_diag.get_boundary(ZXType.Output)[1]
 
-    cz_c = circ_diag.add_vertex(ZXType.ZSpider)
-    cz_t = circ_diag.add_vertex(ZXType.ZSpider)
-    # Phases of spiders are given in half-turns, so this is a pi/4 rotation
-    rx = circ_diag.add_vertex(ZXType.XSpider, 0.25)
-    x_meas = circ_diag.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
-    box = circ_diag.add_zxbox(tele)
+cz_c = circ_diag.add_vertex(ZXType.ZSpider)
+cz_t = circ_diag.add_vertex(ZXType.ZSpider)
+# Phases of spiders are given in half-turns, so this is a pi/4 rotation
+rx = circ_diag.add_vertex(ZXType.XSpider, 0.25)
+x_meas = circ_diag.add_vertex(ZXType.XSpider, qtype=QuantumType.Classical)
+box = circ_diag.add_zxbox(tele)
 
-    # CZ between inputs
-    circ_diag.add_wire(qin0, cz_c)
-    circ_diag.add_wire(qin1, cz_t)
-    circ_diag.add_wire(cz_c, cz_t, type=ZXWireType.H)
+# CZ between inputs
+circ_diag.add_wire(qin0, cz_c)
+circ_diag.add_wire(qin1, cz_t)
+circ_diag.add_wire(cz_c, cz_t, type=ZXWireType.H)
 
-    # Rx on first qubit
-    circ_diag.add_wire(cz_c, rx)
+# Rx on first qubit
+circ_diag.add_wire(cz_c, rx)
 
-    # Teleport first qubit
-    # The inputs appear first in the boundary of tele, so port 0 is the input
-    circ_diag.add_wire(u=rx, v=box, v_port=0)
-    # Port 1 for the output
-    circ_diag.add_wire(u=box, v=qout, u_port=1)
+# Teleport first qubit
+# The inputs appear first in the boundary of tele, so port 0 is the input
+circ_diag.add_wire(u=rx, v=box, v_port=0)
+# Port 1 for the output
+circ_diag.add_wire(u=box, v=qout, u_port=1)
 
-    # Measure second qubit destructively and output result
-    circ_diag.add_wire(cz_t, x_meas)
-    circ_diag.add_wire(x_meas, cout, type=ZXWireType.H, qtype=QuantumType.Classical)
+# Measure second qubit destructively and output result
+circ_diag.add_wire(cz_t, x_meas)
+circ_diag.add_wire(x_meas, cout, type=ZXWireType.H, qtype=QuantumType.Classical)
 
-    gv.Source(circ_diag.to_graphviz_str())
+gv.Source(circ_diag.to_graphviz_str())
 ```
 
 % Validity conditions of a diagram
@@ -141,11 +141,12 @@ As the pytket ZX diagrams represent mixed diagrams, this impacts the interpretat
 
 ```{code-cell} ipython3
 
-    from pytket.zx.tensor_eval import tensor_from_mixed_diagram
-    ten = tensor_from_mixed_diagram(circ_diag)
-    # Indices are (qin0, qin0_conj, qin1, qin1_conj, qout, qout_conj, cout)
-    print(ten.shape)
-    print(ten[:, :, 1, 1, 0, 0, :].round(4))
+from pytket.zx.tensor_eval import tensor_from_mixed_diagram
+
+ten = tensor_from_mixed_diagram(circ_diag)
+# Indices are (qin0, qin0_conj, qin1, qin1_conj, qout, qout_conj, cout)
+print(ten.shape)
+print(ten[:, :, 1, 1, 0, 0, :].round(4))
 ```
 
 In many cases, we work with pure quantum diagrams. This doubling would cause substantial blowup in time and memory for evaluation, as well as making the tensor difficult to navigate for large diagrams. {py:meth}`tensor_from_quantum_diagram()` achieves the same as converting all {py:class}`QuantumType.Quantum` components to {py:class}`QuantumType.Classical`, meaning every edge is reduced down to dimension 2. Since the global scalar is maintained with respect to a doubled diagram, its square root is incorporated into the tensor, though we do not maintain the coherent global phase of a pure quantum diagram in this way. For diagrams like this, {py:meth}`unitary_from_quantum_diagram()` reformats the tensor into the conventional unitary (with big-endian indexing).
@@ -153,23 +154,24 @@ In many cases, we work with pure quantum diagrams. This doubling would cause sub
 
 ```{code-cell} ipython3
 
-    from pytket.zx.tensor_eval import tensor_from_quantum_diagram, unitary_from_quantum_diagram
-    u_diag = ZXDiagram(2, 2, 0, 0)
-    ins = u_diag.get_boundary(ZXType.Input)
-    outs = u_diag.get_boundary(ZXType.Output)
-    cx_c = u_diag.add_vertex(ZXType.ZSpider)
-    cx_t = u_diag.add_vertex(ZXType.XSpider)
-    rz = u_diag.add_vertex(ZXType.ZSpider, -0.25)
+from pytket.zx.tensor_eval import tensor_from_quantum_diagram, unitary_from_quantum_diagram
 
-    u_diag.add_wire(ins[0], cx_c)
-    u_diag.add_wire(ins[1], cx_t)
-    u_diag.add_wire(cx_c, cx_t)
-    u_diag.add_wire(cx_t, rz)
-    u_diag.add_wire(cx_c, outs[0])
-    u_diag.add_wire(rz, outs[1])
+u_diag = ZXDiagram(2, 2, 0, 0)
+ins = u_diag.get_boundary(ZXType.Input)
+outs = u_diag.get_boundary(ZXType.Output)
+cx_c = u_diag.add_vertex(ZXType.ZSpider)
+cx_t = u_diag.add_vertex(ZXType.XSpider)
+rz = u_diag.add_vertex(ZXType.ZSpider, -0.25)
 
-    print(tensor_from_quantum_diagram(u_diag).round(4))
-    print(unitary_from_quantum_diagram(u_diag).round(4))
+u_diag.add_wire(ins[0], cx_c)
+u_diag.add_wire(ins[1], cx_t)
+u_diag.add_wire(cx_c, cx_t)
+u_diag.add_wire(cx_t, rz)
+u_diag.add_wire(cx_c, outs[0])
+u_diag.add_wire(rz, outs[1])
+
+print(tensor_from_quantum_diagram(u_diag).round(4))
+print(unitary_from_quantum_diagram(u_diag).round(4))
 ```
 
 Similarly, one may use {py:meth}`density_matrix_from_cptp_diagram()` to obtain a density matrix when all boundaries are {py:class}`QuantumType.Quantum` but the diagram itself contains mixed components. When input boundaries exist, this gives the density matrix under the Choi-Jamiołkovski isomorphism. For example, we can verify that our teleportation diagram from earlier really does reduce to the identity (recall that the Choi-Jamiołkovski isomorphism maps the identity channel to a Bell state).
@@ -177,9 +179,9 @@ Similarly, one may use {py:meth}`density_matrix_from_cptp_diagram()` to obtain a
 
 ```{code-cell} ipython3
 
-    from pytket.zx.tensor_eval import density_matrix_from_cptp_diagram
+from pytket.zx.tensor_eval import density_matrix_from_cptp_diagram
 
-    print(density_matrix_from_cptp_diagram(tele))
+print(density_matrix_from_cptp_diagram(tele))
 ```
 
 % Tensor indices, unitaries and states; initialisation and post-selection
@@ -189,9 +191,9 @@ Another way to potentially reduce the computational load for tensor evaluation i
 
 ```{code-cell} ipython3
 
-    from pytket.zx.tensor_eval import fix_inputs_to_binary_state
-    state_diag = fix_inputs_to_binary_state(u_diag, [1, 0])
-    print(unitary_from_quantum_diagram(state_diag).round(4))
+from pytket.zx.tensor_eval import fix_inputs_to_binary_state
+state_diag = fix_inputs_to_binary_state(u_diag, [1, 0])
+print(unitary_from_quantum_diagram(state_diag).round(4))
 ```
 
 % Note on location in test folder
@@ -203,7 +205,7 @@ The ability to build static diagrams is fine for visualisation and simulation ne
 
 ```{code-cell} ipython3
 
-    gv.Source(tele.to_graphviz_str())
+gv.Source(tele.to_graphviz_str())
 ```
 
 % Boundaries (ordering, types and incident edges, not associated to UnitIDs)
@@ -217,10 +219,10 @@ Once we have an edge, we can inspect and modify its properties, specifically its
 
 ```{code-cell} ipython3
 
-    (in_v, out_v) = tele.get_boundary()
-    in_edge = tele.adj_wires(in_v)[0]
-    print(tele.get_wire_qtype(in_edge))
-    print(tele.get_wire_type(in_edge))
+(in_v, out_v) = tele.get_boundary()
+in_edge = tele.adj_wires(in_v)[0]
+print(tele.get_wire_qtype(in_edge))
+print(tele.get_wire_type(in_edge))
 ```
 
 The diagram is presented as an undirected graph. We can inspect the end points of an edge with {py:meth}`ZXDiagram.get_wire_ends()`, which returns pairs of vertex and port. If we simply wish to traverse the edge to the next vertex, we use {py:meth}`ZXDiagram.other_end()`. Or we can skip wire traversal altogether using {py:meth}`ZXDiagram.neighbours()` to enumerate the neighbours of a given vertex. This is mostly useful when the wires in a diagram have a consistent form, such as in a graphlike or MBQC diagram (every wire is a Hadamard except for boundary wires).
@@ -230,11 +232,11 @@ If you are searching the diagram for a pattern that is simple enough that a full
 
 ```{code-cell} ipython3
 
-    cx_c = tele.other_end(in_edge, in_v)
-    assert tele.get_wire_ends(in_edge) == ((in_v, None), (cx_c, None))
+cx_c = tele.other_end(in_edge, in_v)
+assert tele.get_wire_ends(in_edge) == ((in_v, None), (cx_c, None))
 
-    for v in tele.vertices:
-        print(tele.get_zxtype(v))
+for v in tele.vertices:
+    print(tele.get_zxtype(v))
 ```
 
 Using this, we can scan our diagram for adjacent spiders of the same colour connected by a basic edge to apply spider fusion. In general, this will require us to also inspect the generators of the vertex to be able to add the phases and update the {py:class}`QuantumType` in case of merging with a {py:class}`QuantumType.Classical` spider.
@@ -248,42 +250,42 @@ Each generator object is immutable, so updating a vertex requires creating a new
 
 ```{code-cell} ipython3
 
-    from pytket.zx import PhasedGen
+from pytket.zx import PhasedGen
 
-    def fuse():
-        removed = []
-        for v in tele.vertices:
-            if v in removed or tele.get_zxtype(v) not in (ZXType.ZSpider, ZXType.XSpider):
+def fuse():
+    removed = []
+    for v in tele.vertices:
+        if v in removed or tele.get_zxtype(v) not in (ZXType.ZSpider, ZXType.XSpider):
+            continue
+        for w in tele.adj_wires(v):
+            if tele.get_wire_type(w) != ZXWireType.Basic:
                 continue
-            for w in tele.adj_wires(v):
-                if tele.get_wire_type(w) != ZXWireType.Basic:
-                    continue
 
-                n = tele.other_end(w, v)
-                if tele.get_zxtype(n) != tele.get_zxtype(v):
-                    continue
+            n = tele.other_end(w, v)
+            if tele.get_zxtype(n) != tele.get_zxtype(v):
+                continue
 
-                # Match found, copy n's edges onto v
-                for nw in tele.adj_wires(n):
-                    if nw != w:
-                        # We know all vertices here are symmetric generators so we
-                        # don't need to care about port information
-                        nn = tele.other_end(nw, n)
-                        wtype = tele.get_wire_type(nw)
-                        qtype = tele.get_wire_qtype(nw)
-                        tele.add_wire(v, nn, wtype, qtype)
-                # Update v to have total phase
-                n_spid = tele.get_vertex_ZXGen(n)
-                v_spid = tele.get_vertex_ZXGen(v)
-                v_qtype = QuantumType.Classical if n_spid.qtype == QuantumType.Classical or v_spid.qtype == QuantumType.Classical else QuantumType.Quantum
-                tele.set_vertex_ZXGen(v, PhasedGen(v_spid.type, v_spid.param + n_spid.param, v_qtype))
-                # Remove n
-                tele.remove_vertex(n)
-                removed.append(n)
+            # Match found, copy n's edges onto v
+            for nw in tele.adj_wires(n):
+                if nw != w:
+                    # We know all vertices here are symmetric generators so we
+                    # don't need to care about port information
+                    nn = tele.other_end(nw, n)
+                    wtype = tele.get_wire_type(nw)
+                    qtype = tele.get_wire_qtype(nw)
+                    tele.add_wire(v, nn, wtype, qtype)
+            # Update v to have total phase
+            n_spid = tele.get_vertex_ZXGen(n)
+            v_spid = tele.get_vertex_ZXGen(v)
+            v_qtype = QuantumType.Classical if n_spid.qtype == QuantumType.Classical or v_spid.qtype == QuantumType.Classical else QuantumType.Quantum
+            tele.set_vertex_ZXGen(v, PhasedGen(v_spid.type, v_spid.param + n_spid.param, v_qtype))
+            # Remove n
+            tele.remove_vertex(n)
+            removed.append(n)
 
-    fuse()
+fuse()
 
-    gv.Source(tele.to_graphviz_str())
+gv.Source(tele.to_graphviz_str())
 ```
 
 Similarly, we can scan for a pair of adjacent basic edges between a green and a red spider for the strong complementarity rule.
@@ -291,32 +293,32 @@ Similarly, we can scan for a pair of adjacent basic edges between a green and a 
 
 ```{code-cell} ipython3
 
-    def strong_comp():
-        gr_edges = dict()
-        for w in tele.wires:
-            if tele.get_wire_type(w) != ZXWireType.Basic:
-                continue
-            ((u, u_port), (v, v_port)) = tele.get_wire_ends(w)
-            gr_match = None
-            if tele.get_zxtype(u) == ZXType.ZSpider and tele.get_zxtype(v) == ZXType.XSpider:
-                gr_match = (u, v)
-            elif tele.get_zxtype(u) == ZXType.XSpider and tele.get_zxtype(v) == ZXType.ZSpider:
-                gr_match = (v, u)
+def strong_comp():
+    gr_edges = dict()
+    for w in tele.wires:
+        if tele.get_wire_type(w) != ZXWireType.Basic:
+            continue
+        ((u, u_port), (v, v_port)) = tele.get_wire_ends(w)
+        gr_match = None
+        if tele.get_zxtype(u) == ZXType.ZSpider and tele.get_zxtype(v) == ZXType.XSpider:
+            gr_match = (u, v)
+        elif tele.get_zxtype(u) == ZXType.XSpider and tele.get_zxtype(v) == ZXType.ZSpider:
+            gr_match = (v, u)
 
-            if gr_match:
-                if gr_match in gr_edges:
-                    # Found a matching pair, remove them
-                    other_w = gr_edges[gr_match]
-                    tele.remove_wire(w)
-                    tele.remove_wire(other_w)
-                    del gr_edges[gr_match]
-                else:
-                    # Record the edge for later
-                    gr_edges[gr_match] = w
+        if gr_match:
+            if gr_match in gr_edges:
+                # Found a matching pair, remove them
+                other_w = gr_edges[gr_match]
+                tele.remove_wire(w)
+                tele.remove_wire(other_w)
+                del gr_edges[gr_match]
+            else:
+                # Record the edge for later
+                gr_edges[gr_match] = w
 
-    strong_comp()
+strong_comp()
 
-    gv.Source(tele.to_graphviz_str())
+gv.Source(tele.to_graphviz_str())
 ```
 
 Finally, we write a procedure that finds spiders of degree 2 which act like an identity. We need to check that the phase on the spider is zero, and that the {py:class}`QuantumType` of the generator matches those of the incident edges (so we don't accidentally remove decoherence spiders).
@@ -324,43 +326,43 @@ Finally, we write a procedure that finds spiders of degree 2 which act like an i
 
 ```{code-cell} ipython3
 
-    def id_remove():
-        for v in tele.vertices:
-            if tele.degree(v) == 2 and tele.get_zxtype(v) in (ZXType.ZSpider, ZXType.XSpider):
-                spid = tele.get_vertex_ZXGen(v)
-                ws = tele.adj_wires(v)
-                if spid.param == 0 and tele.get_wire_qtype(ws[0]) == spid.qtype and tele.get_wire_qtype(ws[1]) == spid.qtype:
-                    # Found an identity
-                    n0 = tele.other_end(ws[0], v)
-                    n1 = tele.other_end(ws[1], v)
-                    wtype = ZXWireType.H if (tele.get_wire_type(ws[0]) == ZXWireType.H) != (tele.get_wire_type(ws[1]) == ZXWireType.H) else ZXWireType.Basic
-                    tele.add_wire(n0, n1, wtype, spid.qtype)
-                    tele.remove_vertex(v)
+def id_remove():
+    for v in tele.vertices:
+        if tele.degree(v) == 2 and tele.get_zxtype(v) in (ZXType.ZSpider, ZXType.XSpider):
+            spid = tele.get_vertex_ZXGen(v)
+            ws = tele.adj_wires(v)
+            if spid.param == 0 and tele.get_wire_qtype(ws[0]) == spid.qtype and tele.get_wire_qtype(ws[1]) == spid.qtype:
+                # Found an identity
+                n0 = tele.other_end(ws[0], v)
+                n1 = tele.other_end(ws[1], v)
+                wtype = ZXWireType.H if (tele.get_wire_type(ws[0]) == ZXWireType.H) != (tele.get_wire_type(ws[1]) == ZXWireType.H) else ZXWireType.Basic
+                tele.add_wire(n0, n1, wtype, spid.qtype)
+                tele.remove_vertex(v)
 
-    id_remove()
+id_remove()
 
-    gv.Source(tele.to_graphviz_str())
+gv.Source(tele.to_graphviz_str())
 ```
 
 
 ```{code-cell} ipython3
 
-    fuse()
-    gv.Source(tele.to_graphviz_str())
+fuse()
+gv.Source(tele.to_graphviz_str())
 ```
 
 
 ```{code-cell} ipython3
 
-    strong_comp()
-    gv.Source(tele.to_graphviz_str())
+strong_comp()
+gv.Source(tele.to_graphviz_str())
 ```
 
 
 ```{code-cell} ipython3
 
-    id_remove()
-    gv.Source(tele.to_graphviz_str())
+id_remove()
+gv.Source(tele.to_graphviz_str())
 ```
 
 % Removing vertices and edges versus editing in-place
@@ -376,86 +378,86 @@ The pytket ZX module comes with a handful of common rewrite procedures built-in 
 
 ```{code-cell} ipython3
 
-    # This diagram follows from section A of https://arxiv.org/pdf/1902.03178.pdf
-    diag = ZXDiagram(4, 4, 0, 0)
-    ins = diag.get_boundary(ZXType.Input)
-    outs = diag.get_boundary(ZXType.Output)
-    v11 = diag.add_vertex(ZXType.ZSpider, 1.5)
-    v12 = diag.add_vertex(ZXType.ZSpider, 0.5)
-    v13 = diag.add_vertex(ZXType.ZSpider)
-    v14 = diag.add_vertex(ZXType.XSpider)
-    v15 = diag.add_vertex(ZXType.ZSpider, 0.25)
-    v21 = diag.add_vertex(ZXType.ZSpider, 0.5)
-    v22 = diag.add_vertex(ZXType.ZSpider)
-    v23 = diag.add_vertex(ZXType.ZSpider)
-    v24 = diag.add_vertex(ZXType.ZSpider, 0.25)
-    v25 = diag.add_vertex(ZXType.ZSpider)
-    v31 = diag.add_vertex(ZXType.XSpider)
-    v32 = diag.add_vertex(ZXType.XSpider)
-    v33 = diag.add_vertex(ZXType.ZSpider, 0.5)
-    v34 = diag.add_vertex(ZXType.ZSpider, 0.5)
-    v35 = diag.add_vertex(ZXType.XSpider)
-    v41 = diag.add_vertex(ZXType.ZSpider)
-    v42 = diag.add_vertex(ZXType.ZSpider)
-    v43 = diag.add_vertex(ZXType.ZSpider, 1.5)
-    v44 = diag.add_vertex(ZXType.XSpider, 1.0)
-    v45 = diag.add_vertex(ZXType.ZSpider, 0.5)
-    v46 = diag.add_vertex(ZXType.XSpider, 1.0)
+# This diagram follows from section A of https://arxiv.org/pdf/1902.03178.pdf
+diag = ZXDiagram(4, 4, 0, 0)
+ins = diag.get_boundary(ZXType.Input)
+outs = diag.get_boundary(ZXType.Output)
+v11 = diag.add_vertex(ZXType.ZSpider, 1.5)
+v12 = diag.add_vertex(ZXType.ZSpider, 0.5)
+v13 = diag.add_vertex(ZXType.ZSpider)
+v14 = diag.add_vertex(ZXType.XSpider)
+v15 = diag.add_vertex(ZXType.ZSpider, 0.25)
+v21 = diag.add_vertex(ZXType.ZSpider, 0.5)
+v22 = diag.add_vertex(ZXType.ZSpider)
+v23 = diag.add_vertex(ZXType.ZSpider)
+v24 = diag.add_vertex(ZXType.ZSpider, 0.25)
+v25 = diag.add_vertex(ZXType.ZSpider)
+v31 = diag.add_vertex(ZXType.XSpider)
+v32 = diag.add_vertex(ZXType.XSpider)
+v33 = diag.add_vertex(ZXType.ZSpider, 0.5)
+v34 = diag.add_vertex(ZXType.ZSpider, 0.5)
+v35 = diag.add_vertex(ZXType.XSpider)
+v41 = diag.add_vertex(ZXType.ZSpider)
+v42 = diag.add_vertex(ZXType.ZSpider)
+v43 = diag.add_vertex(ZXType.ZSpider, 1.5)
+v44 = diag.add_vertex(ZXType.XSpider, 1.0)
+v45 = diag.add_vertex(ZXType.ZSpider, 0.5)
+v46 = diag.add_vertex(ZXType.XSpider, 1.0)
 
-    diag.add_wire(ins[0], v11)
-    diag.add_wire(v11, v12, ZXWireType.H)
-    diag.add_wire(v12, v13)
-    diag.add_wire(v13, v41, ZXWireType.H)
-    diag.add_wire(v13, v14)
-    diag.add_wire(v14, v42)
-    diag.add_wire(v14, v15, ZXWireType.H)
-    diag.add_wire(v15, outs[0], ZXWireType.H)
+diag.add_wire(ins[0], v11)
+diag.add_wire(v11, v12, ZXWireType.H)
+diag.add_wire(v12, v13)
+diag.add_wire(v13, v41, ZXWireType.H)
+diag.add_wire(v13, v14)
+diag.add_wire(v14, v42)
+diag.add_wire(v14, v15, ZXWireType.H)
+diag.add_wire(v15, outs[0], ZXWireType.H)
 
-    diag.add_wire(ins[1], v21)
-    diag.add_wire(v21, v22)
-    diag.add_wire(v22, v31)
-    diag.add_wire(v22, v23, ZXWireType.H)
-    diag.add_wire(v23, v32)
-    diag.add_wire(v23, v24)
-    diag.add_wire(v24, v25, ZXWireType.H)
-    diag.add_wire(v25, v35)
-    diag.add_wire(outs[1], v25)
+diag.add_wire(ins[1], v21)
+diag.add_wire(v21, v22)
+diag.add_wire(v22, v31)
+diag.add_wire(v22, v23, ZXWireType.H)
+diag.add_wire(v23, v32)
+diag.add_wire(v23, v24)
+diag.add_wire(v24, v25, ZXWireType.H)
+diag.add_wire(v25, v35)
+diag.add_wire(outs[1], v25)
 
-    diag.add_wire(ins[2], v31)
-    diag.add_wire(v31, v32)
-    diag.add_wire(v32, v33)
-    diag.add_wire(v33, v34, ZXWireType.H)
-    diag.add_wire(v34, v35)
-    diag.add_wire(v35, outs[2])
+diag.add_wire(ins[2], v31)
+diag.add_wire(v31, v32)
+diag.add_wire(v32, v33)
+diag.add_wire(v33, v34, ZXWireType.H)
+diag.add_wire(v34, v35)
+diag.add_wire(v35, outs[2])
 
-    diag.add_wire(ins[3], v41, ZXWireType.H)
-    diag.add_wire(v41, v42)
-    diag.add_wire(v42, v43, ZXWireType.H)
-    diag.add_wire(v43, v44)
-    diag.add_wire(v44, v45)
-    diag.add_wire(v45, v46)
-    diag.add_wire(v46, outs[3])
-    diag.check_validity()
+diag.add_wire(ins[3], v41, ZXWireType.H)
+diag.add_wire(v41, v42)
+diag.add_wire(v42, v43, ZXWireType.H)
+diag.add_wire(v43, v44)
+diag.add_wire(v44, v45)
+diag.add_wire(v45, v46)
+diag.add_wire(v46, outs[3])
+diag.check_validity()
 
-    gv.Source(diag.to_graphviz_str())
+gv.Source(diag.to_graphviz_str())
 ```
 
 
 ```{code-cell} ipython3
 
-    from pytket.zx import Rewrite
+from pytket.zx import Rewrite
 
-    Rewrite.red_to_green().apply(diag)
-    Rewrite.spider_fusion().apply(diag)
-    Rewrite.io_extension().apply(diag)
-    gv.Source(diag.to_graphviz_str())
+Rewrite.red_to_green().apply(diag)
+Rewrite.spider_fusion().apply(diag)
+Rewrite.io_extension().apply(diag)
+gv.Source(diag.to_graphviz_str())
 ```
 
 
 ```{code-cell} ipython3
 
-    Rewrite.reduce_graphlike_form().apply(diag)
-    gv.Source(diag.to_graphviz_str())
+Rewrite.reduce_graphlike_form().apply(diag)
+gv.Source(diag.to_graphviz_str())
 ```
 
 % Intended to support common optimisation strategies; focussed on reducing to specific forms and work in graphlike form
@@ -475,30 +477,30 @@ The rewrite passes can be broken down into a few categories depending on the for
 
 =================================== ===========================================
 Decompositions into generating sets
-                                      :py:meth:`Rewrite.decompose_boxes()`,
-                                      :py:meth:`Rewrite.basic_wires()`,
-                                      :py:meth:`Rewrite.rebase_to_zx()`,
-                                      :py:meth:`Rewrite.rebase_to_mbqc()`
+                                      `Rewrite.decompose_boxes()`,
+                                      `Rewrite.basic_wires()`,
+                                      `Rewrite.rebase_to_zx()`,
+                                      `Rewrite.rebase_to_mbqc()`
 Rewriting into graphlike form
-                                      :py:meth:`Rewrite.red_to_green()`,
-                                      :py:meth:`Rewrite.spider_fusion()`,
-                                      :py:meth:`Rewrite.self_loop_removal()`,
-                                      :py:meth:`Rewrite.parallel_h_removal()`,
-                                      :py:meth:`Rewrite.separate_boundaries()`,
-                                      :py:meth:`Rewrite.io_extension()`
+                                      `Rewrite.red_to_green()`,
+                                      `Rewrite.spider_fusion()`,
+                                      `Rewrite.self_loop_removal()`,
+                                      `Rewrite.parallel_h_removal()`,
+                                      `Rewrite.separate_boundaries()`,
+                                      `Rewrite.io_extension()`
 Reduction within graphlike form
-                                      :py:meth:`Rewrite.remove_interior_cliffords()`,
-                                      :py:meth:`Rewrite.remove_interior_paulis()`,
-                                      :py:meth:`Rewrite.gadgetise_interior_paulis()`,
-                                      :py:meth:`Rewrite.merge_gadgets()`,
-                                      :py:meth:`Rewrite.extend_at_boundary_paulis()`
+                                      `Rewrite.remove_interior_cliffords()`,
+                                      `Rewrite.remove_interior_paulis()`,
+                                      `Rewrite.gadgetise_interior_paulis()`,
+                                      `Rewrite.merge_gadgets()`,
+                                      `Rewrite.extend_at_boundary_paulis()`
 MBQC
-                                      :py:meth:`Rewrite.extend_for_PX_outputs()`,
-                                      :py:meth:`Rewrite.internalise_gadgets()`
+                                      `Rewrite.extend_for_PX_outputs()`,
+                                      `Rewrite.internalise_gadgets()`
 Composite sequences
-                                      :py:meth:`Rewrite.to_graphlike_form()`,
-                                      :py:meth:`Rewrite.reduce_graphlike_form()`,
-                                      :py:meth:`Rewrite.to_MBQC_diag()`
+                                      `Rewrite.to_graphlike_form()`,
+                                      `Rewrite.reduce_graphlike_form()`,
+                                      `Rewrite.to_MBQC_diag()`
 =================================== ===========================================
 ```
 
@@ -523,8 +525,8 @@ Each of the MBQC {py:class}`ZXType` options represent a qubit that is initialise
 
 ```{code-cell} ipython3
 
-    Rewrite.to_MBQC_diag().apply(diag)
-    gv.Source(diag.to_graphviz_str())
+Rewrite.to_MBQC_diag().apply(diag)
+gv.Source(diag.to_graphviz_str())
 ```
 
 % Causal flow, gflow, Pauli flow (completeness of extended Pauli flow and hence Pauli flow)
@@ -536,23 +538,23 @@ The {py:class}`Flow` object that is returned abstracts away the partial ordering
 
 ```{code-cell} ipython3
 
-    from pytket.zx import Flow
+from pytket.zx import Flow
 
-    fl = Flow.identify_pauli_flow(diag)
+fl = Flow.identify_pauli_flow(diag)
 
-    # We can look up the flow data for a particular vertex
-    # For example, let's take the first input qubit
-    vertex_ids = { v : i for (i, v) in enumerate(diag.vertices) }
-    in0 = diag.get_boundary(ZXType.Input)[0]
-    v = diag.neighbours(in0)[0]
-    print(vertex_ids[v])
-    print(fl.d(v))
-    print([vertex_ids[c] for c in fl.c(v)])
-    print([vertex_ids[o] for o in fl.odd(v, diag)])
+# We can look up the flow data for a particular vertex
+# For example, let's take the first input qubit
+vertex_ids = { v : i for (i, v) in enumerate(diag.vertices) }
+in0 = diag.get_boundary(ZXType.Input)[0]
+v = diag.neighbours(in0)[0]
+print(vertex_ids[v])
+print(fl.d(v))
+print([vertex_ids[c] for c in fl.c(v)])
+print([vertex_ids[o] for o in fl.odd(v, diag)])
 
-    # Or we can obtain the entire flow as maps for easy iteration
-    print({ vertex_ids[v] : d for (v, d) in fl.dmap.items() })
-    print({ vertex_ids[v] : [vertex_ids[c] for c in cs] for (v, cs) in fl.cmap.items() })
+# Or we can obtain the entire flow as maps for easy iteration
+print({ vertex_ids[v] : d for (v, d) in fl.dmap.items() })
+print({ vertex_ids[v] : [vertex_ids[c] for c in cs] for (v, cs) in fl.cmap.items() })
 ```
 
 ```{note}
@@ -582,27 +584,27 @@ The boundaries of the resulting {py:class}`ZXDiagram` will match up with the ope
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit
-    from pytket.zx import circuit_to_zx
+from pytket import Circuit, Qubit
+from pytket.zx import circuit_to_zx
 
-    c = Circuit(4)
-    c.CZ(0, 1)
-    c.CX(1, 2)
-    c.H(1)
-    c.X(0)
-    c.Rx(0.7, 0)
-    c.Rz(0.2, 1)
-    c.X(3)
-    c.H(2)
-    c.qubit_create(Qubit(2))
-    c.qubit_discard(Qubit(3))
-    diag, bound_map = circuit_to_zx(c)
+c = Circuit(4)
+c.CZ(0, 1)
+c.CX(1, 2)
+c.H(1)
+c.X(0)
+c.Rx(0.7, 0)
+c.Rz(0.2, 1)
+c.X(3)
+c.H(2)
+c.qubit_create(Qubit(2))
+c.qubit_discard(Qubit(3))
+diag, bound_map = circuit_to_zx(c)
 
-    in3, out3 = bound_map[Qubit(3)]
-    # Qubit 3 was discarded, so out3 won't give a vertex
-    # Look at the neighbour of the input to check the first operation is the X
-    n = diag.neighbours(in3)[0]
-    print(diag.get_vertex_ZXGen(n))
+in3, out3 = bound_map[Qubit(3)]
+# Qubit 3 was discarded, so out3 won't give a vertex
+# Look at the neighbour of the input to check the first operation is the X
+n = diag.neighbours(in3)[0]
+print(diag.get_vertex_ZXGen(n))
 ```
 
 % Extraction is not computationally feasible for general diagrams; known to be efficient for MBQC diagrams with flow; current method permits unitary diagrams with gflow, based on Backens et al.; more methods will be written in future for different extraction methods, e.g. causal flow, MBQC, pauli flow, mixed diagram extraction
@@ -616,25 +618,25 @@ Since the {py:class}`ZXDiagram` class does not associate a {py:class}`UnitID` to
 
 ```{code-cell} ipython3
 
-    from pytket import OpType
-    from pytket.circuit.display import render_circuit_jupyter
-    from pytket.passes import auto_rebase_pass
+from pytket import OpType
+from pytket.circuit.display import render_circuit_jupyter
+from pytket.passes import auto_rebase_pass
 
-    c = Circuit(5)
-    c.CCX(0, 1, 4)
-    c.CCX(2, 4, 3)
-    c.CCX(0, 1, 4)
-    # Conversion is only defined for a subset of gate types - rebase as needed
-    auto_rebase_pass({ OpType.Rx, OpType.Rz, OpType.X, OpType.Z, OpType.H, OpType.CZ, OpType.CX }).apply(c)
-    diag, _ = circuit_to_zx(c)
+c = Circuit(5)
+c.CCX(0, 1, 4)
+c.CCX(2, 4, 3)
+c.CCX(0, 1, 4)
+# Conversion is only defined for a subset of gate types - rebase as needed
+auto_rebase_pass({ OpType.Rx, OpType.Rz, OpType.X, OpType.Z, OpType.H, OpType.CZ, OpType.CX }).apply(c)
+diag, _ = circuit_to_zx(c)
 
-    Rewrite.to_graphlike_form().apply(diag)
-    Rewrite.reduce_graphlike_form().apply(diag)
+Rewrite.to_graphlike_form().apply(diag)
+Rewrite.reduce_graphlike_form().apply(diag)
 
-    # Extraction requires the diagram to use MBQC generators
-    Rewrite.to_MBQC_diag().apply(diag)
-    circ, _ = diag.to_circuit()
-    render_circuit_jupyter(circ)
+# Extraction requires the diagram to use MBQC generators
+Rewrite.to_MBQC_diag().apply(diag)
+circ, _ = diag.to_circuit()
+render_circuit_jupyter(circ)
 ```
 
 ## Compiler Passes Using ZX
@@ -646,11 +648,11 @@ The known methods for circuit rewriting and optimisation lend themselves to a si
 
 ```{code-cell} ipython3
 
-    from pytket.passes import ZXGraphlikeOptimisation
+from pytket.passes import ZXGraphlikeOptimisation
 
-    # Use the same CCX example from above
-    ZXGraphlikeOptimisation().apply(c)
-    render_circuit_jupyter(c)
+# Use the same CCX example from above
+ZXGraphlikeOptimisation().apply(c)
+render_circuit_jupyter(c)
 ```
 
 The specific nature of optimising circuits via ZX diagrams gives rise to some general advice regarding how to use {py:class}`ZXGraphlikeOptimisation` in compilation sequences and what to expect from its performance:
