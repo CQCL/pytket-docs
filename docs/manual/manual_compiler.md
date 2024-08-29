@@ -244,7 +244,7 @@ A custom (partial) placement can be applied by providing the appropriate qubit m
 ```{code-cell} ipython3
 
 from pytket.circuit import Circuit, Qubit, Node
-from pytket.placement import Placements
+from pytket.placement import Placement
 
 circ = Circuit(4)
 circ.CX(0, 1).CX(0, 2).CX(1, 2).CX(3, 2).CX(0, 3)
@@ -1128,10 +1128,10 @@ known state by classical set-bits operations on the target bits:
 
 ```{code-cell} ipython3
 
-    c = Circuit(1).X(0).measure_all()
-    c.qubit_create_all()
-    SimplifyInitial().apply(c)
-    print(c.get_commands())
+c = Circuit(1).X(0).measure_all()
+c.qubit_create_all()
+SimplifyInitial().apply(c)
+print(c.get_commands())
 ```
 
 The measurement has disappeared, replaced with a classical operation on its
