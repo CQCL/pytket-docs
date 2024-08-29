@@ -63,19 +63,19 @@ Knowing the requirements of each {py:class}`~pytket.backends.Backend` is handy i
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.extensions.qiskit import AerBackend
+from pytket import Circuit, OpType
+from pytket.extensions.qiskit import AerBackend
 
-    circ = Circuit(3, 2)
-    circ.H(0).Ry(0.25, 1)
-    circ.add_gate(OpType.CnRy, [0.74], [0, 1, 2]) # CnRy not in AerBackend gate set
-    circ.measure_all()
+circ = Circuit(3, 2)
+circ.H(0).Ry(0.25, 1)
+circ.add_gate(OpType.CnRy, [0.74], [0, 1, 2]) # CnRy not in AerBackend gate set
+circ.measure_all()
 
-    backend = AerBackend()
-    print("Circuit valid for AerBackend?", backend.valid_circuit(circ))
-    compiled_circ = backend.get_compiled_circuit(circ) # Compile circuit to AerBackend
+backend = AerBackend()
+print("Circuit valid for AerBackend?", backend.valid_circuit(circ))
+compiled_circ = backend.get_compiled_circuit(circ) # Compile circuit to AerBackend
 
-    print("Compiled circuit valid for AerBackend?", backend.valid_circuit(compiled_circ))
+print("Compiled circuit valid for AerBackend?", backend.valid_circuit(compiled_circ))
 ```
 
 Now that we can prepare our {py:class}`~pytket.circuit.Circuit` s to be suitable for a given {py:class}`~pytket.backends.Backend`, we can send them off to be run and examine the results. This is always done by calling {py:meth}`~pytket.backends.Backend.process_circuit()` which sends a {py:class}`~pytket.circuit.Circuit` for execution and returns a {py:class}`~pytket.backends.resulthandle.ResultHandle` as an identifier for the job which can later be used to retrieve the actual results once the job has finished.
@@ -83,14 +83,14 @@ Now that we can prepare our {py:class}`~pytket.circuit.Circuit` s to be suitab
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerStateBackend
+from pytket import Circuit
+from pytket.extensions.qiskit import AerStateBackend
 
-    circ = Circuit(2, 2)
-    circ.Rx(0.3, 0).Ry(0.5, 1).CRz(-0.6, 1, 0)
-    backend = AerStateBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
-    handle = backend.process_circuit(compiled_circ)
+circ = Circuit(2, 2)
+circ.Rx(0.3, 0).Ry(0.5, 1).CRz(-0.6, 1, 0)
+backend = AerStateBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
+handle = backend.process_circuit(compiled_circ)
 ```
 
 The exact arguments to {py:meth}`~pytket.backends.Backend.process_circuit` and the means of retrieving results back are dependent on the type of data the {py:class}`~pytket.backends.Backend` can produce and whether it samples measurements or calculates the internal state of the quantum system.
@@ -110,17 +110,17 @@ The interaction with a QPU (or a simulator that tries to imitate a device by sam
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerBackend
+from pytket import Circuit
+from pytket.extensions.qiskit import AerBackend
 
-    circ = Circuit(2, 2)
-    circ.H(0).X(1).measure_all()
-    backend = AerBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
+circ = Circuit(2, 2)
+circ.H(0).X(1).measure_all()
+backend = AerBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
 
-    handle = backend.process_circuit(compiled_circ, n_shots=20)
-    shots = backend.get_result(handle).get_shots()
-    print(shots)
+handle = backend.process_circuit(compiled_circ, n_shots=20)
+shots = backend.get_result(handle).get_shots()
+print(shots)
 ```
 
 % Often interested in probabilities of each measurement outcome, so need many shots for high precision
@@ -136,20 +136,20 @@ If we don't care about the temporal order of the shots, we can instead retrieve 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerBackend
-    from pytket.utils import probs_from_counts
+from pytket import Circuit
+from pytket.extensions.qiskit import AerBackend
+from pytket.utils import probs_from_counts
 
-    circ = Circuit(2, 2)
-    circ.H(0).X(1).measure_all()
-    backend = AerBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
+circ = Circuit(2, 2)
+circ.H(0).X(1).measure_all()
+backend = AerBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
 
-    handle = backend.process_circuit(compiled_circ, n_shots=2000)
-    counts = backend.get_result(handle).get_counts()
-    print(counts)
+handle = backend.process_circuit(compiled_circ, n_shots=2000)
+counts = backend.get_result(handle).get_counts()
+print(counts)
 
-    print(probs_from_counts(counts))
+print(probs_from_counts(counts))
 ```
 
 :::{note}
@@ -167,16 +167,16 @@ Any form of sampling from a distribution will introduce sampling error and (unle
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerStateBackend
+from pytket import Circuit
+from pytket.extensions.qiskit import AerStateBackend
 
-    circ = Circuit(3)
-    circ.H(0).CX(0, 1).S(1).X(2)
-    backend = AerStateBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
+circ = Circuit(3)
+circ.H(0).CX(0, 1).S(1).X(2)
+backend = AerStateBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
 
-    state = backend.run_circuit(compiled_circ).get_state()
-    print(state.round(5))
+state = backend.run_circuit(compiled_circ).get_state()
+print(state.round(5))
 ```
 
 :::{note}
@@ -190,16 +190,16 @@ The majority of {py:class}`~pytket.backends.Backend` s will run the {py:class}
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerUnitaryBackend
+from pytket import Circuit
+from pytket.extensions.qiskit import AerUnitaryBackend
 
-    circ = Circuit(2)
-    circ.H(0).CX(0, 1)
-    backend = AerUnitaryBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
+circ = Circuit(2)
+circ.H(0).CX(0, 1)
+backend = AerUnitaryBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
 
-    unitary = backend.run_circuit(compiled_circ).get_unitary()
-    print(unitary.round(5))
+unitary = backend.run_circuit(compiled_circ).get_unitary()
+print(unitary.round(5))
 ```
 
 % Useful for obtaining high-precision results as well as verifying correctness of circuits
@@ -211,15 +211,15 @@ Whilst the drive for quantum hardware is driven by the limited scalability of si
 
 ```{code-cell} ipython3
 
-    from pytket.utils.results import compare_statevectors
-    import numpy as np
+from pytket.utils.results import compare_statevectors
+import numpy as np
 
-    ref_state = np.asarray([1, 0, 1, 0]) / np.sqrt(2.)      # |+0>
-    gph_state = np.asarray([1, 0, 1, 0]) * 1j / np.sqrt(2.) # i|+0>
-    prm_state = np.asarray([1, 1, 0, 0]) / np.sqrt(2.)      # |0+>
+ref_state = np.asarray([1, 0, 1, 0]) / np.sqrt(2.)      # |+0>
+gph_state = np.asarray([1, 0, 1, 0]) * 1j / np.sqrt(2.) # i|+0>
+prm_state = np.asarray([1, 1, 0, 0]) / np.sqrt(2.)      # |0+>
 
-    print(compare_statevectors(ref_state, gph_state))   # Differ by global phase
-    print(compare_statevectors(ref_state, prm_state))   # Differ by qubit permutation
+print(compare_statevectors(ref_state, gph_state))   # Differ by global phase
+print(compare_statevectors(ref_state, prm_state))   # Differ by qubit permutation
 ```
 
 % Warning that interactions with classical data (conditional gates and measurements) or deliberately collapsing the state (Collapse and Reset) do not yield a deterministic result in this Hilbert space, so will be rejected
@@ -237,18 +237,18 @@ By default, the bits in readouts (shots and counts) are ordered in Increasing Le
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, BasisOrder
-    from pytket.extensions.qiskit import AerBackend
+from pytket.circuit import Circuit, BasisOrder
+from pytket.extensions.qiskit import AerBackend
 
-    circ = Circuit(2, 2)
-    circ.X(1).measure_all()     # write 0 to c[0] and 1 to c[1]
-    backend = AerBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
-    handle = backend.process_circuit(compiled_circ, n_shots=10)
-    result = backend.get_result(handle)
+circ = Circuit(2, 2)
+circ.X(1).measure_all()     # write 0 to c[0] and 1 to c[1]
+backend = AerBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
+handle = backend.process_circuit(compiled_circ, n_shots=10)
+result = backend.get_result(handle)
 
-    print(result.get_counts())   # ILO gives (c[0], c[1]) == (0, 1)
-    print(result.get_counts(basis=BasisOrder.dlo))  # DLO gives (c[1], c[0]) == (1, 0)
+print(result.get_counts())   # ILO gives (c[0], c[1]) == (0, 1)
+print(result.get_counts(basis=BasisOrder.dlo))  # DLO gives (c[1], c[0]) == (1, 0)
 ```
 
 The choice of ILO or DLO defines the ordering of a bit sequence, but this can still be interpreted into the index of a statevector in two ways: by mapping the bits to a big-endian (BE) or little-endian (LE) integer. Every statevector and unitary in `pytket` uses a BE encoding (if LE is preferred, note that the ILO-LE interpretation gives the same result as DLO-BE for statevectors and unitaries, so just change the `basis` argument accordingly). The ILO-BE convention gives unitaries of individual gates as they typically appear in common textbooks [^cite_niel2001].
@@ -256,18 +256,18 @@ The choice of ILO or DLO defines the ordering of a bit sequence, but this can st
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, BasisOrder
-    from pytket.extensions.qiskit import AerUnitaryBackend
+from pytket.circuit import Circuit, BasisOrder
+from pytket.extensions.qiskit import AerUnitaryBackend
 
-    circ = Circuit(2)
-    circ.CX(0, 1)
-    backend = AerUnitaryBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
-    handle = backend.process_circuit(compiled_circ)
-    result = backend.get_result(handle)
+circ = Circuit(2)
+circ.CX(0, 1)
+backend = AerUnitaryBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
+handle = backend.process_circuit(compiled_circ)
+result = backend.get_result(handle)
 
-    print(result.get_unitary())
-    print(result.get_unitary(basis=BasisOrder.dlo))
+print(result.get_unitary())
+print(result.get_unitary(basis=BasisOrder.dlo))
 ```
 
 Suppose that we only care about a subset of the measurements used in a {py:class}`~pytket.circuit.Circuit`. A shot table is a `numpy.ndarray`, so it can be filtered by column selections. To identify which columns need to be retained/removed, we are able to predict their column indices from the {py:class}`~pytket.circuit.Circuit` object. {py:attr}`pytket.Circuit.bit_readout` maps {py:class}`~pytket.unit_id.Bit` s to their column index (assuming the ILO convention).
@@ -275,26 +275,26 @@ Suppose that we only care about a subset of the measurements used in a {py:class
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Bit
-    from pytket.extensions.qiskit import AerBackend
-    from pytket.utils import expectation_from_shots
+from pytket import Circuit, Bit
+from pytket.extensions.qiskit import AerBackend
+from pytket.utils import expectation_from_shots
 
-    circ = Circuit(3, 3)
-    circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
+circ = Circuit(3, 3)
+circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)   # Measure ZXY operator qubit-wise
-    circ.Rx(0.5, 2)
-    circ.measure_all()
+circ.H(1)   # Measure ZXY operator qubit-wise
+circ.Rx(0.5, 2)
+circ.measure_all()
 
-    backend = AerBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
-    handle = backend.process_circuit(compiled_circ, 2000)
-    shots = backend.get_result(handle).get_shots()
+backend = AerBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
+handle = backend.process_circuit(compiled_circ, 2000)
+shots = backend.get_result(handle).get_shots()
 
-    # To extract the expectation value for ZIY, we only want to consider bits c[0] and c[2]
-    bitmap = compiled_circ.bit_readout
-    shots = shots[:, [bitmap[Bit(0)], bitmap[Bit(2)]]]
-    print(expectation_from_shots(shots))
+# To extract the expectation value for ZIY, we only want to consider bits c[0] and c[2]
+bitmap = compiled_circ.bit_readout
+shots = shots[:, [bitmap[Bit(0)], bitmap[Bit(2)]]]
+print(expectation_from_shots(shots))
 ```
 
 If measurements occur at the end of the {py:class}`~pytket.circuit.Circuit`, then we can associate each measurement to the qubit that was measured. {py:attr}`~pytket.circuit.Circuit.qubit_readout` gives the equivalent map to column indices for {py:class}`~pytket.unit_id.Qubit` s, and {py:attr}`~pytket.circuit.Circuit.qubit_to_bit_map` relates each measured {py:class}`~pytket.unit_id.Qubit` to the {py:class}`~pytket.unit_id.Bit` that holds the corresponding measurement result.
@@ -302,15 +302,15 @@ If measurements occur at the end of the {py:class}`~pytket.circuit.Circuit`, the
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit, Bit
-    circ = Circuit(3, 2)
-    circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)
-    circ.Measure(0, 0)
-    circ.Measure(2, 1)
+from pytket import Circuit, Qubit, Bit
+circ = Circuit(3, 2)
+circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)
+circ.Measure(0, 0)
+circ.Measure(2, 1)
 
-    print(circ.bit_readout)
-    print(circ.qubit_readout)
-    print(circ.qubit_to_bit_map)
+print(circ.bit_readout)
+print(circ.qubit_readout)
+print(circ.qubit_to_bit_map)
 ```
 
 For more control over the bits extracted from the results, we can instead call {py:class}`~pytket.backends.Backend.get_result()`. The {py:class}`~pytket.backends.backendresult.BackendResult` object returned wraps up all the information returned from the experiment and allows it to be projected into any preferred way of viewing it. In particular, we can provide the list of {py:class}`~pytket.unit_id.Bit` s we want to look at in the shot table/counts dictionary, and given the exact permutation we want (and similarly for the permutation of {py:class}`~pytket.unit_id.Qubit` s for statevectors/unitaries).
@@ -318,28 +318,28 @@ For more control over the bits extracted from the results, we can instead call {
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Bit, Qubit
-    from pytket.extensions.qiskit import AerBackend, AerStateBackend
+from pytket import Circuit, Bit, Qubit
+from pytket.extensions.qiskit import AerBackend, AerStateBackend
 
-    circ = Circuit(3)
-    circ.H(0).Ry(-0.3, 2)
-    state_b = AerStateBackend()
-    circ = state_b.get_compiled_circuit(circ)
-    handle = state_b.process_circuit(circ)
+circ = Circuit(3)
+circ.H(0).Ry(-0.3, 2)
+state_b = AerStateBackend()
+circ = state_b.get_compiled_circuit(circ)
+handle = state_b.process_circuit(circ)
 
-    # Make q[1] the most-significant qubit, so interesting state uses consecutive coefficients
-    result = state_b.get_result(handle)
-    print(result.get_state([Qubit(1), Qubit(0), Qubit(2)]))
+# Make q[1] the most-significant qubit, so interesting state uses consecutive coefficients
+result = state_b.get_result(handle)
+print(result.get_state([Qubit(1), Qubit(0), Qubit(2)]))
 
-    circ.measure_all()
-    shot_b = AerBackend()
-    circ = shot_b.get_compiled_circuit(circ)
-    handle = shot_b.process_circuit(circ, n_shots=2000)
-    result = shot_b.get_result(handle)
+circ.measure_all()
+shot_b = AerBackend()
+circ = shot_b.get_compiled_circuit(circ)
+handle = shot_b.process_circuit(circ, n_shots=2000)
+result = shot_b.get_result(handle)
 
-    # Marginalise out q[0] from counts
-    print(result.get_counts())
-    print(result.get_counts([Bit(1), Bit(2)]))
+# Marginalise out q[0] from counts
+print(result.get_counts())
+print(result.get_counts([Bit(1), Bit(2)]))
 ```
 
 ## Expectation Value Calculations
@@ -349,39 +349,39 @@ One of the most common calculations performed with a quantum state $\left| \psi 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit
-    from pytket.extensions.qiskit import AerBackend
-    from pytket.partition import PauliPartitionStrat
-    from pytket.pauli import Pauli, QubitPauliString
-    from pytket.utils import get_pauli_expectation_value, get_operator_expectation_value
-    from pytket.utils.operators import QubitPauliOperator
+from pytket import Circuit, Qubit
+from pytket.extensions.qiskit import AerBackend
+from pytket.partition import PauliPartitionStrat
+from pytket.pauli import Pauli, QubitPauliString
+from pytket.utils import get_pauli_expectation_value, get_operator_expectation_value
+from pytket.utils.operators import QubitPauliOperator
 
-    circ = Circuit(3)
-    circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
-    backend = AerBackend()
+circ = Circuit(3)
+circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
+backend = AerBackend()
 
-    zxy = QubitPauliString({
-            Qubit(0) : Pauli.Z,
-            Qubit(1) : Pauli.X,
-            Qubit(2) : Pauli.Y})
-    xzi = QubitPauliString({
-            Qubit(0) : Pauli.X,
-            Qubit(1) : Pauli.Z})
-    op = QubitPauliOperator({
-            QubitPauliString() : 0.3,
-            zxy : -1,
-            xzi : 1})
-    print(get_pauli_expectation_value(
-            circ,
-            zxy,
-            backend,
-            n_shots=2000))
-    print(get_operator_expectation_value(
-            circ,
-            op,
-            backend,
-            n_shots=2000,
-            partition_strat=PauliPartitionStrat.CommutingSets))
+zxy = QubitPauliString({
+        Qubit(0) : Pauli.Z,
+        Qubit(1) : Pauli.X,
+        Qubit(2) : Pauli.Y})
+xzi = QubitPauliString({
+        Qubit(0) : Pauli.X,
+        Qubit(1) : Pauli.Z})
+op = QubitPauliOperator({
+        QubitPauliString() : 0.3,
+        zxy : -1,
+        xzi : 1})
+print(get_pauli_expectation_value(
+        circ,
+        zxy,
+        backend,
+        n_shots=2000))
+print(get_operator_expectation_value(
+        circ,
+        op,
+        backend,
+        n_shots=2000,
+        partition_strat=PauliPartitionStrat.CommutingSets))
 ```
 
 If you want a greater level of control over the procedure, then you may wish to write your own method for calculating $\langle \psi | H | \psi \rangle$. This is simple multiplication if we are given the statevector $| \psi \rangle$, but is slightly more complicated for measured systems. Since each measurement projects into either the subspace of +1 or -1 eigenvectors, we can assign +1 to each `0` readout and -1 to each `1` readout and take the average across all shots. When the desired operator is given by the product of multiple measurements, the contribution of +1 or -1 is dependent on the parity (XOR) of each measurement result in that shot. `pytket` provides some utility functions to wrap up this calculation and apply it to either a shot table ({py:meth}`~pytket.utils.expectation_from_shots()`) or a counts dictionary ({py:meth}`~pytket.utils.expectation_from_counts()`).
@@ -389,23 +389,23 @@ If you want a greater level of control over the procedure, then you may wish to 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerBackend
-    from pytket.utils import expectation_from_counts
+from pytket import Circuit
+from pytket.extensions.qiskit import AerBackend
+from pytket.utils import expectation_from_counts
 
-    circ = Circuit(3, 3)
-    circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
+circ = Circuit(3, 3)
+circ.Rx(0.3, 0).CX(0, 1).CZ(1, 2)   # Generate the state we want to consider
 
-    circ.H(1)         # Want to measure expectation for Pauli ZXY
-    circ.Rx(0.5, 2)   # Measure ZII, IXI, IIY separately
-    circ.measure_all()
+circ.H(1)         # Want to measure expectation for Pauli ZXY
+circ.Rx(0.5, 2)   # Measure ZII, IXI, IIY separately
+circ.measure_all()
 
-    backend = AerBackend()
-    compiled_circ = backend.get_compiled_circuit(circ)
-    handle = backend.process_circuit(compiled_circ, 2000)
-    counts = backend.get_result(handle).get_counts()
-    print(counts)
-    print(expectation_from_counts(counts))
+backend = AerBackend()
+compiled_circ = backend.get_compiled_circuit(circ)
+handle = backend.process_circuit(compiled_circ, 2000)
+counts = backend.get_result(handle).get_counts()
+print(counts)
+print(expectation_from_counts(counts))
 ```
 
 % Obtaining indices of specific bits/qubits of interest using `bit_readout` and `qubit_readout` or `qubit_to_bit_map`, and filtering results
@@ -429,24 +429,24 @@ The first point in an experiment where you might have to act differently between
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerBackend #, AerStateBackend
-    from pytket.predicates import NoMidMeasurePredicate
+from pytket import Circuit
+from pytket.extensions.qiskit import AerBackend #, AerStateBackend
+from pytket.predicates import NoMidMeasurePredicate
 
-    backend = AerBackend()      # Choose backend in one place
-    # backend = AerStateBackend()   # A backend that is incompatible with the experiment
+backend = AerBackend()      # Choose backend in one place
+# backend = AerStateBackend()   # A backend that is incompatible with the experiment
 
-    # For algorithms using mid-circuit measurement, we can assert this is valid
-    qkd = Circuit(1, 3)
-    qkd.H(0).Measure(0, 0)      # Prepare a random bit in the Z basis
-    qkd.H(0).Measure(0, 1).H(0) # Eavesdropper measures in the X basis
-    qkd.Measure(0, 2)           # Recipient measures in the Z basis
+# For algorithms using mid-circuit measurement, we can assert this is valid
+qkd = Circuit(1, 3)
+qkd.H(0).Measure(0, 0)      # Prepare a random bit in the Z basis
+qkd.H(0).Measure(0, 1).H(0) # Eavesdropper measures in the X basis
+qkd.Measure(0, 2)           # Recipient measures in the Z basis
 
-    assert backend.supports_counts  # Using AerStateBackend would fail at this check
-    assert NoMidMeasurePredicate() not in backend.required_predicates
-    compiled_qkd = backend.get_compiled_circuit(qkd)
-    handle = backend.process_circuit(compiled_qkd, n_shots=1000)
-    print(backend.get_result(handle).get_counts())
+assert backend.supports_counts  # Using AerStateBackend would fail at this check
+assert NoMidMeasurePredicate() not in backend.required_predicates
+compiled_qkd = backend.get_compiled_circuit(qkd)
+handle = backend.process_circuit(compiled_qkd, n_shots=1000)
+print(backend.get_result(handle).get_counts())
 ```
 
 :::{note}
@@ -474,40 +474,40 @@ For the final steps of retrieving and interpreting the results, it suffices to j
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerBackend #, AerStateBackend
-    from pytket.utils import expectation_from_counts
-    import numpy as np
+from pytket import Circuit
+from pytket.extensions.qiskit import AerBackend #, AerStateBackend
+from pytket.utils import expectation_from_counts
+import numpy as np
 
-    backend = AerBackend()      # Choose backend in one place
-    # backend = AerStateBackend()   # Alternative backend with different requirements and result type
+backend = AerBackend()      # Choose backend in one place
+# backend = AerStateBackend()   # Alternative backend with different requirements and result type
 
-    # For many algorithms, we can separate the state preparation from measurements
-    circ = Circuit(2)           # Apply e^{0.135 i pi XY} to the initial state
-    circ.H(0).V(1).CX(0, 1).Rz(-0.27, 1).CX(0, 1).H(0).Vdg(1)
-    measure = Circuit(2, 2)     # Measure the YZ operator via YI and IZ
-    measure.V(0).measure_all()
+# For many algorithms, we can separate the state preparation from measurements
+circ = Circuit(2)           # Apply e^{0.135 i pi XY} to the initial state
+circ.H(0).V(1).CX(0, 1).Rz(-0.27, 1).CX(0, 1).H(0).Vdg(1)
+measure = Circuit(2, 2)     # Measure the YZ operator via YI and IZ
+measure.V(0).measure_all()
 
-    if backend.supports_counts:
-        circ.append(measure)
+if backend.supports_counts:
+    circ.append(measure)
 
-    circ = backend.get_compiled_circuit(circ)
-    handle = backend.process_circuit(circ, n_shots=2000)
+circ = backend.get_compiled_circuit(circ)
+handle = backend.process_circuit(circ, n_shots=2000)
 
-    expectation = 0
-    if backend.supports_state:
-        yz = np.asarray([
-            [0, 0, -1j, 0],
-            [0, 0, 0, 1j],
-            [1j, 0, 0, 0],
-            [0, -1j, 0, 0]])
-        svec = backend.get_result(handle).get_state()
-        expectation = np.vdot(svec, yz.dot(svec))
-    else:
-        counts = backend.get_result(handle).get_counts()
-        expectation = expectation_from_counts(counts)
+expectation = 0
+if backend.supports_state:
+    yz = np.asarray([
+        [0, 0, -1j, 0],
+        [0, 0, 0, 1j],
+        [1j, 0, 0, 0],
+        [0, -1j, 0, 0]])
+    svec = backend.get_result(handle).get_state()
+    expectation = np.vdot(svec, yz.dot(svec))
+else:
+    counts = backend.get_result(handle).get_counts()
+    expectation = expectation_from_counts(counts)
 
-    print(expectation)
+print(expectation)
 
 ```
 
@@ -641,35 +641,35 @@ Some simulators will have dedicated support for fast expectation value calculati
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit
-    from pytket.extensions.qiskit import AerStateBackend
-    from pytket.pauli import Pauli, QubitPauliString
-    from pytket.utils.operators import QubitPauliOperator
+from pytket import Circuit, Qubit
+from pytket.extensions.qiskit import AerStateBackend
+from pytket.pauli import Pauli, QubitPauliString
+from pytket.utils.operators import QubitPauliOperator
 
-    backend = AerStateBackend()
+backend = AerStateBackend()
 
-    state = Circuit(3)
-    state.H(0).CX(0, 1).V(2)
+state = Circuit(3)
+state.H(0).CX(0, 1).V(2)
 
-    xxy = QubitPauliString({
-        Qubit(0) : Pauli.X,
-        Qubit(1) : Pauli.X,
-        Qubit(2) : Pauli.Y})
-    zzi = QubitPauliString({
-        Qubit(0) : Pauli.Z,
-        Qubit(1) : Pauli.Z})
-    iiz = QubitPauliString({
-        Qubit(2) : Pauli.Z})
-    op = QubitPauliOperator({
-        QubitPauliString() : -0.5,
-        xxy : 0.7,
-        zzi : 1.4,
-        iiz : 3.2})
+xxy = QubitPauliString({
+    Qubit(0) : Pauli.X,
+    Qubit(1) : Pauli.X,
+    Qubit(2) : Pauli.Y})
+zzi = QubitPauliString({
+    Qubit(0) : Pauli.Z,
+    Qubit(1) : Pauli.Z})
+iiz = QubitPauliString({
+    Qubit(2) : Pauli.Z})
+op = QubitPauliOperator({
+    QubitPauliString() : -0.5,
+    xxy : 0.7,
+    zzi : 1.4,
+    iiz : 3.2})
 
-    assert backend.supports_expectation
-    state = backend.get_compiled_circuit(state)
-    print(backend.get_pauli_expectation_value(state, xxy))
-    print(backend.get_operator_expectation_value(state, op))
+assert backend.supports_expectation
+state = backend.get_compiled_circuit(state)
+print(backend.get_pauli_expectation_value(state, xxy))
+print(backend.get_operator_expectation_value(state, op))
 ```
 
 ### Asynchronous Job Submission
