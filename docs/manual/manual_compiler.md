@@ -68,19 +68,19 @@ Below is a minimal example where we construct a predicate which checks if our {p
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, OpType
-    from pytket.predicates import UserDefinedPredicate
+from pytket.circuit import Circuit, OpType
+from pytket.predicates import UserDefinedPredicate
 
-    def max_cx_count(circ: Circuit) -> bool:
-        return circ.n_gates_of_type(OpType.CX) < 3
+def max_cx_count(circ: Circuit) -> bool:
+    return circ.n_gates_of_type(OpType.CX) < 3
 
-    # Now construct our predicate using the function defined above
-    my_predicate = UserDefinedPredicate(max_cx_count)
+# Now construct our predicate using the function defined above
+my_predicate = UserDefinedPredicate(max_cx_count)
 
-    test_circ = Circuit(2).CX(0, 1).Rz(0.25, 1).CX(0, 1) # Define a test Circuit
+test_circ = Circuit(2).CX(0, 1).Rz(0.25, 1).CX(0, 1) # Define a test Circuit
 
-    my_predicate.verify(test_circ)
-    # test_circ satisfies predicate as it contains only 2 CX gates
+my_predicate.verify(test_circ)
+# test_circ satisfies predicate as it contains only 2 CX gates
 ```
 
 ## Rebases
@@ -92,15 +92,15 @@ One of the simplest constraints to solve for is the {py:class}`~pytket.predicate
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.passes import RebaseTket
+from pytket import Circuit
+from pytket.passes import RebaseTket
 
-    circ = Circuit(2, 2)
-    circ.Rx(0.3, 0).Ry(-0.9, 1).CZ(0, 1).S(0).CX(1, 0).measure_all()
+circ = Circuit(2, 2)
+circ.Rx(0.3, 0).Ry(-0.9, 1).CZ(0, 1).S(0).CX(1, 0).measure_all()
 
-    RebaseTket().apply(circ)
+RebaseTket().apply(circ)
 
-    print(circ.get_commands())
+print(circ.get_commands())
 ```
 
 {py:class}`~pytket.passes.RebaseTket` is a standard rebase pass that converts to CX and TK1 gates. This is the preferred internal gateset for many `pytket` compiler passes. However, it is possible to define a rebase for an arbitrary gateset. Using {py:class}`RebaseCustom`, we can provide an arbitrary set of one- and two-qubit gates. Rather than requiring custom decompositions to be provided for every gate type, it is sufficient to just give them for `OpType.CX` and `OpType.TK1`. For any gate in a given {py:class}`~pytket.circuit.Circuit`, it is either already in the target gateset, or we can use known decompositions to obtain a `OpType.CX` and `OpType.TK1` representation and then map this to the target gateset.
@@ -108,27 +108,27 @@ One of the simplest constraints to solve for is the {py:class}`~pytket.predicate
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.passes import RebaseCustom
+from pytket import Circuit, OpType
+from pytket.passes import RebaseCustom
 
-    gates = {OpType.Rz, OpType.Ry, OpType.CY, OpType.ZZPhase}
-    cx_in_cy = Circuit(2)
-    cx_in_cy.Rz(0.5, 1).CY(0, 1).Rz(-0.5, 1)
+gates = {OpType.Rz, OpType.Ry, OpType.CY, OpType.ZZPhase}
+cx_in_cy = Circuit(2)
+cx_in_cy.Rz(0.5, 1).CY(0, 1).Rz(-0.5, 1)
 
-    def tk1_to_rzry(a, b, c):
-        circ = Circuit(1)
-        circ.Rz(c + 0.5, 0).Ry(b, 0).Rz(a - 0.5, 0)
-        return circ
+def tk1_to_rzry(a, b, c):
+    circ = Circuit(1)
+    circ.Rz(c + 0.5, 0).Ry(b, 0).Rz(a - 0.5, 0)
+    return circ
 
-    custom = RebaseCustom(gates, cx_in_cy, tk1_to_rzry)
+custom = RebaseCustom(gates, cx_in_cy, tk1_to_rzry)
 
-    circ = Circuit(3)
-    circ.X(0).CX(0, 1).Ry(0.2, 1)
-    circ.ZZPhase(-0.83, 2, 1).Rx(0.6, 2)
+circ = Circuit(3)
+circ.X(0).CX(0, 1).Ry(0.2, 1)
+circ.ZZPhase(-0.83, 2, 1).Rx(0.6, 2)
 
-    custom.apply(circ)
+custom.apply(circ)
 
-    print(circ.get_commands())
+print(circ.get_commands())
 ```
 
 For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful function {py:meth}`auto_rebase_pass` which can take care of this for you. The pass returned is constructed from the gateset alone. (It relies on some known decompositions, and will raise an exception if no suitable known decompositions exist.) An example is given in the "Combinators" section below.
@@ -138,21 +138,20 @@ A similar pair of methods, {py:meth}`SquashCustom` and {py:meth}`auto_squash_pas
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, OpType
-    from pytket.passes import auto_squash_pass
+from pytket.circuit import Circuit, OpType
+from pytket.passes import auto_squash_pass
 
-    gates = {OpType.PhasedX, OpType.Rz, OpType.Rx, OpType.Ry}
-    custom = auto_squash_pass(gates)
+gates = {OpType.PhasedX, OpType.Rz, OpType.Rx, OpType.Ry}
+custom = auto_squash_pass(gates)
 
-    circ = Circuit(1).H(0).Ry(0.5, 0).Rx(-0.5, 0).Rz(1.5, 0).Ry(0.5, 0).H(0)
-    custom.apply(circ)
-    print(circ.get_commands())
+circ = Circuit(1).H(0).Ry(0.5, 0).Rx(-0.5, 0).Rz(1.5, 0).Ry(0.5, 0).H(0)
+custom.apply(circ)
+print(circ.get_commands())
 ```
 
 Note that the H gates (which are not in the specified gateset) are left alone.
 
 (compiler-placement)=
-
 ## Placement
 
 % Task of selecting appropriate physical qubits to use; better use of connectivity and better noise characteristics
@@ -315,12 +314,11 @@ print(connected.verify(circ))   # Now have an exact placement
 
 
 ```
-
 False
 True
 ```
 
-
+(compiler-mapping)=
 ## Mapping
 
 % Heterogeneous architectures and limited connectivity
@@ -441,26 +439,26 @@ Previous iterations of the {py:class}`~pytket.passes.CliffordSimp` pass would wo
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.passes import CliffordSimp
+from pytket import Circuit, OpType
+from pytket.passes import CliffordSimp
 
-    # A basic inefficient pattern can be reduced by 1 CX
-    simple_circ = Circuit(2)
-    simple_circ.CX(0, 1).S(1).CX(1, 0)
+# A basic inefficient pattern can be reduced by 1 CX
+simple_circ = Circuit(2)
+simple_circ.CX(0, 1).S(1).CX(1, 0)
 
-    CliffordSimp().apply(simple_circ)
-    print(simple_circ.get_commands())
+CliffordSimp().apply(simple_circ)
+print(simple_circ.get_commands())
 
-    # The same pattern, up to commutation and local Clifford algebra
-    complex_circ = Circuit(3)
-    complex_circ.CX(0, 1)
-    complex_circ.Rx(0.42, 1)
-    complex_circ.S(1)
-    complex_circ.YYPhase(0.96, 1, 2)  # Requires 2 CXs to implement
-    complex_circ.CX(0, 1)
+# The same pattern, up to commutation and local Clifford algebra
+complex_circ = Circuit(3)
+complex_circ.CX(0, 1)
+complex_circ.Rx(0.42, 1)
+complex_circ.S(1)
+complex_circ.YYPhase(0.96, 1, 2)  # Requires 2 CXs to implement
+complex_circ.CX(0, 1)
 
-    CliffordSimp().apply(complex_circ)
-    print(complex_circ.get_commands())
+CliffordSimp().apply(complex_circ)
+print(complex_circ.get_commands())
 ```
 
 The next step up in scale has optimisations based on optimal decompositions of subcircuits over $n$-qubits, including {py:class}`~pytket.passes.EulerAngleReduction` for single-qubit unitary chains (producing three rotations in a choice of axes), and {py:class}`~pytket.passes.KAKDecomposition` for two-qubit unitaries (using at most three CXs and some single-qubit gates).
@@ -468,26 +466,26 @@ The next step up in scale has optimisations based on optimal decompositions of s
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.passes import EulerAngleReduction, KAKDecomposition
+from pytket import Circuit, OpType
+from pytket.passes import EulerAngleReduction, KAKDecomposition
 
-    circ = Circuit(2)
-    circ.CZ(0, 1)
-    circ.Rx(0.4, 0).Ry(0.289, 0).Rx(-0.34, 0).Ry(0.12, 0).Rx(-0.81, 0)
-    circ.CX(1, 0)
+circ = Circuit(2)
+circ.CZ(0, 1)
+circ.Rx(0.4, 0).Ry(0.289, 0).Rx(-0.34, 0).Ry(0.12, 0).Rx(-0.81, 0)
+circ.CX(1, 0)
 
-    # Reduce long chain to a triple of Ry, Rx, Ry
-    EulerAngleReduction(OpType.Rx, OpType.Ry).apply(circ)
-    print(circ.get_commands())
+# Reduce long chain to a triple of Ry, Rx, Ry
+EulerAngleReduction(OpType.Rx, OpType.Ry).apply(circ)
+print(circ.get_commands())
 
-    circ = Circuit(3)
-    circ.CX(0, 1)
-    circ.CX(1, 2).Rx(0.3, 1).CX(1, 2).Rz(1.5, 2).CX(1, 2).Ry(-0.94, 1).Ry(0.37, 2).CX(1, 2)
-    circ.CX(1, 0)
+circ = Circuit(3)
+circ.CX(0, 1)
+circ.CX(1, 2).Rx(0.3, 1).CX(1, 2).Rz(1.5, 2).CX(1, 2).Ry(-0.94, 1).Ry(0.37, 2).CX(1, 2)
+circ.CX(1, 0)
 
-    # Reduce long 2-qubit subcircuit to at most 3 CXs
-    KAKDecomposition().apply(circ)
-    print(circ.get_commands())
+# Reduce long 2-qubit subcircuit to at most 3 CXs
+KAKDecomposition().apply(circ)
+print(circ.get_commands())
 ```
 
 % Situational macroscopic - identifies large structures in circuit or converts circuit to alternative algebraic representation; use properties of the structures to find simplifications; resynthesise into basic gates
@@ -499,19 +497,19 @@ All of these so far are generic optimisations that work for any application, but
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.passes import PauliSimp
-    from pytket.utils import Graph
+from pytket import Circuit
+from pytket.passes import PauliSimp
+from pytket.utils import Graph
 
-    circ = Circuit(3)
-    circ.Rz(0.2, 0)
-    circ.Rx(0.35, 1)
-    circ.V(0).H(1).CX(0, 1).CX(1, 2).Rz(-0.6, 2).CX(1, 2).CX(0, 1).Vdg(0).H(1)
-    circ.H(1).H(2).CX(0, 1).CX(1, 2).Rz(0.8, 2).CX(1, 2).CX(0, 1).H(1).H(2)
-    circ.Rx(0.1, 1)
+circ = Circuit(3)
+circ.Rz(0.2, 0)
+circ.Rx(0.35, 1)
+circ.V(0).H(1).CX(0, 1).CX(1, 2).Rz(-0.6, 2).CX(1, 2).CX(0, 1).Vdg(0).H(1)
+circ.H(1).H(2).CX(0, 1).CX(1, 2).Rz(0.8, 2).CX(1, 2).CX(0, 1).H(1).H(2)
+circ.Rx(0.1, 1)
 
-    PauliSimp().apply(circ)
-    Graph(circ).get_DAG()
+PauliSimp().apply(circ)
+Graph(circ).get_DAG()
 ```
 
 % May not always improve the circuit if it doesn't match the structures it was designed to exploit, and the large structural changes from resynthesis could make routing harder
@@ -523,36 +521,36 @@ Some of these optimisation passes have optional parameters to customise the rout
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, PauliExpBox
-    from pytket.passes import PauliSimp
-    from pytket.pauli import Pauli
-    from pytket.transform import CXConfigType
-    from pytket.utils import Graph
+from pytket.circuit import Circuit, PauliExpBox
+from pytket.passes import PauliSimp
+from pytket.pauli import Pauli
+from pytket.transform import CXConfigType
+from pytket.utils import Graph
 
-    pauli_XYXZYXZZ = PauliExpBox([Pauli.X, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Z], 0.42)
+pauli_XYXZYXZZ = PauliExpBox([Pauli.X, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Y, Pauli.X, Pauli.Z, Pauli.Z], 0.42)
 
-    circ = Circuit(8)
-    circ.add_gate(pauli_XYXZYXZZ, [0, 1, 2, 3, 4, 5, 6, 7])
+circ = Circuit(8)
+circ.add_gate(pauli_XYXZYXZZ, [0, 1, 2, 3, 4, 5, 6, 7])
 
-    PauliSimp(cx_config=CXConfigType.Snake).apply(circ)
-    print(circ.get_commands())
-    Graph(circ).get_qubit_graph()
+PauliSimp(cx_config=CXConfigType.Snake).apply(circ)
+print(circ.get_commands())
+Graph(circ).get_qubit_graph()
 ```
 
 
 ```{code-cell} ipython3
 
-    PauliSimp(cx_config=CXConfigType.Star).apply(circ)
-    print(circ.get_commands())
-    Graph(circ).get_qubit_graph()
+PauliSimp(cx_config=CXConfigType.Star).apply(circ)
+print(circ.get_commands())
+Graph(circ).get_qubit_graph()
 ```
 
 
 ```{code-cell} ipython3
 
-    PauliSimp(cx_config=CXConfigType.Tree).apply(circ)
-    print(circ.get_commands())
-    Graph(circ).get_qubit_graph()
+PauliSimp(cx_config=CXConfigType.Tree).apply(circ)
+print(circ.get_commands())
+Graph(circ).get_qubit_graph()
 ```
 
 ## Combinators
@@ -566,15 +564,15 @@ The passes encountered so far represent elementary, self-contained transformatio
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.passes import auto_rebase_pass, EulerAngleReduction, SequencePass
+from pytket import Circuit, OpType
+from pytket.passes import auto_rebase_pass, EulerAngleReduction, SequencePass
 
-    rebase_quil = auto_rebase_pass({OpType.CZ, OpType.Rz, OpType.Rx})
-    circ = Circuit(3)
-    circ.CX(0, 1).Rx(0.3, 1).CX(2, 1).Rz(0.8, 1)
-    comp = SequencePass([rebase_quil, EulerAngleReduction(OpType.Rz, OpType.Rx)])
-    comp.apply(circ)
-    print(circ.get_commands())
+rebase_quil = auto_rebase_pass({OpType.CZ, OpType.Rz, OpType.Rx})
+circ = Circuit(3)
+circ.CX(0, 1).Rx(0.3, 1).CX(2, 1).Rz(0.8, 1)
+comp = SequencePass([rebase_quil, EulerAngleReduction(OpType.Rz, OpType.Rx)])
+comp.apply(circ)
+print(circ.get_commands())
 ```
 
 % Repeat passes until no further change - useful when one pass can enable further matches for another type of optimisation
@@ -584,14 +582,14 @@ When composing optimisation passes, we may find that applying one type of optimi
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.passes import RemoveRedundancies, CommuteThroughMultis, RepeatPass, SequencePass
+from pytket import Circuit
+from pytket.passes import RemoveRedundancies, CommuteThroughMultis, RepeatPass, SequencePass
 
-    circ = Circuit(4)
-    circ.CX(2, 3).CY(1, 2).CX(0, 1).Rz(0.24, 0).CX(0, 1).Rz(0.89, 1).CY(1, 2).Rz(-0.3, 2).CX(2, 3)
-    comp = RepeatPass(SequencePass([CommuteThroughMultis(), RemoveRedundancies()]))
-    comp.apply(circ)
-    print(circ.get_commands())
+circ = Circuit(4)
+circ.CX(2, 3).CY(1, 2).CX(0, 1).Rz(0.24, 0).CX(0, 1).Rz(0.89, 1).CY(1, 2).Rz(-0.3, 2).CX(2, 3)
+comp = RepeatPass(SequencePass([CommuteThroughMultis(), RemoveRedundancies()]))
+comp.apply(circ)
+print(circ.get_commands())
 ```
 
 ```{warning}
@@ -605,15 +603,15 @@ Increased termination safety can be given by only repeating whilst some easy-to-
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.passes import RemoveRedundancies, CommuteThroughMultis, RepeatWithMetricPass, SequencePass
+from pytket import Circuit, OpType
+from pytket.passes import RemoveRedundancies, CommuteThroughMultis, RepeatWithMetricPass, SequencePass
 
-    circ = Circuit(4)
-    circ.CX(2, 3).CY(1, 2).CX(0, 1).Rz(0.24, 0).CX(0, 1).Rz(0.89, 1).CY(1, 2).Rz(-0.3, 2).CX(2, 3)
-    cost = lambda c : c.n_gates_of_type(OpType.CX)
-    comp = RepeatWithMetricPass(SequencePass([CommuteThroughMultis(), RemoveRedundancies()]), cost)
-    comp.apply(circ)  # Stops earlier than before, since removing CYs doesn't change the number of CXs
-    print(circ.get_commands())
+circ = Circuit(4)
+circ.CX(2, 3).CY(1, 2).CX(0, 1).Rz(0.24, 0).CX(0, 1).Rz(0.89, 1).CY(1, 2).Rz(-0.3, 2).CX(2, 3)
+cost = lambda c : c.n_gates_of_type(OpType.CX)
+comp = RepeatWithMetricPass(SequencePass([CommuteThroughMultis(), RemoveRedundancies()]), cost)
+comp.apply(circ)  # Stops earlier than before, since removing CYs doesn't change the number of CXs
+print(circ.get_commands())
 ```
 
 % May reject compositions if pre/post-conditions don't match up; some passes will fail to complete or fail to achieve their objective if a circuit does not match their pre-conditions, so we prevent compositions where the latter's pre-conditions cannot be guaranteed
@@ -626,12 +624,14 @@ A special mention here goes to the {py:class}`~pytket.passes.DecomposeBoxes` pas
 
 
 ```{code-cell} ipython3
-    :raises: RuntimeError
+---
+tags: [raises-exception]
+---
 
-    from pytket.passes import DecomposeBoxes, PauliSimp, SequencePass
-    # PauliSimp requires a specific gateset and no conditional gates
-    # or mid-circuit measurement, so this will raise an exception
-    comp = SequencePass([DecomposeBoxes(), PauliSimp()])
+from pytket.passes import DecomposeBoxes, PauliSimp, SequencePass
+# PauliSimp requires a specific gateset and no conditional gates
+# or mid-circuit measurement, so this will raise an exception
+comp = SequencePass([DecomposeBoxes(), PauliSimp()])
 ```
 
 ## Predefined Sequences
@@ -680,7 +680,6 @@ SynthesiseTket().apply(circ)            # Some added gates may be redundant
 print(circ.n_gates_of_type(OpType.CX))  # But not in this case
 ```
 
-
 ```
 9
 6
@@ -720,36 +719,36 @@ As more intensive optimisations are applied by level 2 the pass may take a long 
 tags: [skip-execution]
 ---
 
-    from pytket import Circuit, OpType
-    from pytket.extensions.qiskit import IBMQBackend
+from pytket import Circuit, OpType
+from pytket.extensions.qiskit import IBMQBackend
 
-    circ = Circuit(3) # Define a circuit to be compiled to the backend
-    circ.CX(0, 1)
-    circ.H(1)
-    circ.Rx(0.42, 1)
-    circ.S(1)
-    circ.CX(0, 2)
-    circ.CX(2, 1)
-    circ.Z(2)
-    circ.Y(1)
-    circ.CX(0, 1)
-    circ.CX(2, 0)
-    circ.measure_all()
+circ = Circuit(3) # Define a circuit to be compiled to the backend
+circ.CX(0, 1)
+circ.H(1)
+circ.Rx(0.42, 1)
+circ.S(1)
+circ.CX(0, 2)
+circ.CX(2, 1)
+circ.Z(2)
+circ.Y(1)
+circ.CX(0, 1)
+circ.CX(2, 0)
+circ.measure_all()
 
-    backend = IBMQBackend("ibmq_quito") # Initialise Backend
+backend = IBMQBackend("ibmq_quito") # Initialise Backend
 
-    print("Total gate count before compilation =", circ.n_gates)
-    print("CX count before compilation =",  circ.n_gates_of_type(OpType.CX))
+print("Total gate count before compilation =", circ.n_gates)
+print("CX count before compilation =",  circ.n_gates_of_type(OpType.CX))
 
-     # Now apply the default_compilation_pass at different levels of optimisation.
+    # Now apply the default_compilation_pass at different levels of optimisation.
 
-    for ol in range(3):
-        test_circ = circ.copy()
-        backend.default_compilation_pass(optimisation_level=ol).apply(test_circ)
-        assert backend.valid_circuit(test_circ)
-        print("Optimisation level", ol)
-        print("Gates", test_circ.n_gates)
-        print("CXs", test_circ.n_gates_of_type(OpType.CX))
+for ol in range(3):
+    test_circ = circ.copy()
+    backend.default_compilation_pass(optimisation_level=ol).apply(test_circ)
+    assert backend.valid_circuit(test_circ)
+    print("Optimisation level", ol)
+    print("Gates", test_circ.n_gates)
+    print("CXs", test_circ.n_gates_of_type(OpType.CX))
 ```
 
 
@@ -850,36 +849,36 @@ For variational algorithms, the prominent benefit of defining a {py:class}`~pytk
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit
-    from pytket.extensions.qiskit import AerStateBackend
-    from pytket.pauli import Pauli, QubitPauliString
-    from pytket.utils.operators import QubitPauliOperator
-    from sympy import symbols
+from pytket import Circuit, Qubit
+from pytket.extensions.qiskit import AerStateBackend
+from pytket.pauli import Pauli, QubitPauliString
+from pytket.utils.operators import QubitPauliOperator
+from sympy import symbols
 
-    a, b = symbols("a b")
-    circ = Circuit(2)
-    circ.Ry(a, 0)
-    circ.Ry(a, 1)
-    circ.CX(0, 1)
-    circ.Rz(b, 1)
-    circ.CX(0, 1)
-    xx = QubitPauliString({Qubit(0):Pauli.X, Qubit(1):Pauli.X})
-    op = QubitPauliOperator({xx : 1.5})
+a, b = symbols("a b")
+circ = Circuit(2)
+circ.Ry(a, 0)
+circ.Ry(a, 1)
+circ.CX(0, 1)
+circ.Rz(b, 1)
+circ.CX(0, 1)
+xx = QubitPauliString({Qubit(0):Pauli.X, Qubit(1):Pauli.X})
+op = QubitPauliOperator({xx : 1.5})
 
-    backend = AerStateBackend()
+backend = AerStateBackend()
 
-    # Compile once outside of the objective function
-    circ = backend.get_compiled_circuit(circ)
+# Compile once outside of the objective function
+circ = backend.get_compiled_circuit(circ)
 
-    def objective(params):
-        state = circ.copy()
-        state.symbol_substitution({a : params[0], b : params[1]})
-        handle = backend.process_circuit(state) # No need to compile again
-        vec = backend.get_result(handle).get_state()
-        return op.state_expectation(vec)
+def objective(params):
+    state = circ.copy()
+    state.symbol_substitution({a : params[0], b : params[1]})
+    handle = backend.process_circuit(state) # No need to compile again
+    vec = backend.get_result(handle).get_state()
+    return op.state_expectation(vec)
 
-    print(objective([0.25, 0.5]))
-    print(objective([0.5, 0]))
+print(objective([0.25, 0.5]))
+print(objective([0.5, 0]))
 ```
 
 % Warning about `NoSymbolsPredicate` and necessity of instantiation before running on backends
@@ -898,24 +897,24 @@ We will show how to use {py:class}`~pytket.passes.CustomPass` by defining a simp
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
+from pytket import Circuit, OpType
 
-    def z_transform(circ: Circuit) -> Circuit:
-        n_qubits = circ.n_qubits
-        circ_prime = Circuit(n_qubits) # Define a replacement circuit
+def z_transform(circ: Circuit) -> Circuit:
+    n_qubits = circ.n_qubits
+    circ_prime = Circuit(n_qubits) # Define a replacement circuit
 
-        for cmd in circ.get_commands():
-            qubit_list = cmd.qubits # Qubit(s) our gate is applied on (as a list)
-            if cmd.op.type == OpType.Z:
-                # If cmd is a Z gate, decompose to a H, X, H sequence.
-                circ_prime.add_gate(OpType.H, qubit_list)
-                circ_prime.add_gate(OpType.X, qubit_list)
-                circ_prime.add_gate(OpType.H, qubit_list)
-            else:
-                # Otherwise, apply the gate as usual.
-                circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list)
+    for cmd in circ.get_commands():
+        qubit_list = cmd.qubits # Qubit(s) our gate is applied on (as a list)
+        if cmd.op.type == OpType.Z:
+            # If cmd is a Z gate, decompose to a H, X, H sequence.
+            circ_prime.add_gate(OpType.H, qubit_list)
+            circ_prime.add_gate(OpType.X, qubit_list)
+            circ_prime.add_gate(OpType.H, qubit_list)
+        else:
+            # Otherwise, apply the gate as usual.
+            circ_prime.add_gate(cmd.op.type, cmd.op.params, qubit_list)
 
-        return circ_prime
+    return circ_prime
 ```
 
 After we've defined our `transform` we can construct a {py:class}`~pytket.passes.CustomPass`. This pass can then be applied to a {py:class}`~pytket.circuit.Circuit`.
@@ -923,20 +922,20 @@ After we've defined our `transform` we can construct a {py:class}`~pytket.passes
 
 ```{code-cell} ipython3
 
-    from pytket.passes import CustomPass
+from pytket.passes import CustomPass
 
-    DecompseZPass = CustomPass(z_transform) # Define our pass
+DecompseZPass = CustomPass(z_transform) # Define our pass
 
-    test_circ = Circuit(2) # Define a test Circuit for our pass
-    test_circ.Z(0)
-    test_circ.Z(1)
-    test_circ.CX(0, 1)
-    test_circ.Z(1)
-    test_circ.CRy(0.5, 0, 1)
+test_circ = Circuit(2) # Define a test Circuit for our pass
+test_circ.Z(0)
+test_circ.Z(1)
+test_circ.CX(0, 1)
+test_circ.Z(1)
+test_circ.CRy(0.5, 0, 1)
 
-    DecompseZPass.apply(test_circ) # Apply our pass to the test Circuit
+DecompseZPass.apply(test_circ) # Apply our pass to the test Circuit
 
-    test_circ.get_commands() # Commands of our transformed Circuit
+test_circ.get_commands() # Commands of our transformed Circuit
 ```
 
 We see from the output above that our newly defined {py:class}`DecompseZPass` has successfully decomposed the Pauli Z gates to Hadamard, Pauli X, Hadamard chains and left other gates unchanged.
@@ -1161,15 +1160,15 @@ operation has a classical output in its causal future so will not be removed.
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Qubit
-    from pytket.passes import RemoveDiscarded
+from pytket.circuit import Qubit
+from pytket.passes import RemoveDiscarded
 
-    c = Circuit(3, 2)
-    c.H(0).H(1).H(2).CX(0, 1).Measure(0, 0).Measure(1, 1).H(0).H(1)
-    c.qubit_discard(Qubit(0))
-    c.qubit_discard(Qubit(2))
-    RemoveDiscarded().apply(c)
-    print(c.get_commands())
+c = Circuit(3, 2)
+c.H(0).H(1).H(2).CX(0, 1).Measure(0, 0).Measure(1, 1).H(0).H(1)
+c.qubit_discard(Qubit(0))
+c.qubit_discard(Qubit(2))
+RemoveDiscarded().apply(c)
+print(c.get_commands())
 ```
 
 The Hadamard gate following the measurement on qubit 0, as well as the Hadamard
@@ -1204,12 +1203,12 @@ Let's illustrate this with a Bell circuit:
 
 ```{code-cell} ipython3
 
-    from pytket.passes import SimplifyMeasured
+from pytket.passes import SimplifyMeasured
 
-    c = Circuit(2).H(0).CX(0, 1).measure_all()
-    c.qubit_discard_all()
-    SimplifyMeasured().apply(c)
-    print(c.get_commands())
+c = Circuit(2).H(0).CX(0, 1).measure_all()
+c.qubit_discard_all()
+SimplifyMeasured().apply(c)
+print(c.get_commands())
 ```
 
 The CX gate has disappeared, replaced with a classical transform acting on the
@@ -1243,18 +1242,18 @@ Thus a typical usage would look something like this:
 
 ```{code-cell} ipython3
 
-    from pytket.utils import prepare_circuit
-    from pytket.extensions.qiskit import AerBackend
+from pytket.utils import prepare_circuit
+from pytket.extensions.qiskit import AerBackend
 
-    b = AerBackend()
-    c = Circuit(2).H(0).CX(0, 1)
-    c.measure_all()
-    c0, ppcirc = prepare_circuit(c)
-    c0 = b.get_compiled_circuit(c0)
-    h = b.process_circuit(c0, n_shots=10)
-    r = b.get_result(h)
-    shots = r.get_shots(ppcirc=ppcirc)
-    print(shots)
+b = AerBackend()
+c = Circuit(2).H(0).CX(0, 1)
+c.measure_all()
+c0, ppcirc = prepare_circuit(c)
+c0 = b.get_compiled_circuit(c0)
+h = b.process_circuit(c0, n_shots=10)
+r = b.get_result(h)
+shots = r.get_shots(ppcirc=ppcirc)
+print(shots)
 ```
 
 This is a toy example, but illustrates the principle. The actual circuit sent to

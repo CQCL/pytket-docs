@@ -31,7 +31,7 @@ interact, with these limitations being determined by the device architecture.
 When compiling a circuit to run on one of these devices, the circuit
 must be modified to fit the architecture, a process described in the
 previous chapter under {ref}`compiler-placement` and
-{ref}`compiler-routing`.
+{ref}`compiler-mapping`.
 
 In addition, the noise present in NISQ devices typically varies across
 the architecture, with different qubits and couplings experiencing
