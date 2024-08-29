@@ -46,13 +46,13 @@ Basic quantum gates represent some unitary operation applied to some qubits. Add
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(4)   # qubits are numbered 0-3
-    circ.X(0)           # first apply an X gate to qubit 0
-    circ.CX(1, 3)       # and apply a CX gate with control qubit 1 and target qubit 3
-    circ.Z(3)           # then apply a Z gate to qubit 3
-    circ.get_commands() # show the commands of the built circuit
+circ = Circuit(4)   # qubits are numbered 0-3
+circ.X(0)           # first apply an X gate to qubit 0
+circ.CX(1, 3)       # and apply a CX gate with control qubit 1 and target qubit 3
+circ.Z(3)           # then apply a Z gate to qubit 3
+circ.get_commands() # show the commands of the built circuit
 ```
 
 % parameterised gates; parameter first, always in half-turns
@@ -62,12 +62,12 @@ For parameterised gates, such as rotations, the parameter is always given first.
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(2)
-    circ.Rx(0.5, 0)     # Rx of angle pi/2 radians on qubit 0
-    circ.CRz(0.3, 1, 0) # Controlled-Rz of angle 0.3pi radians with
-                        #   control qubit 1 and target qubit 0
+circ = Circuit(2)
+circ.Rx(0.5, 0)     # Rx of angle pi/2 radians on qubit 0
+circ.CRz(0.3, 1, 0) # Controlled-Rz of angle 0.3pi radians with
+                    #   control qubit 1 and target qubit 0
 ```
 
 % Table of common gates, with circuit notation, unitary, and python command
@@ -81,15 +81,15 @@ A large selection of common gates are available in this way, as listed in the AP
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
+from pytket import Circuit, OpType
 
-    circ = Circuit(5)
-    circ.add_gate(OpType.CnX, [0, 1, 4, 3])
-        # add controlled-X with control qubits 0, 1, 4 and target qubit 3
-    circ.add_gate(OpType.XXPhase, 0.7, [0, 2])
-        # add e^{-i (0.7 pi / 2) XX} on qubits 0 and 2
-    circ.add_gate(OpType.PhasedX, [-0.1, 0.5], [3])
-        # adds Rz(-0.5 pi); Rx(-0.1 pi); Rz(0.5 pi) on qubit 3
+circ = Circuit(5)
+circ.add_gate(OpType.CnX, [0, 1, 4, 3])
+    # add controlled-X with control qubits 0, 1, 4 and target qubit 3
+circ.add_gate(OpType.XXPhase, 0.7, [0, 2])
+    # add e^{-i (0.7 pi / 2) XX} on qubits 0 and 2
+circ.add_gate(OpType.PhasedX, [-0.1, 0.5], [3])
+    # adds Rz(-0.5 pi); Rx(-0.1 pi); Rz(0.5 pi) on qubit 3
 ```
 
 The API reference for the {py:class}`~pytket.OpType` class details all available operations that can exist in a circuit.
@@ -111,14 +111,14 @@ Adding a measurement works just like adding any other gate, where the first argu
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(4, 2)
-    circ.Measure(0, 0)  # Z-basis measurement on qubit 0, saving result in bit 0
-    circ.CX(1, 2)
-    circ.CX(1, 3)
-    circ.H(1)
-    circ.Measure(1, 1)  # Measurement of IXXX, saving result in bit 1
+circ = Circuit(4, 2)
+circ.Measure(0, 0)  # Z-basis measurement on qubit 0, saving result in bit 0
+circ.CX(1, 2)
+circ.CX(1, 3)
+circ.H(1)
+circ.Measure(1, 1)  # Measurement of IXXX, saving result in bit 1
 ```
 
 % Overwriting data in classical bits
@@ -128,12 +128,12 @@ Because the classical bits are treated as statically assigned locations, writing
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(2, 1)
-    circ.Measure(0, 0)  # measure the first measurement
-    circ.CX(0, 1)
-    circ.Measure(1, 0)  # overwrites the first result with a new measurement
+circ = Circuit(2, 1)
+circ.Measure(0, 0)  # measure the first measurement
+circ.CX(0, 1)
+circ.Measure(1, 0)  # overwrites the first result with a new measurement
 ```
 
 % Measurement on real devices could require a single layer at end, or sufficiently noisy that they appear destructive so require resets
@@ -143,29 +143,29 @@ Depending on where we plan on running our circuits, the backend or simulator mig
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ0 = Circuit(2, 2)    # all measurements at end
-    circ0.H(1)
-    circ0.Measure(0, 0)
-    circ0.Measure(1, 1)
+circ0 = Circuit(2, 2)    # all measurements at end
+circ0.H(1)
+circ0.Measure(0, 0)
+circ0.Measure(1, 1)
 
-    circ1 = Circuit(2, 2)    # this is DAG-equivalent to circ1, so is still ok
-    circ1.Measure(0, 0)
-    circ1.H(1)
-    circ1.Measure(1, 1)
+circ1 = Circuit(2, 2)    # this is DAG-equivalent to circ1, so is still ok
+circ1.Measure(0, 0)
+circ1.H(1)
+circ1.Measure(1, 1)
 
-    circ2 = Circuit(2, 2)
-        # reuses qubit 0 after measuring, so this may be rejected by a device
-    circ2.Measure(0, 0)
-    circ2.CX(0, 1)
-    circ2.Measure(1, 1)
+circ2 = Circuit(2, 2)
+    # reuses qubit 0 after measuring, so this may be rejected by a device
+circ2.Measure(0, 0)
+circ2.CX(0, 1)
+circ2.Measure(1, 1)
 
-    circ3 = Circuit(2, 1)
-        # overwriting the classical value means we have to measure qubit 0
-        # before qubit 1; they won't occur simultaneously so this may be rejected
-    circ3.Measure(0, 0)
-    circ3.Measure(1, 0)
+circ3 = Circuit(2, 1)
+    # overwriting the classical value means we have to measure qubit 0
+    # before qubit 1; they won't occur simultaneously so this may be rejected
+circ3.Measure(0, 0)
+circ3.Measure(1, 0)
 ```
 
 % `measure_all`
@@ -175,17 +175,17 @@ The simplest way to guarantee this is to finish the circuit by measuring all qub
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    # measure qubit 0 in Z basis and 1 in X basis
-    circ = Circuit(2, 2)
-    circ.H(1)
-    circ.measure_all()
+# measure qubit 0 in Z basis and 1 in X basis
+circ = Circuit(2, 2)
+circ.H(1)
+circ.measure_all()
 
-    # measure_all() adds bits if they are not already defined, so equivalently
-    circ = Circuit(2)
-    circ.H(1)
-    circ.measure_all()
+# measure_all() adds bits if they are not already defined, so equivalently
+circ = Circuit(2)
+circ.H(1)
+circ.measure_all()
 ```
 
 On devices where mid-circuit measurements are available, they may be highly noisy and not apply just a basic projector on the quantum state. We can view these as "effectively destructive" measurements, where the qubit still exists but is in a noisy state. In this case, it is recommended to actively reset a qubit after measurement if it is intended to be reused.
@@ -193,16 +193,16 @@ On devices where mid-circuit measurements are available, they may be highly nois
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
+from pytket import Circuit, OpType
 
-    circ = Circuit(2, 2)
-    circ.Measure(0, 0)
-    # Actively reset state to |0>
-    circ.Reset(0)
-    # Conditionally flip state to |1> to reflect measurement result
-    circ.X(0, condition_bits=[0], condition_value=1)
-    # Use the qubit as if the measurement was non-destructive
-    circ.CX(0, 1)
+circ = Circuit(2, 2)
+circ.Measure(0, 0)
+# Actively reset state to |0>
+circ.Reset(0)
+# Conditionally flip state to |1> to reflect measurement result
+circ.X(0, condition_bits=[0], condition_value=1)
+# Use the qubit as if the measurement was non-destructive
+circ.CX(0, 1)
 ```
 
 ## Barriers
@@ -225,14 +225,14 @@ Adding a barrier to a {py:class}`~pytket.circuit.Circuit` is done using the {py:
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(4, 2)
-    circ.H(0)
-    circ.CX(1, 2)
-    circ.add_barrier([0, 1, 2, 3], [0, 1]) # add a barrier on all qubits and bits
-    circ.Measure(0, 0)
-    circ.Measure(2, 1)
+circ = Circuit(4, 2)
+circ.H(0)
+circ.CX(1, 2)
+circ.add_barrier([0, 1, 2, 3], [0, 1]) # add a barrier on all qubits and bits
+circ.Measure(0, 0)
+circ.Measure(2, 1)
 ```
 
 ## Registers and IDs
@@ -252,20 +252,20 @@ Named resources can be added to {py:class}`~pytket.circuit.Circuit` s individu
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit, Bit
+from pytket import Circuit, Qubit, Bit
 
-    circ = Circuit()
-    qreg = circ.add_q_register("reg", 2)    # add a qubit register
+circ = Circuit()
+qreg = circ.add_q_register("reg", 2)    # add a qubit register
 
-    anc = Qubit("ancilla")                  # add a named qubit
-    circ.add_qubit(anc)
+anc = Qubit("ancilla")                  # add a named qubit
+circ.add_qubit(anc)
 
-    par = Bit("parity", [0, 0])             # add a named bit with a 2D index
-    circ.add_bit(par)
+par = Bit("parity", [0, 0])             # add a named bit with a 2D index
+circ.add_bit(par)
 
-    circ.CX(qreg[0], anc)                   # add gates in terms of IDs
-    circ.CX(qreg[1], anc)
-    circ.Measure(anc, par)
+circ.CX(qreg[0], anc)                   # add gates in terms of IDs
+circ.CX(qreg[1], anc)
+circ.Measure(anc, par)
 ```
 
 % Query circuits to identify what qubits and bits it contains
@@ -275,15 +275,15 @@ A {py:class}`~pytket.circuit.Circuit` can be inspected to identify what qubits a
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit
+from pytket import Circuit, Qubit
 
-    circ = Circuit()
-    circ.add_q_register("a", 4)
-    circ.add_qubit(Qubit("b"))
-    circ.add_c_register("z", 3)
+circ = Circuit()
+circ.add_q_register("a", 4)
+circ.add_qubit(Qubit("b"))
+circ.add_c_register("z", 3)
 
-    print(circ.qubits)
-    print(circ.bits)
+print(circ.qubits)
+print(circ.bits)
 ```
 
 % Restrictions on registers (circuit will reject ids if they are already in use or the index dimension/resource type is inconsistent with existing ids of that name)
@@ -294,31 +294,31 @@ To help encourage consistency of identifiers, a {py:class}`~pytket.circuit.Circu
 ```{code-cell} ipython3
     :raises: RuntimeError
 
-    from pytket import Circuit, Qubit, Bit
+from pytket import Circuit, Qubit, Bit
 
-    circ = Circuit()
-    # set up a circuit with qubit a[0]
-    circ.add_qubit(Qubit("a", 0))
+circ = Circuit()
+# set up a circuit with qubit a[0]
+circ.add_qubit(Qubit("a", 0))
 
-    # rejected because "a" is already a qubit register
-    circ.add_bit(Bit("a", 1))
+# rejected because "a" is already a qubit register
+circ.add_bit(Bit("a", 1))
 ```
 
 
 ```{code-cell} ipython3
     :raises: RuntimeError
 
-    # rejected because "a" is already a 1D register
-    circ.add_qubit(Qubit("a", [1, 2]))
-    circ.add_qubit(Qubit("a"))
+# rejected because "a" is already a 1D register
+circ.add_qubit(Qubit("a", [1, 2]))
+circ.add_qubit(Qubit("a"))
 ```
 
 
 ```{code-cell} ipython3
     :raises: RuntimeError
 
-    # rejected because a[0] is already in the circuit
-    circ.add_qubit(Qubit("a", 0))
+# rejected because a[0] is already in the circuit
+circ.add_qubit(Qubit("a", 0))
 ```
 
 % Integer labels correspond to default registers (example of using explicit labels from `Circuit(n)`)
@@ -328,11 +328,11 @@ The basic integer identifiers are actually a special case, referring to the defa
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit, Bit
+from pytket import Circuit, Qubit, Bit
 
-    circ = Circuit(4, 2)
-    circ.CX(Qubit(0), Qubit("q", 1))    # same as circ.CX(0, 1)
-    circ.Measure(Qubit(2), Bit("c", 0)) # same as circ.Measure(2, 0)
+circ = Circuit(4, 2)
+circ.CX(Qubit(0), Qubit("q", 1))    # same as circ.CX(0, 1)
+circ.Measure(Qubit(2), Bit("c", 0)) # same as circ.Measure(2, 0)
 ```
 
 % Rename with `rename_units` as long as the names after renaming would be unique and have consistent register typings
@@ -342,19 +342,19 @@ In some circumstances, it may be useful to rename the resources in the {py:class
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit, Bit
+from pytket import Circuit, Qubit, Bit
 
-    circ = Circuit(2, 2)
-    circ.add_qubit(Qubit("a", 0))
+circ = Circuit(2, 2)
+circ.add_qubit(Qubit("a", 0))
 
-    qubit_map = {
-        Qubit("a", 0) : Qubit(3),
-        Qubit(1) : Qubit("a", 0),
-        Bit(0) : Bit("z", [0, 1]),
-    }
-    circ.rename_units(qubit_map)
-    print(circ.qubits)
-    print(circ.bits)
+qubit_map = {
+    Qubit("a", 0) : Qubit(3),
+    Qubit(1) : Qubit("a", 0),
+    Bit(0) : Bit("z", [0, 1]),
+}
+circ.rename_units(qubit_map)
+print(circ.qubits)
+print(circ.bits)
 ```
 
 ## Composing Circuits
@@ -362,27 +362,26 @@ In some circumstances, it may be useful to rename the resources in the {py:class
 % Appending matches units of the same id
 
 
-.. currentmodule:: pytket.circuit
-```
+
 
 Because {py:class}`Circuit` s are defined to have open inputs and outputs, it is perfectly natural to compose them by unifying the outputs of one with the inputs of another. Appending one {py:class}`Circuit` to the end of another matches the inputs and outputs with the same {py:class}`UnitID`.
 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit, Bit
+from pytket import Circuit, Qubit, Bit
 
-    circ = Circuit(2, 2)
-    circ.CX(0, 1)
-    circ.Rz(0.3, 1)
-    circ.CX(0, 1)
+circ = Circuit(2, 2)
+circ.CX(0, 1)
+circ.Rz(0.3, 1)
+circ.CX(0, 1)
 
-    measures = Circuit(2, 2)
-    measures.H(1)
-    measures.measure_all()
+measures = Circuit(2, 2)
+measures.H(1)
+measures.measure_all()
 
-    circ.append(measures)
-    circ
+circ.append(measures)
+circ
 ```
 
 % If a unit does not exist in the other circuit, treated as composing with identity
@@ -396,21 +395,21 @@ To compose two circuits in parallel we can take tensor product using the * opera
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.circuit.display import render_circuit_jupyter as draw
+from pytket import Circuit
+from pytket.circuit.display import render_circuit_jupyter as draw
 
-    circ1 = Circuit()
-    j = circ1.add_q_register("j", 1)
-    circ1.Y(j[0])
+circ1 = Circuit()
+j = circ1.add_q_register("j", 1)
+circ1.Y(j[0])
 
-    circ2 = Circuit()
-    k = circ2.add_q_register("k", 2)
-    circ2.X(k[1])
-    circ2.CRz(0.64, k[1], k[0])
+circ2 = Circuit()
+k = circ2.add_q_register("k", 2)
+circ2.X(k[1])
+circ2.CRz(0.64, k[1], k[0])
 
-    circ3 = circ1 * circ2 # Take the tensor product
+circ3 = circ1 * circ2 # Take the tensor product
 
-    draw(circ3)
+draw(circ3)
 ```
 
 If we attempt to form the tensor product of two circuits without distinct qubit names then we will get a {py:class}`RuntimeError` as the composition is not defined.
@@ -419,15 +418,15 @@ If we attempt to form the tensor product of two circuits without distinct qubit 
 ```{code-cell} ipython3
     :raises: RuntimeError
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ_x = Circuit()
-    l_reg1 = circ_x.add_q_register("l", 1)
+circ_x = Circuit()
+l_reg1 = circ_x.add_q_register("l", 1)
 
-    circ_y = Circuit()
-    l_reg2 = circ_y.add_q_register("l", 1)
+circ_y = Circuit()
+l_reg2 = circ_y.add_q_register("l", 1)
 
-    circ_x * circ_y # Error as both circuits have l[0]
+circ_x * circ_y # Error as both circuits have l[0]
 
 ```
 
@@ -470,25 +469,25 @@ To change which units get unified, we could use {py:meth}`Circuit.rename_units` 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, Qubit
+from pytket import Circuit, Qubit
 
-    circ = Circuit()
-    a = circ.add_q_register("a", 2)
-    circ.Rx(0.2, a[0])
-    circ.CX(a[0], a[1])
+circ = Circuit()
+a = circ.add_q_register("a", 2)
+circ.Rx(0.2, a[0])
+circ.CX(a[0], a[1])
 
-    next_circ = Circuit(2)
-    next_circ.Z(0)
-    next_circ.CZ(1, 0)
+next_circ = Circuit(2)
+next_circ.Z(0)
+next_circ.CZ(1, 0)
 
-    circ.add_circuit(next_circ, [a[1], a[0]])
+circ.add_circuit(next_circ, [a[1], a[0]])
 
-    # This is equivalent to:
-    # temp = next_circ.copy()
-    # temp.rename_units({Qubit(0) : a[1], Qubit(1) : a[0]})
-    # circ.append(temp)
+# This is equivalent to:
+# temp = next_circ.copy()
+# temp.rename_units({Qubit(0) : a[1], Qubit(1) : a[0]})
+# circ.append(temp)
 
-    draw(circ)
+draw(circ)
 ```
 
 :::{note}
@@ -502,11 +501,11 @@ When working with quantum circuits we may want access to the quantum state prepa
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(2)
-    circ.H(0).CX(0, 1)
-    circ.get_statevector()
+circ = Circuit(2)
+circ.H(0).CX(0, 1)
+circ.get_statevector()
 ```
 
 In addition {py:meth}`Circuit.get_unitary` can be used to numerically calculate the unitary matrix that will be applied by the circuit.
@@ -514,11 +513,11 @@ In addition {py:meth}`Circuit.get_unitary` can be used to numerically calculate 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(2)
-    circ.H(0).CZ(0, 1).H(1)
-    circ.get_unitary()
+circ = Circuit(2)
+circ.H(0).CZ(0, 1).H(1)
+circ.get_unitary()
 ```
 
 :::{warning}
@@ -536,14 +535,14 @@ Because the {py:class}`~pytket.circuit.Circuit` class identifies circuits up to 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(3)
-    circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
+circ = Circuit(3)
+circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
 
-    for com in circ: # equivalently, circ.get_commands()
-        print(com.op, com.op.type, com.args)
-        # NOTE: com is not a reference to something inside circ; this cannot be used to modify the circuit
+for com in circ: # equivalently, circ.get_commands()
+    print(com.op, com.op.type, com.args)
+    # NOTE: com is not a reference to something inside circ; this cannot be used to modify the circuit
 ```
 
 % To see more succinctly, can visualise in circuit form or the underlying DAG
@@ -553,12 +552,12 @@ If you are working in a Jupyter environment, a {py:class}`~pytket.circuit.Circui
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.circuit.display import render_circuit_jupyter as draw
+from pytket import Circuit
+from pytket.circuit.display import render_circuit_jupyter as draw
 
-    circ = Circuit(3)
-    circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
-    draw(circ) # Render interactive circuit diagram
+circ = Circuit(3)
+circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
+draw(circ) # Render interactive circuit diagram
 ```
 
 :::{note}
@@ -570,12 +569,12 @@ The pytket circuit renderer can represent circuits in the standard circuit model
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.utils import Graph
+from pytket import Circuit
+from pytket.utils import Graph
 
-    circ = Circuit(3)
-    circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
-    Graph(circ).get_DAG()   # Displays in interactive python notebooks
+circ = Circuit(3)
+circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
+Graph(circ).get_DAG()   # Displays in interactive python notebooks
 ```
 
 The visualisation tool can also describe the interaction graph of a {py:class}`~pytket.circuit.Circuit` consisting of only one- and two-qubit gates -- that is, the graph of which qubits will share a two-qubit gate at some point during execution.
@@ -589,12 +588,12 @@ There are also the methods {py:meth}`~pytket.utils.Graph.save_DAG` and {py:meth}
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.utils import Graph
+from pytket import Circuit
+from pytket.utils import Graph
 
-    circ = Circuit(4)
-    circ.CX(0, 1).CZ(1, 2).ZZPhase(0.63, 2, 3).CX(1, 3).CY(0, 1)
-    Graph(circ).get_qubit_graph()
+circ = Circuit(4)
+circ.CX(0, 1).CZ(1, 2).ZZPhase(0.63, 2, 3).CX(1, 3).CY(0, 1)
+Graph(circ).get_qubit_graph()
 ```
 
 % Won't always want this much detail, so can also query for common metrics (gate count, specific ops, depth, T-depth and 2q-depth)
@@ -604,13 +603,13 @@ The full instruction sequence may often be too much detail for a lot of needs, e
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
+from pytket import Circuit
 
-    circ = Circuit(3)
-    circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
+circ = Circuit(3)
+circ.CX(0, 1).CZ(1, 2).X(1).Rx(0.3, 0)
 
-    print("Total gate count =", circ.n_gates)
-    print("Circuit depth =", circ.depth())
+print("Total gate count =", circ.n_gates)
+print("Circuit depth =", circ.depth())
 ```
 
 As characteristics of a {py:class}`~pytket.circuit.Circuit` go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier [^cite_arut2019]. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic $T$ gates to require expensive distillation procedures [^cite_brav2005] [^cite_brav2012].
@@ -622,27 +621,27 @@ We also define $G$-depth (for a subset of gate types $G$) as the minimum number 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.circuit.display import render_circuit_jupyter as draw
+from pytket import Circuit, OpType
+from pytket.circuit.display import render_circuit_jupyter as draw
 
-    circ = Circuit(3)
-    circ.T(0)
-    circ.CX(0, 1)
-    circ.CX(2, 0)
-    circ.add_gate(OpType.CnRy, [0.6], [0, 1, 2])
-    circ.T(2)
-    circ.CZ(0, 1)
-    circ.CZ(1, 2)
-    circ.T(1)
+circ = Circuit(3)
+circ.T(0)
+circ.CX(0, 1)
+circ.CX(2, 0)
+circ.add_gate(OpType.CnRy, [0.6], [0, 1, 2])
+circ.T(2)
+circ.CZ(0, 1)
+circ.CZ(1, 2)
+circ.T(1)
 
-    draw(circ) # draw circuit diagram
+draw(circ) # draw circuit diagram
 
-    print("T gate count =", circ.n_gates_of_type(OpType.T))
-    print("#1qb gates =", circ.n_1qb_gates())
-    print("#2qb gates =", circ.n_2qb_gates())
-    print("#3qb gates =", circ.n_nqb_gates(3)) # count the single CnRy gate (n=3)
-    print("T gate depth =", circ.depth_by_type(OpType.T))
-    print("2qb gate depth =", circ.depth_by_type({OpType.CX, OpType.CZ}))
+print("T gate count =", circ.n_gates_of_type(OpType.T))
+print("#1qb gates =", circ.n_1qb_gates())
+print("#2qb gates =", circ.n_2qb_gates())
+print("#3qb gates =", circ.n_nqb_gates(3)) # count the single CnRy gate (n=3)
+print("T gate depth =", circ.depth_by_type(OpType.T))
+print("2qb gate depth =", circ.depth_by_type({OpType.CX, OpType.CZ}))
 ```
 
 :::{note}
@@ -681,19 +680,19 @@ it to another circuit as part of a larger algorithm.
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, OpType
-    from pytket.circuit.display import render_circuit_jupyter as draw
+from pytket.circuit import Circuit, OpType
+from pytket.circuit.display import render_circuit_jupyter as draw
 
-    oracle_circ = Circuit(3, name="Oracle")
-    oracle_circ.X(0)
-    oracle_circ.X(1)
-    oracle_circ.X(2)
-    oracle_circ.add_gate(OpType.CnZ, [0, 1, 2])
-    oracle_circ.X(0)
-    oracle_circ.X(1)
-    oracle_circ.X(2)
+oracle_circ = Circuit(3, name="Oracle")
+oracle_circ.X(0)
+oracle_circ.X(1)
+oracle_circ.X(2)
+oracle_circ.add_gate(OpType.CnZ, [0, 1, 2])
+oracle_circ.X(0)
+oracle_circ.X(1)
+oracle_circ.X(2)
 
-    draw(oracle_circ)
+draw(oracle_circ)
 ```
 
 Now that we've built our circuit we can wrap it up in a {py:class}`~pytket.circuit.CircBox` and add it to a another circuit as a subroutine.
@@ -701,15 +700,14 @@ Now that we've built our circuit we can wrap it up in a {py:class}`~pytket.circu
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import CircBox
+from pytket.circuit import CircBox
 
-    oracle_box = CircBox(oracle_circ)
-    circ = Circuit(3)
-    circ.H(0).H(1).H(2)
-    circ.add_gate(oracle_box, [0, 1, 2])
+oracle_box = CircBox(oracle_circ)
+circ = Circuit(3)
+circ.H(0).H(1).H(2)
+circ.add_gate(oracle_box, [0, 1, 2])
 
-    draw(circ)
-
+draw(circ)
 ```
 
 See how the name of the circuit appears in the rendered circuit diagram. Clicking on the box will show the underlying circuit.
@@ -726,37 +724,33 @@ For such algorithms we may wish to create a {py:class}`~pytket.circuit.CircBox` 
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit
+from pytket.circuit import Circuit
 
-    # Set up circuit registers
-    qpe_circ = Circuit(name="QPE")
-    a = qpe_circ.add_q_register("a", 2)
-    s = qpe_circ.add_q_register("s", 1)
-    c = qpe_circ.add_c_register("c", 2)
+# Set up circuit registers
+qpe_circ = Circuit(name="QPE")
+a = qpe_circ.add_q_register("a", 2)
+s = qpe_circ.add_q_register("s", 1)
+c = qpe_circ.add_c_register("c", 2)
 
-    # Initial superposition
-    qpe_circ.H(a[0])
-    qpe_circ.H(a[1])
+# Initial superposition
+qpe_circ.H(a[0])
+qpe_circ.H(a[1])
 
-    # Sequence of controlled unitaries
-    qpe_circ.CU1(0.94, a[1], s[0])
-    qpe_circ.CU1(0.94, a[0], s[0])
-    qpe_circ.CU1(0.94, a[0], s[0])
+# Sequence of controlled unitaries
+qpe_circ.CU1(0.94, a[1], s[0])
+qpe_circ.CU1(0.94, a[0], s[0])
+qpe_circ.CU1(0.94, a[0], s[0])
 
-    # 2-qubit QFT (simplified)
-    qpe_circ.H(a[0])
-    qpe_circ.CU1(0.5, a[1], a[0])
-    qpe_circ.H(a[1])
-    qpe_circ.SWAP(a[0], a[1])
+# 2-qubit QFT (simplified)
+qpe_circ.H(a[0])
+qpe_circ.CU1(0.5, a[1], a[0])
+qpe_circ.H(a[1])
+qpe_circ.SWAP(a[0], a[1])
 
-    # Measure qubits writing to the classical register
-    qpe_circ.measure_register(a, "c")
+# Measure qubits writing to the classical register
+qpe_circ.measure_register(a, "c")
 
-    draw(qpe_circ)
-```
-
-
-.. currentmodule:: pytket.circuit
+draw(qpe_circ)
 ```
 
 Now that we have defined our phase estimation circuit we can use a {py:class}`CircBox` to define a reusable subroutine. This {py:class}`CircBox` will contain the state preparation and ancilla registers.
@@ -764,10 +758,10 @@ Now that we have defined our phase estimation circuit we can use a {py:class}`Ci
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import CircBox
+from pytket.circuit import CircBox
 
-    # Construct QPE subroutine
-    qpe_box = CircBox(qpe_circ)
+# Construct QPE subroutine
+qpe_box = CircBox(qpe_circ)
 ```
 
 Let's now create a circuit to implement the QPE algorithm where we prepare the $|1\rangle$ state in the state prep register with a single X gate.
@@ -775,14 +769,14 @@ Let's now create a circuit to implement the QPE algorithm where we prepare the $
 
 ```{code-cell} ipython3
 
-    # Construct simplified state preparation circuit
-    algorithm_circ = Circuit()
-    ancillas = algorithm_circ.add_q_register("ancillas", 2)
-    state = algorithm_circ.add_q_register("state", 1)
-    c = algorithm_circ.add_c_register("c", 2)
-    algorithm_circ.X(state[0])
+# Construct simplified state preparation circuit
+algorithm_circ = Circuit()
+ancillas = algorithm_circ.add_q_register("ancillas", 2)
+state = algorithm_circ.add_q_register("state", 1)
+c = algorithm_circ.add_c_register("c", 2)
+algorithm_circ.X(state[0])
 
-    draw(algorithm_circ)
+draw(algorithm_circ)
 ```
 
 We can then compose our subroutine registerwise by using {py:meth}`Circuit.add_circbox_with_regmap` method.
@@ -793,12 +787,12 @@ Note that the sizes of the registers used as keys and values must be equal.
 
 ```{code-cell} ipython3
 
-    # Append QPE subroutine to algorithm_circ registerwise
-    algorithm_circ.add_circbox_with_regmap(
-        qpe_box, qregmap={"a": "ancillas", "s": "state"}, cregmap={"c": "c"}
-    )
+# Append QPE subroutine to algorithm_circ registerwise
+algorithm_circ.add_circbox_with_regmap(
+    qpe_box, qregmap={"a": "ancillas", "s": "state"}, cregmap={"c": "c"}
+)
 
-    draw(algorithm_circ)
+draw(algorithm_circ)
 ```
 
 Click on the QPE box in the diagram above to view the underlying circuit.
@@ -810,17 +804,17 @@ Lets first define a circuit with the register names `a`, `b` and `c`.
 
 ```{code-cell} ipython3
 
-    # Set up Circuit with registers a_reg, b_reg and c_reg
-    abc_circuit = Circuit()
-    a_reg = abc_circuit.add_q_register("a", 2)
-    b_reg = abc_circuit.add_q_register("b", 2)
-    c_reg = abc_circuit.add_q_register("c", 2)
+# Set up Circuit with registers a_reg, b_reg and c_reg
+abc_circuit = Circuit()
+a_reg = abc_circuit.add_q_register("a", 2)
+b_reg = abc_circuit.add_q_register("b", 2)
+c_reg = abc_circuit.add_q_register("c", 2)
 
-    # Add some gates
-    abc_circuit.H(a_reg[0])
-    abc_circuit.Ry(0.46, a_reg[1])
-    abc_circuit.CCX(a_reg[0], a_reg[1], c_reg[0])
-    draw(abc_circuit)
+# Add some gates
+abc_circuit.H(a_reg[0])
+abc_circuit.Ry(0.46, a_reg[1])
+abc_circuit.CCX(a_reg[0], a_reg[1], c_reg[0])
+draw(abc_circuit)
 ```
 
 Now lets create a {py:class}`CircBox` containing some elementary gates and append it across the `b` and `c` registers with {py:meth}`Circuit.add_circbox_regwise`.
@@ -828,16 +822,16 @@ Now lets create a {py:class}`CircBox` containing some elementary gates and appen
 
 ```{code-cell} ipython3
 
-    # Create subroutine
-    sub_circuit = Circuit(4, name="BC")
-    sub_circuit.CX(3, 2).CX(3, 1).CX(3, 0)
-    sub_circuit.H(3)
-    bc_subroutine = CircBox(sub_circuit)
+# Create subroutine
+sub_circuit = Circuit(4, name="BC")
+sub_circuit.CX(3, 2).CX(3, 1).CX(3, 0)
+sub_circuit.H(3)
+bc_subroutine = CircBox(sub_circuit)
 
-    # Append CircBox to the b_reg and c_reg registers (note empty list for classical registers)
-    abc_circuit.add_circbox_regwise(bc_subroutine, [b_reg, c_reg], [])
+# Append CircBox to the b_reg and c_reg registers (note empty list for classical registers)
+abc_circuit.add_circbox_regwise(bc_subroutine, [b_reg, c_reg], [])
 
-    draw(abc_circuit)
+draw(abc_circuit)
 
 ```
 
@@ -848,26 +842,26 @@ It is possible to specify small unitaries from `numpy` arrays and embed them dir
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
-    import numpy as np
+from pytket.circuit import Circuit, Unitary1qBox, Unitary2qBox
+import numpy as np
 
-    u1 = np.asarray([[2/3, (-2+1j)/3],
-                     [(2+1j)/3, 2/3]])
-    u1box = Unitary1qBox(u1)
+u1 = np.asarray([[2/3, (-2+1j)/3],
+                    [(2+1j)/3, 2/3]])
+u1box = Unitary1qBox(u1)
 
-    u2 = np.asarray([[0, 1, 0, 0],
-                     [0, 0, 0, -1],
-                     [1, 0, 0, 0],
-                     [0, 0, -1j, 0]])
-    u2box = Unitary2qBox(u2)
+u2 = np.asarray([[0, 1, 0, 0],
+                    [0, 0, 0, -1],
+                    [1, 0, 0, 0],
+                    [0, 0, -1j, 0]])
+u2box = Unitary2qBox(u2)
 
-    circ = Circuit(3)
-    circ.add_unitary1qbox(u1box, 0)
-    circ.add_unitary2qbox(u2box, 1, 2)
-    circ.add_unitary1qbox(u1box, 2)
-    circ.add_unitary2qbox(u2box, 1, 0)
+circ = Circuit(3)
+circ.add_unitary1qbox(u1box, 0)
+circ.add_unitary2qbox(u2box, 1, 2)
+circ.add_unitary1qbox(u1box, 2)
+circ.add_unitary2qbox(u2box, 1, 0)
 
-    draw(circ)
+draw(circ)
 ```
 
 :::{note}
@@ -886,23 +880,23 @@ If our subcircuit is a pure quantum circuit (i.e. it corresponds to a unitary op
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, CircBox, QControlBox
+from pytket.circuit import Circuit, CircBox, QControlBox
 
-    sub = Circuit(2, name="V")
-    sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
-    sub_box = CircBox(sub)
+sub = Circuit(2, name="V")
+sub.CX(0, 1).Rz(0.2, 1).CX(0, 1)
+sub_box = CircBox(sub)
 
-    # Define the controlled operation with 2 control qubits
-    cont = QControlBox(sub_box, 2)
+# Define the controlled operation with 2 control qubits
+cont = QControlBox(sub_box, 2)
 
-    circ = Circuit(4)
-    circ.add_gate(sub_box, [2, 3])
-    circ.Ry(0.3, 0).Ry(0.8, 1)
+circ = Circuit(4)
+circ.add_gate(sub_box, [2, 3])
+circ.Ry(0.3, 0).Ry(0.8, 1)
 
-    # Add to circuit with controls q[0], q[1], and targets q[2], q[3]
-    circ.add_gate(cont, [0, 1, 2, 3])
+# Add to circuit with controls q[0], q[1], and targets q[2], q[3]
+circ.add_gate(cont, [0, 1, 2, 3])
 
-    draw(circ)
+draw(circ)
 ```
 
 As well as creating controlled boxes, we can create a controlled version of an arbitrary {py:class}`~pytket.circuit.Op` as follows.
@@ -910,10 +904,10 @@ As well as creating controlled boxes, we can create a controlled version of an a
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Op, OpType, QControlBox
+from pytket.circuit import Op, OpType, QControlBox
 
-    op = Op.create(OpType.S)
-    ccs = QControlBox(op, 2)
+op = Op.create(OpType.S)
+ccs = QControlBox(op, 2)
 ```
 
 :::{note}
@@ -926,15 +920,15 @@ For example, we can construct a multicontrolled $\sqrt{Y}$ operation as by first
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Unitary1qBox, QControlBox
-    import numpy as np
+from pytket.circuit import Unitary1qBox, QControlBox
+import numpy as np
 
-    # Unitary for sqrt(Y)
-    sqrt_y = np.asarray([[1/2+1j/2, -1/2-1j/2],
-                         [1/2+1j/2, 1/2+1j/2]])
+# Unitary for sqrt(Y)
+sqrt_y = np.asarray([[1/2+1j/2, -1/2-1j/2],
+                        [1/2+1j/2, 1/2+1j/2]])
 
-    sqrt_y_box = Unitary1qBox(sqrt_y)
-    c2_root_y = QControlBox(sqrt_y_box, 2)
+sqrt_y_box = Unitary1qBox(sqrt_y)
+c2_root_y = QControlBox(sqrt_y_box, 2)
 ```
 
 Normally when we deal with controlled gates we implicitly assume that the control state is the "all $|1\rangle$" state. So that the base gate is applied when all of the control qubits are all set to $|1\rangle$.
@@ -948,15 +942,15 @@ Lets now construct a multi-controlled Rz gate with the control state $|0010\rang
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Circuit, Op, OpType, QControlBox
+from pytket.circuit import Circuit, Op, OpType, QControlBox
 
-    rz_op = Op.create(OpType.Rz, 0.61)
-    multi_controlled_rz = QControlBox(rz_op, n_controls=4, control_state=[0, 0, 1, 0])
+rz_op = Op.create(OpType.Rz, 0.61)
+multi_controlled_rz = QControlBox(rz_op, n_controls=4, control_state=[0, 0, 1, 0])
 
-    test_circ = Circuit(5)
-    test_circ.add_gate(multi_controlled_rz, test_circ.qubits)
+test_circ = Circuit(5)
+test_circ.add_gate(multi_controlled_rz, test_circ.qubits)
 
-    draw(test_circ)
+draw(test_circ)
 ```
 
 Notice how the circuit renderer shows both filled and unfilled circles on the control qubits. Filled circles correspond to $|1\rangle$ controls whereas empty circles represent $|0\rangle$. As pytket uses the big-endian ordering convention we read off the control state from the top to the bottom of the circuit.
@@ -976,16 +970,16 @@ These occur very naturally in Trotterising evolution operators and native device
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import PauliExpBox
-    from pytket.pauli import Pauli
+from pytket.circuit import PauliExpBox
+from pytket.pauli import Pauli
 
-    # Construct a PauliExpBox with a list of Paulis followed by the phase theta
-    xyyz = PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Z], -0.2)
+# Construct a PauliExpBox with a list of Paulis followed by the phase theta
+xyyz = PauliExpBox([Pauli.X, Pauli.Y, Pauli.Y, Pauli.Z], -0.2)
 
-    pauli_circ = Circuit(4)
+pauli_circ = Circuit(4)
 
-    pauli_circ.add_gate(xyyz, [0, 1, 2, 3])
-    draw(pauli_circ)
+pauli_circ.add_gate(xyyz, [0, 1, 2, 3])
+draw(pauli_circ)
 ```
 
 To understand what happens inside a {py:class}`~pytket.circuit.PauliExpBox` let's take a look at the underlying circuit for $e^{-i \frac{\pi}{2}\theta XYYZ}$
@@ -993,11 +987,11 @@ To understand what happens inside a {py:class}`~pytket.circuit.PauliExpBox` let'
 
 ```{code-cell} ipython3
 
-    from pytket.passes import DecomposeBoxes
+from pytket.passes import DecomposeBoxes
 
-    DecomposeBoxes().apply(pauli_circ)
+DecomposeBoxes().apply(pauli_circ)
 
-    draw(pauli_circ)
+draw(pauli_circ)
 ```
 
 All Pauli exponentials of the form above can be implemented in terms of a single Rz($\theta$) rotation and a symmetric chain of CX gates on either side together with some single qubit basis rotations. This class of circuit is called a Pauli gadget. The subset of these circuits corresponding to "Z only" Pauli strings are referred to as phase gadgets.
@@ -1037,27 +1031,27 @@ Finally a `linear_transfromation` parameter needs to be specified:  this is a ma
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import PhasePolyBox
+from pytket.circuit import PhasePolyBox
 
-    phase_poly_circ = Circuit(3)
+phase_poly_circ = Circuit(3)
 
-    qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
+qubit_indices = {Qubit(0): 0, Qubit(1): 1, Qubit(2): 2}
 
-    phase_polynomial = {
-        (True, False, True): 0.333,
-        (False, False, True): 0.05,
-        (False, True, False): 1.05,
-    }
+phase_polynomial = {
+    (True, False, True): 0.333,
+    (False, False, True): 0.05,
+    (False, True, False): 1.05,
+}
 
-    n_qb = 3
+n_qb = 3
 
-    linear_transformation = np.array([[1, 1, 0], [0, 1, 0], [0, 0, 1]])
+linear_transformation = np.array([[1, 1, 0], [0, 1, 0], [0, 0, 1]])
 
-    p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
+p_box = PhasePolyBox(n_qb, qubit_indices, phase_polynomial, linear_transformation)
 
-    phase_poly_circ.add_gate(p_box, [0, 1, 2])
+phase_poly_circ.add_gate(p_box, [0, 1, 2])
 
-    draw(p_box.get_circuit())
+draw(p_box.get_circuit())
 ```
 
 ### Multiplexors, Arbitrary State Preparation and {py:class}`~pytket.circuit.ToffoliBox`
@@ -1082,20 +1076,20 @@ Lets implement a multiplexor with the following logic. Here we treat the first t
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import Op, OpType, MultiplexorBox
+from pytket.circuit import Op, OpType, MultiplexorBox
 
-    # Define both gates as an Op
-    rz_op = Op.create(OpType.Rz, 0.3)
-    h_op = Op.create(OpType.H)
+# Define both gates as an Op
+rz_op = Op.create(OpType.Rz, 0.3)
+h_op = Op.create(OpType.H)
 
-    op_map = {(0, 0): rz_op, (1, 1): h_op}
-    multiplexor = MultiplexorBox(op_map)
+op_map = {(0, 0): rz_op, (1, 1): h_op}
+multiplexor = MultiplexorBox(op_map)
 
-    multi_circ = Circuit(3)
-    multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
-    multi_circ.add_gate(multiplexor, [0, 1, 2])
+multi_circ = Circuit(3)
+multi_circ.X(0).X(1)  # Put both control qubits in the state |1>
+multi_circ.add_gate(multiplexor, [0, 1, 2])
 
-    draw(multi_circ)
+draw(multi_circ)
 
 ```
 
@@ -1105,9 +1099,9 @@ $|+\rangle = H|0\rangle$ state.
 
 ```{code-cell} ipython3
 
-    # Assume all qubits initialised to |0> here
-    # Amplitudes of |+> approx 0.707...
-    print("Statevector =", np.round(multi_circ.get_statevector().real, 4))
+# Assume all qubits initialised to |0> here
+# Amplitudes of |+> approx 0.707...
+print("Statevector =", np.round(multi_circ.get_statevector().real, 4))
 ```
 
 In addition to the general {py:class}`~pytket.circuit.MultiplexorBox` pytket has several other type of multiplexor box operations available.
@@ -1136,22 +1130,21 @@ $$
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import StatePreparationBox
+from pytket.circuit import StatePreparationBox
 
-    w_state = 1 / np.sqrt(3) * np.array([0, 1, 1, 0, 1, 0, 0, 0])
+w_state = 1 / np.sqrt(3) * np.array([0, 1, 1, 0, 1, 0, 0, 0])
 
-    w_state_box = StatePreparationBox(w_state)
+w_state_box = StatePreparationBox(w_state)
 
-    state_circ = Circuit(3)
-    state_circ.add_gate(w_state_box, [0, 1, 2])
-
+state_circ = Circuit(3)
+state_circ.add_gate(w_state_box, [0, 1, 2])
 ```
 
 
 ```{code-cell} ipython3
 
-    # Verify state preperation
-    np.round(state_circ.get_statevector().real, 3) # 1/sqrt(3) approx 0.577
+# Verify state preperation
+np.round(state_circ.get_statevector().real, 3) # 1/sqrt(3) approx 0.577
 ```
 
 :::{Note}
@@ -1163,8 +1156,8 @@ For some use cases it may be desirable to reset all qubits to the $|0\rangle$ st
 
 ```{code-cell} ipython3
 
-    # Ensure all qubits initialised to |0>
-    w_state_box_reset = StatePreparationBox(w_state, with_initial_reset=True)
+# Ensure all qubits initialised to |0>
+w_state_box_reset = StatePreparationBox(w_state, with_initial_reset=True)
 
 ```
 
@@ -1187,18 +1180,18 @@ For correctness if a basis state appears as key in the permutation dictionary th
 
 ```{code-cell} ipython3
 
-    from pytket.circuit import ToffoliBox
+from pytket.circuit import ToffoliBox
 
-    # Specify the desired permutation of the basis states
-    mapping = {
-        (0, 0, 1): (1, 1, 1),
-        (1, 1, 1): (0, 0, 1),
-        (1, 0, 0): (0, 0, 0),
-        (0, 0, 0): (1, 0, 0),
-    }
+# Specify the desired permutation of the basis states
+mapping = {
+    (0, 0, 1): (1, 1, 1),
+    (1, 1, 1): (0, 0, 1),
+    (1, 0, 0): (0, 0, 0),
+    (0, 0, 0): (1, 0, 0),
+}
 
-    # Define box to perform the permutation
-    perm_box = ToffoliBox(permutation=mapping)
+# Define box to perform the permutation
+perm_box = ToffoliBox(permutation=mapping)
 ```
 
 This permutation of basis states can be achieved with purely classical operations {X, CCX}, hence the name {py:class}`~pytket.circuit.ToffoliBox`.
@@ -1207,7 +1200,7 @@ In pytket however, the permutation is implemented efficently using a sequence of
 
 ```{code-cell} ipython3
 
-    draw(perm_box.get_circuit())
+draw(perm_box.get_circuit())
 
 ```
 
@@ -1216,15 +1209,15 @@ Finally let's append the {py:class}`~pytket.circuit.ToffoliBox` onto our circuit
 
 ```{code-cell} ipython3
 
-    state_circ.add_gate(perm_box, [0, 1, 2])
+state_circ.add_gate(perm_box, [0, 1, 2])
 
-    draw(state_circ)
+draw(state_circ)
 ```
 
 
 ```{code-cell} ipython3
 
-    np.round(state_circ.get_statevector().real, 3)
+np.round(state_circ.get_statevector().real, 3)
 
 ```
 
@@ -1233,32 +1226,31 @@ Looking at the statevector calculation we see that our {py:class}`~pytket.circui
 ## Importing/Exporting Circuits
 
 
-.. currentmodule:: pytket.circuit
-```
+
 
 `pytket` {py:class}`~pytket.circuit.Circuit` s can be natively serialized and deserialized from JSON-compatible dictionaries, using the {py:meth}`Circuit.to_dict` and {py:meth}`Circuit.from_dict` methods. This is the method of serialization which supports the largest class of circuits, and provides the highest fidelity.
 
 
 ```{code-cell} ipython3
 
-    import tempfile
-    import json
-    from pytket import Circuit, OpType
+import tempfile
+import json
+from pytket import Circuit, OpType
 
-    circ = Circuit(2)
-    circ.Rx(0.1, 0)
-    circ.CX(0, 1)
-    circ.YYPhase(0.2, 0, 1)
+circ = Circuit(2)
+circ.Rx(0.1, 0)
+circ.CX(0, 1)
+circ.YYPhase(0.2, 0, 1)
 
-    circ_dict = circ.to_dict()
-    print(circ_dict)
+circ_dict = circ.to_dict()
+print(circ_dict)
 
-    with tempfile.TemporaryFile('w+') as fp:
-        json.dump(circ_dict, fp)
-        fp.seek(0)
-        new_circ = Circuit.from_dict(json.load(fp))
+with tempfile.TemporaryFile('w+') as fp:
+    json.dump(circ_dict, fp)
+    fp.seek(0)
+    new_circ = Circuit.from_dict(json.load(fp))
 
-    draw(new_circ)
+draw(new_circ)
 ```
 
 % Support other frameworks for easy conversion of existing code and enable freedom to choose preferred input system and use available high-level packages
@@ -1273,24 +1265,24 @@ Though less expressive than native dictionary serialization, it is widely suppor
 
 ```{code-cell} ipython3
 
-    from pytket.qasm import circuit_from_qasm, circuit_to_qasm_str
-    import tempfile, os
+from pytket.qasm import circuit_from_qasm, circuit_to_qasm_str
+import tempfile, os
 
-    fd, path = tempfile.mkstemp(".qasm")
-    os.write(fd, """OPENQASM 2.0;
-    include "qelib1.inc";
-    qreg q[2];
-    creg c[2];
-    h q[0];
-    cx q[0], q[1];
-    cz q[1], q[0];
-    measure q -> c;
-    """.encode())
-    os.close(fd)
-    circ = circuit_from_qasm(path)
-    os.remove(path)
+fd, path = tempfile.mkstemp(".qasm")
+os.write(fd, """OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[2];
+creg c[2];
+h q[0];
+cx q[0], q[1];
+cz q[1], q[0];
+measure q -> c;
+""".encode())
+os.close(fd)
+circ = circuit_from_qasm(path)
+os.remove(path)
 
-    print(circuit_to_qasm_str(circ)) # print QASM string
+print(circuit_to_qasm_str(circ)) # print QASM string
 ```
 
 % Quipper
@@ -1304,20 +1296,20 @@ The core `pytket` package additionally features a converter from Quipper, anothe
 
 ```{code-cell} ipython3
 
-    from pytket.quipper import circuit_from_quipper
-    import tempfile, os
+from pytket.quipper import circuit_from_quipper
+import tempfile, os
 
-    fd, path = tempfile.mkstemp(".quip")
-    os.write(fd, """Inputs: 0:Qbit, 1:Qbit, 2:Qbit
-    QGate["X"](0)
-    QGate["Y"](1)
-    QGate["Z"](2)
-    Outputs: 0:Qbit, 1:Qbit, 2:Qbit
-    """.encode())
-    os.close(fd)
-    circ = circuit_from_quipper(path)
-    draw(circ)
-    os.remove(path)
+fd, path = tempfile.mkstemp(".quip")
+os.write(fd, """Inputs: 0:Qbit, 1:Qbit, 2:Qbit
+QGate["X"](0)
+QGate["Y"](1)
+QGate["Z"](2)
+Outputs: 0:Qbit, 1:Qbit, 2:Qbit
+""".encode())
+os.close(fd)
+circ = circuit_from_quipper(path)
+draw(circ)
+os.remove(path)
 ```
 
 :::{note}
@@ -1333,14 +1325,14 @@ For example, installing the `pytket-qiskit` package will add the {py:func}`~pytk
 
 ```{code-cell} ipython3
 
-    from qiskit import QuantumCircuit
-    from math import pi
+from qiskit import QuantumCircuit
+from math import pi
 
-    qc = QuantumCircuit(3)
-    qc.h(0)
-    qc.cx(0, 1)
-    qc.rz(pi/2, 1)
-    print(qc)
+qc = QuantumCircuit(3)
+qc.h(0)
+qc.cx(0, 1)
+qc.rz(pi/2, 1)
+print(qc)
 ```
 
 We can convert this {py:class}`~qiskit.circuit.QuantumCircuit` to a pytket {py:class}`Circuit`, append some gates and then convert back.
@@ -1348,14 +1340,14 @@ We can convert this {py:class}`~qiskit.circuit.QuantumCircuit` to a pytket {py:c
 
 ```{code-cell} ipython3
 
-    from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
+from pytket.extensions.qiskit import qiskit_to_tk, tk_to_qiskit
 
-    circ = qiskit_to_tk(qc)
-    circ.CX(1, 2)
-    circ.measure_all()
+circ = qiskit_to_tk(qc)
+circ.CX(1, 2)
+circ.measure_all()
 
-    qc2 = tk_to_qiskit(circ)
-    print(qc2)
+qc2 = tk_to_qiskit(circ)
+print(qc2)
 ```
 
 ## Symbolic Circuits
@@ -1375,23 +1367,23 @@ In practice, it is very common for an experiment to use many circuits with simil
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from sympy import Symbol
+from pytket import Circuit, OpType
+from sympy import Symbol
 
-    a = Symbol("alpha")
-    b = Symbol("beta")
+a = Symbol("alpha")
+b = Symbol("beta")
 
-    circ = Circuit(2)
-    circ.Rx(a, 0)
-    circ.Rx(-2*a, 1)
-    circ.CX(0, 1)
-    circ.YYPhase(b, 0, 1)
+circ = Circuit(2)
+circ.Rx(a, 0)
+circ.Rx(-2*a, 1)
+circ.CX(0, 1)
+circ.YYPhase(b, 0, 1)
 
-    draw(circ)
+draw(circ)
 
-    s_map = {a:0.3, b:1.25}
-    circ.symbol_substitution(s_map)
-    print(circ.free_symbols())
+s_map = {a:0.3, b:1.25}
+circ.symbol_substitution(s_map)
+print(circ.free_symbols())
 ```
 
 % Instantiate by mapping symbols to values (in half-turns)
@@ -1401,16 +1393,16 @@ It is important to note that the units of the parameter values will still be in 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from sympy import Symbol, pi
+from pytket import Circuit
+from sympy import Symbol, pi
 
-    a = Symbol("alpha")     # suppose that alpha is given in radians
-    circ = Circuit(2)       # convert alpha to half-turns when adding gates
-    circ.Rx(a/pi, 0).CX(0, 1).Ry(-a/pi, 0)
+a = Symbol("alpha")     # suppose that alpha is given in radians
+circ = Circuit(2)       # convert alpha to half-turns when adding gates
+circ.Rx(a/pi, 0).CX(0, 1).Ry(-a/pi, 0)
 
-    s_map = {a: pi/4}
-    circ.symbol_substitution(s_map)
-    draw(circ)
+s_map = {a: pi/4}
+circ.symbol_substitution(s_map)
+draw(circ)
 ```
 
 % Can use substitution to replace by arbitrary expressions, including renaming alpha-conversion
@@ -1420,16 +1412,16 @@ Substitution need not be for concrete values, but is defined more generally to a
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from sympy import symbols
+from pytket import Circuit
+from sympy import symbols
 
-    a, b, c = symbols("a b c")
-    circ = Circuit(2)
-    circ.Rx(a, 0).Rx(b, 1).CX(0, 1).Ry(c, 0).Ry(c, 1)
+a, b, c = symbols("a b c")
+circ = Circuit(2)
+circ.Rx(a, 0).Rx(b, 1).CX(0, 1).Ry(c, 0).Ry(c, 1)
 
-    s_map = {a: 2*a, c: a}  # replacement happens simultaneously, and not recursively
-    circ.symbol_substitution(s_map)
-    draw(circ)
+s_map = {a: 2*a, c: a}  # replacement happens simultaneously, and not recursively
+circ.symbol_substitution(s_map)
+draw(circ)
 ```
 
 % Can query circuit for its free symbols
@@ -1441,17 +1433,16 @@ There are currently no simulators or devices that can run symbolic circuits alge
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from sympy import symbols
+from pytket import Circuit
+from sympy import symbols
 
-    a, b = symbols("a, b")
-    circ = Circuit(2)
-    circ.Rx(a, 0).Rx(b, 1).CZ(0, 1)
-    circ.symbol_substitution({a:0.2})
+a, b = symbols("a, b")
+circ = Circuit(2)
+circ.Rx(a, 0).Rx(b, 1).CZ(0, 1)
+circ.symbol_substitution({a:0.2})
 
-    print(circ.free_symbols())
-    print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
-
+print(circ.free_symbols())
+print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 ```
 
 :::{note}
@@ -1469,17 +1460,16 @@ In {py:mod}`pytket.utils.symbolic` we provide functions {py:func}`~pytket.utils.
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.utils.symbolic import circuit_apply_symbolic_statevector, circuit_to_symbolic_unitary
-    from sympy import Symbol, pi
+from pytket.utils.symbolic import circuit_apply_symbolic_statevector, circuit_to_symbolic_unitary
+from sympy import Symbol, pi
 
-    a = Symbol("alpha")
-    circ = Circuit(2)
-    circ.Rx(a/pi, 0).CX(0, 1)
+a = Symbol("alpha")
+circ = Circuit(2)
+circ.Rx(a/pi, 0).CX(0, 1)
 
-    # All zero input state is assumed if no initial state is provided
-    display(circuit_apply_symbolic_statevector(circ))
-    circuit_to_symbolic_unitary(circ)
+# All zero input state is assumed if no initial state is provided
+display(circuit_apply_symbolic_statevector(circ))
+circuit_to_symbolic_unitary(circ)
 
 ```
 
