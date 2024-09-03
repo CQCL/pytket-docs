@@ -33,6 +33,8 @@ trivial_circ = Circuit()        # no qubits or bits
 quantum_circ = Circuit(4)       # 4 qubits and no bits
 mixed_circ   = Circuit(4, 2)    # 4 qubits and 2 bits
 named_circ   = Circuit(2, 2, "my_circ")
+
+named_circ.CCX(0, 1, 2)
 ```
 
 ## Basic Gates
