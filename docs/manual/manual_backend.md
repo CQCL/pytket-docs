@@ -49,9 +49,8 @@ print(sim_b.required_predicates)
 
 
 ```
-
-    [NoClassicalControlPredicate, NoFastFeedforwardPredicate, NoMidMeasurePredicate, NoSymbolsPredicate, GateSetPredicate:{ U1 noop U2 CX Barrier Measure U3 }, DirectednessPredicate:{ Nodes: 5, Edges: 8 }]
-    [NoClassicalControlPredicate, NoFastFeedforwardPredicate, GateSetPredicate:{ CU1 CZ CX Unitary2qBox Sdg U1 Unitary1qBox SWAP S U2 CCX Y U3 Z X T noop Tdg Reset H }]
+[NoClassicalControlPredicate, NoFastFeedforwardPredicate, NoMidMeasurePredicate, NoSymbolsPredicate, GateSetPredicate:{ U1 noop U2 CX Barrier Measure U3 }, DirectednessPredicate:{ Nodes: 5, Edges: 8 }]
+[NoClassicalControlPredicate, NoFastFeedforwardPredicate, GateSetPredicate:{ CU1 CZ CX Unitary2qBox Sdg U1 Unitary1qBox SWAP S U2 CCX Y U3 Z X T noop Tdg Reset H }]
 ```
 
 % Can check if a circuit satisfies all requirements with `valid_circuit`
@@ -811,9 +810,7 @@ print(counts)
 
 
 ```
-
 {(0, 1, 1): 1000}
-
 ```
 
 ### Result Serialization

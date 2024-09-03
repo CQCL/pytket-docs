@@ -102,7 +102,6 @@ print(backend.backend_info.all_node_gate_errors[Node(1)])
 
 
 ```
-
 {<OpType.noop: 55>: 0.00036435993708370417,
 <OpType.Rz: 32>: 0.0,
 <OpType.SX: 27>: 0.00036435993708370417,
@@ -116,14 +115,15 @@ print(backend.backend_info.all_node_gate_errors[Node(1)])
 ```
 
 
-```
-
+```{code-cell} ipython3
+---
+tags: [skip-execution]
+---
 print(backend.backend_info.all_edge_gate_errors)
 ```
 
 
 ```
-
 {(node[4], node[3]): {<OpType.CX: 37>: 0.01175674116384029},
 (node[3], node[4]): {<OpType.CX: 37>: 0.005878370581920145},
 (node[2], node[3]): {<OpType.CX: 37>: 0.013302220876095505},
@@ -132,7 +132,6 @@ print(backend.backend_info.all_edge_gate_errors)
 (node[1], node[2]): {<OpType.CX: 37>: 0.011286042232693166},
 (node[0], node[1]): {<OpType.CX: 37>: 0.026409836177538337},
 (node[1], node[0]): {<OpType.CX: 37>: 0.013204918088769169}}
-
 ```
 
 Recall that mapping in `pytket` works in two phases --
@@ -187,7 +186,6 @@ for k, v in graph_placement.items():
 
 
 ```
-
 [(node[0], node[1]), (node[1], node[0]), (node[1], node[2]), (node[1], node[3]), (node[2], node[1]), (node[3], node[1]), (node[3], node[4]), (node[4], node[3])]
 
 NoiseAwarePlacement mapping:
@@ -231,28 +229,28 @@ For each cycle in the circuit, each of the ensemble's operators is prepended to 
 
 ```{code-cell} ipython3
 
-    from pytket.tailoring import FrameRandomisation
-    from pytket import OpType, Circuit
-    from pytket.extensions.qiskit import AerBackend
+from pytket.tailoring import FrameRandomisation
+from pytket import OpType, Circuit
+from pytket.extensions.qiskit import AerBackend
 
-    circ = Circuit(2).X(0).CX(0,1).S(1).measure_all()
-    frame_randomisation = FrameRandomisation(
-        {OpType.CX}, # Set of OpType that cycles are comprised of. For a randomised circuit, the minimum number of cycles is found such that every gate with a cycle OpType is in exactly one cycle.
-        {OpType.Y}, # Set of OpType frames are constructed from
-        {
-            OpType.CX: {(OpType.Y, OpType.Y): (OpType.X, OpType.Z)}, # Operations to prepend and append to CX respectively such that unitary is preserved i.e. Y(0).Y(1).CX(0,1).X(0).Z(1) == CX(0,1)
-        },
-    )
+circ = Circuit(2).X(0).CX(0,1).S(1).measure_all()
+frame_randomisation = FrameRandomisation(
+    {OpType.CX}, # Set of OpType that cycles are comprised of. For a randomised circuit, the minimum number of cycles is found such that every gate with a cycle OpType is in exactly one cycle.
+    {OpType.Y}, # Set of OpType frames are constructed from
+    {
+        OpType.CX: {(OpType.Y, OpType.Y): (OpType.X, OpType.Z)}, # Operations to prepend and append to CX respectively such that unitary is preserved i.e. Y(0).Y(1).CX(0,1).X(0).Z(1) == CX(0,1)
+    },
+)
 
-    averaging_circuits = frame_randomisation.get_all_circuits(circ)
-    print('For a single gate in the averaging ensemble we return a single circuit:')
-    for com in averaging_circuits[0]:
-        print(com)
+averaging_circuits = frame_randomisation.get_all_circuits(circ)
+print('For a single gate in the averaging ensemble we return a single circuit:')
+for com in averaging_circuits[0]:
+    print(com)
 
-    print('\nWe can check that the unitary of the circuit is preserved by comparing output counts:')
-    backend = AerBackend()
-    print(backend.run_circuit(circ, 100).get_counts())
-    print(backend.run_circuit(averaging_circuits[0], 100).get_counts())
+print('\nWe can check that the unitary of the circuit is preserved by comparing output counts:')
+backend = AerBackend()
+print(backend.run_circuit(circ, 100).get_counts())
+print(backend.run_circuit(averaging_circuits[0], 100).get_counts())
 ```
 
 % preset cycle and frame gates to tailor meaningful noise
@@ -266,38 +264,37 @@ The {py:meth}`PauliFrameRandomisation.get_all_circuits` method returns circuits 
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit
-    from pytket.extensions.qiskit import AerBackend
-    from pytket.tailoring import PauliFrameRandomisation
+from pytket import Circuit
+from pytket.extensions.qiskit import AerBackend
+from pytket.tailoring import PauliFrameRandomisation
 
-    circ = Circuit(2).X(0).CX(0,1).Rz(0.3, 1).CX(0,1).measure_all()
+circ = Circuit(2).X(0).CX(0,1).Rz(0.3, 1).CX(0,1).measure_all()
 
-    pauli_frame_randomisation = PauliFrameRandomisation()
-    averaging_circuits = pauli_frame_randomisation.get_all_circuits(circ)
+pauli_frame_randomisation = PauliFrameRandomisation()
+averaging_circuits = pauli_frame_randomisation.get_all_circuits(circ)
 
-    print('Number of PauliFrameRandomisation averaging circuits: ', len(averaging_circuits))
+print('Number of PauliFrameRandomisation averaging circuits: ', len(averaging_circuits))
 
-    print('\nAn example averaging circuit with frames applied to two cycles: ')
-    for com in averaging_circuits[3].get_commands():
-        print(com)
-    print('\n')
+print('\nAn example averaging circuit with frames applied to two cycles: ')
+for com in averaging_circuits[3].get_commands():
+    print(com)
+print('\n')
 
-    backend = AerBackend()
+backend = AerBackend()
 
-    averaging_circuits = backend.get_compiled_circuits(averaging_circuits)
-    circ = backend.get_compiled_circuit(circ)
+averaging_circuits = backend.get_compiled_circuits(averaging_circuits)
+circ = backend.get_compiled_circuit(circ)
 
-    pfr_counts_list = [
-        res.get_counts() for res in backend.run_circuits(averaging_circuits, 50)
-    ]
-    # combine each averaging circuits counts into a single counts object for comparison
-    pfr_counts = {}
-    for counts in pfr_counts_list:
-        pfr_counts = {key: pfr_counts.get(key,0) + counts.get(key,0) for key in set(pfr_counts)|set(counts)}
+pfr_counts_list = [
+    res.get_counts() for res in backend.run_circuits(averaging_circuits, 50)
+]
+# combine each averaging circuits counts into a single counts object for comparison
+pfr_counts = {}
+for counts in pfr_counts_list:
+    pfr_counts = {key: pfr_counts.get(key,0) + counts.get(key,0) for key in set(pfr_counts)|set(counts)}
 
-    print(pfr_counts)
-    print(backend.run_circuit(circ, 50*len(averaging_circuits)).get_counts())
-
+print(pfr_counts)
+print(backend.run_circuit(circ, 50*len(averaging_circuits)).get_counts())
 ```
 
 For a noise free backend, we can see that the same counts distribution is returned as expected. We can use a basic noise model based on a real device to see how a realistic noise channel can change when applying {py:class}`PauliFrameRandomisation`.
@@ -336,11 +333,9 @@ print('Recombined Noisy Counts using PauliFrameRandomisation:', pfr_counts)
 
 
 ```
-
 Noiseless Counts: Counter({(1, 1): 6415, (1, 0): 6385})
 Base Noisy Counts: Counter({(1, 0): 6368, (1, 1): 5951, (0, 1): 253, (0, 0): 228})
 Recombined Noisy Counts using PauliFrameRandomisation: {(0, 1): 203, (0, 0): 215, (1, 0): 6194, (1, 1): 6188}
-
 ```
 
 For this simple case we observe that more shots are returning basis states not in the expected state (though it would be unwise to declare the methods efficacy from this alone).
@@ -389,7 +384,6 @@ print('Recombined Noisy Counts using UniversalFrameRandomisation:', ufr_noisy_co
 
 
 ```
-
 Noiseless Counts: Counter({(1, 0): 6490, (1, 1): 6310})
 Recombined Noiseless Counts using UniversalFrameRandomisation: {(1, 0): 6440, (1, 1): 6360}
 Base Noisy Counts: Counter({(1, 0): 6298, (1, 1): 6022, (0, 1): 261, (0, 0): 219})
@@ -498,42 +492,41 @@ First the {py:class}`SpamCorrecter` is characterised using counts results for ca
 
 ```{code-cell} ipython3
 
-    from pytket.extensions.qiskit import AerBackend
-    from pytket import Circuit
-    from pytket.utils.spam import SpamCorrecter
+from pytket.extensions.qiskit import AerBackend
+from pytket import Circuit
+from pytket.utils.spam import SpamCorrecter
 
-    from qiskit_aer.noise import NoiseModel
-    from qiskit_aer.noise.errors import depolarizing_error
+from qiskit_aer.noise import NoiseModel
+from qiskit_aer.noise.errors import depolarizing_error
 
-    noise_model = NoiseModel()
-    noise_model.add_readout_error([[0.9, 0.1],[0.1, 0.9]], [0])
-    noise_model.add_readout_error([[0.95, 0.05],[0.05, 0.95]], [1])
-    noise_model.add_quantum_error(depolarizing_error(0.1, 2), ["cx"], [0, 1])
+noise_model = NoiseModel()
+noise_model.add_readout_error([[0.9, 0.1],[0.1, 0.9]], [0])
+noise_model.add_readout_error([[0.95, 0.05],[0.05, 0.95]], [1])
+noise_model.add_quantum_error(depolarizing_error(0.1, 2), ["cx"], [0, 1])
 
-    noisy_backend = AerBackend(noise_model)
-    noiseless_backend = AerBackend()
-    spam_correcter = SpamCorrecter([noisy_backend.backend_info.architecture.nodes], noisy_backend)
-    calibration_circuits = spam_correcter.calibration_circuits()
+noisy_backend = AerBackend(noise_model)
+noiseless_backend = AerBackend()
+spam_correcter = SpamCorrecter([noisy_backend.backend_info.architecture.nodes], noisy_backend)
+calibration_circuits = spam_correcter.calibration_circuits()
 
-    char_handles = noisy_backend.process_circuits(calibration_circuits, 1000)
-    char_results = noisy_backend.get_results(char_handles)
+char_handles = noisy_backend.process_circuits(calibration_circuits, 1000)
+char_results = noisy_backend.get_results(char_handles)
 
-    spam_correcter.calculate_matrices(char_results)
+spam_correcter.calculate_matrices(char_results)
 
-    circ = Circuit(2).H(0).CX(0,1).measure_all()
-    circ = noisy_backend.get_compiled_circuit(circ)
-    noisy_handle = noisy_backend.process_circuit(circ, 1000)
-    noisy_result = noisy_backend.get_result(noisy_handle)
-    noiseless_handle = noiseless_backend.process_circuit(circ, 1000)
-    noiseless_result = noiseless_backend.get_result(noiseless_handle)
+circ = Circuit(2).H(0).CX(0,1).measure_all()
+circ = noisy_backend.get_compiled_circuit(circ)
+noisy_handle = noisy_backend.process_circuit(circ, 1000)
+noisy_result = noisy_backend.get_result(noisy_handle)
+noiseless_handle = noiseless_backend.process_circuit(circ, 1000)
+noiseless_result = noiseless_backend.get_result(noiseless_handle)
 
-    circ_parallel_measure = spam_correcter.get_parallel_measure(circ)
-    corrected_counts = spam_correcter.correct_counts(noisy_result, circ_parallel_measure)
+circ_parallel_measure = spam_correcter.get_parallel_measure(circ)
+corrected_counts = spam_correcter.correct_counts(noisy_result, circ_parallel_measure)
 
-    print('Noisy Counts:', noisy_result.get_counts())
-    print('Corrected Counts:', corrected_counts.get_counts())
-    print('Noiseless Counts:', noiseless_result.get_counts())
-
+print('Noisy Counts:', noisy_result.get_counts())
+print('Corrected Counts:', corrected_counts.get_counts())
+print('Noiseless Counts:', noiseless_result.get_counts())
 ```
 
 Despite the presence of additional noise, it is straightforward to see that the corrected counts results are closer to the expected noiseless counts than the original noisy counts. All that is required to use {py:class}`SpamCorrecter` with a real device is the interchange of {py:class}`~pytket.extensions.qiskit.AerBackend` with a real device backend, such as  {py:class}`~pytket.extensions.qiskit.IBMQBackend`.

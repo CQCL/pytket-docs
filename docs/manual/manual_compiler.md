@@ -29,22 +29,22 @@ Each {py:class}`~pytket.predicates.Predicate` can be constructed on its own to i
 
 ```{code-cell} ipython3
 
-    from pytket import Circuit, OpType
-    from pytket.predicates import GateSetPredicate, NoMidMeasurePredicate
+from pytket import Circuit, OpType
+from pytket.predicates import GateSetPredicate, NoMidMeasurePredicate
 
-    circ = Circuit(2, 2)
-    circ.Rx(0.2, 0).CX(0, 1).Rz(-0.7, 1).measure_all()
+circ = Circuit(2, 2)
+circ.Rx(0.2, 0).CX(0, 1).Rz(-0.7, 1).measure_all()
 
-    gateset = GateSetPredicate({OpType.Rx, OpType.CX, OpType.Rz, OpType.Measure})
-    midmeasure = NoMidMeasurePredicate()
+gateset = GateSetPredicate({OpType.Rx, OpType.CX, OpType.Rz, OpType.Measure})
+midmeasure = NoMidMeasurePredicate()
 
-    print(gateset.verify(circ))
-    print(midmeasure.verify(circ))
+print(gateset.verify(circ))
+print(midmeasure.verify(circ))
 
-    circ.S(0)
+circ.S(0)
 
-    print(gateset.verify(circ))
-    print(midmeasure.verify(circ))
+print(gateset.verify(circ))
+print(midmeasure.verify(circ))
 ```
 
 % Common predicates
@@ -1001,7 +1001,6 @@ print(r1.get_counts())
 
 
 ```
-
 {(0, 0, 0, 0): 503, (0, 0, 0, 1): 488, (0, 1, 0, 0): 533, (0, 1, 0, 1): 493, (1, 0, 0, 0): 1041, (1, 0, 0, 1): 107, (1, 0, 1, 0): 115, (1, 0, 1, 1): 14, (1, 1, 0, 0): 576, (1, 1, 0, 1): 69, (1, 1, 1, 0): 54, (1, 1, 1, 1): 7}
 {(0, 0, 0, 0): 2047, (0, 1, 0, 0): 169, (0, 1, 1, 0): 1729, (1, 1, 0, 0): 7, (1, 1, 1, 0): 48}
 ```
