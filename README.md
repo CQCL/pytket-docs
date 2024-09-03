@@ -7,7 +7,7 @@ Pytket is a python module for interfacing with tket, a quantum computing toolkit
 
 This repository contains the pytket user manual and example notebooks content in the `docs` directory. It does not contain source code for pytket itself. The source code is maintained on the [tket repository](https://github.com/CQCL/tket).
 
-The manual and examples are built and deployed as html pages using the [jupyter-sphinx](https://jupyter-sphinx.readthedocs.io/en/latest/) and [myst-nb](https://myst-nb.readthedocs.io/en/latest/) libraries. Instructions on building the docs locally can be found [here](https://github.com/CQCL/pytket-docs/blob/main/docs/README.md).
+The manual and examples are built and deployed as html pages using the [myst-nb](https://myst-nb.readthedocs.io/en/latest/) library. Instructions on building the docs locally can be found [here](https://github.com/CQCL/pytket-docs/blob/main/docs/README.md).
 
 Note that the TKET website is not deployed from this repository. This repository just contains the content for the documentation.
  
