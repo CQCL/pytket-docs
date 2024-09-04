@@ -1,5 +1,5 @@
 *************
-What is tket?
+What is TKET?
 *************
 
 .. Two-sentence overview
