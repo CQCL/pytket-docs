@@ -663,9 +663,9 @@ Its also possible to count all the occurrences of each {py:class}`~pytket.circui
 
 ```{code-cell} ipython3
 
-    from pytket.utils.stats import gate_counts
+from pytket.utils.stats import gate_counts
 
-    gate_counts(circ)
+gate_counts(circ)
 ```
 
 We obtain a {py:class}`collections.Counter` object where the keys are the various {py:class}`~pytket.circuit.OpType` s and the values represent how frequently each {py:class}`~pytket.circuit.OpType` appears in our {py:class}`~pytket.circuit.Circuit`. This method summarises the gate counts obtained for the circuit shown above.
