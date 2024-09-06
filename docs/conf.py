@@ -43,9 +43,7 @@ intersphinx_mapping = {
 nb_execution_mode = "cache"
 
 nb_execution_excludepatterns = [
-    "examples/backends/Forest_portability_example.ipynb",
     "examples/backends/backends_example.ipynb",
-    "examples/backends/qiskit_integration.ipynb",
     "examples/backends/comparing_simulators.ipynb",
     "examples/algorithms_and_protocols/expectation_value_example.ipynb",
     "examples/algorithms_and_protocols/pytket-qujax_heisenberg_vqe.ipynb",
