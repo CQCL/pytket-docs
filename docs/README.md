@@ -2,7 +2,8 @@
 
 ## Building the Docs
 
-The manual and examples are both built as a single sphinx site with shared dependencies. The [Quantinuum-sphinx](https://github.com/CQCL/quantinuum-sphinx) templates are used for styling.
+The manual and examples are both built as a single sphinx site with shared dependencies. The [pytket-docs-theming](https://github.com/CQCL/pytket-docs-theming) repository is used as a submodule to ensure uniformity with the rest of the pytket docs. The theme is based on [Quantinuum-sphinx](https://github.com/CQCL/quantinuum-sphinx).
+
 
 The docs can be built locally by following these steps
 
@@ -26,5 +27,5 @@ poetry install
 
 This will execute the jupyter cells in the manual and example notebooks and show the outputs of most cells.
 
-Some notebooks are currently excluded from execution at the moment. These notebooks are listed [here](https://github.com/CQCL/pytket-docs/blob/main/docs/conf.py#L46).
+Some notebooks are currently excluded from execution at the moment. These notebooks are listed [here](https://github.com/CQCL/pytket-docs-theming/blob/main/conf.py#L55).
 
