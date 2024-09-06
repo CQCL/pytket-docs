@@ -131,7 +131,7 @@ custom.apply(circ)
 print(circ.get_commands())
 ```
 
-For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful function useful {py:class}`AutoRebase` pass which can take care of this for you. The pass returned is constructed from the gateset alone. (It relies on some known decompositions, and will raise an exception if no suitable known decompositions exist.) An example is given in the "Combinators" section below.
+For some gatesets, it is not even necessary to specify the CX and TK1 decompositions: there is a useful pass {py:class}`AutoRebase` which can take care of this for you. The pass returned is constructed from the gateset alone. (It relies on some known decompositions, and will raise an exception if no suitable known decompositions exist.) An example is given in the "Combinators" section below.
 
 Similarly, the {py:class}`SquashCustom` and {py:class}`AutoSquash` passes, may be used to construct a pass that squashes sequences of single-qubit gates from a given set of single-qubit gates to as short a sequence as possible. Both take a gateset as an argument. {py:class}`SquashCustom` also takes a function for converting the parameters of a TK1 gate to the target gate set. (Internally, the compiler squashes all gates to TK1 and then applies the supplied function.) {py:class}`AutoSquash` attempts to do the squash using known internal decompositions (but may fail for some gatesets). For example:
 
