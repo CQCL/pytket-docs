@@ -3,5 +3,5 @@
 cd docs/
 
 rm -rf build/
-sphinx-build -b html . build 
+sphinx-build -b html . build -W
 
