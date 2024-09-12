@@ -727,7 +727,7 @@ Despite the {py:class}`~pytket.circuit.Circuit` class having methods for adding 
 ```
 
 When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the [QPE example notebook](https://tket.quantinuum.com/examples/phase_estimation.html).
+The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the [QPE example notebook](https://tket.quantinuum.com/user-guide/examples/algorithms_and_protocols/phase_estimation.html).
 
 For such algorithms we may wish to create a {py:class}`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
@@ -1460,7 +1460,7 @@ There are some minor drawbacks associated with symbolic compilation. When using 
 ```
 
 ```{seealso}
-To see how to use symbolic compilation in a variational experiment, have a look at our [VQE (UCCSD) example](https://tket.quantinuum.com/examples/ucc_vqe.html).
+To see how to use symbolic compilation in a variational experiment, have a look at our [VQE (UCCSD) example](https://tket.quantinuum.com/user-guide/examples/algorithms_and_protocols/ucc_vqe.html).
 ```
 
 ### Symbolic unitaries and states
@@ -1483,7 +1483,7 @@ circuit_to_symbolic_unitary(circ)
 
 ```
 
-The unitaries are calculated using the unitary representation of each [OpType](https://tket.quantinuum.com/api-docs/optype.html) , and according to the default ILO BasisOrder convention used in backends [ILO BasisOrder convention used in backends](https://tket.quantinuum.com/user-manual/manual_backend.html#interpreting-results).
+The unitaries are calculated using the unitary representation of each [OpType](https://tket.quantinuum.com/api-docs/optype.html) , and according to the default ILO BasisOrder convention used in backends [ILO BasisOrder convention used in backends](https://tket.quantinuum.com/user-guide/manual/manual_backend.html#interpreting-results).
 The outputs are sympy [ImmutableMatrix](https://docs.sympy.org/latest/modules/matrices/immutablematrices.html) objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the [sympy Quantum Mechanics module](https://docs.sympy.org/latest/modules/physics/quantum/index.html), see also the {py:func}`~pytket.utils.symbolic.circuit_to_symbolic_gates` and {py:func}`~pytket.utils.symbolic.circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 
