@@ -10,27 +10,8 @@ on:
 
 jobs:
 
-  changes:
-    runs-on: ubuntu-22.04
-    outputs:
-      user_guide: ${{ steps.filter.outputs.user_guide }}
-    steps:
-    - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v3
-      id: filter
-      with:
-        base: ${{ github.ref }}
-        filters: |
-          user guide:
-            - 'docs/**'
-            - '.github/**'
-            - 'pyproject.toml'
-            - 'poetry.lock'
-
   check:
     name: check docs build
-    needs: changes
-    if: github.event_name == 'schedule' || needs.changes.outputs.user_guide == 'true'
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
