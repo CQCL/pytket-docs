@@ -61,4 +61,5 @@ exclude_patterns = [
     ".jupyter_cache",
     "**/README.md",
     "README.md",
+    ".venv",
 ]
