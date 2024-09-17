@@ -9,28 +9,8 @@ on:
     - cron: '0 3 * * 6'
 
 jobs:
-
-  changes:
-    runs-on: ubuntu-22.04
-    outputs:
-      manual: ${{ steps.filter.outputs.manual }}
-    steps:
-    - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v3
-      id: filter
-      with:
-        base: ${{ github.ref }}
-        filters: |
-          manual:
-            - 'manual/**'
-            - 'manual_requirements.txt'
-            - 'manual_constraints.txt'
-            - '.github/**'
-
   check:
     name: check docs build
-    needs: changes
-    if: github.event_name == 'schedule' || needs.changes.outputs.manual == 'true'
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
