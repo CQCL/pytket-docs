@@ -534,7 +534,7 @@ from pytket import Circuit
 from pytket.extensions.qiskit import IBMQBackend
 from pytket.utils import expectation_from_counts
 
-backend = IBMQBackend("ibmq_quito")
+backend = IBMQBackend("ibm_brisbane")
 
 state = Circuit(3)
 state.H(0).CX(0, 1).CX(1, 2).X(0)
@@ -695,7 +695,7 @@ from pytket.backends import StatusEnum
 from pytket.extensions.qiskit import IBMQBackend
 from pytket.utils import expectation_from_counts
 
-backend = IBMQBackend("ibmq_quito")
+backend = IBMQBackend("ibm_brisbane")
 
 state = Circuit(3)
 state.H(0).CX(0, 1).CX(1, 2).X(0)
@@ -772,7 +772,7 @@ tags: [skip-execution]
 from pytket import Circuit
 from pytket.extensions.qiskit import IBMQBackend
 
-backend = IBMQBackend("ibmq_quito")
+backend = IBMQBackend("ibm_brisbane")
 
 circ = Circuit(3, 3)
 circ.X(1).CZ(0, 1).CX(1, 2).measure_all()
@@ -801,7 +801,7 @@ tags: [skip-execution]
 from pytket.backends import ResultHandle
 from pytket.extensions.qiskit import IBMQBackend
 
-backend = IBMQBackend("ibmq_quito")
+backend = IBMQBackend("ibm_brisbane")
 
 handle = ResultHandle.from_str("('5e8f3dcbbb7d8500119cfbf6', 0)")
 counts = backend.get_result(handle).get_counts()
