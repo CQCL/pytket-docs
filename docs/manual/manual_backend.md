@@ -41,7 +41,7 @@ tags: [skip-execution]
 
 from pytket.extensions.qiskit import IBMQBackend, AerStateBackend
 
-dev_b = IBMQBackend("ibmq_quito")
+dev_b = IBMQBackend("ibm_brisbane")
 sim_b = AerStateBackend()
 print(dev_b.required_predicates)
 print(sim_b.required_predicates)
