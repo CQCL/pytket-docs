@@ -12,7 +12,6 @@ html_title = "pytket user guide"
 extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
-    "jupyter_sphinx",
     "sphinx_copybutton",
     "sphinx.ext.autosectionlabel",
     "myst_nb",
