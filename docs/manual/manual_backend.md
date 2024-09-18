@@ -588,6 +588,9 @@ Below we show how the {py:class}`~pytket.extensions.cirq.CirqStateSampleBackend`
 
 
 ```{code-cell} ipython3
+---
+tags: [skip-execution]
+---
 
 from qiskit.primitives import BackendSampler
 from qiskit_algorithms import Grover, AmplificationProblem
