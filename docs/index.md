@@ -35,7 +35,7 @@ render_circuit_jupyter(ghz_circ)
 ```
 
 See also the [Circuit
-construction](https://tket.quantinuum.com/user-manual/manual_circuit.html)
+construction](https://tket.quantinuum.com/user-guide/manual/manual_circuit.html)
 section of the user manual.
 
 ## Build a `Circuit` from a QASM file
@@ -130,9 +130,9 @@ realistic cases a compiler will have to solve for the limited gateset of
 the target backend as well as other backend requirements.
 
 See the [Running on
-Backends](https://tket.quantinuum.com/user-manual/manual_backend.html)
+Backends](https://tket.quantinuum.com/user-guide/manual/manual_backend.html)
 section of the user manual and the [backends example
-notebook](https://tket.quantinuum.com/examples/backends_example.html)
+notebook](https://tket.quantinuum.com/user-guide/examples/backends/backends_example.html)
 for more.
 
 ```{toctree}
