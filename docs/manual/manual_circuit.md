@@ -1297,9 +1297,8 @@ print(circuit_to_qasm_str(circ)) # print QASM string
 
 % Quipper
 
-```{note}
-The OpenQASM converters do not support circuits with {ref}`implicit qubit permutations <Implicit Qubit Permutations>`. This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
-```
+The OpenQASM converters do not support circuits with [implicit qubit permutations](#implicit-qubit-permutations). This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
+
 
 The core `pytket` package additionally features a converter from Quipper, another circuit description language.
 
@@ -1786,7 +1785,6 @@ Since it is not possible to construct the inverse of an arbitrary POVM, the {py:
 ```
 
 % Gradients wrt symbolic parameters
-
 ### Implicit Qubit Permutations
 
 % DAG is used to help follow paths of resources and represent circuit up to trivial commutations
