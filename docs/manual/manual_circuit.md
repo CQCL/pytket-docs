@@ -622,7 +622,7 @@ print("Total gate count =", circ.n_gates)
 print("Circuit depth =", circ.depth())
 ```
 
-As characteristics of a {py:class}`~pytket.circuit.Circuit` go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier [^cite_arut2019]. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic $T$ gates to require expensive distillation procedures [^cite_brav2005] [^cite_brav2012].
+As characteristics of a {py:class}`~pytket.circuit.Circuit` go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic $T$ gates to require expensive distillation procedures [^cite_brav2005] [^cite_brav2012].
 
 We can use the {py:class}`~pytket.circuit.OpType` enum class to look for the number of gates of a particular type. Additionally, the methods {py:meth}`~pytket.circuit.Circuit.n_1qb_gates`, {py:meth}`~pytket.circuit.Circuit.n_2qb_gates` and {py:meth}`~pytket.circuit.Circuit.n_nqb_gates` can be used to count the number of gates in terms of how many qubits they act upon irrespective of type.
 
@@ -727,7 +727,7 @@ Despite the {py:class}`~pytket.circuit.Circuit` class having methods for adding 
 ```
 
 When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the [QPE example notebook](https://tket.quantinuum.com/user-guide/examples/algorithms_and_protocols/phase_estimation.html).
+The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the 
 
 For such algorithms we may wish to create a {py:class}`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
@@ -1742,13 +1742,13 @@ Unlike most uses of readouts in `pytket`, register comparisons expect a little-e
 ```{note}
 This feature is only usable on a limited selection of devices and simulators which support conditional gates or classical operations.
 
-The {py:class}`~pytket.extensions.qiskit.AerBackend` (from [pytket-qiskit](https://tket.quantinuum.com/extensions/pytket-qiskit/)) can support the OpenQasm model,
+The {py:class}`~pytket.extensions.qiskit.AerBackend` (from [pytket-qiskit](inv:pytket-qiskit:std:doc#index)) can support the OpenQasm model,
 where gates can only be conditional on an entire classical register being an
 exact integer value. Bitwise logical operations and register arithmetic are not supported.
 Therefore only conditions of the form
 `condition=reg_eq(reg, val)` are valid.
 
-The {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` (from [pytket-quantinuum](https://tket.quantinuum.com/extensions/pytket-quantinuum/))
+The {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` (from [pytket-quantinuum](inv:pytket-quantinuum:std:doc#index))
 can support the full range of expressions and comparisons shown above.
 ```
 

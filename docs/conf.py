@@ -23,19 +23,19 @@ html_theme = "furo"
 templates_path = ["./quantinuum-sphinx/_templates/"]
 html_static_path = ["./quantinuum-sphinx/_static/", "_static/"]
 
-pytketdoc_base = "https://tket.quantinuum.com/api-docs/"
+pytketdoc_base = "https://docs.quantinuum.com/tket/api-docs/"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "pytket": (pytketdoc_base, None),
     "qiskit": ("https://docs.quantum.ibm.com/api/qiskit", None),
-    "pytket-qiskit": ("https://tket.quantinuum.com/extensions/pytket-qiskit/", None),
+    "pytket-qiskit": ("https://docs.quantinuum.com/tket/extensions/pytket-qiskit/", None),
     "pytket-quantinuum": (
-        "https://tket.quantinuum.com/extensions/pytket-quantinuum/",
+        "https://docs.quantinuum.com/tket/extensions/pytket-quantinuum/",
         None,
     ),
-    "pytket-qujax": ("https://tket.quantinuum.com/extensions/pytket-qujax/", None),
-    "pytket-cirq": ("https://tket.quantinuum.com/extensions/pytket-cirq/", None),
+    "pytket-qujax": ("https://docs.quantinuum.com/tket/extensions/pytket-qujax/", None),
+    "pytket-cirq": ("https://docs.quantinuum.com/tket/extensions/pytket-cirq/", None),
     "sympy": ("https://docs.sympy.org/latest/", None),
 }
 
