@@ -727,7 +727,7 @@ Despite the {py:class}`~pytket.circuit.Circuit` class having methods for adding 
 ```
 
 When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the 
+The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the [QPE example notebook](https://docs.quantinuum.com/tket/user-guide/examples/algorithms_and_protocols/phase_estimation.html)
 
 For such algorithms we may wish to create a {py:class}`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
@@ -1460,7 +1460,7 @@ There are some minor drawbacks associated with symbolic compilation. When using 
 ```
 
 ```{seealso}
-To see how to use symbolic compilation in a variational experiment, have a look at our VQE (UCCSD) example.
+To see how to use symbolic compilation in a variational experiment, have a look at our [VQE (UCCSD) example](https://docs.quantinuum.com/tket/user-guide/examples/algorithms_and_protocols/ucc_vqe.html).
 ```
 
 ### Symbolic unitaries and states
