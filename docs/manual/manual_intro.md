@@ -76,7 +76,7 @@ Tket is currently available through its pythonic realisation `pytket`, which is 
 
 % Link to troubleshooting
 
-`pytket` is available on Linux, MacOS, and Windows. For any difficulties with installation, please consult our [troubleshooting](https://tket.quantinuum.com/api-docs/install.html) page.
+`pytket` is available on Linux, MacOS, and Windows. For any difficulties with installation, please consult our [troubleshooting](inv:pytket:*:doc#install) page.
 
 ## How To Cite
 
