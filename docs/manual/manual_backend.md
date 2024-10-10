@@ -13,7 +13,7 @@ A {py:class}`~pytket.backends.Backend` represents a connection to some co-proces
 
 With the wide variety of {py:class}`~pytket.backends.Backend` s available, they naturally have very different capabilities and limitations. The class is designed to open up this information so that it is easy to examine at runtime and make hardware-dependent choices as needed for maximum performance, whilst providing a basic abstract model that is easy for proof-of-concept testing.
 
-No {py:class}`~pytket.backends.Backend` s are currently provided with the core [pytket](https://tket.quantinuum.com/api-docs/) package, but most extension modules will add simulators or devices from the given provider, such as the {py:class}`~pytket.extensions.qiskit.AerBackend` and {py:class}`~pytket.extensions.qiskit.IBMQBackend` with [pytket-qiskit](https://tket.quantinuum.com/extensions/pytket-qiskit/) or the {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` with [pytket-quantinuum](https://tket.quantinuum.com/extensions/pytket-quantinuum/).
+No {py:class}`~pytket.backends.Backend` s are currently provided with the core [pytket](inv:pytket:*:doc#index)) package, but most extension modules will add simulators or devices from the given provider, such as the {py:class}`~pytket.extensions.qiskit.AerBackend` and {py:class}`~pytket.extensions.qiskit.IBMQBackend` with [pytket-qiskit](inv:pytket-qiskit:std:doc#index) or the {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` with [pytket-quantinuum](inv:pytket-quantinuum:std:doc#index).
 
 ## Backend Requirements
 
