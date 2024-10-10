@@ -622,7 +622,7 @@ print("Total gate count =", circ.n_gates)
 print("Circuit depth =", circ.depth())
 ```
 
-As characteristics of a {py:class}`~pytket.circuit.Circuit` go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier [^cite_arut2019]. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic $T$ gates to require expensive distillation procedures [^cite_brav2005] [^cite_brav2012].
+As characteristics of a {py:class}`~pytket.circuit.Circuit` go, these are pretty basic. In terms of approximating the noise level, they fail heavily from weighting all gates evenly when, in fact, some will be much harder to implement than others. For example, in the NISQ era, we find that most technologies provide good single-qubit gate times and fidelities, with two-qubit gates being much slower and noisier. On the other hand, looking forward to the fault-tolerant regime we will expect Clifford gates to be very cheap but the magic $T$ gates to require expensive distillation procedures [^cite_brav2005] [^cite_brav2012].
 
 We can use the {py:class}`~pytket.circuit.OpType` enum class to look for the number of gates of a particular type. Additionally, the methods {py:meth}`~pytket.circuit.Circuit.n_1qb_gates`, {py:meth}`~pytket.circuit.Circuit.n_2qb_gates` and {py:meth}`~pytket.circuit.Circuit.n_nqb_gates` can be used to count the number of gates in terms of how many qubits they act upon irrespective of type.
 
@@ -1010,7 +1010,7 @@ We see that the Pauli exponential $e^{i\frac{\pi}{2} \theta \text{XYYZ}}$ has ba
 
 These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation.
 
-A Pauli gadget can be expressed as $V \, A \, V^\dagger$ where $V$ is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and $A$ is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficently. See the [blog post](https://tket.quantinuum.com/blog/posts/controlled_gates/) on the {py:class}`~pytket.circuit.ConjugationBox` construct for more details.
+A Pauli gadget can be expressed as $V \, A \, V^\dagger$ where $V$ is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and $A$ is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficiently. See the [blog post](https://tket.quantinuum.com/blog/posts/controlled_gates/) on the {py:class}`~pytket.circuit.ConjugationBox` construct for more details.
 
 For further discussion see the research publication on phase gadget synthesis [^cite_cowt2020]. Ideas from this paper are implemented in TKET as the [OptimisePhaseGadgets](https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.OptimisePhaseGadgets) and [PauliSimp](https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.PauliSimp) optimisation passes.
 
@@ -1297,9 +1297,8 @@ print(circuit_to_qasm_str(circ)) # print QASM string
 
 % Quipper
 
-```{note}
-The OpenQASM converters do not support circuits with {ref}`implicit qubit permutations <Implicit Qubit Permutations>`. This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
-```
+The OpenQASM converters do not support circuits with [implicit qubit permutations](#implicit-qubit-permutations). This means that if a circuit contains such a permutation it will be ignored when exported to OpenQASM format.
+
 
 The core `pytket` package additionally features a converter from Quipper, another circuit description language.
 
@@ -1786,7 +1785,6 @@ Since it is not possible to construct the inverse of an arbitrary POVM, the {py:
 ```
 
 % Gradients wrt symbolic parameters
-
 ### Implicit Qubit Permutations
 
 % DAG is used to help follow paths of resources and represent circuit up to trivial commutations
