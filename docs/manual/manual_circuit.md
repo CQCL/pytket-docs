@@ -1012,7 +1012,7 @@ These Pauli gadget circuits have interesting algebraic properties which are usef
 
 A Pauli gadget can be expressed as $V \, A \, V^\dagger$ where $V$ is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and $A$ is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficently. See the [blog post](https://tket.quantinuum.com/blog/posts/controlled_gates/) on the {py:class}`~pytket.circuit.ConjugationBox` construct for more details.
 
-For further discussion see the research publication on phase gadget synthesis [^cite_cowt2020]. Ideas from this paper are implemented in TKET as the [OptimisePhaseGadgets](inv:pytket:*) and [PauliSimp](inv:#*.PauliSimp) optimisation passes.
+For further discussion see the research publication on phase gadget synthesis [^cite_cowt2020]. Ideas from this paper are implemented in TKET as the OptimisePhaseGadgets(inv:#.~passes.OptimisePhaseGadgets) and PauliSimp (inv:#*.PauliSimp) optimisation passes.
 
 ### Phase Polynomials
 
@@ -1460,7 +1460,7 @@ There are some minor drawbacks associated with symbolic compilation. When using 
 ```
 
 ```{seealso}
-To see how to use symbolic compilation in a variational experiment, have a look at our [VQE (UCCSD) example](htinv:pytket:*:doc#quipper).
+To see how to use symbolic compilation in a variational experiment, have a look at our VQE (UCCSD) example.
 ```
 
 ### Symbolic unitaries and states
@@ -1483,7 +1483,8 @@ circuit_to_symbolic_unitary(circ)
 
 ```
 
-The unitaries are calculated using the unitary representation of each [OpType](inv:pytket:*:doc#optype) , and according to the default ILO BasisOrder convention used in backends [ILO BasisOrder convention used in backends](../docs/manual/manual_backend.html#interpreting-results).
+The unitaries are calculated using the unitary representation of each [OpType](inv:pytket:*:doc#optype) , and according to the default ILO BasisOrder convention used in backends ILO BasisOrder convention used in backends(manual_backend.md#interpreting-results).
+
 The outputs are sympy [ImmutableMatrix](https://docs.sympy.org/latest/modules/matrices/immutablematrices.html) objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the [sympy Quantum Mechanics module](https://docs.sympy.org/latest/modules/physics/quantum/index.html), see also the {py:func}`~pytket.utils.symbolic.circuit_to_symbolic_gates` and {py:func}`~pytket.utils.symbolic.circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 
