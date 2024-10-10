@@ -21,7 +21,7 @@ To install, run:
 pip install pytket
 ```
 
-API documentation can be found at https://tket.quantinuum.com/api-docs.
+API documentation can be found at https://docs.quantinuum.com/tket/api-docs.
 
 
 ## Maintenance and support
