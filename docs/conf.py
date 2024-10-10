@@ -24,17 +24,18 @@ templates_path = ["./quantinuum-sphinx/_templates/"]
 html_static_path = ["./quantinuum-sphinx/_static/", "_static/"]
 
 pytketdoc_base = "https://docs.quantinuum.com/tket/"
-extension_url = pytketdoc_base + "extensions/"
+ext_url = pytketdoc_base + "extensions/"
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "pytket": (pytketdoc_base + "api-docs/", None),
     "qiskit": ("https://docs.quantum.ibm.com/api/qiskit", None),
-    "pytket-qiskit": (extension_url + "pytket-qiskit/", None),
-    "pytket-quantinuum": (extension_url + "pytket-quantinuum/", None,),
-    "pytket-pennylane": (extension_url + "pytket-pennylane/", None),
-    "pytket-qujax": (extension_url + "pytket-qujax/", None),
-    "pytket-cirq": (extension_url + "pytket-cirq/", None),
+    "pytket-qiskit": (ext_url + "pytket-qiskit/", None),
+    "pytket-quantinuum": (ext_url + "pytket-quantinuum/", None,),
+    "pytket-pennylane": (ext_url + "pytket-pennylane/", None),
+    "pytket-qujax": (ext_url + "pytket-qujax/", None),
+    "pytket-cirq": (ext_url + "pytket-cirq/", None),
+    "pytket-braket": (ext_url + "pytket-braket/", None),
     "sympy": ("https://docs.sympy.org/latest/", None),
 }
 
