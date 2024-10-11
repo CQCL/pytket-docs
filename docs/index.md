@@ -34,19 +34,18 @@ from pytket.circuit.display import render_circuit_jupyter
 render_circuit_jupyter(ghz_circ)
 ```
 
-See also the [Circuit
-construction](https://tket.quantinuum.com/user-guide/manual/manual_circuit.html)
+See also the [Circuit construction](../docs/manual/manual_circuit.md)
 section of the user manual.
 
 ## Build a `Circuit` from a QASM file
 
 Alternatively we can import a circuit from a QASM file using
-[pytket.qasm](https://tket.quantinuum.com/api-docs/qasm.html). There
+[pytket.qasm](inv:pytket:*:doc#qasm). There
 are also functions for generating a circuit from a QASM string or
 exporting to a qasm file.
 
 Note that its also possible to import a circuit from quipper using
-[pytket.quipper](https://tket.quantinuum.com/api-docs/quipper.html)
+[pytket.quipper](inv:pytket:*:doc#quipper)
 module.
 
 
@@ -62,7 +61,7 @@ render_circuit_jupyter(w_state_circ)
 
 Its possible to generate a circuit directly from a qiskit
 `QuantumCircuit` using the
-[qiskit_to_tk](https://tket.quantinuum.com/extensions/pytket-qiskit/api.html#pytket.extensions.qiskit.tk_to_qiskit)
+[qiskit_to_tk](inv:#*.qiskit_to_tk)
 function.
 
 
@@ -92,9 +91,9 @@ circuits which look identical may correspond to different unitary
 operations.
 
 Circuit conversion functions are also available for
-[pytket-cirq](https://tket.quantinuum.com/extensions/pytket-cirq/),
-[pytket-pennylane](https://tket.quantinuum.com/extensions/pytket-pennylane/),
-[pytket-braket](https://tket.quantinuum.com/extensions/pytket-braket/)
+[pytket-cirq](inv:pytket-cirq:std:doc#index),
+[pytket-pennylane](inv:pytket-pennylane:std:doc#index),
+[pytket-braket](inv:pytket-braket:std:doc#index)
 and more.
 
 ## Using Backends
@@ -128,11 +127,7 @@ The Hadamard and CX gate are supported operations of the simulator so we
 can run the GHZ circuit without changing any of the operations. For more
 realistic cases a compiler will have to solve for the limited gateset of
 the target backend as well as other backend requirements.
-
-See the [Running on
-Backends](https://tket.quantinuum.com/user-guide/manual/manual_backend.html)
-section of the user manual and the [backends example
-notebook](https://tket.quantinuum.com/user-guide/examples/backends/backends_example.html)
+See the [Running on Backends](../docs/manual/manual_backend.md) section of the user manual and the [backends example notebook](../docs/examples/backends/backends_example.ipynb)
 for more.
 
 ```{toctree}

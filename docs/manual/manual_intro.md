@@ -14,7 +14,7 @@ There is currently an implementation of tket available in the form of the `pytke
 
 This user manual is targeted at readers who are already familiar with the basics of quantum computing via the circuit model and want to explore the tools available in tket. It provides a comprehensive, feature-focussed tour of the platform to take you from "Hello world" to playing with advanced techniques for speeding up and improving the accuracy of your quantum experiments.
 
-In addition to this manual, there is also a selection of [example notebooks](https://tket.quantinuum.com/user-guide) to see `pytket` in the context of the algorithms and applications that can be built on top of it. These are supported by the API reference for in-depth overviews of each method, class, and interface.
+In addition to this manual, there is also a selection of [example notebooks](https://docs.quantinuum.com/tket/user-guide) to see `pytket` in the context of the algorithms and applications that can be built on top of it. These are supported by the API reference for in-depth overviews of each method, class, and interface.
 
 ## NISQ Considerations
 
@@ -76,7 +76,7 @@ Tket is currently available through its pythonic realisation `pytket`, which is 
 
 % Link to troubleshooting
 
-`pytket` is available on Linux, MacOS, and Windows. For any difficulties with installation, please consult our [troubleshooting](https://tket.quantinuum.com/api-docs/install.html) page.
+`pytket` is available on Linux, MacOS, and Windows. For any difficulties with installation, please consult our [troubleshooting](inv:pytket:*:doc#install) page.
 
 ## How To Cite
 
