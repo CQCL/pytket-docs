@@ -1010,11 +1010,7 @@ We see that the Pauli exponential $e^{i\frac{\pi}{2} \theta \text{XYYZ}}$ has ba
 
 These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation.
 
-<<<<<<< HEAD
-A Pauli gadget can be expressed as $V \, A \, V^\dagger$ where $V$ is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and $A$ is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficiently. See the [blog post](https://tket.quantinuum.com/blog/posts/controlled_gates/) on the {py:class}`~pytket.circuit.ConjugationBox` construct for more details.
-=======
 A Pauli gadget can be expressed as $V \, A \, V^\dagger$ where $V$ is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and $A$ is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficiently. See the [blog post](https://docs.quantinuum.com/tket/blog/posts/controlled_gates/) on the {py:class}`~pytket.circuit.ConjugationBox` construct for more details.
->>>>>>> main
 
 For further discussion see the research publication on phase gadget synthesis [^cite_cowt2020]. Ideas from this paper are implemented in TKET as the {py:class}`~pytket.passes.OptimisePhaseGadgets` and {py:class}`~pytket.passes.PauliSimp` optimisation passes.
 
