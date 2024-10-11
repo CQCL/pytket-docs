@@ -727,7 +727,7 @@ Despite the {py:class}`~pytket.circuit.Circuit` class having methods for adding 
 ```
 
 When constructing subroutines to implement quantum algorithms it is natural to distinguish different groups of qubits. For instance, in the quantum phase estimation algorithm (QPE) we would want to distinguish between state preparation qubits and ancillary qubits which are measured to yield an approximation of the phase.
-The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the [QPE example notebook](https://tket.quantinuum.com/user-guide/examples/algorithms_and_protocols/phase_estimation.html).
+The QPE can then be used as a subroutine in other algorithms: for example, integer factoring or estimating the ground state energy of some molecule. For more on the phase estimation algorithm see the [QPE example notebook](https://docs.quantinuum.com/tket/user-guide/examples/algorithms_and_protocols/phase_estimation.html)
 
 For such algorithms we may wish to create a {py:class}`~pytket.circuit.CircBox` containing qubit registers with distinct names. Below we will show construction of a simplified quantum phase estimation circuit which we will then turn into a subroutine.
 
@@ -1010,9 +1010,13 @@ We see that the Pauli exponential $e^{i\frac{\pi}{2} \theta \text{XYYZ}}$ has ba
 
 These Pauli gadget circuits have interesting algebraic properties which are useful for circuit optimisation.
 
+<<<<<<< HEAD
 A Pauli gadget can be expressed as $V \, A \, V^\dagger$ where $V$ is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and $A$ is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficiently. See the [blog post](https://tket.quantinuum.com/blog/posts/controlled_gates/) on the {py:class}`~pytket.circuit.ConjugationBox` construct for more details.
+=======
+A Pauli gadget can be expressed as $V \, A \, V^\dagger$ where $V$ is the the circuit composed of CX gates and single qubit basis rotations on the right hand side of the Rz gate and $A$ is the Rz gate itself. This observation allows one to construct controlled Pauli gadgets much more efficiently. See the [blog post](https://docs.quantinuum.com/tket/blog/posts/controlled_gates/) on the {py:class}`~pytket.circuit.ConjugationBox` construct for more details.
+>>>>>>> main
 
-For further discussion see the research publication on phase gadget synthesis [^cite_cowt2020]. Ideas from this paper are implemented in TKET as the [OptimisePhaseGadgets](https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.OptimisePhaseGadgets) and [PauliSimp](https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.PauliSimp) optimisation passes.
+For further discussion see the research publication on phase gadget synthesis [^cite_cowt2020]. Ideas from this paper are implemented in TKET as the {py:class}`~pytket.passes.OptimisePhaseGadgets` and {py:class}`~pytket.passes.PauliSimp` optimisation passes.
 
 ### Phase Polynomials
 
@@ -1455,11 +1459,11 @@ print(circ.is_symbolic())   # returns True when free_symbols() is non-empty
 ```
 
 ```{note}
-There are some minor drawbacks associated with symbolic compilation. When using [Euler-angle equations](https://tket.quantinuum.com/api-docs/passes.html#pytket.passes.EulerAngleReduction) or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the {py:class}`pytket.passes.KAKDecomposition` pass to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
+There are some minor drawbacks associated with symbolic compilation. When using {py:class}`~pytket.passes.EulerAngleReduction` or quaternions for merging adjacent rotation gates, the resulting angles are given by some lengthy trigonometric expressions which cannot be evaluated down to just a number when one of the original angles was parameterised; this can lead to unhelpfully long expressions for the angles of some gates in the compiled circuit. It is also not possible to apply the {py:class}`pytket.passes.KAKDecomposition` pass to simplify a parameterised circuit, so that pass will only apply to non-parameterised subcircuits, potentially missing some valid opportunities for optimisation.
 ```
 
 ```{seealso}
-To see how to use symbolic compilation in a variational experiment, have a look at our [VQE (UCCSD) example](https://tket.quantinuum.com/user-guide/examples/algorithms_and_protocols/ucc_vqe.html).
+To see how to use symbolic compilation in a variational experiment, have a look at our [VQE (UCCSD) example](https://docs.quantinuum.com/tket/user-guide/examples/algorithms_and_protocols/ucc_vqe.html).
 ```
 
 ### Symbolic unitaries and states
@@ -1482,7 +1486,8 @@ circuit_to_symbolic_unitary(circ)
 
 ```
 
-The unitaries are calculated using the unitary representation of each [OpType](https://tket.quantinuum.com/api-docs/optype.html) , and according to the default ILO BasisOrder convention used in backends [ILO BasisOrder convention used in backends](https://tket.quantinuum.com/user-guide/manual/manual_backend.html#interpreting-results).
+The unitaries are calculated using the unitary representation of each [OpType](inv:pytket:*:doc#optype) , and according to the default ILO BasisOrder convention used in backends ILO BasisOrder convention used in backends(manual_backend.md#interpreting-results).
+
 The outputs are sympy [ImmutableMatrix](https://docs.sympy.org/latest/modules/matrices/immutablematrices.html) objects, and use the same symbols as in the circuit, so can be further substituted and manipulated.
 The conversion functions use the [sympy Quantum Mechanics module](https://docs.sympy.org/latest/modules/physics/quantum/index.html), see also the {py:func}`~pytket.utils.symbolic.circuit_to_symbolic_gates` and {py:func}`~pytket.utils.symbolic.circuit_apply_symbolic_qubit` functions to see how to work with those objects directly.
 
@@ -1741,13 +1746,13 @@ Unlike most uses of readouts in `pytket`, register comparisons expect a little-e
 ```{note}
 This feature is only usable on a limited selection of devices and simulators which support conditional gates or classical operations.
 
-The {py:class}`~pytket.extensions.qiskit.AerBackend` (from [pytket-qiskit](https://tket.quantinuum.com/extensions/pytket-qiskit/)) can support the OpenQasm model,
+The {py:class}`~pytket.extensions.qiskit.AerBackend` (from [pytket-qiskit](inv:pytket-qiskit:std:doc#index)) can support the OpenQasm model,
 where gates can only be conditional on an entire classical register being an
 exact integer value. Bitwise logical operations and register arithmetic are not supported.
 Therefore only conditions of the form
 `condition=reg_eq(reg, val)` are valid.
 
-The {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` (from [pytket-quantinuum](https://tket.quantinuum.com/extensions/pytket-quantinuum/))
+The {py:class}`~pytket.extensions.quantinuum.QuantinuumBackend` (from [pytket-quantinuum](inv:pytket-quantinuum:std:doc#index))
 can support the full range of expressions and comparisons shown above.
 ```
 
