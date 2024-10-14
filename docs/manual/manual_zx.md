@@ -502,7 +502,6 @@ Composite sequences
                                       `Rewrite.reduce_graphlike_form()`,
                                       `Rewrite.to_MBQC_diag()`
 =================================== ===========================================
-```
 
 % Current implementations may not track global scalar; semantics is only preserved up to scalar; warning if attempting to use for scalar diagram evaluation
 
