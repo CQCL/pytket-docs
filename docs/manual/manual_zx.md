@@ -475,14 +475,33 @@ Because of the focus on strategies using graphlike diagrams, many of the rewrite
 The rewrite passes can be broken down into a few categories depending on the form of the diagrams expected and the function of the passes. Full descriptions of each pass are given in the API reference.
 
 
-
-|  Rewrite Category                  | Available Rewrites                                                                                                                                                                            |
-|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Decompositions into generating set | `Rewrite.decompose_boxes()`, `Rewrite.basic_wires()`,     `Rewrite.rebase_to_zx()`,    `Rewrite.rebase_to_mbqc()`                                                                             |
-| Rewriting into graphlike form      | `Rewrite.red_to_green()`,        `Rewrite.spider_fusion()`,       `Rewrite.self_loop_removal()`,   `Rewrite.parallel_h_removal()`,  `Rewrite.separate_boundaries()`, `Rewrite.io_extension()` |
-| Reduction within graphlike form    | `Rewrite.remove_interior_cliffords()` `Rewrite.remove_interior_paulis()` `Rewrite.gadgetise_interior_paulis()` `Rewrite.merge_gadgets()` `Rewrite.extend_at_boundary_paulis()`                |
-| MBQC                               | `Rewrite.extend_for_PX_outputs()`, `Rewrite.internalise_gadgets()`                                                                                                                            |
-| Composite sequences                | `Rewrite.to_graphlike_form()`,     `Rewrite.reduce_graphlike_form()`, `Rewrite.to_MBQC_diag()`                                                                                                |
+=================================== ===========================================
+Decompositions into generating sets
+                                      `Rewrite.decompose_boxes()`,
+                                      `Rewrite.basic_wires()`,
+                                      `Rewrite.rebase_to_zx()`,
+                                      `Rewrite.rebase_to_mbqc()`
+Rewriting into graphlike form
+                                      `Rewrite.red_to_green()`,
+                                      `Rewrite.spider_fusion()`,
+                                      `Rewrite.self_loop_removal()`,
+                                      `Rewrite.parallel_h_removal()`,
+                                      `Rewrite.separate_boundaries()`,
+                                      `Rewrite.io_extension()`
+Reduction within graphlike form
+                                      `Rewrite.remove_interior_cliffords()`,
+                                      `Rewrite.remove_interior_paulis()`,
+                                      `Rewrite.gadgetise_interior_paulis()`,
+                                      `Rewrite.merge_gadgets()`,
+                                      `Rewrite.extend_at_boundary_paulis()`
+MBQC
+                                      `Rewrite.extend_for_PX_outputs()`,
+                                      `Rewrite.internalise_gadgets()`
+Composite sequences
+                                      `Rewrite.to_graphlike_form()`,
+                                      `Rewrite.reduce_graphlike_form()`,
+                                      `Rewrite.to_MBQC_diag()`
+=================================== ===========================================
 
 % Current implementations may not track global scalar; semantics is only preserved up to scalar; warning if attempting to use for scalar diagram evaluation
 
