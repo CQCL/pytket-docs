@@ -476,6 +476,9 @@ The rewrite passes can be broken down into a few categories depending on the for
 
 ```{eval-rst}
 =================================== ===========================================
+**Rewrite Category**                  **Available Rewrites**
+
+
 Decompositions into generating sets
                                       ``Rewrite.decompose_boxes()``,
                                       ``Rewrite.basic_wires()``,
