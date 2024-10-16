@@ -698,4 +698,4 @@ In place of API reference and code examples, we recommend looking at the followi
 
 [^cite_back2021]: Backens, M. et al., 2021. There and back again: A circuit extraction tale. Quantum, 5, p.451.
 
-[^cite_vdwet2020]: van de Wetering, J., 2020. ZX-calculus for the working quantum computer scientist. <https://arxiv.org/abs/2012.13966>
+[^cite_vdwet2020]: van de Wetering, J., 2020. ZX-calculus for the working quantum computer scientist. <https://arxiv.org/pdf/2012.13966>
