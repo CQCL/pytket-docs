@@ -1682,7 +1682,7 @@ classical computations by assigning the result of some computation to output
 bits or registers. We can also set the value or copy the contents of one resource
 in to another. Note in the examples below to express something like `<var> =
 <exp>` we use circuit methods (like {py:meth}`~pytket.circuit.Circuit.add_c_setreg`, or
-{py:meth}`~pytket.circuit.Circuit.add_classicalexpbox_register`) that take `<exp>` as the first input and `<var>`
+{py:meth}`~pytket.circuit.Circuit.add_clexpr_from_logicexp`) that take `<exp>` as the first input and `<var>`
 as the second. Note that these classical operations can be conditional on other
 classical operations, just like quantum operations.
 
@@ -1718,20 +1718,20 @@ circ.add_c_setreg(3, reg_b, condition=reg_gt(reg_a, 1))
 # Write out the results of logical expressions
 
 # c = a ^ b
-circ.add_classicalexpbox_register(reg_a ^ reg_b, reg_c)
+circ.add_clexpr_from_logicexp(reg_a ^ reg_b, reg_c)
 # c[0] = a[1] & b[2]
-circ.add_classicalexpbox_bit(reg_a[1] & reg_b[2], [reg_c[0]])
+circ.add_clexpr_from_logicexp(reg_a[1] & reg_b[2], [reg_c[0]])
 
 # Register arithmetic
 
 # c = a + b // c (note the use of the floor divide symbol)
-circ.add_classicalexpbox_register(reg_a + reg_b // reg_c, reg_c)
+circ.add_clexpr_from_logicexp(reg_a + reg_b // reg_c, reg_c)
 # a = a - b * c
-circ.add_classicalexpbox_register(reg_a - reg_b * reg_c, reg_a)
+circ.add_clexpr_from_logicexp(reg_a - reg_b * reg_c, reg_a)
 # a = a << 2
-circ.add_classicalexpbox_register(reg_a << 2, reg_a)
+circ.add_clexpr_from_logicexp(reg_a << 2, reg_a)
 # c = b >> 1
-circ.add_classicalexpbox_register(reg_b >> 1, reg_c)
+circ.add_clexpr_from_logicexp(reg_b >> 1, reg_c)
 
 ```
 
