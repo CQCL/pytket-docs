@@ -3,13 +3,13 @@
 
 from pytket.circuit import Circuit, PauliExpBox, Pauli
 from pytket.predicates import CompilationUnit
-from pytket.passes import DecomposeBoxes, PauliSimp, SequencePass
+from pytket.passes import DecomposeBoxes
 from pytket.utils import expectation_from_counts
-from pytket.extensions.qiskit import AerBackend, AerStateBackend
+from pytket.extensions.qiskit import AerBackend
 
 from sympy import Symbol
 from scipy.optimize import minimize
-from openfermion import QubitOperator, FermionOperator, jordan_wigner
+from openfermion import QubitOperator, FermionOperator
 
 
 # Generate a parametric ansatz
