@@ -1,9 +1,11 @@
 name: check docs build
 
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
+      
   schedule:
     # 03:00 every Saturday morning
     - cron: '0 3 * * 6'
