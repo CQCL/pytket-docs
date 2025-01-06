@@ -11,6 +11,7 @@ from sympy import Symbol
 from scipy.optimize import minimize
 from openfermion import QubitOperator, FermionOperator, jordan_wigner
 
+
 # Generate a parametric ansatz
 def h2_JW_sto3g_ansatz():
     symbols = [Symbol("s0"), Symbol("s1"), Symbol("s2")]
