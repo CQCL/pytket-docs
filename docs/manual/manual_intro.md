@@ -86,7 +86,7 @@ If you wish to cite tket in any academic publications, we generally recommend ci
 
 If your work is on the topic of specific compilation tasks, it may be more appropriate to cite one of our other papers:
 
-- ["On the qubit routing problem"](https://doi.org/10.4230/LIPIcs.TQC.2019.5) for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
+- ["On the qubit routing problem"](https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.TQC.2019.5) for qubit placement (aka allocation, mapping) and routing (aka swap network insertion, connectivity solving).
 - ["Phase Gadget Synthesis for Shallow Circuits"](https://arxiv.org/pdf/1906.01734v2) for representing exponentiated Pauli operators in the ZX calculus and their circuit decompositions.
 - ["A Generic Compilation Strategy for the Unitary Coupled Cluster Ansatz"](https://arxiv.org/pdf/2007.10515) for sequencing of terms in Trotterisation and Pauli diagonalisation.
 
