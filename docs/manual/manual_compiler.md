@@ -327,7 +327,7 @@ True
 
 The heterogeneity of quantum architectures and limited connectivity of their qubits impose the strict restriction that multi-qubit gates are only allowed between specific pairs of qubits. Given it is far easier to program a high-level operation which is semantically correct and meaningful when assuming full connectivity, a compiler will have to solve this constraint. In general, there won't be an exact subgraph isomorphism between the graph of interacting logical qubits and the connected physical qubits, so this cannot be solved with placement alone.
 
-% Invalid interactions between non-local qubits can be solved by moving qubits to adjacent positions or by performing a distributed operation using the intervening qubits
+% Invalid interactions between non-local qubits can be sovled by moving qubits to adjacent positions or by performing a distributed operation using the intervening qubits
 
 % Routing takes a placed circuit and finds non-local operations, inserting operations to fix them
 
@@ -695,7 +695,7 @@ print(circ.n_gates_of_type(OpType.CX))  # But not in this case
 ```
 
 ```{Note}
-Previous versions of {py:class}`~pytket.passes.FullPeepholeOptimise` did not apply the {py:class}`~pytket.passes.ThreeQubitSquash` pass. There is a {py:class}`~pytket.passes.PeepholeOptimise2Q` pass which applies the old pass sequence with the {py:class}`~pytket.passes.ThreeQubitSquash` pass excluded.
+Prevous versions of {py:class}`~pytket.passes.FullPeepholeOptimise` did not apply the {py:class}`~pytket.passes.ThreeQubitSquash` pass. There is a {py:class}`~pytket.passes.PeepholeOptimise2Q` pass which applies the old pass sequence with the {py:class}`~pytket.passes.ThreeQubitSquash` pass excluded.
 ```
 
 % `Backend.default_compilation_pass` gives a recommended compiler pass to solve the backend's constraints with little or light optimisation
@@ -795,7 +795,7 @@ For most standard use cases, we recommend starting with {py:class}`~pytket.passe
 
 % Can use this to identify what placement was selected or how to interpret the final state
 
-{py:class}`PlacementPass` modifies the set of qubits used in the {py:class}`~pytket.circuit.Circuit` from the logical names used during construction to the names of the physical addresses on the {py:class}`~pytket.backends.Backend`, so the logical qubit names will no longer exist within the {py:class}`~pytket.circuit.Circuit` by design. Knowing the map between the logical qubits and the chosen physical qubits is necessary for understanding the choice of placement, interpreting the final state from a naive simulator, identifying which physical qubits each measurement was made on for error mitigation, and appending additional gates to the logical qubits after applying the pass.
+{py:class}`PlacementPass` modifies the set of qubits used in the {py:class}`~pytket.circuit.Circuit` from the logical names used during construction to the names of the physical addresses on the {py:class}`~pytket.backends.Backend`, so the logical qubit names wiil no longer exist within the {py:class}`~pytket.circuit.Circuit` by design. Knowing the map between the logical qubits and the chosen physical qubits is necessary for understanding the choice of placement, interpreting the final state from a naive simulator, identifying which physical qubits each measurement was made on for error mitigation, and appending additional gates to the logical qubits after applying the pass.
 
 Other passes like {py:class}`RoutingPass` and {py:class}`~pytket.passes.CliffordSimp` can introduce (explicit or implicit) permutations of the logical qubits in the middle of a {py:class}`~pytket.circuit.Circuit`, meaning a logical qubit may exist on a different physical qubit at the start of the {py:class}`~pytket.circuit.Circuit` compared to the end.
 
@@ -889,7 +889,7 @@ Every {py:class}`~pytket.backends.Backend` requires {py:class}`NoSymbolsPredicat
 
 ### User-defined Passes
 
-We have already seen that pytket allows users to combine passes in a desired order using {py:class}`~pytket.passes.SequencePass`. An additional feature is the {py:class}`~pytket.passes.CustomPass` which allows users to define their own custom circuit transformation using pytket.
+We have already seen that pytket allows users to combine passes in a desired order using {py:class}`~pytket.passes.SequencePass`. An addtional feature is the {py:class}`~pytket.passes.CustomPass` which allows users to define their own custom circuit transformation using pytket.
 The {py:class}`~pytket.passes.CustomPass` class accepts a `transform` parameter, a python function that takes a {py:class}`~pytket.circuit.Circuit` as input and returns a {py:class}`~pytket.circuit.Circuit` as output.
 
 We will show how to use {py:class}`~pytket.passes.CustomPass` by defining a simple transformation that replaces any Pauli Z gate in the {py:class}`~pytket.circuit.Circuit` with a Hadamard gate, Pauli X gate, Hadamard gate chain.
@@ -924,7 +924,7 @@ After we've defined our `transform` we can construct a {py:class}`~pytket.passes
 
 from pytket.passes import CustomPass
 
-DecomposeZPass = CustomPass(z_transform) # Define our pass
+DecompseZPass = CustomPass(z_transform) # Define our pass
 
 test_circ = Circuit(2) # Define a test Circuit for our pass
 test_circ.Z(0)
@@ -933,12 +933,12 @@ test_circ.CX(0, 1)
 test_circ.Z(1)
 test_circ.CRy(0.5, 0, 1)
 
-DecomposeZPass.apply(test_circ) # Apply our pass to the test Circuit
+DecompseZPass.apply(test_circ) # Apply our pass to the test Circuit
 
 test_circ.get_commands() # Commands of our transformed Circuit
 ```
 
-We see from the output above that our newly defined {py:class}`DecomposeZPass` has successfully decomposed the Pauli Z gates to Hadamard, Pauli X, Hadamard chains and left other gates unchanged.
+We see from the output above that our newly defined {py:class}`DecompseZPass` has successfully decomposed the Pauli Z gates to Hadamard, Pauli X, Hadamard chains and left other gates unchanged.
 
 ```{warning}
 pytket does not require that {py:class}`~pytket.passes.CustomPass` preserves the unitary of the {py:class}`~pytket.circuit.Circuit` . This is for the user to ensure.
@@ -1097,7 +1097,7 @@ zero and discarded at the end. The methods {py:meth}`Circuit.qubit_create` and
 qubits.
 
 ```{warning}
-Note that we are now restricted in how we can compose our circuit with other circuits. When composing after another circuit, a "created" qubit becomes a Reset operation. When composing before another circuit, a "discarded" qubit may not be joined to another qubit unless that qubit has itself been "created" (so that the discarded state gets reset to zero).
+Note that we are now restricted in how we can compose our circuit with other circuits. When composing after another circuit, a "created" qubit becomes a Reset operation. Whem composing before another circuit, a "discarded" qubit may not be joined to another qubit unless that qubit has itself been "created" (so that the discarded state gets reset to zero).
 ```
 
 #### Initial simplification
