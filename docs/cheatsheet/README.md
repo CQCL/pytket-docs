@@ -1,6 +1,6 @@
 # TKET cheatsheet
 
-This cheatsheet gives you minimal useful information about TKET. You can create your quantum circiut, compile it and execute a job using TKET. You can find how to use Quantinuum H-series emulator too.
+This cheatsheet gives you minial useful information about TKET. You can create your quantum circiut, compile it and execute a job using TKET. You can find how to use Quantinuum H-series emulator too.
 
 ## Archive
 

@@ -33,7 +33,7 @@ There is also a slack channel for discussion and support. click [here](https://t
 ### Pytket 0.x.y
 
 Pytket underwent rapid development from 2018 to 2022, with frequent changes of
-API. Our policy has been to maintain only the latest 0.x release, and not to port
+API. Our policy has been to maintain only the latest 0.x relase, and not to port
 bugfixes to older releases. Since version 0.7 (February 2021) we have been
 releasing new versions (0.x.0) on a 4-week cycle, with occasional patch releases
 (0.x.y) for important hotfixes.
