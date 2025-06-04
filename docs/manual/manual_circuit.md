@@ -955,7 +955,7 @@ Lets now construct a multi-controlled Rz gate with the control state $|0010\rang
 from pytket.circuit import Circuit, Op, OpType, QControlBox
 
 rz_op = Op.create(OpType.Rz, 0.61)
-multi_controlled_rz = QControlBox(rz_op, n_controls=4, control_state=[0, 0, 1, 0])
+multi_controlled_rz = QControlBox(rz_op, n_controls=4, control_state=[False, False, True, False])
 
 test_circ = Circuit(5)
 test_circ.add_gate(multi_controlled_rz, test_circ.qubits)
@@ -1092,7 +1092,7 @@ from pytket.circuit import Op, OpType, MultiplexorBox
 rz_op = Op.create(OpType.Rz, 0.3)
 h_op = Op.create(OpType.H)
 
-op_map = {(0, 0): rz_op, (1, 1): h_op}
+op_map = {(False, False): rz_op, (True, True): h_op}
 multiplexor = MultiplexorBox(op_map)
 
 multi_circ = Circuit(3)
@@ -1194,10 +1194,10 @@ from pytket.circuit import ToffoliBox
 
 # Specify the desired permutation of the basis states
 mapping = {
-    (0, 0, 1): (1, 1, 1),
-    (1, 1, 1): (0, 0, 1),
-    (1, 0, 0): (0, 0, 0),
-    (0, 0, 0): (1, 0, 0),
+    (False, False, True): (True, True, True),
+    (True, True, True): (False, False, True),
+    (True, False, False): (False, False, False),
+    (False, False, False): (True, False, False),
 }
 
 # Define box to perform the permutation
@@ -1703,7 +1703,7 @@ reg_c = circ.add_c_register("c", 3)
 # a = 3
 circ.add_c_setreg(3, reg_a)
 # a[0] = 1
-circ.add_c_setbits([1], [reg_a[0]])
+circ.add_c_setbits([True], [reg_a[0]])
 # Copy: b = a
 # b is smaller than a so the first 3 bits of a will be copied
 circ.add_c_copyreg(reg_a, reg_b)
