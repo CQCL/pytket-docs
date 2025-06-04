@@ -1,4 +1,4 @@
-from pytket.circuit import OpType, Qubit, Bit, UnitID
+from pytket.circuit import Qubit, Bit, UnitID
 from pytket.pauli import Pauli, QubitPauliString
 
 from binarytree import Node
