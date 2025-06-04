@@ -1703,7 +1703,7 @@ reg_c = circ.add_c_register("c", 3)
 # a = 3
 circ.add_c_setreg(3, reg_a)
 # a[0] = 1
-circ.add_c_setbits([1], [reg_a[0]])
+circ.add_c_setbits([True], [reg_a[0]])
 # Copy: b = a
 # b is smaller than a so the first 3 bits of a will be copied
 circ.add_c_copyreg(reg_a, reg_b)
