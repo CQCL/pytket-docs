@@ -100,7 +100,7 @@ The exact arguments to {py:meth}`~pytket.backends.Backend.process_circuit` and t
 
 % Measurements are not deterministic, so each run samples from some distribution; refer to each full run of the circuit from the initial state as a "shot"
 
-Running a {py:class}`~pytket.circuit.Circuit` on a quantum computer invovles applying the instructions to some quantum system to modify its state. Whilst we know that this state will form a vector (or linear map) in some Hilbert space, we cannot directly inspect it and obtain a complex vector/matrix to return to the classical host process. The best we can achieve is performing measurements to collapse the state and obtain a bit of information in the process. Since the measurements are not deterministic, each run of the {py:class}`~pytket.circuit.Circuit` samples from some distribution. By obtaining many *shots* (the classical readout from each full run of the {py:class}`~pytket.circuit.Circuit` from the initial state), we can start to predict what the underlying measurement distrubution looks like.
+Running a {py:class}`~pytket.circuit.Circuit` on a quantum computer involves applying the instructions to some quantum system to modify its state. Whilst we know that this state will form a vector (or linear map) in some Hilbert space, we cannot directly inspect it and obtain a complex vector/matrix to return to the classical host process. The best we can achieve is performing measurements to collapse the state and obtain a bit of information in the process. Since the measurements are not deterministic, each run of the {py:class}`~pytket.circuit.Circuit` samples from some distribution. By obtaining many *shots* (the classical readout from each full run of the {py:class}`~pytket.circuit.Circuit` from the initial state), we can start to predict what the underlying measurement distribution looks like.
 
 % Retrieve table of results using `get_shots`; rows are shots (in order of execution), columns are bits (in ILO)
 
@@ -184,17 +184,17 @@ We have rounded the results here because simulators typically introduce a small 
 
 % `get_unitary` treats circuit with open inputs and gives map on 2^n-dimensional complex Hilbert space
 
-The majority of {py:class}`~pytket.backends.Backend` s will run the {py:class}`~pytket.circuit.Circuit` on the initial state $|0\rangle^{\otimes n}$. However, because we can form the composition of {py:class}`~pytket.circuit.Circuit` s, we want to be able to test them with open inputs. When the {py:class}`~pytket.circuit.Circuit` is purely quantum, we can represent its effect as an open circuit by a unitary matrix acting on the $2^n$-dimensional Hilbert space. The {py:class}`~pytket.extensions.qiskit.AerUnitaryBackend` from `pytket-qiskit` is designed exactly for this.
+The majority of {py:class}`~pytket.backends.Backend` s will run the {py:class}`~pytket.circuit.Circuit` on the initial state $|0\rangle^{\otimes n}$. However, because we can form the composition of {py:class}`~pytket.circuit.Circuit` s, we want to be able to test them with open inputs. When the {py:class}`~pytket.circuit.Circuit` is purely quantum, we can represent its effect as an open circuit by a unitary matrix acting on the $2^n$-dimensional Hilbert space. The {py:class}`~pytket.extensions.qiskit.AreUnitaryBackend` from `pytket-qiskit` is designed exactly for this.
 
 
 ```{code-cell} ipython3
 
 from pytket import Circuit
-from pytket.extensions.qiskit import AerUnitaryBackend
+from pytket.extensions.qiskit import AreUnitaryBackend
 
 circ = Circuit(2)
 circ.H(0).CX(0, 1)
-backend = AerUnitaryBackend()
+backend = AreUnitaryBackend()
 compiled_circ = backend.get_compiled_circuit(circ)
 
 unitary = backend.run_circuit(compiled_circ).get_unitary()
@@ -256,11 +256,11 @@ The choice of ILO or DLO defines the ordering of a bit sequence, but this can st
 ```{code-cell} ipython3
 
 from pytket.circuit import Circuit, BasisOrder
-from pytket.extensions.qiskit import AerUnitaryBackend
+from pytket.extensions.qiskit import AreUnitaryBackend
 
 circ = Circuit(2)
 circ.CX(0, 1)
-backend = AerUnitaryBackend()
+backend = AreUnitaryBackend()
 compiled_circ = backend.get_compiled_circuit(circ)
 handle = backend.process_circuit(compiled_circ)
 result = backend.get_result(handle)
