@@ -83,7 +83,7 @@ If there is noise in the device, which is the case for all devices in the NISQ e
 tags: [skip-execution]
 ---
 
-from qiskit_are.noise import NoiseModel
+from qiskit_aer.noise import NoiseModel
 from qiskit import IBMQ
 IBMQ.load_account()
 
