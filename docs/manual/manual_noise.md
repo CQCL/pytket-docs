@@ -10,7 +10,7 @@ file_format: mystnb
 
 NISQ era devices are characterised as having high error rates, meaning the effect of running quantum circuits on these devices is that states are commonly dominated by noise. This is usually to the extent that even for circuits with very few gates, significant errors are accrued quickly enough that the returned results are unusable.
 
-% Compilation prioritise different metrics to minimise device noise
+% Compilation prioritise different mterics to minimise devic enoise
 
 Compilation of quantum circuits does not have a unique solution. Typically compilation strategies are designed to produce quantum circuits that implement the same logical circuit with fewer total gates and so have less opportunity to accrue errors. Understanding which quantum operations will lead to excessive noise accumulation in devices can help design compilation strategies to reduce this noise. Examples of this are circuit optimistation strategies that target the removal of multi-qubit gates as they typically have worse error rates than single-qubit gates, or designing circuit routing methods that introduce fewer total swap gates when conforming circuits to some device connectivity.
 
@@ -306,7 +306,7 @@ For a noise free backend, we can see that the same counts distribution is return
 tags: [skip-execution]
 ---
 
-from qiskit_are.noise import NoiseModel
+from qiskit_aer.noise import NoiseModel
 from qiskit import IBMQ
 IBMQ.load_account()
 
@@ -496,8 +496,8 @@ from pytket.extensions.qiskit import AerBackend
 from pytket import Circuit
 from pytket.utils.spam import SpamCorrecter
 
-from qiskit_are.noise import NoiseModel
-from qiskit_are.noise.errors import depolarizing_error
+from qiskit_aer.noise import NoiseModel
+from qiskit_aer.noise.errors import depolarizing_error
 
 noise_model = NoiseModel()
 noise_model.add_readout_error([[0.9, 0.1],[0.1, 0.9]], [0])
