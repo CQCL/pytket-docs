@@ -1036,7 +1036,7 @@ $$
 
 Such a phase polynomial circuit can be synthesisied in pytket using the {py:class}`~pytket.circuit.PhasePolyBox`. A {py:class}`~pytket.circuit.PhasePolyBox` is constructed using the number of qubits, the qubit indices and a dictionary indicating whether or not a phase should be applied to specific qubits.
 
-Finally a `linear_transfromation` parameter needs to be specified:  this is a matrix encoding the linear permutation between the bitstrings $|x\rangle$ and $|g(x)\rangle$ in the equation above.
+Finally a `linear_transformation` parameter needs to be specified:  this is a matrix encoding the linear permutation between the bitstrings $|x\rangle$ and $|g(x)\rangle$ in the equation above.
 
 
 ```{code-cell} ipython3
@@ -1153,12 +1153,12 @@ state_circ.add_gate(w_state_box, [0, 1, 2])
 
 ```{code-cell} ipython3
 
-# Verify state preperation
+# Verify state preparation
 np.round(state_circ.get_statevector().real, 3) # 1/sqrt(3) approx 0.577
 ```
 
 ```{Note}
-Generic state preperation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
+Generic state preparation circuits can be very complex with the gatecount and depth increasing rapidly with the size of the state. In the special case where the desired state has only real-valued amplitudes, only multiplexed Ry operations are needed to accomplish the state preparation.
 ```
 
 For some use cases it may be desirable to reset all qubits to the $|0\rangle$ state prior to state preparation. This can be done using the `with_initial_reset` flag.
@@ -1205,7 +1205,7 @@ perm_box = ToffoliBox(permutation=mapping)
 ```
 
 This permutation of basis states can be achieved with purely classical operations {X, CCX}, hence the name {py:class}`~pytket.circuit.ToffoliBox`.
-In pytket however, the permutation is implemented efficently using a sequence of multiplexed rotations followed by a {py:class}`~pytket.circuit.DiagonalBox`.
+In pytket however, the permutation is implemented efficiently using a sequence of multiplexed rotations followed by a {py:class}`~pytket.circuit.DiagonalBox`.
 
 
 ```{code-cell} ipython3
@@ -1231,7 +1231,7 @@ np.round(state_circ.get_statevector().real, 3)
 
 ```
 
-Looking at the statevector calculation we see that our {py:class}`~pytket.circuit.ToffoliBox` has exchanged the coefficents of our w state so that the non-zero coefficents are now on the $|000\rangle$ and $|111\rangle$ bitstrings with the coefficent of $|010\rangle$ remaining unchanged.
+Looking at the statevector calculation we see that our {py:class}`~pytket.circuit.ToffoliBox` has exchanged the coefficients of our w state so that the non-zero coefficients are now on the $|000\rangle$ and $|111\rangle$ bitstrings with the coefficient of $|010\rangle$ remaining unchanged.
 
 ## Importing/Exporting Circuits
 
@@ -1885,7 +1885,7 @@ Note that when an operation or box is substituted in, the op group name is retai
 
 To remove an operation, one can replace it with an empty circuit.
 
-To add a control to an operation, one can add the original operation as a {py:class}`~pytket.circuit.CircBox` with one unused qubit, and subtitute it with a {py:class}`~pytket.circuit.QControlBox`.
+To add a control to an operation, one can add the original operation as a {py:class}`~pytket.circuit.CircBox` with one unused qubit, and substitute it with a {py:class}`~pytket.circuit.QControlBox`.
 
 
 ```{code-cell} ipython3
