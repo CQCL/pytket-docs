@@ -1211,16 +1211,16 @@ files = [
 google-auth = ">=2.14.1,<3.0.0"
 googleapis-common-protos = ">=1.56.2,<2.0.0"
 grpcio = [
+    {version = ">=1.33.2,<2.0.0", optional = true, markers = "extra == \"grpc\""},
     {version = ">=1.49.1,<2.0.0", optional = true, markers = "python_version >= \"3.11\" and extra == \"grpc\""},
-    {version = ">=1.33.2,<2.0.0", optional = true, markers = "python_version < \"3.11\" and extra == \"grpc\""},
 ]
 grpcio-status = [
-    {version = ">=1.49.1,<2.0.0", optional = true, markers = "python_version >= \"3.11\" and extra == \"grpc\""},
     {version = ">=1.33.2,<2.0.0", optional = true, markers = "extra == \"grpc\""},
+    {version = ">=1.49.1,<2.0.0", optional = true, markers = "python_version >= \"3.11\" and extra == \"grpc\""},
 ]
 proto-plus = [
-    {version = ">=1.25.0,<2.0.0", markers = "python_version >= \"3.13\""},
     {version = ">=1.22.3,<2.0.0"},
+    {version = ">=1.25.0,<2.0.0", markers = "python_version >= \"3.13\""},
 ]
 protobuf = ">=3.19.5,<3.20.0 || >3.20.0,<3.20.1 || >3.20.1,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<7.0.0"
 requests = ">=2.18.0,<3.0.0"
@@ -1812,8 +1812,8 @@ files = [
 jaxlib = "0.6.1"
 ml_dtypes = ">=0.5.0"
 numpy = [
+    {version = ">=1.25"},
     {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
-    {version = ">=1.25", markers = "python_version < \"3.12\""},
 ]
 opt_einsum = "*"
 scipy = ">=1.11.1"
@@ -2419,9 +2419,9 @@ files = [
 
 [package.dependencies]
 numpy = [
-    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
-    {version = ">=1.23.3", markers = "python_version >= \"3.11\""},
     {version = ">=1.21.2", markers = "python_version >= \"3.10\""},
+    {version = ">=1.23.3", markers = "python_version >= \"3.11\""},
+    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
 ]
 
 [package.extras]
@@ -2786,22 +2786,22 @@ files = [
 
 [[package]]
 name = "openfermion"
-version = "1.7.0"
+version = "1.7.1"
 description = "The electronic structure package for quantum computers."
 optional = false
 python-versions = ">=3.10.0"
 groups = ["main"]
 files = [
-    {file = "openfermion-1.7.0-py3-none-any.whl", hash = "sha256:8df138cc46b2d248882a12392d40d813e4da98700453c83b9da500dcba847322"},
-    {file = "openfermion-1.7.0.tar.gz", hash = "sha256:1728768c318b50e58a888a4657c2e87a39111022eff32f7729f3eda729da81a8"},
+    {file = "openfermion-1.7.1-py3-none-any.whl", hash = "sha256:2f3745786d9aa1913bb3281b5151eae3a5082d90aeacd6b964e813b9fa8a3e46"},
+    {file = "openfermion-1.7.1.tar.gz", hash = "sha256:717f4b969a1fd1df24f11bd462b485d317f257bdd91cef32ced23d276cc83f70"},
 ]
 
 [package.dependencies]
-cirq-core = "*"
+cirq-core = ">=1.4.1"
 deprecation = "*"
 h5py = ">=3.10.0"
 networkx = "*"
-numpy = ">=1.24,<2.0"
+numpy = ">=1.26"
 pubchempy = "*"
 requests = ">=2.32.2,<2.33.0"
 scipy = ">=1.15,<2.0"
@@ -2888,9 +2888,9 @@ files = [
 
 [package.dependencies]
 numpy = [
-    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
-    {version = ">=1.23.2", markers = "python_version == \"3.11\""},
     {version = ">=1.22.4", markers = "python_version < \"3.11\""},
+    {version = ">=1.23.2", markers = "python_version == \"3.11\""},
+    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
 ]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
@@ -3504,27 +3504,27 @@ six = ">=1.5"
 
 [[package]]
 name = "pytket"
-version = "2.5.0"
+version = "2.6.0"
 description = "Quantum computing toolkit and interface to the TKET compiler"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "pytket-2.5.0-cp310-cp310-macosx_13_0_arm64.whl", hash = "sha256:d357deb6fe22ceb8e24ab260b78c06fd4c6a103ff8cbce03170a6db85c3ac6e4"},
-    {file = "pytket-2.5.0-cp310-cp310-macosx_13_0_x86_64.whl", hash = "sha256:b7124811634a1fa00dffff3d6a097924b5314b1b3961cf52ce94c39a62545cea"},
-    {file = "pytket-2.5.0-cp310-cp310-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:86fe082aef10f348b8ff5eae89fa1eba4b0b0a094c6a21688ed45934a0055432"},
-    {file = "pytket-2.5.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:dec224bebf003840e615c26aa54d9e90d7d606457a3b15c94ab5cf9299ee6893"},
-    {file = "pytket-2.5.0-cp310-cp310-win_amd64.whl", hash = "sha256:43a67fde157712055a60b2be4c8deaae0728ebd2ddfebf1984c1c9ad65ddd5d9"},
-    {file = "pytket-2.5.0-cp311-cp311-macosx_13_0_arm64.whl", hash = "sha256:723f686141821ad3920ce99ecb240fbc75aee881392a02b3f983703bdf1cf4b6"},
-    {file = "pytket-2.5.0-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:0b78165e377fa157604d7bff100e60c89c07efa442398ec918ab65f2cd5c0ec7"},
-    {file = "pytket-2.5.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:992058f5380a382d6a0c58ddbea7e65fa2e9e815ff0f67b4d59a14ecc10d9c5e"},
-    {file = "pytket-2.5.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:ddbd70b4c5209ce3f92742f868fddc924718ab1f676dd104c736be6e9c43f4d6"},
-    {file = "pytket-2.5.0-cp311-cp311-win_amd64.whl", hash = "sha256:b45dfd41c94da673c37f1b0277ea24aa9c8124df4d8c228cedd6f12e93cfc023"},
-    {file = "pytket-2.5.0-cp312-abi3-macosx_13_0_arm64.whl", hash = "sha256:4cacdd72a81424b6f9004f548976f5da32b71b93ca43a6d22bf2168691160c24"},
-    {file = "pytket-2.5.0-cp312-abi3-macosx_13_0_x86_64.whl", hash = "sha256:23da4f587b4a7593404859b228572bff0a88627b333706100989a9f43851f438"},
-    {file = "pytket-2.5.0-cp312-abi3-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:755cccb2a9e93889aa7163a8291d1bcdaf38d6f376cd0a67677717d96213a8ec"},
-    {file = "pytket-2.5.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:4eaf16b131af21f85403d92ed337f9e36a1632101ed1059f7dbf2924f4f57af9"},
-    {file = "pytket-2.5.0-cp312-abi3-win_amd64.whl", hash = "sha256:ac15b2ab7e59d72fe2a1e47991e533a25ba3a619ffaf2acfb131c98128ad61f0"},
+    {file = "pytket-2.6.0-cp310-cp310-macosx_13_0_arm64.whl", hash = "sha256:639bbf68e09232f833efce3a01e85a9783166f7d70cc399fd8ada122f089f0e3"},
+    {file = "pytket-2.6.0-cp310-cp310-macosx_13_0_x86_64.whl", hash = "sha256:02a9fa873c1300a8b0a86088ebd3cc1162d08d9e7fd27e6a6daae05feb2c98c5"},
+    {file = "pytket-2.6.0-cp310-cp310-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:cfd1ff5cff29c79856c87cfae3f48b35c18f7196b4c67963ea8b0599cb4701ac"},
+    {file = "pytket-2.6.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:2e469707608eba32d08898e3cf27ef5a20fe027807c9cb1e90289f57c573f82e"},
+    {file = "pytket-2.6.0-cp310-cp310-win_amd64.whl", hash = "sha256:488ab02daad7e39bd613c101643be3c2d60279a89c146f43099228cdb10eef10"},
+    {file = "pytket-2.6.0-cp311-cp311-macosx_13_0_arm64.whl", hash = "sha256:65f12f2c10666e2fd78e62a96f2b4e9facff358c83a821568e29e01a40ee9f52"},
+    {file = "pytket-2.6.0-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:09206723c59b171d11a6ff4ab0eca4c6f5c4622c863749a675730ba170f1fd9d"},
+    {file = "pytket-2.6.0-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:7a6dc868a2297b2fef208ee3d1ac842d339672cf5919cbe2b1c851a6b2aa22e4"},
+    {file = "pytket-2.6.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:54835d247ffc55770f85c511e44fdcc7891717af32d1ee351417a25eba83086f"},
+    {file = "pytket-2.6.0-cp311-cp311-win_amd64.whl", hash = "sha256:45dd69df5bb53bfa7ac2afde01558f25d3d3cc969c342c45aeccc8ce3a470c82"},
+    {file = "pytket-2.6.0-cp312-abi3-macosx_13_0_arm64.whl", hash = "sha256:65e8291653bb443fc32d4113f92854da43b4b586f282020e6c92b7e39d70241b"},
+    {file = "pytket-2.6.0-cp312-abi3-macosx_13_0_x86_64.whl", hash = "sha256:284c6608feeb7e7d867113d626631b2c9bfc2eb76386ffdf9eee2ccaea63cc0c"},
+    {file = "pytket-2.6.0-cp312-abi3-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:0459896701256cba342d333cfa9101fa31a1d0b11723092e4b444f7a8c2fac6b"},
+    {file = "pytket-2.6.0-cp312-abi3-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:a63c222741644727ffeb1d3696d29c11a27a16849114d12c2e1b2672ab42eefd"},
+    {file = "pytket-2.6.0-cp312-abi3-win_amd64.whl", hash = "sha256:e1567aba40de39b919c3036b6988870d6d2a8504c9383605e5cb14966baa277b"},
 ]
 
 [package.dependencies]
@@ -5300,4 +5300,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "594d1b549d1794cc1d2f59d4ba49c0689e70bc3f7e01d4c8da2df1f3ed369612"
+content-hash = "210b35bde678f996979cea910595c8b9bc08528552ed03f30c890a3c2cb45b33"
